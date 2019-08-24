@@ -1,0 +1,48 @@
+<resources>
+
+    <style name="DarkTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/dark</item>
+        <item name="colorPrimaryDark">@color/dark</item>
+        <item name="android:navigationBarColor">@color/dark</item>
+        <item name="colorAccent">@color/red</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="actionBarTheme">@style/CustomActionBarSizeBlack</item>
+    </style>
+
+    <style name="WhiteTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/blue</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="actionBarTheme">@style/CustomActionBarSize</item>
+    </style>
+
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert_black_24dp</item>
+    </style>
+
+    <style name="CustomActionBarThemeWhite" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:actionBarSize">40dp</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="CustomActionBarThemeBlack" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:actionBarSize">40dp</item>
+        <item name="android:itemBackground">@drawable/selecteditem</item>
+    </style>
+
+    <style name="CustomActionBarSize" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:actionBarSize">40dp</item>
+    </style>
+
+    <style name="CustomActionBarSizeBlack" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:itemBackground">@drawable/selecteditem</item>
+        <item name="android:actionBarSize">40dp</item>
+    </style>
+
+</resources>

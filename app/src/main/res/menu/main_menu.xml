@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+      tools:context=".MainActivity">
+<item
+        android:id="@+id/dark_mode"
+        android:title="@string/dark_mode"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/github"
+        android:title="@string/github"
+        app:showAsAction="never"/>
+</menu>

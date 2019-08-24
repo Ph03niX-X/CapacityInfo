@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="capacity_design">"Проектна ємність: %1$s mAh"</string>
+    <string name="residual_capacity">"Залишкова ємність: %1$s mAh (%2$s)"</string>
+    <string name="current_capacity">"Поточна ємність: %1$s mAh (%2$s)"</string>
+    <string name="battery_wear">"Знос акумулятора: %1$s"</string>
+    <string name="dark_mode">Темна тема</string>
+</resources>

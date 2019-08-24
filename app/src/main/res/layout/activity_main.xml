@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/relative_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/capacity_design"
+            android:text="@string/capacity_design"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/current_capacity"
+            android:visibility="gone"
+            android:text="@string/current_capacity"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/capacity_design"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/residual_capacity"
+            android:text="@string/residual_capacity"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/current_capacity"/>
+
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/battery_wear"
+            android:text="@string/battery_wear"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/residual_capacity"/>
+
+</RelativeLayout>
