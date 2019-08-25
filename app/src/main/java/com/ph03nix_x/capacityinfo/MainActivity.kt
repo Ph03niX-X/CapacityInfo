@@ -110,11 +110,6 @@ class MainActivity : AppCompatActivity() {
 
                     val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)
 
-                    runOnUiThread {
-
-                        Toast.makeText(this, status.toString(), Toast.LENGTH_LONG).show()
-                    }
-
                     if(status != BatteryManager.BATTERY_STATUS_DISCHARGING && plugged == BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB) {
 
                         if(chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
