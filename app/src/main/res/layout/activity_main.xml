@@ -34,7 +34,15 @@
             android:gravity="center"
             android:layout_below="@id/current_capacity"/>
 
-
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/charging_current"
+            android:visibility="gone"
+            android:text="@string/charging_current"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/residual_capacity"/>
 
     <TextView
             android:layout_width="match_parent"
@@ -43,6 +51,6 @@
             android:text="@string/battery_wear"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_below="@id/residual_capacity"/>
+            android:layout_below="@id/charging_current"/>
 
 </RelativeLayout>
