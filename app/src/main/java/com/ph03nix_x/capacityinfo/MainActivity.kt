@@ -1,5 +1,7 @@
 package com.ph03nix_x.capacityinfo
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
 import android.content.*
 import android.net.Uri
 import android.os.AsyncTask
@@ -11,28 +13,34 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
-import java.lang.Exception
 import java.text.DecimalFormat
 
-const val chargeFull = "/sys/class/power_supply/battery/charge_full"
-const val chargeFullDesign = "/sys/class/power_supply/battery/charge_full_design"
+@SuppressWarnings("StaticFieldLeak", "PrivateApi")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var capacityDesign: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
+    private lateinit var technology: TextView
     private lateinit var chargingCurrent: TextView
+    private lateinit var temperatute: TextView
+    private lateinit var voltage: TextView
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var relativeMain: RelativeLayout
     private lateinit var batteryManager: BatteryManager
+    private lateinit var jobScheduler: JobScheduler
+    private lateinit var job: JobInfo.Builder
     private var asyncTask: AsyncTask<Void, Void, Unit>? = null
+    private var asyncTempVolt: AsyncTask<Void, Void, Unit>? = null
+    private var batteryStatus: Intent? = null
+
+    companion object {
+
+        var instance: MainActivity? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -47,37 +55,78 @@ class MainActivity : AppCompatActivity() {
         capacityDesign = findViewById(R.id.capacity_design)
         currentCapacity = findViewById(R.id.current_capacity)
         residualCapacity = findViewById(R.id.residual_capacity)
+        technology = findViewById(R.id.battery_technology)
         chargingCurrent = findViewById(R.id.charging_current)
+        temperatute = findViewById(R.id.temperature)
+        voltage = findViewById(R.id.voltage)
         batteryWear = findViewById(R.id.battery_wear)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
         if(pref.getBoolean("dark_mode", false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
+
+        if(pref.getBoolean("is_show_instruction", true)) {
+
+            AlertDialog.Builder(this).apply {
+
+                setIcon(if(pref.getBoolean("dark_mode", false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
+                setTitle(getString(R.string.information))
+                setMessage(getString(R.string.instruction_message))
+                setPositiveButton(android.R.string.ok) { d, _ -> pref.edit().putBoolean("is_show_instruction", false).apply() }
+                show()
+            }
+        }
+
+            val componentName = ComponentName(this, CapacityInfoService::class.java)
+
+            jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+
+            job = JobInfo.Builder(1, componentName).apply {
+
+                setMinimumLatency(30 * 1000)
+                setRequiresCharging(true)
+                setPersisted(false)
+            }
+
+            jobScheduler.schedule(job.build())
     }
 
     override fun onResume() {
 
         super.onResume()
 
-        if(File(chargeFull).exists() && getDesignCapacity() > 0) {
+        instance = this
+
+        if(pref.getInt("design_capacity", 0) <= 0 || pref.getInt("design_capacity", 0) >= 100000) {
+
+            pref.edit().putInt("design_capacity", getDesignCapacity()).apply()
+
+            if(pref.getInt("design_capacity", 0) < 0) pref.edit().putInt("design_capacity", (pref.getInt("design_capacity", 0) / -1)).apply()
+        }
+
+        capacityDesign.text = getString(R.string.capacity_design, pref.getInt("design_capacity", 0).toString())
+
+        residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
+
+        batteryWear.text = getString(R.string.battery_wear, "0%")
+
+        if(pref.getBoolean("is_supported", true)) {
 
             asyncTask = DoAsync {
 
-                while(true) {
+                while (true) {
 
-                    if (File(chargeFull).exists() && getDesignCapacity() > 0) {
+                    if (pref.getInt("design_capacity", 0) > 0 && pref.getInt("charge_counter", 0) > 0) {
 
                         runOnUiThread {
 
-                            capacityDesign.text = getString(R.string.capacity_design, getDesignCapacity().toString())
-
-                            residualCapacity.text = getString(R.string.residual_capacity, getDecimalFormat(getResidualCapacity()),
-                                "${DecimalFormat("#.#").format(if(getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / getDesignCapacity().toDouble()) * 100 
+                            residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()),
+                                "${DecimalFormat("#.#").format(if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt("design_capacity", 0).toDouble()) * 100 
                                 
-                                else (getResidualCapacity() / getDesignCapacity().toDouble()) * 100)}%")
+                                else (getResidualCapacity() / pref.getInt("design_capacity", 0).toDouble()) * 100)}%")
 
-                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(getDesignCapacity().toDouble(),
-                                if(getResidualCapacity() >= 100000) getResidualCapacity() / 1000 else getResidualCapacity()))
+                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt("design_capacity", 0).toDouble(),
+                                if (getResidualCapacity() >= 100000) getResidualCapacity() / 1000 else getResidualCapacity()))
                         }
                     }
 
@@ -87,8 +136,9 @@ class MainActivity : AppCompatActivity() {
 
                         runOnUiThread {
 
-                                currentCapacity.text = getString(R.string.current_capacity, getDecimalFormat(getCurrentCapacity()), "${getBatteryLevel()}%")
+                            currentCapacity.text = getString(R.string.current_capacity, toDecimalFormat(getCurrentCapacity()), "${getBatteryLevel()}%")
                         }
+
                     }
 
                     else {
@@ -100,19 +150,13 @@ class MainActivity : AppCompatActivity() {
 
                     intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
 
-                    intentFilter.addAction(Intent.ACTION_POWER_CONNECTED)
-
-                    intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
-
-                    val batteryStatus = registerReceiver(null, intentFilter)
+                    batteryStatus = registerReceiver(null, intentFilter)
 
                     val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                    val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0)
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    if(status != BatteryManager.BATTERY_STATUS_DISCHARGING && plugged == BatteryManager.BATTERY_PLUGGED_AC or BatteryManager.BATTERY_PLUGGED_USB) {
-
-                        if(chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
+                        if (chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
 
                         runOnUiThread {
 
@@ -121,9 +165,9 @@ class MainActivity : AppCompatActivity() {
 
                     }
 
-                    else {
+                    else if(status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
-                        if(chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
+                        if (chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
 
                         runOnUiThread {
 
@@ -131,25 +175,50 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
+                    else {
+
+                        if (chargingCurrent.visibility == View.VISIBLE) chargingCurrent.visibility = View.GONE
+                    }
+
                     Thread.sleep(5000)
                 }
 
-            }.execute()
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
         }
 
         else {
 
-            capacityDesign.text = getString(R.string.capacity_design, getDesignCapacity().toString())
+                AlertDialog.Builder(this).apply {
 
-            residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
-
-            batteryWear.text = getString(R.string.battery_wear, "0%")
-
-            if (currentCapacity.visibility == View.VISIBLE) currentCapacity.visibility = View.GONE
-
-            if(chargingCurrent.visibility == View.VISIBLE) chargingCurrent.visibility = View.GONE
+                    setIcon(if(pref.getBoolean("dark_mode", false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
+                    setTitle(getString(R.string.information))
+                    setMessage(getString(R.string.not_supported))
+                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                    show()
+                }
         }
 
+        asyncTempVolt = DoAsync {
+
+            while(true) {
+
+                if(!pref.getBoolean("is_supported", false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+                runOnUiThread {
+
+                    technology.text = getString(R.string.battery_technology, batteryStatus!!.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY))
+
+                    temperatute.text = if(!pref.getBoolean("fahrenheit", false)) getString(R.string.temperature_celsius, toDecimalFormat(getTemperature()))
+
+                    else getString(R.string.temperature_fahrenheit, toDecimalFormat(toFahrenheit(getTemperature())))
+
+                    voltage.text = getString(R.string.voltage, toDecimalFormat(getVoltage()))
+                }
+
+                Thread.sleep(5 * 1100)
+            }
+
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
     override fun onStop() {
@@ -157,6 +226,8 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
 
         asyncTask?.cancel(true)
+
+        asyncTempVolt?.cancel(true)
     }
 
     override fun onBackPressed() {
@@ -164,11 +235,21 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
 
         asyncTask?.cancel(true)
+
+        asyncTempVolt?.cancel(true)
+
+        instance = null
     }
 
     override fun onDestroy() {
 
         asyncTask?.cancel(true)
+
+        asyncTempVolt?.cancel(true)
+
+        instance = null
+
+        jobScheduler.schedule(job.build())
 
         super.onDestroy()
     }
@@ -180,29 +261,19 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-
-        menu?.findItem(R.id.dark_mode)?.isChecked = pref.getBoolean("dark_mode", false)
-
-        return super.onPrepareOptionsMenu(menu)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId) {
 
-            R.id.dark_mode -> {
+            R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
 
-                when (item.isChecked) {
+            R.id.instruction -> AlertDialog.Builder(this).apply {
 
-                    true -> item.isChecked = false
-
-                    false -> item.isChecked = true
-                }
-
-                pref.edit().putBoolean("dark_mode", item.isChecked).apply()
-
-                recreate()
+                setIcon(if(pref.getBoolean("dark_mode", false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
+                setTitle(getString(R.string.instruction))
+                setMessage(getString(R.string.instruction_message))
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                show()
             }
 
             R.id.github -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Ph03niX-X/CapacityInfo")))
@@ -212,80 +283,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDesignCapacity(): Int {
+        
+        val powerProfileClass = "com.android.internal.os.PowerProfile"
 
-        var capacity: Int
+        val mPowerProfile = Class.forName(powerProfileClass).getConstructor(Context::class.java).newInstance(this)
 
-        val file = File(chargeFullDesign)
+        var capacity = (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
 
-            if (file.exists()) {
+        if(capacity >= 100000) capacity /= 1000
 
-                val input = FileInputStream(file)
-                val isr = InputStreamReader(input)
-                val buff = BufferedReader(isr)
-
-                capacity = buff.readLine().toInt()
-
-                if(capacity >= 100000) capacity /= 1000
-
-                input.close()
-            }
-
-            else {
-
-                val powerProfileClass = "com.android.internal.os.PowerProfile"
-
-                val mPowerProfile = Class.forName(powerProfileClass).getConstructor(Context::class.java).newInstance(this)
-
-                capacity = (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
-
-                if(capacity >= 100000) capacity /= 1000
-            }
-
-            return capacity
+        return capacity
     }
 
     private fun getCurrentCapacity(): Double {
 
-        var currentCapacity = 0.0
+        var currentCapacity = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
 
-        try {
+        if (currentCapacity < 0) currentCapacity /= -1
 
-            currentCapacity = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
-
-            if (currentCapacity < 0) currentCapacity /= -1
-
-            if (currentCapacity >= 100000) currentCapacity /= 1000
-        }
-
-        catch (e: Exception) {
-
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
-        }
+        if (currentCapacity >= 100000) currentCapacity /= 1000
 
         return currentCapacity
     }
 
     private fun getBatteryLevel() = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-    private fun getResidualCapacity(): Double {
-
-            var capacity = 0.0
-
-            val file = File(chargeFull)
-
-            if (file.exists()) {
-
-                val input = FileInputStream(file)
-                val isr = InputStreamReader(input)
-                val buff = BufferedReader(isr)
-
-                capacity = buff.readLine().toDouble()
-
-                input.close()
-            }
-
-            return capacity
-    }
+    private fun getResidualCapacity() = pref.getInt("charge_counter", 0).toDouble()
 
     private fun getChargingCurrent(): Int {
 
@@ -293,12 +316,32 @@ class MainActivity : AppCompatActivity() {
 
         if(chargingCurrent < 0) chargingCurrent /= -1
 
-        if(chargingCurrent >= 100000) chargingCurrent /= 1000
+        if(chargingCurrent >= 10000) chargingCurrent /= 1000
 
         return chargingCurrent
     }
 
+    private fun getTemperature(): Double {
+
+        var temp = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
+
+        if(temp >= 100) temp /= 10
+
+        return temp
+    }
+
+    private fun getVoltage(): Double {
+
+        var voltage = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
+
+        if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
+
+        return voltage
+    }
+
+    private fun toFahrenheit(celsius: Double) = (celsius * 1.8) + 32
+
     private fun getBatteryWear(capacityDesign: Double, capacity: Double) = "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%"
 
-    private fun getDecimalFormat(number: Double) = if(number >= 100000) DecimalFormat("#.#").format(number / 1000) else DecimalFormat("#.#").format(number)
+    private fun toDecimalFormat(number: Double) = if(number >= 100000) DecimalFormat("#.#").format(number / 1000) else DecimalFormat("#.#").format(number)
 }

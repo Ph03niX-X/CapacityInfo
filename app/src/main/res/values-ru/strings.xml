@@ -7,4 +7,16 @@
     <string name="dark_mode">Тёмная тема</string>
     <string name="charging_current">"Ток зарядки: %1$s mA"</string>
     <string name="discharge_current">"Ток разрядки: %1$s mA"</string>
+    <string name="not_supported">Приложение не поддерживает ваше устройство</string>
+    <string name="voltage">"Напряжение: %1$s В"</string>
+    <string name="temperature_celsius">"Температура: %1$s °C"</string>
+    <string name="temperature_fahrenheit">"Температура: %1$s °F"</string>
+    <string name="temperature_in_fahrenheit">"Температура в \"Фаренгейт\""</string>
+    <string name="settings">Настройки</string>
+    <string name="instruction">Инструкция</string>
+    <string name="change_design_capacity">Изменить проектную ёмкость</string>
+    <string name="change">Изменить</string>
+    <string name="information">Информация</string>
+    <string name="battery_technology">"Технология аккумулятора: %1$s"</string>
+    <string name="instruction_message">"Чтобы приложение показывало и перезаписывало остаточную ёмкость, зарядите устройство до 100%, до тех пор, пока ток зарядки не прекратит течь, при этом не убивая приложение целиком. Если Вы хотите изменить проектную ёмкость, перейдите в настройки приложения.\n\nВНИМАНИЕ! Если оболочка вашего устройства полностью \"убивает\" приложения или вы используюте энергосбережение, добавьте данное приложение в исключение.\n\nВНИМАНИЕ! Из-за того, что некоторые устройства отдают текущий ток зарядки только во время зарядки, приложение не может сразу же определить совместимость с вашим устройством. Совместимо ли приложение с вашим устройством, вы узнаете только после полной зарядки"</string>
 </resources>

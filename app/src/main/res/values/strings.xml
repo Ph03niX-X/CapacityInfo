@@ -8,4 +8,16 @@
     <string name="github">GitHub</string>
     <string name="charging_current">"Charging current: %1$s mA"</string>
     <string name="discharge_current">"Discharge current: %1$s mA"</string>
+    <string name="not_supported">The application does not support your device</string>
+    <string name="voltage">"Voltage: %1$s V"</string>
+    <string name="temperature_celsius">"Temperature: %1$s °C"</string>
+    <string name="temperature_fahrenheit">"Temperature: %1$s °F"</string>
+    <string name="temperature_in_fahrenheit">"Temperature in \"Fahrenheit\""</string>
+    <string name="settings">Settings</string>
+    <string name="instruction">Instruction</string>
+    <string name="change_design_capacity">Change Design Capacity</string>
+    <string name="change">Change</string>
+    <string name="information">Information</string>
+    <string name="battery_technology">"Battery Technology: %1$s"</string>
+    <string name="instruction_message">"In order for the application to show and overwrite the remaining capacity, charge the device to 100% until the charging current stops flowing, while not killing the entire application. If you want to change the design capacity, go to the application settings.\n\nATTENTION! If the shell of your device completely \"kills\" the application or You use energy saving, add this application to the exception.\n\nATTENTION! Due to the fact that some devices give out the current charging current only during charging, the application cannot immediately determine the compatibility with your device. Is the application compatible with your device, you will find out only after fully charged"</string>
 </resources>

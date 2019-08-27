@@ -2,10 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
       tools:context=".MainActivity">
-<item
-        android:id="@+id/dark_mode"
-        android:title="@string/dark_mode"
-        android:checkable="true"
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/instruction"
+        android:title="@string/instruction"
         app:showAsAction="never"/>
 
     <item

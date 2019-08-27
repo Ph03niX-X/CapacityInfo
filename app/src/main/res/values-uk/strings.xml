@@ -5,4 +5,18 @@
     <string name="current_capacity">"Поточна ємність: %1$s mAh (%2$s)"</string>
     <string name="battery_wear">"Знос акумулятора: %1$s"</string>
     <string name="dark_mode">Темна тема</string>
+    <string name="charging_current">"Струм зарядки: %1$s mA"</string>
+    <string name="discharge_current">"Струм розрядки: %1$s mA"</string>
+    <string name="not_supported">Додаток не підтримує ваш пристрій</string>
+    <string name="voltage">"Напруга: %1$s В"</string>
+    <string name="temperature_celsius">"Температура: %1$s °C"</string>
+    <string name="temperature_fahrenheit">"Температура: %1$s °F"</string>
+    <string name="temperature_in_fahrenheit">"Температура в \"Фаренгейт\""</string>
+    <string name="settings">Налаштування</string>
+    <string name="instruction">Інструкція</string>
+    <string name="change_design_capacity">Змінити проектну ємність</string>
+    <string name="change">Змінити</string>
+    <string name="information">Інформація</string>
+    <string name="battery_technology">"Технологія акумулятора: %1$s"</string>
+    <string name="instruction_message">"Щоб додаток показував і перезаписував залишкову ємність, зарядіть пристрій до 100%, до тих пір, поки струм зарядки не припинить текти, при цьому не вбиваючи додаток цілком. Якщо ви хочете змінити проектну ємність, перейдіть в налаштування програми.\n\nУВАГА! Якщо оболонка вашого пристрою повністю "вбиває" додатки або Ви використовуєте енергозбереження, додайте цей додаток в виняток.\n\nУВАГА! Через те, що деякі пристрої віддають поточний струм зарядки тільки під час зарядки, додаток не може відразу ж визначити сумісність з вашим пристроєм. Чи сумісне додаток з вашим пристроєм, ви дізнаєтеся тільки після повної зарядки"</string>
 </resources>

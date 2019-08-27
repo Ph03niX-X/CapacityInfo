@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/settings_layout">
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dark_mode"
+            android:text="@string/dark_mode"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperature_in_fahrenheit"
+            android:text="@string/temperature_in_fahrenheit"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_design_capacity"
+            android:textColor="@android:color/black"
+            android:text="@string/change_design_capacity"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"/>
+
+</LinearLayout>

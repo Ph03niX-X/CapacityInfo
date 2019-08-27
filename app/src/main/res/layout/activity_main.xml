@@ -37,12 +37,42 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/battery_technology"
+            android:visibility="visible"
+            android:text="@string/battery_technology"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/residual_capacity"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/charging_current"
             android:visibility="gone"
             android:text="@string/charging_current"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_below="@id/residual_capacity"/>
+            android:layout_below="@id/battery_technology"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperature"
+            android:visibility="visible"
+            android:text="@string/temperature_celsius"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/charging_current"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/voltage"
+            android:visibility="visible"
+            android:text="@string/voltage"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/temperature"/>
 
     <TextView
             android:layout_width="match_parent"
@@ -51,6 +81,6 @@
             android:text="@string/battery_wear"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_below="@id/charging_current"/>
+            android:layout_below="@id/voltage"/>
 
 </RelativeLayout>
