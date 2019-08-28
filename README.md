@@ -1,5 +1,3 @@
-<p align="center>"# Capacity Info</p>
-
 <a href="https://play.google.com/store/apps/details?id=com.ph03nix_x.capacityinfo">
 <p align="center">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
