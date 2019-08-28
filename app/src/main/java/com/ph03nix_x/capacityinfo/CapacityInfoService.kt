@@ -10,7 +10,20 @@ import android.os.BatteryManager
 
 class CapacityInfoService : JobService() {
 
+    private val powerReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(p0: Context?, p1: Intent?) {
+
+            when(p1!!.action) {
+
+                Intent.ACTION_POWER_DISCONNECTED -> startJob(1)
+            }
+        }
+    }
+
     override fun onStartJob(p0: JobParameters?): Boolean {
+
+        regReceiver(applicationContext)
 
         DoAsync {
 
@@ -32,25 +45,22 @@ class CapacityInfoService : JobService() {
                 if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
 
                     pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+
+                    regReceiver(applicationContext)
+
+                    startJob(720)
                 }
 
-                else pref.edit().putBoolean("is_supported", false).apply()
+                else {
+
+                    pref.edit().putBoolean("is_supported", false).apply()
+
+                    startJob()
+                }
             }
 
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
-        val componentName = ComponentName(this, CapacityInfoService::class.java)
-
-        val jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-        val job = JobInfo.Builder(1, componentName).apply {
-
-            setMinimumLatency(60 * 1000)
-            setRequiresCharging(true)
-            setPersisted(false)
-        }
-
-        jobScheduler.schedule(job.build())
 
         return false
     }
@@ -58,5 +68,29 @@ class CapacityInfoService : JobService() {
     override fun onStopJob(p0: JobParameters?): Boolean {
 
         return true
+    }
+
+    private fun startJob(minutes: Long = 1) {
+
+        val componentName = ComponentName(this, CapacityInfoService::class.java)
+
+        val jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+
+        val job = JobInfo.Builder(1, componentName).apply {
+
+            if(minutes in 1..720) setMinimumLatency(minutes * 60 * 1000)
+
+            else setMinimumLatency(60 * 1000)
+
+            setRequiresCharging(true)
+            setPersisted(false)
+        }
+
+        jobScheduler.schedule(job.build())
+    }
+
+    private fun regReceiver(context: Context) {
+
+        context.registerReceiver(powerReceiver, IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
     }
 }
