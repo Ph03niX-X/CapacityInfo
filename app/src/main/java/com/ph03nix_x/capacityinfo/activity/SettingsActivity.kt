@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.activity
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.enums.Preferences
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -25,7 +27,7 @@ class SettingsActivity : AppCompatActivity() {
 
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
-        if(pref.getBoolean("dark_mode", false)) setTheme(R.style.DarkTheme)
+        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) setTheme(R.style.DarkTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
@@ -35,9 +37,11 @@ class SettingsActivity : AppCompatActivity() {
         settingsLayout = findViewById(R.id.settings_layout)
         changeDesignCapacity = findViewById(R.id.change_design_capacity)
 
-        if(pref.getBoolean("dark_mode", false)) {
+        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) {
 
-            settingsLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
+            settingsLayout.setBackgroundColor(ContextCompat.getColor(this,
+                R.color.dark
+            ))
 
             darkMode.background = getDrawable(R.drawable.selecteditem)
             fahrenheit.background = getDrawable(R.drawable.selecteditem)
@@ -46,17 +50,17 @@ class SettingsActivity : AppCompatActivity() {
             changeDesignCapacity.setTextColor(Color.WHITE)
         }
 
-        darkMode.isChecked = pref.getBoolean("dark_mode", false)
-        fahrenheit.isChecked = pref.getBoolean("fahrenheit", false)
+        darkMode.isChecked = pref.getBoolean(Preferences.DarkMode.prefName, false)
+        fahrenheit.isChecked = pref.getBoolean(Preferences.Fahrenheit.prefName, false)
 
         darkMode.setOnCheckedChangeListener { _, b ->
 
-            pref.edit().putBoolean("dark_mode", b).apply()
+            pref.edit().putBoolean(Preferences.DarkMode.prefName, b).apply()
             MainActivity.instance!!.recreate()
             recreate()
         }
 
-        fahrenheit.setOnCheckedChangeListener { _, b ->  pref.edit().putBoolean("fahrenheit", b).apply() }
+        fahrenheit.setOnCheckedChangeListener { _, b ->  pref.edit().putBoolean(Preferences.Fahrenheit.prefName, b).apply() }
 
         changeDesignCapacity.setOnClickListener {
 
@@ -74,11 +78,11 @@ class SettingsActivity : AppCompatActivity() {
 
         val changeDesignCapacity = view.findViewById<EditText>(R.id.change_design_capacity_edit)
 
-        changeDesignCapacity.setText(if(pref.getInt("design_capacity", 0) >= 0) pref.getInt("design_capacity", 0).toString()
+        changeDesignCapacity.setText(if(pref.getInt(Preferences.DesignCapacity.prefName, 0) >= 0) pref.getInt(Preferences.DesignCapacity.prefName, 0).toString()
 
-        else (pref.getInt("design_capacity", 0) / -1).toString())
+        else (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1).toString())
 
-        dialog.setPositiveButton(getString(R.string.change)) { _, _ -> pref.edit().putInt("design_capacity", changeDesignCapacity.text.toString().toInt()).apply() }
+        dialog.setPositiveButton(getString(R.string.change)) { _, _ -> pref.edit().putInt(Preferences.DesignCapacity.prefName, changeDesignCapacity.text.toString().toInt()).apply() }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 

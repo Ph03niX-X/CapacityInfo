@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.receivers
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -21,7 +22,7 @@ class BootReceiver : BroadcastReceiver() {
 
                 val job = JobInfo.Builder(1, componentName).apply {
 
-                    setMinimumLatency(10 * 1000)
+                    setMinimumLatency(60 * 1000)
                     setRequiresCharging(true)
                     setPersisted(false)
                 }

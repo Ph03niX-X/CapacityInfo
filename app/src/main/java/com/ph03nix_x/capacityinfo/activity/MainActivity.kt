@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.activity
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
@@ -15,6 +15,10 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.async.DoAsync
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.enums.Preferences
 import java.text.DecimalFormat
 
 @SuppressWarnings("StaticFieldLeak", "PrivateApi")
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
-        if(pref.getBoolean("dark_mode", false)) setTheme(R.style.DarkTheme)
+        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) setTheme(R.style.DarkTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -63,16 +67,20 @@ class MainActivity : AppCompatActivity() {
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        if(pref.getBoolean("dark_mode", false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
+        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this,
+            R.color.dark
+        ))
 
-        if(pref.getBoolean("is_show_instruction", true)) {
+        if(pref.getBoolean(Preferences.IsShowInstruction.prefName, true)) {
 
             AlertDialog.Builder(this).apply {
 
-                setIcon(if(pref.getBoolean("dark_mode", false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
-                setTitle(getString(R.string.information))
+                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(
+                    R.drawable.ic_info_black_24dp
+                ))
+                setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { d, _ -> pref.edit().putBoolean("is_show_instruction", false).apply() }
+                setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefName, false).apply() }
                 show()
             }
         }
@@ -83,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
             job = JobInfo.Builder(1, componentName).apply {
 
-                setMinimumLatency(30 * 1000)
+                setMinimumLatency(60 * 1000)
                 setRequiresCharging(true)
                 setPersisted(false)
             }
@@ -97,35 +105,35 @@ class MainActivity : AppCompatActivity() {
 
         instance = this
 
-        if(pref.getInt("design_capacity", 0) <= 0 || pref.getInt("design_capacity", 0) >= 100000) {
+        if(pref.getInt(Preferences.DesignCapacity.prefName, 0) <= 0 || pref.getInt(Preferences.DesignCapacity.prefName, 0) >= 100000) {
 
-            pref.edit().putInt("design_capacity", getDesignCapacity()).apply()
+            pref.edit().putInt(Preferences.DesignCapacity.prefName, getDesignCapacity()).apply()
 
-            if(pref.getInt("design_capacity", 0) < 0) pref.edit().putInt("design_capacity", (pref.getInt("design_capacity", 0) / -1)).apply()
+            if(pref.getInt(Preferences.DesignCapacity.prefName, 0) < 0) pref.edit().putInt(Preferences.DesignCapacity.prefName, (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1)).apply()
         }
 
-        capacityDesign.text = getString(R.string.capacity_design, pref.getInt("design_capacity", 0).toString())
+        capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefName, 0).toString())
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
         batteryWear.text = getString(R.string.battery_wear, "0%")
 
-        if(pref.getBoolean("is_supported", true)) {
+        if(pref.getBoolean(Preferences.IsSupported.prefName, true)) {
 
             asyncTask = DoAsync {
 
                 while (true) {
 
-                    if (pref.getInt("design_capacity", 0) > 0 && pref.getInt("charge_counter", 0) > 0) {
+                    if (pref.getInt(Preferences.DesignCapacity.prefName, 0) > 0 && pref.getInt(Preferences.ChargeCounter.prefName, 0) > 0) {
 
                         runOnUiThread {
 
-                            residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()),
-                                "${DecimalFormat("#.#").format(if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt("design_capacity", 0).toDouble()) * 100 
+                            residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()), "${DecimalFormat("#.#").format(
+                                if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100 
                                 
-                                else (getResidualCapacity() / pref.getInt("design_capacity", 0).toDouble()) * 100)}%")
+                                else (getResidualCapacity() / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100)}%")
 
-                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt("design_capacity", 0).toDouble(),
+                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble(),
                                 if (getResidualCapacity() >= 100000) getResidualCapacity() / 1000 else getResidualCapacity()))
                         }
                     }
@@ -139,9 +147,7 @@ class MainActivity : AppCompatActivity() {
                             currentCapacity.text = getString(R.string.current_capacity, toDecimalFormat(getCurrentCapacity()), "${getBatteryLevel()}%")
                         }
 
-                    }
-
-                    else {
+                    } else {
 
                         if (currentCapacity.visibility == View.VISIBLE) currentCapacity.visibility = View.GONE
                     }
@@ -163,9 +169,7 @@ class MainActivity : AppCompatActivity() {
                             chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent().toString())
                         }
 
-                    }
-
-                    else if(status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+                    } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
                         if (chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
 
@@ -173,9 +177,7 @@ class MainActivity : AppCompatActivity() {
 
                             chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent().toString())
                         }
-                    }
-
-                    else {
+                    } else {
 
                         if (chargingCurrent.visibility == View.VISIBLE) chargingCurrent.visibility = View.GONE
                     }
@@ -190,7 +192,7 @@ class MainActivity : AppCompatActivity() {
 
                 AlertDialog.Builder(this).apply {
 
-                    setIcon(if(pref.getBoolean("dark_mode", false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
+                    setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
                     setTitle(getString(R.string.information))
                     setMessage(getString(R.string.not_supported))
                     setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
@@ -200,15 +202,15 @@ class MainActivity : AppCompatActivity() {
 
         asyncTempVolt = DoAsync {
 
-            while(true) {
+            while (true) {
 
-                if(!pref.getBoolean("is_supported", false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                if (!pref.getBoolean(Preferences.IsSupported.prefName, false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                 runOnUiThread {
 
                     technology.text = getString(R.string.battery_technology, batteryStatus!!.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY))
 
-                    temperatute.text = if(!pref.getBoolean("fahrenheit", false)) getString(R.string.temperature_celsius, toDecimalFormat(getTemperature()))
+                    temperatute.text = if (!pref.getBoolean(Preferences.Fahrenheit.prefName, false)) getString(R.string.temperature_celsius, toDecimalFormat(getTemperature()))
 
                     else getString(R.string.temperature_fahrenheit, toDecimalFormat(toFahrenheit(getTemperature())))
 
@@ -234,24 +236,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onBackPressed()
 
-        asyncTask?.cancel(true)
-
-        asyncTempVolt?.cancel(true)
-
         instance = null
-    }
-
-    override fun onDestroy() {
-
-        asyncTask?.cancel(true)
-
-        asyncTempVolt?.cancel(true)
-
-        instance = null
-
-        jobScheduler.schedule(job.build())
-
-        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -269,7 +254,9 @@ class MainActivity : AppCompatActivity() {
 
             R.id.instruction -> AlertDialog.Builder(this).apply {
 
-                setIcon(if(pref.getBoolean("dark_mode", false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
+                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(
+                    R.drawable.ic_info_black_24dp
+                ))
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
@@ -308,7 +295,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getBatteryLevel() = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-    private fun getResidualCapacity() = pref.getInt("charge_counter", 0).toDouble()
+    private fun getResidualCapacity() = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
 
     private fun getChargingCurrent(): Int {
 

@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.services
 
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -7,6 +7,8 @@ import android.app.job.JobService
 import android.content.*
 import android.os.AsyncTask
 import android.os.BatteryManager
+import com.ph03nix_x.capacityinfo.async.DoAsync
+import com.ph03nix_x.capacityinfo.enums.Preferences
 
 class CapacityInfoService : JobService() {
 
@@ -16,7 +18,7 @@ class CapacityInfoService : JobService() {
 
             when(p1!!.action) {
 
-                Intent.ACTION_POWER_DISCONNECTED -> startJob(1)
+                Intent.ACTION_POWER_DISCONNECTED -> startJob()
             }
         }
     }
@@ -33,33 +35,28 @@ class CapacityInfoService : JobService() {
 
             val batteryStatus = registerReceiver(null, intentFilter)
 
-            val batteryManager = applicationContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            val batteryManager =
+                applicationContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
             val pref = applicationContext.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
             val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
             if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
-                || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+                || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING
+            ) {
 
-                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
+                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+                    pref.edit().putInt(
+                        "charge_counter",
+                        batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)
+                    ).apply()
+                else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
-                    pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+                startJob(720)
+            } else startJob()
 
-                    regReceiver(applicationContext)
-
-                    startJob(720)
-                }
-
-                else {
-
-                    pref.edit().putBoolean("is_supported", false).apply()
-
-                    startJob()
-                }
-            }
-
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
 
         return false

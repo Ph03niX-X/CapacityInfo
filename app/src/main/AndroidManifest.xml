@@ -13,7 +13,7 @@
             android:launchMode="singleTask"
             android:theme="@style/WhiteTheme">
 
-        <activity android:name=".MainActivity" android:launchMode="singleTask">
+        <activity android:name=".activity.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SettingsActivity"
+        <activity android:name=".activity.SettingsActivity"
                   android:launchMode="singleTask"
                   android:label="@string/settings"
-                  android:parentActivityName=".SettingsActivity">
+                  android:parentActivityName=".activity.SettingsActivity">
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW"/>
@@ -36,13 +36,13 @@
         </activity>
 
         <service
-                android:name=".CapacityInfoService"
+                android:name=".services.CapacityInfoService"
                 android:permission="android.permission.BIND_JOB_SERVICE"
                 android:exported="true"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
-        <receiver android:name=".BootReceiver">
+        <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
