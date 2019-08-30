@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
     private lateinit var technology: TextView
+    private lateinit var status: TextView
+    private lateinit var plugged: TextView
     private lateinit var chargingCurrent: TextView
     private lateinit var temperatute: TextView
     private lateinit var voltage: TextView
@@ -60,6 +62,8 @@ class MainActivity : AppCompatActivity() {
         currentCapacity = findViewById(R.id.current_capacity)
         residualCapacity = findViewById(R.id.residual_capacity)
         technology = findViewById(R.id.battery_technology)
+        status = findViewById(R.id.status)
+        plugged = findViewById(R.id.plugged)
         chargingCurrent = findViewById(R.id.charging_current)
         temperatute = findViewById(R.id.temperature)
         voltage = findViewById(R.id.voltage)
@@ -67,9 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this,
-            R.color.dark
-        ))
+        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
 
         if(pref.getBoolean(Preferences.IsShowInstruction.prefName, true)) {
 
@@ -159,6 +161,25 @@ class MainActivity : AppCompatActivity() {
                     batteryStatus = registerReceiver(null, intentFilter)
 
                     val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+
+                    val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+
+                    when(status) {
+
+                        BatteryManager.BATTERY_STATUS_DISCHARGING -> this.status.text = getString(R.string.status, getString(R.string.discharging))
+                        BatteryManager.BATTERY_STATUS_NOT_CHARGING -> this.status.text = getString(R.string.status, getString(R.string.not_charging))
+                        BatteryManager.BATTERY_STATUS_CHARGING -> this.status.text = getString(R.string.status, getString(R.string.charging))
+                        BatteryManager.BATTERY_STATUS_FULL -> this.status.text = getString(R.string.status, getString(R.string.full))
+                        BatteryManager.BATTERY_STATUS_UNKNOWN -> this.status.text = getString(R.string.status, getString(R.string.unknown))
+                    }
+
+                    when(plugged) {
+
+                        BatteryManager.BATTERY_PLUGGED_AC -> this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_ac))
+                        BatteryManager.BATTERY_PLUGGED_USB -> this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_usb))
+                        BatteryManager.BATTERY_PLUGGED_WIRELESS -> this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_usb))
+                        else -> this.plugged.visibility = View.GONE
+                    }
 
                     if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 

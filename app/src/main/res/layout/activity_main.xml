@@ -47,12 +47,32 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/status"
+            android:visibility="visible"
+            android:text="@string/status"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/battery_technology"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/plugged"
+            android:visibility="visible"
+            android:text="@string/plugged"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/status"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/charging_current"
             android:visibility="gone"
             android:text="@string/charging_current"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_below="@id/battery_technology"/>
+            android:layout_below="@id/plugged"/>
 
     <TextView
             android:layout_width="match_parent"

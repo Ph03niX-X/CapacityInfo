@@ -20,4 +20,14 @@
     <string name="information">Information</string>
     <string name="battery_technology">"Battery Technology: %1$s"</string>
     <string name="instruction_message">"In order for the application to show and overwrite the remaining capacity, charge the device to 100% until the charging current stops flowing, while not killing the entire application. If you want to change the design capacity, go to the application settings.\n\nATTENTION! If the shell of your device completely \"kills\" the application or You use energy saving, add this application to the exception.\n\nATTENTION! Due to the fact that some devices give out the current charging current only during charging, the application cannot immediately determine the compatibility with your device. Is the application compatible with your device, you will find out only after fully charged"</string>
+    <string name="status">"Status: %1$s"</string>
+    <string name="plugged">"Plugged: %1$s"</string>
+    <string name="discharging">Discharging</string>
+    <string name="not_charging">Not Charging</string>
+    <string name="charging">Charging</string>
+    <string name="full">Full</string>
+    <string name="unknown">Unknown</string>
+    <string name="plugged_ac">AC</string>
+    <string name="plugged_usb">USB</string>
+    <string name="plugged_wireless">Wireless</string>
 </resources>

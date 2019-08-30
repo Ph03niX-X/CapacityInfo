@@ -43,18 +43,17 @@ class CapacityInfoService : JobService() {
             val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
             if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
-                || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING
-            ) {
+                || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
-                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    pref.edit().putInt(
-                        "charge_counter",
-                        batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)
-                    ).apply()
+                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) pref.edit().putInt("charge_counter",
+                    batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+
                 else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
                 startJob(720)
-            } else startJob()
+            }
+
+            else startJob()
 
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
