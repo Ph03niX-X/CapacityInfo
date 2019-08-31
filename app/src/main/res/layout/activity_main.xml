@@ -18,12 +18,21 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/battery_level"
+            android:text="@string/battery_level"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/capacity_design"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/current_capacity"
             android:visibility="gone"
             android:text="@string/current_capacity"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_below="@id/capacity_design"/>
+            android:layout_below="@id/battery_level"/>
 
     <TextView
             android:layout_width="match_parent"

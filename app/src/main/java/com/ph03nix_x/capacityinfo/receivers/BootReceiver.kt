@@ -22,7 +22,7 @@ class BootReceiver : BroadcastReceiver() {
 
                 val job = JobInfo.Builder(1, componentName).apply {
 
-                    setMinimumLatency(60 * 1000)
+                    setMinimumLatency(2 * 60 * 1000)
                     setRequiresCharging(true)
                     setPersisted(false)
                 }

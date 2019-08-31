@@ -45,8 +45,8 @@ class CapacityInfoService : JobService() {
             if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
                 || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
-                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) pref.edit().putInt("charge_counter",
-                    batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+                    pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
 
                 else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
@@ -66,7 +66,7 @@ class CapacityInfoService : JobService() {
         return true
     }
 
-    private fun startJob(minutes: Long = 1) {
+    private fun startJob(minutes: Long = 2) {
 
         val componentName = ComponentName(this, CapacityInfoService::class.java)
 
@@ -74,10 +74,7 @@ class CapacityInfoService : JobService() {
 
         val job = JobInfo.Builder(1, componentName).apply {
 
-            if(minutes in 1..720) setMinimumLatency(minutes * 60 * 1000)
-
-            else setMinimumLatency(60 * 1000)
-
+            setMinimumLatency(minutes * 60 * 1000)
             setRequiresCharging(true)
             setPersisted(false)
         }

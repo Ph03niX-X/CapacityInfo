@@ -2,7 +2,7 @@
 <resources>
     <string name="capacity_design">"Проектна ємність: %1$s mAh"</string>
     <string name="residual_capacity">"Залишкова ємність: %1$s mAh (%2$s)"</string>
-    <string name="current_capacity">"Поточна ємність: %1$s mAh (%2$s)"</string>
+    <string name="current_capacity">"Поточна ємність: %1$s mAh"</string>
     <string name="battery_wear">"Знос акумулятора: %1$s"</string>
     <string name="dark_mode">Темна тема</string>
     <string name="charging_current">"Струм зарядки: %1$s mA"</string>
@@ -19,4 +19,13 @@
     <string name="information">Інформація</string>
     <string name="battery_technology">"Технологія акумулятора: %1$s"</string>
     <string name="instruction_message">"Щоб додаток показував і перезаписував залишкову ємність, зарядіть пристрій до 100%, до тих пір, поки струм зарядки не припинить текти, при цьому не вбиваючи додаток цілком. Якщо ви хочете змінити проектну ємність, перейдіть в налаштування програми.\n\nУВАГА! Якщо оболонка вашого пристрою повністю "вбиває" додатки або Ви використовуєте енергозбереження, додайте цей додаток в виняток.\n\nУВАГА! Через те, що деякі пристрої віддають поточний струм зарядки тільки під час зарядки, додаток не може відразу ж визначити сумісність з вашим пристроєм. Чи сумісне додаток з вашим пристроєм, ви дізнаєтеся тільки після повної зарядки"</string>
+    <string name="status">"Стан: %1$s"</string>
+    <string name="plugged">"Підключено: %1$s"</string>
+    <string name="discharging">Розрядка</string>
+    <string name="not_charging">Не заряджається</string>
+    <string name="charging">Зарядка</string>
+    <string name="full">Повний</string>
+    <string name="unknown">Невідомо</string>
+    <string name="plugged_wireless">Бездротовий</string>
+    <string name="battery_level">"Рівень заряду: %1$s"</string>
 </resources>

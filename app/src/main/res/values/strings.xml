@@ -2,7 +2,7 @@
     <string name="app_name">Capacity Info</string>
     <string name="capacity_design">"Design Capacity: %1$s mAh"</string>
     <string name="residual_capacity">"Residual Capacity: %1$s mAh (%2$s)"</string>
-    <string name="current_capacity">"Current Capacity: %1$s mAh (%2$s)"</string>
+    <string name="current_capacity">"Current Capacity: %1$s mAh"</string>
     <string name="battery_wear">"Battery Wear: %1$s"</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="github">GitHub</string>
@@ -30,4 +30,5 @@
     <string name="plugged_ac">AC</string>
     <string name="plugged_usb">USB</string>
     <string name="plugged_wireless">Wireless</string>
+    <string name="battery_level">"Battery Level: %1$s"</string>
 </resources>

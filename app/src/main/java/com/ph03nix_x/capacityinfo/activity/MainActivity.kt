@@ -25,6 +25,7 @@ import java.text.DecimalFormat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var capacityDesign: TextView
+    private lateinit var batteryLevel: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
     private lateinit var technology: TextView
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         relativeMain = findViewById(R.id.relative_main)
         capacityDesign = findViewById(R.id.capacity_design)
+        batteryLevel = findViewById(R.id.battery_level)
         currentCapacity = findViewById(R.id.current_capacity)
         residualCapacity = findViewById(R.id.residual_capacity)
         technology = findViewById(R.id.battery_technology)
@@ -77,9 +79,7 @@ class MainActivity : AppCompatActivity() {
 
             AlertDialog.Builder(this).apply {
 
-                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(
-                    R.drawable.ic_info_black_24dp
-                ))
+                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
                 setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefName, false).apply() }
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
             job = JobInfo.Builder(1, componentName).apply {
 
-                setMinimumLatency(60 * 1000)
+                setMinimumLatency(2 * 60 * 1000)
                 setRequiresCharging(true)
                 setPersisted(false)
             }
@@ -111,7 +111,8 @@ class MainActivity : AppCompatActivity() {
 
             pref.edit().putInt(Preferences.DesignCapacity.prefName, getDesignCapacity()).apply()
 
-            if(pref.getInt(Preferences.DesignCapacity.prefName, 0) < 0) pref.edit().putInt(Preferences.DesignCapacity.prefName, (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1)).apply()
+            if(pref.getInt(Preferences.DesignCapacity.prefName, 0) < 0)
+                pref.edit().putInt(Preferences.DesignCapacity.prefName, (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1)).apply()
         }
 
         capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefName, 0).toString())
@@ -130,6 +131,8 @@ class MainActivity : AppCompatActivity() {
 
                         runOnUiThread {
 
+                            batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel()}%")
+
                             residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()), "${DecimalFormat("#.#").format(
                                 if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100 
                                 
@@ -146,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 
                         runOnUiThread {
 
-                            currentCapacity.text = getString(R.string.current_capacity, toDecimalFormat(getCurrentCapacity()), "${getBatteryLevel()}%")
+                            currentCapacity.text = getString(R.string.current_capacity, toDecimalFormat(getCurrentCapacity()))
                         }
 
                     } else {
@@ -275,9 +278,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.instruction -> AlertDialog.Builder(this).apply {
 
-                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(
-                    R.drawable.ic_info_black_24dp
-                ))
+                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
