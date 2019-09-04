@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.Seconds
+import com.ph03nix_x.capacityinfo.TimeSpan
 import com.ph03nix_x.capacityinfo.services.*
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity() {
                         if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
 
                         if(pref.getInt(Preferences.LastChargeTime.prefName, 0) > 0)
-                            lastChargeTime.text = getString(R.string.last_charge_time, getSeconds(),
+                            lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(),
                                 "${pref.getInt(Preferences.BatteryLevelWith.prefName, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefName, 0)}%")
 
                         else {
@@ -456,19 +456,19 @@ class MainActivity : AppCompatActivity() {
         jobScheduler.schedule(job.build())
     }
 
-    private fun getSeconds(): String {
+    private fun getLastChargeTime(): String {
 
         var time = "00:00:00"
 
-        val seconds = Seconds.ToSeconds(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+        val seconds = TimeSpan.ToSeconds(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
         var minutes = 0
         var hours = 0
 
         when(pref.getInt(Preferences.LastChargeTime.prefName, 0)) {
 
             in 1..59 -> {}
-            in 60..3599 -> minutes = Seconds.ToMinutes(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
-            else -> hours = Seconds.ToHours(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+            in 60..3599 -> minutes = TimeSpan.toMinutes(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+            else -> hours = TimeSpan.toHours(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
         }
 
         time = "$hours:$minutes:$seconds"
