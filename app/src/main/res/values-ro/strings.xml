@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Informații despre capacitate</string>
+    <string name="capacity_design">"Capacitate proiectată: %1$s mAh"</string>
+    <string name="residual_capacity">"Capacitate reziduală: %1$s mAh (%2$s)"</string>
+    <string name="current_capacity">"Capacitatea curentă: %1$s mAh"</string>
+    <string name="battery_wear">"Uzura bateriei: %1$s"</string>
+    <string name="dark_mode">Mod întunecat</string>
+    <string name="github">GitHub</string>
+    <string name="charging_current">"Curent de încărcare: %1$s mA"</string>
+    <string name="discharge_current">"Curent de descărcare: %1$s mA"</string>
+    <string name="not_supported">Aplicația nu acceptă dispozitivul dvs.</string>
+    <string name="voltage">"Voltaj: %1$s V"</string>
+    <string name="temperature_celsius">"Temperatură: %1$s °C"</string>
+    <string name="temperature_fahrenheit">"Temperatură: %1$s °F"</string>
+    <string name="temperature_in_fahrenheit">"Temperatură în \"Fahrenheit\""</string>
+    <string name="settings">Setări</string>
+    <string name="instruction">Instrucţiuni</string>
+    <string name="change_design_capacity">Schimbați capacitatea de proiectare</string>
+    <string name="change">Schimbare</string>
+    <string name="information">Informaţii</string>
+    <string name="battery_technology">"Tehnologia bateriei: %1$s"</string>
+    <string name="instruction_message">"Pentru ca aplicația să afișeze și să rescrie capacitatea rămasă, încărcați dispozitivul la 100% până când curentul de încărcare nu mai curge, fără să opriți aplicația. Dacă doriți să schimbați capacitatea de proiectare, accesați setările aplicației.\n\nATENȚIE! Dacă sistemul de operare al dispozitivului dvs. „oprește” complet aplicația sau dacă utilizați economisire de energie, adăugați această aplicație la excepție.\n\nATENȚIE! Datorită faptului că unele dispozitive emit curentul de încărcare doar în timpul încărcării, aplicația nu poate determina imediat compatibilitatea cu dispozitivul dumneavoastră. Dacă aplicația este compatibilă cu dispozitivul dvs., veți afla numai după încărcare completă."</string>
+    <string name="status">"Stare: %1$s"</string>
+    <string name="plugged">"Conectat: %1$s"</string>
+    <string name="discharging">Se descarcă</string>
+    <string name="not_charging">Nu se încarcă</string>
+    <string name="charging">Se încarcă</string>
+    <string name="full">Încărcată</string>
+    <string name="unknown">Necunoscut</string>
+    <string name="plugged_ac">CA</string>
+    <string name="plugged_usb">USB</string>
+    <string name="plugged_wireless">Wireless</string>
+    <string name="battery_level">"Nivel baterie: %1$s"</string>
+</resources>
