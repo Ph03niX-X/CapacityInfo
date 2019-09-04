@@ -31,4 +31,8 @@
     <string name="plugged_usb">USB</string>
     <string name="plugged_wireless">Wireless</string>
     <string name="battery_level">"Battery Level: %1$s"</string>
+    <string name="show_last_charge_time">Show last charge time</string>
+    <string name="last_charge_time">"Last Charge Time: %1$s (%2$s - %3$s)"</string>
+    <string name="service">Service</string>
+    <string name="enable_service">Enable Service</string>
 </resources>

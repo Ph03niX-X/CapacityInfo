@@ -15,11 +15,14 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.enums.Preferences
+import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.Seconds
+import com.ph03nix_x.capacityinfo.services.*
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 @SuppressWarnings("StaticFieldLeak", "PrivateApi")
 class MainActivity : AppCompatActivity() {
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var chargingCurrent: TextView
     private lateinit var temperatute: TextView
     private lateinit var voltage: TextView
+    private lateinit var lastChargeTime: TextView
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var relativeMain: RelativeLayout
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         chargingCurrent = findViewById(R.id.charging_current)
         temperatute = findViewById(R.id.temperature)
         voltage = findViewById(R.id.voltage)
+        lastChargeTime = findViewById(R.id.last_charge_time)
         batteryWear = findViewById(R.id.battery_wear)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -87,18 +92,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-            val componentName = ComponentName(this, CapacityInfoService::class.java)
-
-            jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-            job = JobInfo.Builder(1, componentName).apply {
-
-                setMinimumLatency(2 * 60 * 1000)
-                setRequiresCharging(true)
-                setPersisted(false)
-            }
-
-            jobScheduler.schedule(job.build())
+        if(pref.getBoolean(Preferences.EnableService.prefName, true)) startCapacityInfoJob()
     }
 
     override fun onResume() {
@@ -107,12 +101,15 @@ class MainActivity : AppCompatActivity() {
 
         instance = this
 
-        if(pref.getInt(Preferences.DesignCapacity.prefName, 0) <= 0 || pref.getInt(Preferences.DesignCapacity.prefName, 0) >= 100000) {
+        if(pref.getInt(Preferences.DesignCapacity.prefName, 0) <= 0 || pref.getInt(
+                Preferences.DesignCapacity.prefName, 0) >= 100000) {
 
             pref.edit().putInt(Preferences.DesignCapacity.prefName, getDesignCapacity()).apply()
 
             if(pref.getInt(Preferences.DesignCapacity.prefName, 0) < 0)
-                pref.edit().putInt(Preferences.DesignCapacity.prefName, (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1)).apply()
+                pref.edit().putInt(
+                    Preferences.DesignCapacity.prefName, (pref.getInt(
+                        Preferences.DesignCapacity.prefName, 0) / -1)).apply()
         }
 
         capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefName, 0).toString())
@@ -127,25 +124,26 @@ class MainActivity : AppCompatActivity() {
 
                 while (true) {
 
-                    if (pref.getInt(Preferences.DesignCapacity.prefName, 0) > 0 && pref.getInt(Preferences.ChargeCounter.prefName, 0) > 0) {
+                    if (pref.getInt(Preferences.DesignCapacity.prefName, 0) > 0 && pref.getInt(
+                            Preferences.ChargeCounter.prefName, 0) > 0) {
 
                         runOnUiThread {
 
-                            batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel()}%")
-
                             residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()), "${DecimalFormat("#.#").format(
-                                if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100 
+                                if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt(
+                                    Preferences.DesignCapacity.prefName, 0).toDouble()) * 100 
                                 
                                 else (getResidualCapacity() / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100)}%")
 
-                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble(),
+                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt(
+                                Preferences.DesignCapacity.prefName, 0).toDouble(),
                                 if (getResidualCapacity() >= 100000) getResidualCapacity() / 1000 else getResidualCapacity()))
                         }
                     }
 
                     if (getCurrentCapacity() > 0) {
 
-                        if (currentCapacity.visibility == View.GONE) currentCapacity.visibility = View.VISIBLE
+                        if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
 
                         runOnUiThread {
 
@@ -154,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
                     } else {
 
-                        if (currentCapacity.visibility == View.VISIBLE) currentCapacity.visibility = View.GONE
+                        if (currentCapacity.visibility == View.VISIBLE) runOnUiThread { currentCapacity.visibility = View.GONE }
                     }
 
                     val intentFilter = IntentFilter()
@@ -165,28 +163,9 @@ class MainActivity : AppCompatActivity() {
 
                     val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                    val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
-
-                    when(status) {
-
-                        BatteryManager.BATTERY_STATUS_DISCHARGING -> this.status.text = getString(R.string.status, getString(R.string.discharging))
-                        BatteryManager.BATTERY_STATUS_NOT_CHARGING -> this.status.text = getString(R.string.status, getString(R.string.not_charging))
-                        BatteryManager.BATTERY_STATUS_CHARGING -> this.status.text = getString(R.string.status, getString(R.string.charging))
-                        BatteryManager.BATTERY_STATUS_FULL -> this.status.text = getString(R.string.status, getString(R.string.full))
-                        BatteryManager.BATTERY_STATUS_UNKNOWN -> this.status.text = getString(R.string.status, getString(R.string.unknown))
-                    }
-
-                    when(plugged) {
-
-                        BatteryManager.BATTERY_PLUGGED_AC -> this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_ac))
-                        BatteryManager.BATTERY_PLUGGED_USB -> this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_usb))
-                        BatteryManager.BATTERY_PLUGGED_WIRELESS -> this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_usb))
-                        else -> this.plugged.visibility = View.GONE
-                    }
-
                     if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                        if (chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
+                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
 
                         runOnUiThread {
 
@@ -195,7 +174,7 @@ class MainActivity : AppCompatActivity() {
 
                     } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
-                        if (chargingCurrent.visibility == View.GONE) chargingCurrent.visibility = View.VISIBLE
+                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
 
                         runOnUiThread {
 
@@ -203,7 +182,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else {
 
-                        if (chargingCurrent.visibility == View.VISIBLE) chargingCurrent.visibility = View.GONE
+                        if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
                     }
 
                     Thread.sleep(5000)
@@ -229,6 +208,113 @@ class MainActivity : AppCompatActivity() {
             while (true) {
 
                 if (!pref.getBoolean(Preferences.IsSupported.prefName, false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+
+                val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+
+                runOnUiThread {
+
+                    batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel()}%")
+                }
+
+                if(pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)) {
+
+                    runOnUiThread {
+
+                        if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
+
+                        if(pref.getInt(Preferences.LastChargeTime.prefName, 0) > 0)
+                            lastChargeTime.text = getString(R.string.last_charge_time, getSeconds(),
+                                "${pref.getInt(Preferences.BatteryLevelWith.prefName, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefName, 0)}%")
+
+                        else {
+
+                            if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
+                        }
+
+                    }
+                }
+
+                else {
+
+                    runOnUiThread {
+
+                        if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
+
+                    }
+                }
+
+                when(status) {
+
+                    BatteryManager.BATTERY_STATUS_DISCHARGING -> {
+
+                        runOnUiThread {
+
+                            this.status.text = getString(R.string.status, getString(R.string.discharging))
+                        }
+                    }
+                    BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
+
+                        runOnUiThread {
+
+                            this.status.text = getString(R.string.status, getString(R.string.not_charging))
+                        }
+                    }
+                    BatteryManager.BATTERY_STATUS_CHARGING -> {
+
+                        runOnUiThread {
+
+                            this.status.text = getString(R.string.status, getString(R.string.charging))
+                        }
+                    }
+                    BatteryManager.BATTERY_STATUS_FULL -> {
+
+                        runOnUiThread {
+
+                            this.status.text = getString(R.string.status, getString(R.string.full))
+                        }
+                    }
+                    BatteryManager.BATTERY_STATUS_UNKNOWN -> {
+
+                        runOnUiThread {
+
+                            this.status.text = getString(R.string.status, getString(R.string.unknown))
+                        }
+                    }
+                }
+
+                when(plugged) {
+
+                    BatteryManager.BATTERY_PLUGGED_AC -> {
+
+                        runOnUiThread {
+
+                            this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_ac))
+                        }
+                    }
+                    BatteryManager.BATTERY_PLUGGED_USB -> {
+
+                        runOnUiThread {
+
+                            this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_usb))
+                        }
+                    }
+                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                        runOnUiThread {
+
+                            this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_wireless))
+                        }
+                    }
+                    else -> {
+
+                        runOnUiThread {
+
+                            this.plugged.visibility = View.GONE
+                        }
+                    }
+                }
 
                 runOnUiThread {
 
@@ -353,4 +439,40 @@ class MainActivity : AppCompatActivity() {
     private fun getBatteryWear(capacityDesign: Double, capacity: Double) = "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%"
 
     private fun toDecimalFormat(number: Double) = if(number >= 100000) DecimalFormat("#.#").format(number / 1000) else DecimalFormat("#.#").format(number)
+
+    private fun startCapacityInfoJob() {
+
+        val componentName = ComponentName(this, CapacityInfoJob::class.java)
+
+        jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+
+        job = JobInfo.Builder(1, componentName).apply {
+
+            setMinimumLatency(1000)
+            setRequiresCharging(true)
+            setPersisted(false)
+        }
+
+        jobScheduler.schedule(job.build())
+    }
+
+    private fun getSeconds(): String {
+
+        var time = "00:00:00"
+
+        val seconds = Seconds.ToSeconds(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+        var minutes = 0
+        var hours = 0
+
+        when(pref.getInt(Preferences.LastChargeTime.prefName, 0)) {
+
+            in 1..59 -> {}
+            in 60..3599 -> minutes = Seconds.ToMinutes(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+            else -> hours = Seconds.ToHours(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+        }
+
+        time = "$hours:$minutes:$seconds"
+
+        return android.text.format.DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+    }
 }

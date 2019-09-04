@@ -5,6 +5,15 @@
               android:layout_height="match_parent"
               android:id="@+id/settings_layout">
 
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/enable_service"
+            android:text="@string/enable_service"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"/>
+
     <androidx.appcompat.widget.SwitchCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,6 +27,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/temperature_in_fahrenheit"
             android:text="@string/temperature_in_fahrenheit"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_last_charge_time"
+            android:text="@string/show_last_charge_time"
             android:background="?attr/selectableItemBackground"
             android:padding="10dp"/>
 

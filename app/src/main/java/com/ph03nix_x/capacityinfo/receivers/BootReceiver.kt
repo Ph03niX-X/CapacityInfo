@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.CapacityInfoJob
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -16,19 +16,24 @@ class BootReceiver : BroadcastReceiver() {
 
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> {
 
-                val componentName = ComponentName(p0!!, CapacityInfoService::class.java)
-
-                val jobScheduler = p0.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-                val job = JobInfo.Builder(1, componentName).apply {
-
-                    setMinimumLatency(2 * 60 * 1000)
-                    setRequiresCharging(true)
-                    setPersisted(false)
-                }
-
-                jobScheduler.schedule(job.build())
+                startCapacityInfoJob(p0!!)
             }
         }
+    }
+
+    private fun startCapacityInfoJob(context: Context) {
+
+        val componentName = ComponentName(context, CapacityInfoJob::class.java)
+
+        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+
+        val job = JobInfo.Builder(1, componentName).apply {
+
+            setMinimumLatency(1000)
+            setRequiresCharging(true)
+            setPersisted(false)
+        }
+
+        jobScheduler.schedule(job.build())
     }
 }

@@ -106,10 +106,19 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/last_charge_time"
+            android:text="@string/last_charge_time"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_below="@id/voltage"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/battery_wear"
             android:text="@string/battery_wear"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:layout_below="@id/voltage"/>
+            android:layout_below="@id/last_charge_time"/>
 
 </RelativeLayout>

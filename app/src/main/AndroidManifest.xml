@@ -3,6 +3,7 @@
           package="com.ph03nix_x.capacityinfo">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
             android:allowBackup="true"
@@ -36,8 +37,14 @@
         </activity>
 
         <service
-                android:name=".services.CapacityInfoService"
+                android:name=".services.CapacityInfoJob"
                 android:permission="android.permission.BIND_JOB_SERVICE"
+                android:exported="true"
+                android:icon="@mipmap/ic_launcher"
+                android:roundIcon="@mipmap/ic_launcher_round"/>
+
+        <service
+                android:name=".services.CapacityInfoService"
                 android:exported="true"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
