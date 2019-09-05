@@ -279,6 +279,7 @@ class CapacityInfoService : Service() {
             setShowWhen(false)
         }
 
+        startForeground(101, notificationBuilder.build())
     }
 
     private fun getResidualCapacity() = getSharedPreferences("preferences", Context.MODE_PRIVATE).getInt(Preferences.ChargeCounter.prefName, 0).toDouble()

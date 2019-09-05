@@ -210,7 +210,6 @@ class MainActivity : AppCompatActivity() {
                 if (!pref.getBoolean(Preferences.IsSupported.prefName, false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
                 val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
                 runOnUiThread {
@@ -245,75 +244,18 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                when(status) {
+                runOnUiThread {
 
-                    BatteryManager.BATTERY_STATUS_DISCHARGING -> {
+                    this.status.text = getStatus(status!!)
 
-                        runOnUiThread {
+                    if(getPlugged(plugged!!) != "") {
 
-                            this.status.text = getString(R.string.status, getString(R.string.discharging))
-                        }
+                        if(this.plugged.visibility == View.GONE) this.plugged.visibility = View.VISIBLE
+
+                        this.plugged.text = getPlugged(plugged)
                     }
-                    BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
 
-                        runOnUiThread {
-
-                            this.status.text = getString(R.string.status, getString(R.string.not_charging))
-                        }
-                    }
-                    BatteryManager.BATTERY_STATUS_CHARGING -> {
-
-                        runOnUiThread {
-
-                            this.status.text = getString(R.string.status, getString(R.string.charging))
-                        }
-                    }
-                    BatteryManager.BATTERY_STATUS_FULL -> {
-
-                        runOnUiThread {
-
-                            this.status.text = getString(R.string.status, getString(R.string.full))
-                        }
-                    }
-                    BatteryManager.BATTERY_STATUS_UNKNOWN -> {
-
-                        runOnUiThread {
-
-                            this.status.text = getString(R.string.status, getString(R.string.unknown))
-                        }
-                    }
-                }
-
-                when(plugged) {
-
-                    BatteryManager.BATTERY_PLUGGED_AC -> {
-
-                        runOnUiThread {
-
-                            this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_ac))
-                        }
-                    }
-                    BatteryManager.BATTERY_PLUGGED_USB -> {
-
-                        runOnUiThread {
-
-                            this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_usb))
-                        }
-                    }
-                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
-
-                        runOnUiThread {
-
-                            this.plugged.text = getString(R.string.plugged, getString(R.string.plugged_wireless))
-                        }
-                    }
-                    else -> {
-
-                        runOnUiThread {
-
-                            this.plugged.visibility = View.GONE
-                        }
-                    }
+                    else this.plugged.visibility = View.GONE
                 }
 
                 runOnUiThread {
@@ -404,6 +346,30 @@ class MainActivity : AppCompatActivity() {
     private fun getBatteryLevel() = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
     private fun getResidualCapacity() = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
+
+    private fun getStatus(extraStatus: Int): String {
+
+        return when(extraStatus) {
+
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> getString(R.string.status, getString(R.string.discharging))
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> getString(R.string.status, getString(R.string.not_charging))
+            BatteryManager.BATTERY_STATUS_CHARGING -> getString(R.string.status, getString(R.string.charging))
+            BatteryManager.BATTERY_STATUS_FULL -> getString(R.string.status, getString(R.string.full))
+            BatteryManager.BATTERY_STATUS_UNKNOWN -> getString(R.string.status, getString(R.string.unknown))
+            else -> ""
+        }
+    }
+
+    private fun getPlugged(extraPlugged: Int): String {
+
+        return when(extraPlugged) {
+
+            BatteryManager.BATTERY_PLUGGED_AC -> getString(R.string.plugged, getString(R.string.plugged_ac))
+            BatteryManager.BATTERY_PLUGGED_USB -> getString(R.string.plugged, getString(R.string.plugged_usb))
+            BatteryManager.BATTERY_PLUGGED_WIRELESS -> getString(R.string.plugged, getString(R.string.plugged_wireless))
+            else -> ""
+        }
+    }
 
     private fun getChargingCurrent(): Int {
 
