@@ -86,6 +86,8 @@ class CapacityInfoService : Service() {
                             Thread.sleep(1000)
                         }
                     }
+
+                    else Thread.sleep(1 * 60 * 1000)
                 }
 
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)

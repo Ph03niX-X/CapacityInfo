@@ -6,5 +6,5 @@ object TimeSpan {
 
     fun toMinutes(seconds: Double) = if(seconds >= 60) (((seconds / 60) - (toHours(seconds) * 60)) % 60).toInt() else 0
 
-    fun  ToSeconds(seconds: Double) = ((seconds - (toMinutes(seconds) * 60) - (toHours(seconds) * 3600)) % 60).toInt()
+    fun toSeconds(seconds: Double) = ((seconds - (toMinutes(seconds) * 60) - (toHours(seconds) * 3600)) % 60).toInt()
 }

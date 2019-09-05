@@ -424,20 +424,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLastChargeTime(): String {
 
-        var time = "00:00:00"
+        val secondsPref = pref.getInt(Preferences.LastChargeTime.prefName, 0)
 
-        val seconds = TimeSpan.ToSeconds(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+        var seconds = 0
         var minutes = 0
         var hours = 0
 
         when(pref.getInt(Preferences.LastChargeTime.prefName, 0)) {
 
-            in 1..59 -> {}
-            in 60..3599 -> minutes = TimeSpan.toMinutes(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
-            else -> hours = TimeSpan.toHours(pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble())
+            in 1..59 -> seconds = TimeSpan.toSeconds(secondsPref.toDouble())
+            in 60..3599 -> minutes = TimeSpan.toMinutes(secondsPref.toDouble())
+            else -> hours = TimeSpan.toHours(secondsPref.toDouble())
         }
 
-        time = "$hours:$minutes:$seconds"
+        val time = "$hours:$minutes:$seconds"
 
         return android.text.format.DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
     }
