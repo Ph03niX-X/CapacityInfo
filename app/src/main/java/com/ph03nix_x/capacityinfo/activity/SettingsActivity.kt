@@ -54,6 +54,7 @@ class SettingsActivity : AppCompatActivity() {
             enableService.background = getDrawable(R.drawable.selecteditem)
             darkMode.background = getDrawable(R.drawable.selecteditem)
             fahrenheit.background = getDrawable(R.drawable.selecteditem)
+            showLastChargeTime.background = getDrawable(R.drawable.selecteditem)
             changeDesignCapacity.background = getDrawable(R.drawable.selecteditem)
 
             changeDesignCapacity.setTextColor(Color.WHITE)
@@ -66,10 +67,7 @@ class SettingsActivity : AppCompatActivity() {
 
         enableService.setOnCheckedChangeListener { _, b ->
 
-            if(!b) {
-
-                stopService(Intent(this, CapacityInfoService::class.java))
-            }
+            if(!b) stopService(Intent(this, CapacityInfoService::class.java))
 
             else startJob()
 
