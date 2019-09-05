@@ -103,7 +103,9 @@ class SettingsActivity : AppCompatActivity() {
 
         else (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1).toString())
 
-        dialog.setPositiveButton(getString(R.string.change)) { _, _ -> pref.edit().putInt(Preferences.DesignCapacity.prefName, changeDesignCapacity.text.toString().toInt()).apply() }
+        dialog.setPositiveButton(getString(R.string.change)) { _, _ ->
+
+            if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefName, changeDesignCapacity.text.toString().toInt()).apply() }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 
