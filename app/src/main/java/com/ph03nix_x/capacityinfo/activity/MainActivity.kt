@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var batteryManager: BatteryManager
     private lateinit var jobScheduler: JobScheduler
     private lateinit var job: JobInfo.Builder
-    private var asyncTask: AsyncTask<Void, Void, Unit>? = null
-    private var asyncTempVolt: AsyncTask<Void, Void, Unit>? = null
+    private lateinit var thread: Thread
     private var batteryStatus: Intent? = null
+    private var isThread = false
 
     companion object {
 
@@ -99,6 +99,8 @@ class MainActivity : AppCompatActivity() {
 
         super.onResume()
 
+        var isShowDialog = true
+
         instance = this
 
         if(pref.getInt(Preferences.DesignCapacity.prefName, 0) <= 0 || pref.getInt(
@@ -118,94 +120,11 @@ class MainActivity : AppCompatActivity() {
 
         batteryWear.text = getString(R.string.battery_wear, "0%")
 
-        if(pref.getBoolean(Preferences.IsSupported.prefName, true)) {
+        isThread = true
 
-            asyncTask = DoAsync {
+        thread = Thread {
 
-                while (true) {
-
-                    if (pref.getInt(Preferences.DesignCapacity.prefName, 0) > 0 && pref.getInt(
-                            Preferences.ChargeCounter.prefName, 0) > 0) {
-
-                        runOnUiThread {
-
-                            residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()), "${DecimalFormat("#.#").format(
-                                if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt(
-                                    Preferences.DesignCapacity.prefName, 0).toDouble()) * 100 
-                                
-                                else (getResidualCapacity() / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100)}%")
-
-                            batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt(
-                                Preferences.DesignCapacity.prefName, 0).toDouble(),
-                                if (getResidualCapacity() >= 100000) getResidualCapacity() / 1000 else getResidualCapacity()))
-                        }
-                    }
-
-                    if (getCurrentCapacity() > 0) {
-
-                        if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
-
-                        runOnUiThread {
-
-                            currentCapacity.text = getString(R.string.current_capacity, toDecimalFormat(getCurrentCapacity()))
-                        }
-
-                    } else {
-
-                        if (currentCapacity.visibility == View.VISIBLE) runOnUiThread { currentCapacity.visibility = View.GONE }
-                    }
-
-                    val intentFilter = IntentFilter()
-
-                    intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-
-                    batteryStatus = registerReceiver(null, intentFilter)
-
-                    val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
-                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
-
-                        runOnUiThread {
-
-                            chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent().toString())
-                        }
-
-                    } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
-
-                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
-
-                        runOnUiThread {
-
-                            chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent().toString())
-                        }
-                    } else {
-
-                        if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
-                    }
-
-                    Thread.sleep(5000)
-                }
-
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-        }
-
-        else {
-
-                AlertDialog.Builder(this).apply {
-
-                    setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
-                    setTitle(getString(R.string.information))
-                    setMessage(getString(R.string.not_supported))
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                    show()
-                }
-        }
-
-        asyncTempVolt = DoAsync {
-
-            while (true) {
+            while(isThread) {
 
                 if (!pref.getBoolean(Preferences.IsSupported.prefName, false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -269,19 +188,105 @@ class MainActivity : AppCompatActivity() {
                     voltage.text = getString(R.string.voltage, toDecimalFormat(getVoltage()))
                 }
 
-                Thread.sleep(5 * 1100)
-            }
+                if (pref.getBoolean(Preferences.IsSupported.prefName, true)) {
 
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+                        if (pref.getInt(Preferences.DesignCapacity.prefName, 0) > 0 && pref.getInt(
+                                Preferences.ChargeCounter.prefName, 0) > 0) {
+
+                            runOnUiThread {
+
+                                residualCapacity.text = getString(R.string.residual_capacity, toDecimalFormat(getResidualCapacity()), "${DecimalFormat("#.#").format(
+                                    if (getResidualCapacity() >= 100000) ((getResidualCapacity() / 1000) / pref.getInt(
+                                        Preferences.DesignCapacity.prefName, 0).toDouble()) * 100
+
+                                    else (getResidualCapacity() / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100)}%")
+
+                                batteryWear.text = getString(R.string.battery_wear, getBatteryWear(pref.getInt(
+                                    Preferences.DesignCapacity.prefName, 0).toDouble(),
+                                    if (getResidualCapacity() >= 100000) getResidualCapacity() / 1000 else getResidualCapacity()))
+                            }
+                        }
+
+                        if (getCurrentCapacity() > 0) {
+
+                            if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
+
+                            runOnUiThread {
+
+                                currentCapacity.text = getString(R.string.current_capacity, toDecimalFormat(getCurrentCapacity()))
+                            }
+
+                        }
+
+                        else {
+
+                            if (currentCapacity.visibility == View.VISIBLE) runOnUiThread { currentCapacity.visibility = View.GONE }
+                        }
+
+                        val intentFilter = IntentFilter()
+
+                        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
+
+                        batteryStatus = registerReceiver(null, intentFilter)
+
+                        if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
+
+                            if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
+
+                            runOnUiThread {
+
+                                chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent().toString())
+                            }
+
+                        } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+
+                            if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
+
+                            runOnUiThread {
+
+                                chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent().toString())
+                            }
+                        } else {
+
+                            if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
+                        }
+
+                }
+
+                else {
+
+                    if(isShowDialog) {
+
+                        isShowDialog = false
+
+                        val dialog = AlertDialog.Builder(this).apply {
+
+                            setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp)
+                            else getDrawable(R.drawable.ic_info_black_24dp))
+                            setTitle(getString(R.string.information))
+                            setMessage(getString(R.string.not_supported))
+                            setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                        }
+
+                        runOnUiThread {
+                            
+                            dialog.show()
+                        }
+                    }
+                }
+
+                Thread.sleep(5000)
+            }
+        }
+
+        thread.start()
     }
 
     override fun onStop() {
 
         super.onStop()
 
-        asyncTask?.cancel(true)
-
-        asyncTempVolt?.cancel(true)
+        isThread = false
     }
 
     override fun onBackPressed() {
