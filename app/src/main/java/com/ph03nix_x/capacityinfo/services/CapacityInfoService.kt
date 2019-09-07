@@ -20,7 +20,7 @@ class CapacityInfoService : Service() {
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var batteryManager: BatteryManager
 
-    private var seconds = 1
+    private var seconds = 0
     private var asyncTask: AsyncTask<Void, Void, Unit>? = null
 
     private var isUpdateNotification = false
@@ -101,8 +101,7 @@ class CapacityInfoService : Service() {
                           else {
 
                               seconds++
-
-                              Thread.sleep(750)
+                              Thread.sleep(1000)
                           }
                       }
 
