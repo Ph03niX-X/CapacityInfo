@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -427,21 +428,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLastChargeTime(): String {
 
-        val secondsPref = pref.getInt(Preferences.LastChargeTime.prefName, 0)
+        val secondsPref = pref.getInt(Preferences.LastChargeTime.prefName, 0).toDouble()
 
-        var seconds = 0
-        var minutes = 0
-        var hours = 0
-
-        when(pref.getInt(Preferences.LastChargeTime.prefName, 0)) {
-
-            in 1..59 -> seconds = TimeSpan.toSeconds(secondsPref.toDouble())
-            in 60..3599 -> minutes = TimeSpan.toMinutes(secondsPref.toDouble())
-            else -> hours = TimeSpan.toHours(secondsPref.toDouble())
-        }
+        val seconds = TimeSpan.toSeconds(secondsPref)
+        val minutes = TimeSpan.toMinutes(secondsPref)
+        val hours = TimeSpan.toHours(secondsPref)
 
         val time = "$hours:$minutes:$seconds"
 
-        return android.text.format.DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+        return DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
     }
 }

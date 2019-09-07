@@ -102,7 +102,7 @@ class CapacityInfoService : Service() {
 
                               seconds++
 
-                              Thread.sleep(1000)
+                              Thread.sleep(750)
                           }
                       }
 
