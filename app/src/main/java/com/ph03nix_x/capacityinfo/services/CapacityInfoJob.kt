@@ -12,7 +12,7 @@ class CapacityInfoJob : JobService() {
 
         val pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
-        if(pref.getBoolean(Preferences.EnableService.prefName, true)) startService()
+        if(pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) startService()
 
         return false
     }

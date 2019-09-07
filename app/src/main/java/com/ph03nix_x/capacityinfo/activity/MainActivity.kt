@@ -4,7 +4,6 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,7 +14,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.TimeSpan
@@ -269,7 +267,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         runOnUiThread {
-                            
+
                             dialog.show()
                         }
                     }

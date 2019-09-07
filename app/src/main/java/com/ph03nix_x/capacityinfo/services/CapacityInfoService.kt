@@ -21,9 +21,11 @@ class CapacityInfoService : Service() {
     private lateinit var batteryManager: BatteryManager
 
     private var seconds = 1
-    private var asyncSeconds: AsyncTask<Void, Void, Unit>? = null
-    private var asyncChargeCounter: AsyncTask<Void, Void, Unit>? = null
-    private var asyncUpdateNotification: AsyncTask<Void, Void, Unit>? = null
+    private var asyncTask: AsyncTask<Void, Void, Unit>? = null
+
+    private var isUpdateNotification = false
+    private var isChargeCounter = false
+    private var isSeconds = false
 
     private val unpluggedReceiver = object : BroadcastReceiver() {
 
@@ -34,6 +36,12 @@ class CapacityInfoService : Service() {
                 Intent.ACTION_POWER_DISCONNECTED -> stopService()
             }
         }
+    }
+
+
+    companion object {
+
+        var instance: CapacityInfoService? = null
     }
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -58,98 +66,115 @@ class CapacityInfoService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        instance = this
+
+        isUpdateNotification = true
+        isChargeCounter = true
+        isSeconds = true
+
         pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-          asyncSeconds = DoAsync {
+          asyncTask = DoAsync {
 
-                while (true) {
+              DoAsync {
 
-                    if (pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)) {
-                        val batteryStatus =
-                            registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                  while (isSeconds) {
 
-                        val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+                      if (pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)) {
+                          val batteryStatus =
+                              registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                        if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
-                            || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+                          val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                            pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
+                          if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
+                              || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
-                            pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+                              pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
 
-                            break
-                        }
+                              pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-                        else {
+                              isSeconds = false
 
-                            seconds++
+                              break
+                          }
 
-                            Thread.sleep(1000)
-                        }
-                    }
+                          else {
 
-                    else Thread.sleep(1 * 60 * 1000)
-                }
+                              seconds++
+
+                              Thread.sleep(1000)
+                          }
+                      }
+
+                      else Thread.sleep(1 * 60 * 1000)
+                  }
+
+              }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+
+              DoAsync {
+
+                  while(isChargeCounter) {
+
+                      val intentFilter = IntentFilter()
+
+                      intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
+
+                      val batteryStatus = registerReceiver(null, intentFilter)
+
+                      val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+
+                      if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
+                          || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+
+                          if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+                              pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+                          else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
+
+                          isChargeCounter = false
+                          
+                          break
+                      }
+
+                      else {
+
+                          when(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)) {
+
+                              in 0..30 -> Thread.sleep(30 * 60 * 1000)
+                              in 31..50 -> Thread.sleep(15 * 60 * 1000)
+                              in 51..80 -> Thread.sleep(10 * 60 * 1000)
+                              in 81..99 -> Thread.sleep(5 * 60 * 1000)
+                              100 -> Thread.sleep(2 * 60 * 1000)
+                          }
+                      }
+
+                  }
+
+              }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+              
+              DoAsync {
+
+                  while(isUpdateNotification) {
+
+                      updateNotification()
+
+                      Thread.sleep(10 * 1000)
+                  }
+
+              }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+              
 
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-
-       asyncChargeCounter = DoAsync {
-
-            while(true) {
-
-                val intentFilter = IntentFilter()
-
-                intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-
-                val batteryStatus = registerReceiver(null, intentFilter)
-
-                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
-                if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
-                    || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
-
-                    if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                        pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
-                    else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
-
-                    break
-                }
-
-                else {
-
-                    when(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)) {
-
-                        in 0..30 -> Thread.sleep(30 * 60 * 1000)
-                        in 31..50 -> Thread.sleep(15 * 60 * 1000)
-                        in 51..80 -> Thread.sleep(10 * 60 * 1000)
-                        in 81..99 -> Thread.sleep(5 * 60 * 1000)
-                        100 -> Thread.sleep(2 * 60 * 1000)
-                    }
-                }
-
-            }
-
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-
-        asyncUpdateNotification = DoAsync {
-
-            while(true) {
-
-                updateNotification()
-
-                Thread.sleep(10 * 1000)
-            }
-
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
         return START_STICKY
     }
 
     override fun onDestroy() {
 
-        asyncChargeCounter?.cancel(true)
-        asyncSeconds?.cancel(true)
-        asyncUpdateNotification?.cancel(true)
+        isSeconds = false
+        isChargeCounter = false
+        isUpdateNotification = false
+        asyncTask?.cancel(true)
+        instance = null
         unregisterReceiver(unpluggedReceiver)
 
         super.onDestroy()
@@ -183,9 +208,11 @@ class CapacityInfoService : Service() {
 
     private fun stopService() {
 
-        asyncSeconds?.cancel(true)
+        isSeconds = false
+        isChargeCounter = false
+        isUpdateNotification = false
 
-        asyncUpdateNotification?.cancel(true)
+        asyncTask?.cancel(true)
 
         stopService(Intent(this, CapacityInfoService::class.java))
 
@@ -246,7 +273,7 @@ class CapacityInfoService : Service() {
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                "$charging\n\n$chargingCurrent\n\n$temperature"
+                "$charging\n$chargingCurrent\n$temperature"
             }
 
             BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
@@ -255,7 +282,7 @@ class CapacityInfoService : Service() {
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                "$notCharging\n\n$temperature"
+                "$notCharging\n$temperature"
             }
 
             BatteryManager.BATTERY_STATUS_FULL -> {
@@ -264,9 +291,9 @@ class CapacityInfoService : Service() {
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                if(pref.getBoolean(Preferences.IsSupported.prefName, true)) "$fullCharging\n\n${getResidualCapacity()}\n\n${getBatteryWear()}\n\n$temperature"
+                if(pref.getBoolean(Preferences.IsSupported.prefName, true)) "$fullCharging\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature"
 
-                else "$fullCharging\n\n$temperature"
+                else "$fullCharging\n$temperature"
 
             }
 
@@ -277,7 +304,7 @@ class CapacityInfoService : Service() {
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-              "$discharging\n\n$dischargingCurrent\n\n$temperature"
+              "$discharging\n$dischargingCurrent\n$temperature"
             }
 
             BatteryManager.BATTERY_STATUS_UNKNOWN -> {
@@ -286,7 +313,7 @@ class CapacityInfoService : Service() {
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                "$discharging\n\n$temperature"
+                "$discharging\n$temperature"
             }
 
             else -> ""
@@ -327,7 +354,7 @@ class CapacityInfoService : Service() {
                     val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                     else R.string.temperature_celsius, getTemperature())
 
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$charging\n\n$chargingCurrent\n\n$temperature"))
+                    setStyle(NotificationCompat.BigTextStyle().bigText("$charging\n$chargingCurrent\n$temperature"))
                 }
 
                 BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
@@ -336,7 +363,7 @@ class CapacityInfoService : Service() {
                     val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                     else R.string.temperature_celsius, getTemperature())
 
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$notCharging\n\n$temperature"))
+                    setStyle(NotificationCompat.BigTextStyle().bigText("$notCharging\n$temperature"))
                 }
 
                 BatteryManager.BATTERY_STATUS_FULL -> {
@@ -346,9 +373,9 @@ class CapacityInfoService : Service() {
                     else R.string.temperature_celsius, getTemperature())
 
                     if(pref.getBoolean(Preferences.IsSupported.prefName, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText("$fullCharging\n\n${getResidualCapacity()}\n\n${getBatteryWear()}\n\n$temperature"))
+                        setStyle(NotificationCompat.BigTextStyle().bigText("$fullCharging\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature"))
 
-                    else setStyle(NotificationCompat.BigTextStyle().bigText("$fullCharging\n\n$temperature"))
+                    else setStyle(NotificationCompat.BigTextStyle().bigText("$fullCharging\n$temperature"))
 
                 }
 
@@ -359,7 +386,7 @@ class CapacityInfoService : Service() {
                     val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                     else R.string.temperature_celsius, getTemperature())
 
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$discharging\n\n$dischargingCurrent\n\n$temperature"))
+                    setStyle(NotificationCompat.BigTextStyle().bigText("$discharging\n$dischargingCurrent\n$temperature"))
                 }
 
                 BatteryManager.BATTERY_STATUS_UNKNOWN -> {
@@ -368,7 +395,7 @@ class CapacityInfoService : Service() {
                     val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                     else R.string.temperature_celsius, getTemperature())
 
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$discharging\n\n$temperature"))
+                    setStyle(NotificationCompat.BigTextStyle().bigText("$discharging\n$temperature"))
                 }
             }
             setShowWhen(false)
