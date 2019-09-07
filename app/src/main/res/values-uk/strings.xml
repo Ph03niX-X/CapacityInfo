@@ -32,4 +32,5 @@
     <string name="last_charge_time">"Час останньої зарядки: %1$s (%2$s - %3$s)"</string>
     <string name="service">Служба</string>
     <string name="enable_service">Включити службу</string>
+    <string name="charging_time">"Час зарядки: %1$s"</string>
 </resources>

@@ -5,14 +5,18 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
 import android.os.*
+import android.text.format.DateFormat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TimeSpan
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CapacityInfoService : Service() {
 
@@ -156,7 +160,7 @@ class CapacityInfoService : Service() {
 
                       updateNotification()
 
-                      Thread.sleep(10 * 1000)
+                      Thread.sleep(1000)
                   }
 
               }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
@@ -268,51 +272,84 @@ class CapacityInfoService : Service() {
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
                 val charging = getString(R.string.status, getString(R.string.charging))
+                val currentCapacity = getString(R.string.current_capacity, getCurrentCapacity())
                 val chargingCurrent = getString(R.string.charging_current, getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                "$charging\n$chargingCurrent\n$temperature"
+                val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
+
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                    "$charging\n${getChargingTime()}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
+
+                else "$charging\n${getChargingTime()}\n$chargingCurrent\n$temperature\n$voltage"
             }
 
             BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
 
                 val notCharging = getString(R.string.status, getString(R.string.not_charging))
+                val currentCapacity = getString(R.string.current_capacity, getCurrentCapacity())
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                "$notCharging\n$temperature"
+                val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
+
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                    "$notCharging\n${getChargingTime()}\n$currentCapacity\n$temperature\n$voltage"
+
+                else "$notCharging\n${getChargingTime()}\n$temperature\n$voltage"
             }
 
             BatteryManager.BATTERY_STATUS_FULL -> {
 
                 val fullCharging = getString(R.string.status, getString(R.string.full))
+                val currentCapacity = getString(R.string.current_capacity, getCurrentCapacity())
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                if(pref.getBoolean(Preferences.IsSupported.prefName, true)) "$fullCharging\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature"
+                val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
 
-                else "$fullCharging\n$temperature"
+                if(pref.getBoolean(Preferences.IsSupported.prefName, true)) {
+
+                    if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                        "$fullCharging\n${getChargingTime()}\n$currentCapacity\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature\n$voltage"
+
+                    else "$fullCharging\n${getChargingTime()}\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature\n$voltage"
+                }
+
+                else "$fullCharging\n${getChargingTime()}\n$temperature"
 
             }
 
             BatteryManager.BATTERY_STATUS_DISCHARGING -> {
 
                 val discharging = getString(R.string.status, getString(R.string.discharging))
+                val currentCapacity = getString(R.string.current_capacity, getCurrentCapacity())
                 val dischargingCurrent = getString(R.string.discharge_current, getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-              "$discharging\n$dischargingCurrent\n$temperature"
+                val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
+
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                    "$discharging\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
+
+                else "$discharging\n$dischargingCurrent\n$temperature\n$voltage"
             }
 
             BatteryManager.BATTERY_STATUS_UNKNOWN -> {
 
                 val discharging = getString(R.string.status, getString(R.string.unknown))
+                val currentCapacity = getString(R.string.current_capacity, getCurrentCapacity())
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, getTemperature())
 
-                "$discharging\n$temperature"
+                val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
+
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                    "$discharging\n$currentCapacity\n$temperature\n$voltage"
+
+                else "$discharging\n$temperature\n$voltage"
             }
 
             else -> ""
@@ -333,70 +370,15 @@ class CapacityInfoService : Service() {
             ""
         }
 
-        val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
-        val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
         val openApp = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+
         notificationBuilder = NotificationCompat.Builder(this, channelId).apply {
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.charging)
             color = ContextCompat.getColor(applicationContext, R.color.blue)
             setContentIntent(openApp)
-            when(status) {
-
-                BatteryManager.BATTERY_STATUS_CHARGING -> {
-
-                    val charging = getString(R.string.status, getString(R.string.charging))
-                    val chargingCurrent = getString(R.string.charging_current, getChargingCurrent().toString())
-                    val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
-                    else R.string.temperature_celsius, getTemperature())
-
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$charging\n$chargingCurrent\n$temperature"))
-                }
-
-                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
-
-                    val notCharging = getString(R.string.status, getString(R.string.not_charging))
-                    val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
-                    else R.string.temperature_celsius, getTemperature())
-
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$notCharging\n$temperature"))
-                }
-
-                BatteryManager.BATTERY_STATUS_FULL -> {
-
-                    val fullCharging = getString(R.string.status, getString(R.string.full))
-                    val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
-                    else R.string.temperature_celsius, getTemperature())
-
-                    if(pref.getBoolean(Preferences.IsSupported.prefName, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText("$fullCharging\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature"))
-
-                    else setStyle(NotificationCompat.BigTextStyle().bigText("$fullCharging\n$temperature"))
-
-                }
-
-                BatteryManager.BATTERY_STATUS_DISCHARGING -> {
-
-                    val discharging = getString(R.string.status, getString(R.string.discharging))
-                    val dischargingCurrent = getString(R.string.discharge_current, getChargingCurrent().toString())
-                    val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
-                    else R.string.temperature_celsius, getTemperature())
-
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$discharging\n$dischargingCurrent\n$temperature"))
-                }
-
-                BatteryManager.BATTERY_STATUS_UNKNOWN -> {
-
-                    val discharging = getString(R.string.status, getString(R.string.unknown))
-                    val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
-                    else R.string.temperature_celsius, getTemperature())
-
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$discharging\n$temperature"))
-                }
-            }
+            setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
             setShowWhen(false)
         }
 
@@ -429,6 +411,30 @@ class CapacityInfoService : Service() {
         return tempString
     }
 
+    private fun getCurrentCapacity(): String {
+
+        batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+
+        var currentCapacity = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+
+        if (currentCapacity < 0) currentCapacity /= -1
+
+        if (currentCapacity >= 100000) currentCapacity /= 1000
+
+        return toDecimalFormat(currentCapacity.toDouble())
+    }
+
+    private fun getVoltage(): Double {
+
+        val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+        var voltage = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
+
+        if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
+
+        return voltage
+    }
+
     private fun getResidualCapacity(): String {
 
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
@@ -454,4 +460,16 @@ class CapacityInfoService : Service() {
     }
 
     private fun toDecimalFormat(number: Double) = if(number >= 100000) DecimalFormat("#.#").format(number / 1000) else DecimalFormat("#.#").format(number)
+
+    private fun getChargingTime(): String {
+
+        val seconds = TimeSpan.toSeconds(this.seconds.toDouble())
+        val minutes = TimeSpan.toMinutes(this.seconds.toDouble())
+        val hours = TimeSpan.toHours(this.seconds.toDouble())
+
+        val time = "$hours:$minutes:$seconds"
+
+        return getString(R.string.charging_time,
+            DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString())
+    }
 }

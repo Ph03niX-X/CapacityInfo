@@ -35,4 +35,5 @@
     <string name="last_charge_time">"Last Charge Time: %1$s (%2$s - %3$s)"</string>
     <string name="service">Service</string>
     <string name="enable_service">Enable Service</string>
+    <string name="charging_time">"Charging Time: %1$s"</string>
 </resources>
