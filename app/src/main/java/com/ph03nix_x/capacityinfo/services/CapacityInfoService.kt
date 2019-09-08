@@ -23,7 +23,7 @@ class CapacityInfoService : Service() {
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var batteryManager: BatteryManager
 
-    private var seconds = 0
+    private var seconds = 1
 
     private var isUpdateNotification = false
     private var isChargeCounter = false
@@ -136,18 +136,7 @@ class CapacityInfoService : Service() {
                           break
                       }
 
-                      else {
-
-                          when(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)) {
-
-                              in 0..30 -> Thread.sleep(30 * 60 * 1000)
-                              in 31..50 -> Thread.sleep(15 * 60 * 1000)
-                              in 51..80 -> Thread.sleep(10 * 60 * 1000)
-                              in 81..90 -> Thread.sleep(5 * 60 * 1000)
-                              in 91..99 -> Thread.sleep(2 * 60 * 1000)
-                              100 -> Thread.sleep(5 * 1000)
-                          }
-                      }
+                      else Thread.sleep(5 * 1000)
 
                   }
 
