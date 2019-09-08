@@ -279,7 +279,7 @@ class CapacityInfoService : Service() {
 
                 val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
 
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     "$charging\n${getChargingTime()}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
 
                 else "$charging\n${getChargingTime()}\n$chargingCurrent\n$temperature\n$voltage"
@@ -294,7 +294,7 @@ class CapacityInfoService : Service() {
 
                 val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
 
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     "$notCharging\n${getChargingTime()}\n$currentCapacity\n$temperature\n$voltage"
 
                 else "$notCharging\n${getChargingTime()}\n$temperature\n$voltage"
@@ -311,7 +311,7 @@ class CapacityInfoService : Service() {
 
                 if(pref.getBoolean(Preferences.IsSupported.prefName, true)) {
 
-                    if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                    if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                         "$fullCharging\n${getChargingTime()}\n$currentCapacity\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature\n$voltage"
 
                     else "$fullCharging\n${getChargingTime()}\n${getResidualCapacity()}\n${getBatteryWear()}\n$temperature\n$voltage"
@@ -331,7 +331,7 @@ class CapacityInfoService : Service() {
 
                 val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
 
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     "$discharging\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
 
                 else "$discharging\n$dischargingCurrent\n$temperature\n$voltage"
@@ -346,7 +346,7 @@ class CapacityInfoService : Service() {
 
                 val voltage = getString(R.string.voltage, toDecimalFormat(getVoltage()))
 
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW) > 0)
+                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     "$discharging\n$currentCapacity\n$temperature\n$voltage"
 
                 else "$discharging\n$temperature\n$voltage"
@@ -454,7 +454,9 @@ class CapacityInfoService : Service() {
 
         val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()
 
-        val capacity = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
+        var capacity = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
+
+        if(capacity >= 100000) capacity /= 1000
 
         return getString(R.string.battery_wear,"${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%")
     }
