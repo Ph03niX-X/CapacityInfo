@@ -9,7 +9,6 @@ import android.text.format.DateFormat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TimeSpan
@@ -25,7 +24,6 @@ class CapacityInfoService : Service() {
     private lateinit var batteryManager: BatteryManager
 
     private var seconds = 0
-    private var asyncTask: AsyncTask<Void, Void, Unit>? = null
 
     private var isUpdateNotification = false
     private var isChargeCounter = false
@@ -64,7 +62,6 @@ class CapacityInfoService : Service() {
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-
     }
 
 
@@ -78,9 +75,9 @@ class CapacityInfoService : Service() {
 
         pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-          asyncTask = DoAsync {
+          Thread {
 
-              DoAsync {
+              Thread {
 
                   while (isSeconds) {
 
@@ -105,16 +102,17 @@ class CapacityInfoService : Service() {
                           else {
 
                               seconds++
+
                               Thread.sleep(1000)
                           }
                       }
 
-                      else Thread.sleep(1 * 60 * 1000)
+                      else Thread.sleep(5 * 1000)
                   }
 
-              }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+              }.start()
 
-              DoAsync {
+              Thread {
 
                   while(isChargeCounter) {
 
@@ -134,7 +132,7 @@ class CapacityInfoService : Service() {
                           else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
                           isChargeCounter = false
-                          
+
                           break
                       }
 
@@ -145,16 +143,17 @@ class CapacityInfoService : Service() {
                               in 0..30 -> Thread.sleep(30 * 60 * 1000)
                               in 31..50 -> Thread.sleep(15 * 60 * 1000)
                               in 51..80 -> Thread.sleep(10 * 60 * 1000)
-                              in 81..99 -> Thread.sleep(5 * 60 * 1000)
-                              100 -> Thread.sleep(2 * 60 * 1000)
+                              in 81..90 -> Thread.sleep(5 * 60 * 1000)
+                              in 91..99 -> Thread.sleep(2 * 60 * 1000)
+                              100 -> Thread.sleep(5 * 1000)
                           }
                       }
 
                   }
 
-              }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-              
-              DoAsync {
+              }.start()
+
+              Thread {
 
                   while(isUpdateNotification) {
 
@@ -163,10 +162,10 @@ class CapacityInfoService : Service() {
                       Thread.sleep(1000)
                   }
 
-              }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+              }.start()
               
 
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+            }.start()
 
         return START_STICKY
     }
@@ -176,7 +175,6 @@ class CapacityInfoService : Service() {
         isSeconds = false
         isChargeCounter = false
         isUpdateNotification = false
-        asyncTask?.cancel(true)
         instance = null
         unregisterReceiver(unpluggedReceiver)
 
@@ -214,8 +212,6 @@ class CapacityInfoService : Service() {
         isSeconds = false
         isChargeCounter = false
         isUpdateNotification = false
-
-        asyncTask?.cancel(true)
 
         stopService(Intent(this, CapacityInfoService::class.java))
 
