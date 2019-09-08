@@ -36,4 +36,5 @@
     <string name="last_charge_time">"Ultima încărcare: %1$s (%2$s - %3$s)"</string>
     <string name="service">Serviciu</string>
     <string name="enable_service">Activare serviciu</string>
+    <string name="charging_time">"Timp încărcare: %1$s"</string>
 </resources>
