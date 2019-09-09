@@ -25,9 +25,9 @@ class CapacityInfoService : Service() {
 
     private var seconds = 1
 
-    private var isUpdateNotification = false
-    private var isChargeCounter = false
-    private var isSeconds = false
+    private var isThread = false
+
+    var batteryStatus: Intent? = null
 
     private val unpluggedReceiver = object : BroadcastReceiver() {
 
@@ -69,101 +69,62 @@ class CapacityInfoService : Service() {
 
         instance = this
 
-        isUpdateNotification = true
-        isChargeCounter = true
-        isSeconds = true
+        isThread = true
+
+        var isSave = true
 
         pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-          Thread {
+        Thread {
 
-              Thread {
+            while (isThread) {
 
-                  while (isSeconds) {
+                batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                      if (pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)) {
-                          val batteryStatus =
-                              registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                          val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+                if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                          if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
-                              || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+                    Thread.sleep(1000)
+                    seconds++
+                    updateNotification()
+                }
 
-                              pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
+                else if (status == BatteryManager.BATTERY_STATUS_FULL && isSave) {
 
-                              pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+                    if(pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)) {
 
-                              isSeconds = false
+                        pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
 
-                              break
-                          }
+                        pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+                    }
 
-                          else {
+                    if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+                        pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
 
-                              seconds++
+                    else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
-                              Thread.sleep(1000)
-                          }
-                      }
+                    Thread.sleep(7500)
+                    updateNotification()
+                    isSave = false
+                }
 
-                      else Thread.sleep(5 * 1000)
-                  }
+                else {
 
-              }.start()
+                    Thread.sleep(10 * 1000)
 
-              Thread {
+                    updateNotification()
+                }
+            }
 
-                  while(isChargeCounter) {
-
-                      val intentFilter = IntentFilter()
-
-                      intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-
-                      val batteryStatus = registerReceiver(null, intentFilter)
-
-                      val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
-                      if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) == 100 && status == BatteryManager.BATTERY_STATUS_FULL
-                          || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
-
-                          if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                              pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
-                          else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
-
-                          isChargeCounter = false
-
-                          break
-                      }
-
-                      else Thread.sleep(5 * 1000)
-
-                  }
-
-              }.start()
-
-              Thread {
-
-                  while(isUpdateNotification) {
-
-                      updateNotification()
-
-                      Thread.sleep(1000)
-                  }
-
-              }.start()
-              
-
-            }.start()
+        }.start()
 
         return START_STICKY
     }
 
     override fun onDestroy() {
 
-        isSeconds = false
-        isChargeCounter = false
-        isUpdateNotification = false
+        isThread = false
         instance = null
         unregisterReceiver(unpluggedReceiver)
 
@@ -198,9 +159,7 @@ class CapacityInfoService : Service() {
 
     private fun stopService() {
 
-        isSeconds = false
-        isChargeCounter = false
-        isUpdateNotification = false
+        isThread = false
 
         stopService(Intent(this, CapacityInfoService::class.java))
 
@@ -250,9 +209,11 @@ class CapacityInfoService : Service() {
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        return when(batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+        val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+
+        return when(status) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
@@ -383,7 +344,7 @@ class CapacityInfoService : Service() {
 
     private fun getTemperature(): String {
 
-        val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var temp = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
 
@@ -400,7 +361,7 @@ class CapacityInfoService : Service() {
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        var currentCapacity = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+        var currentCapacity = batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)
 
         if (currentCapacity < 0) currentCapacity /= -1
 
@@ -411,7 +372,7 @@ class CapacityInfoService : Service() {
 
     private fun getVoltage(): Double {
 
-        val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var voltage = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
