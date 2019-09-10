@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
 
                     this.status.text = getStatus(status!!)
 
-                    if(getPlugged(plugged!!) != "") {
+                    if(getPlugged(plugged!!) != "N/A") {
 
                         if(this.plugged.visibility == View.GONE) this.plugged.visibility = View.VISIBLE
 
@@ -360,7 +360,7 @@ class MainActivity : AppCompatActivity() {
             BatteryManager.BATTERY_STATUS_CHARGING -> getString(R.string.status, getString(R.string.charging))
             BatteryManager.BATTERY_STATUS_FULL -> getString(R.string.status, getString(R.string.full))
             BatteryManager.BATTERY_STATUS_UNKNOWN -> getString(R.string.status, getString(R.string.unknown))
-            else -> ""
+            else -> "N/A"
         }
     }
 
@@ -371,7 +371,7 @@ class MainActivity : AppCompatActivity() {
             BatteryManager.BATTERY_PLUGGED_AC -> getString(R.string.plugged, getString(R.string.plugged_ac))
             BatteryManager.BATTERY_PLUGGED_USB -> getString(R.string.plugged, getString(R.string.plugged_usb))
             BatteryManager.BATTERY_PLUGGED_WIRELESS -> getString(R.string.plugged, getString(R.string.plugged_wireless))
-            else -> ""
+            else -> "N/A"
         }
     }
 
