@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="capacity_design">"Праэктная ёмістасць: %1$s mAh"</string>
+    <string name="residual_capacity">"Рэшткавая ёмістасць: %1$s mAh (%2$s)"</string>
+    <string name="current_capacity">"Бягучая ёмістасць: %1$s mAh"</string>
+    <string name="battery_wear">"Знос акумулятара: %1$s"</string>
+    <string name="dark_mode">Цёмная тэма</string>
+    <string name="charging_current">"Ток зарадкі: %1$s mA"</string>
+    <string name="discharge_current">"Ток разрадкі: %1$s mA"</string>
+    <string name="not_supported">Дадатак не падтрымлівае вашу прыладу</string>
+    <string name="voltage">"Напружанне: %1$s В"</string>
+    <string name="temperature_celsius">"Тэмпература: %1$s °C"</string>
+    <string name="temperature_fahrenheit">"Тэмпература: %1$s °F"</string>
+    <string name="temperature_in_fahrenheit">"Тэмпература ў \"Фарэнгейт\""</string>
+    <string name="settings">Налады</string>
+    <string name="instruction">Інструкцыя</string>
+    <string name="change_design_capacity">Змяніць праэктную ёмістасць</string>
+    <string name="change">Змяніць</string>
+    <string name="information">Інфармацыя</string>
+    <string name="battery_technology">"Тэхналогія акумулятара: %1$s"</string>
+    <string name="instruction_message">"Каб прылада паказвала і перазапісвала рэшткавую ёмістасць, зарадзіце прыладу да 100%, да таго часу, калі ток зарадкі не спыніцца цячы, пры гэтым не забіваючы прыладу цалкам. Калі вы жадаеце змяніць праэктную ёмістасць, перайдзіце ў налады дадатка.\n\nУВАГА! Калі прашыўка вашага тэлефона цалкам \"забівае"\ дадатак, або вы карыстаецеся энэргазберажэнням, дабавьце гэты дадатак у выключэння.\n\nУВАГА! З-за таго, што некаторыя прылады аддаюць бягучы ток зарадкі толькі ў час зарадкі, дадатак не можа адразу вызначыць сумяшчальнасць з вашай прыладай. Ці дадатак сумяшчальны з вашай прыладай, вы даведаецеся толькі пасля поўнай зарадкі"</string>
+    <string name="status">"Статус: %1$s"</string>
+    <string name="plugged">"Падключана: %1$s"</string>
+    <string name="discharging">Разрадка</string>
+    <string name="not_charging">Не зараджаецца</string>
+    <string name="charging">Зарадка</string>
+    <string name="full">Поўны</string>
+    <string name="unknown">Невядома</string>
+    <string name="plugged_wireless">Бесправадны</string>
+    <string name="battery_level">"Ўзровень зарада: %1$s"</string>
+    <string name="show_last_charge_time">Паказваць час апошняй зарадкі</string>
+    <string name="last_charge_time">"Час апошняй зарадкі: %1$s (%2$s - %3$s)"</string>
+    <string name="service">Служба</string>
+    <string name="enable_service">Ўключыць службу</string>
+    <string name="charging_time">"Час зарадкі: %1$s"</string>
+</resources>
