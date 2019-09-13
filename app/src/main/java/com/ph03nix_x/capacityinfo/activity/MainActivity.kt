@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
 
             while(isDoAsync) {
 
-                if (!pref.getBoolean(Preferences.IsSupported.prefName, false)) batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
                 val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)

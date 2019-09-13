@@ -91,7 +91,7 @@ class CapacityInfoService : Service() {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    Thread.sleep(950)
+                    Thread.sleep(900)
                     seconds++
                     updateNotification()
                 }
@@ -118,7 +118,7 @@ class CapacityInfoService : Service() {
 
                     updateNotification()
 
-                    Thread.sleep(10 * 950)
+                    Thread.sleep(10 * 900)
                 }
 
                 if(wakeLock?.isHeld!! && isSave) wakeLock?.release()

@@ -16,7 +16,7 @@ class Battery(var context: Context) {
 
         val powerProfileClass = "com.android.internal.os.PowerProfile"
 
-        val mPowerProfile = Class.forName(powerProfileClass).getConstructor(Context::class.java).newInstance(this)
+        val mPowerProfile = Class.forName(powerProfileClass).getConstructor(Context::class.java).newInstance(context)
 
         var capacity = (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
 
