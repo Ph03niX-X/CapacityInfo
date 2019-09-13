@@ -188,7 +188,7 @@ class CapacityInfoService : Service() {
         val job = JobInfo.Builder(1, componentName).apply {
 
             setMinimumLatency(1000)
-            setRequiresCharging(true)
+            setRequiresCharging(false)
             setPersisted(false)
         }
 
