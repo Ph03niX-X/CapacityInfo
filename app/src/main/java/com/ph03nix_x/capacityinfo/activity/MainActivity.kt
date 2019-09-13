@@ -21,7 +21,7 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.services.*
 
-@SuppressWarnings("StaticFieldLeak", "PrivateApi")
+@SuppressWarnings("StaticFieldLeak")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var capacityDesign: TextView
@@ -107,9 +107,7 @@ class MainActivity : AppCompatActivity() {
             pref.edit().putInt(Preferences.DesignCapacity.prefName, battery.getDesignCapacity()).apply()
 
             if(pref.getInt(Preferences.DesignCapacity.prefName, 0) < 0)
-                pref.edit().putInt(
-                    Preferences.DesignCapacity.prefName, (pref.getInt(
-                        Preferences.DesignCapacity.prefName, 0) / -1)).apply()
+                pref.edit().putInt(Preferences.DesignCapacity.prefName, (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1)).apply()
         }
 
         capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefName, 0).toString())

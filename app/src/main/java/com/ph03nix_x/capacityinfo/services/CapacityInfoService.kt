@@ -19,15 +19,12 @@ class CapacityInfoService : Service() {
     private lateinit var pref: SharedPreferences
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var batteryManager: BatteryManager
-
+    private lateinit var powerManager: PowerManager
+    private lateinit var wakeLock: PowerManager.WakeLock
+    private var batteryStatus: Intent? = null
     private var seconds = 1
-
-    private var isDoAsync = false
     private var batteryLevelWith = -1
-
-    private var powerManager: PowerManager? = null
-    private var wakeLock: PowerManager.WakeLock? = null
-    var batteryStatus: Intent? = null
+    private var isDoAsync = false
 
     private val unpluggedReceiver = object : BroadcastReceiver() {
 
@@ -39,7 +36,6 @@ class CapacityInfoService : Service() {
             }
         }
     }
-
 
     companion object {
 
@@ -73,7 +69,7 @@ class CapacityInfoService : Service() {
 
         powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
 
-        wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
 
         batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
@@ -83,7 +79,7 @@ class CapacityInfoService : Service() {
 
             while (isDoAsync) {
 
-                if(!wakeLock?.isHeld!! && isSave) wakeLock?.acquire(60 * 1000)
+                if(!wakeLock.isHeld && isSave) wakeLock.acquire(60 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -102,7 +98,6 @@ class CapacityInfoService : Service() {
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
                     pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-
                     if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                         pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
 
@@ -111,7 +106,7 @@ class CapacityInfoService : Service() {
                     Thread.sleep(7500)
                     updateNotification()
                     isSave = false
-                    wakeLock?.release()
+                    wakeLock.release()
                 }
 
                 else {
@@ -121,7 +116,7 @@ class CapacityInfoService : Service() {
                     Thread.sleep(10 * 900)
                 }
 
-                if(wakeLock?.isHeld!! && isSave) wakeLock?.release()
+                if(wakeLock.isHeld && isSave) wakeLock.release()
             }
 
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
@@ -162,11 +157,13 @@ class CapacityInfoService : Service() {
         startForeground(101, notificationBuilder.build())
     }
 
+    private fun updateNotification() = createNotification()
+
     private fun stopService() {
 
         isDoAsync = false
 
-        if(wakeLock?.isHeld!!) wakeLock?.release()
+        if(wakeLock.isHeld) wakeLock.release()
 
         stopService(Intent(this, CapacityInfoService::class.java))
 
@@ -316,34 +313,5 @@ class CapacityInfoService : Service() {
 
             else -> "N/A"
         }
-    }
-
-    private fun updateNotification() {
-
-        pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-
-        val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel()
-        }
-
-        else {
-            // If earlier version channel ID is not used
-            // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
-            ""
-        }
-
-        val openApp = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-
-        notificationBuilder = NotificationCompat.Builder(this, channelId).apply {
-            setOngoing(true)
-            setCategory(Notification.CATEGORY_SERVICE)
-            setSmallIcon(R.drawable.charging)
-            color = ContextCompat.getColor(applicationContext, R.color.blue)
-            setContentIntent(openApp)
-            setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
-            setShowWhen(false)
-        }
-
-        startForeground(101, notificationBuilder.build())
     }
 }
