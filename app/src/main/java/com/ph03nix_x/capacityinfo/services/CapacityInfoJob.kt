@@ -29,6 +29,10 @@ class CapacityInfoJob : JobService() {
 
     override fun onDestroy() {
 
+        try { applicationContext.unregisterReceiver(pluggedReceiver) }
+
+        catch(e: IllegalArgumentException) {}
+
         startJob()
 
         super.onDestroy()

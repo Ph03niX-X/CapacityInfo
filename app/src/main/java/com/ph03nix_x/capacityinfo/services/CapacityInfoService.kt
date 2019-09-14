@@ -87,7 +87,7 @@ class CapacityInfoService : Service() {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    Thread.sleep(900)
+                    Thread.sleep(948)
                     seconds++
                     updateNotification()
                 }
@@ -103,7 +103,6 @@ class CapacityInfoService : Service() {
 
                     else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
-                    Thread.sleep(7500)
                     updateNotification()
                     isSave = false
                     wakeLock.release()
@@ -113,7 +112,7 @@ class CapacityInfoService : Service() {
 
                     updateNotification()
 
-                    Thread.sleep(10 * 900)
+                    Thread.sleep(10 * 950)
                 }
 
                 if(wakeLock.isHeld && isSave) wakeLock.release()
@@ -170,11 +169,14 @@ class CapacityInfoService : Service() {
         val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-        pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
         pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-            if (status != BatteryManager.BATTERY_STATUS_FULL && status != BatteryManager.BATTERY_STATUS_NOT_CHARGING)
+            if (status != BatteryManager.BATTERY_STATUS_FULL && status != BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+
                 pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
+
+                pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
+            }
 
         startJob()
     }
