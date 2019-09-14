@@ -26,6 +26,7 @@
     <string name="charging">Зарядка</string>
     <string name="full">Повний</string>
     <string name="unknown">Невідомо</string>
+    <string name="plugged_ac">Мережа</string>
     <string name="plugged_wireless">Бездротовий</string>
     <string name="battery_level">"Рівень заряду: %1$s"</string>
     <string name="show_last_charge_time">Показувати час останньої зарядки</string>
