@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Informații despre capacitate</string>
+    <string name="app_name">Informații baterie</string>
     <string name="capacity_design">"Capacitate proiectată: %1$s mAh"</string>
     <string name="residual_capacity">"Capacitate reziduală: %1$s mAh (%2$s)"</string>
     <string name="current_capacity">"Capacitatea curentă: %1$s mAh"</string>
