@@ -57,7 +57,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.RestartServiceReceiver" android:enabled="true" android:exported="true">
+        <receiver android:name=".receivers.RestartServiceReceiver">
             <intent-filter>
 
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>

@@ -11,45 +11,18 @@ import com.ph03nix_x.capacityinfo.Preferences
 
 class CapacityInfoJob : JobService() {
 
-    private val pluggedReceiver = object : BroadcastReceiver() {
-
-        override fun onReceive(p0: Context?, p1: Intent?) {
-
-            when(p1?.action) {
-
-                Intent.ACTION_POWER_CONNECTED -> {
-
-                    val pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
-
-                    if(pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) startService()
-                }
-            }
-        }
-    }
-
-    override fun onDestroy() {
-
-        try { applicationContext.unregisterReceiver(pluggedReceiver) }
-
-        catch(e: IllegalArgumentException) {}
-
-        startJob()
-
-        super.onDestroy()
-    }
-
     override fun onStartJob(p0: JobParameters?): Boolean {
 
         val pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
         val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
-        when(plugged) {
+        when (plugged) {
 
             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                if(pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) startService()
+                if (pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) startService()
 
-            else -> applicationContext.registerReceiver(pluggedReceiver, IntentFilter(Intent.ACTION_POWER_CONNECTED))
+            else -> startJob()
         }
 
         return false
@@ -57,7 +30,7 @@ class CapacityInfoJob : JobService() {
 
     override fun onStopJob(p0: JobParameters?): Boolean {
 
-        return true
+        return false
     }
 
     private fun startService() {
