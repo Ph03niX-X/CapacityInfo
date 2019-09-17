@@ -2,11 +2,9 @@ package com.ph03nix_x.capacityinfo.activity
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.graphics.Color
+import android.os.BatteryManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
@@ -25,6 +23,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private lateinit var pref: SharedPreferences
     private lateinit var enableService: SwitchCompat
+    private lateinit var alwaysShowNotification: SwitchCompat
     private lateinit var darkMode: SwitchCompat
     private lateinit var fahrenheit: SwitchCompat
     private lateinit var showLastChargeTime: SwitchCompat
@@ -41,6 +40,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.settings_activity)
 
         enableService = findViewById(R.id.enable_service)
+        alwaysShowNotification = findViewById(R.id.always_show_notification)
         darkMode = findViewById(R.id.dark_mode)
         fahrenheit = findViewById(R.id.temperature_in_fahrenheit)
         showLastChargeTime = findViewById(R.id.show_last_charge_time)
@@ -61,6 +61,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         enableService.isChecked = pref.getBoolean(Preferences.EnableService.prefName, true)
+        alwaysShowNotification.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+        alwaysShowNotification.isChecked = pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
         darkMode.isChecked = pref.getBoolean(Preferences.DarkMode.prefName, false)
         fahrenheit.isChecked = pref.getBoolean(Preferences.Fahrenheit.prefName, false)
         showLastChargeTime.isChecked = pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)
@@ -71,7 +73,21 @@ class SettingsActivity : AppCompatActivity() {
 
             else startJob()
 
+            alwaysShowNotification.isEnabled = b
+
             pref.edit().putBoolean(Preferences.EnableService.prefName, b).apply()
+        }
+
+        alwaysShowNotification.setOnCheckedChangeListener { _, b ->
+
+            val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+
+            if(!b && plugged == 0) stopService(Intent(this, CapacityInfoService::class.java))
+
+            pref.edit().putBoolean(Preferences.AlwaysShowNotification.prefName, b).apply()
+
+            startJob()
         }
 
         darkMode.setOnCheckedChangeListener { _, b ->

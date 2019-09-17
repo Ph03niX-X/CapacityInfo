@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.async.DoAsync
+import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 
 class CapacityInfoService : Service() {
@@ -23,8 +24,10 @@ class CapacityInfoService : Service() {
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
-    private var seconds = 1
-    private var batteryLevelWith = -1
+    var seconds = 1
+    var isSave = true
+    var sleepTime: Long = 10
+    var batteryLevelWith = -1
     private var isDoAsync = false
 
     companion object {
@@ -45,6 +48,8 @@ class CapacityInfoService : Service() {
 
         applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
+        applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -63,13 +68,11 @@ class CapacityInfoService : Service() {
 
         batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-        var isSave = true
-
         DoAsync {
 
             while (isDoAsync) {
 
-                if(!wakeLock.isHeld && isSave) wakeLock.acquire(60 * 1000)
+                if(!wakeLock.isHeld && isSave) wakeLock.acquire(20 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -102,7 +105,7 @@ class CapacityInfoService : Service() {
 
                     updateNotification()
 
-                    Thread.sleep(10 * 950)
+                    Thread.sleep(sleepTime * 950)
                 }
 
                 if(wakeLock.isHeld && isSave) wakeLock.release()

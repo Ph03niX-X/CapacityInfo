@@ -14,10 +14,7 @@ class BootReceiver : BroadcastReceiver() {
 
         when(p1!!.action) {
 
-            Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> {
-
-                startCapacityInfoJob(p0!!)
-            }
+            Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> startCapacityInfoJob(p0!!)
         }
     }
 

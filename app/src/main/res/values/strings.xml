@@ -36,4 +36,5 @@
     <string name="service">Service</string>
     <string name="enable_service">Enable Service</string>
     <string name="charging_time">"Charging Time: %1$s"</string>
+    <string name="always_show_notification">Always show notification</string>
 </resources>

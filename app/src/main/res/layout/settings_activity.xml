@@ -17,6 +17,14 @@
     <androidx.appcompat.widget.SwitchCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/always_show_notification"
+            android:text="@string/always_show_notification"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/dark_mode"
             android:text="@string/dark_mode"
             android:background="?attr/selectableItemBackground"

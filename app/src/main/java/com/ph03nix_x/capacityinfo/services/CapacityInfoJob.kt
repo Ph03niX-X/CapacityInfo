@@ -22,7 +22,10 @@ class CapacityInfoJob : JobService() {
             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
                 if (pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) startService()
 
-            else -> startJob()
+            else -> if (pref.getBoolean(Preferences.EnableService.prefName, true)
+                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false) && CapacityInfoService.instance == null) startService()
+
+            else startJob()
         }
 
         return false
@@ -49,7 +52,7 @@ class CapacityInfoJob : JobService() {
 
         val job = JobInfo.Builder(1, componentName).apply {
 
-            setMinimumLatency(1000)
+            setMinimumLatency(60 * 1000)
             setRequiresCharging(false)
             setPersisted(false)
         }
