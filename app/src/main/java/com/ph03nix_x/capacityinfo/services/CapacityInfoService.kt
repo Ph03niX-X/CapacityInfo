@@ -277,7 +277,7 @@ class CapacityInfoService : Service() {
                 val voltage = getString(R.string.voltage, battery.toDecimalFormat(battery.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    "$discharging\n$batteryLevel\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
+                    "$discharging\n$batteryLevel\n$currentCapacity\n${battery.getResidualCapacity()}\n${battery.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
 
                 else "$discharging\n$batteryLevel\n$dischargingCurrent\n$temperature\n$voltage"
             }
