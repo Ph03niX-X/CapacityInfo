@@ -24,7 +24,7 @@
     <string name="discharging">Розрядка</string>
     <string name="not_charging">Не заряджається</string>
     <string name="charging">Зарядка</string>
-    <string name="full">Повний</string>
+    <string name="full">Заряджений</string>
     <string name="unknown">Невідомо</string>
     <string name="plugged_ac">Мережа</string>
     <string name="plugged_wireless">Бездротовий</string>
@@ -34,4 +34,5 @@
     <string name="service">Служба</string>
     <string name="enable_service">Включити службу</string>
     <string name="charging_time">"Час зарядки: %1$s"</string>
+    <string name="always_show_notification">Завжди показувати повідомлення</string>
 </resources>
