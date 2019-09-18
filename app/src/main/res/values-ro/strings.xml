@@ -30,11 +30,12 @@
     <string name="unknown">Necunoscut</string>
     <string name="plugged_ac">CA</string>
     <string name="plugged_usb">USB</string>
-    <string name="plugged_wireless">Wireless</string>
+    <string name="plugged_wireless">Fără fir</string>
     <string name="battery_level">"Nivel baterie: %1$s"</string>
     <string name="show_last_charge_time">Afișează ultima încărcare</string>
     <string name="last_charge_time">"Ultima încărcare: %1$s (%2$s - %3$s)"</string>
     <string name="service">Serviciu</string>
     <string name="enable_service">Activare serviciu</string>
     <string name="charging_time">"Timp încărcare: %1$s"</string>
+    <string name="always_show_notification">Se afișează notificarea întotdeauna</string>
 </resources>
