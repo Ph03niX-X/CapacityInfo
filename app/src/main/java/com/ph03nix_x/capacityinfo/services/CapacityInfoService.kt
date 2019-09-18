@@ -25,9 +25,9 @@ class CapacityInfoService : Service() {
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
     var seconds = 1
-    var isFull = false
     var sleepTime: Long = 10
     var batteryLevelWith = -1
+    var isFull = false
     var isDoAsync = false
 
     companion object {

@@ -14,7 +14,7 @@ class PluggedReceiver : BroadcastReceiver() {
 
             Intent.ACTION_POWER_CONNECTED -> {
 
-                CapacityInfoService.instance?.sleepTime = 40
+                CapacityInfoService.instance?.sleepTime = 10
 
                 val batteryManager = context?.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
