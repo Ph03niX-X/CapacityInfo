@@ -13,12 +13,12 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
         val pref = context!!.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
+        if(CapacityInfoService.instance!!.seconds > 1)
         when(intent!!.action) {
 
             Intent.ACTION_POWER_DISCONNECTED -> {
 
-                if(!pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false))
-                    context.stopService(Intent(context, CapacityInfoService::class.java))
+                if(!pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)) context.stopService(Intent(context, CapacityInfoService::class.java))
 
                 else {
 
@@ -28,14 +28,14 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                     pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-                    pref.edit().putInt(Preferences.LastChargeTime.prefName, CapacityInfoService.instance!!.seconds).apply()
+                    if(CapacityInfoService.instance!!.seconds > 1) pref.edit().putInt(Preferences.LastChargeTime.prefName, CapacityInfoService.instance!!.seconds).apply()
+
+                    CapacityInfoService.instance?.seconds = 1
+
+                    CapacityInfoService.instance?.sleepTime = 40
+
+                    CapacityInfoService.instance?.isFull = false
                 }
-
-                CapacityInfoService.instance?.seconds = 1
-
-                CapacityInfoService.instance?.sleepTime = 40
-
-                CapacityInfoService.instance?.isSave = false
             }
         }
     }

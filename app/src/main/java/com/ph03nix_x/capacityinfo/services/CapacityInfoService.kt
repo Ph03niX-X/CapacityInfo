@@ -25,10 +25,10 @@ class CapacityInfoService : Service() {
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
     var seconds = 1
-    var isSave = true
+    var isFull = false
     var sleepTime: Long = 10
     var batteryLevelWith = -1
-    private var isDoAsync = false
+    var isDoAsync = false
 
     companion object {
 
@@ -55,7 +55,6 @@ class CapacityInfoService : Service() {
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
     }
 
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         instance = this
@@ -72,7 +71,7 @@ class CapacityInfoService : Service() {
 
             while (isDoAsync) {
 
-                if(!wakeLock.isHeld && isSave) wakeLock.acquire(20 * 1000)
+                if(!wakeLock.isHeld && !isFull) wakeLock.acquire(20 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -85,7 +84,9 @@ class CapacityInfoService : Service() {
                     updateNotification()
                 }
 
-                else if (status == BatteryManager.BATTERY_STATUS_FULL && isSave) {
+                else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull) {
+                    
+                    isFull = !isFull
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
@@ -97,18 +98,17 @@ class CapacityInfoService : Service() {
                     else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
 
                     updateNotification()
-                    isSave = false
                     wakeLock.release()
                 }
 
                 else {
-
+                    
                     updateNotification()
 
                     Thread.sleep(sleepTime * 950)
                 }
 
-                if(wakeLock.isHeld && isSave) wakeLock.release()
+                if(wakeLock.isHeld && isFull) wakeLock.release()
             }
 
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
@@ -123,16 +123,13 @@ class CapacityInfoService : Service() {
 
         if(wakeLock.isHeld) wakeLock.release()
 
-        val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
-        pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
-
-        if (status != BatteryManager.BATTERY_STATUS_FULL && status != BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+        if (!isFull && seconds > 1) {
 
             pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
 
             pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
+
+            pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
         }
 
         startJob()
@@ -164,7 +161,7 @@ class CapacityInfoService : Service() {
         startForeground(101, notificationBuilder.build())
     }
 
-    private fun updateNotification() = createNotification()
+    fun updateNotification() = createNotification()
 
     private fun startJob() {
 

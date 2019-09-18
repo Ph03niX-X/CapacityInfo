@@ -16,8 +16,6 @@ class PluggedReceiver : BroadcastReceiver() {
 
                 CapacityInfoService.instance?.sleepTime = 40
 
-                CapacityInfoService.instance?.isSave = true
-
                 val batteryManager = context?.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
                 CapacityInfoService.instance?.batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
