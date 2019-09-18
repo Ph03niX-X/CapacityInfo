@@ -24,7 +24,7 @@
     <string name="discharging">Разрадка</string>
     <string name="not_charging">Не зараджаецца</string>
     <string name="charging">Зарадка</string>
-    <string name="full">Поўны</string>
+    <string name="full">Заражана</string>
     <string name="unknown">Невядома</string>
     <string name="plugged_wireless">Бесправадны</string>
     <string name="battery_level">"Ўзровень зарада: %1$s"</string>
@@ -33,4 +33,5 @@
     <string name="service">Служба</string>
     <string name="enable_service">Ўключыць службу</string>
     <string name="charging_time">"Час зарадкі: %1$s"</string>
+    <string name="always_show_notification">Заўсёды паказваць паведамленне</string>
 </resources>
