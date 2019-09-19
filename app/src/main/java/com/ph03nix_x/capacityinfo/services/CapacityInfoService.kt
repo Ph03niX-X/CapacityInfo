@@ -92,10 +92,17 @@ class CapacityInfoService : Service() {
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
                     pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
 
-                    if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+                    if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
+
                         pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
 
-                    else pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
+                        if(!pref.getBoolean(Preferences.IsSupported.prefName, true)) pref.edit().putBoolean(Preferences.IsSupported.prefName, true).apply()
+                    }
+
+                    else {
+
+                        if(pref.getBoolean(Preferences.IsSupported.prefName, true)) pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
+                    }
 
                     updateNotification()
                     wakeLock.release()
