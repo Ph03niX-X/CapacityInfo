@@ -24,11 +24,11 @@ class CapacityInfoService : Service() {
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
+    private var isDoAsync = false
+    var isFull = false
     var seconds = 1
     var sleepTime: Long = 10
     var batteryLevelWith = -1
-    var isFull = false
-    var isDoAsync = false
 
     companion object {
 
