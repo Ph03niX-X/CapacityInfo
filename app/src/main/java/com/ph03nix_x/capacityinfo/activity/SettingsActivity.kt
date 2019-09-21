@@ -55,6 +55,7 @@ class SettingsActivity : AppCompatActivity() {
             settingsLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
 
             enableService.background = getDrawable(R.drawable.selecteditem)
+            alwaysShowNotification.background = getDrawable(R.drawable.selecteditem)
             darkMode.background = getDrawable(R.drawable.selecteditem)
             notificationRefreshRate.background = getDrawable(R.drawable.selecteditem)
             fahrenheit.background = getDrawable(R.drawable.selecteditem)
@@ -74,6 +75,15 @@ class SettingsActivity : AppCompatActivity() {
         fahrenheit.isChecked = pref.getBoolean(Preferences.Fahrenheit.prefName, false)
         showLastChargeTime.isChecked = pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)
 
+        if(!pref.getBoolean(Preferences.EnableService.prefName, true)
+            || !pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)) {
+
+            if(pref.getBoolean(Preferences.DarkMode.prefName, false))
+                notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_dark))
+
+            else notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_white))
+        }
+
         enableService.setOnCheckedChangeListener { _, b ->
 
             if(!b) stopService(Intent(this, CapacityInfoService::class.java))
@@ -82,7 +92,22 @@ class SettingsActivity : AppCompatActivity() {
 
             alwaysShowNotification.isEnabled = b
 
-            notificationRefreshRate.isEnabled = b
+            notificationRefreshRate.isEnabled = b && alwaysShowNotification.isChecked
+
+            if(b && alwaysShowNotification.isChecked) {
+
+                if(pref.getBoolean(Preferences.DarkMode.prefName, false)) notificationRefreshRate.setTextColor(Color.WHITE)
+
+                else notificationRefreshRate.setTextColor(Color.BLACK)
+            }
+
+            else {
+                
+                if(pref.getBoolean(Preferences.DarkMode.prefName, false)) 
+                    notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_dark))
+                
+                else notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_white))
+            }
 
             pref.edit().putBoolean(Preferences.EnableService.prefName, b).apply()
         }
@@ -97,6 +122,22 @@ class SettingsActivity : AppCompatActivity() {
             pref.edit().putBoolean(Preferences.AlwaysShowNotification.prefName, b).apply()
 
             notificationRefreshRate.isEnabled = b
+
+            if(b) {
+
+                if(pref.getBoolean(Preferences.DarkMode.prefName, false)) notificationRefreshRate.setTextColor(Color.WHITE)
+
+                else notificationRefreshRate.setTextColor(Color.BLACK)
+            }
+
+            else {
+
+                if(pref.getBoolean(Preferences.DarkMode.prefName, false)) 
+                    notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_dark))
+
+                else notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_white))
+            }
+
 
             startJob()
         }

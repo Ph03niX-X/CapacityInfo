@@ -6,4 +6,6 @@
     <color name="white">#c7c7c7</color>
     <color name="selected_true">#80E3F2FD</color>
     <color name="selected_false">@color/dark</color>
+    <color name="textView_state_disabled_white">#c5c5c5</color>
+    <color name="textView_state_disabled_dark">#5d646c</color>
 </resources>
