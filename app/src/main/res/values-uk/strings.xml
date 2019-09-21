@@ -21,10 +21,10 @@
     <string name="instruction_message">"Щоб додаток показував і перезаписував залишкову ємність, зарядіть пристрій до 100%, до тих пір, поки струм зарядки не припинить текти, при цьому не вбиваючи додаток цілком. Якщо ви хочете змінити проектну ємність, перейдіть в налаштування програми.\n\nУВАГА! Якщо оболонка вашого пристрою повністю "вбиває" додатки або Ви використовуєте енергозбереження, додайте цей додаток в виняток.\n\nУВАГА! Через те, що деякі пристрої віддають поточний струм зарядки тільки під час зарядки, додаток не може відразу ж визначити сумісність з вашим пристроєм. Чи сумісне додаток з вашим пристроєм, ви дізнаєтеся тільки після повної зарядки"</string>
     <string name="status">"Стан: %1$s"</string>
     <string name="plugged">"Підключено: %1$s"</string>
-    <string name="discharging">Розрядка</string>
+    <string name="discharging">Розряджається</string>
     <string name="not_charging">Не заряджається</string>
     <string name="charging">Зарядка</string>
-    <string name="full">Заряджений</string>
+    <string name="full">Заряджено</string>
     <string name="unknown">Невідомо</string>
     <string name="plugged_ac">Мережа</string>
     <string name="plugged_wireless">Бездротовий</string>
@@ -35,4 +35,9 @@
     <string name="enable_service">Включити службу</string>
     <string name="charging_time">"Час зарядки: %1$s"</string>
     <string name="always_show_notification">Завжди показувати повідомлення</string>
+    <string name="notification_refresh_rate">Частота оновлення повідомлення</string>
+    <string name="seconds">"%1$s секунд"</string>
+    <string name="minute">"%1$s хвилина"</string>
+    <string name="apply">Застосувати</string>
+    <string name="stop_service">Зупинити службу</string>
 </resources>
