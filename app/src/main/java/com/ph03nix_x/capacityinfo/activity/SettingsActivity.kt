@@ -138,8 +138,7 @@ class SettingsActivity : AppCompatActivity() {
                 else notificationRefreshRate.setTextColor(ContextCompat.getColor(this, R.color.textView_state_disabled_white))
             }
 
-
-            startJob()
+            if(!isJob) startJob()
         }
 
         notificationRefreshRate.setOnClickListener { notificationRefreshRateDialog() }

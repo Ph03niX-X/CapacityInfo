@@ -5,7 +5,6 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
 import android.os.*
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -27,8 +26,8 @@ class CapacityInfoService : Service() {
     private lateinit var wakeLock: PowerManager.WakeLock
     private var doAsync: AsyncTask<Void, Void, Unit>? = null
     private var batteryStatus: Intent? = null
+    private var isDoAsync = false
     var isStopService = false
-    var isDoAsync = false
     var isFull = false
     var seconds = 1
     var sleepTime: Long = 10
@@ -85,7 +84,7 @@ class CapacityInfoService : Service() {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    Thread.sleep(948)
+                    Thread.sleep(894)
                     seconds++
                     updateNotification()
                 }
@@ -125,7 +124,7 @@ class CapacityInfoService : Service() {
                         pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
                     }
 
-                    Thread.sleep(sleepTime * 950)
+                    Thread.sleep(sleepTime * 895)
                 }
 
                 if(wakeLock.isHeld && isFull) wakeLock.release()
