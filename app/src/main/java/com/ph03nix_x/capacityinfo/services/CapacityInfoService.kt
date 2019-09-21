@@ -125,11 +125,6 @@ class CapacityInfoService : Service() {
                         pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
                     }
 
-                    MainActivity.instance?.runOnUiThread {
-
-                        Toast.makeText(this, sleepTime.toString(), Toast.LENGTH_LONG).show()
-                    }
-
                     Thread.sleep(sleepTime * 950)
                 }
 
