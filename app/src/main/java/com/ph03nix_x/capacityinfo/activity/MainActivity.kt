@@ -21,6 +21,8 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.services.*
 
+val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+var isJob = false
 @SuppressWarnings("StaticFieldLeak")
 class MainActivity : AppCompatActivity() {
 
@@ -87,13 +89,13 @@ class MainActivity : AppCompatActivity() {
                 show()
             }
         }
-
-        if(pref.getBoolean(Preferences.EnableService.prefName, true)) startCapacityInfoJob()
     }
 
     override fun onResume() {
 
         super.onResume()
+
+        if(pref.getBoolean(Preferences.EnableService.prefName, true) && !isJob) startCapacityInfoJob()
 
         val battery = Battery(this)
 

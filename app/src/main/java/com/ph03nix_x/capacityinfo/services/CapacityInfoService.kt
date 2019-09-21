@@ -5,13 +5,16 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
 import android.os.*
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.HandlerCompat
 import com.ph03nix_x.capacityinfo.Battery
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
+import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
@@ -24,11 +27,12 @@ class CapacityInfoService : Service() {
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
-    private var isDoAsync = false
+    var isDoAsync = false
     var isFull = false
     var seconds = 1
     var sleepTime: Long = 10
     var batteryLevelWith = -1
+    var doAsync: AsyncTask<Void, Void, Unit>? = null
 
     companion object {
 
@@ -67,7 +71,9 @@ class CapacityInfoService : Service() {
 
         batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-        DoAsync {
+        sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefName, 40)
+
+        doAsync = DoAsync {
 
             while (isDoAsync) {
 
@@ -112,13 +118,25 @@ class CapacityInfoService : Service() {
                     
                     updateNotification()
 
+                    if (sleepTime !in sleepArray) {
+
+                        sleepTime = 40
+
+                        pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
+                    }
+
+                    MainActivity.instance?.runOnUiThread {
+
+                        Toast.makeText(this, sleepTime.toString(), Toast.LENGTH_LONG).show()
+                    }
+
                     Thread.sleep(sleepTime * 950)
                 }
 
                 if(wakeLock.isHeld && isFull) wakeLock.release()
             }
 
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+        }.execute()
 
         return START_STICKY
     }
@@ -127,10 +145,13 @@ class CapacityInfoService : Service() {
 
         instance = null
         isDoAsync = false
+        doAsync?.cancel(true)
+
+        val pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         if(wakeLock.isHeld) wakeLock.release()
 
-        if (!isFull && seconds > 1) {
+        if (!isFull && seconds > 1 && !pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)) {
 
             pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
 
@@ -271,9 +292,12 @@ class CapacityInfoService : Service() {
 
             BatteryManager.BATTERY_STATUS_DISCHARGING -> {
 
+                val batteryLevelWith = "${pref.getInt(Preferences.BatteryLevelWith.prefName, 0)}%"
+                val batteryLevelTo = "${pref.getInt(Preferences.BatteryLevelTo.prefName, 0)}%"
+
                 val discharging = getString(R.string.status, getString(R.string.discharging))
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
-                val lastChargingTime = battery.getLastChargeTime()
+                val lastChargingTime = getString(R.string.last_charge_time, battery.getLastChargeTime(), batteryLevelWith, batteryLevelTo)
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
                 val dischargingCurrent = getString(R.string.discharge_current, battery.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) R.string.temperature_fahrenheit
@@ -290,7 +314,14 @@ class CapacityInfoService : Service() {
                     else "$discharging\n$batteryLevel\n$currentCapacity\n${battery.getResidualCapacity()}\n${battery.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
                 }
 
-                else "$discharging\n$batteryLevel\n$dischargingCurrent\n$temperature\n$voltage"
+                else {
+
+                    if(pref.getInt(Preferences.LastChargeTime.prefName, 0) > 0 && pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true))
+                        "$discharging\n$batteryLevel\n$lastChargingTime\n$dischargingCurrent\n$temperature\n$voltage"
+
+                    else "$discharging\n$lastChargingTime\n$dischargingCurrent\n$temperature\n$voltage"
+
+                }
             }
 
             BatteryManager.BATTERY_STATUS_UNKNOWN -> {

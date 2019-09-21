@@ -32,7 +32,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                     CapacityInfoService.instance?.seconds = 1
 
-                    CapacityInfoService.instance?.sleepTime = 40
+                    CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefName, 40)
 
                     CapacityInfoService.instance?.isFull = false
                 }
