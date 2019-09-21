@@ -3,10 +3,7 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.BatteryManager
-import android.os.Build
-import android.os.Handler
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
 class PluggedReceiver : BroadcastReceiver() {
@@ -25,10 +22,6 @@ class PluggedReceiver : BroadcastReceiver() {
 
                 context.stopService(Intent(context, CapacityInfoService::class.java))
 
-//                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-//                    context.startForegroundService(Intent(context, CapacityInfoService::class.java))
-//
-//                else context.startService(Intent(context, CapacityInfoService::class.java))
             }
         }
     }

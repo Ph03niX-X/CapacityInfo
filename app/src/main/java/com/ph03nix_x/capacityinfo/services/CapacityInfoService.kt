@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.HandlerCompat
 import com.ph03nix_x.capacityinfo.Battery
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
@@ -26,13 +25,14 @@ class CapacityInfoService : Service() {
     private lateinit var batteryManager: BatteryManager
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
+    private var doAsync: AsyncTask<Void, Void, Unit>? = null
     private var batteryStatus: Intent? = null
+    var isStopService = false
     var isDoAsync = false
     var isFull = false
     var seconds = 1
     var sleepTime: Long = 10
     var batteryLevelWith = -1
-    var doAsync: AsyncTask<Void, Void, Unit>? = null
 
     companion object {
 
@@ -160,7 +160,7 @@ class CapacityInfoService : Service() {
             pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
         }
 
-        startJob()
+        if(!isStopService) startJob()
 
         super.onDestroy()
     }
@@ -176,6 +176,7 @@ class CapacityInfoService : Service() {
         }
 
         val openApp = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+        val stopService = PendingIntent.getService(this, 1, Intent(this, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         notificationBuilder = NotificationCompat.Builder(this, channelId).apply {
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
@@ -184,12 +185,13 @@ class CapacityInfoService : Service() {
             setContentIntent(openApp)
             setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
             setShowWhen(false)
+            addAction(-1, getString(R.string.stop_service), stopService)
         }
 
         startForeground(101, notificationBuilder.build())
     }
 
-    fun updateNotification() = createNotification()
+    private fun updateNotification() = createNotification()
 
     private fun startJob() {
 

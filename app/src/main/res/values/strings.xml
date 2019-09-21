@@ -41,4 +41,5 @@
     <string name="seconds">"%1$s seconds"</string>
     <string name="minute">"%1$s minute"</string>
     <string name="apply">Apply</string>
+    <string name="stop_service">Stop Service</string>
 </resources>
