@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dark">#151d26</color>
-    <color name="red">#C62828</color>
-    <color name="blue">#2962ff</color>
+    <color name="dark">#121212</color>
+    <color name="red">#4285F4</color>
+    <color name="blue">#4285F4</color>
     <color name="white">#c7c7c7</color>
-    <color name="selected_true">#80E3F2FD</color>
-    <color name="selected_false">@color/dark</color>
-    <color name="textView_state_disabled_white">#c5c5c5</color>
-    <color name="textView_state_disabled_dark">#5d646c</color>
 </resources>

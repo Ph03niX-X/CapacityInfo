@@ -7,12 +7,16 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
+    <include
+        layout="@layout/card_toolbar"/>
+
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/capacity_design"
             android:text="@string/capacity_design"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_centerInParent="true"/>
 
     <TextView
@@ -22,6 +26,7 @@
             android:text="@string/battery_level"
             android:gravity="center"
             android:layout_centerInParent="true"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/capacity_design"/>
 
     <TextView
@@ -32,6 +37,7 @@
             android:text="@string/current_capacity"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/battery_level"/>
 
     <TextView
@@ -41,6 +47,7 @@
             android:text="@string/residual_capacity"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/current_capacity"/>
 
     <TextView
@@ -51,6 +58,7 @@
             android:text="@string/battery_technology"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/residual_capacity"/>
 
     <TextView
@@ -61,6 +69,7 @@
             android:text="@string/status"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/battery_technology"/>
 
     <TextView
@@ -71,6 +80,7 @@
             android:text="@string/plugged"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/status"/>
 
     <TextView
@@ -81,6 +91,7 @@
             android:text="@string/charging_current"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/plugged"/>
 
     <TextView
@@ -91,6 +102,7 @@
             android:text="@string/temperature_celsius"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/charging_current"/>
 
     <TextView
@@ -101,6 +113,7 @@
             android:text="@string/voltage"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/temperature"/>
 
     <TextView
@@ -110,6 +123,7 @@
             android:text="@string/last_charge_time"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/voltage"/>
 
     <TextView
@@ -119,6 +133,7 @@
             android:text="@string/battery_wear"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/medium"
             android:layout_below="@id/last_charge_time"/>
 
 </RelativeLayout>
