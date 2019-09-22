@@ -7,6 +7,7 @@ import android.app.job.JobService
 import android.content.*
 import android.os.BatteryManager
 import android.os.Build
+import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.activity.isJob
 
@@ -18,7 +19,7 @@ class CapacityInfoJob : JobService() {
 
         isJob = !isJob
 
-        val pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
         val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
