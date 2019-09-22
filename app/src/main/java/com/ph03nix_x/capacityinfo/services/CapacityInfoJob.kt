@@ -10,6 +10,8 @@ import android.os.Build
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.activity.isJob
 
+var isRegisterPluggedReceiver = false
+var isRegisterUnpluggedReceiver = false
 class CapacityInfoJob : JobService() {
 
     override fun onStartJob(p0: JobParameters?): Boolean {
@@ -23,10 +25,21 @@ class CapacityInfoJob : JobService() {
         when (plugged) {
 
             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                if (pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) startService()
+
+                if (pref.getBoolean(Preferences.EnableService.prefName, true) && CapacityInfoService.instance == null) {
+
+                    isRegisterUnpluggedReceiver = !isRegisterUnpluggedReceiver
+
+                    startService()
+                }
 
             else -> if (pref.getBoolean(Preferences.EnableService.prefName, true)
-                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false) && CapacityInfoService.instance == null) startService()
+                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false) && CapacityInfoService.instance == null) {
+
+                isRegisterPluggedReceiver = !isRegisterPluggedReceiver
+
+                startService()
+            }
 
             else startJob()
         }

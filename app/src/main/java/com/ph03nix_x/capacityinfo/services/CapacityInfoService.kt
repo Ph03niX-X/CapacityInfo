@@ -49,9 +49,9 @@ class CapacityInfoService : Service() {
 
         createNotification()
 
-        applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+        if(isRegisterUnpluggedReceiver) applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
-        applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+        if(isRegisterPluggedReceiver) applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
 
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
@@ -145,7 +145,7 @@ class CapacityInfoService : Service() {
 
         if(wakeLock.isHeld) wakeLock.release()
 
-        if (!isFull && seconds > 1 && !pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)) {
+        if (!isFull && seconds > 1) {
 
             pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
 
