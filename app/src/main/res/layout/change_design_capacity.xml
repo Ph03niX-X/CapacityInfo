@@ -4,22 +4,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-            android:hint="@string/change_design_capacity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edittext_layout"
-            android:layout_margin="10dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/change_design_capacity_edit"
-                android:maxLength="5"
-                android:inputType="number"
-                android:digits="0123456789"
-                tools:text="4000"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/change_design_capacity_edit"
+              android:gravity="center"
+              android:maxLength="5"
+              android:inputType="number"
+              android:digits="0123456789"
+              tools:text="4000"/>
 
 </LinearLayout>

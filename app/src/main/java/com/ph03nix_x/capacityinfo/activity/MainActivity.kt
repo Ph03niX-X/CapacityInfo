@@ -3,8 +3,6 @@ package com.ph03nix_x.capacityinfo.activity
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.BatteryManager
@@ -15,24 +13,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.preference.PreferenceManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.Battery
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.services.*
-import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
 var isJob = false
 @SuppressWarnings("StaticFieldLeak")
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var toolbar: CenteredToolbar
 
     private lateinit var capacityDesign: TextView
     private lateinit var batteryLevel: TextView
@@ -61,33 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(this)
+        pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         if(pref.getBoolean(Preferences.DarkMode.prefName, false)) setTheme(R.style.DarkTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        toolbar = findViewById(R.id.toolbar)
-        toolbar.setTitle(R.string.app_name)
-        toolbar.inflateMenu(R.menu.main_menu)
-        toolbar.menu.findItem(R.id.settings).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-            return@OnMenuItemClickListener true
-        })
-        toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
-            MaterialAlertDialogBuilder(this).apply {
-                setTitle(getString(R.string.instruction))
-                setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                show()
-            }
-            return@OnMenuItemClickListener true
-        })
-        toolbar.menu.findItem(R.id.github).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Ph03niX-X/CapacityInfo")))
-            return@OnMenuItemClickListener true
-        })
 
         relativeMain = findViewById(R.id.relative_main)
         capacityDesign = findViewById(R.id.capacity_design)
@@ -109,7 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         if(pref.getBoolean(Preferences.IsShowInstruction.prefName, true)) {
 
-            MaterialAlertDialogBuilder(this).apply {
+            AlertDialog.Builder(this).apply {
+
+                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
                 setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefName, false).apply() }
@@ -279,7 +252,10 @@ class MainActivity : AppCompatActivity() {
 
                         isShowDialog = false
 
-                        val dialog = MaterialAlertDialogBuilder(this).apply {
+                        val dialog = AlertDialog.Builder(this).apply {
+
+                            setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp)
+                            else getDrawable(R.drawable.ic_info_black_24dp))
                             setTitle(getString(R.string.information))
                             setMessage(getString(R.string.not_supported))
                             setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
@@ -310,6 +286,34 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
 
         instance = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId) {
+
+            R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
+
+            R.id.instruction -> AlertDialog.Builder(this).apply {
+
+                setIcon(if(pref.getBoolean(Preferences.DarkMode.prefName, false)) getDrawable(R.drawable.ic_info_white_24dp) else getDrawable(R.drawable.ic_info_black_24dp))
+                setTitle(getString(R.string.instruction))
+                setMessage(getString(R.string.instruction_message))
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                show()
+            }
+
+            R.id.github -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Ph03niX-X/CapacityInfo")))
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun startCapacityInfoJob() {
