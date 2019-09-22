@@ -128,7 +128,8 @@ class Battery(var context: Context) {
 
         if(capacity >= 100000) capacity /= 1000
 
-        return context.getString(R.string.battery_wear,"${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%")
+        return context.getString(R.string.battery_wear,
+            if(capacity > 0) "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%"  else "0%")
     }
 
     fun toDecimalFormat(number: Double) = if(number >= 100000) DecimalFormat("#.#").format(number / 1000) else DecimalFormat("#.#").format(number)
