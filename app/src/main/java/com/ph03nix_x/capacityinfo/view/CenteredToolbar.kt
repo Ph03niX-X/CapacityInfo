@@ -27,11 +27,7 @@ class CenteredToolbar : Toolbar {
         setupTextViews()
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         setupTextViews()
     }
 
@@ -67,10 +63,7 @@ class CenteredToolbar : Toolbar {
         tvTitle = TextView(context)
 
         tvTitle!!.ellipsize = TextUtils.TruncateAt.END
-        tvTitle!!.setTextAppearance(
-            context,
-            R.style.TextAppearance_AppCompat_Widget_ActionBar_Title
-        )
+        tvTitle!!.setTextAppearance(context, R.style.TextAppearance_AppCompat_Widget_ActionBar_Title)
 
         linear = LinearLayout(context)
         linear!!.gravity = Gravity.CENTER
@@ -80,21 +73,14 @@ class CenteredToolbar : Toolbar {
 
         tvSubtitle!!.setSingleLine()
         tvSubtitle!!.ellipsize = TextUtils.TruncateAt.END
-        tvSubtitle!!.setTextAppearance(
-            context,
-            R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle
-        )
+        tvSubtitle!!.setTextAppearance(context, R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle)
 
         tvSubtitle!!.visibility = View.GONE
 
-        val lp = Toolbar.LayoutParams(
-            Toolbar.LayoutParams.WRAP_CONTENT,
-            Toolbar.LayoutParams.WRAP_CONTENT
-        )
+        val lp = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         lp.gravity = Gravity.CENTER
         linear!!.layoutParams = lp
 
         addView(linear)
     }
-
 }

@@ -31,24 +31,25 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
 
-        val darkMode: SwitchPreference = findPreference("dark_mode")!!
-        darkMode.setOnPreferenceChangeListener { preference, newValue ->
+        val darkMode: SwitchPreference = findPreference(Preferences.DarkMode.prefName)!!
+        darkMode.setOnPreferenceChangeListener { _, _ ->
             MainActivity.instance!!.recreate()
             requireActivity().recreate()
             return@setOnPreferenceChangeListener true
         }
 
-        val notificationRefreshRate: Preference = findPreference("notification_refresh_rate")!!
+        val notificationRefreshRate: Preference = findPreference(Preferences.NotificationRefreshRate.prefName)!!
         notificationRefreshRate.setOnPreferenceClickListener {
             notificationRefreshRateDialog()
             return@setOnPreferenceClickListener true
         }
 
-        val enableService: SwitchPreference = findPreference("enable_service")!!
+        val enableService: SwitchPreference = findPreference(Preferences.EnableService.prefName)!!
 
-        val alwaysShowNotification: SwitchPreference = findPreference("always_show_notification")!!
-        alwaysShowNotification.isEnabled = (enableService as SwitchPreference).isChecked
-        alwaysShowNotification.setOnPreferenceChangeListener { preference, newValue ->
+        val alwaysShowNotification: SwitchPreference = findPreference(Preferences.AlwaysShowNotification.prefName)!!
+        alwaysShowNotification.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+
+        alwaysShowNotification.setOnPreferenceChangeListener { _, newValue ->
             val b = newValue as Boolean
 
             val batteryIntent = requireActivity().registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -64,10 +65,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        if (!enableService.isChecked || !alwaysShowNotification.isChecked)
-            notificationRefreshRate.isEnabled = false
+        notificationRefreshRate.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, true)
 
-        enableService.setOnPreferenceChangeListener { preference, newValue ->
+        enableService.setOnPreferenceChangeListener { _, newValue ->
             val b = newValue as Boolean
 
             if(!b) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
@@ -75,6 +76,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             else startJob()
 
             alwaysShowNotification.isEnabled = b
+            notificationRefreshRate.isEnabled = b
             return@setOnPreferenceChangeListener true
         }
 

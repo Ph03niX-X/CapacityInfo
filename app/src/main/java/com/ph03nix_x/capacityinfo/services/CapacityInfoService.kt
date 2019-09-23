@@ -8,6 +8,7 @@ import android.os.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Battery
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
@@ -27,11 +28,11 @@ class CapacityInfoService : Service() {
     private var doAsync: AsyncTask<Void, Void, Unit>? = null
     private var batteryStatus: Intent? = null
     private var isDoAsync = false
+    private var isFull = false
     var isStopService = false
-    var isFull = false
+    private var batteryLevelWith = -1
     var seconds = 1
     var sleepTime: Long = 10
-    var batteryLevelWith = -1
 
     companion object {
 
@@ -53,7 +54,7 @@ class CapacityInfoService : Service() {
 
         if(isRegisterPluggedReceiver) applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
 
-        pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
     }
@@ -141,7 +142,7 @@ class CapacityInfoService : Service() {
         isDoAsync = false
         doAsync?.cancel(true)
 
-        val pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         if(wakeLock.isHeld) wakeLock.release()
 
@@ -217,7 +218,7 @@ class CapacityInfoService : Service() {
 
     private fun getStatus(): String {
 
-        pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
