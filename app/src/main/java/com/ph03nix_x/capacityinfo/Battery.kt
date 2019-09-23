@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
-import androidx.preference.PreferenceManager
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,7 +42,7 @@ class Battery(var context: Context) {
 
     fun getTemperature(): String {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -84,7 +83,7 @@ class Battery(var context: Context) {
 
     fun getResidualCapacity(): String {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         val residualCapacity = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
 
@@ -121,7 +120,7 @@ class Battery(var context: Context) {
     
     fun getBatteryWear(): String {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
         val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()
 
@@ -149,7 +148,7 @@ class Battery(var context: Context) {
 
     fun getLastChargeTime(): String { 
         
-        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefName, 0).toDouble()
+        val secondsPref = context.getSharedPreferences("preferences", Context.MODE_PRIVATE).getInt(Preferences.LastChargeTime.prefName, 0).toDouble()
 
         val seconds = TimeSpan.toSeconds(secondsPref)
         val minutes = TimeSpan.toMinutes(secondsPref)
