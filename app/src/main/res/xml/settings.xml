@@ -4,6 +4,7 @@
     <PreferenceCategory android:title="@string/settings">
         <SwitchPreference
                 android:title="@string/enable_service"
+                android:defaultValue="true"
                 android:key="enable_service"/>
 
         <SwitchPreference
@@ -24,6 +25,7 @@
 
         <SwitchPreference
                 android:title="@string/show_last_charge_time"
+                android:defaultValue="true"
                 android:key="show_last_charge_time"/>
 
         <Preference
