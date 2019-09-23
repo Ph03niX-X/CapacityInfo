@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings">
+        <SwitchPreference
+                android:title="@string/enable_service"
+                android:key="enable_service"/>
+
+        <SwitchPreference
+                android:title="@string/always_show_notification"
+                android:key="always_show_notification"/>
+
+        <Preference
+                android:title="@string/notification_refresh_rate"
+                android:key="notification_refresh_rate" />
+
+        <SwitchPreference
+                android:title="@string/dark_mode"
+                android:key="dark_mode"/>
+
+        <SwitchPreference
+                android:title="@string/temperature_in_fahrenheit"
+                android:key="temperature_in_fahrenheit"/>
+
+        <SwitchPreference
+                android:title="@string/show_last_charge_time"
+                android:key="show_last_charge_time"/>
+
+        <Preference
+                android:title="@string/change_design_capacity"
+                android:key="change_design_capacity"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

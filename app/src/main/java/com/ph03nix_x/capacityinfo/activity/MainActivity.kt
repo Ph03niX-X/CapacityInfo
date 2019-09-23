@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        migrateToDefaultPrefs()
 
         pref = getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
@@ -330,5 +331,29 @@ class MainActivity : AppCompatActivity() {
         }
 
         jobScheduler.schedule(job.build())
+    }
+
+    private fun migrateToDefaultPrefs() {
+        val oldPrefs = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val newPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+        if (!newPrefs.getBoolean("migrated", false)) {
+            val editor = newPrefs.edit()
+            editor.putBoolean(Preferences.DarkMode.prefName, oldPrefs.getBoolean(Preferences.DarkMode.prefName, false))
+                .putBoolean(Preferences.EnableService.prefName, oldPrefs.getBoolean(Preferences.EnableService.prefName, true))
+                .putBoolean(Preferences.AlwaysShowNotification.prefName, oldPrefs.getBoolean(Preferences.AlwaysShowNotification.prefName, false))
+                .putLong(Preferences.NotificationRefreshRate.prefName, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefName, 40))
+                .putBoolean(Preferences.Fahrenheit.prefName, oldPrefs.getBoolean(Preferences.Fahrenheit.prefName, false))
+                .putBoolean(Preferences.ShowLastChargeTime.prefName, oldPrefs.getBoolean(Preferences.ShowLastChargeTime.prefName, true))
+                .putInt(Preferences.DesignCapacity.prefName, oldPrefs.getInt(Preferences.DesignCapacity.prefName, 0))
+                .putInt(Preferences.ChargeCounter.prefName, oldPrefs.getInt(Preferences.ChargeCounter.prefName, 0))
+                .putBoolean(Preferences.IsShowInstruction.prefName, oldPrefs.getBoolean(Preferences.IsShowInstruction.prefName, false))
+                .putBoolean(Preferences.IsSupported.prefName, oldPrefs.getBoolean(Preferences.IsSupported.prefName, true))
+                .putInt(Preferences.LastChargeTime.prefName, oldPrefs.getInt(Preferences.LastChargeTime.prefName, 0))
+                .putInt(Preferences.BatteryLevelWith.prefName, oldPrefs.getInt(Preferences.BatteryLevelWith.prefName, 0))
+                .putInt(Preferences.BatteryLevelTo.prefName, oldPrefs.getInt(Preferences.BatteryLevelTo.prefName, 0)).apply()
+
+            editor.putBoolean("migrated", true).apply()
+        }
     }
 }
