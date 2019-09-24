@@ -316,7 +316,7 @@ class CapacityInfoService : Service() {
                     if(pref.getInt(Preferences.LastChargeTime.prefName, 0) > 0 && pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true))
                         "$discharging\n$batteryLevel\n$lastChargingTime\n$dischargingCurrent\n$temperature\n$voltage"
 
-                    else "$discharging\n$lastChargingTime\n$dischargingCurrent\n$temperature\n$voltage"
+                    else "$discharging\n$dischargingCurrent\n$temperature\n$voltage"
 
                 }
             }
