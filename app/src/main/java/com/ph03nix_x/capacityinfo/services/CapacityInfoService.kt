@@ -175,7 +175,7 @@ class CapacityInfoService : Service() {
         notificationBuilder = NotificationCompat.Builder(this, channelId).apply {
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
-            setSmallIcon(R.drawable.charging)
+            setSmallIcon(R.drawable.service_small_icon)
             color = ContextCompat.getColor(applicationContext, R.color.blue)
             setContentIntent(openApp)
             setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
