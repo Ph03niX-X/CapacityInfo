@@ -29,7 +29,8 @@ class RestartServiceReceiver : BroadcastReceiver() {
         val oldPrefs = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
         val newPrefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if (!newPrefs.getBoolean("migrated", false)) {
+        if (!newPrefs.getBoolean("migrated", false)
+            && !oldPrefs.getBoolean(Preferences.IsShowInstruction.prefName, true)) {
             val editor = newPrefs.edit()
             editor.putBoolean(Preferences.DarkMode.prefName, oldPrefs.getBoolean(Preferences.DarkMode.prefName, false))
                 .putBoolean(Preferences.EnableService.prefName, oldPrefs.getBoolean(Preferences.EnableService.prefName, true))
