@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/red</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:scrollbarThumbVertical">@color/red</item>
         <item name="materialAlertDialogTheme">@style/DarkTheme.AlertDialog</item>
     </style>
 
@@ -25,9 +26,10 @@
     <style name="WhiteTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">@color/blue</item>
         <item name="colorPrimaryDark">@android:color/white</item>
-        <item name="colorPrimary">@color/blue</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="android:scrollbarThumbVertical">@color/blue</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="materialAlertDialogTheme">@style/WhiteTheme.AlertDialog</item>
     </style>
