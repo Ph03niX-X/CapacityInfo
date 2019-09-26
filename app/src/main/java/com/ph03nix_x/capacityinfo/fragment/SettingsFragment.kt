@@ -1,14 +1,18 @@
 package com.ph03nix_x.capacityinfo.fragment
 
+import android.app.NotificationManager
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -38,6 +42,22 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
+        val openNotificationCategorySettings = findPreference<Preference>("open_notification_category_settings")
+
+        openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+
+        openNotificationCategorySettings?.setOnPreferenceClickListener {
+
+            openNotificationCategorySettings()
+
+            return@setOnPreferenceClickListener true
+        }
+
+        else openNotificationCategorySettings?.isVisible = false
+
         val notificationRefreshRate: Preference = findPreference(Preferences.NotificationRefreshRate.prefName)!!
         notificationRefreshRate.setOnPreferenceClickListener {
             notificationRefreshRateDialog()
@@ -59,6 +79,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             pref.edit().putBoolean(Preferences.AlwaysShowNotification.prefName, b).apply()
 
+            openNotificationCategorySettings?.isEnabled = b
+
             notificationRefreshRate.isEnabled = b
 
             if(!isJob) startJob()
@@ -76,7 +98,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             else startJob()
 
             alwaysShowNotification.isEnabled = b
-            notificationRefreshRate.isEnabled = b
+            openNotificationCategorySettings?.isEnabled = b && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
+            notificationRefreshRate.isEnabled = b && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
             return@setOnPreferenceChangeListener true
         }
 
@@ -85,6 +108,25 @@ class SettingsFragment : PreferenceFragmentCompat() {
             changeDesignCapacity()
             return@setOnPreferenceClickListener true
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun openNotificationCategorySettings() {
+
+        val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notificationChannel = notificationManager.getNotificationChannel("service_channel")
+
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+
+            putExtra(Settings.EXTRA_CHANNEL_ID, notificationChannel.id)
+
+            putExtra(Settings.EXTRA_APP_PACKAGE, context?.packageName)
+
+        }
+
+        startActivity(intent)
+
     }
 
 

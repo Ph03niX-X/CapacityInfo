@@ -12,6 +12,10 @@
                 android:key="always_show_notification"/>
 
         <Preference
+            android:title="@string/open_notification_category_settings"
+            android:key="open_notification_category_settings"/>
+
+        <Preference
                 android:title="@string/notification_refresh_rate"
                 android:key="notification_refresh_rate" />
 

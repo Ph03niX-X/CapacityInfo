@@ -42,4 +42,5 @@
     <string name="minute">"%1$s minute"</string>
     <string name="apply">Apply</string>
     <string name="stop_service">Stop Service</string>
+    <string name="open_notification_category_settings">Open notification category settings</string>
 </resources>
