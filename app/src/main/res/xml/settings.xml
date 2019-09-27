@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/settings">
@@ -6,10 +7,6 @@
                 android:title="@string/enable_service"
                 android:defaultValue="true"
                 android:key="enable_service"/>
-
-        <SwitchPreference
-                android:title="@string/always_show_notification"
-                android:key="always_show_notification"/>
 
         <Preference
             android:title="@string/open_notification_category_settings"

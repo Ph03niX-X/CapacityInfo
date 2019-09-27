@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 
+var isPowerConnected = false
 class CapacityInfoService : Service() {
 
     private lateinit var pref: SharedPreferences
@@ -50,9 +51,16 @@ class CapacityInfoService : Service() {
 
         createNotification()
 
-        if(isRegisterUnpluggedReceiver) applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+        val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
-        if(isRegisterPluggedReceiver) applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+        when(plugged) {
+
+            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+
+            else -> applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+        }
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -125,7 +133,11 @@ class CapacityInfoService : Service() {
                         pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
                     }
 
-                    Thread.sleep(sleepTime * 895)
+                    Thread.sleep(if(!isPowerConnected) sleepTime * 895 else 1000)
+
+                    if(sleepTime != 10.toLong()) sleepTime = 10
+
+                    if(isPowerConnected) isPowerConnected = false
                 }
 
                 if(wakeLock.isHeld && isFull) wakeLock.release()
@@ -155,7 +167,7 @@ class CapacityInfoService : Service() {
             pref.edit().putInt(Preferences.BatteryLevelTo.prefName, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
         }
 
-        if(!isStopService) startJob()
+        if(pref.getBoolean(Preferences.EnableService.prefName, true) && !isStopService) startService()
 
         super.onDestroy()
     }
@@ -187,22 +199,6 @@ class CapacityInfoService : Service() {
     }
 
     private fun updateNotification() = createNotification()
-
-    private fun startJob() {
-
-        val componentName = ComponentName(this, CapacityInfoJob::class.java)
-
-        val jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-        val job = JobInfo.Builder(1, componentName).apply {
-
-            setMinimumLatency(1000)
-            setRequiresCharging(false)
-            setPersisted(false)
-        }
-
-        jobScheduler.schedule(job.build())
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel(): String {
@@ -339,5 +335,13 @@ class CapacityInfoService : Service() {
 
             else -> "N/A"
         }
+    }
+
+    private fun startService() {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            startForegroundService(Intent(this, CapacityInfoService::class.java))
+
+        else startService(Intent(this, CapacityInfoService::class.java))
     }
 }

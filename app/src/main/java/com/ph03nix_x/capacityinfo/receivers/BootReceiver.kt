@@ -1,36 +1,32 @@
 package com.ph03nix_x.capacityinfo.receivers
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
 import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import com.ph03nix_x.capacityinfo.services.CapacityInfoJob
+import android.os.Build
+import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(p0: Context?, p1: Intent?) {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(p0!!)
+
         when(p1!!.action) {
 
-            Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> startCapacityInfoJob(p0!!)
+            Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" ->
+                if(pref.getBoolean(Preferences.EnableService.prefName, true)
+                    && CapacityInfoService.instance == null) startService(p0)
         }
     }
 
-    private fun startCapacityInfoJob(context: Context) {
+    private fun startService(context: Context) {
 
-        val componentName = ComponentName(context, CapacityInfoJob::class.java)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            context.startForegroundService(Intent(context, CapacityInfoService::class.java))
 
-        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-        val job = JobInfo.Builder(1, componentName).apply {
-
-            setMinimumLatency(1000)
-            setRequiresCharging(false)
-            setPersisted(false)
-        }
-
-        jobScheduler.schedule(job.build())
+        else context.startService(Intent(context, CapacityInfoService::class.java))
     }
 }

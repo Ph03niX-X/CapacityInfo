@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.isPowerConnected
 
 class PluggedReceiver : BroadcastReceiver() {
 
@@ -11,7 +12,12 @@ class PluggedReceiver : BroadcastReceiver() {
 
         when(intent?.action) {
 
-            Intent.ACTION_POWER_CONNECTED -> context?.stopService(Intent(context, CapacityInfoService::class.java))
+            Intent.ACTION_POWER_CONNECTED -> {
+
+                isPowerConnected = !isPowerConnected
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
         }
     }
 }

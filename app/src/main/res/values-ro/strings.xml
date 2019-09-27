@@ -37,7 +37,6 @@
     <string name="service">Serviciu</string>
     <string name="enable_service">Activare serviciu</string>
     <string name="charging_time">"Timp încărcare: %1$s"</string>
-    <string name="always_show_notification">Se afișează notificarea întotdeauna</string>
     <string name="notification_refresh_rate">Rata de actualizare a notificării</string>
     <string name="seconds">"%1$s secunde"</string>
     <string name="minute">"%1$s minut"</string>

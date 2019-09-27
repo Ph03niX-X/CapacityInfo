@@ -1,10 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragment
 
 import android.app.NotificationManager
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
 import android.content.*
-import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -21,9 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
-import com.ph03nix_x.capacityinfo.activity.isJob
 import com.ph03nix_x.capacityinfo.activity.sleepArray
-import com.ph03nix_x.capacityinfo.services.CapacityInfoJob
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -45,7 +40,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val openNotificationCategorySettings = findPreference<Preference>("open_notification_category_settings")
 
         openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
-                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 
@@ -66,40 +60,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val enableService: SwitchPreference = findPreference(Preferences.EnableService.prefName)!!
 
-        val alwaysShowNotification: SwitchPreference = findPreference(Preferences.AlwaysShowNotification.prefName)!!
-        alwaysShowNotification.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
-
-        alwaysShowNotification.setOnPreferenceChangeListener { _, newValue ->
-            val b = newValue as Boolean
-
-            val batteryIntent = requireActivity().registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-            val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
-
-            if(!b && plugged == 0) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
-
-            pref.edit().putBoolean(Preferences.AlwaysShowNotification.prefName, b).apply()
-
-            openNotificationCategorySettings?.isEnabled = b
-
-            notificationRefreshRate.isEnabled = b
-
-            if(!isJob) startJob()
-            return@setOnPreferenceChangeListener true
-        }
-
         notificationRefreshRate.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
-                && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, true)
 
         enableService.setOnPreferenceChangeListener { _, newValue ->
             val b = newValue as Boolean
 
             if(!b) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
 
-            else startJob()
+            else {
 
-            alwaysShowNotification.isEnabled = b
-            openNotificationCategorySettings?.isEnabled = b && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
-            notificationRefreshRate.isEnabled = b && pref.getBoolean(Preferences.AlwaysShowNotification.prefName, false)
+                if(CapacityInfoService.instance == null) startService()
+            }
+
+            openNotificationCategorySettings?.isEnabled = b
+            notificationRefreshRate.isEnabled = b
             return@setOnPreferenceChangeListener true
         }
 
@@ -273,19 +247,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         dialog.show()
     }
 
-    private fun startJob() {
+    private fun startService() {
 
-        val componentName = ComponentName(requireActivity(), CapacityInfoJob::class.java)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            context?.startForegroundService(Intent(context, CapacityInfoService::class.java))
 
-        val jobScheduler = requireActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-        val job = JobInfo.Builder(1, componentName).apply {
-
-            setMinimumLatency(1000)
-            setRequiresCharging(false)
-            setPersisted(false)
-        }
-
-        jobScheduler.schedule(job.build())
+        else context?.startService(Intent(context, CapacityInfoService::class.java))
     }
 }

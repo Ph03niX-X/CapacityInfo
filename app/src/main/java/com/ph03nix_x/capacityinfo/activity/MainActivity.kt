@@ -6,6 +6,7 @@ import android.content.*
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.BatteryManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -23,7 +24,6 @@ import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
-var isJob = false
 @SuppressWarnings("StaticFieldLeak")
 class MainActivity : AppCompatActivity() {
 
@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pref: SharedPreferences
     private lateinit var relativeMain: RelativeLayout
     private lateinit var batteryManager: BatteryManager
-    private lateinit var jobScheduler: JobScheduler
-    private lateinit var job: JobInfo.Builder
     private var batteryStatus: Intent? = null
     private var isDoAsync = false
 
@@ -117,7 +115,8 @@ class MainActivity : AppCompatActivity() {
 
         super.onResume()
 
-        if(pref.getBoolean(Preferences.EnableService.prefName, true) && !isJob) startCapacityInfoJob()
+        if(pref.getBoolean(Preferences.EnableService.prefName, true)
+            && CapacityInfoService.instance == null) startService()
 
         val battery = Battery(this)
 
@@ -307,19 +306,11 @@ class MainActivity : AppCompatActivity() {
         instance = null
     }
 
-    private fun startCapacityInfoJob() {
+    private fun startService() {
 
-        val componentName = ComponentName(this, CapacityInfoJob::class.java)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            startForegroundService(Intent(this, CapacityInfoService::class.java))
 
-        jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-        job = JobInfo.Builder(1, componentName).apply {
-
-            setMinimumLatency(1000)
-            setRequiresCharging(false)
-            setPersisted(false)
-        }
-
-        jobScheduler.schedule(job.build())
+        else startService(Intent(this, CapacityInfoService::class.java))
     }
 }

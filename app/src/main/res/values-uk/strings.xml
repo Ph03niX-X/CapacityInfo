@@ -34,7 +34,6 @@
     <string name="service">Служба</string>
     <string name="enable_service">Включити службу</string>
     <string name="charging_time">"Час зарядки: %1$s"</string>
-    <string name="always_show_notification">Завжди показувати повідомлення</string>
     <string name="notification_refresh_rate">Частота оновлення повідомлення</string>
     <string name="seconds">"%1$s секунд"</string>
     <string name="minute">"%1$s хвилина"</string>
