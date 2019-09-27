@@ -42,4 +42,7 @@
     <string name="apply">Apply</string>
     <string name="stop_service">Stop Service</string>
     <string name="open_notification_category_settings">Open notification category settings</string>
+    <string name="service_and_notification">Service and Notification</string>
+    <string name="appearance">Appearance</string>
+    <string name="other">Other</string>
 </resources>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/settings">
+    <PreferenceCategory android:title="@string/service_and_notification"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
+
         <SwitchPreference
                 android:title="@string/enable_service"
                 android:defaultValue="true"
@@ -15,10 +19,21 @@
         <Preference
                 android:title="@string/notification_refresh_rate"
                 android:key="notification_refresh_rate" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/appearance"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
         <SwitchPreference
                 android:title="@string/dark_mode"
                 android:key="dark_mode"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/other"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
         <SwitchPreference
                 android:title="@string/temperature_in_fahrenheit"
