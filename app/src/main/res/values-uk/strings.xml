@@ -39,4 +39,8 @@
     <string name="minute">"%1$s хвилина"</string>
     <string name="apply">Застосувати</string>
     <string name="stop_service">Зупинити службу</string>
+    <string name="open_notification_category_settings">Відкрити параметри категорії повідомлення</string>
+    <string name="service_and_notification">Служба і повідомлення</string>
+    <string name="appearance">Зовнішній вигляд</string>
+    <string name="other">Інше</string>
 </resources>
