@@ -42,4 +42,8 @@
     <string name="minute">"%1$s minut"</string>
     <string name="apply">Aplicare</string>
     <string name="stop_service">Oprire serviciu</string>
+    <string name="open_notification_category_settings">Deschideți setările categoriei de notificare</string>
+    <string name="service_and_notification">Serviciu și notificare</string>
+    <string name="appearance">Aspect</string>
+    <string name="other">Altele</string>
 </resources>
