@@ -12,6 +12,11 @@
                 android:defaultValue="true"
                 android:key="enable_service"/>
 
+        <SwitchPreference
+                android:title="@string/show_stop_service"
+                android:defaultValue="true"
+                android:key="is_show_stop_service"/>
+
         <Preference
             android:title="@string/open_notification_category_settings"
             android:key="open_notification_category_settings"/>
@@ -19,6 +24,7 @@
         <Preference
                 android:title="@string/notification_refresh_rate"
                 android:key="notification_refresh_rate" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/appearance"

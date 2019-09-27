@@ -192,7 +192,9 @@ class CapacityInfoService : Service() {
             setContentIntent(openApp)
             setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
             setShowWhen(false)
-            addAction(-1, getString(R.string.stop_service), stopService)
+
+            if(pref.getBoolean(Preferences.IsShowServiceStop.prefName, true))
+                addAction(-1, getString(R.string.stop_service), stopService)
         }
 
         startForeground(101, notificationBuilder.build())

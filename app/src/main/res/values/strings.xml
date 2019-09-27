@@ -45,4 +45,5 @@
     <string name="service_and_notification">Service and Notification</string>
     <string name="appearance">Appearance</string>
     <string name="other">Other</string>
+    <string name="show_stop_service">"Show \"Stop Service\""</string>
 </resources>

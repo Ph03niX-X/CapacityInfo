@@ -24,11 +24,16 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
+    private var showStopService: SwitchPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.settings)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+
+        showStopService = findPreference(Preferences.IsShowServiceStop.prefName)
+
+        showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 
         val darkMode: SwitchPreference = findPreference(Preferences.DarkMode.prefName)!!
         darkMode.setOnPreferenceChangeListener { _, _ ->
@@ -72,8 +77,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 if(CapacityInfoService.instance == null) startService()
             }
 
+            showStopService?.isEnabled = b
             openNotificationCategorySettings?.isEnabled = b
             notificationRefreshRate.isEnabled = b
+            return@setOnPreferenceChangeListener true
+        }
+
+        showStopService?.setOnPreferenceChangeListener { _, b ->
+
+            pref.edit().putBoolean(Preferences.IsShowServiceStop.prefName, b as Boolean).apply()
+
             return@setOnPreferenceChangeListener true
         }
 
