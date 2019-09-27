@@ -46,4 +46,5 @@
     <string name="service_and_notification">Serviciu și notificare</string>
     <string name="appearance">Aspect</string>
     <string name="other">Altele</string>
+    <string name="show_stop_service">"Afișare \"Oprire Serviciu\""</string>
 </resources>
