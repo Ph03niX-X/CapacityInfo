@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="capacity_design">"Праэктная ёмістасць: %1$s mAh"</string>
-    <string name="residual_capacity">"Рэшткавая ёмістасць: %1$s mAh (%2$s)"</string>
-    <string name="current_capacity">"Бягучая ёмістасць: %1$s mAh"</string>
+    <string name="capacity_design">"Праэктная ёмістасць: %1$s мАг"</string>
+    <string name="residual_capacity">"Рэшткавая ёмістасць: %1$s мАг (%2$s)"</string>
+    <string name="current_capacity">"Бягучая ёмістасць: %1$s мАг"</string>
     <string name="battery_wear">"Знос акумулятара: %1$s"</string>
     <string name="dark_mode">Цёмная тэма</string>
-    <string name="charging_current">"Ток зарадкі: %1$s mA"</string>
-    <string name="discharge_current">"Ток разрадкі: %1$s mA"</string>
+    <string name="charging_current">"Ток зарадкі: %1$s мА"</string>
+    <string name="discharge_current">"Ток разрадкі: %1$s мА"</string>
     <string name="not_supported">Дадатак не падтрымлівае вашу прыладу</string>
     <string name="voltage">"Напружанне: %1$s В"</string>
     <string name="temperature_celsius">"Тэмпература: %1$s °C"</string>
@@ -39,4 +39,11 @@
     <string name="minute">"%1$s Хвіліна"</string>
     <string name="apply">Прымяніць</string>
     <string name="stop_service">Спыніць службу</string>
+    <string name="open_notification_category_settings">Адкрыць налады катэгорыі паведамлення</string>
+    <string name="service_and_notification">Служба і паведамленне</string>
+    <string name="appearance">Знешні выгляд</string>
+    <string name="other">Іншае</string>
+    <string name="show_stop_service">"Паказваць \"Спыніць службу\""</string>
+    <string name="voltage_in_mv">Напружанне ў мВ</string>
+    <string name="voltage_mv">"Напружанне: %1$s мВ"</string>
 </resources>
