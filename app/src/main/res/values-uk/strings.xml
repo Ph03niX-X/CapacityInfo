@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="capacity_design">"Проектна ємність: %1$s mAh"</string>
-    <string name="residual_capacity">"Залишкова ємність: %1$s mAh (%2$s)"</string>
-    <string name="current_capacity">"Поточна ємність: %1$s mAh"</string>
+    <string name="capacity_design">"Проектна ємність: %1$s мАг"</string>
+    <string name="residual_capacity">"Залишкова ємність: %1$s мАг (%2$s)"</string>
+    <string name="current_capacity">"Поточна ємність: %1$s мАг"</string>
     <string name="battery_wear">"Знос акумулятора: %1$s"</string>
     <string name="dark_mode">Темна тема</string>
-    <string name="charging_current">"Струм зарядки: %1$s mA"</string>
-    <string name="discharge_current">"Струм розрядки: %1$s mA"</string>
+    <string name="charging_current">"Струм зарядки: %1$s мА"</string>
+    <string name="discharge_current">"Струм розрядки: %1$s мА"</string>
     <string name="not_supported">Додаток не підтримує ваш пристрій</string>
     <string name="voltage">"Напруга: %1$s В"</string>
     <string name="temperature_celsius">"Температура: %1$s °C"</string>
@@ -43,4 +43,7 @@
     <string name="service_and_notification">Служба і повідомлення</string>
     <string name="appearance">Зовнішній вигляд</string>
     <string name="other">Інше</string>
+    <string name="show_stop_service">"Показувати \"Зупинити службу\""</string>
+    <string name="voltage_in_mv">Напруга в мВ</string>
+    <string name="voltage_mv">"Напруга: %1$s мВ"</string>
 </resources>
