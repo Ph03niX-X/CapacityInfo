@@ -10,19 +10,23 @@
         <SwitchPreferenceCompat
                 android:title="@string/enable_service"
                 android:defaultValue="true"
+                app:singleLineTitle="false"
                 android:key="enable_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_stop_service"
                 android:defaultValue="true"
+                app:singleLineTitle="false"
                 android:key="is_show_stop_service"/>
 
         <Preference
-            android:title="@string/open_notification_category_settings"
-            android:key="open_notification_category_settings"/>
+                android:title="@string/open_notification_category_settings"
+                app:singleLineTitle="false"
+                android:key="open_notification_category_settings"/>
 
         <Preference
                 android:title="@string/notification_refresh_rate"
+                app:singleLineTitle="false"
                 android:key="notification_refresh_rate" />
 
     </PreferenceCategory>
@@ -43,19 +47,23 @@
 
         <SwitchPreferenceCompat
                 android:title="@string/temperature_in_fahrenheit"
+                app:singleLineTitle="false"
                 android:key="temperature_in_fahrenheit"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"
                 android:defaultValue="true"
+                app:singleLineTitle="false"
                 android:key="show_last_charge_time"/>
 
         <SwitchPreferenceCompat
-            android:title="@string/voltage_in_mv"
-            android:key="voltage_in_mv"/>
+                android:title="@string/voltage_in_mv"
+                app:singleLineTitle="false"
+                android:key="voltage_in_mv"/>
 
         <Preference
                 android:title="@string/change_design_capacity"
+                app:singleLineTitle="false"
                 android:key="change_design_capacity"/>
     </PreferenceCategory>
 
