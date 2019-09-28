@@ -192,6 +192,9 @@ class CapacityInfoService : Service() {
             ""
         }
 
+        val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+
         val openApp = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         val stopService = PendingIntent.getService(this, 1, Intent(this, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         notificationBuilder = NotificationCompat.Builder(this, channelId).apply {
@@ -200,7 +203,9 @@ class CapacityInfoService : Service() {
             setSmallIcon(R.drawable.service_small_icon)
             color = ContextCompat.getColor(applicationContext, R.color.blue)
             setContentIntent(openApp)
-            setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+            setStyle(NotificationCompat.BigTextStyle().bigText(if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefName, true))
+                getStatus() else if(plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB
+                || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) getString(R.string.enabled) else getStatus()))
             setShowWhen(false)
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefName, true))

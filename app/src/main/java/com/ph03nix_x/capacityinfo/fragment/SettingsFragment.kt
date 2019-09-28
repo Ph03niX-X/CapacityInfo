@@ -28,6 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
     private var showStopService: SwitchPreferenceCompat? = null
+    private var showInformationWhileCharging: SwitchPreferenceCompat? = null
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var showLastChargeTime: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
@@ -41,11 +42,37 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showStopService = findPreference(Preferences.IsShowServiceStop.prefName)
 
+        showInformationWhileCharging = findPreference(Preferences.IsShowInformationWhileCharging.prefName)
+
         showLastChargeTime = findPreference(Preferences.ShowLastChargeTime.prefName)
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefName)
 
         showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+
+        showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+
+        showInformationWhileCharging?.setOnPreferenceChangeListener { _ , newValue ->
+
+            pref.edit().putBoolean(Preferences.IsShowInformationWhileCharging.prefName, newValue as Boolean).apply()
+
+            if(CapacityInfoService.instance != null) {
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
+
+            Handler().postDelayed({
+
+                startService()
+
+            }, 1000)
+
+            return@setOnPreferenceChangeListener true
+        }
 
         temperatureInFahrenheit?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -155,6 +182,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notificationRefreshRate.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 
         enableService.setOnPreferenceChangeListener { _, newValue ->
+
             val b = newValue as Boolean
 
             if(!b) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
@@ -164,6 +192,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 if(CapacityInfoService.instance == null) startService()
             }
 
+            showInformationWhileCharging?.isEnabled = b
             showStopService?.isEnabled = b
             openNotificationCategorySettings?.isEnabled = b
             notificationRefreshRate.isEnabled = b

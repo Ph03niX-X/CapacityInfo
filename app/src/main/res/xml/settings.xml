@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/service_and_notification"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+    <PreferenceCategory
+                android:title="@string/service_and_notification"
+                app:allowDividerAbove="false"
+                app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/enable_service"
@@ -18,6 +20,12 @@
                 android:defaultValue="true"
                 app:singleLineTitle="false"
                 android:key="is_show_stop_service"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/show_information_while_charging"
+                android:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_information_while_charging"/>
 
         <Preference
                 android:title="@string/open_notification_category_settings"
