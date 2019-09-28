@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.services
 import android.app.*
 import android.content.*
 import android.os.*
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -73,8 +72,6 @@ class CapacityInfoService : Service() {
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
         tempSeconds = 1
-
-        Toast.makeText(this, isPowerConnected.toString(), Toast.LENGTH_LONG).show()
 
         createNotification()
     }
