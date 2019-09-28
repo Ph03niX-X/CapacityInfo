@@ -94,7 +94,7 @@ class CapacityInfoService : Service() {
 
             while (isDoAsync) {
 
-                if(!wakeLock.isHeld && !isFull) wakeLock.acquire(20 * 1000)
+                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(20 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -109,7 +109,7 @@ class CapacityInfoService : Service() {
 
                 else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull) {
                     
-                    isFull = !isFull
+                    isFull = true
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefName, batteryLevelWith).apply()
