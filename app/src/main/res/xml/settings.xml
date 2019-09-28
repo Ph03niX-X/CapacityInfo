@@ -7,12 +7,12 @@
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
                 android:title="@string/enable_service"
                 android:defaultValue="true"
                 android:key="enable_service"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
                 android:title="@string/show_stop_service"
                 android:defaultValue="true"
                 android:key="is_show_stop_service"/>
@@ -31,7 +31,7 @@
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
                 android:key="dark_mode"/>
 
@@ -41,14 +41,18 @@
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
                 android:title="@string/temperature_in_fahrenheit"
                 android:key="temperature_in_fahrenheit"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"
                 android:defaultValue="true"
                 android:key="show_last_charge_time"/>
+
+        <SwitchPreferenceCompat
+            android:title="@string/voltage_in_mv"
+            android:key="voltage_in_mv"/>
 
         <Preference
                 android:title="@string/change_design_capacity"

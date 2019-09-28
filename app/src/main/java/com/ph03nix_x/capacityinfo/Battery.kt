@@ -73,11 +73,14 @@ class Battery(var context: Context) {
 
     fun getVoltage(): Double {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var voltage = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
-        if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
+        if(!pref.getBoolean(Preferences.VoltageInMv.prefName, false))
+            if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
 
         return voltage
     }

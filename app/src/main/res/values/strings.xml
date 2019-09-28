@@ -46,4 +46,6 @@
     <string name="appearance">Appearance</string>
     <string name="other">Other</string>
     <string name="show_stop_service">"Show \"Stop Service\""</string>
+    <string name="voltage_in_mv">Voltage in mV</string>
+    <string name="voltage_mv">"Voltage: %1$s mV"</string>
 </resources>

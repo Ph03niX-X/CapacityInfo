@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
@@ -24,7 +24,8 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
-    private var showStopService: SwitchPreference? = null
+    private var showStopService: SwitchPreferenceCompat? = null
+    private var voltageInMv: SwitchPreferenceCompat? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.settings)
@@ -33,9 +34,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showStopService = findPreference(Preferences.IsShowServiceStop.prefName)
 
+        voltageInMv = findPreference(Preferences.VoltageInMv.prefName)
+
         showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 
-        val darkMode: SwitchPreference = findPreference(Preferences.DarkMode.prefName)!!
+        voltageInMv?.setOnPreferenceChangeListener { _, newValue ->
+
+            pref.edit().putBoolean(Preferences.VoltageInMv.prefName, newValue as Boolean).apply()
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        val darkMode: SwitchPreferenceCompat = findPreference(Preferences.DarkMode.prefName)!!
         darkMode.setOnPreferenceChangeListener { _, _ ->
             MainActivity.instance!!.recreate()
             requireActivity().recreate()
@@ -63,7 +73,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceClickListener true
         }
 
-        val enableService: SwitchPreference = findPreference(Preferences.EnableService.prefName)!!
+        val enableService: SwitchPreferenceCompat = findPreference(Preferences.EnableService.prefName)!!
 
         notificationRefreshRate.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 

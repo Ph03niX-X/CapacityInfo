@@ -205,7 +205,8 @@ class MainActivity : AppCompatActivity() {
 
                     else getString(R.string.temperature_fahrenheit, battery.getTemperature())
 
-                    voltage.text = getString(R.string.voltage, battery.toDecimalFormat(battery.getVoltage()))
+                    voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefName, false)) R.string.voltage_mv else R.string.voltage,
+                        battery.toDecimalFormat(battery.getVoltage()))
                 }
 
                 if (pref.getBoolean(Preferences.IsSupported.prefName, true)) {
