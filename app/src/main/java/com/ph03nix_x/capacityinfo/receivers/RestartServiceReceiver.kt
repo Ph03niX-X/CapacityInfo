@@ -36,7 +36,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
             editor.putBoolean(Preferences.DarkMode.prefName, oldPrefs.getBoolean(Preferences.DarkMode.prefName, false))
                 .putBoolean(Preferences.EnableService.prefName, oldPrefs.getBoolean(Preferences.EnableService.prefName, true))
                 .putLong(Preferences.NotificationRefreshRate.prefName, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefName, 40))
-                .putBoolean(Preferences.Fahrenheit.prefName, oldPrefs.getBoolean(Preferences.Fahrenheit.prefName, false))
+                .putBoolean(Preferences.Fahrenheit.prefName, oldPrefs.getBoolean("fahrenheit", false))
                 .putBoolean(Preferences.ShowLastChargeTime.prefName, oldPrefs.getBoolean(Preferences.ShowLastChargeTime.prefName, true))
                 .putInt(Preferences.DesignCapacity.prefName, oldPrefs.getInt(Preferences.DesignCapacity.prefName, 0))
                 .putInt(Preferences.ChargeCounter.prefName, oldPrefs.getInt(Preferences.ChargeCounter.prefName, 0))
@@ -58,7 +58,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
         pref.edit().apply {
 
-            remove("always_show_notification")
+            if(pref.contains("always_show_notification")) remove("always_show_notification")
 
             apply()
         }
