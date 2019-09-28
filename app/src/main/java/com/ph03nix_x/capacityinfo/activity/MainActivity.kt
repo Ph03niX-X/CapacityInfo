@@ -1,7 +1,5 @@
 package com.ph03nix_x.capacityinfo.activity
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
 import android.content.*
 import android.net.Uri
 import android.os.AsyncTask

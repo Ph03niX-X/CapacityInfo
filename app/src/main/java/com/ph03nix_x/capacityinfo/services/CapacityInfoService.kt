@@ -1,10 +1,9 @@
 package com.ph03nix_x.capacityinfo.services
 
 import android.app.*
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
 import android.content.*
 import android.os.*
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -58,9 +57,12 @@ class CapacityInfoService : Service() {
 
             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
 
+                isPowerConnected = true
+
                 if(tempSeconds > 1) seconds = tempSeconds
 
                 applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+
             }
 
             else -> applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
@@ -72,7 +74,7 @@ class CapacityInfoService : Service() {
 
         tempSeconds = 1
 
-        tempBatteryLevelWith = -1
+        Toast.makeText(this, isPowerConnected.toString(), Toast.LENGTH_LONG).show()
 
         createNotification()
     }
@@ -87,9 +89,9 @@ class CapacityInfoService : Service() {
 
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
 
-        batteryLevelWith = if(tempBatteryLevelWith > -1) tempBatteryLevelWith else batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefName, 40)
+
+        batteryLevelWith = if(tempBatteryLevelWith > -1) tempBatteryLevelWith else batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
         doAsync = DoAsync {
 
@@ -128,6 +130,7 @@ class CapacityInfoService : Service() {
                         if(pref.getBoolean(Preferences.IsSupported.prefName, true)) pref.edit().putBoolean(Preferences.IsSupported.prefName, false).apply()
                     }
 
+                    tempBatteryLevelWith = -1
                     updateNotification()
                     wakeLock.release()
                 }
@@ -147,7 +150,7 @@ class CapacityInfoService : Service() {
 
                     if(sleepTime != 10.toLong()) sleepTime = 10
 
-                    if(isPowerConnected) isPowerConnected = false
+                    if(tempBatteryLevelWith != -1) tempBatteryLevelWith = -1
                 }
 
                 if(wakeLock.isHeld && isFull) wakeLock.release()

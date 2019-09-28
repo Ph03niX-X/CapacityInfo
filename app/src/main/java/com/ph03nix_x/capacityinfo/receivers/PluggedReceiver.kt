@@ -14,7 +14,7 @@ class PluggedReceiver : BroadcastReceiver() {
 
             Intent.ACTION_POWER_CONNECTED -> {
 
-                isPowerConnected = !isPowerConnected
+                isPowerConnected = true
 
                 if(CapacityInfoService.instance != null) context?.stopService(Intent(context, CapacityInfoService::class.java))
             }
