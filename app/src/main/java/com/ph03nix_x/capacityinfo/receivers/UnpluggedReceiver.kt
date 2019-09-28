@@ -16,7 +16,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                 isPowerConnected = false
 
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
+                if(CapacityInfoService.instance != null) context?.stopService(Intent(context, CapacityInfoService::class.java))
             }
         }
     }

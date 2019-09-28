@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.*
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.EditText
@@ -21,10 +22,14 @@ import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
+var tempSeconds = 1
+var tempBatteryLevelWith = -1
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
     private var showStopService: SwitchPreferenceCompat? = null
+    private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
+    private var showLastChargeTime: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -32,15 +37,87 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
 
+        temperatureInFahrenheit = findPreference(Preferences.Fahrenheit.prefName)
+
         showStopService = findPreference(Preferences.IsShowServiceStop.prefName)
+
+        showLastChargeTime = findPreference(Preferences.ShowLastChargeTime.prefName)
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefName)
 
         showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 
+        temperatureInFahrenheit?.setOnPreferenceChangeListener { _, newValue ->
+
+            pref.edit().putBoolean(Preferences.Fahrenheit.prefName, newValue as Boolean).apply()
+
+            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+
+                if(CapacityInfoService.instance != null) {
+
+                    tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }
+
+                Handler().postDelayed({
+
+                    startService()
+
+                }, 1000)
+            }
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        showLastChargeTime?.setOnPreferenceChangeListener { _, newValue ->
+
+            pref.edit().putBoolean(Preferences.ShowLastChargeTime.prefName, newValue as Boolean).apply()
+
+            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+
+                if(CapacityInfoService.instance != null) {
+
+                    tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }
+
+                Handler().postDelayed({
+
+                    startService()
+
+                }, 1000)
+            }
+
+            return@setOnPreferenceChangeListener true
+        }
+
         voltageInMv?.setOnPreferenceChangeListener { _, newValue ->
 
             pref.edit().putBoolean(Preferences.VoltageInMv.prefName, newValue as Boolean).apply()
+
+            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+
+                if(CapacityInfoService.instance != null) {
+
+                    tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }
+
+                Handler().postDelayed({
+
+                    startService()
+
+                }, 1000)
+            }
 
             return@setOnPreferenceChangeListener true
         }
@@ -97,12 +174,29 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             pref.edit().putBoolean(Preferences.IsShowServiceStop.prefName, b as Boolean).apply()
 
+            if(CapacityInfoService.instance != null) {
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
+
+            Handler().postDelayed( {
+
+                startService()
+
+            }, 1000)
+
             return@setOnPreferenceChangeListener true
         }
 
         val changeDesignCapacity: Preference = findPreference("change_design_capacity")!!
         changeDesignCapacity.setOnPreferenceClickListener {
+
             changeDesignCapacity()
+
             return@setOnPreferenceClickListener true
         }
     }
@@ -238,6 +332,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
 
                 CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefName, 40)
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context.stopService(Intent(context, CapacityInfoService::class.java))
+
+                Handler().postDelayed( {
+
+                    startService()
+
+                }, 1000)
             }
 
             setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
@@ -263,7 +369,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         dialog.setPositiveButton(getString(R.string.change)) { _, _ ->
 
-            if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefName, changeDesignCapacity.text.toString().toInt()).apply() }
+            if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefName, changeDesignCapacity.text.toString().toInt()).apply()
+
+            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+
+                if(CapacityInfoService.instance != null) {
+
+                    tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }
+
+                Handler().postDelayed({
+
+                    startService()
+
+                }, 1000)
+            }
+        }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 

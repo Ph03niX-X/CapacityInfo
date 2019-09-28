@@ -15,6 +15,8 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.async.DoAsync
+import com.ph03nix_x.capacityinfo.fragment.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.fragment.tempSeconds
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 
@@ -31,7 +33,7 @@ class CapacityInfoService : Service() {
     private var isDoAsync = false
     private var isFull = false
     var isStopService = false
-    private var batteryLevelWith = -1
+    var batteryLevelWith = -1
     var seconds = 1
     var sleepTime: Long = 10
 
@@ -49,15 +51,19 @@ class CapacityInfoService : Service() {
 
         super.onCreate()
 
-        createNotification()
-
         val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
         when(plugged) {
 
-            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                if(tempSeconds > 1) seconds = tempSeconds
+
+                if(tempBatteryLevelWith > -1) batteryLevelWith = tempBatteryLevelWith
+
                 applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+            }
 
             else -> applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
         }
@@ -65,6 +71,12 @@ class CapacityInfoService : Service() {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+
+        tempSeconds = 1
+
+        tempBatteryLevelWith = -1
+
+        createNotification()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -158,7 +170,7 @@ class CapacityInfoService : Service() {
 
         if(wakeLock.isHeld) wakeLock.release()
 
-        if (!isFull && seconds > 1) {
+        if (!isFull && seconds > 1 && tempSeconds == 1 && tempBatteryLevelWith == -1) {
 
             pref.edit().putInt(Preferences.LastChargeTime.prefName, seconds).apply()
 
