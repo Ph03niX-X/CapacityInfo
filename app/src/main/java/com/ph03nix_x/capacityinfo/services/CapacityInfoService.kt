@@ -60,8 +60,6 @@ class CapacityInfoService : Service() {
 
                 if(tempSeconds > 1) seconds = tempSeconds
 
-                if(tempBatteryLevelWith > -1) batteryLevelWith = tempBatteryLevelWith
-
                 applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
             }
 
@@ -89,7 +87,7 @@ class CapacityInfoService : Service() {
 
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
 
-        batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        batteryLevelWith = if(tempBatteryLevelWith > -1) tempBatteryLevelWith else batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefName, 40)
 
