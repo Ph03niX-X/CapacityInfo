@@ -18,7 +18,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (pref.getBoolean(Preferences.DarkMode.prefName, false)) setTheme(R.style.DarkTheme)
+        if (pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
@@ -26,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.settings)
 
-        toolbar.navigationIcon = getDrawable(if (pref.getBoolean(Preferences.DarkMode.prefName, false))
+        toolbar.navigationIcon = getDrawable(if (pref.getBoolean(Preferences.DarkMode.prefKey, false))
             R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_arrow_back_black_24dp)
         toolbar.setNavigationOnClickListener {
             onBackPressed()

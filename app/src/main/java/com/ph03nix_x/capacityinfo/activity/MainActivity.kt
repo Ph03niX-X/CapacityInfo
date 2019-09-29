@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) setTheme(R.style.DarkTheme)
+        if(pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -96,14 +96,14 @@ class MainActivity : AppCompatActivity() {
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        if(pref.getBoolean(Preferences.DarkMode.prefName, false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
+        if(pref.getBoolean(Preferences.DarkMode.prefKey, false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
 
-        if(pref.getBoolean(Preferences.IsShowInstruction.prefName, true)) {
+        if(pref.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
 
             MaterialAlertDialogBuilder(this).apply {
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefName, false).apply() }
+                setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefKey, false).apply() }
                 show()
             }
         }
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onResume()
 
-        if(pref.getBoolean(Preferences.EnableService.prefName, true)
+        if(pref.getBoolean(Preferences.EnableService.prefKey, true)
             && CapacityInfoService.instance == null) startService()
 
         val battery = Battery(this)
@@ -122,16 +122,16 @@ class MainActivity : AppCompatActivity() {
 
         instance = this
 
-        if(pref.getInt(Preferences.DesignCapacity.prefName, 0) <= 0 || pref.getInt(
-                Preferences.DesignCapacity.prefName, 0) >= 100000) {
+        if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) <= 0 || pref.getInt(
+                Preferences.DesignCapacity.prefKey, 0) >= 100000) {
 
-            pref.edit().putInt(Preferences.DesignCapacity.prefName, battery.getDesignCapacity()).apply()
+            pref.edit().putInt(Preferences.DesignCapacity.prefKey, battery.getDesignCapacity()).apply()
 
-            if(pref.getInt(Preferences.DesignCapacity.prefName, 0) < 0)
-                pref.edit().putInt(Preferences.DesignCapacity.prefName, (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1)).apply()
+            if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) < 0)
+                pref.edit().putInt(Preferences.DesignCapacity.prefKey, (pref.getInt(Preferences.DesignCapacity.prefKey, 0) / -1)).apply()
         }
 
-        capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefName, 0).toString())
+        capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefKey, 0).toString())
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
@@ -153,15 +153,15 @@ class MainActivity : AppCompatActivity() {
                     batteryLevel.text = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 }
 
-                if(pref.getBoolean(Preferences.ShowLastChargeTime.prefName, true)) {
+                if(pref.getBoolean(Preferences.ShowLastChargeTime.prefKey, true)) {
 
                     runOnUiThread {
 
                         if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
 
-                        if(pref.getInt(Preferences.LastChargeTime.prefName, 0) > 0)
+                        if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0)
                             lastChargeTime.text = getString(R.string.last_charge_time, battery.getLastChargeTime(),
-                                "${pref.getInt(Preferences.BatteryLevelWith.prefName, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefName, 0)}%")
+                                "${pref.getInt(Preferences.BatteryLevelWith.prefKey, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%")
 
                         else {
 
@@ -198,19 +198,19 @@ class MainActivity : AppCompatActivity() {
 
                     technology.text = getString(R.string.battery_technology, batteryStatus!!.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY))
 
-                    temperatute.text = if (!pref.getBoolean(Preferences.Fahrenheit.prefName, false)) getString(R.string.temperature_celsius,
+                    temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
                         battery.getTemperature())
 
                     else getString(R.string.temperature_fahrenheit, battery.getTemperature())
 
-                    voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefName, false)) R.string.voltage_mv else R.string.voltage,
+                    voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
                         battery.toDecimalFormat(battery.getVoltage()))
                 }
 
-                if (pref.getBoolean(Preferences.IsSupported.prefName, true)) {
+                if (pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
 
-                        if (pref.getInt(Preferences.DesignCapacity.prefName, 0) > 0 && pref.getInt(
-                                Preferences.ChargeCounter.prefName, 0) > 0) {
+                        if (pref.getInt(Preferences.DesignCapacity.prefKey, 0) > 0 && pref.getInt(
+                                Preferences.ChargeCounter.prefKey, 0) > 0) {
 
                             runOnUiThread {
 

@@ -17,7 +17,7 @@ class BootReceiver : BroadcastReceiver() {
         when(p1!!.action) {
 
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" ->
-                if(pref.getBoolean(Preferences.EnableService.prefName, true)
+                if(pref.getBoolean(Preferences.EnableService.prefKey, true)
                     && CapacityInfoService.instance == null) startService(p0)
         }
     }

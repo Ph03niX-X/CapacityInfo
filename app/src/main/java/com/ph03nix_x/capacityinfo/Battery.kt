@@ -53,7 +53,7 @@ class Battery(var context: Context) {
 
         var tempString = temp.toString()
 
-        if(pref.getBoolean(Preferences.Fahrenheit.prefName, false)) tempString = toDecimalFormat((temp * 1.8) + 32)
+        if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) tempString = toDecimalFormat((temp * 1.8) + 32)
 
         return tempString
     }
@@ -79,7 +79,7 @@ class Battery(var context: Context) {
 
         var voltage = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
-        if(!pref.getBoolean(Preferences.VoltageInMv.prefName, false))
+        if(!pref.getBoolean(Preferences.VoltageInMv.prefKey, false))
             if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
 
         return voltage
@@ -89,13 +89,13 @@ class Battery(var context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val residualCapacity = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
+        val residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
         return context.getString(R.string.residual_capacity, toDecimalFormat(residualCapacity), "${DecimalFormat("#.#").format(
             if (residualCapacity >= 100000) ((residualCapacity / 1000) / pref.getInt(
-                Preferences.DesignCapacity.prefName, 0).toDouble()) * 100
+                Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100
 
-            else (residualCapacity / pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()) * 100)}%")
+            else (residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
     }
 
     fun getStatus(extraStatus: Int): String {
@@ -126,9 +126,9 @@ class Battery(var context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefName, 0).toDouble()
+        val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()
 
-        var capacity = pref.getInt(Preferences.ChargeCounter.prefName, 0).toDouble()
+        var capacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
         if(capacity >= 100000) capacity /= 1000
 
@@ -152,7 +152,7 @@ class Battery(var context: Context) {
 
     fun getLastChargeTime(): String { 
         
-        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefName, 0).toDouble()
+        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0).toDouble()
 
         val seconds = TimeSpan.toSeconds(secondsPref)
         val minutes = TimeSpan.toMinutes(secondsPref)

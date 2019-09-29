@@ -27,45 +27,103 @@ var tempBatteryLevelWith = -1
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
+
+    // Service and Notification
+
+    private var enableService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
     private var showInformationWhileCharging: SwitchPreferenceCompat? = null
     private var showInformationDuringDischarge: SwitchPreferenceCompat? = null
+    private var openNotificationCategorySettings: Preference? = null
     private var notificationRefreshRate: Preference? = null
+
+    // Appearance
+
+    private var darkMode: SwitchPreferenceCompat? = null
+
+    // Other
+
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var showLastChargeTime: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
+    private var changeDesignCapacity: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
         addPreferencesFromResource(R.xml.settings)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
 
-        temperatureInFahrenheit = findPreference(Preferences.Fahrenheit.prefName)
+        // Service and Notification
 
-        showStopService = findPreference(Preferences.IsShowServiceStop.prefName)
+        enableService = findPreference(Preferences.EnableService.prefKey)!!
 
-        showInformationWhileCharging = findPreference(Preferences.IsShowInformationWhileCharging.prefName)
+        temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
-        showInformationDuringDischarge = findPreference(Preferences.IsShowInformationDuringDischarge.prefName)
+        showStopService = findPreference(Preferences.IsShowServiceStop.prefKey)
 
-        notificationRefreshRate = findPreference(Preferences.NotificationRefreshRate.prefName)
+        showInformationWhileCharging = findPreference(Preferences.IsShowInformationWhileCharging.prefKey)
 
-        showLastChargeTime = findPreference(Preferences.ShowLastChargeTime.prefName)
+        showInformationDuringDischarge = findPreference(Preferences.IsShowInformationDuringDischarge.prefKey)
 
-        voltageInMv = findPreference(Preferences.VoltageInMv.prefName)
+        openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
-        showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+        notificationRefreshRate = findPreference(Preferences.NotificationRefreshRate.prefKey)
 
-        showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+        showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
 
-        showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+        showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
 
-        notificationRefreshRate?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
-                && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefName, true)
+        showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+
+        openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+
+        notificationRefreshRate?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+                && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)
+
+        enableService?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as Boolean) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
+
+            else {
+
+                if(CapacityInfoService.instance == null) startService()
+            }
+
+            showInformationWhileCharging?.isEnabled = newValue
+            showInformationDuringDischarge?.isEnabled = newValue
+            showStopService?.isEnabled = newValue
+            openNotificationCategorySettings?.isEnabled = newValue
+            notificationRefreshRate?.isEnabled = newValue
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        showStopService?.setOnPreferenceChangeListener { _, b ->
+
+            pref.edit().putBoolean(Preferences.IsShowServiceStop.prefKey, b as Boolean).apply()
+
+            if(CapacityInfoService.instance != null) {
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
+
+            Handler().postDelayed( {
+
+                startService()
+
+            }, 1000)
+
+            return@setOnPreferenceChangeListener true
+        }
 
         showInformationWhileCharging?.setOnPreferenceChangeListener { _ , newValue ->
 
-            pref.edit().putBoolean(Preferences.IsShowInformationWhileCharging.prefName, newValue as Boolean).apply()
+            pref.edit().putBoolean(Preferences.IsShowInformationWhileCharging.prefKey, newValue as Boolean).apply()
 
             if(CapacityInfoService.instance != null) {
 
@@ -87,7 +145,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationDuringDischarge?.setOnPreferenceChangeListener { _ , newValue ->
 
-            pref.edit().putBoolean(Preferences.IsShowInformationDuringDischarge.prefName, newValue as Boolean).apply()
+            pref.edit().putBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, newValue as Boolean).apply()
 
             notificationRefreshRate?.isEnabled = newValue
 
@@ -109,11 +167,49 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+
+            openNotificationCategorySettings?.setOnPreferenceClickListener {
+
+                openNotificationCategorySettings()
+
+                return@setOnPreferenceClickListener true
+            }
+
+        else openNotificationCategorySettings?.isVisible = false
+
+        notificationRefreshRate?.setOnPreferenceClickListener {
+            notificationRefreshRateDialog()
+            return@setOnPreferenceClickListener true
+        }
+
+        // Appearance
+
+        darkMode = findPreference(Preferences.DarkMode.prefKey)
+
+        darkMode?.setOnPreferenceChangeListener { _, _ ->
+
+            MainActivity.instance!!.recreate()
+            requireActivity().recreate()
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        // Other
+
+        temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
+
+        showLastChargeTime = findPreference(Preferences.ShowLastChargeTime.prefKey)
+
+        voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
+
+        changeDesignCapacity = findPreference("change_design_capacity")
+
         temperatureInFahrenheit?.setOnPreferenceChangeListener { _, newValue ->
 
-            pref.edit().putBoolean(Preferences.Fahrenheit.prefName, newValue as Boolean).apply()
+            pref.edit().putBoolean(Preferences.TemperatureInFahrenheit.prefKey, newValue as Boolean).apply()
 
-            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
@@ -136,9 +232,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showLastChargeTime?.setOnPreferenceChangeListener { _, newValue ->
 
-            pref.edit().putBoolean(Preferences.ShowLastChargeTime.prefName, newValue as Boolean).apply()
+            pref.edit().putBoolean(Preferences.ShowLastChargeTime.prefKey, newValue as Boolean).apply()
 
-            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
@@ -161,9 +257,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         voltageInMv?.setOnPreferenceChangeListener { _, newValue ->
 
-            pref.edit().putBoolean(Preferences.VoltageInMv.prefName, newValue as Boolean).apply()
+            pref.edit().putBoolean(Preferences.VoltageInMv.prefKey, newValue as Boolean).apply()
 
-            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
@@ -184,83 +280,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        val darkMode: SwitchPreferenceCompat = findPreference(Preferences.DarkMode.prefName)!!
-        darkMode.setOnPreferenceChangeListener { _, _ ->
-            MainActivity.instance!!.recreate()
-            requireActivity().recreate()
-            return@setOnPreferenceChangeListener true
-        }
-
-        val openNotificationCategorySettings = findPreference<Preference>("open_notification_category_settings")
-
-        openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-
-        openNotificationCategorySettings?.setOnPreferenceClickListener {
-
-            openNotificationCategorySettings()
-
-            return@setOnPreferenceClickListener true
-        }
-
-        else openNotificationCategorySettings?.isVisible = false
-
-        notificationRefreshRate?.setOnPreferenceClickListener {
-            notificationRefreshRateDialog()
-            return@setOnPreferenceClickListener true
-        }
-
-        val enableService: SwitchPreferenceCompat = findPreference(Preferences.EnableService.prefName)!!
-
-        enableService.setOnPreferenceChangeListener { _, newValue ->
-
-            val b = newValue as Boolean
-
-            if(!b) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
-
-            else {
-
-                if(CapacityInfoService.instance == null) startService()
-            }
-
-            showInformationWhileCharging?.isEnabled = b
-            showInformationDuringDischarge?.isEnabled = b
-            showStopService?.isEnabled = b
-            openNotificationCategorySettings?.isEnabled = b
-            notificationRefreshRate?.isEnabled = b
-            return@setOnPreferenceChangeListener true
-        }
-
-        showStopService?.setOnPreferenceChangeListener { _, b ->
-
-            pref.edit().putBoolean(Preferences.IsShowServiceStop.prefName, b as Boolean).apply()
-
-            if(CapacityInfoService.instance != null) {
-
-                tempSeconds = CapacityInfoService.instance?.seconds!!
-
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
-
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
-            }
-
-            Handler().postDelayed( {
-
-                startService()
-
-            }, 1000)
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        val changeDesignCapacity: Preference = findPreference("change_design_capacity")!!
-        changeDesignCapacity.setOnPreferenceClickListener {
+        changeDesignCapacity?.setOnPreferenceClickListener {
 
             changeDesignCapacity()
 
             return@setOnPreferenceClickListener true
         }
+    }
+
+    private fun startService() {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            context?.startForegroundService(Intent(context, CapacityInfoService::class.java))
+
+        else context?.startService(Intent(context, CapacityInfoService::class.java))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -282,7 +315,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     }
 
-
     private fun notificationRefreshRateDialog() {
 
         val dialog = MaterialAlertDialogBuilder(requireActivity())
@@ -295,7 +327,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val notificationRefreshRateSeekBar = view.findViewById<SeekBar>(R.id.notification_refresh_rate_seekBar)
 
-        val time = pref.getLong(Preferences.NotificationRefreshRate.prefName,40)
+        val time = pref.getLong(Preferences.NotificationRefreshRate.prefKey,40)
 
         when(time) {
 
@@ -317,7 +349,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             notificationRefreshRateSeekBar.progress = 57
 
-            pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
+            pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 40).apply()
         }
 
         notificationRefreshRate.text = getString(if(time != 60.toLong()) R.string.seconds else R.string.minute, if(time < 60) time.toString() else "1")
@@ -368,32 +400,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
                 when(notificationRefreshRateSeekBar.progress) {
 
-                    in 0..8 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 5).apply()
+                    in 0..8 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 5).apply()
 
-                    in 9..16 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 10).apply()
+                    in 9..16 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 10).apply()
 
-                    in 17..24 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 15).apply()
+                    in 17..24 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 15).apply()
 
-                    in 25..32 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 20).apply()
+                    in 25..32 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 20).apply()
 
-                    in 33..40 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 25).apply()
+                    in 33..40 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 25).apply()
 
-                    in 41..48 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 30).apply()
+                    in 41..48 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 30).apply()
 
-                    in 49..56 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 35).apply()
+                    in 49..56 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 35).apply()
 
-                    in 57..64 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
+                    in 57..64 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 40).apply()
 
-                    in 65..72 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 45).apply()
+                    in 65..72 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 45).apply()
 
-                    in 73..80 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 50).apply()
+                    in 73..80 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 50).apply()
 
-                    in 81..88 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 55).apply()
+                    in 81..88 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 55).apply()
 
-                    in 89..100 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 60).apply()
+                    in 89..100 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 60).apply()
                 }
 
-                CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefName, 40)
+                CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
                 tempSeconds = CapacityInfoService.instance?.seconds!!
 
@@ -424,16 +456,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val changeDesignCapacity = view.findViewById<EditText>(R.id.change_design_capacity_edit)
 
-        changeDesignCapacity.setText(if(pref.getInt(Preferences.DesignCapacity.prefName, 0) >= 0) pref.getInt(
-            Preferences.DesignCapacity.prefName, 0).toString()
+        changeDesignCapacity.setText(if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) >= 0) pref.getInt(
+            Preferences.DesignCapacity.prefKey, 0).toString()
 
-        else (pref.getInt(Preferences.DesignCapacity.prefName, 0) / -1).toString())
+        else (pref.getInt(Preferences.DesignCapacity.prefKey, 0) / -1).toString())
 
         dialog.setPositiveButton(getString(R.string.change)) { _, _ ->
 
-            if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefName, changeDesignCapacity.text.toString().toInt()).apply()
+            if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
 
-            if(pref.getBoolean(Preferences.EnableService.prefName, true)) {
+            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
@@ -455,13 +487,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 
         dialog.show()
-    }
-
-    private fun startService() {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context?.startForegroundService(Intent(context, CapacityInfoService::class.java))
-
-        else context?.startService(Intent(context, CapacityInfoService::class.java))
     }
 }
