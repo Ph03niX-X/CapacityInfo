@@ -46,4 +46,7 @@
     <string name="show_stop_service">"Показувати \"Зупинити службу\""</string>
     <string name="voltage_in_mv">Напруга в мВ</string>
     <string name="voltage_mv">"Напруга: %1$s мВ"</string>
+    <string name="enabled">Увімкнено</string>
+    <string name="show_information_while_charging">Показувати інформацію під час зарядки</string>
+    <string name="show_information_during_discharge">Показувати інформацію під час розрядки</string>
 </resources>
