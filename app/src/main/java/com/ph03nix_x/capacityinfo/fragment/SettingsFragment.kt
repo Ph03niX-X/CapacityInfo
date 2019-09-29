@@ -95,12 +95,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         enableService?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
+            if(!(newValue as Boolean) && CapacityInfoService.instance != null) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
 
-            else {
-
-                if(CapacityInfoService.instance == null) startService()
-            }
+            else if(newValue && CapacityInfoService.instance == null) startService()
 
             showInformationWhileCharging?.isEnabled = newValue
             serviceHours?.isEnabled = newValue
