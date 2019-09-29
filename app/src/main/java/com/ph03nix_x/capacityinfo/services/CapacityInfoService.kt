@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 
 var isPowerConnected = false
+const val notifyId = 101
 class CapacityInfoService : Service() {
 
     private lateinit var pref: SharedPreferences
@@ -231,10 +232,37 @@ class CapacityInfoService : Service() {
                 addAction(-1, getString(R.string.stop_service), stopService)
         }
 
-        startForeground(101, notificationBuilder.build())
+        startForeground(notifyId, notificationBuilder.build())
     }
 
-    private fun updateNotification() = createNotification()
+    private fun updateNotification() {
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+
+        when(plugged) {
+
+            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
+                    notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+
+                else notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+            }
+
+            else -> {
+
+                if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
+                    notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+
+                else notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+            }
+        }
+
+        notificationManager.notify(notifyId, notificationBuilder.build())
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel(): String {
