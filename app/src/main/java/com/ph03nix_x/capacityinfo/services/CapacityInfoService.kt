@@ -129,7 +129,7 @@ class CapacityInfoService : Service() {
 
                     tempBatteryLevelWith = -1
                     updateNotification()
-                    wakeLock.release()
+                    if(wakeLock.isHeld) wakeLock.release()
                 }
 
                 else {
@@ -145,7 +145,7 @@ class CapacityInfoService : Service() {
 
                     Thread.sleep(if(!isPowerConnected) sleepTime * 895 else 1000)
 
-                    if(sleepTime != 10.toLong()) sleepTime = 10
+                    if(isPowerConnected && sleepTime != 10.toLong()) sleepTime = 10
 
                     if(tempBatteryLevelWith != -1) tempBatteryLevelWith = -1
                 }
