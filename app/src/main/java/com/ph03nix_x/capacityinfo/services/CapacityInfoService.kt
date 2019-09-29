@@ -143,7 +143,9 @@ class CapacityInfoService : Service() {
                         pref.edit().putLong(Preferences.NotificationRefreshRate.prefName, 40).apply()
                     }
 
-                    Thread.sleep(if(!isPowerConnected) sleepTime * 895 else 1000)
+                    Thread.sleep(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefName, true)) sleepTime * 895
+                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefName, true)) (30 * 60 * 1000).toLong()
+                    else 1000)
 
                     if(isPowerConnected && sleepTime != 10.toLong()) sleepTime = 10
 
