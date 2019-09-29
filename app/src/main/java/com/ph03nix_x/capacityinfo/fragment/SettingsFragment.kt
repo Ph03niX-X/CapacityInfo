@@ -33,6 +33,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var enableService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
     private var showInformationWhileCharging: SwitchPreferenceCompat? = null
+    private var serviceHours: SwitchPreferenceCompat? = null
     private var showInformationDuringDischarge: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
@@ -65,6 +66,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationWhileCharging = findPreference(Preferences.IsShowInformationWhileCharging.prefKey)
 
+        serviceHours = findPreference(Preferences.IsServiceHours.prefKey)
+
         showInformationDuringDischarge = findPreference(Preferences.IsShowInformationDuringDischarge.prefKey)
 
         showLastChargeTimeInNotification = findPreference(Preferences.IsShowLastChargeTimeInNotification.prefKey)
@@ -76,6 +79,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
 
         showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+
+        serviceHours?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+                && pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true)
 
         showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
 
@@ -97,6 +103,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
             showInformationWhileCharging?.isEnabled = newValue
+            serviceHours?.isEnabled = newValue
             showInformationDuringDischarge?.isEnabled = newValue
             showLastChargeTimeInNotification?.isEnabled = newValue
             showStopService?.isEnabled = newValue
@@ -131,6 +138,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
         showInformationWhileCharging?.setOnPreferenceChangeListener { _ , newValue ->
 
             pref.edit().putBoolean(Preferences.IsShowInformationWhileCharging.prefKey, newValue as Boolean).apply()
+
+            serviceHours?.isEnabled = newValue
+
+            if(CapacityInfoService.instance != null) {
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
+
+            Handler().postDelayed({
+
+                startService()
+
+            }, 1000)
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        serviceHours?.setOnPreferenceChangeListener { _, _ ->
 
             if(CapacityInfoService.instance != null) {
 

@@ -226,7 +226,8 @@ class CapacityInfoService : Service() {
                 }
             }
 
-            setShowWhen(false)
+            setShowWhen(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true)
+                    && pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true))
                 addAction(-1, getString(R.string.stop_service), stopService)

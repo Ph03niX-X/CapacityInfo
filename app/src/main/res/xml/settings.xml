@@ -28,6 +28,11 @@
                 android:key="is_show_information_while_charging"/>
 
         <SwitchPreferenceCompat
+                android:title="@string/service_hours"
+                app:singleLineTitle="false"
+                android:key="is_service_hours"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/show_information_during_discharge"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
