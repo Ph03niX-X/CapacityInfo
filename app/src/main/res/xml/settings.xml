@@ -33,6 +33,12 @@
                 app:singleLineTitle="false"
                 android:key="is_show_information_during_discharge"/>
 
+        <SwitchPreferenceCompat
+                android:title="@string/show_last_charge_time"
+                android:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_last_charge_time_in_notification"/>
+
         <Preference
                 android:title="@string/open_notification_category_settings"
                 app:singleLineTitle="false"
@@ -65,10 +71,10 @@
                 android:key="temperature_in_fahrenheit"/>
 
         <SwitchPreferenceCompat
-                android:title="@string/show_last_charge_time"
+                android:title="@string/show_last_charge_time_in_app"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                android:key="show_last_charge_time"/>
+                android:key="is_show_last_charge_time_in_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/voltage_in_mv"

@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                     batteryLevel.text = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 }
 
-                if(pref.getBoolean(Preferences.ShowLastChargeTime.prefKey, true)) {
+                if(pref.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true)) {
 
                     runOnUiThread {
 

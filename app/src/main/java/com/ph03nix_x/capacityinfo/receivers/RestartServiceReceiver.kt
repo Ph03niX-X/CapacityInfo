@@ -27,6 +27,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
     }
 
     private fun migrateToDefaultPrefs(context: Context) {
+
         val oldPrefs = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
         val newPrefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -37,7 +38,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
                 .putBoolean(Preferences.EnableService.prefKey, oldPrefs.getBoolean(Preferences.EnableService.prefKey, true))
                 .putLong(Preferences.NotificationRefreshRate.prefKey, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefKey, 40))
                 .putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
-                .putBoolean(Preferences.ShowLastChargeTime.prefKey, oldPrefs.getBoolean(Preferences.ShowLastChargeTime.prefKey, true))
+                .putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true))
                 .putInt(Preferences.DesignCapacity.prefKey, oldPrefs.getInt(Preferences.DesignCapacity.prefKey, 0))
                 .putInt(Preferences.ChargeCounter.prefKey, oldPrefs.getInt(Preferences.ChargeCounter.prefKey, 0))
                 .putBoolean(Preferences.IsShowInstruction.prefKey, oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, false))
@@ -50,6 +51,14 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
             editor.putBoolean("migrated", true).apply()
         }
+
+        if(newPrefs.contains("show_last_charge_time")) {
+
+            newPrefs.edit().putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey,
+                newPrefs.getBoolean("show_last_charge_time", true)).apply()
+
+            removeOldPref(context)
+        }
     }
 
     private fun removeOldPref(context: Context) {
@@ -59,6 +68,8 @@ class RestartServiceReceiver : BroadcastReceiver() {
         pref.edit().apply {
 
             if(pref.contains("always_show_notification")) remove("always_show_notification")
+
+            if(pref.contains("show_last_charge_time")) remove("show_last_charge_time")
 
             apply()
         }

@@ -34,6 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var showStopService: SwitchPreferenceCompat? = null
     private var showInformationWhileCharging: SwitchPreferenceCompat? = null
     private var showInformationDuringDischarge: SwitchPreferenceCompat? = null
+    private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
     private var notificationRefreshRate: Preference? = null
 
@@ -44,7 +45,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     // Other
 
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
-    private var showLastChargeTime: SwitchPreferenceCompat? = null
+    private var showLastChargeTimeInApp: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
 
@@ -66,6 +67,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationDuringDischarge = findPreference(Preferences.IsShowInformationDuringDischarge.prefKey)
 
+        showLastChargeTimeInNotification = findPreference(Preferences.IsShowLastChargeTimeInNotification.prefKey)
+
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
         notificationRefreshRate = findPreference(Preferences.NotificationRefreshRate.prefKey)
@@ -75,6 +78,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
 
         showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+
+        showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+                && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)
 
         openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
 
@@ -92,6 +98,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             showInformationWhileCharging?.isEnabled = newValue
             showInformationDuringDischarge?.isEnabled = newValue
+            showLastChargeTimeInNotification?.isEnabled = newValue
             showStopService?.isEnabled = newValue
             openNotificationCategorySettings?.isEnabled = newValue
             notificationRefreshRate?.isEnabled = newValue
@@ -147,7 +154,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             pref.edit().putBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, newValue as Boolean).apply()
 
+            showLastChargeTimeInNotification?.isEnabled = newValue
             notificationRefreshRate?.isEnabled = newValue
+
+            if(CapacityInfoService.instance != null) {
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
+
+            Handler().postDelayed({
+
+                startService()
+
+            }, 1000)
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, newValue ->
+
+            pref.edit().putBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, newValue as Boolean).apply()
 
             if(CapacityInfoService.instance != null) {
 
@@ -199,7 +229,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
-        showLastChargeTime = findPreference(Preferences.ShowLastChargeTime.prefKey)
+        showLastChargeTimeInApp = findPreference(Preferences.IsShowLastChargeTimeInApp.prefKey)
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
@@ -230,27 +260,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        showLastChargeTime?.setOnPreferenceChangeListener { _, newValue ->
+        showLastChargeTimeInApp?.setOnPreferenceChangeListener { _, newValue ->
 
-            pref.edit().putBoolean(Preferences.ShowLastChargeTime.prefKey, newValue as Boolean).apply()
-
-            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
-
-                if(CapacityInfoService.instance != null) {
-
-                    tempSeconds = CapacityInfoService.instance?.seconds!!
-
-                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
-
-                    context?.stopService(Intent(context, CapacityInfoService::class.java))
-                }
-
-                Handler().postDelayed({
-
-                    startService()
-
-                }, 1000)
-            }
+            pref.edit().putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, newValue as Boolean).apply()
 
             return@setOnPreferenceChangeListener true
         }
