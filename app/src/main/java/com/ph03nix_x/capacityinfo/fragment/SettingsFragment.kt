@@ -29,6 +29,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var pref: SharedPreferences
     private var showStopService: SwitchPreferenceCompat? = null
     private var showInformationWhileCharging: SwitchPreferenceCompat? = null
+    private var showInformationDuringDischarge: SwitchPreferenceCompat? = null
+    private var notificationRefreshRate: Preference? = null
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var showLastChargeTime: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
@@ -44,6 +46,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationWhileCharging = findPreference(Preferences.IsShowInformationWhileCharging.prefName)
 
+        showInformationDuringDischarge = findPreference(Preferences.IsShowInformationDuringDischarge.prefName)
+
+        notificationRefreshRate = findPreference(Preferences.NotificationRefreshRate.prefName)
+
         showLastChargeTime = findPreference(Preferences.ShowLastChargeTime.prefName)
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefName)
@@ -52,9 +58,38 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 
+        showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+
+        notificationRefreshRate?.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
+                && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefName, true)
+
         showInformationWhileCharging?.setOnPreferenceChangeListener { _ , newValue ->
 
             pref.edit().putBoolean(Preferences.IsShowInformationWhileCharging.prefName, newValue as Boolean).apply()
+
+            if(CapacityInfoService.instance != null) {
+
+                tempSeconds = CapacityInfoService.instance?.seconds!!
+
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+
+                context?.stopService(Intent(context, CapacityInfoService::class.java))
+            }
+
+            Handler().postDelayed({
+
+                startService()
+
+            }, 1000)
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        showInformationDuringDischarge?.setOnPreferenceChangeListener { _ , newValue ->
+
+            pref.edit().putBoolean(Preferences.IsShowInformationDuringDischarge.prefName, newValue as Boolean).apply()
+
+            notificationRefreshRate?.isEnabled = newValue
 
             if(CapacityInfoService.instance != null) {
 
@@ -171,15 +206,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         else openNotificationCategorySettings?.isVisible = false
 
-        val notificationRefreshRate: Preference = findPreference(Preferences.NotificationRefreshRate.prefName)!!
-        notificationRefreshRate.setOnPreferenceClickListener {
+        notificationRefreshRate?.setOnPreferenceClickListener {
             notificationRefreshRateDialog()
             return@setOnPreferenceClickListener true
         }
 
         val enableService: SwitchPreferenceCompat = findPreference(Preferences.EnableService.prefName)!!
-
-        notificationRefreshRate.isEnabled = pref.getBoolean(Preferences.EnableService.prefName, true)
 
         enableService.setOnPreferenceChangeListener { _, newValue ->
 
@@ -193,9 +225,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
             showInformationWhileCharging?.isEnabled = b
+            showInformationDuringDischarge?.isEnabled = b
             showStopService?.isEnabled = b
             openNotificationCategorySettings?.isEnabled = b
-            notificationRefreshRate.isEnabled = b
+            notificationRefreshRate?.isEnabled = b
             return@setOnPreferenceChangeListener true
         }
 

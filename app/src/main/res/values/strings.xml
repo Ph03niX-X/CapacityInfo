@@ -50,4 +50,5 @@
     <string name="voltage_mv">"Voltage: %1$s mV"</string>
     <string name="enabled">Enabled</string>
     <string name="show_information_while_charging">Show information while charging</string>
+    <string name="show_information_during_discharge">Show information during discharge</string>
 </resources>

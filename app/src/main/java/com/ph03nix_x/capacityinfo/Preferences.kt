@@ -10,5 +10,7 @@ enum class Preferences(val prefName: String) {
 
     BatteryLevelTo("battery_level_to"), EnableService("enable_service"), NotificationRefreshRate("notification_refresh_rate"),
 
-    IsShowServiceStop("is_show_stop_service"), VoltageInMv("voltage_in_mv"), IsShowInformationWhileCharging("is_show_information_while_charging")
+    IsShowServiceStop("is_show_stop_service"), VoltageInMv("voltage_in_mv"), IsShowInformationWhileCharging("is_show_information_while_charging"),
+
+    IsShowInformationDuringDischarge("is_show_information_during_discharge")
 }

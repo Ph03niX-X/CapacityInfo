@@ -203,9 +203,26 @@ class CapacityInfoService : Service() {
             setSmallIcon(R.drawable.service_small_icon)
             color = ContextCompat.getColor(applicationContext, R.color.blue)
             setContentIntent(openApp)
-            setStyle(NotificationCompat.BigTextStyle().bigText(if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefName, true))
-                getStatus() else if(plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB
-                || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) getString(R.string.enabled) else getStatus()))
+
+            when(plugged) {
+
+                BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                    if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefName, true))
+                        setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+
+                    else setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+                }
+
+                else -> {
+
+                    if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefName, true))
+                        setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+
+                    else setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+                }
+            }
+
             setShowWhen(false)
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefName, true))
