@@ -46,7 +46,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     // Other
 
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
-    private var showLastChargeTimeInApp: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
 
@@ -112,8 +111,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showStopService?.setOnPreferenceChangeListener { _, b ->
 
-            pref.edit().putBoolean(Preferences.IsShowServiceStop.prefKey, b as Boolean).apply()
-
             if(CapacityInfoService.instance != null) {
 
                 tempSeconds = CapacityInfoService.instance?.seconds!!
@@ -134,9 +131,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationWhileCharging?.setOnPreferenceChangeListener { _ , newValue ->
 
-            pref.edit().putBoolean(Preferences.IsShowInformationWhileCharging.prefKey, newValue as Boolean).apply()
-
-            serviceHours?.isEnabled = newValue
+            serviceHours?.isEnabled = newValue as Boolean
 
             if(CapacityInfoService.instance != null) {
 
@@ -178,9 +173,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         showInformationDuringDischarge?.setOnPreferenceChangeListener { _ , newValue ->
 
-            pref.edit().putBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, newValue as Boolean).apply()
-
-            showLastChargeTimeInNotification?.isEnabled = newValue
+            showLastChargeTimeInNotification?.isEnabled = newValue as Boolean
             notificationRefreshRate?.isEnabled = newValue
 
             if(CapacityInfoService.instance != null) {
@@ -201,9 +194,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, newValue ->
-
-            pref.edit().putBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, newValue as Boolean).apply()
+        showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
 
             if(CapacityInfoService.instance != null) {
 
@@ -255,15 +246,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
-        showLastChargeTimeInApp = findPreference(Preferences.IsShowLastChargeTimeInApp.prefKey)
+//        showLastChargeTimeInApp = findPreference(Preferences.IsShowLastChargeTimeInApp.prefKey)
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
-        temperatureInFahrenheit?.setOnPreferenceChangeListener { _, newValue ->
-
-            pref.edit().putBoolean(Preferences.TemperatureInFahrenheit.prefKey, newValue as Boolean).apply()
+        temperatureInFahrenheit?.setOnPreferenceChangeListener { _, _ ->
 
             if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
@@ -286,16 +275,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        showLastChargeTimeInApp?.setOnPreferenceChangeListener { _, newValue ->
-
-            pref.edit().putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, newValue as Boolean).apply()
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        voltageInMv?.setOnPreferenceChangeListener { _, newValue ->
-
-            pref.edit().putBoolean(Preferences.VoltageInMv.prefKey, newValue as Boolean).apply()
+        voltageInMv?.setOnPreferenceChangeListener { _, _ ->
 
             if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
