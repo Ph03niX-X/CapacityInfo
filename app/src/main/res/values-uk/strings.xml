@@ -49,4 +49,6 @@
     <string name="enabled">Увімкнено</string>
     <string name="show_information_while_charging">Показувати інформацію під час зарядки</string>
     <string name="show_information_during_discharge">Показувати інформацію під час розрядки</string>
+    <string name="show_last_charge_time_in_app">Показувати час останньої зарядки в додатку</string>
+    <string name="service_hours">Час служби</string>
 </resources>
