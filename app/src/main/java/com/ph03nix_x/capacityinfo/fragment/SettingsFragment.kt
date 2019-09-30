@@ -21,9 +21,8 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.isStopCheck
 
-var tempSeconds = 1
-var tempBatteryLevelWith = -1
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
@@ -109,22 +108,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        showStopService?.setOnPreferenceChangeListener { _, b ->
+        showStopService?.setOnPreferenceChangeListener { _, _ ->
 
             if(CapacityInfoService.instance != null) {
 
-                tempSeconds = CapacityInfoService.instance?.seconds!!
+                isStopCheck = true
 
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                Handler().postDelayed({
 
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
+                    CapacityInfoService.instance?.updateNotification()
+
+                }, 50)
             }
-
-            Handler().postDelayed( {
-
-                startService()
-
-            }, 1000)
 
             return@setOnPreferenceChangeListener true
         }
@@ -135,18 +130,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if(CapacityInfoService.instance != null) {
 
-                tempSeconds = CapacityInfoService.instance?.seconds!!
+                Handler().postDelayed({
 
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                    CapacityInfoService.instance?.updateNotification()
 
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }, 50)
             }
-
-            Handler().postDelayed({
-
-                startService()
-
-            }, 1000)
 
             return@setOnPreferenceChangeListener true
         }
@@ -155,18 +144,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if(CapacityInfoService.instance != null) {
 
-                tempSeconds = CapacityInfoService.instance?.seconds!!
+                Handler().postDelayed({
 
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                    CapacityInfoService.instance?.updateNotification()
 
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }, 50)
             }
-
-            Handler().postDelayed({
-
-                startService()
-
-            }, 1000)
 
             return@setOnPreferenceChangeListener true
         }
@@ -178,18 +161,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if(CapacityInfoService.instance != null) {
 
-                tempSeconds = CapacityInfoService.instance?.seconds!!
+                Handler().postDelayed({
 
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                    CapacityInfoService.instance?.updateNotification()
 
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }, 50)
             }
-
-            Handler().postDelayed({
-
-                startService()
-
-            }, 1000)
 
             return@setOnPreferenceChangeListener true
         }
@@ -198,18 +175,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if(CapacityInfoService.instance != null) {
 
-                tempSeconds = CapacityInfoService.instance?.seconds!!
+                Handler().postDelayed({
 
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                    CapacityInfoService.instance?.updateNotification()
 
-                context?.stopService(Intent(context, CapacityInfoService::class.java))
+                }, 50)
             }
-
-            Handler().postDelayed({
-
-                startService()
-
-            }, 1000)
 
             return@setOnPreferenceChangeListener true
         }
@@ -246,8 +217,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
-//        showLastChargeTimeInApp = findPreference(Preferences.IsShowLastChargeTimeInApp.prefKey)
-
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
         changeDesignCapacity = findPreference("change_design_capacity")
@@ -258,18 +227,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
                 if(CapacityInfoService.instance != null) {
 
-                    tempSeconds = CapacityInfoService.instance?.seconds!!
+                    Handler().postDelayed({
 
-                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                        CapacityInfoService.instance?.updateNotification()
 
-                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                    }, 50)
                 }
-
-                Handler().postDelayed({
-
-                    startService()
-
-                }, 1000)
             }
 
             return@setOnPreferenceChangeListener true
@@ -281,18 +244,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
                 if(CapacityInfoService.instance != null) {
 
-                    tempSeconds = CapacityInfoService.instance?.seconds!!
+                    Handler().postDelayed({
 
-                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                        CapacityInfoService.instance?.updateNotification()
 
-                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                    }, 50)
                 }
-
-                Handler().postDelayed({
-
-                    startService()
-
-                }, 1000)
             }
 
             return@setOnPreferenceChangeListener true
@@ -442,20 +399,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
                     in 89..100 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 60).apply()
                 }
-
-                CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
-
-                tempSeconds = CapacityInfoService.instance?.seconds!!
-
-                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
-
-                context.stopService(Intent(context, CapacityInfoService::class.java))
-
-                Handler().postDelayed( {
-
-                    startService()
-
-                }, 1000)
             }
 
             setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
@@ -483,22 +426,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
 
+            CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
+
             if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
-                    tempSeconds = CapacityInfoService.instance?.seconds!!
+                    Handler().postDelayed({
 
-                    tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith!!
+                        CapacityInfoService.instance?.updateNotification()
 
-                    context?.stopService(Intent(context, CapacityInfoService::class.java))
+                    }, 50)
                 }
-
-                Handler().postDelayed({
-
-                    startService()
-
-                }, 1000)
             }
         }
 

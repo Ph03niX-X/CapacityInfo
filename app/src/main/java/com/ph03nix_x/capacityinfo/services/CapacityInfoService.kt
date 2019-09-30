@@ -13,12 +13,11 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.async.DoAsync
-import com.ph03nix_x.capacityinfo.fragment.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.fragment.tempSeconds
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 
 var isPowerConnected = false
+var isStopCheck = false
 const val notifyId = 101
 class CapacityInfoService : Service() {
 
@@ -59,8 +58,6 @@ class CapacityInfoService : Service() {
 
                 isPowerConnected = true
 
-                if(tempSeconds > 1) seconds = tempSeconds
-
                 applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
             }
@@ -71,8 +68,6 @@ class CapacityInfoService : Service() {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-
-        tempSeconds = 1
 
         createNotification()
     }
@@ -89,7 +84,7 @@ class CapacityInfoService : Service() {
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-        batteryLevelWith = if(tempBatteryLevelWith > -1) tempBatteryLevelWith else batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
         doAsync = DoAsync {
 
@@ -128,7 +123,6 @@ class CapacityInfoService : Service() {
                         if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, false).apply()
                     }
 
-                    tempBatteryLevelWith = -1
                     updateNotification()
                     if(wakeLock.isHeld) wakeLock.release()
                 }
@@ -149,8 +143,6 @@ class CapacityInfoService : Service() {
                     else 1000)
 
                     if(isPowerConnected && sleepTime != 10.toLong()) sleepTime = 10
-
-                    if(tempBatteryLevelWith != -1) tempBatteryLevelWith = -1
                 }
 
                 if(wakeLock.isHeld && isFull) wakeLock.release()
@@ -171,7 +163,7 @@ class CapacityInfoService : Service() {
 
         if(wakeLock.isHeld) wakeLock.release()
 
-        if (!isFull && seconds > 1 && tempSeconds == 1 && tempBatteryLevelWith == -1) {
+        if (!isFull && seconds > 1) {
 
             pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
 
@@ -236,30 +228,43 @@ class CapacityInfoService : Service() {
         startForeground(notifyId, notificationBuilder.build())
     }
 
-    private fun updateNotification() {
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    fun updateNotification() {
 
         val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
-        when(plugged) {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+        val stopService = PendingIntent.getService(this, 1, Intent(this, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
-                if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
-                    notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+        notificationBuilder.apply {
 
-                else notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+            when(plugged) {
+
+                BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                    if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
+                        notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+
+                    else notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+                }
+
+                else -> {
+
+                    if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
+                        notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+
+                    else notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
+                }
             }
 
-            else -> {
+            setShowWhen(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true)
+                    && pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
 
-                if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
-                    notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getStatus()))
+            if(pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isEmpty())
+                addAction(-1, getString(R.string.stop_service), stopService)
 
-                else notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.enabled)))
-            }
+            else if(!pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isNotEmpty()) mActions.clear()
         }
 
         notificationManager.notify(notifyId, notificationBuilder.build())
