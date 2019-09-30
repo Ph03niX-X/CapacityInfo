@@ -295,6 +295,7 @@ class CapacityInfoService : Service() {
 
                 val charging = getString(R.string.status, getString(R.string.charging))
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
+                val plugged = battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
                 val chargingCurrent = getString(R.string.charging_current, battery.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
@@ -304,9 +305,9 @@ class CapacityInfoService : Service() {
                     battery.toDecimalFormat(battery.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    "$charging\n$batteryLevel\n${battery.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
+                    "$charging\n$batteryLevel\n$plugged\n${battery.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
 
-                else "$charging\n$batteryLevel\n${battery.getChargingTime(seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
+                else "$charging\n$batteryLevel\n$plugged\n${battery.getChargingTime(seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
             }
 
             BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
