@@ -294,7 +294,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(battery.getStatus(batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)!!) == "N/A") Thread.sleep(5000)
+                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!) == "N/A") Thread.sleep(5000)
 
                 else Thread.sleep(1000)
             }
