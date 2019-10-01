@@ -388,7 +388,7 @@ class CapacityInfoService : Service() {
 
                     "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n$flooded\n${battery.getResidualCapacity()}\n${battery.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
 
-                    else "$discharging\n$batteryLevel\n$currentCapacity\n${battery.getResidualCapacity()}\n${battery.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                    else "$discharging\n$batteryLevel\n$currentCapacity\n$flooded\n${battery.getResidualCapacity()}\n${battery.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
                 }
 
                 else {

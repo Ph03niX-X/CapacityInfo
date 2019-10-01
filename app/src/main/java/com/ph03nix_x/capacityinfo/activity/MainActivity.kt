@@ -227,9 +227,10 @@ class MainActivity : AppCompatActivity() {
 
                             if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
 
-                            if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, - 1)!!) != "N/A")
+                            if(tempCurrentCapacity > 0 && flooded.visibility == View.GONE)
+                                runOnUiThread { flooded.visibility = View.VISIBLE }
 
-                                if(flooded.visibility == View.GONE) runOnUiThread { flooded.visibility = View.VISIBLE }
+                            else if(flooded.visibility == View.VISIBLE) runOnUiThread { flooded.visibility = View.VISIBLE }
 
                             runOnUiThread {
 

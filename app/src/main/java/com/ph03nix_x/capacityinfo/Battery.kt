@@ -72,7 +72,7 @@ class Battery(var context: Context) {
         return currentCapacity
     }
 
-    fun getFlooded() = context.getString(R.string.flooded, (getCurrentCapacity() - tempCurrentCapacity).toString())
+    fun getFlooded() = context.getString(R.string.flooded, if(tempCurrentCapacity > 0) toDecimalFormat(getCurrentCapacity() - tempCurrentCapacity) else "0")
 
     fun getVoltage(): Double {
 
