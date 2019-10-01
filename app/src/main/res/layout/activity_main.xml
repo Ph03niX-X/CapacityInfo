@@ -43,12 +43,23 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/flooded"
+            android:visibility="gone"
+            android:text="@string/flooded"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:fontFamily="@font/medium"
+            android:layout_below="@id/current_capacity"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/residual_capacity"
             android:text="@string/residual_capacity"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/current_capacity"/>
+            android:layout_below="@id/flooded"/>
 
     <TextView
             android:layout_width="match_parent"

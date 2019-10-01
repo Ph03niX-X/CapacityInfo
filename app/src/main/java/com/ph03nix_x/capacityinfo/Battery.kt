@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,6 +71,8 @@ class Battery(var context: Context) {
 
         return currentCapacity
     }
+
+    fun getFlooded() = context.getString(R.string.flooded, (getCurrentCapacity() - tempCurrentCapacity).toString())
 
     fun getVoltage(): Double {
 

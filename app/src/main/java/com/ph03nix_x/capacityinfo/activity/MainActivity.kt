@@ -22,6 +22,7 @@ import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+var tempCurrentCapacity: Double = 0.0
 @SuppressWarnings("StaticFieldLeak")
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var batteryLevel: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
+    private lateinit var flooded: TextView
     private lateinit var technology: TextView
     private lateinit var status: TextView
     private lateinit var plugged: TextView
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
         currentCapacity = findViewById(R.id.current_capacity)
+        flooded = findViewById(R.id.flooded)
         residualCapacity = findViewById(R.id.residual_capacity)
         technology = findViewById(R.id.battery_technology)
         status = findViewById(R.id.status)
@@ -224,9 +227,15 @@ class MainActivity : AppCompatActivity() {
 
                             if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
 
+                            if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, - 1)!!) != "N/A")
+
+                                if(flooded.visibility == View.GONE) runOnUiThread { flooded.visibility = View.VISIBLE }
+
                             runOnUiThread {
 
                                 currentCapacity.text = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
+
+                                if(flooded.visibility == View.VISIBLE) flooded.text = battery.getFlooded()
                             }
 
                         }
@@ -285,7 +294,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                Thread.sleep(5000)
+                if(battery.getStatus(batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)!!) == "N/A") Thread.sleep(5000)
+
+                else Thread.sleep(1000)
             }
 
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
