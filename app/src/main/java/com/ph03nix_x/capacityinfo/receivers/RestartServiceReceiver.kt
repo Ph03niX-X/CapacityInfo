@@ -38,7 +38,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
                 .putBoolean(Preferences.EnableService.prefKey, oldPrefs.getBoolean(Preferences.EnableService.prefKey, true))
                 .putLong(Preferences.NotificationRefreshRate.prefKey, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefKey, 40))
                 .putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
-                .putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true))
+                .putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean("show_last_charge_time", true))
                 .putInt(Preferences.DesignCapacity.prefKey, oldPrefs.getInt(Preferences.DesignCapacity.prefKey, 0))
                 .putInt(Preferences.ChargeCounter.prefKey, oldPrefs.getInt(Preferences.ChargeCounter.prefKey, 0))
                 .putBoolean(Preferences.IsShowInstruction.prefKey, oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, false))
