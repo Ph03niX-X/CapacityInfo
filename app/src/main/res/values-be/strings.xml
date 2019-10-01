@@ -46,4 +46,9 @@
     <string name="show_stop_service">"Паказваць \"Спыніць службу\""</string>
     <string name="voltage_in_mv">Напружанне ў мВ</string>
     <string name="voltage_mv">"Напружанне: %1$s мВ"</string>
+    <string name="enabled">Уключаны</string>
+    <string name="show_information_while_charging">Паказваць інфармацыю ў час зарадкі</string>
+    <string name="show_information_during_discharge">Паказваць інфармацыю ў час разрадкі</string>
+    <string name="show_last_charge_time_in_app">Паказваць час апошняй зарадкі у дадатку</string>
+    <string name="service_hours">Час службы</string>
 </resources>
