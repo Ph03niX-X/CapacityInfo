@@ -307,7 +307,7 @@ class CapacityInfoService : Service() {
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 val plugged = battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
-                val flooded = getString(R.string.charging_current, battery.getChargingCurrent().toString())
+                val flooded = battery.getFlooded()
                 val chargingCurrent = getString(R.string.charging_current, battery.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, battery.getTemperature())
@@ -326,7 +326,7 @@ class CapacityInfoService : Service() {
                 val notCharging = getString(R.string.status, getString(R.string.not_charging))
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
-                val flooded = getString(R.string.charging_current, battery.getChargingCurrent().toString())
+                val flooded = battery.getFlooded()
                 val dischargingCurrent = getString(R.string.discharge_current, battery.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, battery.getTemperature())
@@ -345,7 +345,7 @@ class CapacityInfoService : Service() {
                 val fullCharging = getString(R.string.status, getString(R.string.full))
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
-                val flooded = getString(R.string.charging_current, battery.getChargingCurrent().toString())
+                val flooded = battery.getFlooded()
                 val dischargingCurrent = getString(R.string.discharge_current, battery.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, battery.getTemperature())
@@ -374,7 +374,7 @@ class CapacityInfoService : Service() {
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 val lastChargingTime = getString(R.string.last_charge_time, battery.getLastChargeTime(), batteryLevelWith, batteryLevelTo)
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
-                val flooded = getString(R.string.charging_current, battery.getChargingCurrent().toString())
+                val flooded = battery.getFlooded()
                 val dischargingCurrent = getString(R.string.discharge_current, battery.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, battery.getTemperature())
@@ -406,7 +406,7 @@ class CapacityInfoService : Service() {
                 val discharging = getString(R.string.status, getString(R.string.unknown))
                 val batteryLevel = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 val currentCapacity = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
-                val flooded = getString(R.string.charging_current, battery.getChargingCurrent().toString())
+                val flooded = battery.getFlooded()
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, battery.getTemperature())
 
