@@ -72,7 +72,21 @@ class Battery(var context: Context) {
         return currentCapacity
     }
 
-    fun getFlooded() = context.getString(R.string.flooded, if(tempCurrentCapacity > 0) toDecimalFormat(getCurrentCapacity() - tempCurrentCapacity) else "0")
+    fun getFlooded(): String {
+
+        val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+        if(tempCurrentCapacity > 0)
+
+            return when(intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+
+            BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(R.string.flooded, toDecimalFormat(getCurrentCapacity() - tempCurrentCapacity))
+
+            else -> context.getString(R.string.flooded, toDecimalFormat(tempCurrentCapacity))
+        }
+
+        else return context.getString(R.string.flooded, "0")
+    }
 
     fun getVoltage(): Double {
 
