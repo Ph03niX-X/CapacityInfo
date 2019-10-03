@@ -7,6 +7,7 @@ import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.services.flooded
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -74,15 +75,22 @@ class Battery(var context: Context) {
 
     fun getFlooded(): String {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         if(tempCurrentCapacity > 0)
 
             return when(intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
-            BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(R.string.flooded, toDecimalFormat(getCurrentCapacity() - tempCurrentCapacity))
+            BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-            else -> context.getString(R.string.flooded, toDecimalFormat(tempCurrentCapacity))
+                flooded = getCurrentCapacity() - tempCurrentCapacity
+
+                context.getString(R.string.flooded, toDecimalFormat(flooded))
+            }
+
+            else -> context.getString(R.string.flooded, toDecimalFormat(pref.getFloat(Preferences.Flooded.prefKey, 0f).toDouble()))
         }
 
         else return context.getString(R.string.flooded, "0")

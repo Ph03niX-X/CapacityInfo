@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 
 var isPowerConnected = false
 var isStopCheck = false
+var flooded = 0.0
 const val notifyId = 101
 class CapacityInfoService : Service() {
 
@@ -91,6 +92,8 @@ class CapacityInfoService : Service() {
 
         batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
+        val battery = Battery(this)
+
         doAsync = DoAsync {
 
             while (isDoAsync) {
@@ -119,6 +122,8 @@ class CapacityInfoService : Service() {
                     if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
 
                         pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+
+                        pref.edit().putFloat(Preferences.Flooded.prefKey, flooded.toFloat()).apply()
 
                         if(!pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, true).apply()
                     }
@@ -166,6 +171,8 @@ class CapacityInfoService : Service() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
+        val battery = Battery(this)
+
         if(wakeLock.isHeld) wakeLock.release()
 
         if (!isFull && seconds > 1) {
@@ -175,6 +182,8 @@ class CapacityInfoService : Service() {
             pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
 
             pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+
+            if(flooded > 0) pref.edit().putFloat(Preferences.Flooded.prefKey, flooded.toFloat()).apply()
         }
 
         if(pref.getBoolean(Preferences.EnableService.prefKey, true) && !isStopService) startService()
