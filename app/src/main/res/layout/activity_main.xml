@@ -32,13 +32,24 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/charging_time"
+            android:visibility="gone"
+            android:text="@string/charging_time"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/medium"
+            android:layout_below="@id/battery_level"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/current_capacity"
             android:visibility="gone"
             android:text="@string/current_capacity"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/battery_level"/>
+            android:layout_below="@id/charging_time"/>
 
     <TextView
             android:layout_width="match_parent"

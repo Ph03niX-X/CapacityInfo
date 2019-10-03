@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var capacityDesign: TextView
     private lateinit var batteryLevel: TextView
+    private lateinit var chargingTime: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
     private lateinit var flooded: TextView
@@ -85,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         relativeMain = findViewById(R.id.relative_main)
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
+        chargingTime = findViewById(R.id.charging_time)
         currentCapacity = findViewById(R.id.current_capacity)
         flooded = findViewById(R.id.flooded)
         residualCapacity = findViewById(R.id.residual_capacity)
@@ -154,6 +156,19 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
 
                     batteryLevel.text = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
+                }
+
+                when(plugged) {
+
+                    BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                        runOnUiThread {
+
+                            if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
+
+                            chargingTime.text = getString(R.string.charging_time, battery.getChargingTime(CapacityInfoService.instance?.seconds?.toDouble()!!))
+                        }
+
+                    else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
                 }
 
                 if(pref.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true)) {
@@ -295,9 +310,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!) == "N/A") Thread.sleep(5000)
+                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!) == "N/A") Thread.sleep(5 * 1000)
 
-                else Thread.sleep(1000)
+                else Thread.sleep(950)
             }
 
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
