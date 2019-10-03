@@ -169,8 +169,6 @@ class CapacityInfoService : Service() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val battery = Battery(this)
-
         if(wakeLock.isHeld) wakeLock.release()
 
         if (!isFull && seconds > 1) {
