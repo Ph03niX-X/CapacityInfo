@@ -79,7 +79,7 @@ class Battery(var context: Context) {
 
         val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        if(tempCurrentCapacity > 0)
+        if(tempCurrentCapacity > 0 || pref.getFloat(Preferences.Flooded.prefKey, 0f) > 0)
 
             return when(intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
