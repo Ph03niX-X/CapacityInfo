@@ -121,7 +121,7 @@ class CapacityInfoService : Service() {
 
                     if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
 
-                        pref.edit().putInt("charge_counter", batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
 
                         pref.edit().putFloat(Preferences.Flooded.prefKey, flooded.toFloat()).apply()
 
