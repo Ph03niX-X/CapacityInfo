@@ -92,8 +92,6 @@ class CapacityInfoService : Service() {
 
         batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-        val battery = Battery(this)
-
         doAsync = DoAsync {
 
             while (isDoAsync) {
