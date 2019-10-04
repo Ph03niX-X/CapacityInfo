@@ -26,6 +26,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
         }
     }
 
+    // Migrate settings from 1.2 and below
     private fun migrateToDefaultPrefs(context: Context) {
 
         val oldPrefs = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)

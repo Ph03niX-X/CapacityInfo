@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
                 android:title="@string/service_and_notification"
@@ -58,9 +58,10 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/appearance"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+    <PreferenceCategory
+                app:title="@string/appearance"
+                app:allowDividerAbove="false"
+                app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
@@ -69,8 +70,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/other"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+                app:allowDividerAbove="false"
+                app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/temperature_in_fahrenheit"
