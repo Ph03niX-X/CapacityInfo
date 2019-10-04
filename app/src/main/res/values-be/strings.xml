@@ -52,4 +52,7 @@
     <string name="show_last_charge_time_in_app">Паказваць час апошняй зарадкі у дадатку</string>
     <string name="service_hours">Час службы</string>
     <string name="flooded">"Залілося: %1$s мАг"</string>
+    <string name="show_charging_time_in_app">Паказваць час зарадкі ў дадатку</string>
+    <string name="during_discharge">У час разрадкі</string>
+    <string name="notification_priority">Прыярытэт паведамлення і значок у радку стану</string>
 </resources>
