@@ -245,16 +245,11 @@ class MainActivity : AppCompatActivity() {
 
                             if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
 
-                            if(tempCurrentCapacity > 0 && capacityAdded.visibility == View.GONE)
-                                runOnUiThread { capacityAdded.visibility = View.VISIBLE }
-
-                            else if(capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.VISIBLE }
-
                             runOnUiThread {
 
                                 currentCapacity.text = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
 
-                                if(capacityAdded.visibility == View.VISIBLE) capacityAdded.text = battery.getCapacityAdded()
+                                capacityAdded.text = battery.getCapacityAdded()
                             }
 
                         }

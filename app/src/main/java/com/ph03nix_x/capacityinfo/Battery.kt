@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.services.capacityAdded
@@ -79,8 +80,6 @@ class Battery(var context: Context) {
 
         val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        if(tempCurrentCapacity > 0 || pref.getFloat(Preferences.CapacityAdded.prefKey, 0f) > 0)
-
             return when(intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
@@ -92,8 +91,6 @@ class Battery(var context: Context) {
 
             else -> context.getString(R.string.capacity_added, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()))
         }
-
-        else return context.getString(R.string.capacity_added, "0")
     }
 
     fun getVoltage(): Double {
