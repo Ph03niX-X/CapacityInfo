@@ -7,7 +7,7 @@ import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
-import com.ph03nix_x.capacityinfo.services.flooded
+import com.ph03nix_x.capacityinfo.services.capacityAdded
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,27 +73,27 @@ class Battery(var context: Context) {
         return currentCapacity
     }
 
-    fun getFlooded(): String {
+    fun getCapacityAdded(): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        if(tempCurrentCapacity > 0 || pref.getFloat(Preferences.Flooded.prefKey, 0f) > 0)
+        if(tempCurrentCapacity > 0 || pref.getFloat(Preferences.CapacityAdded.prefKey, 0f) > 0)
 
             return when(intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-                flooded = getCurrentCapacity() - tempCurrentCapacity
+                capacityAdded = getCurrentCapacity() - tempCurrentCapacity
 
-                context.getString(R.string.flooded, toDecimalFormat(flooded))
+                context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded))
             }
 
-            else -> context.getString(R.string.flooded, toDecimalFormat(pref.getFloat(Preferences.Flooded.prefKey, 0f).toDouble()))
+            else -> context.getString(R.string.capacity_added, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()))
         }
 
-        else return context.getString(R.string.flooded, "0")
+        else return context.getString(R.string.capacity_added, "0")
     }
 
     fun getVoltage(): Double {

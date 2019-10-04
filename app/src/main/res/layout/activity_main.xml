@@ -54,9 +54,9 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/flooded"
+            android:id="@+id/capacity_added"
             android:visibility="gone"
-            android:text="@string/flooded"
+            android:text="@string/capacity_added"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
@@ -70,7 +70,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/flooded"/>
+            android:layout_below="@id/capacity_added"/>
 
     <TextView
             android:layout_width="match_parent"

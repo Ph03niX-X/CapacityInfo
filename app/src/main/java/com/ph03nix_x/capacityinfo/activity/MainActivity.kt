@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var chargingTime: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
-    private lateinit var flooded: TextView
+    private lateinit var capacityAdded: TextView
     private lateinit var technology: TextView
     private lateinit var status: TextView
     private lateinit var plugged: TextView
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         batteryLevel = findViewById(R.id.battery_level)
         chargingTime = findViewById(R.id.charging_time)
         currentCapacity = findViewById(R.id.current_capacity)
-        flooded = findViewById(R.id.flooded)
+        capacityAdded = findViewById(R.id.capacity_added)
         residualCapacity = findViewById(R.id.residual_capacity)
         technology = findViewById(R.id.battery_technology)
         status = findViewById(R.id.status)
@@ -245,16 +245,16 @@ class MainActivity : AppCompatActivity() {
 
                             if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
 
-                            if(tempCurrentCapacity > 0 && flooded.visibility == View.GONE)
-                                runOnUiThread { flooded.visibility = View.VISIBLE }
+                            if(tempCurrentCapacity > 0 && capacityAdded.visibility == View.GONE)
+                                runOnUiThread { capacityAdded.visibility = View.VISIBLE }
 
-                            else if(flooded.visibility == View.VISIBLE) runOnUiThread { flooded.visibility = View.VISIBLE }
+                            else if(capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.VISIBLE }
 
                             runOnUiThread {
 
                                 currentCapacity.text = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
 
-                                if(flooded.visibility == View.VISIBLE) flooded.text = battery.getFlooded()
+                                if(capacityAdded.visibility == View.VISIBLE) capacityAdded.text = battery.getCapacityAdded()
                             }
 
                         }
