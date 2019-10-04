@@ -51,7 +51,7 @@
     <string name="show_information_during_discharge">Показывать информацию во время разрядки</string>
     <string name="show_last_charge_time_in_app">Показывать время последней зарядки в приложении</string>
     <string name="service_hours">Время службы</string>
-    <string name="flooded">"Залилось: %1$s мАч"</string>
+    <string name="capacity_added">"Добавилось ёмкости: %1$s мАч"</string>
     <string name="show_charging_time_in_app">Показывать время зарядки в приложении</string>
     <string name="during_discharge">Во время разрядки</string>
     <string name="notification_priority">Приоритет уведомления и значок в строке состояния</string>

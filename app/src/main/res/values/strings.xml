@@ -53,7 +53,7 @@
     <string name="show_information_during_discharge">Show information during discharge</string>
     <string name="show_last_charge_time_in_app">Show last charge time in app</string>
     <string name="service_hours">Service Hours</string>
-    <string name="flooded">"Flooded: %1$s mAh"</string>
+    <string name="capacity_added">"Capacity Added: %1$s mAh"</string>
     <string name="show_charging_time_in_app">Show Charging Time in App</string>
     <string name="during_discharge">During discharge</string>
     <string name="notification_priority">Notification Priority and Status Bar Icon</string>
