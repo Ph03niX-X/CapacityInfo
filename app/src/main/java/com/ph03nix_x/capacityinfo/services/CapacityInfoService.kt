@@ -34,7 +34,7 @@ class CapacityInfoService : Service() {
     private var isFull = false
     var isStopService = false
     var batteryLevelWith = -1
-    var seconds = 1
+    var seconds = 0
     var sleepTime: Long = 10
 
     companion object {
@@ -104,7 +104,7 @@ class CapacityInfoService : Service() {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    Thread.sleep(894)
+                    Thread.sleep(867, 145)
                     seconds++
                     updateNotification()
                 }
