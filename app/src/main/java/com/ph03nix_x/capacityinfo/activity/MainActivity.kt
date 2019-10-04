@@ -158,6 +158,7 @@ class MainActivity : AppCompatActivity() {
                     batteryLevel.text = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
                 }
 
+                if(pref.getBoolean(Preferences.IsShowChargingTimeInApp.prefKey, true))
                 when(plugged) {
 
                     BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
@@ -170,6 +171,8 @@ class MainActivity : AppCompatActivity() {
 
                     else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
                 }
+
+                else runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
 
                 if(pref.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true)) {
 
@@ -310,7 +313,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!) == "N/A") Thread.sleep(5 * 1000)
+                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!) == "N/A") Thread.sleep(5 * 950)
 
                 else Thread.sleep(950)
             }

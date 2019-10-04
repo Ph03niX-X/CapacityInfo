@@ -76,6 +76,12 @@
                 android:key="temperature_in_fahrenheit"/>
 
         <SwitchPreferenceCompat
+                android:title="@string/show_charging_time_in_app"
+                android:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_charging_time_in_app"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time_in_app"
                 android:defaultValue="true"
                 app:singleLineTitle="false"

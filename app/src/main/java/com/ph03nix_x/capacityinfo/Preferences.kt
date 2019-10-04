@@ -14,5 +14,7 @@ enum class Preferences(val prefKey: String) {
 
     IsShowServiceStop("is_show_stop_service"), VoltageInMv("voltage_in_mv"), IsShowInformationWhileCharging("is_show_information_while_charging"),
 
-    IsShowInformationDuringDischarge("is_show_information_during_discharge"), IsServiceHours("is_service_hours"), Flooded("flooded")
+    IsShowInformationDuringDischarge("is_show_information_during_discharge"), IsServiceHours("is_service_hours"), Flooded("flooded"),
+
+    IsShowChargingTimeInApp("is_show_charging_time_in_app")
 }
