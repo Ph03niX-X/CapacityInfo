@@ -51,4 +51,5 @@
     <string name="show_information_during_discharge">Паказваць інфармацыю ў час разрадкі</string>
     <string name="show_last_charge_time_in_app">Паказваць час апошняй зарадкі у дадатку</string>
     <string name="service_hours">Час службы</string>
+    <string name="flooded">"Залілося: %1$s мАг"</string>
 </resources>
