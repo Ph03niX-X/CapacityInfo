@@ -28,9 +28,9 @@
                 android:key="is_show_information_while_charging"/>
 
         <SwitchPreferenceCompat
-                android:title="@string/service_hours"
+                android:title="@string/service_time"
                 app:singleLineTitle="false"
-                android:key="is_service_hours"/>
+                android:key="is_service_time"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_information_during_discharge"

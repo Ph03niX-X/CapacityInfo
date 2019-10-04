@@ -50,7 +50,7 @@
     <string name="show_information_while_charging">Показувати інформацію під час зарядки</string>
     <string name="show_information_during_discharge">Показувати інформацію під час розрядки</string>
     <string name="show_last_charge_time_in_app">Показувати час останньої зарядки в додатку</string>
-    <string name="service_hours">Час служби</string>
+    <string name="service_time">Час служби</string>
     <string name="capacity_added">"Додалося ємності: %1$s мАг"</string>
     <string name="show_charging_time_in_app">Показувати час зарядки в додатку</string>
     <string name="during_discharge">Під час розрядки</string>
