@@ -89,7 +89,7 @@ class Battery(var context: Context) {
                 context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded))
             }
 
-            else -> context.getString(R.string.capacity_added, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()))
+            else -> context.getString(R.string.capacity_added_last_charge, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()))
         }
     }
 
