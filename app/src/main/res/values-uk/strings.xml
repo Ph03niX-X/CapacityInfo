@@ -52,6 +52,7 @@
     <string name="show_last_charge_time_in_app">Показувати час останньої зарядки в додатку</string>
     <string name="service_time">Час служби</string>
     <string name="capacity_added">"Додалося ємності: %1$s мАг"</string>
+    <string name="capacity_added_last_charge">Додалося ємності (Остання зарядка): %1$s мАг</string>
     <string name="show_charging_time_in_app">Показувати час зарядки в додатку</string>
     <string name="during_discharge">Під час розрядки</string>
     <string name="notification_priority">Пріоритет повідомлення і значок в рядку стану</string>
