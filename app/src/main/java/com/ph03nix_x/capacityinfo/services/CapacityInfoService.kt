@@ -96,7 +96,7 @@ class CapacityInfoService : Service() {
 
             while (isDoAsync) {
 
-                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(20 * 1000)
+                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(5 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -139,18 +139,18 @@ class CapacityInfoService : Service() {
                     
                     updateNotification()
 
-                    if (sleepTime !in sleepArray) {
+                    if (sleepTime !in sleepArray && !isPowerConnected) {
 
                         sleepTime = 40
 
                         pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 40).apply()
                     }
 
-                    Thread.sleep(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 895
-                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (30 * 60 * 1000).toLong()
-                    else 1000)
+                    else if(isPowerConnected && sleepTime != 20.toLong() && isFull) sleepTime = 20
 
-                    if(isPowerConnected && sleepTime != 10.toLong()) sleepTime = 10
+                    Thread.sleep(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 895
+                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (60 * 1000).toLong()
+                    else 1000)
                 }
 
                 if(wakeLock.isHeld && isFull) wakeLock.release()
@@ -168,8 +168,6 @@ class CapacityInfoService : Service() {
         doAsync?.cancel(true)
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        if(wakeLock.isHeld) wakeLock.release()
 
         if (!isFull && seconds > 1) {
 

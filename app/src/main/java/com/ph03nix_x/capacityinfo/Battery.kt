@@ -86,6 +86,8 @@ class Battery(var context: Context) {
 
                 capacityAdded = getCurrentCapacity() - tempCurrentCapacity
 
+                if(capacityAdded < 0) capacityAdded /= -1
+
                 context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded))
             }
 
