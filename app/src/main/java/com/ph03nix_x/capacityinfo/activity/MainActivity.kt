@@ -251,12 +251,13 @@ class MainActivity : AppCompatActivity() {
 
                                 capacityAdded.text = battery.getCapacityAdded()
                             }
-
                         }
 
                         else {
 
                             if (currentCapacity.visibility == View.VISIBLE) runOnUiThread { currentCapacity.visibility = View.GONE }
+
+                            if (capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.GONE }
                         }
 
                         val intentFilter = IntentFilter()
@@ -290,6 +291,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else {
+
+                    if (capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.GONE }
+
+                    if(pref.contains(Preferences.CapacityAdded.prefKey)) pref.edit().remove(Preferences.CapacityAdded.prefKey).apply()
 
                     if(isShowDialog) {
 
