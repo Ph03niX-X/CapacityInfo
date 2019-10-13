@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.services.capacityAdded
@@ -171,7 +170,13 @@ class Battery(var context: Context) {
         val time = "$hours:$minutes:$secondsTime"
 
         return context.getString(R.string.charging_time,
-            DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString())
+
+            try {
+
+                DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+            }
+
+            catch (e: IllegalArgumentException) { "00:00:00" })
     }
 
     fun getLastChargeTime(): String { 
@@ -184,6 +189,11 @@ class Battery(var context: Context) {
 
         val time = "$hours:$minutes:$seconds"
 
-        return DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+        return try {
+
+            DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+        }
+
+        catch (e: IllegalArgumentException) { "00:00:00" }
     }
 }
