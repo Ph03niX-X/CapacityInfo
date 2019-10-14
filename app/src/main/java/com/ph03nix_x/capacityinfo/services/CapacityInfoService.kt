@@ -75,6 +75,8 @@ class CapacityInfoService : Service() {
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
+        seconds++
+
         createNotification()
     }
 
@@ -96,7 +98,7 @@ class CapacityInfoService : Service() {
 
             while (isDoAsync) {
 
-                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(5 * 1000)
+                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(5 * 60 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -104,7 +106,7 @@ class CapacityInfoService : Service() {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    Thread.sleep(867, 145)
+                    Thread.sleep(914)
                     seconds++
                     updateNotification()
                 }
@@ -147,13 +149,12 @@ class CapacityInfoService : Service() {
                     }
 
                     else if(isPowerConnected && sleepTime != 20.toLong() && isFull) sleepTime = 20
+                    if(wakeLock.isHeld) wakeLock.release()
 
-                    Thread.sleep(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 895
-                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (60 * 1000).toLong()
-                    else 1000)
+                    Thread.sleep(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 914
+                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (60 * 914).toLong()
+                    else 914)
                 }
-
-                if(wakeLock.isHeld && isFull) wakeLock.release()
             }
 
         }.execute()
@@ -163,6 +164,7 @@ class CapacityInfoService : Service() {
 
     override fun onDestroy() {
 
+        if(wakeLock.isHeld) wakeLock.release()
         instance = null
         isDoAsync = false
         doAsync?.cancel(true)

@@ -150,8 +150,8 @@ class MainActivity : AppCompatActivity() {
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-                val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+                val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
                 runOnUiThread {
 
@@ -203,9 +203,9 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
 
-                    this.status.text = battery.getStatus(status!!)
+                    this.status.text = battery.getStatus(status)
 
-                    if(battery.getPlugged(plugged!!) != "N/A") {
+                    if(battery.getPlugged(plugged) != "N/A") {
 
                         if(this.plugged.visibility == View.GONE) this.plugged.visibility = View.VISIBLE
 
@@ -217,7 +217,9 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
 
-                    technology.text = getString(R.string.battery_technology, batteryStatus!!.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY))
+                    batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+                    technology.text = getString(R.string.battery_technology, batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: "Unknown")
 
                     temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
                         battery.getTemperature())
@@ -313,9 +315,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!) == "N/A") Thread.sleep(5 * 950)
+                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1) == "N/A") Thread.sleep(5 * 914)
 
-                else Thread.sleep(950)
+                else Thread.sleep(914)
             }
 
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
