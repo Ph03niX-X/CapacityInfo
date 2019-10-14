@@ -32,8 +32,8 @@ class CapacityInfoService : Service() {
     private var batteryStatus: Intent? = null
     private var isDoAsync = false
     private var isFull = false
+    private var batteryLevelWith = -1
     var isStopService = false
-    var batteryLevelWith = -1
     var seconds = 0
     var sleepTime: Long = 10
 
