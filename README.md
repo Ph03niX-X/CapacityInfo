@@ -8,8 +8,17 @@ alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 <b>Instruction:</b>
 </p>
 
-In order for the application to show and overwrite the remaining capacity, charge the device to 100% until the charging current stops flowing, while not killing the entire application. If you want to change the design capacity, go to the application settings.
+In order for the application to show the remaining capacity, charge the battery to 100% until it is “Charged”, and the service must be turned on. If the design capacity is incorrect, change it in the application settings.
 
-<b>ATTENTION!</b> If the shell of your device completely "kills" the application or you use energy saving, add this application to the exception.
+<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to “kill” applications, or completely “kills” applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS.
 
 <b>ATTENTION!</b> Due to the fact that some devices give out the current charging current only during charging, the application cannot immediately determine the compatibility with your device. Is the application compatible with your device, you will find out only after fully charged
+
+<p align="center">
+<b>Supported Languages:</b>
+</p>
+
+1. English
+2. Russian
+3. Ukrainian
+4. Romanian
