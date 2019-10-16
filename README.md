@@ -22,3 +22,4 @@ In order for the application to show the remaining capacity, charge the battery 
 2. Russian
 3. Ukrainian
 4. Romanian
+5. Belorussian
