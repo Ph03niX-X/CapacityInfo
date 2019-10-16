@@ -164,27 +164,31 @@ class CapacityInfoService : Service() {
 
     override fun onDestroy() {
 
-        if(wakeLock.isHeld) wakeLock.release()
-        instance = null
-        isDoAsync = false
-        doAsync?.cancel(true)
+        try { if (wakeLock.isHeld) wakeLock.release() }
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        finally {
 
-        if (!isFull && seconds > 1) {
+            instance = null
+            isDoAsync = false
+            doAsync?.cancel(true)
 
-            pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
+            val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-            pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
+            if (!isFull && seconds > 1) {
 
-            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+                pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
 
-            if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
+                pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
+
+                pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+
+                if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
+            }
+
+            if(pref.getBoolean(Preferences.EnableService.prefKey, true) && !isStopService) startService()
+
+            super.onDestroy()
         }
-
-        if(pref.getBoolean(Preferences.EnableService.prefKey, true) && !isStopService) startService()
-
-        super.onDestroy()
     }
 
     private fun createNotification() {
