@@ -176,7 +176,7 @@ class Battery(var context: Context) {
                 DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
             }
 
-            catch (e: IllegalArgumentException) { "00:00:00" })
+            catch (e: IllegalArgumentException) { seconds.toString() })
     }
 
     fun getLastChargeTime(): String { 
@@ -194,6 +194,6 @@ class Battery(var context: Context) {
             DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
         }
 
-        catch (e: IllegalArgumentException) { "00:00:00" }
+        catch (e: IllegalArgumentException) { secondsPref.toString() }
     }
 }
