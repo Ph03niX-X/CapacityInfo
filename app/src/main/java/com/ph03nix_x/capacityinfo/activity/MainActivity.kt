@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
 
                             if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
 
-                            chargingTime.text = battery.getChargingTime(CapacityInfoService.instance?.seconds?.toDouble()!!)
+                            chargingTime.text = battery.getChargingTime(CapacityInfoService.instance?.seconds?.toDouble() ?: 0.0)
                         }
 
                     else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
