@@ -57,7 +57,10 @@ class MainActivity : AppCompatActivity() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+            && pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
+
+        else if(pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
