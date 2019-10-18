@@ -1,8 +1,6 @@
 package com.ph03nix_x.capacityinfo.activity
 
-import android.app.UiModeManager
 import android.content.*
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
