@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var lastChargeTime: TextView
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
-    private lateinit var relativeMain: RelativeLayout
     private lateinit var batteryManager: BatteryManager
     private var batteryStatus: Intent? = null
     private var isDoAsync = false
@@ -86,7 +85,6 @@ class MainActivity : AppCompatActivity() {
             return@OnMenuItemClickListener true
         })
 
-        relativeMain = findViewById(R.id.relative_main)
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
         chargingTime = findViewById(R.id.charging_time)
@@ -103,8 +101,6 @@ class MainActivity : AppCompatActivity() {
         batteryWear = findViewById(R.id.battery_wear)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-
-        if(pref.getBoolean(Preferences.DarkMode.prefKey, false)) relativeMain.setBackgroundColor(ContextCompat.getColor(this, R.color.dark))
 
         if(pref.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
 
