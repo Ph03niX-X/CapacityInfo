@@ -24,4 +24,4 @@ In order for the application to show the remaining capacity, charge the battery 
 4. Romanian
 5. Belorussian
 
-If you want to help with the translation, write to Telegram - [@Ph03niX_X](https://t.me/Ph03niX_X) or E-mail - Ph03niX_X@outlook.com, or click "Fork" on GitHub
+If you want to help with the translation, write to Telegram - [@Ph03niX_X](https://t.me/Ph03niX_X) or E-mail - Ph03niX-X@outlook.com, or click "Fork" on GitHub
