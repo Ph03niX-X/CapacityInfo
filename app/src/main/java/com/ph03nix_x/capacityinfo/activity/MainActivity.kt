@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.activity
 
+import android.app.UiModeManager
 import android.content.*
 import android.net.Uri
 import android.os.AsyncTask
@@ -54,13 +55,16 @@ class MainActivity : AppCompatActivity() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-            && pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
-
-        else if(pref.getBoolean(Preferences.DarkMode.prefKey, false)) setTheme(R.style.DarkTheme)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+
+            val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+
+            uiManager.nightMode = if(pref.getBoolean(Preferences.DarkMode.prefKey, false))
+                UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+        }
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.app_name)

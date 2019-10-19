@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragment
 
 import android.app.NotificationManager
+import android.app.UiModeManager
 import android.content.*
 import android.net.Uri
 import android.os.Build
@@ -8,10 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
-import android.widget.EditText
-import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -25,6 +22,7 @@ import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.isStopCheck
+import android.widget.*
 
 const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
 const val designerLink = "https://t.me/F0x1d"
@@ -78,6 +76,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.settings)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+
+            val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+
+            uiManager.nightMode = if(pref.getBoolean(Preferences.DarkMode.prefKey, false))
+                UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+        }
 
         // Service and Notification
 
@@ -230,10 +236,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         darkMode = findPreference(Preferences.DarkMode.prefKey)
 
-        darkMode?.setOnPreferenceChangeListener { _, _ ->
+        darkMode?.setOnPreferenceChangeListener { _, b ->
 
-            MainActivity.instance!!.recreate()
-            requireActivity().recreate()
+            val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+
+            uiManager.nightMode = if (b as Boolean) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
 
             return@setOnPreferenceChangeListener true
         }

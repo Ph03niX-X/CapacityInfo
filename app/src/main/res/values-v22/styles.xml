@@ -1,27 +1,5 @@
 <resources>
 
-    <style name="DarkTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/dark</item>
-        <item name="android:navigationBarColor">@color/dark</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="android:windowBackground">@color/dark</item>
-        <item name="android:scrollbarThumbVertical">@color/red</item>
-        <item name="materialAlertDialogTheme">@style/DarkTheme.AlertDialog</item>
-    </style>
-
-    <style name="DarkTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:windowBackground">@color/dark</item>
-        <item name="android:background">@color/dark</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle.Dark</item>
-        <item name="buttonBarPositiveButtonStyle">@style/NegativeButtonStyle.Dark</item>
-        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle.Dark</item>
-    </style>
-
-    <style name="NegativeButtonStyle.Dark" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textAllCaps">false</item>
-    </style>
-
     <style name="WhiteTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">@color/blue</item>
         <item name="colorPrimary">@color/blue</item>

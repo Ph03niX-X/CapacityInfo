@@ -5,10 +5,9 @@
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/dark</item>
         <item name="android:navigationBarColor">@color/dark</item>
-        <item name="android:windowBackground">@color/dark</item>
         <item name="colorAccent">@color/red</item>
+        <item name="android:windowBackground">@color/dark</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
         <item name="android:scrollbarThumbVertical">@color/red</item>
         <item name="materialAlertDialogTheme">@style/DarkTheme.AlertDialog</item>
     </style>
