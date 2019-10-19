@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -29,6 +30,7 @@ const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
 const val designerLink = "https://t.me/F0x1d"
 const val romanianTranslationLink = "https://github.com/ygorigor"
 const val belorussianTranslationLink = "https://t.me/DrCyanogen"
+const val telegramLink = "https://t.me/Ph03niX_X"
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
@@ -65,6 +67,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belorussianTranslation: Preference? = null
+
+    // Feedback
+
+    private var telegram: Preference? = null
+    private var email: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -349,6 +356,42 @@ class SettingsFragment : PreferenceFragmentCompat() {
         belorussianTranslation?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(belorussianTranslationLink)))
+
+            return@setOnPreferenceClickListener true
+        }
+
+        // Feedback
+
+        telegram = findPreference("telegram")
+
+        email = findPreference("email")
+
+        telegram?.setOnPreferenceClickListener {
+
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(telegramLink))) }
+
+            catch (e: ActivityNotFoundException) {
+
+                val clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("telegram", telegramLink)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(context!!, getString(R.string.telegram_link_copied), Toast.LENGTH_LONG).show()
+            }
+
+            return@setOnPreferenceClickListener true
+        }
+
+        email?.setOnPreferenceClickListener {
+
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email?.summary}?subject=Capacity Info. Feedback"))) }
+
+            catch (e: ActivityNotFoundException) {
+
+                val clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("email", email?.summary)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(context!!, getString(R.string.email_copied), Toast.LENGTH_LONG).show()
+            }
 
             return@setOnPreferenceClickListener true
         }

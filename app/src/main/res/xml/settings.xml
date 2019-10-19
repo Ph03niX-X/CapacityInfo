@@ -163,4 +163,23 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+                app:title="@string/feedback"
+                app:allowDividerAbove="false"
+                app:allowDividerBelow="false">
+
+        <Preference
+                app:title="@string/telegram"
+                app:summary="\@Ph03niX-X"
+                app:icon="@drawable/telegram"
+                android:key="telegram"/>
+
+        <Preference
+                app:title="@string/email"
+                app:summary="Ph03niX-X@outlook.com"
+                app:icon="@drawable/email"
+                android:key="email"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

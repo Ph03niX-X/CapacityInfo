@@ -68,4 +68,9 @@
     <string name="designer">Designer</string>
     <string name="romanian_translation">Romanian translation</string>
     <string name="belorussian_translation">Belorussian translation</string>
+    <string name="feedback">Feedback</string>
+    <string name="telegram">Telegram</string>
+    <string name="email">E-mail</string>
+    <string name="telegram_link_copied">Telegram link copied</string>
+    <string name="email_copied">E-mail copied</string>
 </resources>
