@@ -56,4 +56,14 @@
     <string name="show_charging_time_in_app">Паказваць час зарадкі ў дадатку</string>
     <string name="during_discharge">У час разрадкі</string>
     <string name="notification_priority">Прыярытэт паведамлення і значок у радку стану</string>
+    <string name="about">Аб дадатку</string>
+    <string name="developer">Распрацоўшчык</string>
+    <string name="version">Версія</string>
+    <string name="build">Зборка</string>
+    <string name="build_date">Дата зборкі</string>
+    <string name="rate_the_app">Ацаніць дадатак</string>
+    <string name="license">Ліцэнзія: Apache 2.0</string>
+    <string name="designer">Дызайнер</string>
+    <string name="romanian_translation">Румынскі пераклад</string>
+    <string name="belorussian_translation">Беларускі пераклад</string>
 </resources>
