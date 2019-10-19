@@ -13,8 +13,4 @@
         android:title="@string/instruction"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/github"
-        android:title="@string/github"
-        app:showAsAction="never"/>
 </menu>

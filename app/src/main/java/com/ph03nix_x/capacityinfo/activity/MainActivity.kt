@@ -78,10 +78,6 @@ class MainActivity : AppCompatActivity() {
             }
             return@OnMenuItemClickListener true
         })
-        toolbar.menu.findItem(R.id.github).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Ph03niX-X/CapacityInfo")))
-            return@OnMenuItemClickListener true
-        })
 
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)

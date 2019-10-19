@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.fragment
 
 import android.app.NotificationManager
 import android.content.*
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +17,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
@@ -23,6 +25,10 @@ import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.isStopCheck
 
+const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
+const val designerLink = "https://t.me/F0x1d"
+const val romanianTranslationLink = "https://github.com/ygorigor"
+const val belorussianTranslationLink = "https://t.me/DrCyanogen"
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
@@ -47,6 +53,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
+
+    // About
+
+    private var developer: Preference? = null
+    private var version: Preference? = null
+    private var build: Preference? = null
+    private var buildDate: Preference? = null
+    private var rateTheApp: Preference? = null
+    private var github: Preference? = null
+    private var designer: Preference? = null
+    private var romanianTranslation: Preference? = null
+    private var belorussianTranslation: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -261,7 +279,83 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             return@setOnPreferenceClickListener true
         }
+
+        // About
+
+        developer = findPreference("developer")
+
+        version = findPreference("version")
+
+        build = findPreference("build")
+
+        buildDate = findPreference("build_date")
+
+        rateTheApp = findPreference("rate_the_app")
+
+        github = findPreference("github")
+
+        designer = findPreference("designer")
+
+        romanianTranslation = findPreference("romanian_translation")
+
+        belorussianTranslation = findPreference("belorussian_translation")
+
+        version?.summary = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionName
+
+        build?.summary = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionCode?.toString()
+
+        buildDate?.summary = BuildConfig.BUILD_DATE
+
+//        rateTheApp?.isVisible = !isGooglePlay()
+
+        if(!isGooglePlay()) {
+
+            developer?.setOnPreferenceClickListener {
+
+                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:${developer?.summary}")))
+
+                return@setOnPreferenceClickListener true
+            }
+
+            rateTheApp?.setOnPreferenceClickListener {
+
+                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context?.packageName}")))
+
+                return@setOnPreferenceClickListener true
+            }
+        }
+
+        github?.setOnPreferenceClickListener {
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(githubLink)))
+
+            return@setOnPreferenceClickListener true
+        }
+
+        designer?.setOnPreferenceClickListener {
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(designerLink)))
+
+            return@setOnPreferenceClickListener true
+        }
+
+        romanianTranslation?.setOnPreferenceClickListener {
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(romanianTranslationLink)))
+
+            return@setOnPreferenceClickListener true
+        }
+
+        belorussianTranslation?.setOnPreferenceClickListener {
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(belorussianTranslationLink)))
+
+            return@setOnPreferenceClickListener true
+        }
     }
+
+    private fun isGooglePlay() = "com.google.android.packageinstaller" != context?.packageManager?.getInstallerPackageName(context!!.packageName)
+            && "com.android.packageinstaller" != context?.packageManager?.getInstallerPackageName(context!!.packageName)
 
     private fun startService() {
 

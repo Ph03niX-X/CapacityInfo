@@ -101,4 +101,66 @@
                 android:key="change_design_capacity"/>
     </PreferenceCategory>
 
+    <PreferenceCategory
+            android:title="@string/about"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
+
+        <Preference
+                app:title="@string/developer"
+                app:summary="Ph03niX-X"
+                app:singleLineTitle="false"
+                android:key="developer"/>
+
+        <Preference
+                app:title="@string/version"
+                app:singleLineTitle="false"
+                android:key="version"/>
+
+        <Preference
+                app:title="@string/build"
+                app:singleLineTitle="false"
+                android:key="build"/>
+
+        <Preference
+                app:title="@string/build_date"
+                app:singleLineTitle="false"
+                android:key="build_date"/>
+
+        <Preference
+                app:title="@string/rate_the_app"
+                app:singleLineTitle="false"
+                app:icon="@drawable/google_play"
+                android:key="rate_the_app"/>
+
+        <Preference
+                app:title="@string/github"
+                app:summary="@string/license"
+                app:singleLineTitle="false"
+                app:icon="@drawable/github"
+                android:key="github"/>
+
+        <Preference
+                app:title="@string/designer"
+                app:summary="F0x1d"
+                app:singleLineTitle="false"
+                app:icon="@drawable/designer_icon"
+                android:key="designer"/>
+
+        <Preference
+                app:title="@string/romanian_translation"
+                app:summary="F0x1d"
+                app:singleLineTitle="false"
+                app:icon="@drawable/romania"
+                android:key="romanian_translation"/>
+
+        <Preference
+                app:title="@string/belorussian_translation"
+                app:summary="F0x1d"
+                app:singleLineTitle="false"
+                app:icon="@drawable/belarus"
+                android:key="belorussian_translation"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

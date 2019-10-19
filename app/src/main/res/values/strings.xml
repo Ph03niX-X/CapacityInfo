@@ -58,4 +58,14 @@
     <string name="show_charging_time_in_app">Show Charging Time in App</string>
     <string name="during_discharge">During discharge</string>
     <string name="notification_priority">Notification Priority and Status Bar Icon</string>
+    <string name="about">About</string>
+    <string name="developer">Developer</string>
+    <string name="version">Version</string>
+    <string name="build">Build</string>
+    <string name="build_date">Build Date</string>
+    <string name="rate_the_app">Rate the app</string>
+    <string name="license">License: Apache 2.0</string>
+    <string name="designer">Designer</string>
+    <string name="romanian_translation">Romanian translation</string>
+    <string name="belorussian_translation">Belorussian translation</string>
 </resources>
