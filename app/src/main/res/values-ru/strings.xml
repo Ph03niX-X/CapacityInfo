@@ -56,4 +56,14 @@
     <string name="show_charging_time_in_app">Показывать время зарядки в приложении</string>
     <string name="during_discharge">Во время разрядки</string>
     <string name="notification_priority">Приоритет уведомления и значок в строке состояния</string>
+    <string name="about">О приложении</string>
+    <string name="developer">Разработчик</string>
+    <string name="version">Версия</string>
+    <string name="build">Сборка</string>
+    <string name="build_date">Дата сборки</string>
+    <string name="rate_the_app">Оценить приложение</string>
+    <string name="license">Лицензия: Apache 2.0</string>
+    <string name="designer">Дизайнер</string>
+    <string name="romanian_translation">Румынский перевод</string>
+    <string name="belorussian_translation">Белорусский перевод</string>
 </resources>
