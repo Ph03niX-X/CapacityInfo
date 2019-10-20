@@ -320,9 +320,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 
-//        rateTheApp?.isVisible = !isGooglePlay()
+        rateTheApp?.isVisible = isGooglePlay()
 
-        if(!isGooglePlay()) {
+        if(isGooglePlay()) {
 
             developer?.setOnPreferenceClickListener {
 
@@ -404,8 +404,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun isGooglePlay() = "com.google.android.packageinstaller" != context?.packageManager?.getInstallerPackageName(context!!.packageName)
-            && "com.android.packageinstaller" != context?.packageManager?.getInstallerPackageName(context!!.packageName)
+    private fun isGooglePlay() = "com.android.vending" == context?.packageManager?.getInstallerPackageName(context!!.packageName)
 
     private fun startService() {
 

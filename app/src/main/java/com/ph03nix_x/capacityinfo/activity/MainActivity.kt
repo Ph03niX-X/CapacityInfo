@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.activity
 
 import android.app.UiModeManager
 import android.content.*
-import android.net.Uri
 import android.os.AsyncTask
 import android.os.BatteryManager
 import android.os.Build
