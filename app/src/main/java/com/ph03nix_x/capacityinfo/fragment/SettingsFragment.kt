@@ -361,14 +361,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 
-        if(isGooglePlay())
+        developer?.setOnPreferenceClickListener {
 
-            developer?.setOnPreferenceClickListener {
+            try {
 
                 context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:${developer?.summary}")))
-
-                return@setOnPreferenceClickListener true
             }
+
+            catch(e: ActivityNotFoundException) {}
+
+            return@setOnPreferenceClickListener true
+        }
 
         github?.setOnPreferenceClickListener {
 
