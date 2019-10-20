@@ -35,7 +35,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
         if (!newPrefs.getBoolean("migrated", false)
             && !oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
             val editor = newPrefs.edit()
-            editor.putBoolean(Preferences.DarkMode.prefKey, oldPrefs.getBoolean(Preferences.DarkMode.prefKey, false))
+            editor.putBoolean(Preferences.IsDarkMode.prefKey, oldPrefs.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 .putBoolean(Preferences.EnableService.prefKey, oldPrefs.getBoolean(Preferences.EnableService.prefKey, true))
                 .putLong(Preferences.NotificationRefreshRate.prefKey, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefKey, 40))
                 .putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
@@ -60,6 +60,14 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
             removeOldPref(context)
         }
+
+        if(newPrefs.contains("dark_mode")) {
+
+            newPrefs.edit().putBoolean(Preferences.IsDarkMode.prefKey,
+                newPrefs.getBoolean("dark_mode", true)).apply()
+
+            removeOldPref(context)
+        }
     }
 
     private fun removeOldPref(context: Context) {
@@ -71,6 +79,8 @@ class RestartServiceReceiver : BroadcastReceiver() {
             if(pref.contains("always_show_notification")) remove("always_show_notification")
 
             if(pref.contains("show_last_charge_time")) remove("show_last_charge_time")
+
+            if(pref.contains("dark_mode")) remove("dark_mode")
 
             apply()
         }

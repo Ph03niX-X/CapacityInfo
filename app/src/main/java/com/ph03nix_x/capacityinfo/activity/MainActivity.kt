@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.BatteryInfo
@@ -61,8 +62,17 @@ class MainActivity : AppCompatActivity() {
 
             val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
 
-            uiManager.nightMode = if(pref.getBoolean(Preferences.DarkMode.prefKey, false))
+            uiManager.nightMode = if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+        }
+
+        else {
+
+            if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
+
+                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
 
         toolbar = findViewById(R.id.toolbar)

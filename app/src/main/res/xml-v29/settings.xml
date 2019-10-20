@@ -60,13 +60,19 @@
 
     <PreferenceCategory
                 app:title="@string/appearance"
-                app:isPreferenceVisible="false"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
+                android:title="@string/auto_dark_mode"
+                app:summary="@string/auto_dark_mode_summary"
+                app:defaultValue="true"
+                android:key="is_auto_dark_mode"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
-                android:key="dark_mode"/>
+                app:defaultValue="false"
+                android:key="is_dark_mode"/>
 
     </PreferenceCategory>
 

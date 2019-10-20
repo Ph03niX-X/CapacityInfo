@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.isStopCheck
 import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 
 const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
 const val designerLink = "https://t.me/F0x1d"
@@ -46,6 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     // Appearance
 
+    private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
 
     // Other
@@ -81,8 +83,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
 
-            uiManager.nightMode = if(pref.getBoolean(Preferences.DarkMode.prefKey, false))
+            uiManager.nightMode = if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+        }
+
+        else {
+
+            if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
+
+                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
 
         // Service and Notification
@@ -234,13 +245,45 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // Appearance
 
-        darkMode = findPreference(Preferences.DarkMode.prefKey)
+        autoDarkMode = findPreference(Preferences.IsAutoDarkMode.prefKey)
 
-        darkMode?.setOnPreferenceChangeListener { _, b ->
+        darkMode = findPreference(Preferences.IsDarkMode.prefKey)
 
-            val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        darkMode?.isEnabled = !pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)
 
-            uiManager.nightMode = if (b as Boolean) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+        autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
+
+            MainActivity.instance?.recreate()
+
+            if(!(newValue as Boolean)) {
+
+                darkMode?.isEnabled = true
+
+                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            }
+
+            else {
+
+                darkMode?.isEnabled = false
+
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        darkMode?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) AppCompatDelegate.setDefaultNightMode(if(newValue as Boolean) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO)
+
+            else {
+
+                val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+
+                uiManager.nightMode = if (newValue as Boolean) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+            }
 
             return@setOnPreferenceChangeListener true
         }

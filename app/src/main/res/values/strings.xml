@@ -73,4 +73,6 @@
     <string name="email">E-mail</string>
     <string name="telegram_link_copied">Telegram link copied</string>
     <string name="email_copied">E-mail copied</string>
+    <string name="auto_dark_mode">Auto Dark Mode</string>
+    <string name="auto_dark_mode_summary">Turn on dark mode depending on the system</string>
 </resources>
