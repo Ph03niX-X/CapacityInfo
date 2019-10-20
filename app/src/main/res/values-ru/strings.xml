@@ -69,4 +69,6 @@
     <string name="feedback">Обратная связь</string>
     <string name="telegram_link_copied">Ссылка на Telegram скопировано</string>
     <string name="email_copied">E-mail скопирован</string>
+    <string name="auto_dark_mode">Автоматическая тёмная тема</string>
+    <string name="auto_dark_mode_summary">Включати темну тему в залежності від системи</string>
 </resources>
