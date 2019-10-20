@@ -249,7 +249,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         darkMode = findPreference(Preferences.IsDarkMode.prefKey)
 
-        darkMode?.isEnabled = !pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled = !pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
