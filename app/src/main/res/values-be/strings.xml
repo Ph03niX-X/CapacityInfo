@@ -69,4 +69,6 @@
     <string name="feedback">Зваротная сувязь</string>
     <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>
     <string name="email_copied">E-mail скапіяваны</string>
+    <string name="auto_dark_mode">Аўтаматычная цёмная тэма</string>
+    <string name="auto_dark_mode_summary">Уключаць цёмную тэму ў залежнасці ад сістэмы</string>
 </resources>
