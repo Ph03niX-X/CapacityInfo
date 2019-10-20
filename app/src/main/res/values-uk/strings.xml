@@ -70,5 +70,5 @@
     <string name="telegram_link_copied">Посилання на Telegram скопійовано</string>
     <string name="email_copied">E-mail скопійований</string>
     <string name="auto_dark_mode">Автоматична темна тема</string>
-    <string name="auto_dark_mode_summary">Включати темну тему в зависимости от системы</string>
+    <string name="auto_dark_mode_summary">Включати темну тему в залежності від системи</string>
 </resources>
