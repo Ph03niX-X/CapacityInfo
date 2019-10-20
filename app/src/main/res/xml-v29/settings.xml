@@ -130,12 +130,6 @@
                 android:key="build_date"/>
 
         <Preference
-                app:title="@string/rate_the_app"
-                app:singleLineTitle="false"
-                app:icon="@drawable/google_play"
-                android:key="rate_the_app"/>
-
-        <Preference
                 app:title="@string/github"
                 app:summary="@string/license"
                 app:singleLineTitle="false"
@@ -181,6 +175,12 @@
                 app:summary="Ph03niX-X@outlook.com"
                 app:icon="@drawable/email"
                 android:key="email"/>
+
+        <Preference
+                app:title="@string/rate_the_app"
+                app:singleLineTitle="false"
+                app:icon="@drawable/google_play"
+                android:key="rate_the_app"/>
 
     </PreferenceCategory>
 
