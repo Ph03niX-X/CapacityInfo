@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressWarnings("PrivateApi")
-class Battery(var context: Context) {
+class BatteryInfo(var context: Context) {
 
     fun getDesignCapacity(): Int {
 

@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.Battery
+import com.ph03nix_x.capacityinfo.BatteryInfo
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.async.DoAsync
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         if(pref.getBoolean(Preferences.EnableService.prefKey, true)
             && CapacityInfoService.instance == null) startService()
 
-        val battery = Battery(this)
+        val batteryInfo = BatteryInfo(this)
 
         var isShowDialog = true
 
@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) <= 0 || pref.getInt(
                 Preferences.DesignCapacity.prefKey, 0) >= 100000) {
 
-            pref.edit().putInt(Preferences.DesignCapacity.prefKey, battery.getDesignCapacity()).apply()
+            pref.edit().putInt(Preferences.DesignCapacity.prefKey, batteryInfo.getDesignCapacity()).apply()
 
             if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) < 0)
                 pref.edit().putInt(Preferences.DesignCapacity.prefKey, (pref.getInt(Preferences.DesignCapacity.prefKey, 0) / -1)).apply()
@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
 
-                    batteryLevel.text = getString(R.string.battery_level, "${battery.getBatteryLevel()}%")
+                    batteryLevel.text = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
                 }
 
                 if(pref.getBoolean(Preferences.IsShowChargingTimeInApp.prefKey, true))
@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity() {
 
                             if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
 
-                            chargingTime.text = battery.getChargingTime(CapacityInfoService.instance?.seconds?.toDouble() ?: 0.0)
+                            chargingTime.text = batteryInfo.getChargingTime(CapacityInfoService.instance?.seconds?.toDouble() ?: 0.0)
                         }
 
                     else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                         if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
 
                         if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0)
-                            lastChargeTime.text = getString(R.string.last_charge_time, battery.getLastChargeTime(),
+                            lastChargeTime.text = getString(R.string.last_charge_time, batteryInfo.getLastChargeTime(),
                                 "${pref.getInt(Preferences.BatteryLevelWith.prefKey, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%")
 
                         else {
@@ -199,13 +199,13 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
 
-                    this.status.text = battery.getStatus(status)
+                    this.status.text = batteryInfo.getStatus(status)
 
-                    if(battery.getPlugged(plugged) != "N/A") {
+                    if(batteryInfo.getPlugged(plugged) != "N/A") {
 
                         if(this.plugged.visibility == View.GONE) this.plugged.visibility = View.VISIBLE
 
-                        this.plugged.text = battery.getPlugged(plugged)
+                        this.plugged.text = batteryInfo.getPlugged(plugged)
                     }
 
                     else this.plugged.visibility = View.GONE
@@ -218,12 +218,12 @@ class MainActivity : AppCompatActivity() {
                     technology.text = getString(R.string.battery_technology, batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: "Unknown")
 
                     temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
-                        battery.getTemperature())
+                        batteryInfo.getTemperature())
 
-                    else getString(R.string.temperature_fahrenheit, battery.getTemperature())
+                    else getString(R.string.temperature_fahrenheit, batteryInfo.getTemperature())
 
                     voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                        battery.toDecimalFormat(battery.getVoltage()))
+                        batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
                 }
 
                 if (pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
@@ -233,21 +233,21 @@ class MainActivity : AppCompatActivity() {
 
                             runOnUiThread {
 
-                                residualCapacity.text = battery.getResidualCapacity()
+                                residualCapacity.text = batteryInfo.getResidualCapacity()
 
-                                batteryWear.text = battery.getBatteryWear()
+                                batteryWear.text = batteryInfo.getBatteryWear()
                             }
                         }
 
-                        if (battery.getCurrentCapacity() > 0) {
+                        if (batteryInfo.getCurrentCapacity() > 0) {
 
                             if (currentCapacity.visibility == View.GONE) runOnUiThread { currentCapacity.visibility = View.VISIBLE }
 
                             runOnUiThread {
 
-                                currentCapacity.text = getString(R.string.current_capacity, battery.toDecimalFormat(battery.getCurrentCapacity()))
+                                currentCapacity.text = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
 
-                                capacityAdded.text = battery.getCapacityAdded()
+                                capacityAdded.text = batteryInfo.getCapacityAdded()
                             }
                         }
 
@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity() {
 
                             runOnUiThread {
 
-                                chargingCurrent.text = getString(R.string.charging_current, battery.getChargingCurrent().toString())
+                                chargingCurrent.text = getString(R.string.charging_current, batteryInfo.getChargingCurrent().toString())
                             }
 
                         } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity() {
 
                             runOnUiThread {
 
-                                chargingCurrent.text = getString(R.string.discharge_current, battery.getChargingCurrent().toString())
+                                chargingCurrent.text = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
                             }
                         } else {
 
@@ -311,7 +311,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(battery.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1) == "N/A") Thread.sleep(5 * 914)
+                if(batteryInfo.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1) == "N/A") Thread.sleep(5 * 914)
 
                 else Thread.sleep(914)
             }
