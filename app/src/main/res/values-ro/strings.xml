@@ -73,4 +73,6 @@
     <string name="email">E-mail</string>
     <string name="telegram_link_copied">Link Telegram copiat</string>
     <string name="email_copied">E-mail copiat</string>
+    <string name="auto_dark_mode">Modul întunecat automat</string>
+    <string name="auto_dark_mode_summary">Se activează modul întunecat în funcție de sistem</string>
 </resources>
