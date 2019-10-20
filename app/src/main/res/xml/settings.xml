@@ -65,6 +65,7 @@
 
         <SwitchPreferenceCompat
                 android:title="@string/auto_dark_mode"
+                app:singleLineTitle="false"
                 app:summary="@string/auto_dark_mode_summary"
                 app:isPreferenceVisible="false"
                 app:defaultValue="true"
@@ -72,12 +73,14 @@
 
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
+                app:singleLineTitle="false"
                 app:defaultValue="false"
                 android:key="is_dark_mode"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/other"
+    <PreferenceCategory
+                android:title="@string/other"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -107,12 +110,13 @@
                 android:title="@string/change_design_capacity"
                 app:singleLineTitle="false"
                 android:key="change_design_capacity"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/about"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+                android:title="@string/about"
+                app:allowDividerAbove="false"
+                app:allowDividerBelow="false">
 
         <Preference
                 app:title="@string/developer"
