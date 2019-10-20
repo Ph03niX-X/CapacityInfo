@@ -60,7 +60,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var version: Preference? = null
     private var build: Preference? = null
     private var buildDate: Preference? = null
-    private var rateTheApp: Preference? = null
     private var github: Preference? = null
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
@@ -70,6 +69,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private var telegram: Preference? = null
     private var email: Preference? = null
+    private var rateTheApp: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -304,8 +304,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         buildDate = findPreference("build_date")
 
-        rateTheApp = findPreference("rate_the_app")
-
         github = findPreference("github")
 
         designer = findPreference("designer")
@@ -320,9 +318,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 
-        rateTheApp?.isVisible = isGooglePlay()
-
-        if(isGooglePlay()) {
+        if(isGooglePlay())
 
             developer?.setOnPreferenceClickListener {
 
@@ -330,14 +326,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
                 return@setOnPreferenceClickListener true
             }
-
-            rateTheApp?.setOnPreferenceClickListener {
-
-                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context?.packageName}")))
-
-                return@setOnPreferenceClickListener true
-            }
-        }
 
         github?.setOnPreferenceClickListener {
 
@@ -373,6 +361,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         email = findPreference("email")
 
+        rateTheApp = findPreference("rate_the_app")
+
+        rateTheApp?.isVisible = isGooglePlay()
+
         telegram?.setOnPreferenceClickListener {
 
             try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(telegramLink))) }
@@ -402,6 +394,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             return@setOnPreferenceClickListener true
         }
+
+        if(isGooglePlay())
+
+            rateTheApp?.setOnPreferenceClickListener {
+
+                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context?.packageName}")))
+
+                return@setOnPreferenceClickListener true
+            }
     }
 
     private fun isGooglePlay() = "com.android.vending" == context?.packageManager?.getInstallerPackageName(context!!.packageName)
