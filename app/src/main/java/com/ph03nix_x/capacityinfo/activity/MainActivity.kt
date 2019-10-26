@@ -336,11 +336,13 @@ class MainActivity : AppCompatActivity() {
         isDoAsync = false
     }
 
-    override fun onBackPressed() {
+    override fun onDestroy() {
 
-        super.onBackPressed()
+        isDoAsync = false
 
         instance = null
+
+        super.onDestroy()
     }
 
     private fun startService() {
