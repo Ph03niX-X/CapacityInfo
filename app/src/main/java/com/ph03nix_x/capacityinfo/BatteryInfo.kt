@@ -68,7 +68,7 @@ class BatteryInfo(var context: Context) {
 
         if (currentCapacity < 0) currentCapacity /= -1
 
-        if (currentCapacity >= 100000) currentCapacity /= 1000
+        if (currentCapacity >= 10000) currentCapacity /= 1000
 
         return currentCapacity
     }
