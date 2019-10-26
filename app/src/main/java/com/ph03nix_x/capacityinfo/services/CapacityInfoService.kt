@@ -253,6 +253,9 @@ class CapacityInfoService : Service() {
 
         notificationBuilder.apply {
 
+            setSmallIcon(R.drawable.service_small_icon)
+            color = ContextCompat.getColor(applicationContext, R.color.blue)
+
             when(plugged) {
 
                 BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
