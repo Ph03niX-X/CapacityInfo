@@ -15,7 +15,7 @@ class StopService : Service() {
 
         CapacityInfoService.instance?.isStopService = true
 
-        stopService(Intent(this, CapacityInfoService::class.java))
+        if(CapacityInfoService.instance != null) stopService(Intent(this, CapacityInfoService::class.java))
 
         stopService(Intent(this, StopService::class.java))
 
