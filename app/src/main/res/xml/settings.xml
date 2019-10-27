@@ -155,14 +155,14 @@
 
         <Preference
                 app:title="@string/romanian_translation"
-                app:summary="F0x1d"
+                app:summary="ygorigor"
                 app:singleLineTitle="false"
                 app:icon="@drawable/romania"
                 android:key="romanian_translation"/>
 
         <Preference
                 app:title="@string/belorussian_translation"
-                app:summary="F0x1d"
+                app:summary="Dr.Cyanogen"
                 app:singleLineTitle="false"
                 app:icon="@drawable/belarus"
                 android:key="belorussian_translation"/>
