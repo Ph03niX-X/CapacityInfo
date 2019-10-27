@@ -236,7 +236,7 @@ class CapacityInfoService : Service() {
                     && pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true))
-                addAction(-1, getString(R.string.stop_service), stopService)
+                addAction(NotificationCompat.Action(0, getString(R.string.stop_service), stopService))
         }
 
         startForeground(notifyId, notificationBuilder.build())
@@ -252,9 +252,6 @@ class CapacityInfoService : Service() {
         val stopService = PendingIntent.getService(this, 1, Intent(this, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
         notificationBuilder.apply {
-
-            setSmallIcon(R.drawable.service_small_icon)
-            color = ContextCompat.getColor(applicationContext, R.color.blue)
 
             when(plugged) {
 
@@ -279,7 +276,7 @@ class CapacityInfoService : Service() {
                     && pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isEmpty())
-                addAction(-1, getString(R.string.stop_service), stopService)
+                addAction(NotificationCompat.Action(0, getString(R.string.stop_service), stopService))
 
             else if(!pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isNotEmpty()) mActions.clear()
         }
