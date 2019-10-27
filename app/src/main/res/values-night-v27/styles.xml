@@ -16,12 +16,12 @@
     <style name="AppNightTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:windowBackground">@color/dark</item>
         <item name="android:background">@color/dark</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle.Dark</item>
-        <item name="buttonBarPositiveButtonStyle">@style/NegativeButtonStyle.Dark</item>
-        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle.Dark</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
-    <style name="NegativeButtonStyle.Dark" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textAllCaps">false</item>
     </style>
 
