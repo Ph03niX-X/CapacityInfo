@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.activity
 
-import android.app.UiModeManager
 import android.content.*
 import android.os.AsyncTask
 import android.os.BatteryManager
@@ -10,6 +9,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var batteryManager: BatteryManager
     private var batteryStatus: Intent? = null
     private var isDoAsync = false
+    private var dialog: MaterialAlertDialogBuilder? = null
+    private var dialogShow: AlertDialog? = null
 
     companion object {
 
@@ -60,10 +62,8 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
-            val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-
-            uiManager.nightMode = if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         else {
@@ -308,15 +308,17 @@ class MainActivity : AppCompatActivity() {
 
                         isShowDialog = false
 
-                        val dialog = MaterialAlertDialogBuilder(this).apply {
+                        dialog = MaterialAlertDialogBuilder(this).apply {
                             setTitle(getString(R.string.information))
                             setMessage(getString(R.string.not_supported))
-                            setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                            setPositiveButton(android.R.string.ok) { _, _ -> dialog = null }
+                            setOnCancelListener { dialog = null }
                         }
 
+                        if(dialogShow == null || !dialogShow!!.isShowing)
                         runOnUiThread {
 
-                            dialog.show()
+                            dialogShow = dialog?.show()
                         }
                     }
                 }
@@ -339,6 +341,12 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
 
         isDoAsync = false
+
+        dialogShow?.cancel()
+
+        dialogShow = null
+
+        dialog = null
 
         instance = null
 

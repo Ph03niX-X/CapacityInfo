@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragment
 
 import android.app.NotificationManager
-import android.app.UiModeManager
 import android.content.*
 import android.net.Uri
 import android.os.Build
@@ -81,10 +80,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
-            val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-
-            uiManager.nightMode = if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         else {
@@ -275,15 +272,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) AppCompatDelegate.setDefaultNightMode(if(newValue as Boolean) AppCompatDelegate.MODE_NIGHT_YES
-                else AppCompatDelegate.MODE_NIGHT_NO)
-
-            else {
-
-                val uiManager = context?.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-
-                uiManager.nightMode = if (newValue as Boolean) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
-            }
+            AppCompatDelegate.setDefaultNightMode(if(newValue as Boolean)
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
 
             return@setOnPreferenceChangeListener true
         }
@@ -428,7 +418,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         email?.setOnPreferenceClickListener {
 
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email?.summary}?subject=Capacity Info. Feedback"))) }
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email?.summary}?subject=Capacity Info ${version?.summary} (Build ${build?.summary}). Feedback"))) }
 
             catch (e: ActivityNotFoundException) {
 
