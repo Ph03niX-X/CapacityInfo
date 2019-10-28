@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 var isPowerConnected = false
 var isStopCheck = false
 var capacityAdded = 0.0
+var percentAdded = 0
 const val notifyId = 101
 class CapacityInfoService : Service() {
 
@@ -130,6 +131,8 @@ class CapacityInfoService : Service() {
 
                         pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
+                        pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
+
                         if(!pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, true).apply()
                     }
 
@@ -190,6 +193,12 @@ class CapacityInfoService : Service() {
                 pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
 
                 if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
+
+                if(percentAdded > 0) pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
+
+                percentAdded = 0
+
+                capacityAdded = 0.0
             }
 
             if(pref.getBoolean(Preferences.EnableService.prefKey, true) && !isStopService) startService()

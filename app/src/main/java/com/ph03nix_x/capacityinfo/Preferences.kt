@@ -16,5 +16,5 @@ enum class Preferences(val prefKey: String) {
 
     IsShowInformationDuringDischarge("is_show_information_during_discharge"), IsServiceHours("is_service_time"), CapacityAdded("capacity_added"),
 
-    IsShowChargingTimeInApp("is_show_charging_time_in_app"), IsAutoDarkMode("is_auto_dark_mode")
+    IsShowChargingTimeInApp("is_show_charging_time_in_app"), IsAutoDarkMode("is_auto_dark_mode"), PercentAdded("percent_added")
 }

@@ -305,6 +305,8 @@ class MainActivity : AppCompatActivity() {
 
                     if(pref.contains(Preferences.CapacityAdded.prefKey)) pref.edit().remove(Preferences.CapacityAdded.prefKey).apply()
 
+                    if(pref.contains(Preferences.PercentAdded.prefKey)) pref.edit().remove(Preferences.PercentAdded.prefKey).apply()
+
                     if(isShowDialog) {
 
                         isShowDialog = false

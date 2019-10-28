@@ -9,6 +9,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.services.capacityAdded
+import com.ph03nix_x.capacityinfo.services.percentAdded
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -84,14 +85,17 @@ class BatteryInfo(var context: Context) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
+                percentAdded = getBatteryLevel() - tempBatteryLevel
+
                 capacityAdded = getCurrentCapacity() - tempCurrentCapacity
 
                 if(capacityAdded < 0) capacityAdded /= -1
 
-                context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded), "${getBatteryLevel() - tempBatteryLevel}%")
+                context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded), "$percentAdded%")
             }
 
-            else -> context.getString(R.string.capacity_added_last_charge, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()), "0%")
+            else -> context.getString(R.string.capacity_added_last_charge, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()),
+                "${pref.getInt(Preferences.PercentAdded.prefKey, 0)}%")
         }
     }
 
