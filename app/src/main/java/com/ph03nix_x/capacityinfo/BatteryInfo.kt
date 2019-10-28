@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.services.capacityAdded
 import java.text.DecimalFormat
@@ -87,10 +88,10 @@ class BatteryInfo(var context: Context) {
 
                 if(capacityAdded < 0) capacityAdded /= -1
 
-                context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded))
+                context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded), "${getBatteryLevel() - tempBatteryLevel}%")
             }
 
-            else -> context.getString(R.string.capacity_added_last_charge, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()))
+            else -> context.getString(R.string.capacity_added_last_charge, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()), "0%")
         }
     }
 

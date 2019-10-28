@@ -12,6 +12,7 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.sleepArray
+import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
@@ -61,6 +62,8 @@ class CapacityInfoService : Service() {
                 isPowerConnected = true
 
                 val batteryInfo = BatteryInfo(this)
+                
+                tempBatteryLevel = batteryInfo.getBatteryLevel()
 
                 tempCurrentCapacity = batteryInfo.getCurrentCapacity()
 
@@ -82,6 +85,8 @@ class CapacityInfoService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        val batteryInfo = BatteryInfo(this)
+
         instance = this
 
         isDoAsync = true
@@ -92,7 +97,7 @@ class CapacityInfoService : Service() {
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-        batteryLevelWith = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        batteryLevelWith = batteryInfo.getBatteryLevel()
 
         doAsync = DoAsync {
 
@@ -117,7 +122,7 @@ class CapacityInfoService : Service() {
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
-                    pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+                    pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
 
                     if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
 
@@ -164,6 +169,8 @@ class CapacityInfoService : Service() {
 
     override fun onDestroy() {
 
+        val batteryInfo = BatteryInfo(this)
+
         try { if (wakeLock.isHeld) wakeLock.release() }
 
         finally {
@@ -180,7 +187,7 @@ class CapacityInfoService : Service() {
 
                 pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
 
-                pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)).apply()
+                pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
 
                 if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
             }

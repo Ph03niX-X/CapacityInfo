@@ -53,8 +53,8 @@
     <string name="show_information_during_discharge">Afișează informații în timpul descărcării</string>
     <string name="show_last_charge_time_in_app">Afișează ultima încărcare în aplicație</string>
     <string name="service_time">Timp serviciu</string>
-    <string name="capacity_added">"Capacitate adăugată: %1$s mAh"</string>
-    <string name="capacity_added_last_charge">Capacitate adăugată (Ultima încărcare): %1$s mAh</string>
+    <string name="capacity_added">"Capacitate adăugată: %1$s mAh (%2$s)"</string>
+    <string name="capacity_added_last_charge">Capacitate adăugată (Ultima încărcare): %1$s mAh (%2$s)</string>
     <string name="show_charging_time_in_app">Afișează timpul de încărcare în aplicație</string>
     <string name="during_discharge">În timpul descărcării</string>
     <string name="notification_priority">Prioritatea notificării și pictograma în bara de stare</string>
