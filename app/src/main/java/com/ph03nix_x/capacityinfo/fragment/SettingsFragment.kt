@@ -39,8 +39,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var showStopService: SwitchPreferenceCompat? = null
     private var showInformationWhileCharging: SwitchPreferenceCompat? = null
     private var serviceHours: SwitchPreferenceCompat? = null
+    private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showInformationDuringDischarge: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
+    private var showCapacityAddedLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
     private var notificationRefreshRate: Preference? = null
 
@@ -105,9 +107,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         serviceHours = findPreference(Preferences.IsServiceHours.prefKey)
 
+        showCapacityAddedInNotification = findPreference(Preferences.IsShowCapacityAddedInNotification.prefKey)
+
         showInformationDuringDischarge = findPreference(Preferences.IsShowInformationDuringDischarge.prefKey)
 
         showLastChargeTimeInNotification = findPreference(Preferences.IsShowLastChargeTimeInNotification.prefKey)
+
+        showCapacityAddedLastChargeTimeInNotification = findPreference(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey)
 
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
@@ -140,7 +146,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             serviceHours?.isEnabled = newValue
             showInformationDuringDischarge?.isEnabled = newValue
             showLastChargeTimeInNotification?.isEnabled = newValue
+            showCapacityAddedLastChargeTimeInNotification?.isEnabled = newValue
             showStopService?.isEnabled = newValue
+            showCapacityAddedInNotification?.isEnabled = newValue
             openNotificationCategorySettings?.isEnabled = newValue
             notificationRefreshRate?.isEnabled = newValue
 
@@ -193,6 +201,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
+        showCapacityAddedInNotification?.setOnPreferenceChangeListener { _, _ ->
+
+            if(CapacityInfoService.instance != null) {
+
+                Handler().postDelayed({
+
+                    CapacityInfoService.instance?.updateNotification()
+
+                }, 50)
+            }
+
+            return@setOnPreferenceChangeListener true
+        }
+
         showInformationDuringDischarge?.setOnPreferenceChangeListener { _ , newValue ->
 
             showLastChargeTimeInNotification?.isEnabled = newValue as Boolean
@@ -211,6 +233,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
+
+            if(CapacityInfoService.instance != null) {
+
+                Handler().postDelayed({
+
+                    CapacityInfoService.instance?.updateNotification()
+
+                }, 50)
+            }
+
+            return@setOnPreferenceChangeListener true
+        }
+
+        showCapacityAddedLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
 
             if(CapacityInfoService.instance != null) {
 

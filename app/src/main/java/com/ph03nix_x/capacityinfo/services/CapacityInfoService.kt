@@ -341,7 +341,9 @@ class CapacityInfoService : Service() {
                     batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$chargingCurrent\n$temperature\n$voltage"
+                    if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
+                        "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$chargingCurrent\n$temperature\n$voltage"
+                else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
 
                 else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
             }
@@ -360,7 +362,9 @@ class CapacityInfoService : Service() {
                     batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
+                    if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                        "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
+                else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
 
                 else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$dischargingCurrent\n$temperature\n$voltage"
             }
@@ -381,7 +385,9 @@ class CapacityInfoService : Service() {
                 if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
 
                     if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                        "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                        if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                            "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                    else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
 
                     else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
                 }
@@ -411,9 +417,16 @@ class CapacityInfoService : Service() {
 
                     if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0 && pref.getBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, true))
 
-                    "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                        if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                            "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                    else "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
 
-                    else "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                    else {
+
+                        if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                            "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                        else "$discharging\n$batteryLevel\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                    }
                 }
 
                 else {
@@ -439,7 +452,9 @@ class CapacityInfoService : Service() {
                     batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n$temperature\n$voltage"
+                    if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                        "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n$temperature\n$voltage"
+                else "$discharging\n$batteryLevel\n$currentCapacity\n$temperature\n$voltage"
 
                 else "$discharging\n$batteryLevel\n$temperature\n$voltage"
             }

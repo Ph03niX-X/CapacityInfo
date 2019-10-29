@@ -75,4 +75,8 @@
     <string name="email_copied">E-mail copied</string>
     <string name="auto_dark_mode">Auto Dark Mode</string>
     <string name="auto_dark_mode_summary">Turn on dark mode depending on the system</string>
+    <string name="show_capacity_added">"Show \"Capacity Added\""</string>
+    <string name="show_capacity_added_in_app">"Show \"Capacity Added\" in app"</string>
+    <string name="show_capacity_added_last_charge">"Show \"Capacity Added (Last Charge)\""</string>
+    <string name="show_capacity_added_last_charge_in_app">"Show \"Capacity Added (Last Charge)\" in app"</string>
 </resources>

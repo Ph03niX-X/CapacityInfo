@@ -258,7 +258,21 @@ class MainActivity : AppCompatActivity() {
 
                                 currentCapacity.text = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
 
-                                capacityAdded.text = batteryInfo.getCapacityAdded()
+                                if(pref.getBoolean(Preferences.IsShowCapacityAddedInApp.prefKey, true) && batteryInfo.getPlugged(plugged) != "N/A") {
+
+                                    if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+
+                                    capacityAdded.text = batteryInfo.getCapacityAdded()
+                                }
+
+                                else if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey, true) && batteryInfo.getPlugged(plugged) == "N/A") {
+
+                                    if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+
+                                    capacityAdded.text = batteryInfo.getCapacityAdded()
+                                }
+
+                                else if(capacityAdded.visibility == View.VISIBLE) capacityAdded.visibility = View.GONE
                             }
                         }
 

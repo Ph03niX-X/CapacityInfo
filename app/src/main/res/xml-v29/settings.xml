@@ -33,6 +33,12 @@
                 android:key="is_service_time"/>
 
         <SwitchPreferenceCompat
+                android:title="@string/show_capacity_added"
+                app:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_capacity_added_notification"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/show_information_during_discharge"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
@@ -43,6 +49,12 @@
                 android:defaultValue="true"
                 app:singleLineTitle="false"
                 android:key="is_show_last_charge_time_in_notification"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/show_capacity_added_last_charge"
+                app:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_capacity_added_last_charge_in_notification"/>
 
         <Preference
                 android:title="@string/open_notification_category_settings"
@@ -99,6 +111,18 @@
                 android:defaultValue="true"
                 app:singleLineTitle="false"
                 android:key="is_show_last_charge_time_in_app"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/show_capacity_added_in_app"
+                app:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_capacity_added_in_app"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/show_capacity_added_last_charge_in_app"
+                app:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_show_capacity_added_last_charge_in_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/voltage_in_mv"
