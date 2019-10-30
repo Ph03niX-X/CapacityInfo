@@ -174,9 +174,9 @@ class CapacityInfoService : Service() {
 
         val batteryInfo = BatteryInfo(this)
 
-        try { if (wakeLock.isHeld) wakeLock.release() }
+        try {
 
-        finally {
+            if (wakeLock.isHeld) wakeLock.release()
 
             instance = null
             isDoAsync = false
@@ -202,9 +202,9 @@ class CapacityInfoService : Service() {
             }
 
             if(pref.getBoolean(Preferences.EnableService.prefKey, true) && !isStopService) startService()
-
-            super.onDestroy()
         }
+
+        finally { super.onDestroy() }
     }
 
     private fun createNotification() {
