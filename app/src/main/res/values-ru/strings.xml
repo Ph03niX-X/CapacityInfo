@@ -71,4 +71,8 @@
     <string name="email_copied">E-mail скопирован</string>
     <string name="auto_dark_mode">Автоматическая тёмная тема</string>
     <string name="auto_dark_mode_summary">Включать тёмную тему в зависимости от системы</string>
+    <string name="show_capacity_added">"Показывать \"Добавилось ёмкости\""</string>
+    <string name="show_capacity_added_in_app">"Показывать \"Добавилось ёмкости\" в приложении</string>
+    <string name="show_capacity_added_last_charge">"Показывать \"Добавилось ёмкости (Последняя зарядка)\""</string>
+    <string name="show_capacity_added_last_charge_in_app">"Показывать \"Добавилось ёмкости (Последняя зарядка)\" в приложении</string>
 </resources>
