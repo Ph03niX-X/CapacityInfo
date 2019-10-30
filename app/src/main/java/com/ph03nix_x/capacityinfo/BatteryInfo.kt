@@ -119,13 +119,12 @@ class BatteryInfo(var context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
+        var residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
-        return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity), "${DecimalFormat("#.#").format(
-            if (residualCapacity >= 10000) ((residualCapacity / 1000) / pref.getInt(
-                Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100
+        if(residualCapacity >= 10000) residualCapacity /= 1000
 
-            else (residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
+        return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
+            "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
     }
 
     fun getStatus(extraStatus: Int): String {
