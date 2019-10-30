@@ -25,7 +25,7 @@ class BatteryInfo(var context: Context) {
 
         var capacity = (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
 
-        if(capacity >= 100000) capacity /= 1000
+        if(capacity >= 10000) capacity /= 1000
 
         return capacity
     }
@@ -53,11 +53,12 @@ class BatteryInfo(var context: Context) {
 
         var temp = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
 
-        if(temp >= 100) temp /= 10
+        temp /= 10
 
         var tempString = temp.toString()
 
-        if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) tempString = toDecimalFormat((temp * 1.8) + 32)
+        if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false))
+            tempString = DecimalFormat("#.#").format((temp * 1.8) + 32)
 
         return tempString
     }
@@ -91,10 +92,11 @@ class BatteryInfo(var context: Context) {
 
                 if(capacityAdded < 0) capacityAdded /= -1
 
-                context.getString(R.string.capacity_added, toDecimalFormat(capacityAdded), "$percentAdded%")
+                context.getString(R.string.capacity_added, DecimalFormat("#.#").format(capacityAdded), "$percentAdded%")
             }
 
-            else -> context.getString(R.string.capacity_added_last_charge, toDecimalFormat(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()),
+            else -> context.getString(R.string.capacity_added_last_charge,
+                DecimalFormat("#.#").format(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()),
                 "${pref.getInt(Preferences.PercentAdded.prefKey, 0)}%")
         }
     }
@@ -119,8 +121,8 @@ class BatteryInfo(var context: Context) {
 
         val residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
-        return context.getString(R.string.residual_capacity, toDecimalFormat(residualCapacity), "${DecimalFormat("#.#").format(
-            if (residualCapacity >= 100000) ((residualCapacity / 1000) / pref.getInt(
+        return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity), "${DecimalFormat("#.#").format(
+            if (residualCapacity >= 10000) ((residualCapacity / 1000) / pref.getInt(
                 Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100
 
             else (residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
@@ -158,13 +160,11 @@ class BatteryInfo(var context: Context) {
 
         var capacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
-        if(capacity >= 100000) capacity /= 1000
+        if(capacity >= 10000) capacity /= 1000
 
         return context.getString(R.string.battery_wear,
             if(capacity > 0) "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%"  else "0%")
     }
-
-    fun toDecimalFormat(number: Double) = if(number >= 100000) DecimalFormat("#.#").format(number / 1000) else DecimalFormat("#.#").format(number)
 
     fun getChargingTime(seconds: Double): String {
 

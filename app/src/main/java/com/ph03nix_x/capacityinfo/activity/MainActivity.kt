@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
+import java.text.DecimalFormat
 
 val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
 var tempCurrentCapacity: Double = 0.0
@@ -234,7 +235,7 @@ class MainActivity : AppCompatActivity() {
                     else getString(R.string.temperature_fahrenheit, batteryInfo.getTemperature())
 
                     voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                        batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
+                        DecimalFormat("#.#").format(batteryInfo.getVoltage()))
                 }
 
                 if (pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
@@ -256,7 +257,8 @@ class MainActivity : AppCompatActivity() {
 
                             runOnUiThread {
 
-                                currentCapacity.text = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
+                                currentCapacity.text = getString(R.string.current_capacity,
+                                    DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
 
                                 if(pref.getBoolean(Preferences.IsShowCapacityAddedInApp.prefKey, true) && batteryInfo.getPlugged(plugged) != "N/A") {
 

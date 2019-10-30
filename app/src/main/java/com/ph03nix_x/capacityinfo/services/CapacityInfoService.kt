@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import java.text.DecimalFormat
 
 var isPowerConnected = false
 var isStopCheck = false
@@ -331,14 +332,14 @@ class CapacityInfoService : Service() {
                 val charging = getString(R.string.status, getString(R.string.charging))
                 val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
                 val plugged = batteryInfo.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
-                val currentCapacity = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
+                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
                 val capacityAdded = batteryInfo.getCapacityAdded()
                 val chargingCurrent = getString(R.string.charging_current, batteryInfo.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, batteryInfo.getTemperature())
 
                 val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
+                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
@@ -352,14 +353,14 @@ class CapacityInfoService : Service() {
 
                 val notCharging = getString(R.string.status, getString(R.string.not_charging))
                 val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val currentCapacity = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
+                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
                 val capacityAdded = batteryInfo.getCapacityAdded()
                 val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, batteryInfo.getTemperature())
 
                 val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
+                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
@@ -373,14 +374,14 @@ class CapacityInfoService : Service() {
 
                 val fullCharging = getString(R.string.status, getString(R.string.full))
                 val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val currentCapacity = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
+                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
                 val capacityAdded = batteryInfo.getCapacityAdded()
                 val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, batteryInfo.getTemperature())
 
                 val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
+                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
                 if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
 
@@ -404,14 +405,14 @@ class CapacityInfoService : Service() {
                 val discharging = getString(R.string.status, getString(R.string.discharging))
                 val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
                 val lastChargingTime = getString(R.string.last_charge_time, batteryInfo.getLastChargeTime(), batteryLevelWith, batteryLevelTo)
-                val currentCapacity = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
+                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
                 val capacityAdded = batteryInfo.getCapacityAdded()
                 val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, batteryInfo.getTemperature())
 
                 val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
+                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
 
@@ -443,13 +444,13 @@ class CapacityInfoService : Service() {
 
                 val discharging = getString(R.string.status, getString(R.string.unknown))
                 val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val currentCapacity = getString(R.string.current_capacity, batteryInfo.toDecimalFormat(batteryInfo.getCurrentCapacity()))
+                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
                 val capacityAdded = batteryInfo.getCapacityAdded()
                 val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
                 else R.string.temperature_celsius, batteryInfo.getTemperature())
 
                 val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    batteryInfo.toDecimalFormat(batteryInfo.getVoltage()))
+                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
                 if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
                     if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
