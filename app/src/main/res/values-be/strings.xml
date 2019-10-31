@@ -71,4 +71,8 @@
     <string name="email_copied">E-mail скапіяваны</string>
     <string name="auto_dark_mode">Аўтаматычная цёмная тэма</string>
     <string name="auto_dark_mode_summary">Уключаць цёмную тэму ў залежнасці ад сістэмы</string>
+    <string name="show_capacity_added">"Паказваць \"Дадалося ёмістасці\""</string>
+    <string name="show_capacity_added_in_app">"Паказваць \"Дадалося ёмістасці\" ў дадатку</string>
+    <string name="show_capacity_added_last_charge">"Паказваць \"Дадалося ёмістасці (Апошняя зарадка)\""</string>
+    <string name="show_capacity_added_last_charge_in_app">"Паказваць \"Дадалося ёмістасці (Апошняя зарадка)\" ў дадатку</string>
 </resources>
