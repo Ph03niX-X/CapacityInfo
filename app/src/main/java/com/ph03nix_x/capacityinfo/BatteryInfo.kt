@@ -23,11 +23,7 @@ class BatteryInfo(var context: Context) {
 
         val mPowerProfile = Class.forName(powerProfileClass).getConstructor(Context::class.java).newInstance(context)
 
-        var capacity = (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
-
-        if(capacity >= 10000) capacity /= 1000
-
-        return capacity
+        return (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
     }
 
     fun getBatteryLevel() = (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
@@ -40,9 +36,7 @@ class BatteryInfo(var context: Context) {
 
         if(chargingCurrent < 0) chargingCurrent /= -1
 
-        if(chargingCurrent >= 10000) chargingCurrent /= 1000
-
-        return chargingCurrent
+        return chargingCurrent / 1000
     }
 
     fun getTemperature(): String {
@@ -71,9 +65,7 @@ class BatteryInfo(var context: Context) {
 
         if (currentCapacity < 0) currentCapacity /= -1
 
-        if (currentCapacity >= 10000) currentCapacity /= 1000
-
-        return currentCapacity
+        return currentCapacity / 1000
     }
 
     fun getCapacityAdded(): String {
@@ -183,7 +175,7 @@ class BatteryInfo(var context: Context) {
             catch (e: IllegalArgumentException) { seconds.toString() })
     }
 
-    fun getLastChargeTime(): String { 
+    fun getLastChargeTime(): String {
         
         val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0).toDouble()
 
