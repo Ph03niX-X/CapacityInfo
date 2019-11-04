@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.isStopCheck
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
+import com.ph03nix_x.capacityinfo.Utils
 
 const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
 const val designerLink = "https://t.me/F0x1d"
@@ -97,7 +98,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // Service and Notification
 
-        enableService = findPreference(Preferences.EnableService.prefKey)!!
+        enableService = findPreference(Preferences.IsEnableService.prefKey)!!
 
         temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
@@ -119,28 +120,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         notificationRefreshRate = findPreference(Preferences.NotificationRefreshRate.prefKey)
 
-        showStopService?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        showStopService?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
-        showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        showInformationWhileCharging?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
-        serviceHours?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        serviceHours?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
                 && pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true)
 
-        showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        showInformationDuringDischarge?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
-        showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
                 && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)
 
-        openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
-        notificationRefreshRate?.isEnabled = pref.getBoolean(Preferences.EnableService.prefKey, true)
+        notificationRefreshRate?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
                 && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)
 
         enableService?.setOnPreferenceChangeListener { _, newValue ->
 
             if(!(newValue as Boolean) && CapacityInfoService.instance != null) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
 
-            else if(newValue && CapacityInfoService.instance == null) startService()
+            else if(newValue && CapacityInfoService.instance == null) Utils.startService(context)
 
             showInformationWhileCharging?.isEnabled = newValue
             serviceHours?.isEnabled = newValue
@@ -324,7 +325,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         temperatureInFahrenheit?.setOnPreferenceChangeListener { _, _ ->
 
-            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
+            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
@@ -341,7 +342,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         voltageInMv?.setOnPreferenceChangeListener { _, _ ->
 
-            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
+            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 
@@ -478,14 +479,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun isGooglePlay() = "com.android.vending" == context?.packageManager?.getInstallerPackageName(context!!.packageName)
-
-    private fun startService() {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context?.startForegroundService(Intent(context, CapacityInfoService::class.java))
-
-        else context?.startService(Intent(context, CapacityInfoService::class.java))
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun openNotificationCategorySettings() {
@@ -644,7 +637,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-            if(pref.getBoolean(Preferences.EnableService.prefKey, true)) {
+            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) {
 
                 if(CapacityInfoService.instance != null) {
 

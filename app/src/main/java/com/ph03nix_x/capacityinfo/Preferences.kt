@@ -10,7 +10,7 @@ enum class Preferences(val prefKey: String) {
 
     IsShowLastChargeTimeInNotification("is_show_last_charge_time_in_notification"), BatteryLevelWith("battery_level_with"),
 
-    BatteryLevelTo("battery_level_to"), EnableService("enable_service"), NotificationRefreshRate("notification_refresh_rate"),
+    BatteryLevelTo("battery_level_to"), IsEnableService("is_enable_service"), NotificationRefreshRate("notification_refresh_rate"),
 
     IsShowServiceStop("is_show_stop_service"), VoltageInMv("voltage_in_mv"), IsShowInformationWhileCharging("is_show_information_while_charging"),
 
@@ -21,6 +21,4 @@ enum class Preferences(val prefKey: String) {
     IsShowCapacityAddedInNotification("is_show_capacity_added_notification"), IsShowCapacityAddedLastChargeInNotification("is_show_capacity_added_last_charge_in_notification"),
 
     IsShowCapacityAddedInApp("is_show_capacity_added_in_app"), IsShowCapacityAddedLastChargeInApp("is_show_capacity_added_last_charge_in_app"),
-
-
 }

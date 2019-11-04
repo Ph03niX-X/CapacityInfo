@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.BatteryInfo
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.Utils
 import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
@@ -45,8 +46,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
-    private var batteryStatus: Intent? = null
     private var isDoAsync = false
+    private var batteryStatus: Intent? = null
     private var dialog: MaterialAlertDialogBuilder? = null
     private var dialogShow: AlertDialog? = null
 
@@ -62,35 +63,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-        }
 
-        else {
-
-            if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
-
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
+            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.app_name)
         toolbar.inflateMenu(R.menu.main_menu)
         toolbar.menu.findItem(R.id.settings).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+
             startActivity(Intent(this, SettingsActivity::class.java))
             return@OnMenuItemClickListener true
         })
+
         toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+
             MaterialAlertDialogBuilder(this).apply {
+
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
             }
+
             return@OnMenuItemClickListener true
         })
 
@@ -126,8 +125,8 @@ class MainActivity : AppCompatActivity() {
 
         super.onResume()
 
-        if(pref.getBoolean(Preferences.EnableService.prefKey, true)
-            && CapacityInfoService.instance == null) startService()
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+            && CapacityInfoService.instance == null) Utils.startService(this)
 
         val batteryInfo = BatteryInfo(this)
 
@@ -370,13 +369,5 @@ class MainActivity : AppCompatActivity() {
         instance = null
 
         super.onDestroy()
-    }
-
-    private fun startService() {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            startForegroundService(Intent(this, CapacityInfoService::class.java))
-
-        else startService(Intent(this, CapacityInfoService::class.java))
     }
 }

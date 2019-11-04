@@ -13,7 +13,7 @@
                 android:title="@string/enable_service"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                android:key="enable_service"/>
+                android:key="is_enable_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_stop_service"

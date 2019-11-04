@@ -3,9 +3,9 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.Utils
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
 class RestartServiceReceiver : BroadcastReceiver() {
@@ -14,7 +14,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context!!)
 
-        when(intent!!.action) {
+        when(intent?.action) {
 
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
 
@@ -22,7 +22,8 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
                 migrateToDefaultPrefs(context)
 
-                if(pref.getBoolean(Preferences.EnableService.prefKey, true)) startService(context) }
+                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) restartService(context)
+            }
         }
     }
 
@@ -36,7 +37,7 @@ class RestartServiceReceiver : BroadcastReceiver() {
             && !oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
             val editor = newPrefs.edit()
             editor.putBoolean(Preferences.IsDarkMode.prefKey, oldPrefs.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                .putBoolean(Preferences.EnableService.prefKey, oldPrefs.getBoolean(Preferences.EnableService.prefKey, true))
+                .putBoolean(Preferences.IsEnableService.prefKey, oldPrefs.getBoolean(Preferences.IsEnableService.prefKey, true))
                 .putLong(Preferences.NotificationRefreshRate.prefKey, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefKey, 40))
                 .putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
                 .putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean("show_last_charge_time", true))
@@ -68,6 +69,14 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
             removeOldPref(context)
         }
+
+        if(newPrefs.contains("enable_service")) {
+
+            newPrefs.edit().putBoolean(Preferences.IsEnableService.prefKey,
+                newPrefs.getBoolean("enable_service", true)).apply()
+
+            removeOldPref(context)
+        }
     }
 
     private fun removeOldPref(context: Context) {
@@ -82,15 +91,16 @@ class RestartServiceReceiver : BroadcastReceiver() {
 
             if(pref.contains("dark_mode")) remove("dark_mode")
 
+            if(pref.contains("enable_service")) remove("enable_service")
+            
             apply()
         }
     }
 
-    private fun startService(context: Context) {
+    private fun restartService(context: Context) {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.startForegroundService(Intent(context, CapacityInfoService::class.java))
+        if(CapacityInfoService.instance != null) context.stopService(Intent(context, CapacityInfoService::class.java))
 
-        else context.startService(Intent(context, CapacityInfoService::class.java))
+        Utils.startService(context)
     }
 }

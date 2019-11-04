@@ -11,10 +11,10 @@ import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var toolbar: CenteredToolbar
-
     private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         super.onCreate(savedInstanceState)
@@ -24,14 +24,14 @@ class SettingsActivity : AppCompatActivity() {
         toolbar.setTitle(R.string.settings)
 
         toolbar.setNavigationOnClickListener {
+
             onBackPressed()
         }
 
-        supportFragmentManager
-            .beginTransaction().apply {
+        supportFragmentManager.beginTransaction().apply {
+
                 replace(R.id.container, SettingsFragment())
                 commit()
             }
     }
-
 }

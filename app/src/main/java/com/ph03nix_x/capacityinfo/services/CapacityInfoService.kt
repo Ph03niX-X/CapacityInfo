@@ -36,7 +36,6 @@ class CapacityInfoService : Service() {
     private var isDoAsync = false
     private var isFull = false
     private var batteryLevelWith = -1
-    var isStopService = false
     var seconds = 0
     var sleepTime: Long = 10
 
@@ -45,10 +44,7 @@ class CapacityInfoService : Service() {
         var instance: CapacityInfoService? = null
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-
-        return null
-    }
+    override fun onBind(p0: Intent?): IBinder? = null
 
     override fun onCreate() {
 
@@ -201,8 +197,6 @@ class CapacityInfoService : Service() {
 
                 capacityAdded = 0.0
             }
-
-            if(pref.getBoolean(Preferences.EnableService.prefKey, true) && !isStopService) startService()
         }
 
         finally { super.onDestroy() }
@@ -321,154 +315,160 @@ class CapacityInfoService : Service() {
 
         batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        val batteryInfo = BatteryInfo(this)
-        
-        val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+        return when(batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
-        return when(status) {
+            BatteryManager.BATTERY_STATUS_CHARGING -> getBatteryStatusCharging()
 
-            BatteryManager.BATTERY_STATUS_CHARGING -> {
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> getBatteryStatusNotCharging()
 
-                val charging = getString(R.string.status, getString(R.string.charging))
-                val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val plugged = batteryInfo.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
-                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
-                val capacityAdded = batteryInfo.getCapacityAdded()
-                val chargingCurrent = getString(R.string.charging_current, batteryInfo.getChargingCurrent().toString())
-                val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
-                else R.string.temperature_celsius, batteryInfo.getTemperature())
+            BatteryManager.BATTERY_STATUS_FULL -> getBatteryStatusFull()
 
-                val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> getBatteryStatusDischarging()
 
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
-                        "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$chargingCurrent\n$temperature\n$voltage"
-                else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
-
-                else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
-            }
-
-            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
-
-                val notCharging = getString(R.string.status, getString(R.string.not_charging))
-                val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
-                val capacityAdded = batteryInfo.getCapacityAdded()
-                val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
-                val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
-                else R.string.temperature_celsius, batteryInfo.getTemperature())
-
-                val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
-
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                        "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
-                else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
-
-                else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$dischargingCurrent\n$temperature\n$voltage"
-            }
-
-            BatteryManager.BATTERY_STATUS_FULL -> {
-
-                val fullCharging = getString(R.string.status, getString(R.string.full))
-                val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
-                val capacityAdded = batteryInfo.getCapacityAdded()
-                val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
-                val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
-                else R.string.temperature_celsius, batteryInfo.getTemperature())
-
-                val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
-
-                if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
-
-                    if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                        if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                            "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-                    else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-
-                    else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-                }
-
-                else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$dischargingCurrent\n$temperature"
-
-            }
-
-            BatteryManager.BATTERY_STATUS_DISCHARGING -> {
-
-                val batteryLevelWith = "${pref.getInt(Preferences.BatteryLevelWith.prefKey, 0)}%"
-                val batteryLevelTo = "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%"
-
-                val discharging = getString(R.string.status, getString(R.string.discharging))
-                val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val lastChargingTime = getString(R.string.last_charge_time, batteryInfo.getLastChargeTime(), batteryLevelWith, batteryLevelTo)
-                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
-                val capacityAdded = batteryInfo.getCapacityAdded()
-                val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
-                val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
-                else R.string.temperature_celsius, batteryInfo.getTemperature())
-
-                val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
-
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
-
-                    if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0 && pref.getBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, true))
-
-                        if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                            "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-                    else "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-
-                    else {
-
-                        if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                            "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-                        else "$discharging\n$batteryLevel\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
-                    }
-                }
-
-                else {
-
-                    if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0 && pref.getBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, true))
-                        "$discharging\n$batteryLevel\n$lastChargingTime\n$dischargingCurrent\n$temperature\n$voltage"
-
-                    else "$discharging\n$dischargingCurrent\n$temperature\n$voltage"
-
-                }
-            }
-
-            BatteryManager.BATTERY_STATUS_UNKNOWN -> {
-
-                val discharging = getString(R.string.status, getString(R.string.unknown))
-                val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
-                val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
-                val capacityAdded = batteryInfo.getCapacityAdded()
-                val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
-                else R.string.temperature_celsius, batteryInfo.getTemperature())
-
-                val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                    DecimalFormat("#.#").format(batteryInfo.getVoltage()))
-
-                if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
-                    if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                        "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n$temperature\n$voltage"
-                else "$discharging\n$batteryLevel\n$currentCapacity\n$temperature\n$voltage"
-
-                else "$discharging\n$batteryLevel\n$temperature\n$voltage"
-            }
+            BatteryManager.BATTERY_STATUS_UNKNOWN -> getBatteryStatusUnknown()
 
             else -> "N/A"
         }
     }
 
-    private fun startService() {
+    private fun getBatteryStatusCharging(): String {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            startForegroundService(Intent(this, CapacityInfoService::class.java))
+        val batteryInfo = BatteryInfo(this)
 
-        else startService(Intent(this, CapacityInfoService::class.java))
+        val charging = getString(R.string.status, getString(R.string.charging))
+        val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
+        val plugged = batteryInfo.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
+        val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
+        val capacityAdded = batteryInfo.getCapacityAdded()
+        val chargingCurrent = getString(R.string.charging_current, batteryInfo.getChargingCurrent().toString())
+        val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
+        else R.string.temperature_celsius, batteryInfo.getTemperature())
+
+        val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
+            DecimalFormat("#.#").format(batteryInfo.getVoltage()))
+
+        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+            if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
+                "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$chargingCurrent\n$temperature\n$voltage"
+            else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
+
+        else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
+    }
+
+    private fun getBatteryStatusNotCharging(): String {
+
+        val batteryInfo = BatteryInfo(this)
+
+        val notCharging = getString(R.string.status, getString(R.string.not_charging))
+        val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
+        val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
+        val capacityAdded = batteryInfo.getCapacityAdded()
+        val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
+        val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
+        else R.string.temperature_celsius, batteryInfo.getTemperature())
+
+        val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
+            DecimalFormat("#.#").format(batteryInfo.getVoltage()))
+
+        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+            if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
+            else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
+
+        else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$dischargingCurrent\n$temperature\n$voltage"
+    }
+
+    private fun getBatteryStatusFull(): String {
+
+        val batteryInfo = BatteryInfo(this)
+
+        val fullCharging = getString(R.string.status, getString(R.string.full))
+        val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
+        val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
+        val capacityAdded = batteryInfo.getCapacityAdded()
+        val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
+        val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
+        else R.string.temperature_celsius, batteryInfo.getTemperature())
+
+        val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
+            DecimalFormat("#.#").format(batteryInfo.getVoltage()))
+
+        return if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
+
+            if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+                if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                    "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+
+            else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+        }
+
+        else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$dischargingCurrent\n$temperature"
+    }
+
+    private fun getBatteryStatusDischarging(): String {
+
+        val batteryInfo = BatteryInfo(this)
+
+        val batteryLevelWith = "${pref.getInt(Preferences.BatteryLevelWith.prefKey, 0)}%"
+        val batteryLevelTo = "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%"
+
+        val discharging = getString(R.string.status, getString(R.string.discharging))
+        val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
+        val lastChargingTime = getString(R.string.last_charge_time, batteryInfo.getLastChargeTime(), batteryLevelWith, batteryLevelTo)
+        val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
+        val capacityAdded = batteryInfo.getCapacityAdded()
+        val dischargingCurrent = getString(R.string.discharge_current, batteryInfo.getChargingCurrent().toString())
+        val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
+        else R.string.temperature_celsius, batteryInfo.getTemperature())
+
+        val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
+            DecimalFormat("#.#").format(batteryInfo.getVoltage()))
+
+        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
+
+            if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0 && pref.getBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, true))
+
+                if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                    "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                else "$discharging\n$batteryLevel\n$lastChargingTime\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+
+            else {
+
+                if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                    "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+                else "$discharging\n$batteryLevel\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
+            }
+        }
+
+        else {
+
+            if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0 && pref.getBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, true))
+                "$discharging\n$batteryLevel\n$lastChargingTime\n$dischargingCurrent\n$temperature\n$voltage"
+
+            else "$discharging\n$dischargingCurrent\n$temperature\n$voltage"
+        }
+    }
+
+    private fun getBatteryStatusUnknown(): String {
+
+        val batteryInfo =  BatteryInfo(this)
+
+        val discharging = getString(R.string.status, getString(R.string.unknown))
+        val batteryLevel = getString(R.string.battery_level, "${batteryInfo.getBatteryLevel()}%")
+        val currentCapacity = getString(R.string.current_capacity, DecimalFormat("#.#").format(batteryInfo.getCurrentCapacity()))
+        val capacityAdded = batteryInfo.getCapacityAdded()
+        val temperature = getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
+        else R.string.temperature_celsius, batteryInfo.getTemperature())
+
+        val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
+            DecimalFormat("#.#").format(batteryInfo.getVoltage()))
+
+        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+            if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
+                "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n$temperature\n$voltage"
+            else "$discharging\n$batteryLevel\n$currentCapacity\n$temperature\n$voltage"
+
+        else "$discharging\n$batteryLevel\n$temperature\n$voltage"
     }
 }

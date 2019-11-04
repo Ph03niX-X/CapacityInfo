@@ -12,7 +12,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 139
-        versionName "2.3.1"
+        versionName "2.3.1-Beta 1"
         buildConfigField "String", "BUILD_DATE", "\"${getDate()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

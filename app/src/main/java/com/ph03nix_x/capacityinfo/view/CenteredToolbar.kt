@@ -20,45 +20,49 @@ class CenteredToolbar : Toolbar {
     private var linear: LinearLayout? = null
 
     constructor(context: Context) : super(context) {
+
         setupTextViews()
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+
         setupTextViews()
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+
         setupTextViews()
     }
 
-    override fun getTitle(): CharSequence {
-        return tvTitle!!.text.toString()
-    }
+    override fun getTitle(): CharSequence = tvTitle!!.text.toString()
 
     override fun setTitle(@StringRes resId: Int) {
+
         val s = resources.getString(resId)
         title = s
     }
 
     override fun setTitle(title: CharSequence) {
+
         tvTitle!!.text = title
     }
 
-    override fun getSubtitle(): CharSequence {
-        return tvSubtitle!!.text.toString()
-    }
+    override fun getSubtitle() = tvSubtitle!!.text.toString()
 
     override fun setSubtitle(resId: Int) {
+
         val s = resources.getString(resId)
         subtitle = s
     }
 
     override fun setSubtitle(subtitle: CharSequence) {
+
         tvSubtitle!!.visibility = View.VISIBLE
         tvSubtitle!!.text = subtitle
     }
 
     private fun setupTextViews() {
+
         tvSubtitle = TextView(context)
         tvTitle = TextView(context)
 

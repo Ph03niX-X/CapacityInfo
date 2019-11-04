@@ -6,14 +6,9 @@ import android.os.IBinder
 
 class StopService : Service() {
 
-    override fun onBind(intent: Intent?): IBinder? {
-
-        return null
-    }
+    override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        CapacityInfoService.instance?.isStopService = true
 
         if(CapacityInfoService.instance != null) stopService(Intent(this, CapacityInfoService::class.java))
 
