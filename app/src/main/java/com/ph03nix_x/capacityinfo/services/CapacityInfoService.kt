@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.BatteryInfo
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
-import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.async.DoAsync
@@ -51,9 +50,8 @@ class CapacityInfoService : Service() {
         super.onCreate()
 
         val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
-        when(plugged) {
+        when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
 
@@ -146,6 +144,8 @@ class CapacityInfoService : Service() {
                     
                     updateNotification()
 
+                    val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+
                     if (sleepTime !in sleepArray && !isPowerConnected) {
 
                         sleepTime = 40
@@ -171,35 +171,37 @@ class CapacityInfoService : Service() {
 
         val batteryInfo = BatteryInfo(this)
 
-        try {
+        if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-            if (wakeLock.isHeld) wakeLock.release()
+        instance = null
+        isDoAsync = false
+        doAsync?.cancel(true)
 
-            instance = null
-            isDoAsync = false
-            doAsync?.cancel(true)
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-            val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        if (!isFull && seconds > 1) {
 
-            if (!isFull && seconds > 1) {
+            pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
 
-                pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
+            pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
 
-                pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
+            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
 
-                pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
+            Handler().postDelayed({
 
-                if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
+                updateNotification()
+            }, 50)
 
-                if(percentAdded > 0) pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
+            if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
-                percentAdded = 0
+            if(percentAdded > 0) pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
 
-                capacityAdded = 0.0
-            }
+            percentAdded = 0
+
+            capacityAdded = 0.0
         }
 
-        finally { super.onDestroy() }
+        super.onDestroy()
     }
 
     private fun createNotification() {

@@ -22,7 +22,6 @@ import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import java.text.DecimalFormat
 
-val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
 var tempCurrentCapacity: Double = 0.0
 var tempBatteryLevel = 0
 @SuppressWarnings("StaticFieldLeak")

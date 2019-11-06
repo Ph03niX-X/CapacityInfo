@@ -18,7 +18,6 @@ import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
-import com.ph03nix_x.capacityinfo.activity.sleepArray
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.isStopCheck
 import android.widget.*
@@ -162,11 +161,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
                 isStopCheck = true
 
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
+                updateNotification()
             }
 
             return@setOnPreferenceChangeListener true
@@ -176,42 +171,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             serviceHours?.isEnabled = newValue as Boolean
 
-            if(CapacityInfoService.instance != null) {
-
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
 
         serviceHours?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) {
-
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
 
         showCapacityAddedInNotification?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) {
-
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
@@ -221,42 +195,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
             showLastChargeTimeInNotification?.isEnabled = newValue as Boolean
             notificationRefreshRate?.isEnabled = newValue
 
-            if(CapacityInfoService.instance != null) {
-
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
 
         showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) {
-
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
 
         showCapacityAddedLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) {
-
-                Handler().postDelayed({
-
-                    CapacityInfoService.instance?.updateNotification()
-
-                }, 50)
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
@@ -325,34 +278,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         temperatureInFahrenheit?.setOnPreferenceChangeListener { _, _ ->
 
-            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) {
-
-                if(CapacityInfoService.instance != null) {
-
-                    Handler().postDelayed({
-
-                        CapacityInfoService.instance?.updateNotification()
-
-                    }, 50)
-                }
-            }
+            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
+                updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
 
         voltageInMv?.setOnPreferenceChangeListener { _, _ ->
 
-            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) {
-
-                if(CapacityInfoService.instance != null) {
-
-                    Handler().postDelayed({
-
-                        CapacityInfoService.instance?.updateNotification()
-
-                    }, 50)
-                }
-            }
+            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
+                updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
@@ -480,6 +415,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun isGooglePlay() = "com.android.vending" == context?.packageManager?.getInstallerPackageName(context!!.packageName)
 
+    private fun updateNotification() {
+
+        Handler().postDelayed({
+
+            CapacityInfoService.instance?.updateNotification()
+
+        }, 50)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun openNotificationCategorySettings() {
 
@@ -496,7 +440,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         startActivity(intent)
-
     }
 
     private fun notificationRefreshRateDialog() {
@@ -511,9 +454,27 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val notificationRefreshRateSeekBar = view.findViewById<SeekBar>(R.id.notification_refresh_rate_seekBar)
 
-        val time = pref.getLong(Preferences.NotificationRefreshRate.prefKey,40)
+        val notificationRefreshRatePref = pref.getLong(Preferences.NotificationRefreshRate.prefKey,40)
 
-        when(time) {
+        setProgress(notificationRefreshRatePref, notificationRefreshRateSeekBar)
+
+        getNotificationRefreshRateTime(notificationRefreshRatePref, notificationRefreshRate, notificationRefreshRateSeekBar)
+
+        notificationRefreshRateSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { progressChanged(progress, notificationRefreshRate) }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        dialogApply(dialog, notificationRefreshRateSeekBar.progress)
+    }
+
+    private fun setProgress(notificationRefreshRate: Long, notificationRefreshRateSeekBar: SeekBar) {
+
+        when(notificationRefreshRate) {
 
             5.toLong() -> notificationRefreshRateSeekBar.progress = 0
             10.toLong() -> notificationRefreshRateSeekBar.progress = 9
@@ -528,53 +489,54 @@ class SettingsFragment : PreferenceFragmentCompat() {
             55.toLong() -> notificationRefreshRateSeekBar.progress = 81
             60.toLong() -> notificationRefreshRateSeekBar.progress = 100
         }
+    }
 
-        if(time !in sleepArray) {
+    private fun getNotificationRefreshRateTime(notificationRefreshRatePref: Long, notificationRefreshRate: TextView, notificationRefreshRateSeekBar: SeekBar) {
+
+        val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+
+        if(notificationRefreshRatePref !in sleepArray) {
 
             notificationRefreshRateSeekBar.progress = 57
 
             pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 40).apply()
         }
 
-        notificationRefreshRate.text = getString(if(time != 60.toLong()) R.string.seconds else R.string.minute, if(time < 60) time.toString() else "1")
+        notificationRefreshRate.text = getString(if(notificationRefreshRatePref != 60.toLong()) R.string.seconds
+        else R.string.minute, if(notificationRefreshRatePref < 60) notificationRefreshRatePref.toString() else "1")
+    }
 
-        notificationRefreshRateSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    private fun progressChanged(progress: Int, notificationRefreshRate: TextView) {
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+        when(progress) {
 
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            in 0..8 -> notificationRefreshRate.text = getString(R.string.seconds, "5")
 
-                when(progress) {
+            in 9..16 -> notificationRefreshRate.text = getString(R.string.seconds, "10")
 
-                    in 0..8 -> notificationRefreshRate.text = getString(R.string.seconds, "5")
+            in 17..24 -> notificationRefreshRate.text = getString(R.string.seconds, "15")
 
-                    in 9..16 -> notificationRefreshRate.text = getString(R.string.seconds, "10")
+            in 25..32 -> notificationRefreshRate.text = getString(R.string.seconds, "20")
 
-                    in 17..24 -> notificationRefreshRate.text = getString(R.string.seconds, "15")
+            in 33..40 -> notificationRefreshRate.text = getString(R.string.seconds, "25")
 
-                    in 25..32 -> notificationRefreshRate.text = getString(R.string.seconds, "20")
+            in 41..48 -> notificationRefreshRate.text = getString(R.string.seconds, "30")
 
-                    in 33..40 -> notificationRefreshRate.text = getString(R.string.seconds, "25")
+            in 49..56 -> notificationRefreshRate.text = getString(R.string.seconds, "35")
 
-                    in 41..48 -> notificationRefreshRate.text = getString(R.string.seconds, "30")
+            in 57..64 -> notificationRefreshRate.text = getString(R.string.seconds, "40")
 
-                    in 49..56 -> notificationRefreshRate.text = getString(R.string.seconds, "35")
+            in 65..72 -> notificationRefreshRate.text = getString(R.string.seconds, "45")
 
-                    in 57..64 -> notificationRefreshRate.text = getString(R.string.seconds, "40")
+            in 73..80 -> notificationRefreshRate.text = getString(R.string.seconds, "50")
 
-                    in 65..72 -> notificationRefreshRate.text = getString(R.string.seconds, "45")
+            in 81..88 -> notificationRefreshRate.text = getString(R.string.seconds, "55")
 
-                    in 73..80 -> notificationRefreshRate.text = getString(R.string.seconds, "50")
+            in 89..100 -> notificationRefreshRate.text = getString(R.string.minute, "1")
+        }
+    }
 
-                    in 81..88 -> notificationRefreshRate.text = getString(R.string.seconds, "55")
-
-                    in 89..100 -> notificationRefreshRate.text = getString(R.string.minute, "1")
-                }
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+    private fun dialogApply(dialog: MaterialAlertDialogBuilder, progress: Int) {
 
         dialog.apply {
 
@@ -582,7 +544,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             setPositiveButton(getString(R.string.apply)) { _, _ ->
 
-                when(notificationRefreshRateSeekBar.progress) {
+                when(progress) {
 
                     in 0..8 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 5).apply()
 
@@ -637,17 +599,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) {
-
-                if(CapacityInfoService.instance != null) {
-
-                    Handler().postDelayed({
-
-                        CapacityInfoService.instance?.updateNotification()
-
-                    }, 50)
-                }
-            }
+            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
+                updateNotification()
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
