@@ -187,11 +187,6 @@ class CapacityInfoService : Service() {
 
             pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
 
-            Handler().postDelayed({
-
-                updateNotification()
-            }, 50)
-
             if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
             if(percentAdded > 0) pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
