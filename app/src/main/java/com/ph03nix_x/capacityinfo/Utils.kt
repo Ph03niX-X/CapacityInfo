@@ -10,7 +10,7 @@ class Utils {
 
     companion object {
 
-        fun startService(context: Context? = null) {
+        fun startService(context: Context?) {
 
             Handler().postDelayed({
 
@@ -19,7 +19,7 @@ class Utils {
 
                 else context?.startService(Intent(context, CapacityInfoService::class.java))
 
-            }, 100)
+            }, 250)
         }
     }
 }
