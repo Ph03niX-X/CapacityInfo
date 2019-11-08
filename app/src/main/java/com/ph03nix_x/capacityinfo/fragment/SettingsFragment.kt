@@ -14,7 +14,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
@@ -23,11 +22,8 @@ import com.ph03nix_x.capacityinfo.services.isStopCheck
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
 import com.ph03nix_x.capacityinfo.Utils
+import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
-const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
-const val designerLink = "https://t.me/F0x1d"
-const val romanianTranslationLink = "https://github.com/ygorigor"
-const val belorussianTranslationLink = "https://t.me/DrCyanogen"
 const val telegramLink = "https://t.me/Ph03niX_X"
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -56,17 +52,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
-
-    // About
-
-    private var developer: Preference? = null
-    private var version: Preference? = null
-    private var build: Preference? = null
-    private var buildDate: Preference? = null
-    private var github: Preference? = null
-    private var designer: Preference? = null
-    private var romanianTranslation: Preference? = null
-    private var belorussianTranslation: Preference? = null
+    private var about: Preference? = null
 
     // Feedback
 
@@ -276,6 +262,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
+        about = findPreference("about")
+
         temperatureInFahrenheit?.setOnPreferenceChangeListener { _, _ ->
 
             if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
@@ -299,66 +287,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceClickListener true
         }
 
-        // About
+        about?.setOnPreferenceClickListener {
 
-        developer = findPreference("developer")
+            (activity as SettingsActivity).toolbar.title = requireActivity().getString(R.string.about)
 
-        version = findPreference("version")
+           requireActivity().supportFragmentManager.beginTransaction().apply {
 
-        build = findPreference("build")
-
-        buildDate = findPreference("build_date")
-
-        github = findPreference("github")
-
-        designer = findPreference("designer")
-
-        romanianTranslation = findPreference("romanian_translation")
-
-        belorussianTranslation = findPreference("belorussian_translation")
-
-        version?.summary = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionName
-
-        build?.summary = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionCode?.toString()
-
-        buildDate?.summary = BuildConfig.BUILD_DATE
-
-        developer?.setOnPreferenceClickListener {
-
-            try {
-
-                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:${developer?.summary}")))
+                replace(R.id.container, AboutFragment())
+                commit()
             }
-
-            catch(e: ActivityNotFoundException) {}
-
-            return@setOnPreferenceClickListener true
-        }
-
-        github?.setOnPreferenceClickListener {
-
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(githubLink)))
-
-            return@setOnPreferenceClickListener true
-        }
-
-        designer?.setOnPreferenceClickListener {
-
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(designerLink)))
-
-            return@setOnPreferenceClickListener true
-        }
-
-        romanianTranslation?.setOnPreferenceClickListener {
-
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(romanianTranslationLink)))
-
-            return@setOnPreferenceClickListener true
-        }
-
-        belorussianTranslation?.setOnPreferenceClickListener {
-
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(belorussianTranslationLink)))
 
             return@setOnPreferenceClickListener true
         }
@@ -390,7 +327,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         email?.setOnPreferenceClickListener {
 
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email?.summary}?subject=Capacity Info ${version?.summary} (Build ${build?.summary}). Feedback"))) }
+            try {
+
+                val version = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionName
+                val build = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionCode?.toString()
+
+                startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). Feedback"))) }
 
             catch (e: ActivityNotFoundException) {
 

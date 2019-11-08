@@ -10,8 +10,8 @@ import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var toolbar: CenteredToolbar
     private lateinit var pref: SharedPreferences
+    lateinit var toolbar: CenteredToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -30,8 +30,20 @@ class SettingsActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().apply {
 
+            replace(R.id.container, SettingsFragment())
+            commit()
+        }
+    }
+
+    override fun onBackPressed() {
+
+        if(toolbar.title == getString(R.string.about))
+            supportFragmentManager.beginTransaction().apply {
+
                 replace(R.id.container, SettingsFragment())
                 commit()
             }
+
+        else super.onBackPressed()
     }
 }
