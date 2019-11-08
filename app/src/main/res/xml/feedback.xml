@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <Preference
+            app:title="@string/telegram"
+            app:summary="\@Ph03niX-X"
+            app:icon="@drawable/telegram"
+            android:key="telegram"/>
+
+    <Preference
+            app:title="@string/email"
+            app:summary="Ph03niX-X@outlook.com"
+            app:icon="@drawable/email"
+            android:key="email"/>
+
+    <Preference
+            app:title="@string/rate_the_app"
+            app:singleLineTitle="false"
+            app:icon="@drawable/google_play"
+            android:key="rate_the_app"/>
+
+</PreferenceScreen>

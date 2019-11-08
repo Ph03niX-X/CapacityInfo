@@ -139,30 +139,10 @@
                 app:singleLineTitle="false"
                 android:key="about"/>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-                app:title="@string/feedback"
-                app:allowDividerAbove="false"
-                app:allowDividerBelow="false">
-
         <Preference
-                app:title="@string/telegram"
-                app:summary="\@Ph03niX-X"
-                app:icon="@drawable/telegram"
-                android:key="telegram"/>
-
-        <Preference
-                app:title="@string/email"
-                app:summary="Ph03niX-X@outlook.com"
-                app:icon="@drawable/email"
-                android:key="email"/>
-
-        <Preference
-                app:title="@string/rate_the_app"
+                android:title="@string/feedback"
                 app:singleLineTitle="false"
-                app:icon="@drawable/google_play"
-                android:key="rate_the_app"/>
+                android:key="feedback"/>
 
     </PreferenceCategory>
 
