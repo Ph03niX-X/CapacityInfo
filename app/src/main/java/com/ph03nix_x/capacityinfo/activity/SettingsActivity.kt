@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.fragment.SettingsFragment
+import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 class SettingsActivity : AppCompatActivity() {
@@ -37,7 +37,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if(toolbar.title == getString(R.string.about))
+        if(toolbar.title == getString(R.string.about) || toolbar.title == getString(R.string.feedback))
             supportFragmentManager.beginTransaction().apply {
 
                 replace(R.id.container, SettingsFragment())

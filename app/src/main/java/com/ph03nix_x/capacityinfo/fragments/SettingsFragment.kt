@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo.fragment
+package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.NotificationManager
 import android.content.*
