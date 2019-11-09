@@ -37,12 +37,16 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if(toolbar.title == getString(R.string.about) || toolbar.title == getString(R.string.feedback))
+        if(toolbar.title == getString(R.string.about) || toolbar.title == getString(R.string.feedback)) {
+
+            toolbar.title = getString(R.string.settings)
+
             supportFragmentManager.beginTransaction().apply {
 
                 replace(R.id.container, SettingsFragment())
                 commit()
             }
+        }
 
         else super.onBackPressed()
     }
