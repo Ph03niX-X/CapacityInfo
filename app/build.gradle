@@ -13,7 +13,7 @@ android {
         targetSdkVersion 29
         versionCode 145
         versionName "2.3.3"
-        buildConfigField "String", "BUILD_DATE", "\"${getDate()}\""
+        buildConfigField "String", "BUILD_DATE", "\"${getDate()} (UTC+2)\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
