@@ -25,6 +25,8 @@ import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
+    private var progressSeekBar = -1
+
     private lateinit var pref: SharedPreferences
 
     // Service and Notification
@@ -358,12 +360,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { progressChanged(progress, notificationRefreshRate) }
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { progressChanged(progress, notificationRefreshRate); progressSeekBar = progress }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        dialogApply(dialog, notificationRefreshRateSeekBar.progress)
+        dialogApply(dialog)
     }
 
     private fun setProgress(notificationRefreshRate: Long, notificationRefreshRateSeekBar: SeekBar) {
@@ -430,7 +432,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun dialogApply(dialog: MaterialAlertDialogBuilder, progress: Int) {
+    private fun dialogApply(dialog: MaterialAlertDialogBuilder) {
 
         dialog.apply {
 
@@ -438,7 +440,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             setPositiveButton(getString(R.string.apply)) { _, _ ->
 
-                when(progress) {
+                when(progressSeekBar) {
 
                     in 0..8 -> pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 5).apply()
 
