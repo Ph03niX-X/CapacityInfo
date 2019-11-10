@@ -11,7 +11,7 @@ android {
         applicationId "com.ph03nix_x.capacityinfo"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 146
+        versionCode 147
         versionName "2.4-Beta 1"
         buildConfigField "String", "BUILD_DATE", "\"${getDate()} (UTC+2)\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -42,6 +42,8 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'androidx.preference:preference:1.1.0'

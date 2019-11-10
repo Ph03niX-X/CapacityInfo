@@ -13,9 +13,10 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
-import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 var isPowerConnected = false
@@ -30,9 +31,8 @@ class CapacityInfoService : Service() {
     private lateinit var batteryManager: BatteryManager
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
-    private var doAsync: AsyncTask<Void, Void, Unit>? = null
     private var batteryStatus: Intent? = null
-    private var isDoAsync = false
+    private var isCoroutine = false
     private var isFull = false
     private var batteryLevelWith = -1
     var seconds = 0
@@ -87,13 +87,13 @@ class CapacityInfoService : Service() {
 
         instance = this
 
-        isDoAsync = true
+        isCoroutine = true
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-        doAsync = DoAsync {
+        GlobalScope.launch {
 
-            while (isDoAsync) {
+            while (isCoroutine) {
 
                 if(!::wakeLock.isInitialized) {
 
@@ -165,7 +165,7 @@ class CapacityInfoService : Service() {
                 }
             }
 
-        }.execute()
+        }
 
         return START_STICKY
     }
@@ -177,8 +177,7 @@ class CapacityInfoService : Service() {
         if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
         instance = null
-        isDoAsync = false
-        doAsync?.cancel(true)
+        isCoroutine = false
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 

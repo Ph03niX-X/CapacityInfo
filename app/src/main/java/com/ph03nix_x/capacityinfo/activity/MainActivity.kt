@@ -17,9 +17,10 @@ import com.ph03nix_x.capacityinfo.BatteryInfo
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Utils
-import com.ph03nix_x.capacityinfo.async.DoAsync
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 var tempCurrentCapacity: Double = 0.0
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
-    private var isDoAsync = false
+    private var isCoroutine = false
     private var batteryStatus: Intent? = null
     private var dialog: MaterialAlertDialogBuilder? = null
     private var dialogShow: AlertDialog? = null
@@ -148,11 +149,11 @@ class MainActivity : AppCompatActivity() {
 
         batteryWear.text = getString(R.string.battery_wear, "0%")
 
-        isDoAsync = true
+        isCoroutine = true
 
-        DoAsync {
+        GlobalScope.launch {
 
-            while(isDoAsync) {
+            while(isCoroutine) {
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -209,16 +210,16 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
 
-                    this.status.text = batteryInfo.getStatus(status)
+                    this@MainActivity.status.text = batteryInfo.getStatus(status)
 
                     if(batteryInfo.getPlugged(plugged) != "N/A") {
 
-                        if(this.plugged.visibility == View.GONE) this.plugged.visibility = View.VISIBLE
+                        if(this@MainActivity.plugged.visibility == View.GONE) this@MainActivity.plugged.visibility = View.VISIBLE
 
-                        this.plugged.text = batteryInfo.getPlugged(plugged)
+                        this@MainActivity.plugged.text = batteryInfo.getPlugged(plugged)
                     }
 
-                    else this.plugged.visibility = View.GONE
+                    else this@MainActivity.plugged.visibility = View.GONE
                 }
 
                 runOnUiThread {
@@ -325,7 +326,7 @@ class MainActivity : AppCompatActivity() {
 
                         isShowDialog = false
 
-                        dialog = MaterialAlertDialogBuilder(this).apply {
+                        dialog = MaterialAlertDialogBuilder(this@MainActivity).apply {
                             setTitle(getString(R.string.information))
                             setMessage(getString(R.string.not_supported))
                             setPositiveButton(android.R.string.ok) { _, _ -> dialog = null }
@@ -345,19 +346,19 @@ class MainActivity : AppCompatActivity() {
                 else Thread.sleep(914)
             }
 
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+        }
     }
 
     override fun onStop() {
 
         super.onStop()
 
-        isDoAsync = false
+        isCoroutine = false
     }
 
     override fun onDestroy() {
 
-        isDoAsync = false
+        isCoroutine = false
 
         dialogShow?.cancel()
 
