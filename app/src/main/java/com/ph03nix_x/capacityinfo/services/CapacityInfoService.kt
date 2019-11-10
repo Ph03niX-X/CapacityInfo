@@ -58,7 +58,9 @@ class CapacityInfoService : Service() {
                 isPowerConnected = true
 
                 val batteryInfo = BatteryInfo(this)
-                
+
+                batteryLevelWith = batteryInfo.getBatteryLevel()
+
                 tempBatteryLevel = batteryInfo.getBatteryLevel()
 
                 tempCurrentCapacity = batteryInfo.getCurrentCapacity()
@@ -87,19 +89,20 @@ class CapacityInfoService : Service() {
 
         isDoAsync = true
 
-        powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
-
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
-
-        batteryLevelWith = batteryInfo.getBatteryLevel()
 
         doAsync = DoAsync {
 
             while (isDoAsync) {
 
-                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(5 * 60 * 1000)
+                if(!::wakeLock.isInitialized) {
+
+                    powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+
+                    wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
+                }
+
+                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(40 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
