@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.activity
 
 import android.content.*
-import android.os.AsyncTask
 import android.os.BatteryManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -16,17 +15,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.BatteryInfo
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.Utils
+import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 var tempCurrentCapacity: Double = 0.0
 var tempBatteryLevel = 0
 @SuppressWarnings("StaticFieldLeak")
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ServiceInterface {
 
     private lateinit var toolbar: CenteredToolbar
 
@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
-    private var isCoroutine = false
+    private var isJob = false
+    private var job: Job? = null
     private var batteryStatus: Intent? = null
     private var dialog: MaterialAlertDialogBuilder? = null
     private var dialogShow: AlertDialog? = null
@@ -126,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
-            && CapacityInfoService.instance == null) Utils.startService(this)
+            && CapacityInfoService.instance == null) startService(this)
 
         val batteryInfo = BatteryInfo(this)
 
@@ -149,11 +150,11 @@ class MainActivity : AppCompatActivity() {
 
         batteryWear.text = getString(R.string.battery_wear, "0%")
 
-        isCoroutine = true
+        isJob = true
 
-        GlobalScope.launch {
+        job = GlobalScope.launch {
 
-            while(isCoroutine) {
+            while(isJob) {
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
@@ -353,12 +354,20 @@ class MainActivity : AppCompatActivity() {
 
         super.onStop()
 
-        isCoroutine = false
+        isJob = false
+
+        job?.cancel()
+
+        job = null
     }
 
     override fun onDestroy() {
 
-        isCoroutine = false
+        isJob = false
+
+        job?.cancel()
+
+        job = null
 
         dialogShow?.cancel()
 

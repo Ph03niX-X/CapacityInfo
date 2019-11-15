@@ -5,16 +5,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.Utils
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.ServiceInterface
 
-class RestartServiceReceiver : BroadcastReceiver() {
+class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context!!)
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        when(intent?.action) {
+        when(intent.action) {
 
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
 
@@ -95,12 +94,5 @@ class RestartServiceReceiver : BroadcastReceiver() {
             
             apply()
         }
-    }
-
-    private fun restartService(context: Context) {
-
-        if(CapacityInfoService.instance != null) context.stopService(Intent(context, CapacityInfoService::class.java))
-
-        Utils.startService(context)
     }
 }

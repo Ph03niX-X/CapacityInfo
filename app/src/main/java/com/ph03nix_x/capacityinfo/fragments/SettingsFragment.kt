@@ -20,10 +20,10 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.isStopCheck
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
-import com.ph03nix_x.capacityinfo.Utils
+import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface {
 
     private var progressSeekBar = -1
 
@@ -121,7 +121,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if(!(newValue as Boolean) && CapacityInfoService.instance != null) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
 
-            else if(newValue && CapacityInfoService.instance == null) Utils.startService(context)
+            else if(newValue && CapacityInfoService.instance == null) startService(requireContext())
 
             showInformationWhileCharging?.isEnabled = newValue
             serviceHours?.isEnabled = newValue

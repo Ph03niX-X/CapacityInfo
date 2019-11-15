@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
@@ -32,7 +33,8 @@ class CapacityInfoService : Service() {
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
-    private var isCoroutine = false
+    private var job: Job? = null
+    private var isJob = false
     private var isFull = false
     private var batteryLevelWith = -1
     var seconds = 0
@@ -87,13 +89,13 @@ class CapacityInfoService : Service() {
 
         instance = this
 
-        isCoroutine = true
+        isJob = true
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-        GlobalScope.launch {
+        job = GlobalScope.launch {
 
-            while (isCoroutine) {
+            while (isJob) {
 
                 if(!::wakeLock.isInitialized) {
 
@@ -140,7 +142,6 @@ class CapacityInfoService : Service() {
                     }
 
                     updateNotification()
-                    if(wakeLock.isHeld) wakeLock.release()
                 }
 
                 else {
@@ -177,7 +178,9 @@ class CapacityInfoService : Service() {
         if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
         instance = null
-        isCoroutine = false
+        isJob = false
+        job?.cancel()
+        job = null
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
