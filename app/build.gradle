@@ -17,7 +17,7 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField "String", "BUILD_DATE", "\"${getDate()} (UTC+2)\""
+            buildConfigField "String", "BUILD_DATE", "\"${getDate()}\""
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
@@ -34,7 +34,7 @@ android {
 }
 
 static def getDate() {
-    return new Date().format('dd.MM.yyy HH:mm:ss')
+    return new Date().format('dd.MM.yyy HH:mm')
 }
 
 dependencies {
