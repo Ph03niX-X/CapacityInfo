@@ -15,6 +15,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+        if(isPowerConnected)
         when(intent.action) {
 
             Intent.ACTION_POWER_DISCONNECTED -> {

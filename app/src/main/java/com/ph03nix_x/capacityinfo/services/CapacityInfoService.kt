@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.services
 import android.app.*
 import android.content.*
 import android.os.*
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -18,6 +19,7 @@ import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
@@ -113,7 +115,7 @@ class CapacityInfoService : Service() {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    Thread.sleep(914)
+                    delay(914)
                     seconds++
                     updateNotification()
                 }
@@ -161,7 +163,7 @@ class CapacityInfoService : Service() {
                     else if(isPowerConnected && sleepTime != 20.toLong() && isFull) sleepTime = 20
                     if(wakeLock.isHeld) wakeLock.release()
 
-                    Thread.sleep(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 914
+                    delay(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 914
                     else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (60 * 914).toLong()
                     else 914)
                 }

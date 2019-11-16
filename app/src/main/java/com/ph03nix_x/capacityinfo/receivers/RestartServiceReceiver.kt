@@ -21,7 +21,7 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                 migrateToDefaultPrefs(context)
 
-                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) restartService(context)
+                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) startService(context)
             }
         }
     }
