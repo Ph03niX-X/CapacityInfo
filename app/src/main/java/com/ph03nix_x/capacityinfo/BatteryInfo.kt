@@ -14,6 +14,8 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+var hoursDefault = 0
+
 @SuppressWarnings("PrivateApi")
 class BatteryInfo(var context: Context) {
 
@@ -113,7 +115,9 @@ class BatteryInfo(var context: Context) {
 
         var residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
-        if(residualCapacity >= 10000) residualCapacity /= 1000
+        if(residualCapacity < 0) residualCapacity /= -1
+
+        residualCapacity /= 1000
 
         return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
@@ -151,7 +155,9 @@ class BatteryInfo(var context: Context) {
 
         var capacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
-        if(capacity >= 10000) capacity /= 1000
+        if(capacity < 0) capacity /= -1
+
+        capacity /= 1000
 
         return context.getString(R.string.battery_wear,
             if(capacity > 0) "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%"  else "0%")
@@ -163,14 +169,26 @@ class BatteryInfo(var context: Context) {
         val minutes = TimeSpan.toMinutes(seconds)
         val hours = TimeSpan.toHours(seconds)
 
-        val time = "$hours:$minutes:$secondsTime"
+        var time = "$hours:$minutes:$secondsTime"
+
+        var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+
+        var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+        if(hoursDate > hoursDefault) {
+
+            time = "${hours - 1}:$minutes:$secondsTime"
+
+            dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+
+            hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+            if(hoursDefault != hoursDate) hoursDefault = hoursDate
+        }
 
         return context.getString(R.string.charging_time,
 
-            try {
-
-                DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
-            }
+            try { dateTime }
 
             catch (e: IllegalArgumentException) { seconds.toString() })
     }
@@ -183,12 +201,24 @@ class BatteryInfo(var context: Context) {
         val minutes = TimeSpan.toMinutes(secondsPref)
         val hours = TimeSpan.toHours(secondsPref)
 
-        val time = "$hours:$minutes:$seconds"
+        var time = "$hours:$minutes:$seconds"
 
-        return try {
+        var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
 
-            DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+        var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+        if(hoursDate > hoursDefault) {
+
+            time = "${hours - 1}:$minutes:$seconds"
+
+            dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+
+            hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+            if(hoursDefault != hoursDate) hoursDefault = hoursDate
         }
+
+        return try { dateTime }
 
         catch (e: IllegalArgumentException) { secondsPref.toString() }
     }

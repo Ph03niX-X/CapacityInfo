@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.hoursDefault
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import kotlinx.coroutines.GlobalScope
@@ -201,6 +202,8 @@ class CapacityInfoService : Service() {
             capacityAdded = 0.0
         }
 
+        hoursDefault = 0
+
         super.onDestroy()
     }
 
@@ -253,6 +256,7 @@ class CapacityInfoService : Service() {
         }
 
         startForeground(notifyId, notificationBuilder.build())
+
     }
 
     fun updateNotification() {
