@@ -4,6 +4,18 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
+<a href="https://drive.google.com/open?id=14VbbsGsNrqyXkaJqX8--DlEJ9is518NJ">
+<p align="center">
+<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/GDrive.png"
+alt="Get it on Google Drive" width="300" border="10"/></a>
+</p>
+
+<p align="center">
+<b>Screenshots:</b>
+</p>
+
+<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123405.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123411.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123419.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123427.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123434.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123439.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Screenshots/Screenshot_20191117-123445.png" width="270" height="585">
+
 <p align="center">
 <b>Instruction:</b>
 </p>
