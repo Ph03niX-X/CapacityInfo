@@ -1,5 +1,5 @@
 <p align="center">
- <b>Download:</b>
+ <b>Download Latest Stable Version:</b>
   </p>
 
 <a href="https://play.google.com/store/apps/details?id=com.ph03nix_x.capacityinfo">
