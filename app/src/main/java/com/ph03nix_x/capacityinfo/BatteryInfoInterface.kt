@@ -16,9 +16,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressWarnings("PrivateApi")
-class BatteryInfo(var context: Context) {
+interface BatteryInfoInterface {
 
-    fun getDesignCapacity(): Int {
+    fun getDesignCapacity(context: Context): Int {
 
         val powerProfileClass = "com.android.internal.os.PowerProfile"
 
@@ -27,9 +27,9 @@ class BatteryInfo(var context: Context) {
         return (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
     }
 
-    fun getBatteryLevel() = (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+    fun getBatteryLevel(context: Context) = (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-    fun getChargingCurrent(): Int {
+    fun getChargingCurrent(context: Context): Int {
 
         val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
@@ -40,7 +40,7 @@ class BatteryInfo(var context: Context) {
         return chargingCurrent / 1000
     }
 
-    fun getTemperature(): String {
+    fun getTemperature(context: Context): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -58,7 +58,7 @@ class BatteryInfo(var context: Context) {
         return tempString
     }
 
-    fun getCurrentCapacity(): Double {
+    fun getCurrentCapacity(context: Context): Double {
 
         val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
@@ -69,7 +69,7 @@ class BatteryInfo(var context: Context) {
         return currentCapacity / 1000
     }
 
-    fun getCapacityAdded(): String {
+    fun getCapacityAdded(context: Context): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -79,9 +79,9 @@ class BatteryInfo(var context: Context) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-                percentAdded = getBatteryLevel() - tempBatteryLevel
+                percentAdded = getBatteryLevel(context) - tempBatteryLevel
 
-                capacityAdded = getCurrentCapacity() - tempCurrentCapacity
+                capacityAdded = getCurrentCapacity(context) - tempCurrentCapacity
 
                 if(capacityAdded < 0) capacityAdded /= -1
 
@@ -94,7 +94,7 @@ class BatteryInfo(var context: Context) {
         }
     }
 
-    fun getVoltage(): Double {
+    fun getVoltage(context: Context): Double {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -108,7 +108,7 @@ class BatteryInfo(var context: Context) {
         return voltage
     }
 
-    fun getResidualCapacity(): String {
+    fun getResidualCapacity(context: Context): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -122,7 +122,7 @@ class BatteryInfo(var context: Context) {
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
     }
 
-    fun getStatus(extraStatus: Int): String {
+    fun getStatus(context: Context, extraStatus: Int): String {
 
         return when(extraStatus) {
 
@@ -135,7 +135,7 @@ class BatteryInfo(var context: Context) {
         }
     }
 
-    fun getPlugged(extraPlugged: Int): String {
+    fun getPlugged(context: Context, extraPlugged: Int): String {
 
         return when(extraPlugged) {
 
@@ -146,7 +146,7 @@ class BatteryInfo(var context: Context) {
         }
     }
     
-    fun getBatteryWear(): String {
+    fun getBatteryWear(context: Context): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -162,7 +162,7 @@ class BatteryInfo(var context: Context) {
             if(capacity > 0) "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%"  else "0%")
     }
 
-    fun getChargingTime(seconds: Double): String {
+    fun getChargingTime(context: Context, seconds: Double): String {
 
         val secondsTime = TimeSpan.toSeconds(seconds)
         val minutes = TimeSpan.toMinutes(seconds)
@@ -192,7 +192,7 @@ class BatteryInfo(var context: Context) {
             catch (e: IllegalArgumentException) { seconds.toString() })
     }
 
-    fun getLastChargeTime(): String {
+    fun getLastChargeTime(context: Context): String {
         
         val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0).toDouble()
 

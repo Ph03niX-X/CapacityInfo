@@ -4,7 +4,7 @@ import android.app.*
 import android.content.*
 import android.os.*
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.BatteryInfo
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
@@ -19,7 +19,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class CapacityInfoService : Service(), NotificationInterface {
+class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
@@ -52,13 +52,11 @@ class CapacityInfoService : Service(), NotificationInterface {
 
                 isPowerConnected = true
 
-                val batteryInfo = BatteryInfo(this)
+                batteryLevelWith = getBatteryLevel(this)
 
-                batteryLevelWith = batteryInfo.getBatteryLevel()
+                tempBatteryLevel = batteryLevelWith
 
-                tempBatteryLevel = batteryInfo.getBatteryLevel()
-
-                tempCurrentCapacity = batteryInfo.getCurrentCapacity()
+                tempCurrentCapacity = getCurrentCapacity(this)
 
                 applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
@@ -77,9 +75,7 @@ class CapacityInfoService : Service(), NotificationInterface {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        val batteryInfo = BatteryInfo(this)
-
+        
         instance = this
 
         if(!isJob) isJob = true
@@ -106,7 +102,7 @@ class CapacityInfoService : Service(), NotificationInterface {
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
                     
-                    delay(if(batteryInfo.getCurrentCapacity() > 0) 960 else 967)
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 960 else 967)
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
@@ -117,11 +113,11 @@ class CapacityInfoService : Service(), NotificationInterface {
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
-                    pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
+                    pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService)).apply()
 
-                    if (batteryInfo.getCurrentCapacity() > 0) {
+                    if (getCurrentCapacity(this@CapacityInfoService) > 0) {
 
-                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, batteryInfo.getCurrentCapacity().toInt()).apply()
+                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, getCurrentCapacity(this@CapacityInfoService).toInt()).apply()
 
                         pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
@@ -167,8 +163,6 @@ class CapacityInfoService : Service(), NotificationInterface {
 
     override fun onDestroy() {
 
-        val batteryInfo = BatteryInfo(this)
-
         if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
         instance = null
@@ -183,7 +177,7 @@ class CapacityInfoService : Service(), NotificationInterface {
 
             pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
 
-            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
+            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService)).apply()
 
             if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
