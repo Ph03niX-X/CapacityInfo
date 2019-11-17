@@ -4,11 +4,14 @@ import android.content.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.ServiceInterface
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     lateinit var toolbar: CenteredToolbar
@@ -33,6 +36,9 @@ class SettingsActivity : AppCompatActivity() {
             replace(R.id.container, SettingsFragment())
             commit()
         }
+
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+            && CapacityInfoService.instance == null) startService(this)
     }
 
     override fun onBackPressed() {

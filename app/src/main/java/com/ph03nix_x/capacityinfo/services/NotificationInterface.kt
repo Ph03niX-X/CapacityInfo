@@ -25,7 +25,8 @@ interface NotificationInterface : BatteryInfoInterface {
     companion object {
 
         private lateinit var notificationBuilder: NotificationCompat.Builder
-        private var channelId = ""
+        private lateinit var channelId: String
+        private const val notificationId = 101
     }
 
     fun createNotification(context: Context) {
@@ -50,7 +51,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
 
                     if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getStatus(context)))
+                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
                     else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
                 }
@@ -58,7 +59,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> {
 
                     if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getStatus(context)))
+                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
                     else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
                 }
@@ -71,7 +72,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 addAction(NotificationCompat.Action(0, context.getString(R.string.stop_service), stopService))
         }
 
-        (context as CapacityInfoService).startForeground(getNotificationId(), notificationBuilder.build())
+        (context as CapacityInfoService).startForeground(notificationId, notificationBuilder.build())
     }
 
     fun updateNotification(context: Context) {
@@ -92,7 +93,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
 
                     if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getStatus(context)))
+                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
                     else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
                 }
@@ -100,7 +101,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> {
 
                     if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getStatus(context)))
+                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
                     else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
                 }
@@ -115,11 +116,9 @@ interface NotificationInterface : BatteryInfoInterface {
             else if(!pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isNotEmpty()) mActions.clear()
         }
 
-        notificationManager.notify(getNotificationId(), notificationBuilder.build())
+        notificationManager.notify(notificationId, notificationBuilder.build())
     }
-
-    private fun getNotificationId() = 101
-
+    
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(context: Context): String {
         val channelId = "service_channel"
@@ -132,7 +131,7 @@ interface NotificationInterface : BatteryInfoInterface {
         return channelId
     }
 
-    private fun getStatus(context: Context): String {
+    private fun getNotificationMessage(context: Context): String {
 
         val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 

@@ -119,14 +119,14 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 show()
             }
         }
+
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+            && CapacityInfoService.instance == null) startService(this)
     }
 
     override fun onResume() {
 
         super.onResume()
-
-        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
-            && CapacityInfoService.instance == null) startService(this)
 
         var isShowDialog = true
 

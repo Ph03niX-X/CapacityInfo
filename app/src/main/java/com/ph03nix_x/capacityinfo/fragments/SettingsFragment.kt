@@ -2,9 +2,9 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.NotificationManager
 import android.content.*
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
 import androidx.annotation.RequiresApi
@@ -21,9 +21,14 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
 import com.ph03nix_x.capacityinfo.services.ServiceInterface
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
-import com.ph03nix_x.capacityinfo.Util.Companion.isStopCheck
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface {
+
+    private var jobUpdateNotification: Job? = null
 
     private var progressSeekBar = -1
 
@@ -138,12 +143,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         showStopService?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) {
-
-                isStopCheck = true
-
-                updateNotification()
-            }
+            if(CapacityInfoService.instance != null) updateNotification()
 
             return@setOnPreferenceChangeListener true
         }
@@ -313,11 +313,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface {
 
     private fun updateNotification() {
 
-        Handler().postDelayed({
+        if(jobUpdateNotification == null)
+            jobUpdateNotification = GlobalScope.launch {
 
-            CapacityInfoService.instance?.updateNotification(requireContext())
-
-        }, 50)
+                delay(1000)
+                val intent = requireContext().registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                if(intent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) == 0) CapacityInfoService.instance?.updateNotification(requireContext())
+                jobUpdateNotification = null
+            }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

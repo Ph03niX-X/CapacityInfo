@@ -148,6 +148,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
 
                     else if(isPowerConnected && sleepTime != 20.toLong() && isFull) sleepTime = 20
+                    else if(!isPowerConnected) sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
                     if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
                     delay(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 990
