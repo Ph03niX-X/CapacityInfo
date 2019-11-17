@@ -170,26 +170,29 @@ interface BatteryInfoInterface {
 
         var time = "$hours:$minutes:$secondsTime"
 
-        var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
-
-        var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
-
-        if(hoursDate > hoursDefault) {
-
-            time = "${hours - 1}:$minutes:$secondsTime"
-
-            dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
-
-            hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
-
-            if(hoursDefault != hoursDate) hoursDefault = hoursDate
-        }
-
         return context.getString(R.string.charging_time,
 
-            try { dateTime }
+            try {
 
-            catch (e: IllegalArgumentException) { seconds.toString() })
+                var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+
+                var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+                if(hoursDate > hoursDefault) {
+
+                    time = "${hours - 1}:$minutes:$secondsTime"
+
+                    dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+
+                    hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+                    if(hoursDefault != hoursDate) hoursDefault = hoursDate
+                }
+
+                dateTime
+            }
+
+            catch (e: java.lang.IllegalArgumentException) { "${seconds}s" })
     }
 
     fun getLastChargeTime(context: Context): String {
@@ -202,23 +205,26 @@ interface BatteryInfoInterface {
 
         var time = "$hours:$minutes:$seconds"
 
-        var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+        return try {
 
-        var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+            var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
 
-        if(hoursDate > hoursDefault) {
+            var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
-            time = "${hours - 1}:$minutes:$seconds"
+            if(hoursDate > hoursDefault) {
 
-            dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+                time = "${hours - 1}:$minutes:$seconds"
 
-            hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+                dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
 
-            if(hoursDefault != hoursDate) hoursDefault = hoursDate
+                hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+
+                if(hoursDefault != hoursDate) hoursDefault = hoursDate
+            }
+
+            dateTime
         }
 
-        return try { dateTime }
-
-        catch (e: IllegalArgumentException) { secondsPref.toString() }
+        catch (e: IllegalArgumentException) { "${secondsPref}s" }
     }
 }
