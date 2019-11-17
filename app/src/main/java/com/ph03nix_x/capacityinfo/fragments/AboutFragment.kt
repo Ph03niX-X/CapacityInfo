@@ -13,12 +13,12 @@ import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 
-const val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
-const val designerLink = "https://t.me/F0x1d"
-const val romanianTranslationLink = "https://github.com/ygorigor"
-const val belorussianTranslationLink = "https://t.me/DrCyanogen"
 class AboutFragment : PreferenceFragmentCompat() {
 
+    val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
+    val designerLink = "https://t.me/F0x1d"
+    val romanianTranslationLink = "https://github.com/ygorigor"
+    val belorussianTranslationLink = "https://t.me/DrCyanogen"
     private var developer: Preference? = null
     private var version: Preference? = null
     private var build: Preference? = null

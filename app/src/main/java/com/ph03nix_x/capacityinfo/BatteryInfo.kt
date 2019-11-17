@@ -6,15 +6,14 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.activity.tempBatteryLevel
-import com.ph03nix_x.capacityinfo.activity.tempCurrentCapacity
-import com.ph03nix_x.capacityinfo.services.capacityAdded
-import com.ph03nix_x.capacityinfo.services.percentAdded
+import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.Util.Companion.hoursDefault
+import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevel
+import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-
-var hoursDefault = 0
 
 @SuppressWarnings("PrivateApi")
 class BatteryInfo(var context: Context) {

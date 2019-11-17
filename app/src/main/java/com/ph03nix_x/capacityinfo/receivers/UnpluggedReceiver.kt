@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.services.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.services.isPowerConnected
-
-class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
+import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
+class UnpluggedReceiver : BroadcastReceiver(),
+    ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 

@@ -1,17 +1,21 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.services
 
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.Preferences
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private var jobStartService: Job? = null
 interface ServiceInterface {
+
+    companion object {
+
+        private var jobStartService: Job? = null
+    }
 
     fun startService(context: Context) {
 

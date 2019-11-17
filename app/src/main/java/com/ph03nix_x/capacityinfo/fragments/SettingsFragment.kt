@@ -17,11 +17,11 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.services.isStopCheck
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
-import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.services.ServiceInterface
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
+import com.ph03nix_x.capacityinfo.Util.Companion.isStopCheck
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface {
 
@@ -315,7 +315,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         Handler().postDelayed({
 
-            CapacityInfoService.instance?.updateNotification()
+            CapacityInfoService.instance?.updateNotification(requireContext())
 
         }, 50)
     }
