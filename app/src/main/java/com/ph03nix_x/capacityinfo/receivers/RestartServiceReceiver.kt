@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
 class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
@@ -21,7 +22,8 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                 migrateToDefaultPrefs(context)
 
-                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) startService(context)
+                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+                    && CapacityInfoService.instance == null) startService(context)
             }
         }
     }

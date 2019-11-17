@@ -20,6 +20,7 @@ import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
@@ -152,6 +153,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface {
 
         isJob = true
 
+        if(job == null)
         job = GlobalScope.launch {
 
             while(isJob) {
@@ -342,9 +344,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface {
                     }
                 }
 
-                if(batteryInfo.getPlugged(batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1) == "N/A") Thread.sleep(5 * 914)
-
-                else Thread.sleep(914)
+                delay(if(batteryInfo.getCurrentCapacity() > 0) 960 else 967)
             }
 
         }
@@ -356,16 +356,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface {
 
         isJob = false
 
-        job?.cancel()
-
         job = null
     }
 
     override fun onDestroy() {
 
         isJob = false
-
-        job?.cancel()
 
         job = null
 

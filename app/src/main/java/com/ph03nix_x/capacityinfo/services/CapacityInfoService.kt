@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.services
 import android.app.*
 import android.content.*
 import android.os.*
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -36,7 +35,7 @@ class CapacityInfoService : Service() {
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private var batteryStatus: Intent? = null
-    private var job: Job? = null
+    private var jobService: Job? = null
     private var isJob = false
     private var isFull = false
     private var batteryLevelWith = -1
@@ -92,30 +91,31 @@ class CapacityInfoService : Service() {
 
         instance = this
 
-        isJob = true
+        if(!isJob) isJob = true
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
-        job = GlobalScope.launch {
+        if(jobService == null)
+        jobService = GlobalScope.launch {
 
             while (isJob) {
-
+                
                 if(!::wakeLock.isInitialized) {
 
-                    powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+                    if(!::powerManager.isInitialized) powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
 
                     wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
                 }
 
-                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(40 * 1000)
+                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(12 * 60 * 60 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                    delay(914)
+                    
+                    delay(if(batteryInfo.getCurrentCapacity() > 0) 960 else 967)
                     seconds++
                     updateNotification()
                 }
@@ -128,9 +128,9 @@ class CapacityInfoService : Service() {
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
                     pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, batteryInfo.getBatteryLevel()).apply()
 
-                    if (batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
+                    if (batteryInfo.getCurrentCapacity() > 0) {
 
-                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)).apply()
+                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, batteryInfo.getCurrentCapacity().toInt()).apply()
 
                         pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
@@ -148,7 +148,7 @@ class CapacityInfoService : Service() {
                 }
 
                 else {
-                    
+
                     updateNotification()
 
                     val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
@@ -161,11 +161,11 @@ class CapacityInfoService : Service() {
                     }
 
                     else if(isPowerConnected && sleepTime != 20.toLong() && isFull) sleepTime = 20
-                    if(wakeLock.isHeld) wakeLock.release()
+                    if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                    delay(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 914
-                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (60 * 914).toLong()
-                    else 914)
+                    delay(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 990
+                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (90 * 990).toLong()
+                    else 990)
                 }
             }
 
@@ -182,8 +182,7 @@ class CapacityInfoService : Service() {
 
         instance = null
         isJob = false
-        job?.cancel()
-        job = null
+        jobService = null
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -258,7 +257,6 @@ class CapacityInfoService : Service() {
         }
 
         startForeground(notifyId, notificationBuilder.build())
-
     }
 
     fun updateNotification() {
@@ -355,7 +353,7 @@ class CapacityInfoService : Service() {
         val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
             DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
-        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+        return if(batteryInfo.getCurrentCapacity() > 0)
             if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
                 "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$chargingCurrent\n$temperature\n$voltage"
             else "$charging\n$batteryLevel\n$plugged\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
@@ -378,7 +376,7 @@ class CapacityInfoService : Service() {
         val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
             DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
-        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+        return if(batteryInfo.getCurrentCapacity() > 0)
             if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
                 "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
             else "$notCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
@@ -403,7 +401,7 @@ class CapacityInfoService : Service() {
 
         return if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
 
-            if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+            if(batteryInfo.getCurrentCapacity() > 0)
                 if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
                     "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
                 else "$fullCharging\n$batteryLevel\n${batteryInfo.getChargingTime(seconds.toDouble())}\n$currentCapacity\n${batteryInfo.getResidualCapacity()}\n${batteryInfo.getBatteryWear()}\n$dischargingCurrent\n$temperature\n$voltage"
@@ -433,7 +431,7 @@ class CapacityInfoService : Service() {
         val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
             DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
-        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0) {
+        return if(batteryInfo.getCurrentCapacity() > 0) {
 
             if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0 && pref.getBoolean(Preferences.IsShowLastChargeTimeInNotification.prefKey, true))
 
@@ -472,7 +470,7 @@ class CapacityInfoService : Service() {
         val voltage = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
             DecimalFormat("#.#").format(batteryInfo.getVoltage()))
 
-        return if(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER) > 0)
+        return if(batteryInfo.getCurrentCapacity() > 0)
             if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
                 "$discharging\n$batteryLevel\n$currentCapacity\n$capacityAdded\n$temperature\n$voltage"
             else "$discharging\n$batteryLevel\n$currentCapacity\n$temperature\n$voltage"
