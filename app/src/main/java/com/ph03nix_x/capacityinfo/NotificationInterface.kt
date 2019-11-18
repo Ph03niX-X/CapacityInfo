@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo.services
+package com.ph03nix_x.capacityinfo
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,10 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.MainActivity
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.StopService
 import java.text.DecimalFormat
 
 @SuppressWarnings("StaticFieldLeak")
@@ -39,7 +38,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         val stopService = PendingIntent.getService(context, 1, Intent(context, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
+        notificationBuilder = NotificationCompat.Builder(context,
+            channelId
+        ).apply {
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.service_small_icon)

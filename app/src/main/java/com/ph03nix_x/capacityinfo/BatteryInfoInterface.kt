@@ -7,7 +7,6 @@ import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.hoursDefault
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
@@ -16,7 +15,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressWarnings("PrivateApi")
-interface BatteryInfoInterface {
+interface BatteryInfoInterface : TimeSpanInterface {
+    
+    companion object {
+
+        var hoursDefault = 0
+    }
 
     fun getDesignCapacity(context: Context): Int {
 
@@ -164,9 +168,9 @@ interface BatteryInfoInterface {
 
     fun getChargingTime(context: Context, seconds: Double): String {
 
-        val secondsTime = TimeSpan.toSeconds(seconds)
-        val minutes = TimeSpan.toMinutes(seconds)
-        val hours = TimeSpan.toHours(seconds)
+        val secondsTime = toSeconds(seconds)
+        val minutes = toMinutes(seconds)
+        val hours = toHours(seconds)
 
         var time = "$hours:$minutes:$secondsTime"
 
@@ -199,9 +203,9 @@ interface BatteryInfoInterface {
         
         val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0).toDouble()
 
-        val seconds = TimeSpan.toSeconds(secondsPref)
-        val minutes = TimeSpan.toMinutes(secondsPref)
-        val hours = TimeSpan.toHours(secondsPref)
+        val seconds = toSeconds(secondsPref)
+        val minutes = toMinutes(secondsPref)
+        val hours = toHours(secondsPref)
 
         var time = "$hours:$minutes:$seconds"
 

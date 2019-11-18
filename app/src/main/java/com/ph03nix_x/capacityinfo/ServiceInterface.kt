@@ -1,10 +1,10 @@
-package com.ph03nix_x.capacityinfo.services
+package com.ph03nix_x.capacityinfo
 
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

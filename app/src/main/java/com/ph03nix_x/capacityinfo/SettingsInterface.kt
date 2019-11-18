@@ -14,14 +14,19 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.Util.Companion.jobUpdateNotification
-import com.ph03nix_x.capacityinfo.Util.Companion.progressSeekBar
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 interface SettingsInterface {
+
+    companion object {
+
+        var jobUpdateNotification: Job? = null
+        var progressSeekBar = -1
+    }
 
     fun updateNotification(context: Context) {
 

@@ -1,6 +1,6 @@
 package com.ph03nix_x.capacityinfo
 
-object TimeSpan {
+interface TimeSpanInterface {
 
     fun toHours(seconds: Double) = if(seconds >= 3600) ((seconds / 3600) % 60).toInt() else 0
 

@@ -13,7 +13,7 @@ import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import androidx.appcompat.app.AppCompatDelegate
 import com.ph03nix_x.capacityinfo.SettingsInterface
-import com.ph03nix_x.capacityinfo.services.ServiceInterface
+import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface {

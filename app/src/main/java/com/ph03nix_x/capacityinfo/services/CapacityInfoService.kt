@@ -5,13 +5,14 @@ import android.content.*
 import android.os.*
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.hoursDefault
+import com.ph03nix_x.capacityinfo.NotificationInterface
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevel
 import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
-import com.ph03nix_x.capacityinfo.Util.Companion.hoursDefault
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import kotlinx.coroutines.GlobalScope
