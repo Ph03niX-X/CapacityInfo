@@ -16,6 +16,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.StopService
+import java.lang.RuntimeException
 import java.text.DecimalFormat
 
 @SuppressWarnings("StaticFieldLeak")
@@ -163,7 +164,11 @@ interface NotificationInterface : BatteryInfoInterface {
         val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         val charging = context.getString(R.string.status, context.getString(R.string.charging))
-        val batteryLevel = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
+        val batteryLevel = context.getString(R.string.battery_level, try {
+            "${getBatteryLevel(context)}%"
+        }
+        catch (e: RuntimeException)  { android.R.string.unknownName })
+
         val plugged = getPlugged(context, batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
@@ -187,7 +192,11 @@ interface NotificationInterface : BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val notCharging = context.getString(R.string.status, context.getString(R.string.not_charging))
-        val batteryLevel = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
+        val batteryLevel = context.getString(R.string.battery_level, try {
+            "${getBatteryLevel(context)}%"
+        }
+        catch (e: RuntimeException)  { android.R.string.unknownName })
+
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
         val dischargingCurrent = context.getString(R.string.discharge_current, getChargingCurrent(context).toString())
@@ -209,7 +218,11 @@ interface NotificationInterface : BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val fullCharging = context.getString(R.string.status, context.getString(R.string.full))
-        val batteryLevel = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
+        val batteryLevel = context.getString(R.string.battery_level, try {
+            "${getBatteryLevel(context)}%"
+        }
+        catch (e: RuntimeException)  { android.R.string.unknownName })
+
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
         val dischargingCurrent = context.getString(R.string.discharge_current, getChargingCurrent(context).toString())
@@ -240,7 +253,11 @@ interface NotificationInterface : BatteryInfoInterface {
         val batteryLevelTo = "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%"
 
         val discharging = context.getString(R.string.status, context.getString(R.string.discharging))
-        val batteryLevel = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
+        val batteryLevel = context.getString(R.string.battery_level, try {
+            "${getBatteryLevel(context)}%"
+        }
+        catch (e: RuntimeException)  { android.R.string.unknownName })
+
         val lastChargingTime = context.getString(R.string.last_charge_time, getLastChargeTime(context), batteryLevelWith, batteryLevelTo)
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
@@ -281,7 +298,11 @@ interface NotificationInterface : BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val discharging = context.getString(R.string.status, context.getString(R.string.unknown))
-        val batteryLevel = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
+        val batteryLevel = context.getString(R.string.battery_level, try {
+            "${getBatteryLevel(context)}%"
+        }
+        catch (e: RuntimeException)  { android.R.string.unknownName })
+
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
         val temperature = context.getString(if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) R.string.temperature_fahrenheit
