@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
+    private var isShowInstruction = false
     private var isJob = false
     private var job: Job? = null
     private var batteryStatus: Intent? = null
@@ -84,9 +85,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             MaterialAlertDialogBuilder(this).apply {
 
+                isShowInstruction = true
+
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                setPositiveButton(android.R.string.ok) { _, _ -> isShowInstruction = false }
+                setOnCancelListener { isShowInstruction = false }
                 show()
             }
 
@@ -113,9 +117,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         if(pref.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
 
             MaterialAlertDialogBuilder(this).apply {
+
+                isShowInstruction = true
+
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefKey, false).apply() }
+                setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefKey, false).apply(); isShowInstruction = false }
+                setOnCancelListener { isShowInstruction = false }
                 show()
             }
         }
@@ -281,6 +289,10 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             if (currentCapacity.visibility == View.VISIBLE) runOnUiThread { currentCapacity.visibility = View.GONE }
 
                             if (capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.GONE }
+
+                            if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, false).apply()
+
+                            continue
                         }
 
                         val intentFilter = IntentFilter()
@@ -321,7 +333,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     if(pref.contains(Preferences.PercentAdded.prefKey)) pref.edit().remove(Preferences.PercentAdded.prefKey).apply()
 
-                    if(isShowDialog) {
+                    if(isShowDialog && !isShowInstruction) {
 
                         isShowDialog = false
 
