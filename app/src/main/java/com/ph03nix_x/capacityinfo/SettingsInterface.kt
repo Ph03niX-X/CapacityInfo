@@ -36,7 +36,7 @@ interface SettingsInterface {
 
                 delay(1000)
                 val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-                if(intent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) == 0) CapacityInfoService.instance?.updateNotification(context)
+                if(intent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) == 0) (context as CapacityInfoService).updateNotification(context)
                 isJobUpdateNotification = false
             }
     }

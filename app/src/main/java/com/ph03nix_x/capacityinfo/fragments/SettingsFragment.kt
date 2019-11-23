@@ -129,7 +129,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         showStopService?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
@@ -138,21 +138,21 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             serviceHours?.isEnabled = newValue as Boolean
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
 
         serviceHours?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
 
         showCapacityAddedInNotification?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
@@ -162,21 +162,21 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             showLastChargeTimeInNotification?.isEnabled = newValue as Boolean
             notificationRefreshRate?.isEnabled = newValue
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
 
         showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
 
         showCapacityAddedLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
 
-            if(CapacityInfoService.instance != null) updateNotification(requireContext())
+            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
@@ -250,7 +250,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         temperatureInFahrenheit?.setOnPreferenceChangeListener { _, _ ->
 
             if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
-                updateNotification(requireContext())
+                updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
@@ -258,7 +258,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         voltageInMv?.setOnPreferenceChangeListener { _, _ ->
 
             if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
-                updateNotification(requireContext())
+                updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
