@@ -16,7 +16,6 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -24,19 +23,21 @@ interface SettingsInterface {
 
     companion object {
 
-        var jobUpdateNotification: Job? = null
+        var isJobUpdateNotification = false
         var progressSeekBar = -1
     }
 
     fun updateNotification(context: Context) {
 
-        if(jobUpdateNotification == null)
-            jobUpdateNotification = GlobalScope.launch {
+        if(!isJobUpdateNotification)
+            GlobalScope.launch {
+
+                isJobUpdateNotification = true
 
                 delay(1000)
                 val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
                 if(intent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) == 0) CapacityInfoService.instance?.updateNotification(context)
-                jobUpdateNotification = null
+                isJobUpdateNotification = false
             }
     }
 
