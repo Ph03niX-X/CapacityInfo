@@ -38,9 +38,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         val stopService = PendingIntent.getService(context, 1, Intent(context, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-        notificationBuilder = NotificationCompat.Builder(context,
-            channelId
-        ).apply {
+        notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
+
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.service_small_icon)
@@ -73,7 +72,10 @@ interface NotificationInterface : BatteryInfoInterface {
                 addAction(NotificationCompat.Action(0, context.getString(R.string.stop_service), stopService))
         }
 
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
         (context as CapacityInfoService).startForeground(notificationId, notificationBuilder.build())
+        else (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId)
+
     }
 
     fun updateNotification(context: Context) {
@@ -117,7 +119,9 @@ interface NotificationInterface : BatteryInfoInterface {
             else if(!pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isNotEmpty()) mActions.clear()
         }
 
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
         notificationManager.notify(notificationId, notificationBuilder.build())
+        else notificationManager.cancel(notificationId)
     }
     
     @RequiresApi(Build.VERSION_CODES.O)

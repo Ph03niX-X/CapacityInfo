@@ -103,7 +103,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
                     
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 960 else 967)
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 958 else 965)
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
