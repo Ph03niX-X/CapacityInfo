@@ -79,5 +79,4 @@
     <string name="show_capacity_added_in_app">"Show \"Capacity Added\" in app"</string>
     <string name="show_capacity_added_last_charge">"Show \"Capacity Added (Last Charge)\""</string>
     <string name="show_capacity_added_last_charge_in_app">"Show \"Capacity Added (Last Charge)\" in app"</string>
-    <string name="unknown">Unknown</string>
 </resources>
