@@ -8,7 +8,7 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1YdnSW8EQeQ7MJ5JCCChcrJkqZHRR-yf9">
+<a href="https://drive.google.com/open?id=1SkY0uLYL00SPMITnHdb4MNh4mGABT1e6">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
@@ -26,9 +26,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 
 In order for the application to show the remaining capacity, charge the battery to 100% until it is “Charged”, and the service must be turned on. If the design capacity is incorrect, change it in the application settings.
 
-<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to “kill” applications, or completely “kills” applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS.
-
-<b>ATTENTION!</b> Due to the fact that some devices give out the current charging current only during charging, the application cannot immediately determine the compatibility with your device. Is the application compatible with your device, you will find out only after fully charged
+<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to “kill” applications, or completely “kills” applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS
 
 <p align="center">
 <b>Supported Languages:</b>
