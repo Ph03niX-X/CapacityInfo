@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.services
 import android.app.*
 import android.content.*
 import android.os.*
-import android.util.Log
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.hoursDefault

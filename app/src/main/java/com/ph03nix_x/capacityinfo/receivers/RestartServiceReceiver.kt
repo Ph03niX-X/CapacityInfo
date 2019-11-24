@@ -8,8 +8,7 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 
-class RestartServiceReceiver : BroadcastReceiver(),
-    ServiceInterface {
+class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
