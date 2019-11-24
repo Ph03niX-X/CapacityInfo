@@ -34,11 +34,10 @@ interface NotificationInterface : BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createNotificationChannel(context) else ""
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         val stopService = PendingIntent.getService(context, 1, Intent(context, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+
         notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
 
             setOngoing(true)
@@ -46,28 +45,9 @@ interface NotificationInterface : BatteryInfoInterface {
             setSmallIcon(R.drawable.service_small_icon)
             color = ContextCompat.getColor(context.applicationContext, R.color.blue)
             setContentIntent(openApp)
+            setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
-            when(plugged) {
-
-                BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
-
-                    if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
-
-                    else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
-                }
-
-                else -> {
-
-                    if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
-
-                    else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
-                }
-            }
-
-            setShowWhen(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true)
-                    && pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
+            setShowWhen(pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true))
                 addAction(NotificationCompat.Action(0, context.getString(R.string.stop_service), stopService))
@@ -83,36 +63,15 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
-
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val stopService = PendingIntent.getService(context, 1, Intent(context, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
         notificationBuilder.apply {
 
-            when(plugged) {
+            setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
-                BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
-
-                    if(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
-
-                    else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
-                }
-
-                else -> {
-
-                    if(pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true))
-                        setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
-
-                    else setStyle(NotificationCompat.BigTextStyle().bigText(context.getString(R.string.enabled)))
-                }
-            }
-
-            setShowWhen(pref.getBoolean(Preferences.IsShowInformationWhileCharging.prefKey, true)
-                    && pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
+            setShowWhen(pref.getBoolean(Preferences.IsServiceHours.prefKey, false))
 
             if(pref.getBoolean(Preferences.IsShowServiceStop.prefKey, true) && mActions.isEmpty())
                 addAction(NotificationCompat.Action(0, context.getString(R.string.stop_service), stopService))

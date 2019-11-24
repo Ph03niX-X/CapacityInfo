@@ -22,12 +22,6 @@
                 android:key="is_show_stop_service"/>
 
         <SwitchPreferenceCompat
-                android:title="@string/show_information_while_charging"
-                android:defaultValue="true"
-                app:singleLineTitle="false"
-                android:key="is_show_information_while_charging"/>
-
-        <SwitchPreferenceCompat
                 android:title="@string/service_time"
                 app:singleLineTitle="false"
                 android:key="is_service_time"/>
@@ -37,12 +31,6 @@
                 app:defaultValue="true"
                 app:singleLineTitle="false"
                 android:key="is_show_capacity_added_in_notification"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/show_information_during_discharge"
-                android:defaultValue="true"
-                app:singleLineTitle="false"
-                android:key="is_show_information_during_discharge"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"

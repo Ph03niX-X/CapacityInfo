@@ -94,6 +94,10 @@ class RestartServiceReceiver : BroadcastReceiver(),
             if(pref.contains("dark_mode")) remove("dark_mode")
 
             if(pref.contains("enable_service")) remove("enable_service")
+
+            if(pref.contains("is_show_information_while_charging")) remove("is_show_information_while_charging")
+
+            if(pref.contains("is_show_information_during_discharge")) remove("is_show_information_during_discharge")
             
             apply()
         }

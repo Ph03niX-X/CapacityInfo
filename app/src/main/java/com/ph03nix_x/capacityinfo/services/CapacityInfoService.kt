@@ -104,7 +104,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
                     
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 958 else 965)
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 960 else 967)
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
@@ -153,9 +153,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     else if(!isPowerConnected) sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
                     if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                    delay(if(!isPowerConnected && pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) sleepTime * 990
-                    else if(!isPowerConnected && !pref.getBoolean(Preferences.IsShowInformationDuringDischarge.prefKey, true)) (90 * 990).toLong()
-                    else 990)
+                    delay(if(isPowerConnected) 990 else (90 * 990).toLong())
                 }
             }
 
