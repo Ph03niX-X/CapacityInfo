@@ -178,7 +178,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
 
-            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService)).apply()
+            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this)).apply()
 
             if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
