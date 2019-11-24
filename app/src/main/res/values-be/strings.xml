@@ -75,4 +75,5 @@
     <string name="show_capacity_added_in_app">"Паказваць \"Дадалося ёмістасці\" ў дадатку</string>
     <string name="show_capacity_added_last_charge">"Паказваць \"Дадалося ёмістасці (Апошняя зарадка)\""</string>
     <string name="show_capacity_added_last_charge_in_app">"Паказваць \"Дадалося ёмістасці (Апошняя зарадка)\" ў дадатку</string>
+    <string name="unknown">Невядома</string>
 </resources>
