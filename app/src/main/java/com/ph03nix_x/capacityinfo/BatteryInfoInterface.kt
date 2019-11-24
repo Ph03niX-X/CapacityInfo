@@ -191,11 +191,9 @@ interface BatteryInfoInterface : TimeSpanInterface {
                     hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
                     if(hoursDefault != hoursDate) hoursDefault = hoursDate
-
-                    dateTime
                 }
 
-                else dateTime
+                dateTime
             }
 
             catch (e: java.lang.IllegalArgumentException) { "${seconds}s" })
@@ -226,11 +224,9 @@ interface BatteryInfoInterface : TimeSpanInterface {
                 hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
                 if(hoursDefault != hoursDate) hoursDefault = hoursDate
-
-                dateTime
             }
 
-            else dateTime
+            dateTime
         }
 
         catch (e: IllegalArgumentException) { "${secondsPref}s" }
