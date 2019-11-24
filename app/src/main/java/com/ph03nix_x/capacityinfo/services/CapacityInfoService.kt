@@ -96,7 +96,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
                 }
 
-                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(12 * 60 * 60 * 1000)
+                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(45 * 1000)
 
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
