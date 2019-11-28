@@ -219,7 +219,7 @@ interface SettingsInterface {
             CapacityInfoService.instance?.sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
 
             if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
-                updateNotification(context)
+                updateNotification(CapacityInfoService.instance!!)
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
