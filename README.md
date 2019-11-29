@@ -8,7 +8,33 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1SkY0uLYL00SPMITnHdb4MNh4mGABT1e6">
+<a href="https://drive.google.com/open?id=1ZjGkA0t_fB2j7o-95h8qEUOXwzE5ep_4">
+<p align="center">
+<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
+alt="Get it on Google Drive" width="300" border="10"/></a>
+</p>
+
+<p align="center">
+ <b>Download Latest Beta Version:</b>
+  </p>
+
+<a href="https://play.google.com/store/apps/details?id=com.ph03nix_x.capacityinfo">
+<p align="center">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+alt="Get it on Google Play" width="323" height="125" border="10"/></a>
+</p>
+
+<a href="https://drive.google.com/open?id=11ImTxGyzGaZTu-lRXMf31MZqUDsLBCMC">
+<p align="center">
+<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
+alt="Get it on Google Drive" width="300" border="10"/></a>
+</p>
+
+<p align="center">
+ <b>Download All Versions:</b>
+  </p>
+  
+<a href="https://drive.google.com/open?id=1z-ttj-U-9OAWhtrHC1_u8ERFl0lMjU8W">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
