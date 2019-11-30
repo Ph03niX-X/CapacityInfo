@@ -72,4 +72,5 @@
     <string name="show_capacity_added_in_app">"Показывать \"Добавилось ёмкости\" в приложении</string>
     <string name="show_capacity_added_last_charge">"Показывать \"Добавилось ёмкости (Последняя зарядка)\""</string>
     <string name="show_capacity_added_last_charge_in_app">"Показывать \"Добавилось ёмкости (Последняя зарядка)\" в приложении</string>
+    <string name="number_of_charges">Количество зарядок: %1$d</string>
 </resources>
