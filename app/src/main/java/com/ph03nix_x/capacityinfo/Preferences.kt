@@ -20,5 +20,5 @@ enum class Preferences(val prefKey: String) {
 
     IsShowCapacityAddedLastChargeInNotification("is_show_capacity_added_last_charge_in_notification"), IsShowCapacityAddedInApp("is_show_capacity_added_in_app"),
 
-    IsShowCapacityAddedLastChargeInApp("is_show_capacity_added_last_charge_in_app")
+    IsShowCapacityAddedLastChargeInApp("is_show_capacity_added_last_charge_in_app"), NumberOfCharges("number_of_charges")
 }

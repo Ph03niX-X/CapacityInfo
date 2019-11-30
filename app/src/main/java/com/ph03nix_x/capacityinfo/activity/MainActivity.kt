@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     private lateinit var capacityDesign: TextView
     private lateinit var batteryLevel: TextView
+    private lateinit var numberOfCharges: TextView
     private lateinit var chargingTime: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
@@ -99,6 +100,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
+        numberOfCharges = findViewById(R.id.number_of_charges)
         chargingTime = findViewById(R.id.charging_time)
         currentCapacity = findViewById(R.id.current_capacity)
         capacityAdded = findViewById(R.id.capacity_added)
@@ -170,6 +172,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 runOnUiThread {
 
                     batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
+                    numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
                 }
 
                 if(pref.getBoolean(Preferences.IsShowChargingTimeInApp.prefKey, true))

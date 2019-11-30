@@ -79,6 +79,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         
         instance = this
 
+        val numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
+
         if(!isJob) isJob = true
 
         sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
@@ -102,8 +104,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-                    
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 960 else 967)
+
+                    if(numberOfCharges == pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
+                        pref.edit().putLong(Preferences.NumberOfCharges.prefKey, numberOfCharges + 1).apply()
+
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 959 else 966)
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
@@ -152,7 +157,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     else if(!isPowerConnected) sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
                     if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                    delay(if(isPowerConnected) 990 else (90 * 990).toLong())
+                    delay(sleepTime)
                 }
             }
 
@@ -169,7 +174,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isJob = false
         jobService = null
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (!isFull && seconds > 1) {
 
