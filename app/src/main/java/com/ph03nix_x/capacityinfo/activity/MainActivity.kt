@@ -308,6 +308,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                             if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
 
+                            if (numberOfCharges.visibility == View.VISIBLE) runOnUiThread { numberOfCharges.visibility = View.GONE }
+
                             runOnUiThread {
 
                                 chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent(this@MainActivity).toString())
@@ -317,6 +319,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                             if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
 
+                            if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
+
                             runOnUiThread {
 
                                 chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent(this@MainActivity).toString())
@@ -324,6 +328,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         } else {
 
                             if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
+
+                            if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
                         }
 
                 }
