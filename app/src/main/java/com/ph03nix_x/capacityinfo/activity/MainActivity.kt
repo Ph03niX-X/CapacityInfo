@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
-        batteryWear.text = getString(R.string.battery_wear, "0%")
+        batteryWear.text = getString(R.string.battery_wear, "0%", 0)
 
         isJob = true
 
@@ -361,7 +361,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     }
                 }
 
-                delay(if(getCurrentCapacity(this@MainActivity) > 0) 960 else 967)
+                delay(if(getCurrentCapacity(this@MainActivity) > 0) 959 else 966)
             }
 
         }

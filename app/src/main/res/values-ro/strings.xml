@@ -3,7 +3,7 @@
     <string name="capacity_design">"Capacitate proiectată: %1$s mAh"</string>
     <string name="residual_capacity">"Capacitate reziduală: %1$s mAh (%2$s)"</string>
     <string name="current_capacity">"Capacitatea curentă: %1$s mAh"</string>
-    <string name="battery_wear">"Uzura bateriei: %1$s"</string>
+    <string name="battery_wear">"Uzura bateriei: %1$s (%2$s mAh)"</string>
     <string name="dark_mode">Mod întunecat</string>
     <string name="github">GitHub</string>
     <string name="charging_current">"Curent de încărcare: %1$s mA"</string>

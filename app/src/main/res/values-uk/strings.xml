@@ -3,7 +3,7 @@
     <string name="capacity_design">"Проектна ємність: %1$s мАг"</string>
     <string name="residual_capacity">"Залишкова ємність: %1$s мАг (%2$s)"</string>
     <string name="current_capacity">"Поточна ємність: %1$s мАг"</string>
-    <string name="battery_wear">"Знос акумулятора: %1$s"</string>
+    <string name="battery_wear">"Знос акумулятора: %1$s (%2$s мАг)"</string>
     <string name="dark_mode">Темна тема</string>
     <string name="charging_current">"Струм зарядки: %1$s мА"</string>
     <string name="discharge_current">"Струм розрядки: %1$s мА"</string>

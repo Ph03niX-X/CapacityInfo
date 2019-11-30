@@ -108,7 +108,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(numberOfCharges == pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
                         pref.edit().putLong(Preferences.NumberOfCharges.prefKey, numberOfCharges + 1).apply()
 
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 959 else 966)
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 958 else 965)
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
