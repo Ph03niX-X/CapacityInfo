@@ -79,7 +79,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         
         instance = this
 
-        val numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
+        var numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
 
         if(!isJob) isJob = true
 
@@ -116,6 +116,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull) {
                     
                     isFull = true
+
+                    numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
                     pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
