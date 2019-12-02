@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.Util
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
 
@@ -13,18 +14,20 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        if(!isPowerConnected)
+        if(CapacityInfoService.instance != null && !isPowerConnected)
         when(intent.action) {
 
             Intent.ACTION_POWER_CONNECTED -> {
 
                 isPowerConnected = true
 
-                if(CapacityInfoService.instance != null) context.stopService(Intent(context, CapacityInfoService::class.java))
+                CapacityInfoService.instance!!.numberOfCharges = PreferenceManager.getDefaultSharedPreferences(context).getLong(Preferences.NumberOfCharges.prefKey, 0)
 
-                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) startService(context)
+                CapacityInfoService.instance!!.batteryLevelWith = CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!)
+
+                Util.tempBatteryLevel = CapacityInfoService.instance!!.batteryLevelWith
+
+                Util.tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(CapacityInfoService.instance!!)
             }
         }
     }

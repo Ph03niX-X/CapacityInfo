@@ -9,7 +9,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.ServiceInterface
-import com.ph03nix_x.capacityinfo.SettingsInterface.Companion.progressSeekBar
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 class SettingsActivity : AppCompatActivity(), ServiceInterface {
@@ -55,6 +54,6 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
             }
         }
 
-        else { progressSeekBar = - 1; super.onBackPressed() }
+        else super.onBackPressed()
     }
 }

@@ -29,10 +29,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var batteryStatus: Intent? = null
     private var jobService: Job? = null
     private var isJob = false
-    private var isFull = false
-    private var batteryLevelWith = -1
+    var isFull = false
+    var batteryLevelWith = -1
     var seconds = 0
-    var sleepTime: Long = 10
+    var numberOfCharges: Long = 0
 
     companion object {
 
@@ -58,32 +58,26 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 tempBatteryLevel = batteryLevelWith
 
                 tempCurrentCapacity = getCurrentCapacity(this)
-
-                applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
-
             }
-
-            else -> applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
         }
+
+        registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+
+        registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        seconds++
-
-        createNotification(this@CapacityInfoService)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         
         instance = this
 
-        var numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
+        createNotification(this@CapacityInfoService)
 
-        if(!isJob) isJob = true
-
-        sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
+        isJob = !isJob
 
         if(jobService == null)
         jobService = GlobalScope.launch {
@@ -146,20 +140,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     updateNotification(this@CapacityInfoService)
 
-                    val sleepArray = arrayOf<Long>(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
-
-                    if (sleepTime !in sleepArray && !isPowerConnected) {
-
-                        sleepTime = 40
-
-                        pref.edit().putLong(Preferences.NotificationRefreshRate.prefKey, 40).apply()
-                    }
-
-                    else if(isPowerConnected && sleepTime != 20.toLong() && isFull) sleepTime = 20
-                    else if(!isPowerConnected) sleepTime = pref.getLong(Preferences.NotificationRefreshRate.prefKey, 40)
                     if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                    delay(sleepTime * 990)
+                    delay(2 * 1000)
                 }
             }
 

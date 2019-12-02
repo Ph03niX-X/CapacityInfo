@@ -34,7 +34,6 @@
     <string name="service">Служба</string>
     <string name="enable_service">Включить службу</string>
     <string name="charging_time">"Время зарядки: %1$s"</string>
-    <string name="notification_refresh_rate">Частота обновления уведомления</string>
     <string name="seconds">"%1$s секунд"</string>
     <string name="minute">"%1$s минута"</string>
     <string name="apply">Применить</string>

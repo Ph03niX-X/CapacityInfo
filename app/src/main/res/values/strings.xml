@@ -36,7 +36,6 @@
     <string name="service">Service</string>
     <string name="enable_service">Enable Service</string>
     <string name="charging_time">"Charging Time: %1$s"</string>
-    <string name="notification_refresh_rate">Notification Refresh Rate</string>
     <string name="seconds">"%1$s seconds"</string>
     <string name="minute">"%1$s minute"</string>
     <string name="apply">Apply</string>

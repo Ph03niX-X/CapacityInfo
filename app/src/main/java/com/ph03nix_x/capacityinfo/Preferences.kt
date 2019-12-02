@@ -10,15 +10,15 @@ enum class Preferences(val prefKey: String) {
 
     IsShowLastChargeTimeInNotification("is_show_last_charge_time_in_notification"), BatteryLevelWith("battery_level_with"),
 
-    BatteryLevelTo("battery_level_to"), IsEnableService("is_enable_service"), NotificationRefreshRate("notification_refresh_rate"),
+    BatteryLevelTo("battery_level_to"), IsEnableService("is_enable_service"), IsShowServiceStop("is_show_stop_service"),
 
-    IsShowServiceStop("is_show_stop_service"), VoltageInMv("voltage_in_mv"), IsServiceHours("is_service_time"),
+    VoltageInMv("voltage_in_mv"), IsServiceHours("is_service_time"), CapacityAdded("capacity_added"),
 
-    CapacityAdded("capacity_added"), IsShowChargingTimeInApp("is_show_charging_time_in_app"), IsAutoDarkMode("is_auto_dark_mode"),
+    IsShowChargingTimeInApp("is_show_charging_time_in_app"), IsAutoDarkMode("is_auto_dark_mode"), PercentAdded("percent_added"),
 
-    PercentAdded("percent_added"), IsShowCapacityAddedInNotification("is_show_capacity_added_notification"),
+    IsShowCapacityAddedInNotification("is_show_capacity_added_in_notification"), IsShowCapacityAddedLastChargeInNotification("is_show_capacity_added_last_charge_in_notification"),
 
-    IsShowCapacityAddedLastChargeInNotification("is_show_capacity_added_last_charge_in_notification"), IsShowCapacityAddedInApp("is_show_capacity_added_in_app"),
+    IsShowCapacityAddedInApp("is_show_capacity_added_in_app"), IsShowCapacityAddedLastChargeInApp("is_show_capacity_added_last_charge_in_app"),
 
-    IsShowCapacityAddedLastChargeInApp("is_show_capacity_added_last_charge_in_app"), NumberOfCharges("number_of_charges")
+    NumberOfCharges("number_of_charges")
 }

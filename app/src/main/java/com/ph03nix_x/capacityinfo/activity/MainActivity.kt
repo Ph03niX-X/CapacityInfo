@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
-        batteryWear.text = getString(R.string.battery_wear, "0%", 0)
+        batteryWear.text = getString(R.string.battery_wear, "0%", "0")
 
         isJob = true
 

@@ -21,7 +21,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private lateinit var pref: SharedPreferences
 
     // Service and Notification
-
     private var enableService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
     private var serviceHours: SwitchPreferenceCompat? = null
@@ -29,15 +28,12 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var showCapacityAddedLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
-    private var notificationRefreshRate: Preference? = null
 
     // Appearance
-
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
 
     // Other
-
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
@@ -67,9 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         // Service and Notification
 
-        enableService = findPreference(Preferences.IsEnableService.prefKey)!!
-
-        temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
+        enableService = findPreference(Preferences.IsEnableService.prefKey)
 
         showStopService = findPreference(Preferences.IsShowServiceStop.prefKey)
 
@@ -83,21 +77,21 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
-        notificationRefreshRate = findPreference(Preferences.NotificationRefreshRate.prefKey)
-
         showStopService?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
         serviceHours?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+
+        showCapacityAddedInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+
+        showCapacityAddedLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
         showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
         openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
-        notificationRefreshRate?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
-
         enableService?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(!(newValue as Boolean) && CapacityInfoService.instance != null) requireActivity().stopService(Intent(requireContext(), CapacityInfoService::class.java))
+            if(!(newValue as Boolean) && CapacityInfoService.instance != null) requireContext().stopService(Intent(requireContext(), CapacityInfoService::class.java))
 
             else if(newValue && CapacityInfoService.instance == null) startService(requireContext())
 
@@ -107,42 +101,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             showStopService?.isEnabled = newValue
             showCapacityAddedInNotification?.isEnabled = newValue
             openNotificationCategorySettings?.isEnabled = newValue
-            notificationRefreshRate?.isEnabled = newValue
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        showStopService?.setOnPreferenceChangeListener { _, _ ->
-
-            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        serviceHours?.setOnPreferenceChangeListener { _, _ ->
-
-            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        showCapacityAddedInNotification?.setOnPreferenceChangeListener { _, _ ->
-
-            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        showLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
-
-            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        showCapacityAddedLastChargeTimeInNotification?.setOnPreferenceChangeListener { _, _ ->
-
-            if(CapacityInfoService.instance != null) updateNotification(CapacityInfoService.instance!!)
 
             return@setOnPreferenceChangeListener true
         }
@@ -157,11 +115,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             }
 
         else openNotificationCategorySettings?.isVisible = false
-
-        notificationRefreshRate?.setOnPreferenceClickListener {
-            notificationRefreshRateDialog(requireContext(), pref)
-            return@setOnPreferenceClickListener true
-        }
 
         // Appearance
 
@@ -212,22 +165,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         about = findPreference("about")
 
         feedback = findPreference("feedback")
-
-        temperatureInFahrenheit?.setOnPreferenceChangeListener { _, _ ->
-
-            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
-                updateNotification(CapacityInfoService.instance!!)
-
-            return@setOnPreferenceChangeListener true
-        }
-
-        voltageInMv?.setOnPreferenceChangeListener { _, _ ->
-
-            if(pref.getBoolean(Preferences.IsEnableService.prefKey, true) && CapacityInfoService.instance != null)
-                updateNotification(CapacityInfoService.instance!!)
-
-            return@setOnPreferenceChangeListener true
-        }
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 

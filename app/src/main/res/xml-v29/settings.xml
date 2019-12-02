@@ -50,12 +50,6 @@
                 app:singleLineTitle="false"
                 android:key="open_notification_category_settings"/>
 
-        <Preference
-                android:title="@string/notification_refresh_rate"
-                android:summary="@string/during_discharge"
-                app:singleLineTitle="false"
-                android:key="notification_refresh_rate" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

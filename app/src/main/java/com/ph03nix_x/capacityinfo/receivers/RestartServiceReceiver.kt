@@ -39,7 +39,6 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
             val editor = newPrefs.edit()
             editor.putBoolean(Preferences.IsDarkMode.prefKey, oldPrefs.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 .putBoolean(Preferences.IsEnableService.prefKey, oldPrefs.getBoolean(Preferences.IsEnableService.prefKey, true))
-                .putLong(Preferences.NotificationRefreshRate.prefKey, oldPrefs.getLong(Preferences.NotificationRefreshRate.prefKey, 40))
                 .putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
                 .putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean("show_last_charge_time", true))
                 .putInt(Preferences.DesignCapacity.prefKey, oldPrefs.getInt(Preferences.DesignCapacity.prefKey, 0))
@@ -97,6 +96,8 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
             if(pref.contains("is_show_information_while_charging")) remove("is_show_information_while_charging")
 
             if(pref.contains("is_show_information_during_discharge")) remove("is_show_information_during_discharge")
+
+            if(pref.contains("notification_refresh_rate")) remove("notification_refresh_rate")
             
             apply()
         }
