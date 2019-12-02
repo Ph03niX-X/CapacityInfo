@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.isHoursMinus
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.Util
@@ -41,7 +42,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     Util.capacityAdded = 0.0
                 }
 
-                BatteryInfoInterface.hoursDefault = 0
+                isHoursMinus = false
 
                 CapacityInfoService.instance!!.isFull = false
 

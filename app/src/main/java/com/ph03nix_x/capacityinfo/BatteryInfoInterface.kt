@@ -19,7 +19,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
     
     companion object {
 
-        var hoursDefault = 0
+        var isHoursMinus = false
     }
 
     fun getDesignCapacity(context: Context): Int {
@@ -183,17 +183,15 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
                 var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
 
-                var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+                val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
-                if(hoursDate > hoursDefault) {
+                if(hoursDate == 1 && !isHoursMinus) isHoursMinus = true
+
+                if(isHoursMinus) {
 
                     time = "${hours - 1}:$minutes:$secondsTime"
 
                     dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
-
-                    hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
-
-                    if(hoursDefault != hoursDate) hoursDefault = hoursDate
                 }
 
                 dateTime
@@ -216,17 +214,15 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
             var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
 
-            var hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
+            val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
-            if(hoursDate > hoursDefault) {
+            if(hoursDate == 1 && !isHoursMinus) isHoursMinus = true
+
+            if(isHoursMinus) {
 
                 time = "${hours - 1}:$minutes:$seconds"
 
                 dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
-
-                hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
-
-                if(hoursDefault != hoursDate) hoursDefault = hoursDate
             }
 
             dateTime

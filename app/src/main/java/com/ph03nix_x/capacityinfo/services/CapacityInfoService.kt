@@ -5,7 +5,7 @@ import android.content.*
 import android.os.*
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.hoursDefault
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.isHoursMinus
 import com.ph03nix_x.capacityinfo.NotificationInterface
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
@@ -178,7 +178,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             capacityAdded = 0.0
         }
 
-        hoursDefault = 0
+        isHoursMinus = false
 
         super.onDestroy()
     }
