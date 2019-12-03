@@ -94,13 +94,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(45 * 1000)
 
+                if(getBatteryLevel(this@CapacityInfoService) < batteryLevelWith) batteryLevelWith = getBatteryLevel(this@CapacityInfoService)
+
                 batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                 val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                    if(isFull) isFull = false
 
                     if(numberOfCharges == pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
                         pref.edit().putLong(Preferences.NumberOfCharges.prefKey, numberOfCharges + 1).apply()
@@ -109,14 +109,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     for(display in displayManager.displays)
                         if(display.state == Display.STATE_ON)
-                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 957 else 964)
-                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 947 else 954)
+                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 954 else 961)
+                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 924 else 931)
 
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
 
-                else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull) {
+                else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull && getBatteryLevel(this@CapacityInfoService) == 100) {
                     
                     isFull = true
 
