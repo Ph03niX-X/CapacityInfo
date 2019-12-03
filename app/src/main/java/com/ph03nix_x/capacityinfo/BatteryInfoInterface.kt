@@ -16,11 +16,6 @@ import java.util.*
 
 @SuppressWarnings("PrivateApi")
 interface BatteryInfoInterface : TimeSpanInterface {
-    
-    companion object {
-
-        var isHoursMinus = false
-    }
 
     fun getDesignCapacity(context: Context): Int {
 
@@ -185,9 +180,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
                 val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
-                if(hoursDate == 1 && !isHoursMinus) isHoursMinus = true
-
-                if(isHoursMinus) {
+                if(hoursDate > hours) {
 
                     time = "${hours - 1}:$minutes:$secondsTime"
 
@@ -216,9 +209,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
             val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
-            if(hoursDate == 1 && !isHoursMinus) isHoursMinus = true
-
-            if(isHoursMinus) {
+            if(hoursDate > hours) {
 
                 time = "${hours - 1}:$minutes:$seconds"
 

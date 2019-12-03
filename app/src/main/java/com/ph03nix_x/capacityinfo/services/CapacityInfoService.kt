@@ -2,10 +2,11 @@ package com.ph03nix_x.capacityinfo.services
 
 import android.app.*
 import android.content.*
+import android.hardware.display.DisplayManager
 import android.os.*
+import android.view.Display
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.isHoursMinus
 import com.ph03nix_x.capacityinfo.NotificationInterface
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
@@ -99,10 +100,18 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
+                    if(isFull) isFull = false
+
                     if(numberOfCharges == pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
                         pref.edit().putLong(Preferences.NumberOfCharges.prefKey, numberOfCharges + 1).apply()
 
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 958 else 965)
+                    val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+
+                    for(display in displayManager.displays)
+                        if(display.state == Display.STATE_ON)
+                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 957 else 964)
+                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 947 else 954)
+
                     seconds++
                     updateNotification(this@CapacityInfoService)
                 }
@@ -177,8 +186,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             capacityAdded = 0.0
         }
-
-        isHoursMinus = false
 
         super.onDestroy()
     }
