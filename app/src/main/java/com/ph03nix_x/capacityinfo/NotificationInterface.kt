@@ -140,8 +140,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
-                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$chargingCurrent\n$temperature\n$voltage"
-            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$chargingCurrent\n$temperature\n$voltage"
+                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargingCurrent\n$temperature\n$voltage"
+            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargingCurrent\n$temperature\n$voltage"
 
         else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
     }

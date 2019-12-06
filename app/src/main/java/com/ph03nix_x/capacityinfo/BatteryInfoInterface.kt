@@ -17,6 +17,11 @@ import java.util.*
 @SuppressWarnings("PrivateApi")
 interface BatteryInfoInterface : TimeSpanInterface {
 
+    companion object {
+
+        var residualCapacity = 0.0
+    }
+
     fun getDesignCapacity(context: Context): Int {
 
         val powerProfileClass = "com.android.internal.os.PowerProfile"
@@ -107,15 +112,24 @@ interface BatteryInfoInterface : TimeSpanInterface {
         return voltage
     }
 
-    fun getResidualCapacity(context: Context): String {
+    fun getResidualCapacity(context: Context, isCharging: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        var residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
+        var residualCapacity: Double
 
-        if(residualCapacity < 0) residualCapacity /= -1
+        if(isCharging) residualCapacity = getCurrentCapacity(context) / if(getBatteryLevel(context) > 1) ((getBatteryLevel(context) - 1) / 100.0) else getCurrentCapacity(context)
 
-        residualCapacity /= 1000
+        else {
+
+            residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
+
+            if(residualCapacity < 0) residualCapacity /= -1
+
+            residualCapacity /= 1000
+        }
+
+        Companion.residualCapacity = residualCapacity
 
         return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
@@ -151,17 +165,9 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()
 
-        var capacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
-
-        val chargeCounter = pref.getInt(Preferences.ChargeCounter.prefKey, 0)
-
-        if(capacity < 0) capacity /= -1
-
-        capacity /= 1000
-
         return context.getString(R.string.battery_wear,
-            if(capacity > 0) "${DecimalFormat("#.#").format(100 - ((capacity / capacityDesign) * 100))}%" else "0%",
-            if (chargeCounter > 0) DecimalFormat("#.#").format(((capacityDesign * 1000) - chargeCounter) / 1000) else "0")
+            if(residualCapacity > 0) "${DecimalFormat("#.#").format(100 - ((residualCapacity / capacityDesign) * 100))}%" else "0%",
+            if (residualCapacity > 0) DecimalFormat("#.#").format(((capacityDesign * 1000) - residualCapacity) / 1000) else "0")
     }
 
     fun getChargingTime(context: Context, seconds: Double): String {

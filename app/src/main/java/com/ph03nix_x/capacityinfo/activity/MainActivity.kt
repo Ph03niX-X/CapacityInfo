@@ -254,7 +254,10 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                             runOnUiThread {
 
-                                residualCapacity.text = getResidualCapacity(this@MainActivity)
+                                batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+                                residualCapacity.text =  getResidualCapacity(this@MainActivity,
+                                    batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING)
 
                                 batteryWear.text = getBatteryWear(this@MainActivity)
                             }
