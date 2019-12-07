@@ -41,6 +41,14 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
             && CapacityInfoService.instance == null) startService(this)
     }
 
+    override fun onResume() {
+
+        super.onResume()
+
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+            && CapacityInfoService.instance == null) startService(this)
+    }
+
     override fun onBackPressed() {
 
         if(toolbar.title == getString(R.string.about) || toolbar.title == getString(R.string.feedback)) {

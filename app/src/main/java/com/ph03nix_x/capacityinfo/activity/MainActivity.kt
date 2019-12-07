@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -46,12 +45,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
-    private var isShowInstruction = false
     private var isJob = false
     private var job: Job? = null
     private var batteryStatus: Intent? = null
-    private var dialog: MaterialAlertDialogBuilder? = null
-    private var dialogShow: AlertDialog? = null
 
     companion object {
 
@@ -86,12 +82,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             MaterialAlertDialogBuilder(this).apply {
 
-                isShowInstruction = true
-
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { _, _ -> isShowInstruction = false }
-                setOnCancelListener { isShowInstruction = false }
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
             }
 
@@ -115,30 +108,14 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         batteryWear = findViewById(R.id.battery_wear)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-
-        if(pref.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
-
-            MaterialAlertDialogBuilder(this).apply {
-
-                isShowInstruction = true
-
-                setTitle(getString(R.string.instruction))
-                setMessage(getString(R.string.instruction_message))
-                setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefKey, false).apply(); isShowInstruction = false }
-                setOnCancelListener { isShowInstruction = false }
-                show()
-            }
-        }
-
-        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
-            && CapacityInfoService.instance == null) startService(this)
     }
 
     override fun onResume() {
 
         super.onResume()
 
-        var isShowDialog = true
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+            && CapacityInfoService.instance == null) startService(this)
 
         instance = this
 
@@ -159,95 +136,150 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         isJob = true
 
+        if(getCurrentCapacity(this) == 0.0 && pref.getBoolean(Preferences.IsShowNotSupportedDialog.prefKey, true)) {
+
+            pref.edit().putBoolean(Preferences.IsShowNotSupportedDialog.prefKey, false).apply()
+
+            pref.edit().putBoolean(Preferences.IsSupported.prefKey, true).apply()
+
+            MaterialAlertDialogBuilder(this).apply {
+
+                setTitle(getString(R.string.information))
+                setMessage(getString(R.string.not_supported))
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                show()
+            }
+        }
+
+        if(getCurrentCapacity(this) == 0.0) toolbar.menu.findItem(R.id.instruction).isVisible = false
+
+        else if(pref.getBoolean(Preferences.IsShowInstruction.prefKey, true)) showInstruction()
+
+        startJob()
+    }
+
+    override fun onStop() {
+
+        super.onStop()
+
+        isJob = false
+
+        job = null
+    }
+
+    override fun onDestroy() {
+
+        isJob = false
+
+        job = null
+
+        instance = null
+
+        super.onDestroy()
+    }
+
+    private fun showInstruction() {
+
+        MaterialAlertDialogBuilder(this).apply {
+
+            setTitle(getString(R.string.instruction))
+            setMessage(getString(R.string.instruction_message))
+            setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefKey, false).apply() }
+            show()
+        }
+    }
+
+    private fun startJob() {
+
         if(job == null)
-        job = GlobalScope.launch {
+            job = GlobalScope.launch {
 
-            while(isJob) {
-
-                batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
-                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
-                val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
-
-                runOnUiThread {
-
-                    batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
-                    numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
-                }
-
-                if(pref.getBoolean(Preferences.IsShowChargingTimeInApp.prefKey, true))
-                when(plugged) {
-
-                    BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                        runOnUiThread {
-
-                            if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
-
-                            chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds?.toDouble() ?: 0.0)
-                        }
-
-                    else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
-                }
-
-                else runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
-
-                if(pref.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true)) {
-
-                    runOnUiThread {
-
-                        if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
-
-                        if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0)
-                            lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
-                                "${pref.getInt(Preferences.BatteryLevelWith.prefKey, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%")
-
-                        else {
-
-                            if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
-                        }
-
-                    }
-                }
-
-                else {
-
-                    runOnUiThread {
-
-                        if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
-
-                    }
-                }
-
-                runOnUiThread {
-
-                    this@MainActivity.status.text = getStatus(this@MainActivity, status)
-
-                    if(getPlugged(this@MainActivity, plugged) != "N/A") {
-
-                        if(this@MainActivity.plugged.visibility == View.GONE) this@MainActivity.plugged.visibility = View.VISIBLE
-
-                        this@MainActivity.plugged.text = getPlugged(this@MainActivity, plugged)
-                    }
-
-                    else this@MainActivity.plugged.visibility = View.GONE
-                }
-
-                runOnUiThread {
+                while(isJob) {
 
                     batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                    technology.text = getString(R.string.battery_technology, batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: "Unknown")
+                    val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+                    val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
-                    temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
-                        getTemperature(this@MainActivity))
+                    runOnUiThread {
 
-                    else getString(R.string.temperature_fahrenheit, getTemperature(this@MainActivity))
+                        batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
+                        numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
+                    }
 
-                    voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
-                        DecimalFormat("#.#").format(getVoltage(this@MainActivity)))
-                }
+                    if(pref.getBoolean(Preferences.IsShowChargingTimeInApp.prefKey, true))
+                        when(plugged) {
 
-                if (pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
+                            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                                runOnUiThread {
+
+                                    if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
+
+                                    chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds?.toDouble() ?: 0.0)
+                                }
+
+                            else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
+                        }
+
+                    else runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
+
+                    if(pref.getBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, true)) {
+
+                        runOnUiThread {
+
+                            if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
+
+                            if(pref.getInt(Preferences.LastChargeTime.prefKey, 0) > 0)
+                                lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
+                                    "${pref.getInt(Preferences.BatteryLevelWith.prefKey, 0)}%", "${pref.getInt(Preferences.BatteryLevelTo.prefKey, 0)}%")
+
+                            else {
+
+                                if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
+                            }
+
+                        }
+                    }
+
+                    else {
+
+                        runOnUiThread {
+
+                            if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
+
+                        }
+                    }
+
+                    runOnUiThread {
+
+                        this@MainActivity.status.text = getStatus(this@MainActivity, status)
+
+                        if(getPlugged(this@MainActivity, plugged) != "N/A") {
+
+                            if(this@MainActivity.plugged.visibility == View.GONE) this@MainActivity.plugged.visibility = View.VISIBLE
+
+                            this@MainActivity.plugged.text = getPlugged(this@MainActivity, plugged)
+                        }
+
+                        else this@MainActivity.plugged.visibility = View.GONE
+                    }
+
+                    runOnUiThread {
+
+                        batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+                        technology.text = getString(R.string.battery_technology, batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
+
+                        temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
+                            getTemperature(this@MainActivity))
+
+                        else getString(R.string.temperature_fahrenheit, getTemperature(this@MainActivity))
+
+                        voltage.text = getString(if(pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) R.string.voltage_mv else R.string.voltage,
+                            DecimalFormat("#.#").format(getVoltage(this@MainActivity)))
+                    }
+
+                    if (pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
 
                         if (pref.getInt(Preferences.DesignCapacity.prefKey, 0) > 0 && pref.getInt(
                                 Preferences.ChargeCounter.prefKey, 0) > 0) {
@@ -335,64 +367,25 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
                         }
 
-                }
+                    }
 
-                else {
+                    else {
 
-                    if (capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.GONE }
+                        if (capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.GONE }
 
-                    if(pref.contains(Preferences.CapacityAdded.prefKey)) pref.edit().remove(Preferences.CapacityAdded.prefKey).apply()
-
-                    if(pref.contains(Preferences.PercentAdded.prefKey)) pref.edit().remove(Preferences.PercentAdded.prefKey).apply()
-
-                    if(isShowDialog && !isShowInstruction) {
-
-                        isShowDialog = false
-
-                        dialog = MaterialAlertDialogBuilder(this@MainActivity).apply {
-                            setTitle(getString(R.string.information))
-                            setMessage(getString(R.string.not_supported))
-                            setPositiveButton(android.R.string.ok) { _, _ -> dialog = null }
-                            setOnCancelListener { dialog = null }
-                        }
-
-                        if(dialogShow == null || !dialogShow!!.isShowing)
                         runOnUiThread {
 
-                            dialogShow = dialog?.show()
+                            residualCapacity.text = getString(R.string.residual_capacity_not_supported)
+                            batteryWear.text = getString(R.string.battery_wear_not_supported)
                         }
+
+                        if(pref.contains(Preferences.CapacityAdded.prefKey)) pref.edit().remove(Preferences.CapacityAdded.prefKey).apply()
+
+                        if(pref.contains(Preferences.PercentAdded.prefKey)) pref.edit().remove(Preferences.PercentAdded.prefKey).apply()
                     }
+
+                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 959 else 966)
                 }
-
-                delay(if(getCurrentCapacity(this@MainActivity) > 0) 959 else 966)
             }
-
-        }
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        isJob = false
-
-        job = null
-    }
-
-    override fun onDestroy() {
-
-        isJob = false
-
-        job = null
-
-        dialogShow?.cancel()
-
-        dialogShow = null
-
-        dialog = null
-
-        instance = null
-
-        super.onDestroy()
     }
 }
