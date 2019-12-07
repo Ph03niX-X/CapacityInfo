@@ -22,6 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
     // Service and Notification
     private var enableService: SwitchPreferenceCompat? = null
+    private var isAutoStartService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
     private var serviceHours: SwitchPreferenceCompat? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
@@ -65,6 +66,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         enableService = findPreference(Preferences.IsEnableService.prefKey)
 
+        isAutoStartService = findPreference(Preferences.IsAutoStartService.prefKey)
+
         showStopService = findPreference(Preferences.IsShowServiceStop.prefKey)
 
         serviceHours = findPreference(Preferences.IsServiceHours.prefKey)
@@ -76,6 +79,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         showCapacityAddedLastChargeTimeInNotification = findPreference(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey)
 
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
+
+        isAutoStartService?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
         showStopService?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
 
@@ -95,6 +100,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             else if(newValue && CapacityInfoService.instance == null) startService(requireContext())
 
+            isAutoStartService?.isEnabled = newValue
             serviceHours?.isEnabled = newValue
             showLastChargeTimeInNotification?.isEnabled = newValue
             showCapacityAddedLastChargeTimeInNotification?.isEnabled = newValue

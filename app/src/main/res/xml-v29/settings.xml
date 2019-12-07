@@ -16,6 +16,13 @@
                 android:key="is_enable_service"/>
 
         <SwitchPreferenceCompat
+                android:title="@string/auto_start"
+                android:summary="@string/auto_start_summary"
+                android:defaultValue="true"
+                app:singleLineTitle="false"
+                android:key="is_auto_start_service"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/show_stop_service"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
