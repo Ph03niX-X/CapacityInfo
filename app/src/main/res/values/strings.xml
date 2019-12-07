@@ -52,7 +52,6 @@
     <string name="capacity_added">"Capacity Added: %1$s mAh (%2$s)"</string>
     <string name="capacity_added_last_charge">"Capacity Added (Last Charge): %1$s mAh (%2$s)"</string>
     <string name="show_charging_time_in_app">Show Charging Time in App</string>
-    <string name="during_discharge">During discharge</string>
     <string name="notification_priority">Notification Priority and Status Bar Icon</string>
     <string name="about">About</string>
     <string name="developer">Developer</string>
