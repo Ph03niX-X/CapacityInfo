@@ -167,7 +167,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         return context.getString(R.string.battery_wear,
             if(residualCapacity > 0) "${DecimalFormat("#.#").format(100 - ((residualCapacity / capacityDesign) * 100))}%" else "0%",
-            if (residualCapacity > 0) DecimalFormat("#.#").format(((capacityDesign * 1000) - residualCapacity) / 1000) else "0")
+            if (residualCapacity > 0) DecimalFormat("#.#").format(capacityDesign - residualCapacity) else "0")
     }
 
     fun getChargingTime(context: Context, seconds: Double): String {
