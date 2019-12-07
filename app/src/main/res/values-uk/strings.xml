@@ -71,4 +71,6 @@
     <string name="show_capacity_added_last_charge">"Показувати \"Додалося ємності (Остання зарядка)\""</string>
     <string name="show_capacity_added_last_charge_in_app">"Показувати \"Додалося ємності (Остання зарядка)\" в додатку</string>
     <string name="number_of_charges">Кількість зарядок: %1$d</string>
+    <string name="residual_capacity_not_supported">"Залишкова ємність: Не підтримується"</string>
+    <string name="battery_wear_not_supported">"Знос акумулятора: Не підтримується"</string>
 </resources>
