@@ -329,42 +329,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             if (capacityAdded.visibility == View.VISIBLE) runOnUiThread { capacityAdded.visibility = View.GONE }
 
                             if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, false).apply()
-
-                            continue
-                        }
-
-                        val intentFilter = IntentFilter()
-
-                        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-
-                        batteryStatus = registerReceiver(null, intentFilter)
-
-                        if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                            if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
-
-                            if (numberOfCharges.visibility == View.VISIBLE) runOnUiThread { numberOfCharges.visibility = View.GONE }
-
-                            runOnUiThread {
-
-                                chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent(this@MainActivity).toString())
-                            }
-
-                        } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
-
-                            if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
-
-                            if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
-
-                            runOnUiThread {
-
-                                chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent(this@MainActivity).toString())
-                            }
-                        } else {
-
-                            if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
-
-                            if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
                         }
 
                     }
@@ -382,6 +346,34 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         if(pref.contains(Preferences.CapacityAdded.prefKey)) pref.edit().remove(Preferences.CapacityAdded.prefKey).apply()
 
                         if(pref.contains(Preferences.PercentAdded.prefKey)) pref.edit().remove(Preferences.PercentAdded.prefKey).apply()
+                    }
+
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
+
+                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
+
+                        if (numberOfCharges.visibility == View.VISIBLE) runOnUiThread { numberOfCharges.visibility = View.GONE }
+
+                        runOnUiThread {
+
+                            chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent(this@MainActivity).toString())
+                        }
+
+                    } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+
+                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
+
+                        if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
+
+                        runOnUiThread {
+
+                            chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent(this@MainActivity).toString())
+                        }
+                    } else {
+
+                        if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
+
+                        if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
                     }
 
                     delay(if(getCurrentCapacity(this@MainActivity) > 0) 959 else 966)
