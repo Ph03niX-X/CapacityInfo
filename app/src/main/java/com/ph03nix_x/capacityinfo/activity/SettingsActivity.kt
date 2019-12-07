@@ -51,7 +51,7 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
 
     override fun onBackPressed() {
 
-        if(toolbar.title == getString(R.string.about) || toolbar.title == getString(R.string.feedback)) {
+        if(toolbar.title != getString(R.string.settings)) {
 
             toolbar.title = getString(R.string.settings)
 
