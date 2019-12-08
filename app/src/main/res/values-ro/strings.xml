@@ -19,7 +19,7 @@
     <string name="change">Schimbare</string>
     <string name="information">Informaţii</string>
     <string name="battery_technology">"Tehnologia bateriei: %1$s"</string>
-    <string name="instruction_message">"Pentru ca aplicația să arate capacitatea rămasă, încărcați bateria la 100% până când este \"Încărcată complet\", iar serviciul nu trebuie să fie oprit. Dacă capacitatea de proiectare este incorectă, schimbați-o în setările aplicației.\n\nATENȚIE! Nu opriți serviciul. Dacă sistemului de operare al dispozitivului îi place să \"oprească\" aplicații, sau să \"oprească\" complet aplicațiile recente atunci când le eliminați, sau dacă utilizați economisire de energie, adăugați această aplicație în toate excepțiile posibile. Dacă sistemului de operare al dispozitivului are o setare de pornire automată a aplicațiilor, asigurați-vă că această aplicație poate porni după încărcarea sistemului de operare"</string>
+    <string name="instruction_message">"Pentru ca aplicația să arate capacitatea rămasă, puneți dispozitivul la încărcare, în timp ce serviciul trebuie să fie pornit. Pentru o afișare mai exactă a capacității rămase, încărcați dispozitivul complet până când este afișat Încărcat. Dacă încărcarea continuă după ce a ajuns la 100%, acest lucru este normal. Dispozitivele moderne continuă să se încarce ceva timp după ce au ajuns la 100%. Dacă capacitatea de proiectare este incorectă, schimbați-o în setările aplicației.\n\nATENȚIE! Nu opriți serviciul. Dacă sistemului de operare al dispozitivului îi place să \"oprească\" aplicații, sau să \"oprească\" complet aplicațiile recente atunci când le eliminați, sau dacă utilizați economisire de energie, adăugați această aplicație în toate excepțiile posibile. Dacă sistemului de operare al dispozitivului are o setare de pornire automată a aplicațiilor, asigurați-vă că această aplicație poate porni după încărcarea sistemului de operare"</string>
     <string name="status">"Stare: %1$s"</string>
     <string name="plugged">"Conectat: %1$s"</string>
     <string name="discharging">Se descarcă</string>
@@ -75,4 +75,26 @@
     <string name="show_capacity_added_last_charge">"Se afișează \"Capacitate adăugată (Ultima încărcare)\""</string>
     <string name="show_capacity_added_last_charge_in_app">"Se afișează \"Capacitate adăugată (Ultima încărcare)\" în aplicație"</string>
     <string name="number_of_charges">Numărul încărcărilor: %1$d</string>
+    <string name="residual_capacity_not_supported">"Capacitate reziduală: Nu este disponibilă"</string>
+    <string name="battery_wear_not_supported">"Uzura bateriei: Nu este disponibilă"</string>
+    <string name="auto_start">Pornire automată</string>
+    <string name="auto_start_summary">Se pornește serviciul după pornirea sistemului de operare</string>
+    <string name="debug">Depanare</string>
+    <string name="debug_unlocked">Opțiunile de depanare deblocate cu succes</string>
+    <string name="change_preference_key">Schimbare cheie de preferință</string>
+    <string name="pref_key">Cheie</string>
+    <string name="pref_value">Valoare</string>
+    <string name="success_change_key">"Cheia \"%1$s\" schimbată cu succes"</string>
+    <string name="key_not_found">"Cheia \"%1$s\" nu a fost găsită!"</string>
+    <string name="error_changing_key">"Eroare la modificarea cheii \"%1$s\"!"</string>
+    <string name="remove_pref_key">Eliminați cheia de preferință</string>
+    <string name="remove">Eliminare</string>
+    <string name="key_successfully_removed">"Cheia \"%$s\" eliminată cu succes"</string>
+    <string name="error_remove_key">"Eroare la eliminarea cheii \"%1$s\"!"</string>
+    <string name="clear_pref">Ștergeți toate cheile de preferință</string>
+    <string name="are_you_sure">Sunteți sigur?</string>
+    <string name="clear">Eliminare</string>
+    <string name="preference_keys_cleared">Cheile de preferință au fost șterse cu succes</string>
+    <string name="hide_debug_options">Ascundeți opțiunile de depanare</string>
+    <string name="debug_options_are_hidden">Opțiunile de depanare sunt ascunse</string>
 </resources>
