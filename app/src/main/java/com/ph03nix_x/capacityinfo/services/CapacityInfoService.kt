@@ -7,6 +7,7 @@ import android.os.*
 import android.view.Display
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.NotificationInterface
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
@@ -109,8 +110,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     for(display in displayManager.displays)
                         if(display.state == Display.STATE_ON)
-                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 954 else 961)
-                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 924 else 931)
+                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 953 else 960)
+                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 923 else 930)
 
                     seconds++
                     updateNotification(this@CapacityInfoService)
@@ -171,6 +172,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (!isFull && seconds > 1) {
+
+            pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
 
             pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
 

@@ -126,6 +126,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
             (batteryLevel / 100.0)
         } else 1.0
 
+        else if(isCharging && batteryLevel == 100) residualCapacity = getCurrentCapacity(context)
+
         else if(!isCharging) {
 
             residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()

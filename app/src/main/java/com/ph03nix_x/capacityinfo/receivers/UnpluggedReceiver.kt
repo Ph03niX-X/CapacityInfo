@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.Util
@@ -24,6 +25,8 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 isPowerConnected = false
 
                 if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
+
+                    pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds).apply()
 
