@@ -45,7 +45,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 CapacityInfoService.instance!!.isFull = false
 
-                CapacityInfoService.instance?.seconds = 0
+                CapacityInfoService.instance!!.seconds = 0
             }
         }
     }

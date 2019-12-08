@@ -23,7 +23,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
-@SuppressWarnings("StaticFieldLeak")
 class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface {
 
     private lateinit var toolbar: CenteredToolbar
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var batteryManager: BatteryManager
     private var isJob = false
     private var job: Job? = null
-    private var batteryStatus: Intent? = null
+    private var batteryIntent: Intent? = null
 
     companion object {
 
@@ -191,15 +190,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     private fun startJob() {
 
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
         if(job == null)
             job = GlobalScope.launch {
 
                 while(isJob) {
 
-                    batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
-                    val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
-                    val plugged = batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+                    val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
                     runOnUiThread {
 
@@ -215,7 +214,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                                     if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
 
-                                    chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds?.toDouble() ?: 0.0)
+                                    chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
                                 }
 
                             else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
@@ -266,9 +265,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     runOnUiThread {
 
-                        batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+//                        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                        technology.text = getString(R.string.battery_technology, batteryStatus?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
+                        technology.text = getString(R.string.battery_technology, batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
 
                         temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
                             getTemperature(this@MainActivity))
@@ -286,10 +285,10 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                             runOnUiThread {
 
-                                batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+//                                batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                                 residualCapacity.text =  getResidualCapacity(this@MainActivity,
-                                    batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING)
+                                    batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING)
 
                                 batteryWear.text = getBatteryWear(this@MainActivity)
                             }

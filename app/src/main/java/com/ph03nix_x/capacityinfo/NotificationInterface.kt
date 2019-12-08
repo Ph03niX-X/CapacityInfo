@@ -19,7 +19,6 @@ import com.ph03nix_x.capacityinfo.services.StopService
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 
-@SuppressWarnings("StaticFieldLeak")
 interface NotificationInterface : BatteryInfoInterface {
 
     companion object {
@@ -98,9 +97,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
     private fun getNotificationMessage(context: Context): String {
 
-        val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        return when(batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+        return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> getBatteryStatusCharging(context)
 
@@ -120,7 +119,7 @@ interface NotificationInterface : BatteryInfoInterface {
         
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         val charging = context.getString(R.string.status, context.getString(R.string.charging))
         val batteryLevel = context.getString(R.string.battery_level, try {
@@ -128,7 +127,7 @@ interface NotificationInterface : BatteryInfoInterface {
         }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val plugged = getPlugged(context, batteryStatus?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
+        val plugged = getPlugged(context, batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
         val chargingCurrent = context.getString(R.string.charging_current, getChargingCurrent(context).toString())
@@ -140,10 +139,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(Preferences.IsShowCapacityAddedInNotification.prefKey, true))
-                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargingCurrent\n$temperature\n$voltage"
-            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargingCurrent\n$temperature\n$voltage"
+                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargingCurrent\n$temperature\n$voltage"
+            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargingCurrent\n$temperature\n$voltage"
 
-        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$chargingCurrent\n$temperature\n$voltage"
+        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$chargingCurrent\n$temperature\n$voltage"
     }
 
     private fun getBatteryStatusNotCharging(context: Context): String {
@@ -167,10 +166,10 @@ interface NotificationInterface : BatteryInfoInterface {
             DecimalFormat("#.#").format(getVoltage(context)))
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
-            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
+                "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n$dischargingCurrent\n$temperature\n$voltage"
+            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$dischargingCurrent\n$temperature\n$voltage"
 
-        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$dischargingCurrent\n$temperature\n$voltage"
+        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargingCurrent\n$temperature\n$voltage"
     }
 
     private fun getBatteryStatusFull(context: Context): String {
@@ -197,13 +196,13 @@ interface NotificationInterface : BatteryInfoInterface {
 
             if(getCurrentCapacity(context) > 0)
                 if(pref.getBoolean(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey, true))
-                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargingCurrent\n$temperature\n$voltage"
-                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$currentCapacity\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargingCurrent\n$temperature\n$voltage"
+                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargingCurrent\n$temperature\n$voltage"
+                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargingCurrent\n$temperature\n$voltage"
 
-            else "$fullCharging\n$batteryLevel\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargingCurrent\n$temperature\n$voltage"
+            else "$fullCharging\n$batteryLevel\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargingCurrent\n$temperature\n$voltage"
         }
 
-        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds.toDouble())}\n$dischargingCurrent\n$temperature"
+        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargingCurrent\n$temperature"
     }
 
     private fun getBatteryStatusDischarging(context: Context): String {

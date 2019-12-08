@@ -20,6 +20,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private val designerLink = "https://t.me/F0x1d"
     private val romanianTranslationLink = "https://github.com/ygorigor"
     private val belorussianTranslationLink = "https://t.me/DrCyanogen"
+
     private var developer: Preference? = null
     private var version: Preference? = null
     private var build: Preference? = null
@@ -42,13 +43,10 @@ class AboutFragment : PreferenceFragmentCompat() {
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        else {
+        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
 
-            if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
-
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-            }
+            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         developer = findPreference("developer")
@@ -75,14 +73,11 @@ class AboutFragment : PreferenceFragmentCompat() {
 
         developer?.setOnPreferenceClickListener {
 
-            try {
-
-                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:${developer?.summary}")))
-            }
+            try { context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:${developer?.summary}"))) }
 
             catch(e: ActivityNotFoundException) {}
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         if(!pref.getBoolean(Preferences.IsShowDebug.prefKey, false))
@@ -95,35 +90,35 @@ class AboutFragment : PreferenceFragmentCompat() {
                 Toast.makeText(requireContext(), getString(R.string.debug_unlocked), Toast.LENGTH_LONG).show()
             }
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         github?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(githubLink)))
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         designer?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(designerLink)))
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         romanianTranslation?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(romanianTranslationLink)))
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         belorussianTranslation?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(belorussianTranslationLink)))
 
-            return@setOnPreferenceClickListener true
+            true
         }
     }
 }

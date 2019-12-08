@@ -8,7 +8,7 @@ import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevel
+import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -49,9 +49,9 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        var temp = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
+        var temp = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
 
         temp /= 10
 
@@ -84,7 +84,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-                percentAdded = getBatteryLevel(context) - tempBatteryLevel
+                percentAdded = getBatteryLevel(context) - tempBatteryLevelWith
 
                 capacityAdded = getCurrentCapacity(context) - tempCurrentCapacity
 
@@ -103,9 +103,9 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        var voltage = batteryStatus!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
+        var voltage = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
         if(!pref.getBoolean(Preferences.VoltageInMv.prefKey, false))
             if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
@@ -117,9 +117,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        var residualCapacity = 0.0
-
-        if(isCharging && batteryLevel != getBatteryLevel(context)) residualCapacity = getCurrentCapacity(context) / if(getBatteryLevel(context) > 1) {
+        if(isCharging && batteryLevel < getBatteryLevel(context)) residualCapacity = getCurrentCapacity(context) / if(getBatteryLevel(context) > 1) {
 
             batteryLevel = getBatteryLevel(context)
 
@@ -136,8 +134,6 @@ interface BatteryInfoInterface : TimeSpanInterface {
         }
 
         if(residualCapacity < 0) residualCapacity /= -1
-
-        if(residualCapacity > 0) Companion.residualCapacity = residualCapacity
 
         return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
@@ -178,7 +174,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
             if (residualCapacity > 0) DecimalFormat("#.#").format(capacityDesign - residualCapacity) else "0")
     }
 
-    fun getChargingTime(context: Context, seconds: Double): String {
+    fun getChargingTime(context: Context, seconds: Int): String {
 
         val secondsTime = toSeconds(seconds)
         val minutes = toMinutes(seconds)
@@ -209,7 +205,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
     fun getLastChargeTime(context: Context): String {
         
-        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0).toDouble()
+        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0)
 
         val seconds = toSeconds(secondsPref)
         val minutes = toMinutes(secondsPref)

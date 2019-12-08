@@ -19,41 +19,21 @@ class CenteredToolbar : Toolbar {
 
     private var linear: LinearLayout? = null
 
-    constructor(context: Context) : super(context) {
+    constructor(context: Context) : super(context) { setupTextViews() }
 
-        setupTextViews()
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) { setupTextViews() }
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-
-        setupTextViews()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-
-        setupTextViews()
-    }
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { setupTextViews() }
 
     override fun getTitle(): CharSequence = tvTitle!!.text.toString()
 
-    override fun setTitle(@StringRes resId: Int) {
+    override fun setTitle(@StringRes resId: Int) { title = resources.getString(resId) }
 
-        val s = resources.getString(resId)
-        title = s
-    }
-
-    override fun setTitle(title: CharSequence) {
-
-        tvTitle!!.text = title
-    }
+    override fun setTitle(title: CharSequence) { tvTitle!!.text = title }
 
     override fun getSubtitle() = tvSubtitle!!.text.toString()
 
-    override fun setSubtitle(resId: Int) {
-
-        val s = resources.getString(resId)
-        subtitle = s
-    }
+    override fun setSubtitle(resId: Int) { subtitle = resources.getString(resId) }
 
     override fun setSubtitle(subtitle: CharSequence) {
 

@@ -56,13 +56,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        else {
+        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
 
-            if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
-
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-            }
+            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         // Service and Notification
@@ -120,7 +117,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 openNotificationCategorySettings(requireContext())
 
-                return@setOnPreferenceClickListener true
+                true
             }
 
         else openNotificationCategorySettings?.isVisible = false
@@ -179,7 +176,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             changeDesignCapacity(requireContext(), pref)
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         about?.setOnPreferenceClickListener {
@@ -192,7 +189,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 commit()
             }
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         feedback?.setOnPreferenceClickListener {
@@ -205,7 +202,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 commit()
             }
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         // Debug
@@ -228,21 +225,21 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 changeKeyDialog(requireContext(), pref)
 
-                return@setOnPreferenceClickListener true
+                true
             }
 
             removePrefKey?.setOnPreferenceClickListener {
 
                 removeKeyDialog(requireContext(), pref)
 
-                return@setOnPreferenceClickListener true
+                true
             }
 
             clearPref?.setOnPreferenceClickListener {
 
                 clearPref(requireContext(), pref)
 
-                return@setOnPreferenceClickListener true
+                true
             }
 
             hideDebug?.setOnPreferenceClickListener {
@@ -253,7 +250,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 Toast.makeText(requireContext(), getString(R.string.debug_options_are_hidden), Toast.LENGTH_LONG).show()
 
-                return@setOnPreferenceClickListener true
+                true
             }
         }
     }

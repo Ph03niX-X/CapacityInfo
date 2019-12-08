@@ -25,7 +25,7 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 CapacityInfoService.instance!!.batteryLevelWith = CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!)
 
-                Util.tempBatteryLevel = CapacityInfoService.instance!!.batteryLevelWith
+                Util.tempBatteryLevelWith = CapacityInfoService.instance!!.batteryLevelWith
 
                 Util.tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(CapacityInfoService.instance!!)
             }

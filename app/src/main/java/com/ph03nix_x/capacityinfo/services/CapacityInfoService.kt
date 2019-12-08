@@ -13,7 +13,7 @@ import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevel
+import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
@@ -28,7 +28,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private lateinit var batteryManager: BatteryManager
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
-    private var batteryStatus: Intent? = null
+    private var batteryIntent: Intent? = null
     private var jobService: Job? = null
     private var isJob = false
     var isFull = false
@@ -57,7 +57,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 batteryLevelWith = getBatteryLevel(this)
 
-                tempBatteryLevel = batteryLevelWith
+                tempBatteryLevelWith = batteryLevelWith
 
                 tempCurrentCapacity = getCurrentCapacity(this)
             }
@@ -76,6 +76,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         
         instance = this
+
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         createNotification(this@CapacityInfoService)
 
@@ -97,9 +99,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if(getBatteryLevel(this@CapacityInfoService) < batteryLevelWith) batteryLevelWith = getBatteryLevel(this@CapacityInfoService)
 
-                batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
-                val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+                val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
@@ -110,8 +110,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     for(display in displayManager.displays)
                         if(display.state == Display.STATE_ON)
-                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 953 else 960)
-                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 923 else 930)
+                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 952 else 959)
+                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 922 else 929)
 
                     seconds++
                     updateNotification(this@CapacityInfoService)

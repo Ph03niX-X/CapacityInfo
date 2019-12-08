@@ -32,13 +32,10 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        else {
+        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
 
-            if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
-
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-            }
+            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         telegram = findPreference("telegram")
@@ -61,7 +58,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 Toast.makeText(context!!, getString(R.string.telegram_link_copied), Toast.LENGTH_LONG).show()
             }
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         email?.setOnPreferenceClickListener {
@@ -71,11 +68,9 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 val version = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionName
                 val build = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionCode?.toString()
 
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). Feedback"))
-                ) }
+                startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). Feedback")))
+            }
 
             catch (e: ActivityNotFoundException) {
 
@@ -85,7 +80,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 Toast.makeText(context!!, getString(R.string.email_copied), Toast.LENGTH_LONG).show()
             }
 
-            return@setOnPreferenceClickListener true
+            true
         }
 
         if(isGooglePlay())
@@ -94,7 +89,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
                 context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context?.packageName}")))
 
-                return@setOnPreferenceClickListener true
+                true
             }
     }
 
