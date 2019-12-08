@@ -68,6 +68,7 @@ class CenteredToolbar : Toolbar {
 
         tvTitle!!.ellipsize = TextUtils.TruncateAt.END
         tvTitle!!.setTextAppearance(context, R.style.TextAppearance_AppCompat_Widget_ActionBar_Title)
+        tvTitle!!.gravity = Gravity.CENTER
 
         linear = LinearLayout(context)
         linear!!.gravity = Gravity.CENTER
