@@ -10,6 +10,7 @@ import com.ph03nix_x.capacityinfo.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.NotificationInterface
 import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
@@ -28,7 +29,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private lateinit var batteryManager: BatteryManager
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
-    private var batteryIntent: Intent? = null
     private var jobService: Job? = null
     private var isJob = false
     var isFull = false
@@ -46,8 +46,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     override fun onCreate() {
 
         super.onCreate()
-
-        val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
@@ -77,7 +75,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         
         instance = this
 
-        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if(batteryIntent == null) batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         createNotification(this@CapacityInfoService)
 

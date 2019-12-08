@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
@@ -49,7 +50,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var temp = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
 
@@ -103,7 +104,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var voltage = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 

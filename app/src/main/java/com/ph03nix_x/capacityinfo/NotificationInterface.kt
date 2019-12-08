@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.StopService
@@ -97,7 +98,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
     private fun getNotificationMessage(context: Context): String {
 
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
@@ -119,7 +120,7 @@ interface NotificationInterface : BatteryInfoInterface {
         
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         val charging = context.getString(R.string.status, context.getString(R.string.charging))
         val batteryLevel = context.getString(R.string.battery_level, try {

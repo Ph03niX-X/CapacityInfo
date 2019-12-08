@@ -15,6 +15,7 @@ import com.ph03nix_x.capacityinfo.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import kotlinx.coroutines.GlobalScope
@@ -46,7 +47,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var batteryManager: BatteryManager
     private var isJob = false
     private var job: Job? = null
-    private var batteryIntent: Intent? = null
 
     companion object {
 
@@ -135,6 +135,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         isJob = true
 
+        if(batteryIntent == null) batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
         if(getCurrentCapacity(this) == 0.0 && pref.getBoolean(Preferences.IsShowNotSupportedDialog.prefKey, true)) {
 
             pref.edit().putBoolean(Preferences.IsShowNotSupportedDialog.prefKey, false).apply()
@@ -189,8 +191,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     }
 
     private fun startJob() {
-
-        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         if(job == null)
             job = GlobalScope.launch {
