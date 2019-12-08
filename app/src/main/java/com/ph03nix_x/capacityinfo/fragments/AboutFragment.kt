@@ -16,10 +16,10 @@ import com.ph03nix_x.capacityinfo.R
 
 class AboutFragment : PreferenceFragmentCompat() {
 
-    val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
-    val designerLink = "https://t.me/F0x1d"
-    val romanianTranslationLink = "https://github.com/ygorigor"
-    val belorussianTranslationLink = "https://t.me/DrCyanogen"
+    private val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
+    private val designerLink = "https://t.me/F0x1d"
+    private val romanianTranslationLink = "https://github.com/ygorigor"
+    private val belorussianTranslationLink = "https://t.me/DrCyanogen"
     private var developer: Preference? = null
     private var version: Preference? = null
     private var build: Preference? = null

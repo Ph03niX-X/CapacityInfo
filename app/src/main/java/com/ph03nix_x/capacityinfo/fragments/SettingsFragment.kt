@@ -256,7 +256,5 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 return@setOnPreferenceClickListener true
             }
         }
-
-
     }
 }

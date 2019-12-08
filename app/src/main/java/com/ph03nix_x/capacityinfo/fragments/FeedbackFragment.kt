@@ -14,7 +14,7 @@ import com.ph03nix_x.capacityinfo.R
 
 class FeedbackFragment : PreferenceFragmentCompat() {
 
-    val telegramLink = "https://t.me/Ph03niX_X"
+    private val telegramLink = "https://t.me/Ph03niX_X"
 
     private var telegram: Preference? = null
     private var email: Preference? = null
