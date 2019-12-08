@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -27,6 +28,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belorussianTranslation: Preference? = null
+    private var count = 1
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -79,6 +81,19 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
 
             catch(e: ActivityNotFoundException) {}
+
+            return@setOnPreferenceClickListener true
+        }
+
+        if(!pref.getBoolean(Preferences.IsShowDebug.prefKey, false))
+        build?.setOnPreferenceClickListener {
+
+            if(count < 10) count++
+            else if(!pref.getBoolean(Preferences.IsShowDebug.prefKey, false)) {
+
+                pref.edit().putBoolean(Preferences.IsShowDebug.prefKey, true).apply()
+                Toast.makeText(requireContext(), getString(R.string.debug_unlocked), Toast.LENGTH_LONG).show()
+            }
 
             return@setOnPreferenceClickListener true
         }

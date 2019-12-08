@@ -3,20 +3,16 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreferenceCompat
-import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.R
+import android.widget.Toast
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import androidx.appcompat.app.AppCompatDelegate
-import com.ph03nix_x.capacityinfo.SettingsInterface
-import com.ph03nix_x.capacityinfo.ServiceInterface
+import androidx.preference.*
+import com.ph03nix_x.capacityinfo.*
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
-class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface {
+class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -40,6 +36,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var changeDesignCapacity: Preference? = null
     private var about: Preference? = null
     private var feedback: Preference? = null
+
+    //Debug
+    private var debug: PreferenceCategory? = null
+    private var changePrefKey: Preference? = null
+    private var removePrefKey: Preference? = null
+    private var clearPref: Preference? = null
+    private var hideDebug: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -204,5 +207,56 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             return@setOnPreferenceClickListener true
         }
+
+        // Debug
+
+        debug = findPreference("debug")
+
+        changePrefKey = findPreference("change_preference_key")
+
+        removePrefKey = findPreference("remove_preference_key")
+
+        clearPref = findPreference("clear_pref")
+
+        hideDebug = findPreference("hide_debug")
+
+        debug?.isVisible = pref.getBoolean(Preferences.IsShowDebug.prefKey, false)
+
+        if(pref.getBoolean(Preferences.IsShowDebug.prefKey, false)) {
+
+            changePrefKey?.setOnPreferenceClickListener {
+
+                changeKeyDialog(requireContext(), pref)
+
+                return@setOnPreferenceClickListener true
+            }
+
+            removePrefKey?.setOnPreferenceClickListener {
+
+                removeKeyDialog(requireContext(), pref)
+
+                return@setOnPreferenceClickListener true
+            }
+
+            clearPref?.setOnPreferenceClickListener {
+
+                clearPref(requireContext(), pref)
+
+                return@setOnPreferenceClickListener true
+            }
+
+            hideDebug?.setOnPreferenceClickListener {
+
+                debug?.isVisible = false
+
+                pref.edit().putBoolean(Preferences.IsShowDebug.prefKey, false).apply()
+
+                Toast.makeText(requireContext(), getString(R.string.debug_options_are_hidden), Toast.LENGTH_LONG).show()
+
+                return@setOnPreferenceClickListener true
+            }
+        }
+
+
     }
 }

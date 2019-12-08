@@ -136,4 +136,28 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+                android:title="@string/debug"
+                app:allowDividerAbove="false"
+                app:allowDividerBelow="false"
+                android:key="debug">
+
+        <Preference
+                android:title="@string/change_preference_key"
+                android:key="change_preference_key"/>
+
+        <Preference
+                android:title="@string/remove_pref_key"
+                android:key="remove_preference_key"/>
+
+        <Preference
+                android:title="@string/clear_pref"
+                android:key="clear_pref"/>
+
+        <Preference
+                android:title="@string/hide_debug_options"
+                android:key="hide_debug"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
