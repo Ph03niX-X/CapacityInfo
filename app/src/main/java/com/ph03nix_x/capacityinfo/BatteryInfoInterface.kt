@@ -20,6 +20,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
     companion object {
 
         var residualCapacity = 0.0
+        var batteryLevel = 0
     }
 
     fun getDesignCapacity(context: Context): Int {
@@ -116,20 +117,25 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        var residualCapacity: Double
+        var residualCapacity = 0.0
 
-        if(isCharging) residualCapacity = getCurrentCapacity(context) / if(getBatteryLevel(context) > 1) ((getBatteryLevel(context) - 1) / 100.0) else getCurrentCapacity(context)
+        if(isCharging && batteryLevel != getBatteryLevel(context)) residualCapacity = getCurrentCapacity(context) / if(getBatteryLevel(context) > 1) {
 
-        else {
+            batteryLevel = getBatteryLevel(context)
+
+            (batteryLevel / 100.0)
+        } else 1.0
+
+        else if(!isCharging) {
 
             residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
-
-            if(residualCapacity < 0) residualCapacity /= -1
 
             residualCapacity /= 1000
         }
 
-        Companion.residualCapacity = residualCapacity
+        if(residualCapacity < 0) residualCapacity /= -1
+
+        if(residualCapacity > 0) Companion.residualCapacity = residualCapacity
 
         return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
