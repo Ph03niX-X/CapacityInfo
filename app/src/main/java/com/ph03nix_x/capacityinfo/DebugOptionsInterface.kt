@@ -221,7 +221,7 @@ interface DebugOptionsInterface {
 
             setTitle(context.getString(R.string.clear_pref))
             setMessage(context.getString(R.string.are_you_sure))
-            setPositiveButton(context.getString(android.R.string.yes)) { _, _ ->
+            setPositiveButton(context.getString(R.string.clear)) { _, _ ->
 
                 pref.edit().clear().apply()
                 MainActivity.instance?.recreate()
@@ -229,7 +229,7 @@ interface DebugOptionsInterface {
 
                 Toast.makeText(context, context.getText(R.string.preference_keys_cleared), Toast.LENGTH_LONG).show()
             }
-            setNegativeButton(android.R.string.no) { d, _ -> d.dismiss() }
+            setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
         }
     }

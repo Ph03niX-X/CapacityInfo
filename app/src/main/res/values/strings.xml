@@ -93,6 +93,7 @@
     <string name="error_remove_key">"Error remove key \"%1$s\"!"</string>
     <string name="clear_pref">Clear All Preference Keys</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="clear">Clear</string>
     <string name="preference_keys_cleared">Preference keys cleared successfully</string>
     <string name="hide_debug_options">Hide Debug Options</string>
     <string name="debug_options_are_hidden">Debug options are hidden</string>
