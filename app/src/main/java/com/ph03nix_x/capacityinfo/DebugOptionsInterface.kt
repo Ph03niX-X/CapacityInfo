@@ -15,7 +15,7 @@ import java.lang.Exception
 
 interface DebugOptionsInterface {
 
-    fun changeKeyDialog(context: Context, pref: SharedPreferences) {
+    fun changeSettingDialog(context: Context, pref: SharedPreferences) {
 
         val prefKeysArray = mutableListOf<String>()
 
@@ -194,7 +194,7 @@ interface DebugOptionsInterface {
         else Toast.makeText(context, context.getString(R.string.error_changing_key, key), Toast.LENGTH_LONG).show()
     }
 
-    fun removeKeyDialog(context: Context, pref: SharedPreferences) {
+    fun removeSettingDialog(context: Context, pref: SharedPreferences) {
 
         val prefKeysArray = mutableListOf<String>()
 
@@ -243,19 +243,19 @@ interface DebugOptionsInterface {
 
     }
 
-    fun clearPref(context: Context, pref: SharedPreferences) {
+    fun resetSettingsDialog(context: Context, pref: SharedPreferences) {
 
         MaterialAlertDialogBuilder(context).apply {
 
-            setTitle(context.getString(R.string.clear_pref))
+            setTitle(context.getString(R.string.reset_settings))
             setMessage(context.getString(R.string.are_you_sure))
-            setPositiveButton(context.getString(R.string.clear)) { _, _ ->
+            setPositiveButton(context.getString(R.string.reset)) { _, _ ->
 
                 pref.edit().clear().apply()
                 MainActivity.instance?.recreate()
                 (context as SettingsActivity).recreate()
 
-                Toast.makeText(context, context.getText(R.string.preference_keys_cleared), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()

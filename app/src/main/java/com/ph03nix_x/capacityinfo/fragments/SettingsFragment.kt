@@ -39,9 +39,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
     //Debug
     private var debug: PreferenceCategory? = null
-    private var changePrefKey: Preference? = null
-    private var removePrefKey: Preference? = null
-    private var clearPref: Preference? = null
+    private var changeSetting: Preference? = null
+    private var removeSetting: Preference? = null
+    private var resetSettings: Preference? = null
     private var hideDebug: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -209,11 +209,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         debug = findPreference("debug")
 
-        changePrefKey = findPreference("change_preference_key")
+        changeSetting = findPreference("change_setting")
 
-        removePrefKey = findPreference("remove_preference_key")
+        removeSetting = findPreference("remove_setting")
 
-        clearPref = findPreference("clear_pref")
+        resetSettings = findPreference("reset_settings")
 
         hideDebug = findPreference("hide_debug")
 
@@ -221,23 +221,23 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         if(pref.getBoolean(Preferences.IsShowDebug.prefKey, false)) {
 
-            changePrefKey?.setOnPreferenceClickListener {
+            changeSetting?.setOnPreferenceClickListener {
 
-                changeKeyDialog(requireContext(), pref)
-
-                true
-            }
-
-            removePrefKey?.setOnPreferenceClickListener {
-
-                removeKeyDialog(requireContext(), pref)
+                changeSettingDialog(requireContext(), pref)
 
                 true
             }
 
-            clearPref?.setOnPreferenceClickListener {
+            removeSetting?.setOnPreferenceClickListener {
 
-                clearPref(requireContext(), pref)
+                removeSettingDialog(requireContext(), pref)
+
+                true
+            }
+
+            resetSettings?.setOnPreferenceClickListener {
+
+                resetSettingsDialog(requireContext(), pref)
 
                 true
             }

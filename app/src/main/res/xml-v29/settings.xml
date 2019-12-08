@@ -142,16 +142,16 @@
                 android:key="debug">
 
         <Preference
-                android:title="@string/change_preference_key"
-                android:key="change_preference_key"/>
+                android:title="@string/change_setting"
+                android:key="change_setting"/>
 
         <Preference
-                android:title="@string/remove_pref_key"
-                android:key="remove_preference_key"/>
+                android:title="@string/remove_setting"
+                android:key="remove_setting"/>
 
         <Preference
-                android:title="@string/clear_pref"
-                android:key="clear_pref"/>
+                android:title="@string/reset_settings"
+                android:key="reset_settings"/>
 
         <Preference
                 android:title="@string/hide_debug_options"

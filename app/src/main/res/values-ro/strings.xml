@@ -81,20 +81,20 @@
     <string name="auto_start_summary">Se pornește serviciul după pornirea sistemului de operare</string>
     <string name="debug">Depanare</string>
     <string name="debug_unlocked">Opțiunile de depanare deblocate cu succes</string>
-    <string name="change_preference_key">Schimbare cheie de preferință</string>
+    <string name="change_setting">Schimbare cheie de preferință</string>
     <string name="pref_key">Cheie</string>
     <string name="pref_value">Valoare</string>
     <string name="success_change_key">"Cheia \"%1$s\" schimbată cu succes"</string>
     <string name="key_not_found">"Cheia \"%1$s\" nu a fost găsită!"</string>
     <string name="error_changing_key">"Eroare la modificarea cheii \"%1$s\"!"</string>
-    <string name="remove_pref_key">Eliminați cheia de preferință</string>
+    <string name="remove_setting">Eliminați cheia de preferință</string>
     <string name="remove">Eliminare</string>
     <string name="key_successfully_removed">"Cheia \"%$s\" eliminată cu succes"</string>
     <string name="error_remove_key">"Eroare la eliminarea cheii \"%1$s\"!"</string>
-    <string name="clear_pref">Ștergeți toate cheile de preferință</string>
+    <string name="reset_settings">Ștergeți toate cheile de preferință</string>
     <string name="are_you_sure">Sunteți sigur?</string>
-    <string name="clear">Eliminare</string>
-    <string name="preference_keys_cleared">Cheile de preferință au fost șterse cu succes</string>
+    <string name="reset">Eliminare</string>
+    <string name="settings_reset_successfully">Cheile de preferință au fost șterse cu succes</string>
     <string name="hide_debug_options">Ascundeți opțiunile de depanare</string>
     <string name="debug_options_are_hidden">Opțiunile de depanare sunt ascunse</string>
 </resources>
