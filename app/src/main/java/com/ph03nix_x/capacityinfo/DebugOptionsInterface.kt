@@ -28,7 +28,10 @@ interface DebugOptionsInterface {
 
         val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key, null)
 
-        val spinner = view.findViewById<Spinner>(R.id.type_spinner)
+        val spinner = view.findViewById<Spinner>(R.id.type_spinner).apply {
+
+            isEnabled = false
+        }
 
         var key = ""
         var value: Any = ""
@@ -45,7 +48,27 @@ interface DebugOptionsInterface {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { key = s.toString() }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                key = s.toString()
+                changePrefValue.isEnabled = key in prefKeysArray
+                spinner.isEnabled = key in prefKeysArray
+
+                if(key in prefKeysArray)
+                when(key) {
+
+                    Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
+                    Preferences.ChargeCounter.prefKey, Preferences.PercentAdded.prefKey -> spinner.setSelection(0)
+
+                    Preferences.CapacityAdded.prefKey -> spinner.setSelection(2)
+
+                    Preferences.NumberOfCharges.prefKey -> spinner.setSelection(1)
+
+                    else -> spinner.setSelection(3)
+                }
+
+                else changePrefValue.setText("")
+            }
         })
 
         changePrefValue.addTextChangedListener(object : TextWatcher {
@@ -59,7 +82,7 @@ interface DebugOptionsInterface {
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            if(key != "" && value != "")
+            if(key != "")
                 try {
 
                     if(key in prefKeysArray) {
@@ -86,7 +109,12 @@ interface DebugOptionsInterface {
                             0.toLong() -> changeKey(context, pref, key, value.toString().toInt(), isInt)
                             1.toLong() -> changeKey(context, pref, key, value.toString().toLong(), isLong)
                             2.toLong() -> changeKey(context, pref, key, value.toString().toFloat(), isFloat)
-                            3.toLong() -> changeKey(context, pref, key, value.toString().toBoolean(), isBoolean)
+                            3.toLong() -> {
+
+                                if(value == "1") value = true else if(value == "0") value = false
+
+                                changeKey(context, pref, key, value.toString().toBoolean(), isBoolean)
+                            }
                         }
                     }
 
