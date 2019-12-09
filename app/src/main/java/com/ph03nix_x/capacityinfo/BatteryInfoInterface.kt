@@ -50,7 +50,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var temp = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
 
@@ -104,7 +104,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         var voltage = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
@@ -118,12 +118,12 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(isCharging && batteryLevel < getBatteryLevel(context)) residualCapacity = getCurrentCapacity(context) / if(getBatteryLevel(context) > 1) {
+        if(isCharging && batteryLevel < getBatteryLevel(context)) {
 
             batteryLevel = getBatteryLevel(context)
 
-            (batteryLevel / 100.0)
-        } else 1.0
+            residualCapacity = getCurrentCapacity(context) / if(batteryLevel > 1) (batteryLevel / 100.0) else 1.0
+        }
 
         else if(isCharging && batteryLevel == 100) residualCapacity = getCurrentCapacity(context)
 

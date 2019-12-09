@@ -98,7 +98,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
     private fun getNotificationMessage(context: Context): String {
 
-        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
@@ -120,7 +120,7 @@ interface NotificationInterface : BatteryInfoInterface {
         
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(batteryIntent == null) batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         val charging = context.getString(R.string.status, context.getString(R.string.charging))
         val batteryLevel = context.getString(R.string.battery_level, try {

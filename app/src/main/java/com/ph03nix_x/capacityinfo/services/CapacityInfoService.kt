@@ -75,11 +75,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         
         instance = this
 
-        if(batteryIntent == null) batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
+
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         createNotification(this@CapacityInfoService)
 
-        isJob = !isJob
+        isJob = true
 
         if(jobService == null)
         jobService = GlobalScope.launch {

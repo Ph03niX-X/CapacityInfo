@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
@@ -26,7 +27,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
 
-                    pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
+                    if(residualCapacity > 0) pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds).apply()
 
@@ -46,6 +47,8 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 CapacityInfoService.instance!!.isFull = false
 
                 CapacityInfoService.instance!!.seconds = 0
+
+                batteryLevel = 0
             }
         }
     }

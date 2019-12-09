@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         isJob = true
 
-        if(batteryIntent == null) batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         if(getCurrentCapacity(this) == 0.0 && pref.getBoolean(Preferences.IsShowNotSupportedDialog.prefKey, true)) {
 
