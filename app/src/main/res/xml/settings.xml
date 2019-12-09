@@ -147,8 +147,8 @@
                 android:key="change_setting"/>
 
         <Preference
-                android:title="@string/remove_setting"
-                android:key="remove_setting"/>
+                android:title="@string/reset_setting"
+                android:key="reset_setting"/>
 
         <Preference
                 android:title="@string/reset_settings"

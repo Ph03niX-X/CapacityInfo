@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Spinner
@@ -194,7 +195,7 @@ interface DebugOptionsInterface {
         else Toast.makeText(context, context.getString(R.string.error_changing_key, key), Toast.LENGTH_LONG).show()
     }
 
-    fun removeSettingDialog(context: Context, pref: SharedPreferences) {
+    fun resetSettingDialog(context: Context, pref: SharedPreferences) {
 
         val prefKeysArray = mutableListOf<String>()
 
@@ -205,15 +206,15 @@ interface DebugOptionsInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.remove_pref_key, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.reset_pref_key, null)
 
         var key = ""
 
         dialog.setView(view)
 
-        val removePrefKey = view.findViewById<EditText>(R.id.remove_pref_key_edit)
+        val resetPrefKey = view.findViewById<EditText>(R.id.reset_pref_key_edit)
 
-        removePrefKey.addTextChangedListener(object : TextWatcher {
+        resetPrefKey.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) { }
 
@@ -222,7 +223,7 @@ interface DebugOptionsInterface {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { key = s.toString() }
         })
 
-        dialog.setPositiveButton(context.getString(R.string.remove)) { _, _ ->
+        dialog.setPositiveButton(context.getString(R.string.reset)) { _, _ ->
 
             if(key != "")
                 if(key in prefKeysArray) {

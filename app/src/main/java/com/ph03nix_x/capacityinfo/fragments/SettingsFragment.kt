@@ -40,7 +40,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     //Debug
     private var debug: PreferenceCategory? = null
     private var changeSetting: Preference? = null
-    private var removeSetting: Preference? = null
+    private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
     private var hideDebug: Preference? = null
 
@@ -211,7 +211,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeSetting = findPreference("change_setting")
 
-        removeSetting = findPreference("remove_setting")
+        resetSetting = findPreference("reset_setting")
 
         resetSettings = findPreference("reset_settings")
 
@@ -228,9 +228,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 true
             }
 
-            removeSetting?.setOnPreferenceClickListener {
+            resetSetting?.setOnPreferenceClickListener {
 
-                removeSettingDialog(requireContext(), pref)
+                resetSettingDialog(requireContext(), pref)
 
                 true
             }
