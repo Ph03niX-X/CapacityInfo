@@ -75,4 +75,20 @@
     <string name="battery_wear_not_supported">"Знос акумулятора: Не підтримується"</string>
     <string name="auto_start">Автоматичний запуск</string>
     <string name="auto_start_summary">Запускати службу після запуску ОС</string>
+    <string name="debug">Налагодження</string>
+    <string name="debug_unlocked">Опції налагодження успішно розблоковані</string>
+    <string name="change_setting">Змінити налаштування</string>
+    <string name="pref_key">Ключ</string>
+    <string name="pref_value">Значення</string>
+    <string name="success_change_key">"Настройка \"%1$s\" успішно змінена"</string>
+    <string name="key_not_found">"Налаштуваня \"%1$s\" не знайдено!"</string>
+    <string name="error_changing_key">"Помилка зміни налаштування \"%1$s\"!"</string>
+    <string name="reset_setting">Скинути налаштування</string>
+    <string name="reset">Скинути</string>
+    <string name="key_successfully_reset">"Настройка \"%$s\" успішно скинута"</string>
+    <string name="reset_settings">Скинути налаштування</string>
+    <string name="are_you_sure">Ви впевнені?</string>
+    <string name="settings_reset_successfully">Налаштування успішно скинуті</string>
+    <string name="hide_debug_options">Приховати опції налагодження</string>
+    <string name="debug_options_are_hidden">Опції налагодження приховані</string>
 </resources>
