@@ -6,6 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
@@ -29,19 +31,39 @@ interface DebugOptionsInterface {
 
         val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key, null)
 
-        val spinner = view.findViewById<Spinner>(R.id.type_spinner).apply {
-
-            isEnabled = false
-        }
-
-        var key = ""
-        var value: Any = ""
-
         dialog.setView(view)
 
         val changePrefKey = view.findViewById<EditText>(R.id.change_pref_key_edit)
 
         val changePrefValue = view.findViewById<EditText>(R.id.change_pref_value_edit)
+
+        val spinner = view.findViewById<Spinner>(R.id.type_spinner).apply {
+
+            isEnabled = false
+
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                    changePrefValue.setText("")
+
+                    when(position) {
+
+                        0, 1 -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                        2 -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+
+                        3 -> changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
+
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) { }
+            }
+        }
+
+        var key = ""
+        var value: Any = ""
 
         changePrefKey.addTextChangedListener(object : TextWatcher {
 
