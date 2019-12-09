@@ -90,18 +90,9 @@
     <string name="reset_setting">Reset Setting</string>
     <string name="reset">Reset</string>
     <string name="key_successfully_reset">"Setting \"%$s\" Successfully Reset"</string>
-    <string name="error_reset_key">"Error reset setting \"%1$s\"!"</string>
     <string name="reset_settings">Reset All Settings</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="settings_reset_successfully">Settings reset successfully</string>
     <string name="hide_debug_options">Hide Debug Options</string>
     <string name="debug_options_are_hidden">Debug options are hidden</string>
-
-    // Do not translate
-    <string-array name="spinner_items">
-        <item>Int</item>
-        <item>Long</item>
-        <item>Float</item>
-        <item>Boolean</item>
-    </string-array>
 </resources>

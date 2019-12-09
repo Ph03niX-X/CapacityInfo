@@ -37,31 +37,6 @@ interface DebugOptionsInterface {
 
         val changePrefValue = view.findViewById<EditText>(R.id.change_pref_value_edit)
 
-        val spinner = view.findViewById<Spinner>(R.id.type_spinner).apply {
-
-            isEnabled = false
-
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-
-                    changePrefValue.setText("")
-
-                    when(position) {
-
-                        0, 1 -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-
-                        2 -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
-
-                        3 -> changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
-
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) { }
-            }
-        }
-
         var key = ""
         var value: Any = ""
 
@@ -75,22 +50,20 @@ interface DebugOptionsInterface {
 
                 key = s.toString()
                 changePrefValue.isEnabled = key in prefKeysArray
-                spinner.isEnabled = key in prefKeysArray
 
-                if(key in prefKeysArray)
-                when(key) {
+                if(key in prefKeysArray) {
 
-                    Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                    Preferences.ChargeCounter.prefKey, Preferences.PercentAdded.prefKey -> spinner.setSelection(0)
+                    when(key) {
 
-                    Preferences.CapacityAdded.prefKey -> spinner.setSelection(2)
+                        Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
+                        Preferences.ChargeCounter.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey ->
+                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
 
-                    Preferences.NumberOfCharges.prefKey -> spinner.setSelection(1)
+                        Preferences.CapacityAdded.prefKey -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
 
-                    else -> spinner.setSelection(3)
+                        else -> changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
+                    }
                 }
-
-                else changePrefValue.setText("")
             }
         })
 
@@ -127,18 +100,25 @@ interface DebugOptionsInterface {
                             else -> isBoolean = true
                         }
 
-                        when (spinner.selectedItemId) {
+                        var toastMessage = context.getString(R.string.success_change_key, key)
 
-                            0.toLong() -> changeKey(context, pref, key, value.toString().toInt(), isInt)
-                            1.toLong() -> changeKey(context, pref, key, value.toString().toLong(), isLong)
-                            2.toLong() -> changeKey(context, pref, key, value.toString().toFloat(), isFloat)
-                            3.toLong() -> {
+                        if(isInt) changeKey(context, pref, key, value.toString().toInt())
+                        else if(isLong) changeKey(context, pref, key, value.toString().toLong())
+                        else if(isFloat) changeKey(context, pref, key, value.toString().toFloat())
+                        else if(isBoolean) {
 
-                                if(value == "1") value = true else if(value == "0") value = false
+                            if(value.toString().length == 1) {
 
-                                changeKey(context, pref, key, value.toString().toBoolean(), isBoolean)
+                                value = value == "1"
+
+                                changeKey(context, pref, key, value.toString().toBoolean())
+
                             }
+
+                            else toastMessage = context.getString(R.string.error_changing_key, key)
                         }
+
+                        Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
                     }
 
                     else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
@@ -152,69 +132,28 @@ interface DebugOptionsInterface {
         dialog.show()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Int, isInt: Boolean) {
+    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Int) {
 
-        if(isInt) {
-
-            pref.edit().putInt(key, value).apply()
-
-            Toast.makeText(context, context.getString(R.string.success_change_key, key), Toast.LENGTH_LONG).show()
-
-            if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
-
-            (context as SettingsActivity).recreate()
-        }
-
-        else Toast.makeText(context, context.getString(R.string.error_changing_key, key), Toast.LENGTH_LONG).show()
-
+        pref.edit().putInt(key, value).apply()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Long, isLong: Boolean) {
+    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Long) {
 
-        if(isLong) {
-
-            pref.edit().putLong(key, value).apply()
-
-            Toast.makeText(context, context.getString(R.string.success_change_key, key), Toast.LENGTH_LONG).show()
-
-            if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
-
-            (context as SettingsActivity).recreate()
-        }
-
-        else Toast.makeText(context, context.getString(R.string.error_changing_key, key), Toast.LENGTH_LONG).show()
+        pref.edit().putLong(key, value).apply()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Float, isFloat: Boolean) {
+    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Float) {
 
-        if(isFloat) {
-
-            pref.edit().putFloat(key, value).apply()
-
-            Toast.makeText(context, context.getString(R.string.success_change_key, key), Toast.LENGTH_LONG).show()
-
-            if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
-
-            (context as SettingsActivity).recreate()
-        }
-
-        else Toast.makeText(context, context.getString(R.string.error_changing_key, key), Toast.LENGTH_LONG).show()
+        pref.edit().putFloat(key, value).apply()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Boolean, isBoolean: Boolean) {
+    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Boolean) {
 
-        if(isBoolean) {
+        pref.edit().putBoolean(key, value).apply()
 
-            pref.edit().putBoolean(key, value).apply()
+        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
 
-            Toast.makeText(context, context.getString(R.string.success_change_key, key), Toast.LENGTH_LONG).show()
-
-            if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
-
-            (context as SettingsActivity).recreate()
-        }
-
-        else Toast.makeText(context, context.getString(R.string.error_changing_key, key), Toast.LENGTH_LONG).show()
+        (context as SettingsActivity).recreate()
     }
 
     fun resetSettingDialog(context: Context, pref: SharedPreferences) {
