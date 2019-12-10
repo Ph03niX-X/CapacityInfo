@@ -25,9 +25,9 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 isPowerConnected = false
 
-                if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
+                pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
 
-                    if(residualCapacity > 0) pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
+                if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
 
                     pref.edit().putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds).apply()
 

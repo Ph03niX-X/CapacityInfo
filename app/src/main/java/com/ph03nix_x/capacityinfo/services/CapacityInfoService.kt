@@ -7,6 +7,7 @@ import android.os.*
 import android.view.Display
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.NotificationInterface
 import com.ph03nix_x.capacityinfo.Preferences
@@ -129,7 +130,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     if (getCurrentCapacity(this@CapacityInfoService) > 0) {
 
-                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt()).apply()
+                        residualCapacity = getCurrentCapacity(this@CapacityInfoService)
+
+//                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt()).apply()
 
                         pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
 
@@ -171,9 +174,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (!isFull && seconds > 1) {
+        pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
 
-            pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
+        if (!isFull && seconds > 1) {
 
             pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
 
@@ -189,6 +192,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             capacityAdded = 0.0
         }
+
+        batteryLevel = 0
 
         super.onDestroy()
     }

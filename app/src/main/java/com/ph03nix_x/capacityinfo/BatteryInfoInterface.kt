@@ -8,6 +8,7 @@ import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
@@ -127,7 +128,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         else if(isCharging && batteryLevel == 100) residualCapacity = getCurrentCapacity(context)
 
-        else if(!isCharging) {
+        else if(!isCharging && !isPowerConnected) {
 
             residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
 
