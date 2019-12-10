@@ -172,9 +172,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
-
         if (!isFull && seconds > 1) {
+
+            if(residualCapacity > 0) pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
 
             pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
 
