@@ -54,13 +54,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
         }
 
-        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
-
+        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-        }
 
         // Service and Notification
 
@@ -108,7 +108,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             showCapacityAddedInNotification?.isEnabled = newValue
             openNotificationCategorySettings?.isEnabled = newValue
 
-            return@setOnPreferenceChangeListener true
+            true
         }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -149,7 +149,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
 
-            return@setOnPreferenceChangeListener true
+            true
         }
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
@@ -157,7 +157,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             AppCompatDelegate.setDefaultNightMode(if(newValue as Boolean)
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
 
-            return@setOnPreferenceChangeListener true
+            true
         }
 
         // Other

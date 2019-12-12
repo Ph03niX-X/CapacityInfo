@@ -124,24 +124,29 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
 
-                    pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
-                    pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
-                    pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService)).apply()
+                    pref.edit().apply {
 
-                    if (getCurrentCapacity(this@CapacityInfoService) > 0) {
+                        putInt(Preferences.LastChargeTime.prefKey, seconds)
+                        putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith)
+                        putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService))
 
-                        pref.edit().putInt(Preferences.ChargeCounter.prefKey, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt()).apply()
+                        if (getCurrentCapacity(this@CapacityInfoService) > 0) {
 
-                        pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
+                            putInt(Preferences.ResidualCapacity.prefKey, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
 
-                        pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
+                            putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
 
-                        if(!pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, true).apply()
-                    }
+                            putInt(Preferences.PercentAdded.prefKey, percentAdded)
 
-                    else {
+                            if(!pref.getBoolean(Preferences.IsSupported.prefKey, true)) putBoolean(Preferences.IsSupported.prefKey, true)
+                        }
 
-                        if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, false).apply()
+                        else {
+
+                            if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) putBoolean(Preferences.IsSupported.prefKey, false)
+                        }
+
+                        apply()
                     }
 
                     updateNotification(this@CapacityInfoService)
@@ -156,7 +161,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     delay(2 * 1000)
                 }
             }
-
         }
 
         return START_STICKY
@@ -174,17 +178,23 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if (!isFull && seconds > 1) {
 
-            if(residualCapacity > 0) pref.edit().putInt(Preferences.ChargeCounter.prefKey, (residualCapacity * 1000).toInt()).apply()
+            pref.edit().apply {
 
-            pref.edit().putInt(Preferences.LastChargeTime.prefKey, seconds).apply()
+                if(residualCapacity > 0) putInt(Preferences.ResidualCapacity.prefKey, (residualCapacity * 1000).toInt())
 
-            pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith).apply()
+                putInt(Preferences.LastChargeTime.prefKey, seconds)
 
-            pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this)).apply()
+                putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith)
 
-            if(capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat()).apply()
+                putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService))
 
-            if(percentAdded > 0) pref.edit().putInt(Preferences.PercentAdded.prefKey, percentAdded).apply()
+                if(capacityAdded > 0) putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
+
+                if(percentAdded > 0) putInt(Preferences.PercentAdded.prefKey, percentAdded)
+
+                apply()
+
+            }
 
             percentAdded = 0
 

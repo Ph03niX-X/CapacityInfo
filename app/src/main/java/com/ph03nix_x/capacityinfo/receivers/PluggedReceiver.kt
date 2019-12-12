@@ -6,9 +6,10 @@ import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
-import com.ph03nix_x.capacityinfo.Util
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
 
 class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
@@ -25,9 +26,9 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 CapacityInfoService.instance!!.batteryLevelWith = CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!)
 
-                Util.tempBatteryLevelWith = CapacityInfoService.instance!!.batteryLevelWith
+                tempBatteryLevelWith = CapacityInfoService.instance!!.batteryLevelWith
 
-                Util.tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(CapacityInfoService.instance!!)
+                tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(CapacityInfoService.instance!!)
             }
         }
     }

@@ -6,11 +6,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.AdapterView
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
@@ -18,7 +16,9 @@ import java.lang.Exception
 
 interface DebugOptionsInterface {
 
-    fun changeSettingDialog(context: Context, pref: SharedPreferences) {
+    fun changeSettingDialog(context: Context, pref: SharedPreferences) = createDialog(context)
+
+    private fun createDialog(context: Context) {
 
         val prefKeysArray = mutableListOf<String>()
 
@@ -56,7 +56,7 @@ interface DebugOptionsInterface {
                     when(key) {
 
                         Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                        Preferences.ChargeCounter.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey ->
+                        Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey ->
                             changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
 
                         Preferences.CapacityAdded.prefKey -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
@@ -64,6 +64,8 @@ interface DebugOptionsInterface {
                         else -> changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
                     }
                 }
+
+                else changePrefValue.setText("")
             }
         })
 
@@ -76,78 +78,67 @@ interface DebugOptionsInterface {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { value = s.toString() }
         })
 
-        dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
+        dialog.apply {
 
-            if(key != "")
-                try {
+            setPositiveButton(context.getString(R.string.change)) { _, _ -> positiveButton(context, key, value, prefKeysArray) }
+            setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+            show()
+        }
+    }
 
-                    if(key in prefKeysArray) {
+    private fun positiveButton(context: Context, key: String, value: Any, prefKeysArray: MutableList<String>) {
 
-                        var isInt = false
-                        var isLong = false
-                        var isFloat = false
-                        var isBoolean = false
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-                        when(key) {
+        if(key != "")
+            try {
 
-                            Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                            Preferences.ChargeCounter.prefKey, Preferences.PercentAdded.prefKey -> isInt = true
+                if(key in prefKeysArray) {
 
-                            Preferences.CapacityAdded.prefKey -> isFloat = true
+                    var toastMessage = context.getString(R.string.success_change_key, key)
 
-                            Preferences.NumberOfCharges.prefKey -> isLong = true
+                    when(key) {
 
-                            else -> isBoolean = true
-                        }
+                        Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
+                        Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey -> changeSetting(context, pref, key, value.toString().toInt())
 
-                        var toastMessage = context.getString(R.string.success_change_key, key)
+                        Preferences.CapacityAdded.prefKey -> changeSetting(context, pref, key, value.toString().toFloat())
 
-                        if(isInt) changeKey(context, pref, key, value.toString().toInt())
-                        else if(isLong) changeKey(context, pref, key, value.toString().toLong())
-                        else if(isFloat) changeKey(context, pref, key, value.toString().toFloat())
-                        else if(isBoolean) {
+                        Preferences.NumberOfCharges.prefKey -> changeSetting(context, pref, key, value.toString().toLong())
 
-                            if(value.toString().length == 1) {
+                        else -> {
 
-                                value = value == "1"
-
-                                changeKey(context, pref, key, value.toString().toBoolean())
-
-                            }
+                            if(value.toString().length == 1) changeSetting(context, pref, key, value = value == "1")
 
                             else toastMessage = context.getString(R.string.error_changing_key, key)
                         }
-
-                        Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
                     }
 
-                    else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
                 }
 
-                catch (e: Exception) { Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show() }
-        }
+                else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
+            }
 
-        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
-
-        dialog.show()
+            catch (e: Exception) { Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show() }
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Int) {
+    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Int) {
 
         pref.edit().putInt(key, value).apply()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Long) {
+    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Long) {
 
         pref.edit().putLong(key, value).apply()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Float) {
+    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Float) {
 
         pref.edit().putFloat(key, value).apply()
     }
 
-    fun changeKey(context: Context, pref: SharedPreferences, key: String, value: Boolean) {
+    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Boolean) {
 
         pref.edit().putBoolean(key, value).apply()
 

@@ -2,7 +2,7 @@ package com.ph03nix_x.capacityinfo
 
 enum class Preferences(val prefKey: String) {
 
-    IsDarkMode("is_dark_mode"), ChargeCounter("charge_counter"), IsShowInstruction("is_show_instruction"),
+    IsDarkMode("is_dark_mode"), ResidualCapacity("residual_capacity"), IsShowInstruction("is_show_instruction"),
 
     TemperatureInFahrenheit("temperature_in_fahrenheit"), DesignCapacity("design_capacity"), IsSupported("is_supported"),
 

@@ -129,7 +129,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         else if(!isCharging) {
 
-            residualCapacity = pref.getInt(Preferences.ChargeCounter.prefKey, 0).toDouble()
+            residualCapacity = pref.getInt(Preferences.ResidualCapacity.prefKey, 0).toDouble()
 
             residualCapacity /= 1000
         }

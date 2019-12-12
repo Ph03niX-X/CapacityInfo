@@ -30,13 +30,13 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
         }
 
-        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)) {
-
+        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-        }
 
         telegram = findPreference("telegram")
 

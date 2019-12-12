@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import java.io.File
 
 class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
@@ -18,9 +19,9 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
 
-                removeOldPref(context)
-
                 migrateToDefaultPrefs(context)
+
+                removeOldPref(context)
 
                 if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
                     && CapacityInfoService.instance == null) startService(context)
@@ -35,23 +36,26 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
         val newPrefs = PreferenceManager.getDefaultSharedPreferences(context)
 
         if (!newPrefs.getBoolean("migrated", false)
-            && !oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, true)) {
-            val editor = newPrefs.edit()
-            editor.putBoolean(Preferences.IsDarkMode.prefKey, oldPrefs.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                .putBoolean(Preferences.IsEnableService.prefKey, oldPrefs.getBoolean(Preferences.IsEnableService.prefKey, true))
-                .putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
-                .putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean("show_last_charge_time", true))
-                .putInt(Preferences.DesignCapacity.prefKey, oldPrefs.getInt(Preferences.DesignCapacity.prefKey, 0))
-                .putInt(Preferences.ChargeCounter.prefKey, oldPrefs.getInt(Preferences.ChargeCounter.prefKey, 0))
-                .putBoolean(Preferences.IsShowInstruction.prefKey, oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, false))
-                .putBoolean(Preferences.IsSupported.prefKey, oldPrefs.getBoolean(Preferences.IsSupported.prefKey, true))
-                .putInt(Preferences.LastChargeTime.prefKey, oldPrefs.getInt(Preferences.LastChargeTime.prefKey, 0))
-                .putInt(Preferences.BatteryLevelWith.prefKey, oldPrefs.getInt(Preferences.BatteryLevelWith.prefKey, 0))
-                .putInt(Preferences.BatteryLevelTo.prefKey, oldPrefs.getInt(Preferences.BatteryLevelTo.prefKey, 0)).apply()
+            && File("/data/data/${context.packageName}/shared_prefs/preferences.xml").exists()) {
+
+            newPrefs.edit().apply {
+
+                putBoolean(Preferences.IsDarkMode.prefKey, oldPrefs.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                putBoolean(Preferences.IsEnableService.prefKey, oldPrefs.getBoolean(Preferences.IsEnableService.prefKey, true))
+                putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
+                putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean("show_last_charge_time", true))
+                putInt(Preferences.DesignCapacity.prefKey, oldPrefs.getInt(Preferences.DesignCapacity.prefKey, 0))
+                putInt(Preferences.ResidualCapacity.prefKey, oldPrefs.getInt("charge_counter", 0))
+                putBoolean(Preferences.IsShowInstruction.prefKey, oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, false))
+                putBoolean(Preferences.IsSupported.prefKey, oldPrefs.getBoolean(Preferences.IsSupported.prefKey, true))
+                putInt(Preferences.LastChargeTime.prefKey, oldPrefs.getInt(Preferences.LastChargeTime.prefKey, 0))
+                putInt(Preferences.BatteryLevelWith.prefKey, oldPrefs.getInt(Preferences.BatteryLevelWith.prefKey, 0))
+                putInt(Preferences.BatteryLevelTo.prefKey, oldPrefs.getInt(Preferences.BatteryLevelTo.prefKey, 0))
+                putBoolean("migrated", true)
+                apply()
+            }
 
             oldPrefs.edit().clear().apply()
-
-            editor.putBoolean("migrated", true).apply()
         }
 
         if(newPrefs.contains("show_last_charge_time")) {
@@ -77,6 +81,14 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
             removeOldPref(context)
         }
+
+        if(newPrefs.contains("charge_counter")) {
+
+            newPrefs.edit().putInt(Preferences.ResidualCapacity.prefKey,
+                newPrefs.getInt("charge_counter", 0)).apply()
+
+            removeOldPref(context)
+        }
     }
 
     private fun removeOldPref(context: Context) {
@@ -98,7 +110,9 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
             if(pref.contains("is_show_information_during_discharge")) remove("is_show_information_during_discharge")
 
             if(pref.contains("notification_refresh_rate")) remove("notification_refresh_rate")
-            
+
+            if(pref.contains("charge_counter")) remove("charge_counter")
+
             apply()
         }
     }

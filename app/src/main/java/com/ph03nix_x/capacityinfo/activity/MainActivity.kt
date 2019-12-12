@@ -60,9 +60,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
+        }
 
         else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
@@ -71,13 +74,14 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.app_name)
         toolbar.inflateMenu(R.menu.main_menu)
-        toolbar.menu.findItem(R.id.settings).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+        toolbar.menu.findItem(R.id.settings).setOnMenuItemClickListener {
 
             startActivity(Intent(this, SettingsActivity::class.java))
-            return@OnMenuItemClickListener true
-        })
 
-        toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+            true
+        }
+
+        toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
 
             MaterialAlertDialogBuilder(this).apply {
 
@@ -87,8 +91,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 show()
             }
 
-            return@OnMenuItemClickListener true
-        })
+            true
+        }
 
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
@@ -121,10 +125,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) <= 0 || pref.getInt(
                 Preferences.DesignCapacity.prefKey, 0) >= 100000) {
 
-            pref.edit().putInt(Preferences.DesignCapacity.prefKey, getDesignCapacity(this)).apply()
+            pref.edit().apply {
 
-            if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) < 0)
-                pref.edit().putInt(Preferences.DesignCapacity.prefKey, (pref.getInt(Preferences.DesignCapacity.prefKey, 0) / -1)).apply()
+                putInt(Preferences.DesignCapacity.prefKey, getDesignCapacity(this@MainActivity))
+
+                if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) < 0)
+                    putInt(Preferences.DesignCapacity.prefKey, (pref.getInt(Preferences.DesignCapacity.prefKey, 0) / -1))
+
+                apply()
+            }
         }
 
         capacityDesign.text = getString(R.string.capacity_design, pref.getInt(Preferences.DesignCapacity.prefKey, 0).toString())
@@ -281,7 +290,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     if (pref.getBoolean(Preferences.IsSupported.prefKey, true)) {
 
                         if (pref.getInt(Preferences.DesignCapacity.prefKey, 0) > 0 && pref.getInt(
-                                Preferences.ChargeCounter.prefKey, 0) > 0) {
+                                Preferences.ResidualCapacity.prefKey, 0) > 0) {
 
                             runOnUiThread {
 

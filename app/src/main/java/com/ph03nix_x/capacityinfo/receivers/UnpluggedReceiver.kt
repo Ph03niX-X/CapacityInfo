@@ -8,9 +8,10 @@ import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.ServiceInterface
-import com.ph03nix_x.capacityinfo.Util
+import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
 
 class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
@@ -25,24 +26,29 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 isPowerConnected = false
 
-                if(residualCapacity > 0) pref.edit().putInt(Preferences.ChargeCounter.prefKey,
-                    (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt()).apply()
+                pref.edit().apply {
+                    
+                    if(residualCapacity > 0) putInt(Preferences.ResidualCapacity.prefKey,
+                        (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
 
-                if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
+                    if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
 
-                    pref.edit().putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds).apply()
+                        putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds)
 
-                    pref.edit().putInt(Preferences.BatteryLevelWith.prefKey, CapacityInfoService.instance!!.batteryLevelWith).apply()
+                        putInt(Preferences.BatteryLevelWith.prefKey, CapacityInfoService.instance!!.batteryLevelWith)
 
-                    pref.edit().putInt(Preferences.BatteryLevelTo.prefKey, CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!)).apply()
+                        putInt(Preferences.BatteryLevelTo.prefKey, CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!))
 
-                    if(Util.capacityAdded > 0) pref.edit().putFloat(Preferences.CapacityAdded.prefKey, Util.capacityAdded.toFloat()).apply()
+                        if(capacityAdded > 0) putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
 
-                    if(Util.percentAdded > 0) pref.edit().putInt(Preferences.PercentAdded.prefKey, Util.percentAdded).apply()
+                        if(percentAdded > 0) putInt(Preferences.PercentAdded.prefKey, percentAdded)
 
-                    Util.percentAdded = 0
+                        percentAdded = 0
 
-                    Util.capacityAdded = 0.0
+                        capacityAdded = 0.0
+                    }
+                    
+                    apply()
                 }
 
                 CapacityInfoService.instance!!.isFull = false
