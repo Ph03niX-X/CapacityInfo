@@ -33,6 +33,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var jobService: Job? = null
     private var isJob = false
     var isFull = false
+    var isStopService = false
     var batteryLevelWith = -1
     var seconds = 0
     var numberOfCharges: Long = 0
@@ -88,7 +89,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         jobService = GlobalScope.launch {
 
             while (isJob) {
-                
+
                 if(!::wakeLock.isInitialized) {
 
                     if(!::powerManager.isInitialized) powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -100,7 +101,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if(getBatteryLevel(this@CapacityInfoService) < batteryLevelWith) batteryLevelWith = getBatteryLevel(this@CapacityInfoService)
 
-                val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+                val status = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
@@ -114,8 +115,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 952 else 959)
                     else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 922 else 929)
 
-                    seconds++
-                    updateNotification(this@CapacityInfoService)
+                    if(!isStopService) {
+
+                        seconds++
+                        updateNotification(this@CapacityInfoService)
+                    }
                 }
 
                 else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull && getBatteryLevel(this@CapacityInfoService) == 100) {

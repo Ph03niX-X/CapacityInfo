@@ -10,7 +10,12 @@ class StopService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        if(CapacityInfoService.instance != null) stopService(Intent(this, CapacityInfoService::class.java))
+        if(CapacityInfoService.instance != null) {
+
+            CapacityInfoService.instance!!.isStopService = true
+
+            stopService(Intent(this, CapacityInfoService::class.java))
+        }
 
         stopService(Intent(this, StopService::class.java))
 
