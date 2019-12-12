@@ -26,7 +26,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         private lateinit var notificationBuilder: NotificationCompat.Builder
         private lateinit var channelId: String
-        const val notificationId = 101
+        private const val notificationId = 101
     }
 
     fun createNotification(context: Context) {

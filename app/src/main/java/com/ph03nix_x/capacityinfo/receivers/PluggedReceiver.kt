@@ -24,11 +24,11 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 CapacityInfoService.instance!!.numberOfCharges = PreferenceManager.getDefaultSharedPreferences(context).getLong(Preferences.NumberOfCharges.prefKey, 0)
 
-                CapacityInfoService.instance!!.batteryLevelWith = CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!)
+                CapacityInfoService.instance!!.batteryLevelWith = CapacityInfoService.instance!!.getBatteryLevel(context)
 
                 tempBatteryLevelWith = CapacityInfoService.instance!!.batteryLevelWith
 
-                tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(CapacityInfoService.instance!!)
+                tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(context)
             }
         }
     }

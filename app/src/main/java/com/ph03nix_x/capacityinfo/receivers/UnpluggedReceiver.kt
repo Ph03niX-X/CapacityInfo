@@ -37,7 +37,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                         putInt(Preferences.BatteryLevelWith.prefKey, CapacityInfoService.instance!!.batteryLevelWith)
 
-                        putInt(Preferences.BatteryLevelTo.prefKey, CapacityInfoService.instance!!.getBatteryLevel(CapacityInfoService.instance!!))
+                        putInt(Preferences.BatteryLevelTo.prefKey, CapacityInfoService.instance!!.getBatteryLevel(context))
 
                         if(capacityAdded > 0) putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
 
