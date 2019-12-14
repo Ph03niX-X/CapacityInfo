@@ -8,7 +8,7 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1ZjGkA0t_fB2j7o-95h8qEUOXwzE5ep_4">
+<a href="https://drive.google.com/open?id=1XDgT8PQ1_pTjmyF78gDpNKle4tDFH9rR">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
@@ -50,7 +50,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 <b>Instruction:</b>
 </p>
 
-In order for the application to show the remaining capacity, charge the battery to 100% until it is “Charged”, and the service must be turned on. If the design capacity is incorrect, change it in the application settings.
+In order for the application to show the remaining capacity, put the device on charge, while the service must be turned on. For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed. If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%. If the design capacity is incorrect, change it in the application settings.
 
 <b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to “kill” applications, or completely “kills” applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS
 
