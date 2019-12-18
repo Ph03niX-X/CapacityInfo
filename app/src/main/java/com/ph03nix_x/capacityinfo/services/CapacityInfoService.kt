@@ -49,6 +49,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         super.onCreate()
 
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
         when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {

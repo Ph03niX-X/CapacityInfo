@@ -171,8 +171,10 @@ interface BatteryInfoInterface : TimeSpanInterface {
         val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()
 
         return context.getString(R.string.battery_wear,
-            if(residualCapacity > 0) "${DecimalFormat("#.#").format(100 - ((residualCapacity / capacityDesign) * 100))}%" else "0%",
-            if (residualCapacity > 0) DecimalFormat("#.#").format(capacityDesign - residualCapacity) else "0")
+            if(residualCapacity > 0 && residualCapacity < getDesignCapacity(context))
+                "${DecimalFormat("#.#").format(100 - ((residualCapacity / capacityDesign) * 100))}%" else "0%",
+            if (residualCapacity > 0 && residualCapacity < getDesignCapacity(context))
+                DecimalFormat("#.#").format(capacityDesign - residualCapacity) else "0")
     }
 
     fun getChargingTime(context: Context, seconds: Int): String {
