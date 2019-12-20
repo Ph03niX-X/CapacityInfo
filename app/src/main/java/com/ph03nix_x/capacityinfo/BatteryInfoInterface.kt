@@ -11,6 +11,7 @@ import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
+import java.lang.RuntimeException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,7 +34,12 @@ interface BatteryInfoInterface : TimeSpanInterface {
         return (Class.forName(powerProfileClass).getMethod("getBatteryCapacity").invoke(mPowerProfile) as Double).toInt()
     }
 
-    fun getBatteryLevel(context: Context) = (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+    fun getBatteryLevel(context: Context) = try {
+
+        (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+    }
+
+    catch (e: RuntimeException) { 0 }
 
     fun getChargingCurrent(context: Context): Int {
 
@@ -66,13 +72,18 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
     fun getCurrentCapacity(context: Context): Double {
 
-        val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+      return try {
 
-        var currentCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
+          val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        if (currentCapacity < 0) currentCapacity /= -1
+          var currentCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
 
-        return currentCapacity / 1000
+          if (currentCapacity < 0) currentCapacity /= -1
+
+          currentCapacity / 1000
+      }
+
+      catch (e: RuntimeException) { 0.0 }
     }
 
     fun getCapacityAdded(context: Context): String {
