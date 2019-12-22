@@ -38,6 +38,9 @@ class FeedbackFragment : PreferenceFragmentCompat() {
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
 
+        else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
         telegram = findPreference("telegram")
 
         email = findPreference("email")

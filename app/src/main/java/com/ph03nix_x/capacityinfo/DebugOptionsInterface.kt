@@ -10,8 +10,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ph03nix_x.capacityinfo.activity.DebugActivity
 import com.ph03nix_x.capacityinfo.activity.MainActivity
-import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 import java.lang.Exception
 
 interface DebugOptionsInterface {
@@ -142,9 +142,13 @@ interface DebugOptionsInterface {
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
+        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) {
 
-        (context as SettingsActivity).recreate()
+            MainActivity.instance?.recreate()
+
+            (context as DebugActivity).recreate()
+
+        }
     }
 
     fun resetSettingDialog(context: Context, pref: SharedPreferences) {
@@ -182,12 +186,14 @@ interface DebugOptionsInterface {
 
                     pref.edit().remove(key).apply()
 
-                    if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) MainActivity.instance?.recreate()
+                    if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) {
 
-                    (context as SettingsActivity).recreate()
+                        MainActivity.instance?.recreate()
+
+                        (context as DebugActivity).recreate()
+                    }
 
                 } else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
-
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
@@ -206,7 +212,7 @@ interface DebugOptionsInterface {
 
                 pref.edit().clear().apply()
                 MainActivity.instance?.recreate()
-                (context as SettingsActivity).recreate()
+                (context as DebugActivity).recreate()
 
                 Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
             }

@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import androidx.appcompat.app.AppCompatDelegate
@@ -37,13 +36,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var about: Preference? = null
     private var feedback: Preference? = null
 
-    //Debug
-    private var debug: PreferenceCategory? = null
-    private var changeSetting: Preference? = null
-    private var resetSetting: Preference? = null
-    private var resetSettings: Preference? = null
-    private var hideDebug: Preference? = null
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.settings)
@@ -61,6 +53,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+        else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         // Service and Notification
 
@@ -203,55 +198,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             }
 
             true
-        }
-
-        // Debug
-
-        debug = findPreference("debug")
-
-        changeSetting = findPreference("change_setting")
-
-        resetSetting = findPreference("reset_setting")
-
-        resetSettings = findPreference("reset_settings")
-
-        hideDebug = findPreference("hide_debug")
-
-        debug?.isVisible = pref.getBoolean(Preferences.IsShowDebug.prefKey, false)
-
-        if(pref.getBoolean(Preferences.IsShowDebug.prefKey, false)) {
-
-            changeSetting?.setOnPreferenceClickListener {
-
-                changeSettingDialog(requireContext(), pref)
-
-                true
-            }
-
-            resetSetting?.setOnPreferenceClickListener {
-
-                resetSettingDialog(requireContext(), pref)
-
-                true
-            }
-
-            resetSettings?.setOnPreferenceClickListener {
-
-                resetSettingsDialog(requireContext(), pref)
-
-                true
-            }
-
-            hideDebug?.setOnPreferenceClickListener {
-
-                debug?.isVisible = false
-
-                pref.edit().putBoolean(Preferences.IsShowDebug.prefKey, false).apply()
-
-                Toast.makeText(requireContext(), getString(R.string.debug_options_are_hidden), Toast.LENGTH_LONG).show()
-
-                true
-            }
         }
     }
 }

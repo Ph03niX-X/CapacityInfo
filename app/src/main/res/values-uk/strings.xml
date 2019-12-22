@@ -76,7 +76,6 @@
     <string name="auto_start">Автоматичний запуск</string>
     <string name="auto_start_summary">Запускати службу після запуску ОС</string>
     <string name="debug">Налагодження</string>
-    <string name="debug_unlocked">Опції налагодження успішно розблоковані</string>
     <string name="change_setting">Змінити налаштування</string>
     <string name="pref_key">Ключ</string>
     <string name="pref_value">Значення</string>
@@ -89,6 +88,4 @@
     <string name="reset_settings">Скинути налаштування</string>
     <string name="are_you_sure">Ви впевнені?</string>
     <string name="settings_reset_successfully">Налаштування успішно скинуті</string>
-    <string name="hide_debug_options">Приховати опції налагодження</string>
-    <string name="debug_options_are_hidden">Опції налагодження приховані</string>
 </resources>

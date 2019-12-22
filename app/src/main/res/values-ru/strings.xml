@@ -76,7 +76,6 @@
     <string name="auto_start">Автоматический запуск</string>
     <string name="auto_start_summary">Запускать службу после запуска ОС</string>
     <string name="debug">Отладка</string>
-    <string name="debug_unlocked">Опции отладки успешно разблокированы</string>
     <string name="change_setting">Изменить настройку</string>
     <string name="pref_key">Ключ</string>
     <string name="pref_value">Значение</string>
@@ -89,6 +88,4 @@
     <string name="reset_settings">Сбросить все настройки</string>
     <string name="are_you_sure">Вы уверены?</string>
     <string name="settings_reset_successfully">Настройки успешно сброшены</string>
-    <string name="hide_debug_options">Скрыть опции отладки</string>
-    <string name="debug_options_are_hidden">Опции отладки скрыты</string>
 </resources>

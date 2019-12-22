@@ -80,7 +80,6 @@
     <string name="auto_start">Auto Start</string>
     <string name="auto_start_summary">Start the service after starting the OS</string>
     <string name="debug">Debug</string>
-    <string name="debug_unlocked">Debug Options Successfully Unlocked</string>
     <string name="change_setting">Change Setting</string>
     <string name="pref_key">Key</string>
     <string name="pref_value">Value</string>
@@ -93,6 +92,4 @@
     <string name="reset_settings">Reset All Settings</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="settings_reset_successfully">Settings reset successfully</string>
-    <string name="hide_debug_options">Hide Debug Options</string>
-    <string name="debug_options_are_hidden">Debug options are hidden</string>
 </resources>

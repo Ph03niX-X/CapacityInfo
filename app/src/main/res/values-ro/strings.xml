@@ -80,7 +80,6 @@
     <string name="auto_start">Pornire automată</string>
     <string name="auto_start_summary">Se pornește serviciul după pornirea sistemului de operare</string>
     <string name="debug">Depanare</string>
-    <string name="debug_unlocked">Opțiunile de depanare deblocate cu succes</string>
     <string name="change_setting">Schimbare cheie de preferință</string>
     <string name="pref_key">Cheie</string>
     <string name="pref_value">Valoare</string>
@@ -93,6 +92,4 @@
     <string name="reset_settings">Ștergeți toate cheile de preferință</string>
     <string name="are_you_sure">Sunteți sigur?</string>
     <string name="settings_reset_successfully">Cheile de preferință au fost șterse cu succes</string>
-    <string name="hide_debug_options">Ascundeți opțiunile de depanare</string>
-    <string name="debug_options_are_hidden">Opțiunile de depanare sunt ascunse</string>
 </resources>

@@ -113,6 +113,8 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
             if(pref.contains("charge_counter")) remove("charge_counter")
 
+            if(pref.contains("is_show_debug")) remove("is_show_debug")
+
             apply()
         }
     }

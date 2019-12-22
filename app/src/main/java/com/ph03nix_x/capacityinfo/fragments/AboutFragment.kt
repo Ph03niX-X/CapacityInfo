@@ -29,7 +29,6 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belorussianTranslation: Preference? = null
-    private var count = 1
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -48,6 +47,9 @@ class AboutFragment : PreferenceFragmentCompat() {
         else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
             AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+        else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         developer = findPreference("developer")
 
@@ -76,19 +78,6 @@ class AboutFragment : PreferenceFragmentCompat() {
             try { context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:${developer?.summary}"))) }
 
             catch(e: ActivityNotFoundException) {}
-
-            true
-        }
-
-        if(!pref.getBoolean(Preferences.IsShowDebug.prefKey, false))
-        build?.setOnPreferenceClickListener {
-
-            if(count < 10) count++
-            else if(!pref.getBoolean(Preferences.IsShowDebug.prefKey, false)) {
-
-                pref.edit().putBoolean(Preferences.IsShowDebug.prefKey, true).apply()
-                Toast.makeText(requireContext(), getString(R.string.debug_unlocked), Toast.LENGTH_LONG).show()
-            }
 
             true
         }

@@ -38,6 +38,18 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.DebugActivity"
+                android:launchMode="singleTask"
+                android:label="@string/debug"
+                android:parentActivityName=".activity.DebugActivity">
+            <intent-filter>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <service
                 android:name=".services.CapacityInfoService"
                 android:exported="true"
@@ -62,6 +74,13 @@
 
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
 
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.OpenDebugReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+                <data android:scheme="android_secret_code" android:host="24324" />
             </intent-filter>
         </receiver>
 

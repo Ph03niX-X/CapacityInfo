@@ -76,7 +76,6 @@
     <string name="auto_start">Аўтаматычны запуск</string>
     <string name="auto_start_summary">Запускаць службу пасля запуску АС</string>
     <string name="debug">Адладка</string>
-    <string name="debug_unlocked">Опцыі адладкі паспяхова разблакавалі</string>
     <string name="change_setting">Змяніць наладу</string>
     <string name="pref_key">Ключ</string>
     <string name="pref_value">Значэнне</string>
@@ -89,6 +88,4 @@
     <string name="reset_settings">Скінуць усе налады</string>
     <string name="are_you_sure">Вы ўпэўнены?</string>
     <string name="settings_reset_successfully">Налады паспяхова скінуты</string>
-    <string name="hide_debug_options">Схаваць опцыі адладкі</string>
-    <string name="debug_options_are_hidden">Опцыі адладкі схаваны</string>
 </resources>
