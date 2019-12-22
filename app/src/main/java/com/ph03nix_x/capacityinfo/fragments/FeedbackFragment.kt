@@ -72,7 +72,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 val build = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionCode?.toString()
 
                 startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). Feedback")))
+                    Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). ${context!!.getString(R.string.feedback)}")))
             }
 
             catch (e: ActivityNotFoundException) {

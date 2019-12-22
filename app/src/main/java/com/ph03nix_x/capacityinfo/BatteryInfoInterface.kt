@@ -90,9 +90,9 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-            return when(intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+            return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 

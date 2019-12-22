@@ -56,7 +56,6 @@ interface NotificationInterface : BatteryInfoInterface {
         if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
         (context as CapacityInfoService).startForeground(notificationId, notificationBuilder.build())
         else (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId)
-
     }
 
     fun updateNotification(context: Context) {
@@ -88,8 +87,7 @@ interface NotificationInterface : BatteryInfoInterface {
     private fun createNotificationChannel(context: Context): String {
         val channelId = "service_channel"
         val channelName = context.getString(R.string.service)
-        val chan = NotificationChannel(channelId,
-            channelName, NotificationManager.IMPORTANCE_LOW)
+        val chan = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
         chan.setShowBadge(false)
         val service = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         service.createNotificationChannel(chan)

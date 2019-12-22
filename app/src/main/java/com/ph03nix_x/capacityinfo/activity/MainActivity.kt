@@ -5,7 +5,6 @@ import android.os.BatteryManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
@@ -274,8 +273,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     runOnUiThread {
 
-//                        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
                         technology.text = getString(R.string.battery_technology, batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
 
                         temperatute.text = if (!pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false)) getString(R.string.temperature_celsius,
@@ -293,8 +290,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 Preferences.ResidualCapacity.prefKey, 0) > 0) {
 
                             runOnUiThread {
-
-//                                batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                                 residualCapacity.text =  getResidualCapacity(this@MainActivity,
                                     batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING)

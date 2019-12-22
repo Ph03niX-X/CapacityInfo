@@ -147,7 +147,6 @@ interface DebugOptionsInterface {
             MainActivity.instance?.recreate()
 
             (context as DebugActivity).recreate()
-
         }
     }
 
@@ -199,7 +198,6 @@ interface DebugOptionsInterface {
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 
         dialog.show()
-
     }
 
     fun resetSettingsDialog(context: Context, pref: SharedPreferences) {
