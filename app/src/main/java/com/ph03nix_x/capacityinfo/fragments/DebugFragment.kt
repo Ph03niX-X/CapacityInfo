@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
@@ -18,6 +20,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
+    private var openSettings: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -46,6 +49,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         resetSettings = findPreference("reset_settings")
 
+        openSettings = findPreference("open_settings")
+
         changeSetting?.setOnPreferenceClickListener {
 
             changeSettingDialog(requireContext(), pref)
@@ -63,6 +68,16 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetSettings?.setOnPreferenceClickListener {
 
             resetSettingsDialog(requireContext(), pref)
+
+            true
+        }
+
+        openSettings?.setOnPreferenceClickListener {
+
+            startActivity(Intent(context!!, SettingsActivity::class.java).apply {
+
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
 
             true
         }

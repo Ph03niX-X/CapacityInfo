@@ -47,7 +47,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         rateTheApp = findPreference("rate_the_app")
 
-        rateTheApp?.isVisible = isGooglePlay()
+        rateTheApp?.isVisible = isGooglePlay() || pref.getBoolean(Preferences.IsForciblyShowRateTheApp.prefKey, false)
 
         telegram?.setOnPreferenceClickListener {
 
@@ -86,7 +86,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
             true
         }
 
-        if(isGooglePlay())
+        if(rateTheApp?.isVisible!!)
 
             rateTheApp?.setOnPreferenceClickListener {
 
