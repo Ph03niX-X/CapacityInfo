@@ -8,7 +8,7 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1XDgT8PQ1_pTjmyF78gDpNKle4tDFH9rR">
+<a href="https://drive.google.com/open?id=1kIqTeWUT8yytyjr0bDts5VQz_buqWE3s">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
@@ -24,7 +24,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1LxTNTA3LnDpH1cMl1vYDEjjQ7TYF-aaC">
+<a href="https://drive.google.com/open?id=11tVAlgQNxso8kMuzGYvkFa9kVxLSTwAF">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
