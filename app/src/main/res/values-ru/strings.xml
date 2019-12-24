@@ -88,4 +88,6 @@
     <string name="reset_settings">Сбросить все настройки</string>
     <string name="are_you_sure">Вы уверены?</string>
     <string name="settings_reset_successfully">Настройки успешно сброшены</string>
+    <string name="forcibly_show_rate_the_app">"Принудительно показывать \"Оценить приложение\""</string>
+    <string name="open_settings">Открыть настройки</string>
 </resources>
