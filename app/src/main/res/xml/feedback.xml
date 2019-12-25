@@ -8,12 +8,14 @@
     <Preference
             app:title="@string/telegram"
             app:summary="\@Ph03niX-X"
+            app:singleLineTitle="false"
             app:icon="@drawable/telegram"
             android:key="telegram"/>
 
     <Preference
             app:title="@string/email"
             app:summary="Ph03niX-X@outlook.com"
+            app:singleLineTitle="false"
             app:icon="@drawable/email"
             android:key="email"/>
 

@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <SwitchPreferenceCompat
                 android:title="@string/forcibly_show_rate_the_app"
+                app:singleLineTitle="false"
                 android:key="is_forcibly_show_rate_the_app"/>
 
         <Preference
                 android:title="@string/change_setting"
+                app:singleLineTitle="false"
                 android:key="change_setting"/>
 
         <Preference
                 android:title="@string/reset_setting"
+                app:singleLineTitle="false"
                 android:key="reset_setting"/>
 
         <Preference
                 android:title="@string/reset_settings"
+                app:singleLineTitle="false"
                 android:key="reset_settings"/>
 
         <Preference
                 android:title="@string/open_settings"
+                app:singleLineTitle="false"
                 android:key="open_settings"/>
 
 </PreferenceScreen>
