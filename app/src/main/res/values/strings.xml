@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Capacity Info</string>
+    <string name="app_name" translatable="false">Capacity Info</string>
     <string name="capacity_design">"Design Capacity: %1$s mAh"</string>
     <string name="residual_capacity">"Residual Capacity: %1$s mAh (%2$s)"</string>
     <string name="current_capacity">"Current Capacity: %1$s mAh"</string>
     <string name="battery_wear">"Battery Wear: %1$s (%2$s mAh)"</string>
     <string name="dark_mode">Dark Mode</string>
-    <string name="github">GitHub</string>
+    <string name="github" translatable="false">GitHub</string>
     <string name="charging_current">"Charging current: %1$s mA"</string>
     <string name="discharge_current">"Discharge current: %1$s mA"</string>
     <string name="not_supported">The application does not support your device</string>
@@ -28,7 +28,7 @@
     <string name="full">Charged</string>
     <string name="unknown">Unknown</string>
     <string name="plugged_ac">AC</string>
-    <string name="plugged_usb">USB</string>
+    <string name="plugged_usb" translatable="false">USB</string>
     <string name="plugged_wireless">Wireless</string>
     <string name="battery_level">"Battery Level: %1$s"</string>
     <string name="show_last_charge_time">Show last charge time</string>
@@ -64,8 +64,8 @@
     <string name="romanian_translation">Romanian translation</string>
     <string name="belorussian_translation">Belorussian translation</string>
     <string name="feedback">Feedback</string>
-    <string name="telegram">Telegram</string>
-    <string name="email">E-mail</string>
+    <string name="telegram" translatable="false">Telegram</string>
+    <string name="email" translatable="false">E-mail</string>
     <string name="telegram_link_copied">Telegram link copied</string>
     <string name="email_copied">E-mail copied</string>
     <string name="auto_dark_mode">Auto Dark Mode</string>
