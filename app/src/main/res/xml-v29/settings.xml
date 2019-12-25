@@ -37,7 +37,7 @@
                 android:title="@string/show_capacity_added"
                 app:defaultValue="true"
                 app:singleLineTitle="false"
-                android:key="is_show_capacity_added_notification"/>
+                android:key="is_show_capacity_added_in_notification"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"
