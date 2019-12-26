@@ -16,9 +16,9 @@ import java.lang.Exception
 
 interface DebugOptionsInterface {
 
-    fun changeSettingDialog(context: Context, pref: SharedPreferences) = createDialog(context)
+    fun changeSettingDialog(context: Context, pref: SharedPreferences) = createDialog(context, pref)
 
-    private fun createDialog(context: Context) {
+    private fun createDialog(context: Context, pref: SharedPreferences) {
 
         val prefKeysArray = mutableListOf<String>()
 
@@ -56,12 +56,26 @@ interface DebugOptionsInterface {
                     when(key) {
 
                         Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                        Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey ->
+                        Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey -> {
+
+                            changePrefValue.setText(pref.all.getValue(key).toString())
+
                             changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                        }
 
-                        Preferences.CapacityAdded.prefKey -> changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                        Preferences.CapacityAdded.prefKey -> {
 
-                        else -> changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
+                            changePrefValue.setText(pref.all.getValue(key).toString())
+
+                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                        }
+
+                        else -> {
+
+                            changePrefValue.setText(if(pref.all.getValue(key).toString() == "true") "1" else "0")
+
+                            changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
+                        }
                     }
                 }
 
