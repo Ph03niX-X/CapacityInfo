@@ -182,7 +182,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (!isFull && seconds > 1) {
+        if (!isFull && seconds > 0) {
 
             pref.edit().apply {
 

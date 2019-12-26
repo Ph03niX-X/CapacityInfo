@@ -31,7 +31,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     if(residualCapacity > 0) putInt(Preferences.ResidualCapacity.prefKey,
                         (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
 
-                    if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 1) {
+                    if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 0) {
 
                         putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds)
 
