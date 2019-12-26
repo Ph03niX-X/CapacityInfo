@@ -220,9 +220,14 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
                                 runOnUiThread {
 
-                                    if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
+                                    if(chargingTime.visibility == View.GONE && pref.getBoolean(Preferences.IsEnableService.prefKey, true))
+                                        chargingTime.visibility = View.VISIBLE
 
-                                    chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
+                                    else if(chargingTime.visibility == View.VISIBLE && !pref.getBoolean(Preferences.IsEnableService.prefKey, true))
+                                        chargingTime.visibility = View.GONE
+
+                                    if(chargingTime.visibility == View.VISIBLE)
+                                        chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
                                 }
 
                             else -> runOnUiThread { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
@@ -379,7 +384,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
                     }
 
-                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 959 else 966)
+                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 958 else 965)
                 }
             }
     }
