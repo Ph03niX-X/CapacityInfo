@@ -51,8 +51,6 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     apply()
                 }
 
-                CapacityInfoService.instance!!.isFull = false
-
                 CapacityInfoService.instance!!.seconds = 0
 
                 batteryLevel = 0

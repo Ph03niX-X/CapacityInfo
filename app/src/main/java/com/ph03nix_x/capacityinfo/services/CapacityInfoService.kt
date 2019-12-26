@@ -114,8 +114,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     for(display in displayManager.displays)
                         if(display.state == Display.STATE_ON)
-                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 952 else 959)
-                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 922 else 929)
+                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 950 else 957)
+                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 920 else 927)
 
                     if(!isStopService) {
 
@@ -161,6 +161,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 else {
 
                     updateNotification(this@CapacityInfoService)
+
+                    if(isFull) isFull = false
 
                     if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
