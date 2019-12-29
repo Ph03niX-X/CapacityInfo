@@ -14,6 +14,7 @@ alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 alt="Get it on Google Drive" width="300" border="10"/></a>
 </p>
 
+---
 <p align="center">
  <b>Download Latest Beta Version:</b>
   </p>
@@ -24,12 +25,13 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=17Ch8A3ZtfGMi8_tSYrHYpBq8SpUnf4EJ">
+<a href="https://drive.google.com/open?id=1GHHfpcrzwNR1YsNb1InxgIhpfisOyL8i">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
 </p>
 
+---
 <p align="center">
  <b>Download All Versions:</b>
   </p>
@@ -40,12 +42,14 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 alt="Get it on Google Drive" width="300" border="10"/></a>
 </p>
 
+---
 <p align="center">
 <b>Screenshots:</b>
 </p>
 
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123405.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123411.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123419.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123427.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123434.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123439.png" width="270" height="585"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/Screenshots/Screenshot_20191117-123445.png" width="270" height="585">
 
+---
 <p align="center">
 <b>Instruction:</b>
 </p>
@@ -54,6 +58,7 @@ In order for the application to show the remaining capacity, put the device on c
 
 <b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to “kill” applications, or completely “kills” applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS
 
+---
 <p align="center">
 <b>Supported Languages:</b>
 </p>
@@ -64,4 +69,5 @@ In order for the application to show the remaining capacity, put the device on c
 4. Romanian
 5. Belorussian
 
+---
 If you want to help with the translation, write to Telegram - [@Ph03niX_X](https://t.me/Ph03niX_X) or E-mail - Ph03niX-X@outlook.com, or click "Fork" on GitHub
