@@ -124,7 +124,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
                 }
 
-                else if (status == BatteryManager.BATTERY_STATUS_FULL && !isFull && getBatteryLevel(this@CapacityInfoService) == 100) {
+                else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
+                    && getBatteryLevel(this@CapacityInfoService) == 100) {
                     
                     isFull = true
 
@@ -161,8 +162,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 else {
 
                     updateNotification(this@CapacityInfoService)
-
-                    if(isFull) isFull = false
 
                     if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
