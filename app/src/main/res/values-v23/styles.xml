@@ -21,4 +21,12 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="TitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/titleSubtitleWhiteTheme</item>
+    </style>
+
+    <style name="SubtitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/titleSubtitleWhiteTheme</item>
+    </style>
+
 </resources>

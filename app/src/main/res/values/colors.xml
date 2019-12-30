@@ -4,4 +4,6 @@
     <color name="red">#C62828</color>
     <color name="blue">#4285F4</color>
     <color name="white">#c7c7c7</color>
+    <color name="titleSubtitleWhiteTheme">#5F6368</color>
+    <color name="titleSubtitleDarkTheme">@android:color/white</color>
 </resources>
