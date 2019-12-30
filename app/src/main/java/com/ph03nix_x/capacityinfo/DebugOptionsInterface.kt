@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.text.Editable
+import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
@@ -44,11 +46,11 @@ interface DebugOptionsInterface : ServiceInterface{
 
         changePrefKey.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable?) { }
+            override fun afterTextChanged(s: Editable) { }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
                 key = s.toString()
                 changePrefValue.isEnabled = key in prefKeysArray
@@ -57,24 +59,45 @@ interface DebugOptionsInterface : ServiceInterface{
 
                     when(key) {
 
+                        Preferences.Language.prefKey -> {
+
+                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(2))
+
+                            changePrefValue.setText(pref.all.getValue(key).toString())
+                        }
+
                         Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
                         Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey -> {
 
+                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(20))
+
                             changePrefValue.setText(pref.all.getValue(key).toString())
+
+                            changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
                             changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
                         }
 
                         Preferences.CapacityAdded.prefKey -> {
 
+                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
+
                             changePrefValue.setText(pref.all.getValue(key).toString())
 
-                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                            changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
+
+                            if(changePrefValue.text.toString().contains("."))
+                                changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                            else changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
                         }
 
                         else -> {
 
+                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
+
                             changePrefValue.setText(if(pref.all.getValue(key).toString() == "true") "1" else "0")
+
+                            changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
                             changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
                         }
@@ -87,11 +110,25 @@ interface DebugOptionsInterface : ServiceInterface{
 
         changePrefValue.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable?) { }
+            override fun afterTextChanged(s: Editable) { }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { value = s.toString() }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                if(changePrefValue.isEnabled && s.isNotEmpty() && changePrefKey.text.toString() == Preferences.CapacityAdded.prefKey) {
+
+                    if(s.first() == '.') changePrefValue.setText("")
+
+                    if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
+                        changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                    else if(changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
+                        changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                }
+
+                value = s.toString()
+            }
         })
 
         dialog.apply {
@@ -106,7 +143,7 @@ interface DebugOptionsInterface : ServiceInterface{
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(key != "")
+        if(key != "" && value != "")
             try {
 
                 if(key in prefKeysArray) {
@@ -114,6 +151,8 @@ interface DebugOptionsInterface : ServiceInterface{
                     var toastMessage = context.getString(R.string.success_change_key, key)
 
                     when(key) {
+
+                        Preferences.Language.prefKey -> changeSetting(context, pref, key, value.toString())
 
                         Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
                         Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey -> changeSetting(context, pref, key, value.toString().toInt())
@@ -139,6 +178,20 @@ interface DebugOptionsInterface : ServiceInterface{
             catch (e: Exception) { Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show() }
     }
 
+    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: String) {
+
+        pref.edit().putString(key, value).apply()
+
+        if(key == Preferences.Language.prefKey) {
+
+            changeLanguage(context, value)
+
+            MainActivity.instance?.recreate()
+
+            (context as DebugActivity).recreate()
+        }
+    }
+
     fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Int) {
 
         pref.edit().putInt(key, value).apply()
@@ -158,8 +211,7 @@ interface DebugOptionsInterface : ServiceInterface{
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey
-            || key == Preferences.Language.prefKey) {
+        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) {
 
             MainActivity.instance?.recreate()
 
@@ -249,6 +301,7 @@ interface DebugOptionsInterface : ServiceInterface{
         LocaleHelper.setLocale(context, newValue)
 
         MainActivity.instance?.recreate()
+
         (context as DebugActivity).recreate()
 
         if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) startService(context)

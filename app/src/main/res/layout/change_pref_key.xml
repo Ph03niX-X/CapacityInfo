@@ -33,8 +33,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/change_pref_value_edit"
                 android:enabled="false"
-                android:maxLength="20"
-                android:inputType="numberDecimal|number"
+                android:digits="abcdefghijklmnopqrstuvwxyz"
                 tools:text="0"/>
 
     </com.google.android.material.textfield.TextInputLayout>
