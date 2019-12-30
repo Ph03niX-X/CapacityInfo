@@ -18,7 +18,7 @@
         <com.ph03nix_x.capacityinfo.view.CenteredToolbar
                 android:layout_width="match_parent"
                 android:id="@+id/debug_toolbar"
-                app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                app:navigationIcon="@drawable/ic_arrow_back_24dp"
                 android:layout_height="wrap_content"/>
     </com.google.android.material.card.MaterialCardView>
 
