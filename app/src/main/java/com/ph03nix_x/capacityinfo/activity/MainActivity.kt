@@ -10,10 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.*
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
@@ -57,6 +55,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         super.onCreate(savedInstanceState)
+
+        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
+
         setContentView(R.layout.activity_main)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {

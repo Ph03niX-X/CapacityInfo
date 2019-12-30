@@ -6,11 +6,10 @@ import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
-import com.ph03nix_x.capacityinfo.NotificationInterface
-import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
@@ -73,6 +72,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
+        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

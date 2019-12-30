@@ -4,6 +4,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.LocaleHelper
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
+import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
@@ -18,6 +21,9 @@ class DebugActivity : AppCompatActivity() {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         super.onCreate(savedInstanceState)
+
+        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
+
         setContentView(R.layout.debug_activity)
 
         toolbar = findViewById(R.id.debug_toolbar)

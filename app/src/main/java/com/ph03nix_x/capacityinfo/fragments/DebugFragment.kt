@@ -5,10 +5,13 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.DebugOptionsInterface
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
+import com.ph03nix_x.capacityinfo.MainApp.Companion.getLanguagesList
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
@@ -21,6 +24,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
     private var openSettings: Preference? = null
+    private var selectLanguage: ListPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -51,6 +55,13 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         openSettings = findPreference("open_settings")
 
+        selectLanguage = findPreference(Preferences.Language.prefKey)
+
+        if(pref.getString(Preferences.Language.prefKey, null) !in getLanguagesList())
+            selectLanguage?.value = defLang
+
+        selectLanguage?.summary = selectLanguage?.entry
+
         changeSetting?.setOnPreferenceClickListener {
 
             changeSettingDialog(requireContext(), pref)
@@ -80,6 +91,14 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             })
 
             true
+        }
+
+        selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
+
+            changeLanguage(requireContext(), newValue as String)
+
+            true
+
         }
     }
 }

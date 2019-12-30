@@ -4,11 +4,10 @@ import android.content.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.*
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 class SettingsActivity : AppCompatActivity(), ServiceInterface {
@@ -21,6 +20,9 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         super.onCreate(savedInstanceState)
+
+        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
+
         setContentView(R.layout.settings_activity)
 
         toolbar = findViewById(R.id.settings_toolbar)

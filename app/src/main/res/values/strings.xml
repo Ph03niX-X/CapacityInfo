@@ -94,4 +94,5 @@
     <string name="settings_reset_successfully">Settings reset successfully</string>
     <string name="forcibly_show_rate_the_app">"Forcibly Show \"Rate the app\""</string>
     <string name="open_settings">Open Settings</string>
+    <string name="application_language">Application Language</string>
 </resources>

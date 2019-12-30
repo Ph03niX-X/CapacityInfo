@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,9 +13,10 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.activity.DebugActivity
 import com.ph03nix_x.capacityinfo.activity.MainActivity
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import java.lang.Exception
 
-interface DebugOptionsInterface {
+interface DebugOptionsInterface : ServiceInterface{
 
     fun changeSettingDialog(context: Context, pref: SharedPreferences) = createDialog(context, pref)
 
@@ -231,5 +233,20 @@ interface DebugOptionsInterface {
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
         }
+    }
+
+    fun changeLanguage(context: Context, newValue: String) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(CapacityInfoService.instance != null)
+            context.stopService(Intent(context, CapacityInfoService::class.java))
+
+        LocaleHelper.setLocale(context, newValue)
+
+        MainActivity.instance?.recreate()
+        (context as DebugActivity).recreate()
+
+        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) startService(context)
     }
 }
