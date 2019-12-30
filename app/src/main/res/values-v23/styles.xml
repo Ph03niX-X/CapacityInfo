@@ -8,6 +8,7 @@
         <item name="android:scrollbarThumbVertical">@color/blue</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialog</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialog</item>
     </style>
 
     <style name="AppTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
