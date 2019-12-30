@@ -17,7 +17,7 @@
                 app:singleLineTitle="false"
                 android:key="reset_setting"/>
 
-        <ListPreference
+        <Preference
                 android:title="@string/reset_settings"
                 app:singleLineTitle="false"
                 android:key="reset_settings"/>
