@@ -9,11 +9,11 @@
         <item name="android:windowBackground">@color/dark</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:scrollbarThumbVertical">@color/red</item>
-        <item name="materialAlertDialogTheme">@style/AppNightTheme.AlertDialog</item>
-        <item name="alertDialogTheme">@style/AppNightTheme.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
-    <style name="AppNightTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:windowBackground">@color/dark</item>
         <item name="android:background">@color/dark</item>
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButtonStyle</item>

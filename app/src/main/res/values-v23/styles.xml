@@ -7,11 +7,11 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="android:scrollbarThumbVertical">@color/blue</item>
         <item name="android:navigationBarColor">@color/white</item>
-        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialog</item>
-        <item name="alertDialogTheme">@style/AppTheme.AlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
-    <style name="AppTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButtonStyle</item>
