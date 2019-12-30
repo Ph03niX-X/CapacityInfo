@@ -1,9 +1,11 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -15,18 +17,27 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.getLanguagesList
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
+import java.io.File
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
+    private lateinit var prefPath: String
+    private lateinit var prefName: String
 
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
+    private var exportSettings: Preference? = null
     private var openSettings: Preference? = null
     private var selectLanguage: ListPreference? = null
 
+    private val exportRequestCode = 0
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
+        prefPath = "/data/data/${requireContext().packageName}/shared_prefs/${requireContext().packageName}_preferences.xml"
+        prefName = File(prefPath).name
 
         addPreferencesFromResource(R.xml.debug)
 
@@ -53,9 +64,13 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         resetSettings = findPreference("reset_settings")
 
+        exportSettings = findPreference("export_settings")
+
         openSettings = findPreference("open_settings")
 
         selectLanguage = findPreference(Preferences.Language.prefKey)
+
+        exportSettings?.isVisible = File(prefPath).exists()
 
         if(pref.getString(Preferences.Language.prefKey, null) !in getLanguagesList())
             selectLanguage?.value = defLang
@@ -83,6 +98,21 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        exportSettings?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportRequestCode)
+            }
+
+            catch (e: Exception) {
+
+                Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
         openSettings?.setOnPreferenceClickListener {
 
             startActivity(Intent(context!!, SettingsActivity::class.java).apply {
@@ -98,7 +128,17 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             changeLanguage(requireContext(), newValue as String)
 
             true
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+
+            exportRequestCode ->
+                if(resultCode == RESULT_OK) exportSettings(requireContext(), data!!, prefPath, prefName)
         }
     }
 }

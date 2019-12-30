@@ -95,4 +95,7 @@
     <string name="forcibly_show_rate_the_app">"Forcibly Show \"Rate the app\""</string>
     <string name="open_settings">Open Settings</string>
     <string name="application_language">Application Language</string>
+    <string name="export_settings">Export Settings</string>
+    <string name="successful_export_of_settings">Settings have been exported successfully!\nFile Name: %1$s</string>
+    <string name="error_exporting_settings">Error Exporting Settings!\n%1$s</string>
 </resources>

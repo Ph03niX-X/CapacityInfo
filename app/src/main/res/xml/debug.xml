@@ -23,6 +23,11 @@
                 android:key="reset_settings"/>
 
         <Preference
+                android:title="@string/export_settings"
+                app:singleLineTitle="false"
+                android:key="export_settings"/>
+
+        <Preference
                 android:title="@string/open_settings"
                 app:singleLineTitle="false"
                 android:key="open_settings"/>

@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -11,11 +12,16 @@ import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
+import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.activity.DebugActivity
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.FileInputStream
 import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface{
@@ -288,6 +294,51 @@ interface DebugOptionsInterface : ServiceInterface{
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
+        }
+    }
+
+    fun exportSettings(context: Context, intent: Intent, prefPath: String, prefName: String) {
+
+        GlobalScope.launch(Dispatchers.IO) {
+
+            try {
+
+                val pickerDir = DocumentFile.fromTreeUri(context, intent.data!!)!!
+
+                if(pickerDir.findFile(prefName) != null) pickerDir.findFile(prefName)!!.delete()
+
+                val outputStream = context.contentResolver.openOutputStream(pickerDir.createFile("text/xml", prefName)!!.uri)!!
+                val fileInputStream = FileInputStream(prefPath)
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = fileInputStream.read(buffer)
+
+                    if (read != -1)
+                        outputStream.write(buffer, 0, read)
+                    else break
+                }
+
+                fileInputStream.close()
+                outputStream.flush()
+                outputStream.close()
+
+                launch(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string.successful_export_of_settings, prefName), Toast.LENGTH_LONG).show()
+                }
+
+            }
+
+            catch(e: Exception) {
+
+                launch(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string.error_exporting_settings, e.message), Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
