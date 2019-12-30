@@ -158,7 +158,8 @@ interface DebugOptionsInterface : ServiceInterface{
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) {
+        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey
+            || key == Preferences.Language.prefKey) {
 
             MainActivity.instance?.recreate()
 
@@ -201,13 +202,16 @@ interface DebugOptionsInterface : ServiceInterface{
 
                     pref.edit().remove(key).apply()
 
-                    if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) {
+                    if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey
+                        || key == Preferences.Language.prefKey) {
 
                         MainActivity.instance?.recreate()
 
                         (context as DebugActivity).recreate()
                     }
 
+                    Toast.makeText(context, context.getString(R.string.settings_reset_successfully),
+                        Toast.LENGTH_LONG).show()
                 } else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
         }
 
