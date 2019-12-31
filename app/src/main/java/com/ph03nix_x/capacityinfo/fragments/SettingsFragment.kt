@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import com.ph03nix_x.capacityinfo.activity.MainActivity
@@ -14,6 +15,8 @@ import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
+    private lateinit var moreServiceAndNotificationDefIcon: Drawable
+    private lateinit var moreOtherDefIcon: Drawable
 
     // Service and Notification
     private var enableService: SwitchPreferenceCompat? = null
@@ -73,6 +76,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         moreServiceAndNotification = findPreference("more_service_and_notification")
 
+        moreServiceAndNotificationDefIcon = moreServiceAndNotification!!.icon
+
         showCapacityAddedInNotification = findPreference(Preferences.IsShowCapacityAddedInNotification.prefKey)
 
         showLastChargeTimeInNotification = findPreference(Preferences.IsShowLastChargeTimeInNotification.prefKey)
@@ -114,12 +119,27 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         moreServiceAndNotification?.setOnPreferenceClickListener {
 
-            it.isVisible = false
+            if(it.icon == moreServiceAndNotificationDefIcon) {
 
-            showCapacityAddedInNotification?.isVisible = true
-            showLastChargeTimeInNotification?.isVisible = true
-            showCapacityAddedInNotification?.isVisible = true
-            openNotificationCategorySettings?.isVisible = true
+                it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
+
+                showCapacityAddedInNotification?.isVisible = true
+                showLastChargeTimeInNotification?.isVisible = true
+                showCapacityAddedInNotification?.isVisible = true
+                openNotificationCategorySettings?.isVisible = true
+            }
+
+            else {
+
+                it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
+
+                showCapacityAddedInNotification?.isVisible = false
+                showLastChargeTimeInNotification?.isVisible = false
+                showCapacityAddedInNotification?.isVisible = false
+                openNotificationCategorySettings?.isVisible = false
+
+                moreServiceAndNotificationDefIcon = it.icon
+            }
 
             true
         }
@@ -179,17 +199,33 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         moreOther = findPreference("more_other")
 
+        moreOtherDefIcon = moreOther!!.icon
+
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
         moreOther?.setOnPreferenceClickListener {
 
-            it.isVisible = false
+            if(it.icon == moreOtherDefIcon) {
 
-            showCapacityAddedLastChargeTimeInNotification?.isVisible = true
-            voltageInMv?.isVisible = true
-            changeDesignCapacity?.isVisible = true
+                it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
+
+                showCapacityAddedLastChargeTimeInNotification?.isVisible = true
+                voltageInMv?.isVisible = true
+                changeDesignCapacity?.isVisible = true
+            }
+
+            else {
+
+                it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
+
+                showCapacityAddedLastChargeTimeInNotification?.isVisible = false
+                voltageInMv?.isVisible = false
+                changeDesignCapacity?.isVisible = false
+
+                moreOtherDefIcon = it.icon
+            }
 
             true
         }
