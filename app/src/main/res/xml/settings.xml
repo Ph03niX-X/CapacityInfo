@@ -150,7 +150,6 @@
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
-
         <Preference
                 android:title="@string/about"
                 app:singleLineTitle="false"

@@ -102,17 +102,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        if(exportSettings!!.isVisible)
         exportSettings?.setOnPreferenceClickListener {
 
-            try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportRequestCode)
-            }
-
-            catch (e: Exception) {
-
-                Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
-            }
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportRequestCode)
 
             true
         }
