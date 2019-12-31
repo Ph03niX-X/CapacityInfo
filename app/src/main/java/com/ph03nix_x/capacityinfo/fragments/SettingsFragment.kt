@@ -33,6 +33,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
+
+    // About & Feedback
     private var about: Preference? = null
     private var feedback: Preference? = null
 
@@ -163,16 +165,19 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
-        about = findPreference("about")
-
-        feedback = findPreference("feedback")
-
         changeDesignCapacity?.setOnPreferenceClickListener {
 
             changeDesignCapacity(requireContext(), pref)
 
             true
         }
+
+
+        // About & Feedback
+
+        about = findPreference("about")
+
+        feedback = findPreference("feedback")
 
         about?.setOnPreferenceClickListener {
 

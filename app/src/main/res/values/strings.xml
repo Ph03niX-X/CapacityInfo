@@ -98,4 +98,5 @@
     <string name="export_settings">Export Settings</string>
     <string name="successful_export_of_settings">Settings have been exported successfully!\nFile Name: %1$s</string>
     <string name="error_exporting_settings">Error Exporting Settings!\n%1$s</string>
+    <string name="about_and_feedback">About &amp; Feedback</string>
 </resources>

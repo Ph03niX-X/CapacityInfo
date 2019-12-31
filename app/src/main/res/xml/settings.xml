@@ -124,6 +124,14 @@
                 app:singleLineTitle="false"
                 android:key="change_design_capacity"/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/about_and_feedback"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
+
+
         <Preference
                 android:title="@string/about"
                 app:singleLineTitle="false"
