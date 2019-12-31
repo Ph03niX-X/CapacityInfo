@@ -5,6 +5,7 @@
         <SwitchPreferenceCompat
                 android:title="@string/forcibly_show_rate_the_app"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_star_24dp"
                 android:key="is_forcibly_show_rate_the_app"/>
 
         <Preference
@@ -25,16 +26,19 @@
         <Preference
                 android:title="@string/export_settings"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_export_24dp"
                 android:key="export_settings"/>
 
         <Preference
                 android:title="@string/import_settings"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_import_24dp"
                 android:key="import_settings"/>
 
         <Preference
                 android:title="@string/open_settings"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_settings_24dp"
                 android:key="open_settings"/>
 
         <ListPreference

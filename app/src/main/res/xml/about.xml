@@ -18,25 +18,27 @@
     <Preference
             app:title="@string/build"
             app:singleLineTitle="false"
+            app:icon="@drawable/ic_build_24dp"
             android:key="build"/>
 
     <Preference
             app:title="@string/build_date"
             app:singleLineTitle="false"
+            app:icon="@drawable/ic_access_time_24dp"
             android:key="build_date"/>
 
     <Preference
             app:title="@string/github"
             app:summary="@string/license"
             app:singleLineTitle="false"
-            app:icon="@drawable/github"
+            app:icon="@drawable/ic_github"
             android:key="github"/>
 
     <Preference
             app:title="@string/designer"
             app:summary="F0x1d"
             app:singleLineTitle="false"
-            app:icon="@drawable/designer_icon"
+            app:icon="@drawable/ic_brush_24dp"
             android:key="designer"/>
 
     <Preference

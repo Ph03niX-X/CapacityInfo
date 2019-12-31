@@ -6,6 +6,7 @@
 
     <PreferenceCategory
                 android:title="@string/service_and_notification"
+                app:icon="@drawable/ic_notifications_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -31,6 +32,7 @@
         <SwitchPreferenceCompat
                 android:title="@string/service_time"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_access_time_24dp"
                 android:key="is_service_time"/>
 
         <Preference
@@ -71,6 +73,7 @@
 
     <PreferenceCategory
                 app:title="@string/appearance"
+                app:icon="@drawable/ic_color_lens_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -80,12 +83,14 @@
                 app:summary="@string/auto_dark_mode_summary"
                 app:isPreferenceVisible="false"
                 app:defaultValue="true"
+                app:icon="@drawable/ic_auto_dark_mode"
                 android:key="is_auto_dark_mode"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
                 app:singleLineTitle="false"
                 app:defaultValue="false"
+                app:icon="@drawable/ic_brightness_3_24dp"
                 android:key="is_dark_mode"/>
 
     </PreferenceCategory>
@@ -147,6 +152,7 @@
 
     <PreferenceCategory
             android:title="@string/about_and_feedback"
+
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
@@ -158,6 +164,7 @@
         <Preference
                 android:title="@string/feedback"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_feedback_24dp"
                 android:key="feedback"/>
 
     </PreferenceCategory>
