@@ -103,4 +103,5 @@
     <string name="settings_imported_successfully">Settings were imported successfully!</string>
     <string name="error_importing_settings">Error importing settings!\n%1$s</string>
     <string name="share_the_app">Share The App</string>
+    <string name="more">More</string>
 </resources>

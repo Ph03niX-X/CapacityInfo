@@ -20,6 +20,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var isAutoStartService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
     private var serviceHours: SwitchPreferenceCompat? = null
+    private var moreServiceAndNotification: Preference? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var showCapacityAddedLastChargeTimeInNotification: SwitchPreferenceCompat? = null
@@ -31,6 +32,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
     // Other
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
+    private var moreOther: Preference? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var changeDesignCapacity: Preference? = null
 
@@ -69,6 +71,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         serviceHours = findPreference(Preferences.IsServiceHours.prefKey)
 
+        moreServiceAndNotification = findPreference("more_service_and_notification")
+
         showCapacityAddedInNotification = findPreference(Preferences.IsShowCapacityAddedInNotification.prefKey)
 
         showLastChargeTimeInNotification = findPreference(Preferences.IsShowLastChargeTimeInNotification.prefKey)
@@ -104,6 +108,18 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             showStopService?.isEnabled = newValue
             showCapacityAddedInNotification?.isEnabled = newValue
             openNotificationCategorySettings?.isEnabled = newValue
+
+            true
+        }
+
+        moreServiceAndNotification?.setOnPreferenceClickListener {
+
+            it.isVisible = false
+
+            showCapacityAddedInNotification?.isVisible = true
+            showLastChargeTimeInNotification?.isVisible = true
+            showCapacityAddedInNotification?.isVisible = true
+            openNotificationCategorySettings?.isVisible = true
 
             true
         }
@@ -161,9 +177,22 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
+        moreOther = findPreference("more_other")
+
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
         changeDesignCapacity = findPreference("change_design_capacity")
+
+        moreOther?.setOnPreferenceClickListener {
+
+            it.isVisible = false
+
+            showCapacityAddedLastChargeTimeInNotification?.isVisible = true
+            voltageInMv?.isVisible = true
+            changeDesignCapacity?.isVisible = true
+
+            true
+        }
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 

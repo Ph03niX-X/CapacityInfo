@@ -33,27 +33,37 @@
                 app:singleLineTitle="false"
                 android:key="is_service_time"/>
 
+        <Preference
+                android:title="@string/more"
+                app:icon="@drawable/ic_more_horiz_24dp"
+                app:singleLineTitle="false"
+                android:key="more_service_and_notification"/>
+
         <SwitchPreferenceCompat
                 android:title="@string/show_capacity_added"
                 app:defaultValue="true"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="is_show_capacity_added_in_notification"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"
                 android:defaultValue="true"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="is_show_last_charge_time_in_notification"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_capacity_added_last_charge"
                 app:defaultValue="true"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="is_show_capacity_added_last_charge_in_notification"/>
 
         <Preference
                 android:title="@string/open_notification_category_settings"
                 android:summary="@string/notification_priority"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="open_notification_category_settings"/>
 
@@ -108,19 +118,28 @@
                 app:singleLineTitle="false"
                 android:key="is_show_capacity_added_in_app"/>
 
+        <Preference
+                android:title="@string/more"
+                app:icon="@drawable/ic_more_horiz_24dp"
+                app:singleLineTitle="false"
+                android:key="more_other"/>
+
         <SwitchPreferenceCompat
                 android:title="@string/show_capacity_added_last_charge_in_app"
                 app:defaultValue="true"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="is_show_capacity_added_last_charge_in_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/voltage_in_mv"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="voltage_in_mv"/>
 
         <Preference
                 android:title="@string/change_design_capacity"
+                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="change_design_capacity"/>
 
