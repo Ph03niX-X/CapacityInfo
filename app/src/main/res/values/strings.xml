@@ -99,4 +99,7 @@
     <string name="successful_export_of_settings">Settings have been exported successfully!\nFile Name: %1$s</string>
     <string name="error_exporting_settings">Error Exporting Settings!\n%1$s</string>
     <string name="about_and_feedback">About &amp; Feedback</string>
+    <string name="import_settings">Import Settings</string>
+    <string name="settings_imported_successfully">Settings were imported successfully!</string>
+    <string name="error_importing_settings">Error importing settings!\n%1$s</string>
 </resources>

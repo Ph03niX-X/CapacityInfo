@@ -28,6 +28,11 @@
                 android:key="export_settings"/>
 
         <Preference
+                android:title="@string/import_settings"
+                app:singleLineTitle="false"
+                android:key="import_settings"/>
+
+        <Preference
                 android:title="@string/open_settings"
                 app:singleLineTitle="false"
                 android:key="open_settings"/>

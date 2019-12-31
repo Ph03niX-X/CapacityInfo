@@ -20,8 +20,11 @@ import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface{
@@ -337,6 +340,61 @@ interface DebugOptionsInterface : ServiceInterface{
                 launch(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.error_exporting_settings, e.message), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    fun importSettings(context: Context, uri: Uri, prefPath: String, prefName: String) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        GlobalScope.launch(Dispatchers.IO) {
+
+            try {
+
+                if(CapacityInfoService.instance != null)
+                    context.stopService(Intent(context, CapacityInfoService::class.java))
+
+                if(File(prefPath).exists()) File(prefPath).delete()
+
+                File(prefPath).createNewFile()
+
+                val fileOutputStream = FileOutputStream(prefPath)
+                val inputStream = context.contentResolver.openInputStream(uri)!!
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = inputStream.read(buffer)
+
+                    if (read != -1)
+                        fileOutputStream.write(buffer, 0, read)
+                    else break
+                }
+
+                inputStream.close()
+                fileOutputStream.flush()
+                fileOutputStream.close()
+
+                launch(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
+                }
+
+                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
+                    startService(context)
+
+                delay(3000)
+                System.exit(0)
+            }
+
+            catch(e: Exception) {
+
+                launch(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string.error_importing_settings, e.message), Toast.LENGTH_LONG).show()
                 }
             }
         }

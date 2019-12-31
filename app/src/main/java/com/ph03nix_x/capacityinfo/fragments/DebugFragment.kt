@@ -29,10 +29,12 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
     private var exportSettings: Preference? = null
+    private var importSettings: Preference? = null
     private var openSettings: Preference? = null
     private var selectLanguage: ListPreference? = null
 
     private val exportRequestCode = 0
+    private val importSettingsRequestCode = 1
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -65,6 +67,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetSettings = findPreference("reset_settings")
 
         exportSettings = findPreference("export_settings")
+
+        importSettings = findPreference("import_settings")
 
         openSettings = findPreference("open_settings")
 
@@ -113,6 +117,17 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        importSettings?.setOnPreferenceClickListener {
+
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "text/xml"
+            }, importSettingsRequestCode)
+
+            true
+        }
+
         openSettings?.setOnPreferenceClickListener {
 
             startActivity(Intent(context!!, SettingsActivity::class.java).apply {
@@ -139,6 +154,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             exportRequestCode ->
                 if(resultCode == RESULT_OK) exportSettings(requireContext(), data!!, prefPath, prefName)
+
+            importSettingsRequestCode ->
+                if(resultCode == RESULT_OK) importSettings(requireContext(), data!!.data!!, prefPath, prefName)
         }
     }
 }
