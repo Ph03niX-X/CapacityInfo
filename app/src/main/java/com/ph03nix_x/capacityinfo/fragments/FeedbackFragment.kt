@@ -19,6 +19,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
     private var telegram: Preference? = null
     private var email: Preference? = null
     private var rateTheApp: Preference? = null
+    private var shareTheApp: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -46,6 +47,8 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         email = findPreference("email")
 
         rateTheApp = findPreference("rate_the_app")
+
+        shareTheApp = findPreference("share_the_app")
 
         rateTheApp?.isVisible = isGooglePlay() || pref.getBoolean(Preferences.IsForciblyShowRateTheApp.prefKey, false)
 
@@ -94,6 +97,21 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
                 true
             }
+
+        shareTheApp?.setOnPreferenceClickListener {
+
+            val linkToGooglePlay = "https://play.google.com/store/apps/details?id=${requireContext().packageName}"
+
+            startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "${getString(R.string.app_name)}\n")
+                putExtra(Intent.EXTRA_TEXT, linkToGooglePlay)
+
+            }, getString(R.string.share_the_app)))
+
+            true
+        }
     }
 
     private fun isGooglePlay() = "com.android.vending" == context?.packageManager?.getInstallerPackageName(context!!.packageName)
