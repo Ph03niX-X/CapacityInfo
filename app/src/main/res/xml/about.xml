@@ -24,7 +24,7 @@
     <Preference
             app:title="@string/build_date"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_access_time_24dp"
+            app:icon="@drawable/ic_date_range_24dp"
             android:key="build_date"/>
 
     <Preference
@@ -45,14 +45,14 @@
             app:title="@string/romanian_translation"
             app:summary="ygorigor"
             app:singleLineTitle="false"
-            app:icon="@drawable/romania"
+            app:icon="@drawable/ic_romania"
             android:key="romanian_translation"/>
 
     <Preference
             app:title="@string/belorussian_translation"
             app:summary="Dr.Cyanogen"
             app:singleLineTitle="false"
-            app:icon="@drawable/belarus"
+            app:icon="@drawable/ic_belarus"
             android:key="belorussian_translation"/>
 
 </PreferenceScreen>

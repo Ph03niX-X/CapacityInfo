@@ -6,7 +6,7 @@
 
     <PreferenceCategory
                 android:title="@string/service_and_notification"
-                app:icon="@drawable/ic_notifications_24dp"
+                app:icon="@drawable/ic_notifications_none_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -14,6 +14,7 @@
                 android:title="@string/enable_service"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_power"
                 android:key="is_enable_service"/>
 
         <SwitchPreferenceCompat
@@ -21,12 +22,14 @@
                 android:summary="@string/auto_start_summary"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_auto_start"
                 android:key="is_auto_start_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_stop_service"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_stop"
                 android:key="is_show_stop_service"/>
 
         <SwitchPreferenceCompat
@@ -67,6 +70,7 @@
                 android:summary="@string/notification_priority"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_category"
                 android:key="open_notification_category_settings"/>
 
     </PreferenceCategory>
@@ -76,15 +80,6 @@
                 app:icon="@drawable/ic_color_lens_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
-
-        <SwitchPreferenceCompat
-                android:title="@string/auto_dark_mode"
-                app:singleLineTitle="false"
-                app:summary="@string/auto_dark_mode_summary"
-                app:isPreferenceVisible="false"
-                app:defaultValue="true"
-                app:icon="@drawable/ic_auto_dark_mode"
-                android:key="is_auto_dark_mode"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
@@ -97,12 +92,14 @@
 
     <PreferenceCategory
                 android:title="@string/other"
+                app:icon="@drawable/ic_more_horiz_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/temperature_in_fahrenheit"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_temperature"
                 android:key="temperature_in_fahrenheit"/>
 
         <SwitchPreferenceCompat
@@ -140,6 +137,7 @@
                 android:title="@string/voltage_in_mv"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_voltage"
                 android:key="voltage_in_mv"/>
 
         <Preference
@@ -152,13 +150,14 @@
 
     <PreferenceCategory
             android:title="@string/about_and_feedback"
-
+            app:icon="@drawable/ic_help_outline_24dp"
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
         <Preference
                 android:title="@string/about"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_info_24dp"
                 android:key="about"/>
 
         <Preference

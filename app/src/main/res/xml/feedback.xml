@@ -9,7 +9,7 @@
             app:title="@string/telegram"
             app:summary="\@Ph03niX-X"
             app:singleLineTitle="false"
-            app:icon="@drawable/telegram"
+            app:icon="@drawable/ic_telegram"
             android:key="telegram"/>
 
     <Preference
