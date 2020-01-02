@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import com.ph03nix_x.capacityinfo.activity.MainActivity
@@ -122,8 +121,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 showCapacityAddedInNotification?.isVisible = true
                 showLastChargeTimeInNotification?.isVisible = true
-                showCapacityAddedInNotification?.isVisible = true
-                openNotificationCategorySettings?.isVisible = true
+                showCapacityAddedLastChargeTimeInNotification?.isVisible = true
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    openNotificationCategorySettings?.isVisible = true
             }
 
             else {
@@ -133,7 +133,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 showCapacityAddedInNotification?.isVisible = false
                 showLastChargeTimeInNotification?.isVisible = false
-                showCapacityAddedInNotification?.isVisible = false
+                showCapacityAddedLastChargeTimeInNotification?.isVisible = false
                 openNotificationCategorySettings?.isVisible = false
             }
 
@@ -206,7 +206,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
                 it.title = requireContext().getString(R.string.hide)
 
-                showCapacityAddedLastChargeTimeInNotification?.isVisible = true
+                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedInApp.prefKey)?.isVisible = true
                 voltageInMv?.isVisible = true
                 changeDesignCapacity?.isVisible = true
             }
@@ -216,7 +216,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                showCapacityAddedLastChargeTimeInNotification?.isVisible = false
+                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedInApp.prefKey)?.isVisible = false
                 voltageInMv?.isVisible = false
                 changeDesignCapacity?.isVisible = false
             }
