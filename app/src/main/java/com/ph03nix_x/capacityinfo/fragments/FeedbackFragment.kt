@@ -25,7 +25,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.feedback)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
@@ -58,10 +58,10 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             catch (e: ActivityNotFoundException) {
 
-                val clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("telegram", telegramLink)
                 clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(context!!, getString(R.string.telegram_link_copied), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.telegram_link_copied), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -71,19 +71,19 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             try {
 
-                val version = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionName
-                val build = context?.packageManager?.getPackageInfo(context!!.packageName, 0)?.versionCode?.toString()
+                val version = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
+                val build = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionCode?.toString()
 
                 startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). ${context!!.getString(R.string.feedback)}")))
+                    Uri.parse("mailto:${email?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}")))
             }
 
             catch (e: ActivityNotFoundException) {
 
-                val clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("email", email?.summary)
                 clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(context!!, getString(R.string.email_copied), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.email_copied), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -93,7 +93,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             rateTheApp?.setOnPreferenceClickListener {
 
-                context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context?.packageName}")))
+                requireContext().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${requireContext().packageName}")))
 
                 true
             }
@@ -114,5 +114,5 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun isGooglePlay() = "com.android.vending" == context?.packageManager?.getInstallerPackageName(context!!.packageName)
+    private fun isGooglePlay() = "com.android.vending" == requireContext().packageManager?.getInstallerPackageName(requireContext().packageName)
 }

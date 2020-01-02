@@ -3,19 +3,16 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
-import com.ph03nix_x.capacityinfo.MainApp.Companion.getLanguagesList
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 import java.io.File
 
@@ -43,22 +40,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addPreferencesFromResource(R.xml.debug)
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
-        }
-
-        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-        else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        setModeNight(requireContext())
 
         changeSetting = findPreference("change_setting")
 
@@ -76,7 +60,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         exportSettings?.isVisible = File(prefPath).exists()
 
-        if(pref.getString(Preferences.Language.prefKey, null) !in getLanguagesList())
+        if(pref.getString(Preferences.Language.prefKey, null) !in resources.getStringArray(R.array.languages_codes))
             selectLanguage?.value = defLang
 
         selectLanguage?.summary = selectLanguage?.entry
@@ -123,7 +107,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         openSettings?.setOnPreferenceClickListener {
 
-            startActivity(Intent(context!!, SettingsActivity::class.java).apply {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java).apply {
 
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             })

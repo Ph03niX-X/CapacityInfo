@@ -2,12 +2,10 @@ package com.ph03nix_x.capacityinfo.activity
 
 import android.content.*
 import android.os.BatteryManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
@@ -20,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
 
 class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface {
 
@@ -60,16 +59,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
-        }
-
-        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+        setModeNight(this)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.app_name)

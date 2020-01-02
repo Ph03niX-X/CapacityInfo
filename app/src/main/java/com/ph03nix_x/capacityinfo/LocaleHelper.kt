@@ -16,4 +16,7 @@ object LocaleHelper {
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
+
+    fun getSystemLocale(configuration: Configuration) =
+        configuration.locale.country.toLowerCase(configuration.locale)
 }

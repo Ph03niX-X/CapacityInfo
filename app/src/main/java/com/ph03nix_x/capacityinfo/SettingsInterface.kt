@@ -25,7 +25,6 @@ interface SettingsInterface {
             putExtra(Settings.EXTRA_CHANNEL_ID, notificationChannel.id)
 
             putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-
         }
 
         context.startActivity(intent)

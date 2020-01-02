@@ -81,8 +81,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
 
-        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
         createNotification(this@CapacityInfoService)
 
         isJob = true
@@ -102,6 +100,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(45 * 1000)
 
                 if(getBatteryLevel(this@CapacityInfoService) < batteryLevelWith) batteryLevelWith = getBatteryLevel(this@CapacityInfoService)
+
+                batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
                 val status = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 

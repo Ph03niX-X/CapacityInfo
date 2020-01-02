@@ -2,15 +2,35 @@ package com.ph03nix_x.capacityinfo
 
 import android.annotation.TargetApi
 import android.app.Application
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 
 class MainApp : Application() {
 
     companion object {
 
-        fun getLanguagesList() = arrayListOf("en", "ro", "be", "ru", "uk")
+        fun setModeNight(context: Context) {
+
+            val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+
+                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+                if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
+            }
+
+            else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
+                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
+                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+
+            else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
 
         var defLang: String = "en"
 
@@ -32,7 +52,7 @@ class MainApp : Application() {
 
         darkMode(newConfig)
 
-        if(newConfig.locale.country.toLowerCase(newConfig.locale) != defLang) {
+        if(LocaleHelper.getSystemLocale(newConfig) != defLang) {
 
             val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -54,9 +74,9 @@ class MainApp : Application() {
 
     private fun defLang() {
 
-        val resLang = resources.configuration.locale.country.toLowerCase(resources.configuration.locale)
+        val resLang = LocaleHelper.getSystemLocale(resources.configuration)
 
-        if(resLang in getLanguagesList()) defLang = resLang
+        if(resLang in resources.getStringArray(R.array.languages_codes)) defLang = resLang
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 

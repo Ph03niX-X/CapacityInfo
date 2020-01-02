@@ -39,7 +39,7 @@
     <string name="apply">Прымяніць</string>
     <string name="stop_service">Спыніць службу</string>
     <string name="open_notification_category_settings">Адкрыць налады катэгорыі паведамлення</string>
-    <string name="service_and_notification">Служба і паведамленне</string>
+    <string name="service_and_notification">Служба &amp; паведамленне</string>
     <string name="appearance">Знешні выгляд</string>
     <string name="other">Іншае</string>
     <string name="show_stop_service">"Паказваць \"Спыніць службу\""</string>

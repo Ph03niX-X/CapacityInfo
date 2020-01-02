@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
@@ -44,22 +45,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         addPreferencesFromResource(R.xml.settings)
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
-        }
-
-        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-        else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        setModeNight(requireContext())
 
         // Service and Notification
 
@@ -163,20 +151,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             MainActivity.instance?.recreate()
 
-            if(!(newValue as Boolean)) {
+            darkMode?.isEnabled = !(newValue as Boolean)
 
-                darkMode?.isEnabled = true
-
+            if(!newValue)
                 AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
                     AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-            }
 
-            else {
-
-                darkMode?.isEnabled = false
-
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            }
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
             true
         }
@@ -240,7 +221,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         about?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireActivity().getString(R.string.about)
+            (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.about)
 
            requireActivity().supportFragmentManager.beginTransaction().apply {
 
@@ -253,7 +234,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         feedback?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireActivity().getString(R.string.feedback)
+            (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.feedback)
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
 
