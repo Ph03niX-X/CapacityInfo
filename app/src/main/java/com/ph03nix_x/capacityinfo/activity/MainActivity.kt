@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             MaterialAlertDialogBuilder(this).apply {
 
+                setIcon(R.drawable.ic_info_outline_24dp)
                 setTitle(getString(R.string.instruction))
                 setMessage(getString(R.string.instruction_message))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
@@ -154,6 +155,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             MaterialAlertDialogBuilder(this).apply {
 
+                setIcon(R.drawable.ic_info_outline_24dp)
                 setTitle(getString(R.string.information))
                 setMessage(getString(R.string.not_supported))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
@@ -192,6 +194,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         MaterialAlertDialogBuilder(this).apply {
 
+            setIcon(R.drawable.ic_info_outline_24dp)
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message))
             setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(Preferences.IsShowInstruction.prefKey, false).apply() }

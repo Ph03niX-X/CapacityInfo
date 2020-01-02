@@ -14,7 +14,7 @@
                 android:title="@string/enable_service"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_power"
+                app:icon="@drawable/ic_power_24dp"
                 android:key="is_enable_service"/>
 
         <SwitchPreferenceCompat
@@ -22,14 +22,14 @@
                 android:summary="@string/auto_start_summary"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_auto_start"
+                app:icon="@drawable/ic_autorenew_24dp"
                 android:key="is_auto_start_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_stop_service"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_stop"
+                app:icon="@drawable/ic_do_not_disturb_alt_24dp"
                 android:key="is_show_stop_service"/>
 
         <SwitchPreferenceCompat
@@ -70,7 +70,7 @@
                 android:summary="@string/notification_priority"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_category"
+                app:icon="@drawable/ic_view_list_24dp"
                 android:key="open_notification_category_settings"/>
 
     </PreferenceCategory>
@@ -86,14 +86,14 @@
                 app:singleLineTitle="false"
                 app:summary="@string/auto_dark_mode_summary"
                 app:defaultValue="true"
-                app:icon="@drawable/ic_auto_dark_mode"
+                app:icon="@drawable/ic_brightness_6_24dp"
                 android:key="is_auto_dark_mode"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
                 app:singleLineTitle="false"
                 app:defaultValue="false"
-                app:icon="@drawable/ic_brightness_3_24dp"
+                app:icon="@drawable/ic_brightness_2_24dp"
                 android:key="is_dark_mode"/>
 
     </PreferenceCategory>
@@ -114,12 +114,14 @@
                 android:title="@string/show_charging_time_in_app"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_charging_time"
                 android:key="is_show_charging_time_in_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time_in_app"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_charging_time_last"
                 android:key="is_show_last_charge_time_in_app"/>
 
         <SwitchPreferenceCompat

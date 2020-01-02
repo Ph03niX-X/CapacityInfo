@@ -4,13 +4,26 @@
       tools:context=".activity.MainActivity">
 
     <item
-        android:id="@+id/settings"
-        android:title="@string/settings"
-        app:showAsAction="never"/>
+            android:id="@+id/more_menu"
+            android:title=""
+            android:icon="@drawable/ic_more_vert_24dp"
+            app:showAsAction="always">
 
-    <item
-        android:id="@+id/instruction"
-        android:title="@string/instruction"
-        app:showAsAction="never"/>
+        <menu>
+
+            <item
+                    android:id="@+id/settings"
+                    android:title="@string/settings"
+                    android:icon="@drawable/ic_settings_24dp"
+                    app:showAsAction="never"/>
+
+            <item
+                    android:id="@+id/instruction"
+                    android:title="@string/instruction"
+                    android:icon="@drawable/ic_info_outline_24dp"
+                    app:showAsAction="never"/>
+        </menu>
+
+    </item>
 
 </menu>

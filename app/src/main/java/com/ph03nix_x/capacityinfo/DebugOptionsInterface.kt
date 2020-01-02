@@ -285,6 +285,7 @@ interface DebugOptionsInterface : ServiceInterface{
 
         MaterialAlertDialogBuilder(context).apply {
 
+            setIcon(R.drawable.ic_help_outline_dialog_24dp)
             setTitle(context.getString(R.string.reset_settings))
             setMessage(context.getString(R.string.are_you_sure))
             setPositiveButton(context.getString(R.string.reset)) { _, _ ->

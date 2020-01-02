@@ -29,13 +29,13 @@
         <Preference
                 android:title="@string/export_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_export_24dp"
+                app:icon="@drawable/ic_arrow_upward_24dp"
                 android:key="export_settings"/>
 
         <Preference
                 android:title="@string/import_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_import_24dp"
+                app:icon="@drawable/ic_arrow_downward_24dp"
                 android:key="import_settings"/>
 
         <Preference
