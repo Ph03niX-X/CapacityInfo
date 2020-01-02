@@ -17,7 +17,7 @@
         <Preference
                 android:title="@string/reset_setting"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_remove_circle_outline_24dp"
+                app:icon="@drawable/ic_delete_24dp"
                 android:key="reset_setting"/>
 
         <Preference
