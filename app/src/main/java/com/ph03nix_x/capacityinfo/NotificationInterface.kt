@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isDarkMode
 import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.activity.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -43,7 +44,7 @@ interface NotificationInterface : BatteryInfoInterface {
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.service_small_icon)
-            color = ContextCompat.getColor(context.applicationContext, R.color.blue)
+            color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
             setContentIntent(openApp)
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
@@ -67,6 +68,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val stopService = PendingIntent.getService(context, 1, Intent(context, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
         notificationBuilder.apply {
+
+            color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
 
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 

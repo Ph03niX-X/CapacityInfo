@@ -1,7 +1,9 @@
 package com.ph03nix_x.capacityinfo
 
+import android.annotation.TargetApi
 import android.app.Application
 import android.content.res.Configuration
+import android.os.Build
 import androidx.preference.PreferenceManager
 
 class MainApp : Application() {
@@ -11,11 +13,15 @@ class MainApp : Application() {
         fun getLanguagesList() = arrayListOf("en", "ro", "be", "ru", "uk")
 
         var defLang: String = "en"
+
+        var isDarkMode = false
     }
 
     override fun onCreate() {
 
         super.onCreate()
+
+        darkMode(resources.configuration)
 
         defLang()
     }
@@ -24,13 +30,26 @@ class MainApp : Application() {
 
         super.onConfigurationChanged(newConfig)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        darkMode(newConfig)
 
-        pref.edit().remove(Preferences.Language.prefKey).apply()
+        if(newConfig.locale.country.toLowerCase(newConfig.locale) != defLang) {
 
-        defLang = "en"
+            val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        defLang()
+            pref.edit().remove(Preferences.Language.prefKey).apply()
+
+            defLang = "en"
+
+            defLang()
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.Q)
+    private fun darkMode(configuration: Configuration) {
+
+        val currentNightMode = configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+        isDarkMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun defLang() {
