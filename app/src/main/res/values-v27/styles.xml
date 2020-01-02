@@ -10,12 +10,15 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="android:itemTextAppearance">@style/MenuTextCustom</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButtonStyle</item>
+        <item name="android:textColor">@color/textColorWhiteTheme</item>
+        <item name="android:textColorPrimary">@color/textColorWhiteTheme</item>
     </style>
 
     <style name="AlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -28,6 +31,10 @@
 
     <style name="SubtitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
         <item name="android:textColor">@color/titleSubtitleWhiteTheme</item>
+    </style>
+
+    <style name="MenuTextCustom">
+        <item name="android:textColor">@color/textColorWhiteTheme</item>
     </style>
 
 </resources>
