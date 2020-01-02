@@ -9,6 +9,7 @@
         <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="android:itemTextAppearance">@style/MenuTextCustom</item>
+        <item name="textColorAlertDialogListItem">@color/textColorWhiteTheme</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
