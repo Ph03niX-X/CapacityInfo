@@ -23,7 +23,7 @@
         <Preference
                 android:title="@string/reset_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_clear_24dp"
+                app:icon="@drawable/ic_delete_forever_24dp"
                 android:key="reset_settings"/>
 
         <Preference
