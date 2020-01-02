@@ -8,7 +8,7 @@
             app:title="@string/developer"
             app:summary="Ph03niX-X"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_copyright_24dp"
+            app:icon="@drawable/ic_person_24dp"
             android:key="developer"/>
 
     <Preference
