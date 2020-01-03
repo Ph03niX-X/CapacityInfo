@@ -43,7 +43,7 @@
     <string name="open_notification_category_settings">Open notification category settings</string>
     <string name="service_and_notification">Service &amp; Notification</string>
     <string name="appearance">Appearance</string>
-    <string name="other">Other</string>
+    <string name="misc">Misc</string>
     <string name="show_stop_service">"Show \"Stop Service\""</string>
     <string name="voltage_in_mv">Voltage in mV</string>
     <string name="voltage_mv">"Voltage: %1$s mV"</string>

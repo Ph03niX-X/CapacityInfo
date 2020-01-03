@@ -41,7 +41,7 @@
     <string name="open_notification_category_settings">Відкрити параметри категорії повідомлення</string>
     <string name="service_and_notification">Служба &amp; повідомлення</string>
     <string name="appearance">Зовнішній вигляд</string>
-    <string name="other">Інше</string>
+    <string name="misc">Інше</string>
     <string name="show_stop_service">"Показувати \"Зупинити службу\""</string>
     <string name="voltage_in_mv">Напруга в мВ</string>
     <string name="voltage_mv">"Напруга: %1$s мВ"</string>

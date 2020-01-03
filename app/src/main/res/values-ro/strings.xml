@@ -43,7 +43,7 @@
     <string name="open_notification_category_settings">Deschideți setările categoriei de notificare</string>
     <string name="service_and_notification">Serviciu &amp; notificare</string>
     <string name="appearance">Aspect</string>
-    <string name="other">Altele</string>
+    <string name="misc">Altele</string>
     <string name="show_stop_service">"Afișare \"Oprire serviciu\""</string>
     <string name="voltage_in_mv">Voltaj în mV</string>
     <string name="voltage_mv">"Voltaj: %1$s mV"</string>

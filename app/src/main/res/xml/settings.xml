@@ -94,7 +94,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/other"
+            android:title="@string/misc"
             app:icon="@drawable/ic_more_horiz_24dp"
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
