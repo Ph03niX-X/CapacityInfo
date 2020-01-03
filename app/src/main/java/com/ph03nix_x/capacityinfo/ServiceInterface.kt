@@ -13,4 +13,11 @@ interface ServiceInterface {
             context.startForegroundService(Intent(context, CapacityInfoService::class.java))
         else context.startService(Intent(context, CapacityInfoService::class.java))
     }
+
+    fun restartService(context: Context) {
+
+        context.stopService(Intent(context, CapacityInfoService::class.java))
+
+        startService(context)
+    }
 }

@@ -13,10 +13,12 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
+import com.ph03nix_x.capacityinfo.ServiceInterface
 import com.ph03nix_x.capacityinfo.activity.SettingsActivity
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import java.io.File
 
-class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
+class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var prefPath: String
@@ -28,6 +30,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
     private var openSettings: Preference? = null
+    private var restartService: Preference? = null
     private var selectLanguage: ListPreference? = null
 
     private val exportRequestCode = 0
@@ -56,9 +59,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         openSettings = findPreference("open_settings")
 
-        selectLanguage = findPreference(Preferences.Language.prefKey)
+        restartService = findPreference("restart_service")
 
-        exportSettings?.isVisible = File(prefPath).exists()
+        selectLanguage = findPreference(Preferences.Language.prefKey)
 
         if(pref.getString(Preferences.Language.prefKey, null) !in resources.getStringArray(R.array.languages_codes))
             selectLanguage?.value = defLang
@@ -86,7 +89,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
-        if(exportSettings!!.isVisible)
         exportSettings?.setOnPreferenceClickListener {
 
             startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportRequestCode)
@@ -115,12 +117,28 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        restartService?.setOnPreferenceClickListener {
+
+            restartService(requireContext())
+
+            true
+        }
+
         selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
 
             changeLanguage(requireContext(), newValue as String)
 
             true
         }
+    }
+
+    override fun onResume() {
+
+        super.onResume()
+
+        exportSettings?.isVisible = File(prefPath).exists()
+
+        restartService?.isVisible = CapacityInfoService.instance != null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

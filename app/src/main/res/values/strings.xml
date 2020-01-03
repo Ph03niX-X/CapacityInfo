@@ -105,4 +105,5 @@
     <string name="share_the_app">Share The App</string>
     <string name="more">More&#8230;</string>
     <string name="hide">Hide</string>
+    <string name="restart_service">Restart Service</string>
 </resources>
