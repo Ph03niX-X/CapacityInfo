@@ -49,6 +49,7 @@
                 app:defaultValue="true"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                android:icon="@drawable/ic_battery_charging_50_24dp"
                 android:key="is_show_capacity_added_in_notification"/>
 
         <SwitchPreferenceCompat
@@ -56,6 +57,7 @@
                 android:defaultValue="true"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_av_timer_24dp"
                 android:key="is_show_last_charge_time_in_notification"/>
 
         <SwitchPreferenceCompat
@@ -63,6 +65,7 @@
                 app:defaultValue="true"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                android:icon="@drawable/ic_battery_charging_90_24dp"
                 android:key="is_show_capacity_added_last_charge_in_notification"/>
 
         <Preference
@@ -86,7 +89,7 @@
                 app:singleLineTitle="false"
                 app:summary="@string/auto_dark_mode_summary"
                 app:defaultValue="true"
-                app:icon="@drawable/ic_brightness_6_24dp"
+                app:icon="@drawable/ic_timelapse_24dp"
                 android:key="is_auto_dark_mode"/>
 
         <SwitchPreferenceCompat
@@ -114,20 +117,21 @@
                 android:title="@string/show_charging_time_in_app"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_charging_time"
+                app:icon="@drawable/ic_timer_24dp"
                 android:key="is_show_charging_time_in_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time_in_app"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_charging_time_last"
+                app:icon="@drawable/ic_alarm_24dp"
                 android:key="is_show_last_charge_time_in_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_capacity_added_in_app"
                 app:defaultValue="true"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_battery_charging_60_24dp"
                 android:key="is_show_capacity_added_in_app"/>
 
         <Preference
@@ -154,6 +158,7 @@
                 android:title="@string/change_design_capacity"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                android:icon="@drawable/ic_battery_full_24dp"
                 android:key="change_design_capacity"/>
 
     </PreferenceCategory>

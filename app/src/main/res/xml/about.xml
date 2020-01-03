@@ -14,6 +14,7 @@
     <Preference
             app:title="@string/version"
             app:singleLineTitle="false"
+            app:icon="@drawable/ic_version"
             android:key="version"/>
 
     <Preference
