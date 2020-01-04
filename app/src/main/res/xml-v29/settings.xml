@@ -6,6 +6,7 @@
 
     <PreferenceCategory
                 android:title="@string/service_and_notification"
+                app:singleLineTitle="false"
                 app:icon="@drawable/ic_notifications_none_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
@@ -80,6 +81,7 @@
 
     <PreferenceCategory
                 app:title="@string/appearance"
+                app:singleLineTitle="false"
                 app:icon="@drawable/ic_color_lens_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
@@ -103,6 +105,7 @@
 
     <PreferenceCategory
                 android:title="@string/misc"
+                app:singleLineTitle="false"
                 app:icon="@drawable/ic_more_horiz_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
