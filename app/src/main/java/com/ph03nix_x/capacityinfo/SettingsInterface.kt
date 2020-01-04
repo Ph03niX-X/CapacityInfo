@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.EditText
 import androidx.annotation.RequiresApi
+import androidx.preference.Preference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 interface SettingsInterface {
@@ -30,7 +31,7 @@ interface SettingsInterface {
         context.startActivity(intent)
     }
 
-    fun changeDesignCapacity(context: Context, pref: SharedPreferences) {
+    fun changeDesignCapacity(context: Context, pref: SharedPreferences, designCapacity: Preference) {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
@@ -47,7 +48,12 @@ interface SettingsInterface {
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            if(changeDesignCapacity.text.isNotEmpty()) pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
+            if(changeDesignCapacity.text.isNotEmpty()) {
+
+                pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
+
+                designCapacity.summary = changeDesignCapacity.text.toString()
+            }
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }

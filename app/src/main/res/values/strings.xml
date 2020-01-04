@@ -106,4 +106,5 @@
     <string name="more">More&#8230;</string>
     <string name="hide">Hide</string>
     <string name="restart_service">Restart Service</string>
+    <string name="change_design_summary">%1$d mAh</string>
 </resources>

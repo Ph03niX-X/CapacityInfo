@@ -207,7 +207,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 
-            changeDesignCapacity(requireContext(), pref)
+            changeDesignCapacity(requireContext(), pref, it)
 
             true
         }
@@ -244,5 +244,12 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             true
         }
+    }
+
+    override fun onResume() {
+
+        super.onResume()
+
+        changeDesignCapacity?.summary = requireContext().getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
     }
 }
