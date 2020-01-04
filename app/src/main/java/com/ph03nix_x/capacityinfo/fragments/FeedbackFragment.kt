@@ -105,7 +105,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
             startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
 
                 type = "text/plain"
-                putExtra(Intent.EXTRA_SUBJECT, "${getString(R.string.app_name)}\n")
                 putExtra(Intent.EXTRA_TEXT, linkToGooglePlay)
 
             }, getString(R.string.share_the_app)))
