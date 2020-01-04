@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.MaterialToolbar
 
 import com.ph03nix_x.capacityinfo.R
 
-class CenteredToolbar : Toolbar {
+class CenteredToolbar : MaterialToolbar {
 
     private var tvTitle: TextView? = null
     private var tvSubtitle: TextView? = null

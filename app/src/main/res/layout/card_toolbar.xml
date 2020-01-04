@@ -13,6 +13,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            app:cardElevation="0dp"
             android:id="@+id/toolbar_card">
 
         <com.ph03nix_x.capacityinfo.view.CenteredToolbar

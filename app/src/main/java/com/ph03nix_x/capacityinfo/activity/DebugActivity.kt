@@ -26,9 +26,11 @@ class DebugActivity : AppCompatActivity() {
 
         setContentView(R.layout.debug_activity)
 
-        toolbar = findViewById(R.id.debug_toolbar)
+        toolbar = findViewById(R.id.toolbar)
 
         toolbar.title = getString(R.string.debug)
+
+        toolbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_24dp)
 
         toolbar.setNavigationOnClickListener {
 

@@ -25,9 +25,11 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
 
         setContentView(R.layout.settings_activity)
 
-        toolbar = findViewById(R.id.settings_toolbar)
+        toolbar = findViewById(R.id.toolbar)
 
         toolbar.title = getString(R.string.settings)
+
+        toolbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_24dp)
 
         toolbar.setNavigationOnClickListener {
 
