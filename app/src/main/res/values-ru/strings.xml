@@ -41,7 +41,7 @@
     <string name="open_notification_category_settings">Открыть настройки категории уведомления</string>
     <string name="service_and_notification">Служба &amp; уведомление</string>
     <string name="appearance">Внешний вид</string>
-    <string name="misc">Прочее</string>
+    <string name="misc">Разное</string>
     <string name="show_stop_service">"Показывать \"Остановить службу\""</string>
     <string name="voltage_in_mv">Напряжение в мВ</string>
     <string name="voltage_mv">"Напряжение: %1$s мВ"</string>
@@ -90,4 +90,17 @@
     <string name="settings_reset_successfully">Настройки успешно сброшены</string>
     <string name="forcibly_show_rate_the_app">"Принудительно показывать \"Оценить приложение\""</string>
     <string name="open_settings">Открыть настройки</string>
+    <string name="application_language">Язык приложения</string>
+    <string name="export_settings">Экспорт настроек</string>
+    <string name="successful_export_of_settings">Настройки были успешно экспортированы!\nИмя файла: "%1$s"</string>
+    <string name="error_exporting_settings">Ошибка экспортирования настроек!\n%1$s</string>
+    <string name="about_and_feedback">О приложении &amp; Обратная связь</string>
+    <string name="import_settings">Импорт настроек</string>
+    <string name="settings_imported_successfully">Настройки были успешно импортированы!</string>
+    <string name="error_importing_settings">Ошибка импортирования настроек!\n%1$s</string>
+    <string name="share_the_app">Поделиться приложением</string>
+    <string name="more">Ещё&#8230;</string>
+    <string name="hide">Скрыть</string>
+    <string name="restart_service">Перезапустить службу</string>
+    <string name="change_design_summary">%1$d мАч</string>
 </resources>
