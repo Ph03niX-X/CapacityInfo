@@ -90,4 +90,17 @@
     <string name="settings_reset_successfully">Налаштування успішно скинуті</string>
     <string name="forcibly_show_rate_the_app">"Примусово показувати \"Оцінити додаток\""</string>
     <string name="open_settings">Відкрити налаштування</string>
+    <string name="application_language">Мова додатка</string>
+    <string name="export_settings">Експорт налаштувань</string>
+    <string name="successful_export_of_settings">Налаштування були успішно експортовані!\nІм\'я файлу: "%1$s"</string>
+    <string name="error_exporting_settings">Помилка експортування налаштувань!\n%1$s</string>
+    <string name="about_and_feedback">Про додаток &amp; Зворотній зв\'язок</string>
+    <string name="import_settings">Імпорт налаштувань</string>
+    <string name="settings_imported_successfully">Налаштування були успішно імпортовані!</string>
+    <string name="error_importing_settings">Помилка імпортування налаштувань!\n%1$s</string>
+    <string name="share_the_app">Поділитися додатком</string>
+    <string name="more">Ще&#8230;</string>
+    <string name="hide">Приховати</string>
+    <string name="restart_service">Перезапустити службу</string>
+    <string name="change_design_summary">%1$d мАг</string>
 </resources>
