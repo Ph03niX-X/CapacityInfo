@@ -129,7 +129,7 @@ interface NotificationInterface : BatteryInfoInterface {
         }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val plugged = getPlugged(context, batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)!!)
+        val plugged = getPlugged(context, batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1)
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
         val capacityAdded = getCapacityAdded(context)
         val chargeCurrent = context.getString(R.string.charge_current, getChargeDischargeCurrent(context).toString())
