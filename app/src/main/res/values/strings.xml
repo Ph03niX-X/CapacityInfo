@@ -107,5 +107,6 @@
     <string name="hide">Hide</string>
     <string name="restart_service">Restart Service</string>
     <string name="change_design_summary">%1$d mAh</string>
-    <string name="charge_discharge_current_unit_of_measure">Charge/Discharge Current unit of measure</string>
+    <string name="unit_of_charge_discharge_current">Unit of Charge/Discharge Current</string>
+    <string name="unit_of_measurement_of_current_capacity">Unit of measurement of current capacity</string>
 </resources>

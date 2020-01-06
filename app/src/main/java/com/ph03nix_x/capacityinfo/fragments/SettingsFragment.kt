@@ -35,7 +35,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var moreOther: Preference? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
-    private var currentUnitOfMeasure: ListPreference? = null
+    private var unitOfChargeDischargeCurrent: ListPreference? = null
+    private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
 
     // About & Feedback
@@ -179,15 +180,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
-        currentUnitOfMeasure = findPreference(Preferences.CurrentUnitOfMeasure.prefKey)
+        unitOfChargeDischargeCurrent = findPreference(Preferences.UnitOfChargeDischargeCurrent.prefKey)
+
+        unitOfMeasurementOfCurrentCapacity = findPreference(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey)
 
         changeDesignCapacity = findPreference("change_design_capacity")
-
-        if(pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA")
-            !in resources.getStringArray(R.array.charge_discharge_current_unit_of_measure))
-            pref.edit().putString(Preferences.CurrentUnitOfMeasure.prefKey, "uA").apply()
-
-        currentUnitOfMeasure?.summary = pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA")
 
         moreOther?.setOnPreferenceClickListener {
 
@@ -198,7 +195,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = true
                 voltageInMv?.isVisible = true
-                currentUnitOfMeasure?.isVisible = true
+                unitOfChargeDischargeCurrent?.isVisible = true
+                unitOfMeasurementOfCurrentCapacity?.isVisible = true
                 changeDesignCapacity?.isVisible = true
             }
 
@@ -209,14 +207,22 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = false
                 voltageInMv?.isVisible = false
-                currentUnitOfMeasure?.isVisible = false
+                unitOfChargeDischargeCurrent?.isVisible = false
+                unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 changeDesignCapacity?.isVisible = false
             }
 
             true
         }
 
-        currentUnitOfMeasure?.setOnPreferenceChangeListener { preference, newValue ->
+        unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = newValue as String
+
+            true
+        }
+
+        unitOfMeasurementOfCurrentCapacity?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = newValue as String
 
@@ -267,6 +273,18 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     override fun onResume() {
 
         super.onResume()
+
+        if(pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "uA")
+            !in resources.getStringArray(R.array.unit_of_charge_discharge_current))
+            pref.edit().putString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "uA").apply()
+
+        unitOfChargeDischargeCurrent?.summary = pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "uA")
+
+        if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh")
+            !in resources.getStringArray(R.array.unit_of_measurement_of_current_capacity))
+            pref.edit().putString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh").apply()
+
+        unitOfMeasurementOfCurrentCapacity?.summary = pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh")
 
         changeDesignCapacity?.summary = requireContext().getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
     }

@@ -28,8 +28,13 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 pref.edit().apply {
                     
-                    if(residualCapacity > 0) putInt(Preferences.ResidualCapacity.prefKey,
-                        (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
+                    if(residualCapacity > 0) {
+
+                        if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+                        putInt(Preferences.ResidualCapacity.prefKey,
+                            (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
+                        else putInt(Preferences.ResidualCapacity.prefKey, CapacityInfoService.instance!!.getCurrentCapacity(context).toInt())
+                    }
 
                     if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 0) {
 

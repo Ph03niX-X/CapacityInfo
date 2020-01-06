@@ -24,5 +24,5 @@ enum class Preferences(val prefKey: String) {
 
     IsForciblyShowRateTheApp("is_forcibly_show_rate_the_app"), Language("language"),
 
-    CurrentUnitOfMeasure("charge_discharge_current_unit_of_measure")
+    UnitOfChargeDischargeCurrent("unit_of_charge_discharge_current"), UnitOfMeasurementOfCurrentCapacity("unit_of_measurement_of_current_capacity")
 }

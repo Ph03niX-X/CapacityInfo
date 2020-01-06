@@ -15,8 +15,13 @@
         <item>uk</item>
     </string-array>
 
-    <string-array name="charge_discharge_current_unit_of_measure">
+    <string-array name="unit_of_charge_discharge_current">
         <item>uA</item>
         <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity">
+        <item>uAh</item>
+        <item>mAh</item>
     </string-array>
 </resources>

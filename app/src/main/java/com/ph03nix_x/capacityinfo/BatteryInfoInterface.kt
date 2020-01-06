@@ -51,7 +51,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         if(chargeCurrent < 0) chargeCurrent /= -1
 
-        return if(pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA") == "uA") chargeCurrent / 1000
+        return if(pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "uA") == "uA") chargeCurrent / 1000
         else chargeCurrent
     }
 
@@ -77,13 +77,16 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
       return try {
 
+          val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
           val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
           var currentCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
 
           if (currentCapacity < 0) currentCapacity /= -1
 
-          currentCapacity / 1000
+          if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+              currentCapacity / 1000 else currentCapacity
       }
 
       catch (e: RuntimeException) { 0.0 }
@@ -145,7 +148,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
             residualCapacity = pref.getInt(Preferences.ResidualCapacity.prefKey, 0).toDouble()
 
-            residualCapacity /= 1000
+            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+                residualCapacity /= 1000
         }
 
         if(residualCapacity < 0) residualCapacity /= -1

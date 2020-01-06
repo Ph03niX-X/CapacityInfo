@@ -159,15 +159,26 @@
                 android:key="voltage_in_mv"/>
 
         <ListPreference
-                android:title="@string/charge_discharge_current_unit_of_measure"
+                android:title="@string/unit_of_charge_discharge_current"
                 app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_charge_discharge_current_unit_of_measure"
-                android:dialogIcon="@drawable/ic_charge_discharge_current_unit_of_measure"
+                app:icon="@drawable/ic_unit_of_charge_discharge_current"
+                android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
                 app:defaultValue="uA"
-                android:entries="@array/charge_discharge_current_unit_of_measure"
-                android:entryValues="@array/charge_discharge_current_unit_of_measure"
+                android:entries="@array/unit_of_charge_discharge_current"
+                android:entryValues="@array/unit_of_charge_discharge_current"
                 app:singleLineTitle="false"
-                android:key="charge_discharge_current_unit_of_measure"/>
+                android:key="unit_of_charge_discharge_current"/>
+
+        <ListPreference
+                android:title="@string/unit_of_measurement_of_current_capacity"
+                app:isPreferenceVisible="false"
+                app:icon="@drawable/ic_battery_charging_full_24dp"
+                android:dialogIcon="@drawable/ic_battery_charging_full_24dp"
+                app:defaultValue="uAh"
+                android:entries="@array/unit_of_measurement_of_current_capacity"
+                android:entryValues="@array/unit_of_measurement_of_current_capacity"
+                app:singleLineTitle="false"
+                android:key="unit_of_measurement_of_current_capacity"/>
 
         <Preference
                 android:title="@string/change_design_capacity"
