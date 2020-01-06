@@ -184,7 +184,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         changeDesignCapacity = findPreference("change_design_capacity")
 
         if(pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA")
-            !in resources.getStringArray(R.array.current_unit_of_measure))
+            !in resources.getStringArray(R.array.charge_discharge_current_unit_of_measure))
             pref.edit().putString(Preferences.CurrentUnitOfMeasure.prefKey, "uA").apply()
 
         currentUnitOfMeasure?.summary = pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA")

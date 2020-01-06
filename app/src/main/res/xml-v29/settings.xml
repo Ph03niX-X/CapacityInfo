@@ -158,15 +158,15 @@
                 android:key="voltage_in_mv"/>
 
         <ListPreference
-                android:title="@string/current_unit_of_measure"
+                android:title="@string/charge_discharge_current_unit_of_measure"
                 app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_current_unit_of_measure"
-                android:dialogIcon="@drawable/ic_current_unit_of_measure"
+                app:icon="@drawable/ic_charge_discharge_current_unit_of_measure"
+                android:dialogIcon="@drawable/ic_charge_discharge_current_unit_of_measure"
                 app:defaultValue="uA"
-                android:entries="@array/current_unit_of_measure"
-                android:entryValues="@array/current_unit_of_measure"
+                android:entries="@array/charge_discharge_current_unit_of_measure"
+                android:entryValues="@array/charge_discharge_current_unit_of_measure"
                 app:singleLineTitle="false"
-                android:key="current_unit_of_measure"/>
+                android:key="charge_discharge_current_unit_of_measure"/>
 
         <Preference
                 android:title="@string/change_design_capacity"

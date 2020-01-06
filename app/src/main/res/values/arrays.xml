@@ -15,7 +15,7 @@
         <item>uk</item>
     </string-array>
 
-    <string-array name="current_unit_of_measure">
+    <string-array name="charge_discharge_current_unit_of_measure">
         <item>uA</item>
         <item>mA</item>
     </string-array>

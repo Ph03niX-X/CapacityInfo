@@ -6,7 +6,7 @@
     <string name="battery_wear">"Battery Wear: %1$s (%2$s mAh)"</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="github" translatable="false">GitHub</string>
-    <string name="charging_current">"Charging current: %1$s mA"</string>
+    <string name="charge_current">"Charging current: %1$s mA"</string>
     <string name="discharge_current">"Discharge current: %1$s mA"</string>
     <string name="not_supported">The application does not support your device</string>
     <string name="voltage">"Voltage: %1$s V"</string>
@@ -107,5 +107,5 @@
     <string name="hide">Hide</string>
     <string name="restart_service">Restart Service</string>
     <string name="change_design_summary">%1$d mAh</string>
-    <string name="current_unit_of_measure">Current unit of measure</string>
+    <string name="charge_discharge_current_unit_of_measure">Charge/Discharge Current unit of measure</string>
 </resources>

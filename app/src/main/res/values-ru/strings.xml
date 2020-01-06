@@ -5,7 +5,7 @@
     <string name="current_capacity">"Текущая ёмкость: %1$s мАч"</string>
     <string name="battery_wear">"Износ аккумулятора: %1$s (%2$s мАч)"</string>
     <string name="dark_mode">Тёмная тема</string>
-    <string name="charging_current">"Ток зарядки: %1$s мА"</string>
+    <string name="charge_current">"Ток зарядки: %1$s мА"</string>
     <string name="discharge_current">"Ток разрядки: %1$s мА"</string>
     <string name="not_supported">Приложение не поддерживает ваше устройство</string>
     <string name="voltage">"Напряжение: %1$s В"</string>

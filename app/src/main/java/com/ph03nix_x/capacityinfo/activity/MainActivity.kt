@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var technology: TextView
     private lateinit var status: TextView
     private lateinit var plugged: TextView
-    private lateinit var chargingCurrent: TextView
+    private lateinit var chargeCurrent: TextView
     private lateinit var temperatute: TextView
     private lateinit var voltage: TextView
     private lateinit var lastChargeTime: TextView
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         technology = findViewById(R.id.battery_technology)
         status = findViewById(R.id.status)
         plugged = findViewById(R.id.plugged)
-        chargingCurrent = findViewById(R.id.charging_current)
+        chargeCurrent = findViewById(R.id.charge_current)
         temperatute = findViewById(R.id.temperature)
         voltage = findViewById(R.id.voltage)
         lastChargeTime = findViewById(R.id.last_charge_time)
@@ -352,28 +352,28 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
+                        if (chargeCurrent.visibility == View.GONE) runOnUiThread { chargeCurrent.visibility = View.VISIBLE }
 
                         if (numberOfCharges.visibility == View.VISIBLE) runOnUiThread { numberOfCharges.visibility = View.GONE }
 
                         runOnUiThread {
 
-                            chargingCurrent.text = getString(R.string.charging_current, getChargingCurrent(this@MainActivity).toString())
+                            chargeCurrent.text = getString(R.string.charge_current, getChargeDischargeCurrent(this@MainActivity).toString())
                         }
 
                     } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
 
-                        if (chargingCurrent.visibility == View.GONE) runOnUiThread { chargingCurrent.visibility = View.VISIBLE }
+                        if (chargeCurrent.visibility == View.GONE) runOnUiThread { chargeCurrent.visibility = View.VISIBLE }
 
                         if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
 
                         runOnUiThread {
 
-                            chargingCurrent.text = getString(R.string.discharge_current, getChargingCurrent(this@MainActivity).toString())
+                            chargeCurrent.text = getString(R.string.discharge_current, getChargeDischargeCurrent(this@MainActivity).toString())
                         }
                     } else {
 
-                        if (chargingCurrent.visibility == View.VISIBLE) runOnUiThread {  chargingCurrent.visibility = View.GONE }
+                        if (chargeCurrent.visibility == View.VISIBLE) runOnUiThread {  chargeCurrent.visibility = View.GONE }
 
                         if (numberOfCharges.visibility == View.GONE) runOnUiThread { numberOfCharges.visibility = View.VISIBLE }
                     }
