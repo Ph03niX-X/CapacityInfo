@@ -196,7 +196,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
                 it.title = requireContext().getString(R.string.hide)
 
-                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedInApp.prefKey)?.isVisible = true
+                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = true
                 voltageInMv?.isVisible = true
                 currentUnitOfMeasure?.isVisible = true
                 changeDesignCapacity?.isVisible = true
@@ -207,7 +207,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedInApp.prefKey)?.isVisible = false
+                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = false
                 voltageInMv?.isVisible = false
                 currentUnitOfMeasure?.isVisible = false
                 changeDesignCapacity?.isVisible = false
