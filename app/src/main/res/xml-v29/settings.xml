@@ -180,6 +180,18 @@
                 app:singleLineTitle="false"
                 android:key="unit_of_measurement_of_current_capacity"/>
 
+        <ListPreference
+                android:title="@string/voltage_unit"
+                app:isPreferenceVisible="false"
+                app:icon="@drawable/ic_voltage_unit"
+                android:dialogIcon="@drawable/ic_voltage_unit"
+                app:defaultValue="mV"
+                android:entries="@array/voltage_unit"
+                android:entryValues="@array/voltage_unit_values"
+                app:singleLineTitle="false"
+                android:key="voltage_unit"/>
+
+
         <Preference
                 android:title="@string/change_design_capacity"
                 app:isPreferenceVisible="false"

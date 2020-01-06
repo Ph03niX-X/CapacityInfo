@@ -125,8 +125,14 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         var voltage = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
-        if(!pref.getBoolean(Preferences.VoltageInMv.prefKey, false))
-            if(voltage >= 1000 && voltage < 1000000) voltage /= 1000 else if(voltage >= 1000000) voltage /= 1000000
+        if(!pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) {
+
+            if(pref.getString(Preferences.VoltageUnit.prefKey, "mV") == "μV")
+                voltage /= Math.pow(1000.0, 2.0)
+            else voltage /= 1000
+        }
+
+        else if(pref.getString(Preferences.VoltageUnit.prefKey, "mV") == "μV") voltage /= 1000
 
         return voltage
     }

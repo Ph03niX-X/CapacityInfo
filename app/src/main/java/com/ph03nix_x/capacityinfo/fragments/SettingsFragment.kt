@@ -31,12 +31,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
 
-    // Other
+    // Misc
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var moreOther: Preference? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
+    private var voltageUnit: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
 
     // About & Feedback
@@ -172,7 +173,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        // Other
+        // Misc
 
         temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
 
@@ -183,6 +184,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         unitOfChargeDischargeCurrent = findPreference(Preferences.UnitOfChargeDischargeCurrent.prefKey)
 
         unitOfMeasurementOfCurrentCapacity = findPreference(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey)
+
+        voltageUnit = findPreference(Preferences.VoltageUnit.prefKey)
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
@@ -197,6 +200,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 voltageInMv?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = true
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
+                voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
             }
 
@@ -209,6 +213,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 voltageInMv?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
+                voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
             }
 
@@ -223,6 +228,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         }
 
         unitOfMeasurementOfCurrentCapacity?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = newValue as String
+
+            true
+        }
+
+        voltageUnit?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = newValue as String
 
@@ -285,6 +297,12 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             pref.edit().putString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh").apply()
 
         unitOfMeasurementOfCurrentCapacity?.summary = pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh")
+
+        if(pref.getString(Preferences.VoltageUnit.prefKey, "mV")
+            !in resources.getStringArray(R.array.voltage_unit_values))
+            pref.edit().putString(Preferences.VoltageUnit.prefKey, "mV").apply()
+
+        voltageUnit?.summary = pref.getString(Preferences.VoltageUnit.prefKey, "mV")
 
         changeDesignCapacity?.summary = requireContext().getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
     }

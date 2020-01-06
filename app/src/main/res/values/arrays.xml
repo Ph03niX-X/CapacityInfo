@@ -34,4 +34,14 @@
         <item>μAh</item>
         <item>mAh</item>
     </string-array>
+
+    <string-array name="voltage_unit">
+        <item>μV</item>
+        <item>mV</item>
+    </string-array>
+
+    <string-array name="voltage_unit_values"> // Do Not Translation
+        <item>μV</item>
+        <item>mV</item>
+    </string-array>
 </resources>
