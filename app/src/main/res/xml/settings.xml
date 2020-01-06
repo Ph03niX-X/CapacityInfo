@@ -140,6 +140,7 @@
                 app:defaultValue="true"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                app:icon="@drawable/ic_battery_charging_80_24dp"
                 android:key="is_show_capacity_added_last_charge_in_app"/>
 
         <SwitchPreferenceCompat
