@@ -22,5 +22,7 @@ enum class Preferences(val prefKey: String) {
 
     NumberOfCharges("number_of_charges"), IsShowNotSupportedDialog("is_show_not_supported_dialog"), IsAutoStartService("is_auto_start_service"),
 
-    IsForciblyShowRateTheApp("is_forcibly_show_rate_the_app"), Language("language")
+    IsForciblyShowRateTheApp("is_forcibly_show_rate_the_app"), Language("language"),
+
+    CurrentUnitOfMeasure("current_unit_of_measure")
 }

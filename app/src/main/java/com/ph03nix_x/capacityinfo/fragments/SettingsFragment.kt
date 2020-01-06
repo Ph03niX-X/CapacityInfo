@@ -35,6 +35,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var moreOther: Preference? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
+    private var currentUnitOfMeasure: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
 
     // About & Feedback
@@ -178,7 +179,15 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
 
+        currentUnitOfMeasure = findPreference(Preferences.CurrentUnitOfMeasure.prefKey)
+
         changeDesignCapacity = findPreference("change_design_capacity")
+
+        if(pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA")
+            !in resources.getStringArray(R.array.current_unit_of_measure))
+            pref.edit().putString(Preferences.CurrentUnitOfMeasure.prefKey, "uA").apply()
+
+        currentUnitOfMeasure?.summary = pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA")
 
         moreOther?.setOnPreferenceClickListener {
 
@@ -189,6 +198,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedInApp.prefKey)?.isVisible = true
                 voltageInMv?.isVisible = true
+                currentUnitOfMeasure?.isVisible = true
                 changeDesignCapacity?.isVisible = true
             }
 
@@ -199,8 +209,16 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedInApp.prefKey)?.isVisible = false
                 voltageInMv?.isVisible = false
+                currentUnitOfMeasure?.isVisible = false
                 changeDesignCapacity?.isVisible = false
             }
+
+            true
+        }
+
+        currentUnitOfMeasure?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = newValue as String
 
             true
         }

@@ -43,13 +43,16 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
     fun getChargingCurrent(context: Context): Int {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
         var chargingCurrent = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
 
         if(chargingCurrent < 0) chargingCurrent /= -1
 
-        return chargingCurrent / 1000
+        return if(pref.getString(Preferences.CurrentUnitOfMeasure.prefKey, "uA") == "uA") chargingCurrent / 1000
+        else chargingCurrent
     }
 
     fun getTemperature(context: Context): String {
