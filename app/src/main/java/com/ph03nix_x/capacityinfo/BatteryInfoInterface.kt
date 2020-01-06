@@ -51,7 +51,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         if(chargeCurrent < 0) chargeCurrent /= -1
 
-        return if(pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "uA") == "uA") chargeCurrent / 1000
+        return if(pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "μA") == "μA") chargeCurrent / 1000
         else chargeCurrent
     }
 
@@ -85,7 +85,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
           if (currentCapacity < 0) currentCapacity /= -1
 
-          if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+          if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
               currentCapacity / 1000 else currentCapacity
       }
 
@@ -148,7 +148,7 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
             residualCapacity = pref.getInt(Preferences.ResidualCapacity.prefKey, 0).toDouble()
 
-            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
                 residualCapacity /= 1000
         }
 

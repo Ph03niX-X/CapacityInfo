@@ -30,7 +30,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     
                     if(residualCapacity > 0) {
 
-                        if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+                        if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
                         putInt(Preferences.ResidualCapacity.prefKey,
                             (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
                         else putInt(Preferences.ResidualCapacity.prefKey, CapacityInfoService.instance!!.getCurrentCapacity(context).toInt())

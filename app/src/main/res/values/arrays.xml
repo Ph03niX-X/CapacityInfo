@@ -1,5 +1,5 @@
 <resources>
-    <string-array name="languages">
+    <string-array name="languages"> // Do Not Translation
         <item>English</item>
         <item>Română</item>
         <item>Беларуская</item>
@@ -7,7 +7,7 @@
         <item>Українська</item>
     </string-array>
 
-    <string-array name="languages_codes">
+    <string-array name="languages_codes"> // Do Not Translation
         <item>en</item>
         <item>ro</item>
         <item>be</item>
@@ -16,12 +16,22 @@
     </string-array>
 
     <string-array name="unit_of_charge_discharge_current">
-        <item>uA</item>
+        <item>μA</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_charge_discharge_current_values"> // Do Not Translation
+        <item>μA</item>
         <item>mA</item>
     </string-array>
 
     <string-array name="unit_of_measurement_of_current_capacity">
-        <item>uAh</item>
+        <item>μAh</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_values"> // Do Not Translation
+        <item>μAh</item>
         <item>mAh</item>
     </string-array>
 </resources>

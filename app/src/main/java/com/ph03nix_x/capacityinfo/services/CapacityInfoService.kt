@@ -139,7 +139,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                         if (getCurrentCapacity(this@CapacityInfoService) > 0) {
 
-                            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+                            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
                                 putInt(Preferences.ResidualCapacity.prefKey, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
                             else putInt(Preferences.ResidualCapacity.prefKey, getCurrentCapacity(this@CapacityInfoService).toInt())
 
@@ -191,7 +191,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if(residualCapacity > 0) {
 
-                    if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "uAh") == "uAh")
+                    if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
                         putInt(Preferences.ResidualCapacity.prefKey, (residualCapacity * 1000).toInt())
                     else putInt(Preferences.ResidualCapacity.prefKey, residualCapacity.toInt())
                 }

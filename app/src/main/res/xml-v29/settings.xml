@@ -163,9 +163,9 @@
                 app:isPreferenceVisible="false"
                 app:icon="@drawable/ic_unit_of_charge_discharge_current"
                 android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
-                app:defaultValue="uA"
+                app:defaultValue="μA"
                 android:entries="@array/unit_of_charge_discharge_current"
-                android:entryValues="@array/unit_of_charge_discharge_current"
+                android:entryValues="@array/unit_of_charge_discharge_current_values"
                 app:singleLineTitle="false"
                 android:key="unit_of_charge_discharge_current"/>
 
@@ -174,9 +174,9 @@
                 app:isPreferenceVisible="false"
                 app:icon="@drawable/ic_battery_charging_full_24dp"
                 android:dialogIcon="@drawable/ic_battery_charging_full_24dp"
-                app:defaultValue="uAh"
+                app:defaultValue="μAh"
                 android:entries="@array/unit_of_measurement_of_current_capacity"
-                android:entryValues="@array/unit_of_measurement_of_current_capacity"
+                android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
                 app:singleLineTitle="false"
                 android:key="unit_of_measurement_of_current_capacity"/>
 
