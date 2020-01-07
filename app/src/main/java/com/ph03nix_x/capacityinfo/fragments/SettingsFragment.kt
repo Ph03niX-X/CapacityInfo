@@ -222,21 +222,27 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = newValue as String
+            if((newValue as String) == "μA")
+                preference.summary = resources.getStringArray(R.array.unit_of_charge_discharge_current)[0]
+            else preference.summary = resources.getStringArray(R.array.unit_of_charge_discharge_current)[1]
 
             true
         }
 
         unitOfMeasurementOfCurrentCapacity?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = newValue as String
+            if((newValue as String) == "μAh")
+                preference.summary = resources.getStringArray(R.array.unit_of_measurement_of_current_capacity)[0]
+            else preference.summary = resources.getStringArray(R.array.unit_of_measurement_of_current_capacity)[1]
 
             true
         }
 
         voltageUnit?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = newValue as String
+            if((newValue as String) == "μV")
+                preference.summary = resources.getStringArray(R.array.voltage_unit)[0]
+            else preference.summary = resources.getStringArray(R.array.voltage_unit)[1]
 
             true
         }
@@ -290,20 +296,20 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             !in resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
             pref.edit().putString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "μA").apply()
 
-        unitOfChargeDischargeCurrent?.summary = pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "μA")
+        unitOfChargeDischargeCurrent?.summary = unitOfChargeDischargeCurrent?.entry
 
         if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh")
             !in resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values))
             pref.edit().putString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh").apply()
 
-        unitOfMeasurementOfCurrentCapacity?.summary = pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh")
+        unitOfMeasurementOfCurrentCapacity?.summary = unitOfMeasurementOfCurrentCapacity?.entry
 
         if(pref.getString(Preferences.VoltageUnit.prefKey, "mV")
             !in resources.getStringArray(R.array.voltage_unit_values))
             pref.edit().putString(Preferences.VoltageUnit.prefKey, "mV").apply()
 
-        voltageUnit?.summary = pref.getString(Preferences.VoltageUnit.prefKey, "mV")
+        voltageUnit?.summary = voltageUnit?.entry
 
-        changeDesignCapacity?.summary = requireContext().getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
+        changeDesignCapacity?.summary = getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
     }
 }
