@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/change_pref_value_edit"
                 android:enabled="false"
-                android:digits="abcdefghijklmnopqrstuvwxyz"
+                android:digits="AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
                 tools:text="0"/>
 
     </com.google.android.material.textfield.TextInputLayout>

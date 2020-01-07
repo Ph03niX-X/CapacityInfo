@@ -68,9 +68,10 @@ interface DebugOptionsInterface : ServiceInterface{
 
                     when(key) {
 
-                        Preferences.Language.prefKey -> {
+                        Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
+                        Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey -> {
 
-                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(2))
+                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
 
                             changePrefValue.setText(pref.all.getValue(key).toString())
                         }
@@ -78,7 +79,7 @@ interface DebugOptionsInterface : ServiceInterface{
                         Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
                         Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey -> {
 
-                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(20))
+                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(Long.MAX_VALUE.toString().count()))
 
                             changePrefValue.setText(pref.all.getValue(key).toString())
 
@@ -161,7 +162,9 @@ interface DebugOptionsInterface : ServiceInterface{
 
                     when(key) {
 
-                        Preferences.Language.prefKey -> changeSetting(context, pref, key, value.toString())
+                        Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
+                        Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey ->
+                            changeSetting(context, pref, key, value.toString())
 
                         Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
                         Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey -> changeSetting(context, pref, key, value.toString().toInt())
