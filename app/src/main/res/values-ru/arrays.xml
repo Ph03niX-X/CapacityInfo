@@ -1,0 +1,16 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current">
+        <item>мкА</item>
+        <item>мА</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity">
+        <item>мкАч</item>
+        <item>мАч</item>
+    </string-array>
+
+    <string-array name="voltage_unit">
+        <item>мкВ</item>
+        <item>мВ</item>
+    </string-array>
+</resources>
