@@ -106,4 +106,5 @@
     <string name="unit_of_charge_discharge_current">Единица измерения тока зарядки/разрядки</string>
     <string name="unit_of_measurement_of_current_capacity">Единица измерения текущей ёмкости</string>
     <string name="voltage_unit">Единица измерения напряжения</string>
+    <string name="help_with_translation">Помочь с переводом</string>
 </resources>
