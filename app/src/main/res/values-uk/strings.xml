@@ -92,7 +92,7 @@
     <string name="open_settings">Відкрити налаштування</string>
     <string name="application_language">Мова додатка</string>
     <string name="export_settings">Експорт налаштувань</string>
-    <string name="successful_export_of_settings">Налаштування були успішно експортовані!\nІм\'я файлу: "%1$s"</string>
+    <string name="successful_export_of_settings">Налаштування були успішно експортовані!\n\nІм\'я файлу: "%1$s"</string>
     <string name="error_exporting_settings">Помилка експортування налаштувань!\n%1$s</string>
     <string name="about_and_feedback">Про додаток &amp; Зворотній зв\'язок</string>
     <string name="import_settings">Імпорт налаштувань</string>
@@ -106,4 +106,5 @@
     <string name="unit_of_charge_discharge_current">Одиниця виміру струму зарядки/розрядки</string>
     <string name="unit_of_measurement_of_current_capacity">Одиниця виміру поточної ємності</string>
     <string name="voltage_unit">Одиниця виміру напруги</string>
+    <string name="help_with_translation">Допомогти з перекладом</string>
 </resources>
