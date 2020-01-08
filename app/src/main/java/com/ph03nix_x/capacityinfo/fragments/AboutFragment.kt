@@ -16,6 +16,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private val designerLink = "https://t.me/F0x1d"
     private val romanianTranslationLink = "https://github.com/ygorigor"
     private val belorussianTranslationLink = "https://t.me/DrCyanogen"
+    private val helpWithTranslationLink = "https://drive.google.com/open?id=1DoBUA5wye-vGw8Me6b-7Y44iXfpBSu91"
 
     private var developer: Preference? = null
     private var version: Preference? = null
@@ -25,6 +26,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belorussianTranslation: Preference? = null
+    private var helpWithTranslation: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -47,6 +49,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         romanianTranslation = findPreference("romanian_translation")
 
         belorussianTranslation = findPreference("belorussian_translation")
+
+        helpWithTranslation = findPreference("help_with_translation")
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 
@@ -91,6 +95,13 @@ class AboutFragment : PreferenceFragmentCompat() {
         belorussianTranslation?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(belorussianTranslationLink)))
+
+            true
+        }
+
+        helpWithTranslation?.setOnPreferenceClickListener {
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(helpWithTranslationLink)))
 
             true
         }

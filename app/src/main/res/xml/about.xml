@@ -57,4 +57,10 @@
             app:icon="@drawable/ic_belarus"
             android:key="belorussian_translation"/>
 
+    <Preference
+            app:title="@string/help_with_translation"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_translate_24dp"
+            android:key="help_with_translation"/>
+
 </PreferenceScreen>

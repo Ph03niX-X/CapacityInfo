@@ -110,4 +110,5 @@
     <string name="unit_of_charge_discharge_current">Unit of Charge/Discharge Current</string>
     <string name="unit_of_measurement_of_current_capacity">Unit of measurement of current capacity</string>
     <string name="voltage_unit">Voltage Unit</string>
+    <string name="help_with_translation">Help with translation</string>
 </resources>
