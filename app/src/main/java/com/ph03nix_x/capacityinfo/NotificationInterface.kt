@@ -44,7 +44,10 @@ interface NotificationInterface : BatteryInfoInterface {
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.service_small_icon)
-            color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
+
             setContentIntent(openApp)
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
@@ -69,6 +72,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         notificationBuilder.apply {
 
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
 
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
@@ -85,7 +89,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager.notify(notificationId, notificationBuilder.build())
         else notificationManager.cancel(notificationId)
     }
-    
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(context: Context): String {
         val channelId = "service_channel"
