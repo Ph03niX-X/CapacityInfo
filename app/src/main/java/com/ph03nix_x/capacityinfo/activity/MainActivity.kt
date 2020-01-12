@@ -85,6 +85,20 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             true
         }
 
+        toolbar.menu.findItem(R.id.faq).setOnMenuItemClickListener {
+
+            MaterialAlertDialogBuilder(this).apply {
+
+                setIcon(R.drawable.ic_help_outline_dialog_24dp)
+                setTitle(getString(R.string.faq))
+                setMessage(getString(R.string.faq_how_does_the_app_work) + getString(R.string.faq_add_device_support))
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                show()
+            }
+
+            true
+        }
+
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
         numberOfCharges = findViewById(R.id.number_of_charges)
