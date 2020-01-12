@@ -121,6 +121,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
             restartService(requireContext())
 
+            it.isVisible = CapacityInfoService.instance != null
+
             true
         }
 
