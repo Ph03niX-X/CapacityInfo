@@ -229,6 +229,10 @@ interface DebugOptionsInterface : ServiceInterface{
 
             (context as DebugActivity).recreate()
         }
+
+        else if(key == Preferences.IsEnableService.prefKey && !value
+            && CapacityInfoService.instance != null)
+            context.stopService(Intent(context, CapacityInfoService::class.java))
     }
 
     fun resetSettingDialog(context: Context, pref: SharedPreferences) {
