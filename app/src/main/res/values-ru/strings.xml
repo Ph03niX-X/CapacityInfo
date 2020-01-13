@@ -92,7 +92,7 @@
     <string name="open_settings">Открыть настройки</string>
     <string name="application_language">Язык приложения</string>
     <string name="export_settings">Экспорт настроек</string>
-    <string name="successful_export_of_settings">Настройки были успешно экспортированы!\n\nИмя файла: "%1$s"</string>
+    <string name="successful_export_of_settings">Настройки были успешно экспортированы!\n\nИмя файла: \"%1$s\"</string>
     <string name="error_exporting_settings">Ошибка экспортирования настроек!\n%1$s</string>
     <string name="about_and_feedback">О приложении &amp; Обратная связь</string>
     <string name="import_settings">Импорт настроек</string>
