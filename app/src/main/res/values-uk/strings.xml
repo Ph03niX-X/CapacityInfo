@@ -92,7 +92,7 @@
     <string name="open_settings">Відкрити налаштування</string>
     <string name="application_language">Мова додатка</string>
     <string name="export_settings">Експорт налаштувань</string>
-    <string name="successful_export_of_settings">Налаштування були успішно експортовані!\n\nІм\'я файлу: "%1$s"</string>
+    <string name="successful_export_of_settings">Налаштування були успішно експортовані!\n\nІм\'я файлу: \"%1$s\"</string>
     <string name="error_exporting_settings">Помилка експортування налаштувань!\n%1$s</string>
     <string name="about_and_feedback">Про додаток &amp; Зворотній зв\'язок</string>
     <string name="import_settings">Імпорт налаштувань</string>
