@@ -18,7 +18,7 @@
     <string name="change">Schimbare</string>
     <string name="information">Informaţii</string>
     <string name="battery_technology">"Tehnologia bateriei: %1$s"</string>
-    <string name="instruction_message">"Pentru ca aplicația să arate capacitatea rămasă, puneți dispozitivul la încărcare, în timp ce serviciul trebuie să fie pornit. Pentru o afișare mai exactă a capacității rămase, încărcați dispozitivul complet până când este afișat Încărcat. Dacă încărcarea continuă după ce a ajuns la 100%, acest lucru este normal. Dispozitivele moderne continuă să se încarce ceva timp după ce au ajuns la 100%. Dacă capacitatea de proiectare este incorectă, schimbați-o în setările aplicației.\n\nATENȚIE! Nu opriți serviciul. Dacă sistemului de operare al dispozitivului îi place să \"oprească\" aplicații, sau să \"oprească\" complet aplicațiile recente atunci când le eliminați, sau dacă utilizați economisire de energie, adăugați această aplicație în toate excepțiile posibile. Dacă sistemului de operare al dispozitivului are o setare de pornire automată a aplicațiilor, asigurați-vă că această aplicație poate porni după încărcarea sistemului de operare"</string>
+    <string name="instruction_message">"1. Pentru ca aplicația să arate capacitatea rămasă, puneți dispozitivul la încărcare, în timp ce serviciul trebuie să fie pornit.\n2. Pentru o afișare mai exactă a capacității rămase, încărcați dispozitivul complet până când este afișat \"Încărcat\".\n3. Dacă încărcarea continuă după ce a ajuns la 100%, acest lucru este normal. Dispozitivele moderne continuă să se încarce ceva timp după ce au ajuns la 100%.\n4. Dacă capacitatea de proiectare este incorectă, schimbați-o în setările aplicației.\n5. Dacă capacitatea curentă și/sau curentul de încărcare/descărcare și/sau tensiunea nu sunt afișate corect, atunci schimbați unitatea în setările aplicației.\n\nATENȚIE! Nu opriți serviciul. Dacă sistemului de operare al dispozitivului îi place să \"oprească\" aplicații, sau să \"oprească\" complet aplicațiile recente atunci când le eliminați, sau dacă utilizați economisire de energie, adăugați această aplicație în toate excepțiile posibile. Dacă sistemului de operare al dispozitivului are o setare de pornire automată a aplicațiilor, asigurați-vă că această aplicație poate porni după încărcarea sistemului de operare"</string>
     <string name="status">"Stare: %1$s"</string>
     <string name="plugged">"Sursa de alimentare: %1$s"</string>
     <string name="discharging">Se descarcă</string>
@@ -78,7 +78,7 @@
     <string name="auto_start">Pornire automată</string>
     <string name="auto_start_summary">Se pornește serviciul după pornirea sistemului de operare</string>
     <string name="debug">Depanare</string>
-    <string name="change_setting">Schimbare setareă</string>
+    <string name="change_setting">Schimbare setare</string>
     <string name="pref_key">Cheie</string>
     <string name="pref_value">Valoare</string>
     <string name="success_change_key">"Setarea \"%1$s\" schimbată cu succes"</string>
@@ -94,7 +94,7 @@
     <string name="open_settings">Deschidere setări</string>
     <string name="application_language">Limba aplicației</string>
     <string name="export_settings">Exportare setări</string>
-    <string name="successful_export_of_settings">Setările au fost exportate cu succes!\n\nNume fișier: "%1$s"</string>
+    <string name="successful_export_of_settings">Setările au fost exportate cu succes!\n\nNume fișier: \"%1$s\"</string>
     <string name="error_exporting_settings">Eroare la exportarea setărilor!\n%1$s</string>
     <string name="about_and_feedback">Despre și Feedback</string>
     <string name="import_settings">Importare setări</string>
@@ -108,4 +108,13 @@
     <string name="unit_of_charge_discharge_current">Unități curent de încărcare/descărcare</string>
     <string name="unit_of_measurement_of_current_capacity">Unitatea de măsură a capacității curente</string>
     <string name="voltage_unit">Unitate tensiune</string>
+    <string name="help_with_translation">Ajutor la traducere</string>
+    <string name="faq_how_does_the_app_work">Întrebare: Cum funcționează aplicația?\nRăspuns: Capacitatea reziduală se formează pe baza capacității actuale la atingerea 100% și a statutului de „Încărcat”. În timpul încărcării, se face o „încercare” de a afla capacitatea reziduală după următoarea formulă: capacitatea curentă / (nivelul bateriei / 100). Dacă nivelul de încărcare = 1% sau 0%, sau când se ajunge la 100%, încărcarea continuă, atunci în loc de calcul, capacitatea curentă este afișată în capacitatea rămasă. Capacitatea actuală este preluată de la nucleul sistemului de operare, chiar de API-ul Android, care vă permite să obțineți capacitatea actuală fără acces root. Nucleul preia capacitatea curentă de la baterie și o scrie în fișierul „charge_counter” (calea fișierului: /sys/class/power_supply/battery). Cât de exactă este capacitatea curentă depinde de baterie și de nucleu în sine.\n\n</string>
+    <string name="faq_capacity_added">Întrebare: Cum se calculează „Capacitate adăugată”?\nRăspuns: „Capacitatea adăugată” se calculează foarte simplu: capacitatea actuală - capacitatea care a fost înainte de a conecta la încărcare.\n\n</string>
+    <string name="faq_units">Întrebare: Numere foarte mari sau mici sunt afișate în capacitatea curentă, curentul de încărcare/descărcare, tensiune.\nRăspuns: Accesați setările, în secțiunea „Altele”, extindeți toate setările și schimbați unitatea de măsură.\n\n</string>
+    <string name="faq_add_device_support">Întrebare: Dispozitivul nu este acceptat. Adăugați dispozitivul.\nRăspuns: Din păcate, acest lucru este imposibil, deoarece depinde în primul rând de baterie și în al doilea rând de nucleul SO. Prin urmare, notarea cu 1 și scrierea despre aceea că nu este acceptat, precum și solicitarea de a adăuga asistență pentru dispozitiv nu are rost. Puteți nota cu 1, dar gândiți-vă de trei ori. Merită să stricați ratingul mediu al aplicației datorită faptului că bateria sau nucleul dispozitivului dvs. nu furnizează informația despre capacitatea actuală?</string>
+    <string name="restarting_the_service">Repornire serviciu&#8230;</string>
+    <string name="service_restarted_successfully">Serviciul a repornit cu succes!</string>
+    <string name="service_restart_failed">Repornirea serviciului a eșuat!\n%1$s</string>
+    <string name="import_settings_3dots">Importare setări&#8230;</string>
 </resources>
