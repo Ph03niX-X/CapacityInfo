@@ -119,4 +119,5 @@
     <string name="restarting_the_service">Restarting the Service&#8230;</string>
     <string name="service_restarted_successfully">Service restarted successfully!</string>
     <string name="service_restart_failed">Service restart failed!\n%1$s</string>
+    <string name="import_settings_3dots">Import Settings&#8230;</string>
 </resources>

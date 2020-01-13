@@ -357,6 +357,11 @@ interface DebugOptionsInterface : ServiceInterface{
 
             try {
 
+                launch(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string.import_settings_3dots), Toast.LENGTH_LONG).show()
+                }
+
                 if(CapacityInfoService.instance != null)
                     context.stopService(Intent(context, CapacityInfoService::class.java))
 
