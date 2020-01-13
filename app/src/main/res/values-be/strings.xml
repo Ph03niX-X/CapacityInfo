@@ -103,5 +103,8 @@
     <string name="hide">Схаваць</string>
     <string name="restart_service">Перазапусціць службу</string>
     <string name="change_design_summary">%1$d мАг</string>
+    <string name="unit_of_charge_discharge_current">Адзінка вымярэння току зарадкі/разрадкі</string>
+    <string name="unit_of_measurement_of_current_capacity">Адзінка вымярэння бягучай ёмістасці</string>
+    <string name="voltage_unit">Адзінка вымярэння напружання</string>
     <string name="help_with_translation">Дапамагчы з перакладам</string>
 </resources>
