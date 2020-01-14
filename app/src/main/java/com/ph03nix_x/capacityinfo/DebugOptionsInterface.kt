@@ -391,15 +391,15 @@ interface DebugOptionsInterface : ServiceInterface{
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
-                launch(Dispatchers.Main) {
-
-                    Toast.makeText(context, context.getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
-                }
-
                 if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
                     startService(context)
 
-                delay(3000)
+                context.startActivity(Intent(context, MainActivity::class.java).apply {
+
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    putExtra("is_import_settings", true)
+                })
+
                 System.exit(0)
             }
 

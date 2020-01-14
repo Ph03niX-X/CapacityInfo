@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
@@ -170,6 +171,22 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         else if(pref.getBoolean(Preferences.IsShowInstruction.prefKey, true)) showInstruction()
 
         startJob()
+
+        if(intent.getBooleanExtra("is_import_settings", false))
+        GlobalScope.launch {
+
+            startActivity(Intent(this@MainActivity, DebugActivity::class.java).apply {
+
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
+
+            launch(Dispatchers.Main) {
+
+                Toast.makeText(this@MainActivity, getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
+            }
+
+            intent.removeExtra("is_import_settings")
+        }
     }
 
     override fun onStop() {
