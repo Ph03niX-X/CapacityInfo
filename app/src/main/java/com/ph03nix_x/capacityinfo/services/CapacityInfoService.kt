@@ -7,23 +7,25 @@ import android.os.*
 import android.view.Display
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.*
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.batteryLevel
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
-import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
-import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
-import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
-class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
+class CapacityInfoService : Service(),
+    NotificationInterface,
+    BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
@@ -85,8 +87,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isJob = true
 
-        if(jobService == null)
-        jobService = GlobalScope.launch {
+        jobService = CoroutineScope(Dispatchers.Default).launch {
 
             while (isJob) {
 
@@ -181,7 +182,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         instance = null
         isJob = false
-        jobService = null
+        jobService?.cancel()
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 

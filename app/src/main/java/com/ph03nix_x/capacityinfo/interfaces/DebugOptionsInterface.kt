@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.Context
 import android.content.Intent
@@ -15,19 +15,21 @@ import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.activity.DebugActivity
-import com.ph03nix_x.capacityinfo.activity.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.launchActivity
+import com.ph03nix_x.capacityinfo.activities.DebugActivity
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.lang.Exception
 
-interface DebugOptionsInterface : ServiceInterface{
+interface DebugOptionsInterface :
+    ServiceInterface {
 
     fun changeSettingDialog(context: Context, pref: SharedPreferences) = createDialog(context, pref)
 
@@ -310,7 +312,7 @@ interface DebugOptionsInterface : ServiceInterface{
 
     fun exportSettings(context: Context, intent: Intent, prefPath: String, prefName: String) {
 
-        GlobalScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
 
@@ -336,7 +338,7 @@ interface DebugOptionsInterface : ServiceInterface{
                 outputStream.flush()
                 outputStream.close()
 
-                launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.successful_export_of_settings, prefName), Toast.LENGTH_LONG).show()
                 }
@@ -345,7 +347,7 @@ interface DebugOptionsInterface : ServiceInterface{
 
             catch(e: Exception) {
 
-                launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.error_exporting_settings, e.message), Toast.LENGTH_LONG).show()
                 }
@@ -357,11 +359,11 @@ interface DebugOptionsInterface : ServiceInterface{
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
 
-                launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.import_settings_3dots), Toast.LENGTH_LONG).show()
                 }
@@ -369,6 +371,7 @@ interface DebugOptionsInterface : ServiceInterface{
                 if(CapacityInfoService.instance != null)
                     context.stopService(Intent(context, CapacityInfoService::class.java))
 
+                delay(1500)
                 if(File(prefPath).exists()) File(prefPath).delete()
 
                 File(prefPath).createNewFile()
@@ -394,18 +397,15 @@ interface DebugOptionsInterface : ServiceInterface{
                 if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
                     startService(context)
 
-                context.startActivity(Intent(context, MainActivity::class.java).apply {
-
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    putExtra("is_import_settings", true)
-                })
+                launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
+                    Intent().putExtra("is_import_settings", true))
 
                 System.exit(0)
             }
 
             catch(e: Exception) {
 
-                launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.error_importing_settings, e.message), Toast.LENGTH_LONG).show()
                 }

@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.Context
 import android.content.Intent
@@ -6,18 +6,23 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.Util.Companion.batteryIntent
-import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
-import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TimeSpan.toHours
+import com.ph03nix_x.capacityinfo.TimeSpan.toMinutes
+import com.ph03nix_x.capacityinfo.TimeSpan.toSeconds
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempCurrentCapacity
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 @SuppressWarnings("PrivateApi")
-interface BatteryInfoInterface : TimeSpanInterface {
+interface BatteryInfoInterface {
 
     companion object {
 
@@ -115,7 +120,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
                 context.getString(R.string.capacity_added, DecimalFormat("#.#").format(capacityAdded), "$percentAdded%")
             }
 
-            else -> context.getString(R.string.capacity_added_last_charge,
+            else -> context.getString(
+                R.string.capacity_added_last_charge,
                 DecimalFormat("#.#").format(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()),
                 "${pref.getInt(Preferences.PercentAdded.prefKey, 0)}%")
         }
@@ -156,7 +162,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         else if(!isCharging) {
 
-            residualCapacity = pref.getInt(Preferences.ResidualCapacity.prefKey, 0).toDouble()
+            residualCapacity = pref.getInt(
+                Preferences.ResidualCapacity.prefKey, 0).toDouble()
 
             if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
                 residualCapacity /= 1000
@@ -164,19 +171,38 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         if(residualCapacity < 0) residualCapacity /= -1
 
-        return context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
-            "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
+        return context.getString(
+            R.string.residual_capacity, DecimalFormat("#.#").format(
+                residualCapacity
+            ),
+            "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(
+                Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
     }
 
     fun getStatus(context: Context, extraStatus: Int): String {
 
         return when(extraStatus) {
 
-            BatteryManager.BATTERY_STATUS_DISCHARGING -> context.getString(R.string.status, context.getString(R.string.discharging))
-            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> context.getString(R.string.status, context.getString(R.string.not_charging))
-            BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(R.string.status, context.getString(R.string.charging))
-            BatteryManager.BATTERY_STATUS_FULL -> context.getString(R.string.status, context.getString(R.string.full))
-            BatteryManager.BATTERY_STATUS_UNKNOWN -> context.getString(R.string.status, context.getString(R.string.unknown))
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> context.getString(
+                R.string.status, context.getString(
+                    R.string.discharging
+                ))
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> context.getString(
+                R.string.status, context.getString(
+                    R.string.not_charging
+                ))
+            BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(
+                R.string.status, context.getString(
+                    R.string.charging
+                ))
+            BatteryManager.BATTERY_STATUS_FULL -> context.getString(
+                R.string.status, context.getString(
+                    R.string.full
+                ))
+            BatteryManager.BATTERY_STATUS_UNKNOWN -> context.getString(
+                R.string.status, context.getString(
+                    R.string.unknown
+                ))
             else -> "N/A"
         }
     }
@@ -185,9 +211,18 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         return when(extraPlugged) {
 
-            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.plugged, context.getString(R.string.plugged_ac))
-            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.plugged, context.getString(R.string.plugged_usb))
-            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(R.string.plugged, context.getString(R.string.plugged_wireless))
+            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(
+                R.string.plugged, context.getString(
+                    R.string.plugged_ac
+                ))
+            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(
+                R.string.plugged, context.getString(
+                    R.string.plugged_usb
+                ))
+            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(
+                R.string.plugged, context.getString(
+                    R.string.plugged_wireless
+                ))
             else -> "N/A"
         }
     }
@@ -198,7 +233,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()
 
-        return context.getString(R.string.battery_wear,
+        return context.getString(
+            R.string.battery_wear,
             if(residualCapacity > 0 && residualCapacity < capacityDesign)
                 "${DecimalFormat("#.#").format(100 - ((residualCapacity / capacityDesign) * 100))}%" else "0%",
             if (residualCapacity > 0 && residualCapacity < capacityDesign)
@@ -213,7 +249,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
         var time = "$hours:$minutes:$secondsTime"
 
-        return context.getString(R.string.charging_time,
+        return context.getString(
+            R.string.charging_time,
 
             try {
 
@@ -236,7 +273,8 @@ interface BatteryInfoInterface : TimeSpanInterface {
 
     fun getLastChargeTime(context: Context): String {
         
-        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(Preferences.LastChargeTime.prefKey, 0)
+        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(
+            Preferences.LastChargeTime.prefKey, 0)
 
         val seconds = toSeconds(secondsPref)
         val minutes = toMinutes(secondsPref)

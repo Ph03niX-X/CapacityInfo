@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo.activity
+package com.ph03nix_x.capacityinfo.activities
 
 import android.content.*
 import android.os.Bundle
@@ -7,10 +7,13 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
-class SettingsActivity : AppCompatActivity(), ServiceInterface {
+class SettingsActivity : AppCompatActivity(),
+    ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     lateinit var toolbar: CenteredToolbar

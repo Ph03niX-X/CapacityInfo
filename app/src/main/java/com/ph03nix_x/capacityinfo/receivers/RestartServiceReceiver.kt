@@ -5,11 +5,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import java.io.File
 
-class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
+class RestartServiceReceiver : BroadcastReceiver(),
+    ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 

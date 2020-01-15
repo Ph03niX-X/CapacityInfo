@@ -3,16 +3,21 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import com.ph03nix_x.capacityinfo.activity.MainActivity
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
-import com.ph03nix_x.capacityinfo.activity.SettingsActivity
+import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 
-class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
+class SettingsFragment : PreferenceFragmentCompat(),
+    ServiceInterface, SettingsInterface,
+    DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
 

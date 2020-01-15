@@ -8,17 +8,20 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.DebugOptionsInterface
+import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
-import com.ph03nix_x.capacityinfo.ServiceInterface
-import com.ph03nix_x.capacityinfo.activity.SettingsActivity
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.launchActivity
+import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import java.io.File
 
-class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
+class DebugFragment : PreferenceFragmentCompat(),
+    DebugOptionsInterface,
+    ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var prefPath: String
@@ -109,10 +112,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         openSettings?.setOnPreferenceClickListener {
 
-            startActivity(Intent(requireContext(), SettingsActivity::class.java).apply {
-
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            })
+            launchActivity(requireContext(), SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
 
             true
         }

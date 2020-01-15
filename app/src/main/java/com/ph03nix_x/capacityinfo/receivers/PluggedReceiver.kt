@@ -5,13 +5,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.ServiceInterface
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
-import com.ph03nix_x.capacityinfo.Util.Companion.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.Util.Companion.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempCurrentCapacity
 
-class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
+class PluggedReceiver : BroadcastReceiver(),
+    ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 

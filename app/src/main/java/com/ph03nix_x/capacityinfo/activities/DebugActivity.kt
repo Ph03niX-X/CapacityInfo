@@ -1,10 +1,10 @@
-package com.ph03nix_x.capacityinfo.activity
+package com.ph03nix_x.capacityinfo.activities
 
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R

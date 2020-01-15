@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.interfaces
 
 import android.app.NotificationManager
 import android.content.Context
@@ -11,6 +11,8 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ph03nix_x.capacityinfo.Preferences
+import com.ph03nix_x.capacityinfo.R
 
 interface SettingsInterface {
 

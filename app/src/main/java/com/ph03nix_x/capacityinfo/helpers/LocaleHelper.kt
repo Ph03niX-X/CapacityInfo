@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.content.res.Configuration

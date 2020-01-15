@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 
 class MainApp : Application() {
 

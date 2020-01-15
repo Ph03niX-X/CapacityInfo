@@ -4,16 +4,17 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.batteryLevel
-import com.ph03nix_x.capacityinfo.BatteryInfoInterface.Companion.residualCapacity
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.Preferences
-import com.ph03nix_x.capacityinfo.ServiceInterface
-import com.ph03nix_x.capacityinfo.Util.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.Util.Companion.isPowerConnected
-import com.ph03nix_x.capacityinfo.Util.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.utils.Utils.Companion.percentAdded
 
-class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
+class UnpluggedReceiver : BroadcastReceiver(),
+    ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 

@@ -18,7 +18,7 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.MainActivity" android:launchMode="singleTask">
+        <activity android:name=".activities.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.SettingsActivity"
+        <activity android:name=".activities.SettingsActivity"
                   android:launchMode="singleTask"
                   android:label="@string/settings"
-                  android:parentActivityName=".activity.SettingsActivity">
+                  android:parentActivityName=".activities.SettingsActivity">
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW"/>
@@ -40,10 +40,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.DebugActivity"
+        <activity android:name=".activities.DebugActivity"
                 android:launchMode="singleTask"
                 android:label="@string/debug"
-                android:parentActivityName=".activity.DebugActivity">
+                android:parentActivityName=".activities.DebugActivity">
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW"/>
