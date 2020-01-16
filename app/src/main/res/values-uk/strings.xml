@@ -80,7 +80,6 @@
     <string name="pref_key">Ключ</string>
     <string name="pref_value">Значення</string>
     <string name="success_change_key">"Настройка \"%1$s\" успішно змінена"</string>
-    <string name="key_not_found">"Налаштуваня \"%1$s\" не знайдено!"</string>
     <string name="error_changing_key">"Помилка зміни налаштування \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Скинути налаштування</string>
     <string name="reset">Скинути</string>

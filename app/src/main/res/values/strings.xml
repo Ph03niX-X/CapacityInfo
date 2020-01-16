@@ -84,7 +84,6 @@
     <string name="pref_key">Key</string>
     <string name="pref_value">Value</string>
     <string name="success_change_key">"Setting \"%1$s\" Successfully Changed"</string>
-    <string name="key_not_found">"Setting \"%1$s\" not found!"</string>
     <string name="error_changing_key">"Error changing setting \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Reset Setting</string>
     <string name="reset">Reset</string>
