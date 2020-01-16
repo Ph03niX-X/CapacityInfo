@@ -2,10 +2,13 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.EditText
 import androidx.annotation.RequiresApi
@@ -50,16 +53,35 @@ interface SettingsInterface {
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            if(changeDesignCapacity.text.isNotEmpty()) {
+            pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
 
-                pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
+            designCapacity.summary = changeDesignCapacity.text.toString()
 
-                designCapacity.summary = changeDesignCapacity.text.toString()
-            }
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 
-        dialog.show()
+        val dialogCreate = dialog.create()
+
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+
+            changeDesignCapacity.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
+                            && s.toString() != pref.getInt(Preferences.DesignCapacity.prefKey, 0).toString()
+                            && s.count() >= 4 && s.toString().toInt() <= 18000
+                }
+            })
+        }
+
+        dialogCreate.show()
     }
 }

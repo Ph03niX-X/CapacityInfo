@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -28,12 +29,12 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.lang.Exception
 
-interface DebugOptionsInterface :
-    ServiceInterface {
+interface DebugOptionsInterface : ServiceInterface {
 
-    fun changeSettingDialog(context: Context, pref: SharedPreferences) = createDialog(context, pref)
+    fun changeSettingDialog(context: Context, pref: SharedPreferences) =
+        changeSettingCreateDialog(context, pref)
 
-    private fun createDialog(context: Context, pref: SharedPreferences) {
+    private fun changeSettingCreateDialog(context: Context, pref: SharedPreferences) {
 
         val prefKeysArray = mutableListOf<String>()
 
@@ -54,142 +55,189 @@ interface DebugOptionsInterface :
 
         var key = ""
         var value: Any = ""
-
-        changePrefKey.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) { }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                key = s.toString()
-                changePrefValue.isEnabled = key in prefKeysArray
-
-                if(key in prefKeysArray) {
-
-                    when(key) {
-
-                        Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
-                        Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey -> {
-
-                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
-
-                            changePrefValue.setText(pref.all.getValue(key).toString())
-                        }
-
-                        Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                        Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey -> {
-
-                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(Long.MAX_VALUE.toString().count()))
-
-                            changePrefValue.setText(pref.all.getValue(key).toString())
-
-                            changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
-
-                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-                        }
-
-                        Preferences.CapacityAdded.prefKey -> {
-
-                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
-
-                            changePrefValue.setText(pref.all.getValue(key).toString())
-
-                            changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
-
-                            if(changePrefValue.text.toString().contains("."))
-                                changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-                            else changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
-                        }
-
-                        else -> {
-
-                            changePrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
-
-                            changePrefValue.setText(if(pref.all.getValue(key).toString() == "true") "1" else "0")
-
-                            changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
-
-                            changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
-                        }
-                    }
-                }
-
-                else changePrefValue.setText("")
-            }
-        })
-
-        changePrefValue.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) { }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                if(changePrefValue.isEnabled && s.isNotEmpty() && changePrefKey.text.toString() == Preferences.CapacityAdded.prefKey) {
-
-                    if(s.first() == '.') changePrefValue.setText("")
-
-                    if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
-                        changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-
-                    else if(changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
-                        changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
-                }
-
-                value = s.toString()
-            }
-        })
+        var valueType = ""
 
         dialog.apply {
 
-            setPositiveButton(context.getString(R.string.change)) { _, _ -> positiveButton(context, key, value, prefKeysArray) }
+            setPositiveButton(context.getString(R.string.change)) { _, _ -> changeSettingPositiveButton(context, key, value, prefKeysArray) }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
-            show()
         }
-    }
 
-    private fun positiveButton(context: Context, key: String, value: Any, prefKeysArray: MutableList<String>) {
+        val dialogCreate = dialog.create()
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        dialogCreate.setOnShowListener {
 
-        if(key != "" && value != "")
-            try {
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
 
-                if(key in prefKeysArray) {
+            changePrefKey.addTextChangedListener(object : TextWatcher {
 
-                    var toastMessage = context.getString(R.string.success_change_key, key)
+                override fun afterTextChanged(s: Editable) { }
 
-                    when(key) {
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 
-                        Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
-                        Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey ->
-                            changeSetting(context, pref, key, value.toString())
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                        Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                        Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey -> changeSetting(context, pref, key, value.toString().toInt())
+                    key = s.toString()
+                    changePrefValue.isEnabled = key in prefKeysArray
 
-                        Preferences.CapacityAdded.prefKey -> changeSetting(context, pref, key, value.toString().toFloat())
+                    if(key in prefKeysArray) {
 
-                        Preferences.NumberOfCharges.prefKey -> changeSetting(context, pref, key, value.toString().toLong())
+                        when(key) {
 
-                        else -> {
+                            Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
+                            Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey -> {
 
-                            if(value.toString().length == 1) changeSetting(context, pref, key, value = value == "1")
+                                valueType = "string"
 
-                            else toastMessage = context.getString(R.string.error_changing_key, key)
+                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
+
+                                changePrefValue.setText(pref.all.getValue(key).toString())
+                            }
+
+                            Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
+                            Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey -> {
+
+                                valueType = "int|long"
+
+                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(Long.MAX_VALUE.toString().count()))
+
+                                changePrefValue.setText(pref.all.getValue(key).toString())
+
+                                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                                changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                            }
+
+                            Preferences.CapacityAdded.prefKey -> {
+
+                                valueType = "float"
+
+                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
+
+                                changePrefValue.setText(pref.all.getValue(key).toString())
+
+                                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
+
+                                if(changePrefValue.text.toString().contains("."))
+                                    changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                                else changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                            }
+
+                            else -> {
+
+                                valueType = "boolean"
+
+                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
+
+                                changePrefValue.setText(if(pref.all.getValue(key).toString() == "true") "1" else "0")
+
+                                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                                changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
+                            }
                         }
                     }
 
-                    Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
+                    else changePrefValue.setText("")
                 }
+            })
 
-                else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
+            changePrefValue.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) { }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    if(changePrefValue.isEnabled && s.isNotEmpty() && changePrefKey.text.toString() == Preferences.CapacityAdded.prefKey) {
+
+                        if(s.first() == '.') changePrefValue.setText("")
+
+                        if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
+                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                        else if(changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
+                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                    }
+
+                    when(key) {
+
+                        Preferences.Language.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                            s.toString() in context.resources.getStringArray(R.array.languages_codes)
+
+                        Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                            s.toString() in context.resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values)
+
+                        Preferences.UnitOfChargeDischargeCurrent.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                            s.toString() in context.resources.getStringArray(R.array.unit_of_charge_discharge_current_values)
+
+                        Preferences.VoltageUnit.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                            s.toString() in context.resources.getStringArray(R.array.voltage_unit_values)
+
+                        else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
+                    }
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty() && when(valueType) {
+
+                        "string" -> s.toString() != pref.getString(key, "")
+
+                        "int|long" -> {
+
+                            if(key != Preferences.NumberOfCharges.prefKey)
+                                s.toString().toInt() != pref.getInt(key, 0)
+                            else s.toString().toLong() != pref.getLong(key, 0)
+                        }
+
+                        "float" -> s.toString().toFloat() != pref.getFloat(key, 0f)
+
+                        "boolean" -> {
+
+                            val b = s.toString() == "1"
+
+                            b != pref.getBoolean(key, false)
+                        }
+
+                        else -> false
+                    }
+
+                    value = s.toString()
+                }
+            })
+        }
+
+        dialogCreate.show()
+    }
+
+    private fun changeSettingPositiveButton(context: Context, key: String, value: Any, prefKeysArray: MutableList<String>) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        try {
+
+            when(key) {
+
+                Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
+                Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey ->
+                    changeSetting(context, pref, key, value.toString())
+
+                Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
+                Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey -> changeSetting(context, pref, key, value.toString().toInt())
+
+                Preferences.CapacityAdded.prefKey -> changeSetting(context, pref, key, value.toString().toFloat())
+
+                Preferences.NumberOfCharges.prefKey -> changeSetting(context, pref, key, value.toString().toLong())
+
+                else -> changeSetting(context, pref, key, value = value == "1")
             }
 
-            catch (e: Exception) { Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show() }
+            Toast.makeText(context, context.getString(R.string.success_change_key, key), Toast.LENGTH_LONG).show()
+        }
+
+        catch (e: Exception) {
+
+            Toast.makeText(context, context.getString(R.string.error_changing_key, key, e.message), Toast.LENGTH_LONG).show()
+        }
     }
 
     fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: String) {
@@ -256,38 +304,45 @@ interface DebugOptionsInterface :
 
         val resetPrefKey = view.findViewById<EditText>(R.id.reset_pref_key_edit)
 
-        resetPrefKey.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable?) { }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { key = s.toString() }
-        })
-
         dialog.setPositiveButton(context.getString(R.string.reset)) { _, _ ->
 
-            if(key != "")
-                if(key in prefKeysArray) {
+            pref.edit().remove(key).apply()
 
-                    pref.edit().remove(key).apply()
+            if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey
+                || key == Preferences.Language.prefKey) {
 
-                    if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey
-                        || key == Preferences.Language.prefKey) {
+                MainActivity.instance?.recreate()
 
-                        MainActivity.instance?.recreate()
+                (context as DebugActivity).recreate()
+            }
 
-                        (context as DebugActivity).recreate()
-                    }
-
-                    Toast.makeText(context, context.getString(R.string.settings_reset_successfully),
-                        Toast.LENGTH_LONG).show()
-                } else Toast.makeText(context, context.getString(R.string.key_not_found, key), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 
-        dialog.show()
+        val dialogCreate = dialog.create()
+
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+
+            resetPrefKey.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) { }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.toString() in prefKeysArray
+
+                    key = s.toString()
+                }
+            })
+        }
+
+        dialogCreate.show()
     }
 
     fun resetSettingsDialog(context: Context, pref: SharedPreferences) {

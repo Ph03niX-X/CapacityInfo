@@ -81,7 +81,7 @@
     <string name="pref_value">Значэнне</string>
     <string name="success_change_key">"Налада \"%1$s\" паспяхова зменена"</string>
     <string name="key_not_found">"Налада \"%1$s\" не знойдзена!"</string>
-    <string name="error_changing_key">"Памылка змены ключа \"%1$s\"!"</string>
+    <string name="error_changing_key">"Памылка змены ключа \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Скінуць наладу</string>
     <string name="reset">Скінуць</string>
     <string name="key_successfully_reset">"Налада \"%$s\" паспяхова выдалена"</string>

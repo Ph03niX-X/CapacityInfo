@@ -358,11 +358,11 @@ class MainActivity : AppCompatActivity(),
 
                         if (currentCapacity.visibility == View.VISIBLE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.GONE }
 
-                        if (capacityAdded.visibility == View.VISIBLE) withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+                        if (capacityAdded.visibility == View.GONE && pref.getFloat(Preferences.CapacityAdded.prefKey, 0f) > 0f)
+                            withContext(Dispatchers.Main) { capacityAdded.visibility = View.VISIBLE }
 
-                        if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) pref.edit().putBoolean(Preferences.IsSupported.prefKey, false).apply()
+                        else withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
                     }
-
                 }
 
                 else {

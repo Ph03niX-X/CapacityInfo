@@ -83,7 +83,7 @@
     <string name="pref_value">Valoare</string>
     <string name="success_change_key">"Setarea \"%1$s\" schimbată cu succes"</string>
     <string name="key_not_found">"Setarea \"%1$s\" nu a fost găsită!"</string>
-    <string name="error_changing_key">"Eroare la modificarea setării \"%1$s\"!"</string>
+    <string name="error_changing_key">"Eroare la modificarea setării \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Resetați setarea</string>
     <string name="reset">Resetare</string>
     <string name="key_successfully_reset">"Setare \"%$s\" resetată cu succes"</string>

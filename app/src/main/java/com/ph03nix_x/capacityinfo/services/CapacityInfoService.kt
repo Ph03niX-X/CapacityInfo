@@ -147,13 +147,6 @@ class CapacityInfoService : Service(),
                             putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
 
                             putInt(Preferences.PercentAdded.prefKey, percentAdded)
-
-                            if(!pref.getBoolean(Preferences.IsSupported.prefKey, true)) putBoolean(Preferences.IsSupported.prefKey, true)
-                        }
-
-                        else {
-
-                            if(pref.getBoolean(Preferences.IsSupported.prefKey, true)) putBoolean(Preferences.IsSupported.prefKey, false)
                         }
 
                         apply()
