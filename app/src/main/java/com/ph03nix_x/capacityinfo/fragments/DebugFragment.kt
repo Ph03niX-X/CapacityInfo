@@ -12,16 +12,15 @@ import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.launchActivity
+import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
+import com.ph03nix_x.capacityinfo.utils.Constants.exportSettingsRequestCode
+import com.ph03nix_x.capacityinfo.utils.Constants.importSettingsRequestCode
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import java.io.File
 
-class DebugFragment : PreferenceFragmentCompat(),
-    DebugOptionsInterface,
-    ServiceInterface {
+class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var prefPath: String
@@ -36,19 +35,14 @@ class DebugFragment : PreferenceFragmentCompat(),
     private var restartService: Preference? = null
     private var selectLanguage: ListPreference? = null
 
-    private val exportRequestCode = 0
-    private val importSettingsRequestCode = 1
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        prefPath = "/data/data/${requireContext().packageName}/shared_prefs/${requireContext().packageName}_preferences.xml"
+        prefPath = "${requireContext().filesDir.parent}/shared_prefs/${requireContext().packageName}_preferences.xml"
         prefName = File(prefPath).name
 
         addPreferencesFromResource(R.xml.debug)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        setModeNight(requireContext())
 
         changeSetting = findPreference("change_setting")
 
@@ -94,7 +88,7 @@ class DebugFragment : PreferenceFragmentCompat(),
 
         exportSettings?.setOnPreferenceClickListener {
 
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportRequestCode)
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportSettingsRequestCode)
 
             true
         }
@@ -149,7 +143,7 @@ class DebugFragment : PreferenceFragmentCompat(),
 
         when(requestCode) {
 
-            exportRequestCode ->
+            exportSettingsRequestCode ->
                 if(resultCode == RESULT_OK) exportSettings(requireContext(), data!!, prefPath, prefName)
 
             importSettingsRequestCode ->

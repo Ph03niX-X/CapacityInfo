@@ -11,20 +11,17 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import java.text.DecimalFormat
-import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.launchActivity
+import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity(),
-    ServiceInterface,
-    BatteryInfoInterface {
+class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface {
 
     private lateinit var toolbar: CenteredToolbar
 
@@ -62,8 +59,6 @@ class MainActivity : AppCompatActivity(),
         LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
 
         setContentView(R.layout.activity_main)
-
-        setModeNight(this)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.app_name)

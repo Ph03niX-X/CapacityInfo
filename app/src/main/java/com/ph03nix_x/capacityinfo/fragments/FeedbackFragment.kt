@@ -11,10 +11,9 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.utils.Constants.telegramLink
 
 class FeedbackFragment : PreferenceFragmentCompat() {
-
-    private val telegramLink = "https://t.me/Ph03niX_X"
 
     private var telegram: Preference? = null
     private var email: Preference? = null

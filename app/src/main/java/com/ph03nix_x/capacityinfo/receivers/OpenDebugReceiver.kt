@@ -3,7 +3,7 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.launchActivity
+import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.activities.DebugActivity
 
 class OpenDebugReceiver : BroadcastReceiver() {

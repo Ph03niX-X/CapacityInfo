@@ -8,20 +8,19 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batt
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.isPowerConnected
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
+import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
 
-class UnpluggedReceiver : BroadcastReceiver(),
-    ServiceInterface {
+class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         if(CapacityInfoService.instance != null && isPowerConnected)
-        when(intent.action) {
+            when(intent.action) {
 
             Intent.ACTION_POWER_DISCONNECTED -> {
 

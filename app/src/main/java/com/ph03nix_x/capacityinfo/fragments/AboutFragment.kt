@@ -8,15 +8,13 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
+import com.ph03nix_x.capacityinfo.utils.Constants.githubLink
+import com.ph03nix_x.capacityinfo.utils.Constants.designerLink
+import com.ph03nix_x.capacityinfo.utils.Constants.romanianTranslationLink
+import com.ph03nix_x.capacityinfo.utils.Constants.belorussianTranslationLink
+import com.ph03nix_x.capacityinfo.utils.Constants.helpWithTranslationLink
 
 class AboutFragment : PreferenceFragmentCompat() {
-
-    private val githubLink = "https://github.com/Ph03niX-X/CapacityInfo"
-    private val designerLink = "https://t.me/F0x1d"
-    private val romanianTranslationLink = "https://github.com/ygorigor"
-    private val belorussianTranslationLink = "https://t.me/DrCyanogen"
-    private val helpWithTranslationLink = "https://drive.google.com/open?id=1DoBUA5wye-vGw8Me6b-7Y44iXfpBSu91"
 
     private var developer: Preference? = null
     private var version: Preference? = null
@@ -31,8 +29,6 @@ class AboutFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.about)
-
-        setModeNight(requireContext())
 
         developer = findPreference("developer")
 

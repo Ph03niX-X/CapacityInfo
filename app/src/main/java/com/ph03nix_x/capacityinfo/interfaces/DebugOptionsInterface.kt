@@ -19,7 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.launchActivity
+import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.activities.DebugActivity
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -59,7 +59,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         dialog.apply {
 
-            setPositiveButton(context.getString(R.string.change)) { _, _ -> changeSettingPositiveButton(context, key, value, prefKeysArray) }
+            setPositiveButton(context.getString(R.string.change)) { _, _ -> changeSettingPositiveButton(context, key, value) }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         }
 
@@ -209,7 +209,7 @@ interface DebugOptionsInterface : ServiceInterface {
         dialogCreate.show()
     }
 
-    private fun changeSettingPositiveButton(context: Context, key: String, value: Any, prefKeysArray: MutableList<String>) {
+    private fun changeSettingPositiveButton(context: Context, key: String, value: Any) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 

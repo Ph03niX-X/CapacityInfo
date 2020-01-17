@@ -1,48 +1,28 @@
 package com.ph03nix_x.capacityinfo
 
-import android.annotation.TargetApi
 import android.app.Application
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isDarkMode
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 
 class MainApp : Application() {
 
     companion object {
 
-        fun setModeNight(context: Context) {
-
-            val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-                if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
-            }
-
-            else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-            else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-
         var defLang: String = "en"
-
-        var isDarkMode = false
     }
 
     override fun onCreate() {
 
         super.onCreate()
 
-        darkMode(resources.configuration)
+        setTheme(this)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            isDarkMode(resources.configuration)
 
         defLang()
     }
@@ -51,11 +31,12 @@ class MainApp : Application() {
 
         super.onConfigurationChanged(newConfig)
 
-        darkMode(newConfig)
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            isDarkMode(newConfig)
 
         if(LocaleHelper.getSystemLocale(newConfig) != defLang) {
-
-            val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
             pref.edit().remove(Preferences.Language.prefKey).apply()
 
@@ -63,14 +44,6 @@ class MainApp : Application() {
 
             defLang()
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.Q)
-    private fun darkMode(configuration: Configuration) {
-
-        val currentNightMode = configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-
-        isDarkMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun defLang() {

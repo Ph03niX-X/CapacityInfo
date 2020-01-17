@@ -3,21 +3,17 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.*
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.MainApp.Companion.setModeNight
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 
-class SettingsFragment : PreferenceFragmentCompat(),
-    ServiceInterface, SettingsInterface,
-    DebugOptionsInterface {
+class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -54,8 +50,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         addPreferencesFromResource(R.xml.settings)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        setModeNight(requireContext())
 
         // Service and Notification
 
@@ -113,7 +107,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if(it.title == requireContext().getString(R.string.more)) {
 
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
-                it.title = requireContext().getString(R.string.hide)
+                it.title = getString(R.string.hide)
 
                 showCapacityAddedInNotification?.isVisible = true
                 showLastChargeTimeInNotification?.isVisible = true
@@ -157,23 +151,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            MainActivity.instance?.recreate()
-
             darkMode?.isEnabled = !(newValue as Boolean)
 
-            if(!newValue)
-                AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                    AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            setTheme(requireContext(), isAutoDarkMode = newValue)
 
             true
         }
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            AppCompatDelegate.setDefaultNightMode(if(newValue as Boolean)
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            setTheme(requireContext(), isDarkMode = newValue as Boolean)
 
             true
         }
@@ -199,7 +186,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if(it.title == requireContext().getString(R.string.more)) {
 
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
-                it.title = requireContext().getString(R.string.hide)
+                it.title = getString(R.string.hide)
 
                 findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = true
                 voltageInMv?.isVisible = true
@@ -316,5 +303,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         voltageUnit?.summary = voltageUnit?.entry
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
+
+        preferenceScreen.isVisible = false
     }
 }

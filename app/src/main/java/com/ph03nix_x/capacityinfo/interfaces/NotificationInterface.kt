@@ -13,10 +13,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.MainApp.Companion.isDarkMode
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isDarkMode
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.StopService
@@ -42,16 +42,15 @@ interface NotificationInterface :
         val openApp = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         val stopService = PendingIntent.getService(context, 1, Intent(context, StopService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
-        notificationBuilder = NotificationCompat.Builder(context,
-            channelId
-        ).apply {
+        notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
 
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.service_small_icon)
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
+                color = ContextCompat.getColor(context.applicationContext,
+                    if(isDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
 
             setContentIntent(openApp)
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
@@ -80,7 +79,7 @@ interface NotificationInterface :
         notificationBuilder.apply {
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            color = ContextCompat.getColor(context.applicationContext, if(isDarkMode) R.color.red else R.color.blue)
+            color = ContextCompat.getColor(context.applicationContext, if(isDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
 
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 

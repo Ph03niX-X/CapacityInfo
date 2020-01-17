@@ -7,9 +7,9 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.isPowerConnected
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.utils.Utils.Companion.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
+import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 
 class PluggedReceiver : BroadcastReceiver(),
     ServiceInterface {
@@ -17,7 +17,7 @@ class PluggedReceiver : BroadcastReceiver(),
     override fun onReceive(context: Context, intent: Intent) {
 
         if(CapacityInfoService.instance != null && !isPowerConnected)
-        when(intent.action) {
+            when(intent.action) {
 
             Intent.ACTION_POWER_CONNECTED -> {
 

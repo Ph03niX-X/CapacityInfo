@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo
+package com.ph03nix_x.capacityinfo.helpers
 
 object TimeSpan {
 
