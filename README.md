@@ -25,7 +25,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1_9a7rBDlUGAJHyPq3gUX-58zr-Syj7ov">
+<a href="https://drive.google.com/open?id=1UjHIjkLI4xPVHgb9xyIR_l-J0cxhDDRF">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
