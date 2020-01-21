@@ -87,11 +87,11 @@ Answer: Alas, this is impossible, since it depends primarily on the battery and 
 <b>Supported Languages:</b>
 </p>
 
-• English
-• Română
-• Беларуская
-• Русский
-• Українська
++ English
++ Română
++ Беларуская
++ Русский
++ Українська
 
 ---
 If you want to help with the translation and you do not have a GitHub account, then follow this [link](https://drive.google.com/drive/folders/1DoBUA5wye-vGw8Me6b-7Y44iXfpBSu91)
