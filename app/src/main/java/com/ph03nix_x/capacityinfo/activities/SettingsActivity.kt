@@ -46,9 +46,6 @@ class SettingsActivity : AppCompatActivity(),
             replace(R.id.container, SettingsFragment())
             commit()
         }
-
-        if(pref.getBoolean(IS_ENABLE_SERVICE, true)
-            && CapacityInfoService.instance == null) startService(this)
     }
 
     override fun onResume() {

@@ -47,4 +47,7 @@ object Utils {
             putExtras(intent)
         })
     }
+
+    fun isGooglePlay(context: Context) =
+        "com.android.vending" == context.packageManager.getInstallerPackageName(context.packageName)
 }

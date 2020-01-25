@@ -43,9 +43,9 @@ class MainApp : Application() {
 
         defLang = "en"
 
-        val resLang = LocaleHelper.getSystemLocale(resources.configuration)
+        val systemLanguage = LocaleHelper.getSystemLocale(resources.configuration)
 
-        if(resLang in resources.getStringArray(R.array.languages_codes)) defLang = resLang
+        if(systemLanguage in resources.getStringArray(R.array.languages_codes)) defLang = systemLanguage
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 

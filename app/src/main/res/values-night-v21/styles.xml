@@ -26,11 +26,11 @@
     </style>
 
     <style name="TitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/titleSubtitleDarkTheme</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="SubtitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@color/titleSubtitleDarkTheme</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

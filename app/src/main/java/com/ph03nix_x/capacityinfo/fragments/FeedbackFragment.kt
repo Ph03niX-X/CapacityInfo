@@ -10,6 +10,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utils.Constants.telegramLink
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 
 class FeedbackFragment : PreferenceFragmentCompat() {
 
@@ -32,7 +33,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         shareTheApp = findPreference("share_the_app")
 
-        rateTheApp?.isVisible = isGooglePlay() || pref.getBoolean(IS_FORCIBLY_SHOW_RATE_THE_APP, false)
+        rateTheApp?.isVisible = isGooglePlay(requireContext()) || pref.getBoolean(IS_FORCIBLY_SHOW_RATE_THE_APP, false)
 
         telegram?.setOnPreferenceClickListener {
 
@@ -94,6 +95,4 @@ class FeedbackFragment : PreferenceFragmentCompat() {
             true
         }
     }
-
-    private fun isGooglePlay() = "com.android.vending" == requireContext().packageManager?.getInstallerPackageName(requireContext().packageName)
 }

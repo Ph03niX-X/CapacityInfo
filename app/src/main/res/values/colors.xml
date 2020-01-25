@@ -4,7 +4,7 @@
     <color name="red">#C62828</color>
     <color name="blue">#4285F4</color>
     <color name="white">#c7c7c7</color>
-    <color name="textColorWhiteTheme">#5F6368</color>
-    <color name="titleSubtitleWhiteTheme">@color/textColorWhiteTheme</color>
-    <color name="titleSubtitleDarkTheme">@android:color/white</color>
+    <color name="darkWhite">#5F6368</color>
+    <color name="iconsColor">@color/darkWhite</color>
+    <color name="iconsPrefTitleColor">@color/blue</color>
 </resources>

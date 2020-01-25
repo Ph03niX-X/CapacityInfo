@@ -4,10 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
@@ -17,7 +14,9 @@ import com.ph03nix_x.capacityinfo.utils.Constants.exportSettingsRequestCode
 import com.ph03nix_x.capacityinfo.utils.Constants.importSettingsRequestCode
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 import java.io.File
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
@@ -26,6 +25,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private lateinit var prefPath: String
     private lateinit var prefName: String
 
+    private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
@@ -44,6 +44,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
+        forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
+
         changeSetting = findPreference("change_setting")
 
         resetSetting = findPreference("reset_setting")
@@ -59,6 +61,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         restartService = findPreference("restart_service")
 
         selectLanguage = findPreference(LANGUAGE)
+
+        forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
         if(pref.getString(LANGUAGE, null) !in resources.getStringArray(R.array.languages_codes))
             selectLanguage?.value = defLang

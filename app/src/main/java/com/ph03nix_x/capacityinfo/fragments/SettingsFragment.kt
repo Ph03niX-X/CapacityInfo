@@ -63,7 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.settings)
-
+        
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         // Service and Notification
