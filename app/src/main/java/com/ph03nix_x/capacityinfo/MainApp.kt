@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo
 import android.app.Application
 import android.content.res.Configuration
 import android.os.Build
+import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
@@ -32,22 +33,15 @@ class MainApp : Application() {
 
         super.onConfigurationChanged(newConfig)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             isSystemDarkMode(newConfig)
 
-        if(LocaleHelper.getSystemLocale(newConfig) != defLang) {
-
-            pref.edit().remove(LANGUAGE).apply()
-
-            defLang = "en"
-
-            defLang()
-        }
+        if(LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
     }
 
     private fun defLang() {
+
+        defLang = "en"
 
         val resLang = LocaleHelper.getSystemLocale(resources.configuration)
 
@@ -55,7 +49,7 @@ class MainApp : Application() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(pref.getString(LANGUAGE, null) == null)
+        if(pref.getString(LANGUAGE, null) != defLang)
             pref.edit().putString(LANGUAGE, defLang).apply()
     }
 }

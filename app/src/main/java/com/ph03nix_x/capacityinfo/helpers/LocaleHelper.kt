@@ -18,5 +18,5 @@ object LocaleHelper {
     }
 
     fun getSystemLocale(configuration: Configuration) =
-        configuration.locale.country.toLowerCase(configuration.locale)
+        configuration.locale.toString().removeRange(2, configuration.locale.toString().count())
 }
