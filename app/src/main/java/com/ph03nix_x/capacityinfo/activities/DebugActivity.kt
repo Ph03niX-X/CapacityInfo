@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 
 class DebugActivity : AppCompatActivity() {
 
@@ -22,7 +22,7 @@ class DebugActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
+        LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
 
         setContentView(R.layout.debug_activity)
 

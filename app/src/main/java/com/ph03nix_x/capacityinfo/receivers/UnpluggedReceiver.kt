@@ -6,10 +6,16 @@ import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
 
@@ -30,23 +36,23 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     
                     if(residualCapacity > 0) {
 
-                        if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
-                        putInt(Preferences.ResidualCapacity.prefKey,
+                        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                        putInt(RESIDUAL_CAPACITY,
                             (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
-                        else putInt(Preferences.ResidualCapacity.prefKey, CapacityInfoService.instance!!.getCurrentCapacity(context).toInt())
+                        else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance!!.getCurrentCapacity(context).toInt())
                     }
 
                     if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 0) {
 
-                        putInt(Preferences.LastChargeTime.prefKey, CapacityInfoService.instance!!.seconds)
+                        putInt(LAST_CHARGE_TIME, CapacityInfoService.instance!!.seconds)
 
-                        putInt(Preferences.BatteryLevelWith.prefKey, CapacityInfoService.instance!!.batteryLevelWith)
+                        putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance!!.batteryLevelWith)
 
-                        putInt(Preferences.BatteryLevelTo.prefKey, CapacityInfoService.instance!!.getBatteryLevel(context))
+                        putInt(BATTERY_LEVEL_TO, CapacityInfoService.instance!!.getBatteryLevel(context))
 
-                        if(capacityAdded > 0) putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
+                        if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
-                        if(percentAdded > 0) putInt(Preferences.PercentAdded.prefKey, percentAdded)
+                        if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
 
                         percentAdded = 0
 

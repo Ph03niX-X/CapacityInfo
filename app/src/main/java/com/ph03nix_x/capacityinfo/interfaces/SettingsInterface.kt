@@ -14,8 +14,8 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 
 interface SettingsInterface {
 
@@ -46,14 +46,14 @@ interface SettingsInterface {
 
         val changeDesignCapacity = view.findViewById<EditText>(R.id.change_design_capacity_edit)
 
-        changeDesignCapacity.setText(if(pref.getInt(Preferences.DesignCapacity.prefKey, 0) >= 0) pref.getInt(
-            Preferences.DesignCapacity.prefKey, 0).toString()
+        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, 0) >= 0) pref.getInt(
+            DESIGN_CAPACITY, 0).toString()
 
-        else (pref.getInt(Preferences.DesignCapacity.prefKey, 0) / -1).toString())
+        else (pref.getInt(DESIGN_CAPACITY, 0) / -1).toString())
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(Preferences.DesignCapacity.prefKey, changeDesignCapacity.text.toString().toInt()).apply()
+            pref.edit().putInt(DESIGN_CAPACITY, changeDesignCapacity.text.toString().toInt()).apply()
 
             designCapacity.summary = changeDesignCapacity.text.toString()
 
@@ -76,8 +76,8 @@ interface SettingsInterface {
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
-                            && s.toString() != pref.getInt(Preferences.DesignCapacity.prefKey, 0).toString()
-                            && s.count() >= 4 && s.toString().toInt() <= 18000
+                            && s.toString() != pref.getInt(DESIGN_CAPACITY, 0).toString()
+                            && s.count() >= 4 && s.toString().toInt() <= 10500
                 }
             })
         }

@@ -21,11 +21,18 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
 
-class CapacityInfoService : Service(),
-    NotificationInterface,
-    BatteryInfoInterface {
+class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var batteryManager: BatteryManager
@@ -74,14 +81,14 @@ class CapacityInfoService : Service(),
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
+        LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         
         instance = this
 
-        numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
+        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
         createNotification(this@CapacityInfoService)
 
@@ -108,8 +115,8 @@ class CapacityInfoService : Service(),
 
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                    if(numberOfCharges == pref.getLong(Preferences.NumberOfCharges.prefKey, 0))
-                        pref.edit().putLong(Preferences.NumberOfCharges.prefKey, numberOfCharges + 1).apply()
+                    if(numberOfCharges == pref.getLong(NUMBER_OF_CHARGES, 0))
+                        pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                     val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
@@ -130,23 +137,23 @@ class CapacityInfoService : Service(),
                     
                     isFull = true
 
-                    numberOfCharges = pref.getLong(Preferences.NumberOfCharges.prefKey, 0)
+                    numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
                     pref.edit().apply {
 
-                        putInt(Preferences.LastChargeTime.prefKey, seconds)
-                        putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith)
-                        putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService))
+                        putInt(LAST_CHARGE_TIME, seconds)
+                        putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
+                        putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
 
                         if (getCurrentCapacity(this@CapacityInfoService) > 0) {
 
-                            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
-                                putInt(Preferences.ResidualCapacity.prefKey, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
-                            else putInt(Preferences.ResidualCapacity.prefKey, getCurrentCapacity(this@CapacityInfoService).toInt())
+                            if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                                putInt(RESIDUAL_CAPACITY, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
+                            else putInt(RESIDUAL_CAPACITY, getCurrentCapacity(this@CapacityInfoService).toInt())
 
-                            putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
+                            putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
-                            putInt(Preferences.PercentAdded.prefKey, percentAdded)
+                            putInt(PERCENT_ADDED, percentAdded)
                         }
 
                         apply()
@@ -185,20 +192,20 @@ class CapacityInfoService : Service(),
 
                 if(residualCapacity > 0) {
 
-                    if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
-                        putInt(Preferences.ResidualCapacity.prefKey, (residualCapacity * 1000).toInt())
-                    else putInt(Preferences.ResidualCapacity.prefKey, residualCapacity.toInt())
+                    if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                        putInt(RESIDUAL_CAPACITY, (residualCapacity * 1000).toInt())
+                    else putInt(RESIDUAL_CAPACITY, residualCapacity.toInt())
                 }
 
-                putInt(Preferences.LastChargeTime.prefKey, seconds)
+                putInt(LAST_CHARGE_TIME, seconds)
 
-                putInt(Preferences.BatteryLevelWith.prefKey, batteryLevelWith)
+                putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
 
-                putInt(Preferences.BatteryLevelTo.prefKey, getBatteryLevel(this@CapacityInfoService))
+                putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
 
-                if(capacityAdded > 0) putFloat(Preferences.CapacityAdded.prefKey, capacityAdded.toFloat())
+                if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
-                if(percentAdded > 0) putInt(Preferences.PercentAdded.prefKey, percentAdded)
+                if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
 
                 apply()
 

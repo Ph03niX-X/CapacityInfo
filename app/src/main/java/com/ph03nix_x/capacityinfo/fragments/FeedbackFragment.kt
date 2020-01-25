@@ -2,16 +2,14 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utils.Constants.telegramLink
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
 class FeedbackFragment : PreferenceFragmentCompat() {
 
@@ -26,21 +24,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-            if(pref.contains(Preferences.IsAutoDarkMode.prefKey)) pref.edit().remove(Preferences.IsAutoDarkMode.prefKey).apply()
-        }
-
-        else if(!pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(if(pref.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-
-        else if(pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true))
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-
         telegram = findPreference("telegram")
 
         email = findPreference("email")
@@ -49,7 +32,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         shareTheApp = findPreference("share_the_app")
 
-        rateTheApp?.isVisible = isGooglePlay() || pref.getBoolean(Preferences.IsForciblyShowRateTheApp.prefKey, false)
+        rateTheApp?.isVisible = isGooglePlay() || pref.getBoolean(IS_FORCIBLY_SHOW_RATE_THE_APP, false)
 
         telegram?.setOnPreferenceClickListener {
 

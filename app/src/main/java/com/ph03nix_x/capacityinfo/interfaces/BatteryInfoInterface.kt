@@ -6,11 +6,20 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TimeSpan.toHours
 import com.ph03nix_x.capacityinfo.helpers.TimeSpan.toMinutes
 import com.ph03nix_x.capacityinfo.helpers.TimeSpan.toSeconds
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
 import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
@@ -58,7 +67,7 @@ interface BatteryInfoInterface {
 
             if(chargeCurrent < 0) chargeCurrent /= -1
 
-            if(pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "μA") == "μA") chargeCurrent / 1000
+            if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") chargeCurrent / 1000
             else chargeCurrent
         }
         catch (e: RuntimeException) { 0 }
@@ -76,7 +85,7 @@ interface BatteryInfoInterface {
 
         var tempString = temp.toString()
 
-        if(pref.getBoolean(Preferences.TemperatureInFahrenheit.prefKey, false))
+        if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
             tempString = DecimalFormat("#.#").format((temp * 1.8) + 32)
 
         return tempString
@@ -94,7 +103,7 @@ interface BatteryInfoInterface {
 
           if (currentCapacity < 0) currentCapacity /= -1
 
-          if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
+          if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
               currentCapacity / 1000 else currentCapacity
       }
 
@@ -120,10 +129,9 @@ interface BatteryInfoInterface {
                 context.getString(R.string.capacity_added, DecimalFormat("#.#").format(capacityAdded), "$percentAdded%")
             }
 
-            else -> context.getString(
-                R.string.capacity_added_last_charge,
-                DecimalFormat("#.#").format(pref.getFloat(Preferences.CapacityAdded.prefKey, 0f).toDouble()),
-                "${pref.getInt(Preferences.PercentAdded.prefKey, 0)}%")
+            else -> context.getString(R.string.capacity_added_last_charge,
+                DecimalFormat("#.#").format(pref.getFloat(CAPACITY_ADDED, 0f).toDouble()),
+                "${pref.getInt(PERCENT_ADDED, 0)}%")
         }
     }
 
@@ -135,14 +143,14 @@ interface BatteryInfoInterface {
 
         var voltage = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
 
-        if(!pref.getBoolean(Preferences.VoltageInMv.prefKey, false)) {
+        if(!pref.getBoolean(VOLTAGE_IN_MV, false)) {
 
-            if(pref.getString(Preferences.VoltageUnit.prefKey, "mV") == "μV")
+            if(pref.getString(VOLTAGE_UNIT, "mV") == "μV")
                 voltage /= Math.pow(1000.0, 2.0)
             else voltage /= 1000
         }
 
-        else if(pref.getString(Preferences.VoltageUnit.prefKey, "mV") == "μV") voltage /= 1000
+        else if(pref.getString(VOLTAGE_UNIT, "mV") == "μV") voltage /= 1000
 
         return voltage
     }
@@ -162,21 +170,18 @@ interface BatteryInfoInterface {
 
         else if(!isCharging) {
 
-            residualCapacity = pref.getInt(
-                Preferences.ResidualCapacity.prefKey, 0).toDouble()
+            residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
 
-            if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh") == "μAh")
+            if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                 residualCapacity /= 1000
         }
 
         if(residualCapacity < 0) residualCapacity /= -1
 
         return context.getString(
-            R.string.residual_capacity, DecimalFormat("#.#").format(
-                residualCapacity
-            ),
-            "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(
-                Preferences.DesignCapacity.prefKey, 0).toDouble()) * 100)}%")
+            R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
+            "${DecimalFormat("#.#").format(
+                (residualCapacity / pref.getInt(DESIGN_CAPACITY, 0).toDouble()) * 100)}%")
     }
 
     fun getStatus(context: Context, extraStatus: Int): String {
@@ -231,7 +236,7 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val capacityDesign = pref.getInt(Preferences.DesignCapacity.prefKey, 0).toDouble()
+        val capacityDesign = pref.getInt(DESIGN_CAPACITY, 0).toDouble()
 
         return context.getString(
             R.string.battery_wear,
@@ -273,8 +278,7 @@ interface BatteryInfoInterface {
 
     fun getLastChargeTime(context: Context): String {
         
-        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(
-            Preferences.LastChargeTime.prefKey, 0)
+        val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(LAST_CHARGE_TIME, 0)
 
         val seconds = toSeconds(secondsPref)
         val minutes = toMinutes(secondsPref)

@@ -10,7 +10,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
@@ -18,6 +17,7 @@ import com.ph03nix_x.capacityinfo.utils.Constants.exportSettingsRequestCode
 import com.ph03nix_x.capacityinfo.utils.Constants.importSettingsRequestCode
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import java.io.File
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
@@ -58,9 +58,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService = findPreference("restart_service")
 
-        selectLanguage = findPreference(Preferences.Language.prefKey)
+        selectLanguage = findPreference(LANGUAGE)
 
-        if(pref.getString(Preferences.Language.prefKey, null) !in resources.getStringArray(R.array.languages_codes))
+        if(pref.getString(LANGUAGE, null) !in resources.getStringArray(R.array.languages_codes))
             selectLanguage?.value = defLang
 
         selectLanguage?.summary = selectLanguage?.entry

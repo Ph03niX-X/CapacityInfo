@@ -5,8 +5,9 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isDarkMode
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 
 class MainApp : Application() {
 
@@ -22,7 +23,7 @@ class MainApp : Application() {
         setTheme(this)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            isDarkMode(resources.configuration)
+            isSystemDarkMode(resources.configuration)
 
         defLang()
     }
@@ -34,11 +35,11 @@ class MainApp : Application() {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            isDarkMode(newConfig)
+            isSystemDarkMode(newConfig)
 
         if(LocaleHelper.getSystemLocale(newConfig) != defLang) {
 
-            pref.edit().remove(Preferences.Language.prefKey).apply()
+            pref.edit().remove(LANGUAGE).apply()
 
             defLang = "en"
 
@@ -54,7 +55,7 @@ class MainApp : Application() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(pref.getString(Preferences.Language.prefKey, null) == null)
-            pref.edit().putString(Preferences.Language.prefKey, defLang).apply()
+        if(pref.getString(LANGUAGE, null) == null)
+            pref.edit().putString(LANGUAGE, defLang).apply()
     }
 }

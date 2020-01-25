@@ -10,6 +10,8 @@ import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
 class SettingsActivity : AppCompatActivity(),
@@ -24,7 +26,7 @@ class SettingsActivity : AppCompatActivity(),
 
         super.onCreate(savedInstanceState)
 
-        LocaleHelper.setLocale(this, pref.getString(Preferences.Language.prefKey, null) ?: defLang)
+        LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
 
         setContentView(R.layout.settings_activity)
 
@@ -45,7 +47,7 @@ class SettingsActivity : AppCompatActivity(),
             commit()
         }
 
-        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        if(pref.getBoolean(IS_ENABLE_SERVICE, true)
             && CapacityInfoService.instance == null) startService(this)
     }
 
@@ -53,7 +55,7 @@ class SettingsActivity : AppCompatActivity(),
 
         super.onResume()
 
-        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        if(pref.getBoolean(IS_ENABLE_SERVICE, true)
             && CapacityInfoService.instance == null) startService(this)
     }
 

@@ -5,13 +5,28 @@ import android.os.Build
 import android.os.Bundle
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import androidx.preference.*
-import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_STOP_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
 
@@ -21,7 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var enableService: SwitchPreferenceCompat? = null
     private var isAutoStartService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
-    private var serviceHours: SwitchPreferenceCompat? = null
+    private var serviceTime: SwitchPreferenceCompat? = null
     private var moreServiceAndNotification: Preference? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
@@ -53,37 +68,37 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         // Service and Notification
 
-        enableService = findPreference(Preferences.IsEnableService.prefKey)
+        enableService = findPreference(IS_ENABLE_SERVICE)
 
-        isAutoStartService = findPreference(Preferences.IsAutoStartService.prefKey)
+        isAutoStartService = findPreference(IS_AUTO_START_SERVICE)
 
-        showStopService = findPreference(Preferences.IsShowServiceStop.prefKey)
+        showStopService = findPreference(IS_SHOW_STOP_SERVICE)
 
-        serviceHours = findPreference(Preferences.IsServiceHours.prefKey)
+        serviceTime = findPreference(IS_SERVICE_TIME)
 
         moreServiceAndNotification = findPreference("more_service_and_notification")
 
-        showCapacityAddedInNotification = findPreference(Preferences.IsShowCapacityAddedInNotification.prefKey)
+        showCapacityAddedInNotification = findPreference(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION)
 
-        showLastChargeTimeInNotification = findPreference(Preferences.IsShowLastChargeTimeInNotification.prefKey)
+        showLastChargeTimeInNotification = findPreference(IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION)
 
-        showCapacityAddedLastChargeTimeInNotification = findPreference(Preferences.IsShowCapacityAddedLastChargeInNotification.prefKey)
+        showCapacityAddedLastChargeTimeInNotification = findPreference(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION)
 
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
-        isAutoStartService?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        isAutoStartService?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
-        showStopService?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        showStopService?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
-        serviceHours?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        serviceTime?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
-        showCapacityAddedInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        showCapacityAddedInNotification?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
-        showCapacityAddedLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        showCapacityAddedLastChargeTimeInNotification?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
-        showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
-        openNotificationCategorySettings?.isEnabled = pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+        openNotificationCategorySettings?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
 
         enableService?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -92,7 +107,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             else if(newValue && CapacityInfoService.instance == null) startService(requireContext())
 
             isAutoStartService?.isEnabled = newValue
-            serviceHours?.isEnabled = newValue
+            serviceTime?.isEnabled = newValue
             showLastChargeTimeInNotification?.isEnabled = newValue
             showCapacityAddedLastChargeTimeInNotification?.isEnabled = newValue
             showStopService?.isEnabled = newValue
@@ -143,11 +158,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         // Appearance
 
-        autoDarkMode = findPreference(Preferences.IsAutoDarkMode.prefKey)
+        autoDarkMode = findPreference(IS_AUTO_DARK_MODE)
 
-        darkMode = findPreference(Preferences.IsDarkMode.prefKey)
+        darkMode = findPreference(IS_DARK_MODE)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled = !pref.getBoolean(Preferences.IsAutoDarkMode.prefKey, true)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled = !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -160,24 +175,24 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            setTheme(requireContext(), isDarkMode = newValue as Boolean)
+            setTheme(requireContext(), isSystemDarkMode = newValue as Boolean)
 
             true
         }
 
         // Misc
 
-        temperatureInFahrenheit = findPreference(Preferences.TemperatureInFahrenheit.prefKey)
+        temperatureInFahrenheit = findPreference(TEMPERATURE_IN_FAHRENHEIT)
 
         moreOther = findPreference("more_other")
 
-        voltageInMv = findPreference(Preferences.VoltageInMv.prefKey)
+        voltageInMv = findPreference(VOLTAGE_IN_MV)
 
-        unitOfChargeDischargeCurrent = findPreference(Preferences.UnitOfChargeDischargeCurrent.prefKey)
+        unitOfChargeDischargeCurrent = findPreference(UNIT_OF_CHARGE_DISCHARGE_CURRENT)
 
-        unitOfMeasurementOfCurrentCapacity = findPreference(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey)
+        unitOfMeasurementOfCurrentCapacity = findPreference(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY)
 
-        voltageUnit = findPreference(Preferences.VoltageUnit.prefKey)
+        voltageUnit = findPreference(VOLTAGE_UNIT)
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
@@ -188,7 +203,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
                 it.title = getString(R.string.hide)
 
-                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = true
+                findPreference<SwitchPreferenceCompat>(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP)?.isVisible = true
                 voltageInMv?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = true
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
@@ -201,7 +216,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                findPreference<SwitchPreferenceCompat>(Preferences.IsShowCapacityAddedLastChargeInApp.prefKey)?.isVisible = false
+                findPreference<SwitchPreferenceCompat>(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP)?.isVisible = false
                 voltageInMv?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
@@ -284,25 +299,25 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         super.onResume()
 
-        if(pref.getString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "μA")
+        if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
             !in resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
-            pref.edit().putString(Preferences.UnitOfChargeDischargeCurrent.prefKey, "μA").apply()
+            pref.edit().putString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA").apply()
 
         unitOfChargeDischargeCurrent?.summary = unitOfChargeDischargeCurrent?.entry
 
-        if(pref.getString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh")
+        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
             !in resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values))
-            pref.edit().putString(Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey, "μAh").apply()
+            pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
 
         unitOfMeasurementOfCurrentCapacity?.summary = unitOfMeasurementOfCurrentCapacity?.entry
 
-        if(pref.getString(Preferences.VoltageUnit.prefKey, "mV")
+        if(pref.getString(VOLTAGE_UNIT, "mV")
             !in resources.getStringArray(R.array.voltage_unit_values))
-            pref.edit().putString(Preferences.VoltageUnit.prefKey, "mV").apply()
+            pref.edit().putString(VOLTAGE_UNIT, "mV").apply()
 
         voltageUnit?.summary = voltageUnit?.entry
 
-        changeDesignCapacity?.summary = getString(R.string.change_design_summary, pref.getInt(Preferences.DesignCapacity.prefKey, 0))
+        changeDesignCapacity?.summary = getString(R.string.change_design_summary, pref.getInt(DESIGN_CAPACITY, 0))
 
         preferenceScreen.isVisible = false
     }

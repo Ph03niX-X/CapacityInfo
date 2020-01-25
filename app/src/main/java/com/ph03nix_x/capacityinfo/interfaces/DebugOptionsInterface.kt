@@ -17,12 +17,26 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.activities.DebugActivity
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -38,10 +52,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val prefKeysArray = mutableListOf<String>()
 
-        Preferences.values().forEach {
-
-            prefKeysArray.add(it.prefKey)
-        }
+        prefKeysArray.addAll(pref.all.keys)
 
         val dialog = MaterialAlertDialogBuilder(context)
 
@@ -84,8 +95,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
                         when(key) {
 
-                            Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
-                            Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey -> {
+                            LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                            UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT -> {
 
                                 valueType = "string"
 
@@ -94,8 +105,8 @@ interface DebugOptionsInterface : ServiceInterface {
                                 changePrefValue.setText(pref.all.getValue(key).toString())
                             }
 
-                            Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                            Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey, Preferences.NumberOfCharges.prefKey -> {
+                            DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
+                            RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES -> {
 
                                 valueType = "int|long"
 
@@ -108,7 +119,7 @@ interface DebugOptionsInterface : ServiceInterface {
                                 changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
                             }
 
-                            Preferences.CapacityAdded.prefKey -> {
+                            CAPACITY_ADDED -> {
 
                                 valueType = "float"
 
@@ -150,7 +161,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                    if(changePrefValue.isEnabled && s.isNotEmpty() && changePrefKey.text.toString() == Preferences.CapacityAdded.prefKey) {
+                    if(changePrefValue.isEnabled && s.isNotEmpty() && changePrefKey.text.toString() == CAPACITY_ADDED) {
 
                         if(s.first() == '.') changePrefValue.setText("")
 
@@ -163,16 +174,16 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     when(key) {
 
-                        Preferences.Language.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        LANGUAGE -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                             s.toString() in context.resources.getStringArray(R.array.languages_codes)
 
-                        Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                             s.toString() in context.resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values)
 
-                        Preferences.UnitOfChargeDischargeCurrent.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        UNIT_OF_CHARGE_DISCHARGE_CURRENT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                             s.toString() in context.resources.getStringArray(R.array.unit_of_charge_discharge_current_values)
 
-                        Preferences.VoltageUnit.prefKey -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        VOLTAGE_UNIT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                             s.toString() in context.resources.getStringArray(R.array.voltage_unit_values)
 
                         else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
@@ -184,7 +195,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                         "int|long" -> {
 
-                            if(key != Preferences.NumberOfCharges.prefKey)
+                            if(key != NUMBER_OF_CHARGES)
                                 s.toString().toInt() != pref.getInt(key, 0)
                             else s.toString().toLong() != pref.getLong(key, 0)
                         }
@@ -217,16 +228,16 @@ interface DebugOptionsInterface : ServiceInterface {
 
             when(key) {
 
-                Preferences.Language.prefKey, Preferences.UnitOfMeasurementOfCurrentCapacity.prefKey,
-                Preferences.UnitOfChargeDischargeCurrent.prefKey, Preferences.VoltageUnit.prefKey ->
+                LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT ->
                     changeSetting(context, pref, key, value.toString())
 
-                Preferences.DesignCapacity.prefKey, Preferences.LastChargeTime.prefKey, Preferences.BatteryLevelWith.prefKey, Preferences.BatteryLevelTo.prefKey,
-                Preferences.ResidualCapacity.prefKey, Preferences.PercentAdded.prefKey -> changeSetting(context, pref, key, value.toString().toInt())
+                DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
+                RESIDUAL_CAPACITY, PERCENT_ADDED -> changeSetting(context, pref, key, value.toString().toInt())
 
-                Preferences.CapacityAdded.prefKey -> changeSetting(context, pref, key, value.toString().toFloat())
+                CAPACITY_ADDED -> changeSetting(context, pref, key, value.toString().toFloat())
 
-                Preferences.NumberOfCharges.prefKey -> changeSetting(context, pref, key, value.toString().toLong())
+                NUMBER_OF_CHARGES -> changeSetting(context, pref, key, value.toString().toLong())
 
                 else -> changeSetting(context, pref, key, value = value == "1")
             }
@@ -244,7 +255,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         pref.edit().putString(key, value).apply()
 
-        if(key == Preferences.Language.prefKey) {
+        if(key == LANGUAGE) {
 
             changeLanguage(context, value)
 
@@ -273,14 +284,14 @@ interface DebugOptionsInterface : ServiceInterface {
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey) {
+        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE) {
 
             MainActivity.instance?.recreate()
 
             (context as DebugActivity).recreate()
         }
 
-        else if(key == Preferences.IsEnableService.prefKey && !value
+        else if(key == IS_ENABLE_SERVICE && !value
             && CapacityInfoService.instance != null)
             context.stopService(Intent(context, CapacityInfoService::class.java))
     }
@@ -289,10 +300,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val prefKeysArray = mutableListOf<String>()
 
-        Preferences.values().forEach {
-
-            prefKeysArray.add(it.prefKey)
-        }
+        prefKeysArray.addAll(pref.all.keys)
 
         val dialog = MaterialAlertDialogBuilder(context)
 
@@ -308,8 +316,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
             pref.edit().remove(key).apply()
 
-            if(key == Preferences.IsAutoDarkMode.prefKey || key == Preferences.IsDarkMode.prefKey
-                || key == Preferences.Language.prefKey) {
+            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
+                || key == LANGUAGE) {
 
                 MainActivity.instance?.recreate()
 
@@ -449,7 +457,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
-                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true))
+                if(pref.getBoolean(IS_ENABLE_SERVICE, true))
                     startService(context)
 
                 launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
@@ -481,6 +489,6 @@ interface DebugOptionsInterface : ServiceInterface {
 
         (context as DebugActivity).recreate()
 
-        if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)) startService(context)
+        if(pref.getBoolean(IS_ENABLE_SERVICE, true)) startService(context)
     }
 }

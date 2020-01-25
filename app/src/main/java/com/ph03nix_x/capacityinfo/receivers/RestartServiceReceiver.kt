@@ -4,9 +4,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.Preferences
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_APP
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import java.io.File
 
 class RestartServiceReceiver : BroadcastReceiver(),
@@ -24,7 +34,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
                 removeOldPref(context)
 
-                if(pref.getBoolean(Preferences.IsEnableService.prefKey, true)
+                if(pref.getBoolean(IS_ENABLE_SERVICE, true)
                     && CapacityInfoService.instance == null) startService(context)
             }
         }
@@ -41,17 +51,17 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
             newPrefs.edit().apply {
 
-                putBoolean(Preferences.IsDarkMode.prefKey, oldPrefs.getBoolean(Preferences.IsDarkMode.prefKey, false))
-                putBoolean(Preferences.IsEnableService.prefKey, oldPrefs.getBoolean(Preferences.IsEnableService.prefKey, true))
-                putBoolean(Preferences.TemperatureInFahrenheit.prefKey, oldPrefs.getBoolean("fahrenheit", false))
-                putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey, oldPrefs.getBoolean("show_last_charge_time", true))
-                putInt(Preferences.DesignCapacity.prefKey, oldPrefs.getInt(Preferences.DesignCapacity.prefKey, 0))
-                putInt(Preferences.ResidualCapacity.prefKey, oldPrefs.getInt("charge_counter", 0))
-                putBoolean(Preferences.IsShowInstruction.prefKey, oldPrefs.getBoolean(Preferences.IsShowInstruction.prefKey, false))
-                putBoolean(Preferences.IsSupported.prefKey, oldPrefs.getBoolean(Preferences.IsSupported.prefKey, true))
-                putInt(Preferences.LastChargeTime.prefKey, oldPrefs.getInt(Preferences.LastChargeTime.prefKey, 0))
-                putInt(Preferences.BatteryLevelWith.prefKey, oldPrefs.getInt(Preferences.BatteryLevelWith.prefKey, 0))
-                putInt(Preferences.BatteryLevelTo.prefKey, oldPrefs.getInt(Preferences.BatteryLevelTo.prefKey, 0))
+                putBoolean(IS_DARK_MODE, oldPrefs.getBoolean(IS_DARK_MODE, false))
+                putBoolean(IS_ENABLE_SERVICE, oldPrefs.getBoolean(IS_ENABLE_SERVICE, true))
+                putBoolean(TEMPERATURE_IN_FAHRENHEIT, oldPrefs.getBoolean("fahrenheit", false))
+                putBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP, oldPrefs.getBoolean("show_last_charge_time", true))
+                putInt(DESIGN_CAPACITY, oldPrefs.getInt(DESIGN_CAPACITY, 0))
+                putInt(RESIDUAL_CAPACITY, oldPrefs.getInt("charge_counter", 0))
+                putBoolean(IS_SHOW_INSTRUCTION, oldPrefs.getBoolean(IS_SHOW_INSTRUCTION, false))
+                putBoolean(IS_SUPPORTED, oldPrefs.getBoolean(IS_SUPPORTED, true))
+                putInt(LAST_CHARGE_TIME, oldPrefs.getInt(LAST_CHARGE_TIME, 0))
+                putInt(BATTERY_LEVEL_WITH, oldPrefs.getInt(BATTERY_LEVEL_WITH, 0))
+                putInt(BATTERY_LEVEL_TO, oldPrefs.getInt(BATTERY_LEVEL_TO, 0))
                 putBoolean("migrated", true)
                 apply()
             }
@@ -61,7 +71,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
         if(newPrefs.contains("show_last_charge_time")) {
 
-            newPrefs.edit().putBoolean(Preferences.IsShowLastChargeTimeInApp.prefKey,
+            newPrefs.edit().putBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP,
                 newPrefs.getBoolean("show_last_charge_time", true)).apply()
 
             removeOldPref(context)
@@ -69,7 +79,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
         if(newPrefs.contains("dark_mode")) {
 
-            newPrefs.edit().putBoolean(Preferences.IsDarkMode.prefKey,
+            newPrefs.edit().putBoolean(IS_DARK_MODE,
                 newPrefs.getBoolean("dark_mode", true)).apply()
 
             removeOldPref(context)
@@ -77,7 +87,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
         if(newPrefs.contains("enable_service")) {
 
-            newPrefs.edit().putBoolean(Preferences.IsEnableService.prefKey,
+            newPrefs.edit().putBoolean(IS_ENABLE_SERVICE,
                 newPrefs.getBoolean("enable_service", true)).apply()
 
             removeOldPref(context)
@@ -85,7 +95,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
         if(newPrefs.contains("charge_counter")) {
 
-            newPrefs.edit().putInt(Preferences.ResidualCapacity.prefKey,
+            newPrefs.edit().putInt(RESIDUAL_CAPACITY,
                 newPrefs.getInt("charge_counter", 0)).apply()
 
             removeOldPref(context)
