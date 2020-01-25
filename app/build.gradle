@@ -11,9 +11,9 @@ android {
         applicationId "com.ph03nix_x.capacityinfo"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 242
-        versionName "2.5.0.4"
-        buildConfigField "String", "BUILD_DATE", "\"${getDate()}\""
+        versionCode 244
+        versionName "2.5.1.1"
+        buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     bundle {
@@ -23,7 +23,7 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField "String", "BUILD_DATE", "\"${getDate()}\""
+            buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
@@ -39,7 +39,7 @@ android {
     }
 }
 
-static def getDate() {
+static def getBuildDate() {
     return new Date().format('dd.MM.yyy HH:mm')
 }
 
