@@ -8,7 +8,7 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 </p>
 
-<a href="https://drive.google.com/open?id=1UpuGLGSXRZ8myruaOiWd590JIOfYEvc7">
+<a href="https://drive.google.com/open?id=1pTj0TQH4sYEMCMY7EysGS4S9mN_sJWNO">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/Images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
