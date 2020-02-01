@@ -8,14 +8,16 @@ import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
+import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 
-class SettingsActivity : AppCompatActivity(),
-    ServiceInterface {
+class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface {
 
     private lateinit var pref: SharedPreferences
     lateinit var toolbar: CenteredToolbar
@@ -54,6 +56,15 @@ class SettingsActivity : AppCompatActivity(),
 
         if(pref.getBoolean(IS_ENABLE_SERVICE, true)
             && CapacityInfoService.instance == null) startService(this)
+
+        isInstalledGooglePlay = isInstalledGooglePlay(this)
+
+        if(isInstalledGooglePlay) {
+
+            billingClient = onBillingClientBuilder(this)
+
+            onBillingStartConnection(this, billingClient)
+        }
     }
 
     override fun onBackPressed() {

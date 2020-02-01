@@ -3,14 +3,14 @@ package com.ph03nix_x.capacityinfo
 import android.app.Application
 import android.content.res.Configuration
 import android.os.Build
-import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
+import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 
-class MainApp : Application() {
+class MainApp : Application(), BillingInterface {
 
     companion object {
 

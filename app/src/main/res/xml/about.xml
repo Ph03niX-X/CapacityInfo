@@ -63,4 +63,9 @@
             app:icon="@drawable/ic_translate_24dp"
             android:key="help_with_translation"/>
 
+    <Preference
+            app:title="@string/donate"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_monetization_24dp"
+            app:key="donate"/>
 </PreferenceScreen>

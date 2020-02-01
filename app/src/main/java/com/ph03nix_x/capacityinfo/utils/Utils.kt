@@ -2,10 +2,15 @@ package com.ph03nix_x.capacityinfo.utils
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import com.android.billingclient.api.BillingClient
+import com.ph03nix_x.capacityinfo.utils.Constants.googlePlayPackageName
 
 object Utils {
 
+    lateinit var billingClient: BillingClient
     var isPowerConnected = false
+    var isInstalledGooglePlay = true
     var tempCurrentCapacity = 0.0
     var capacityAdded = 0.0
     var tempBatteryLevelWith = 0
@@ -49,5 +54,17 @@ object Utils {
     }
 
     fun isGooglePlay(context: Context) =
-        "com.android.vending" == context.packageManager.getInstallerPackageName(context.packageName)
+        googlePlayPackageName == context.packageManager.getInstallerPackageName(context.packageName)
+
+    fun isInstalledGooglePlay(context: Context): Boolean {
+
+        return try {
+
+            context.packageManager.getPackageInfo(googlePlayPackageName, 0)
+
+            true
+        }
+
+        catch (e: PackageManager.NameNotFoundException) { false }
+    }
 }
