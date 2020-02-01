@@ -6,7 +6,6 @@ object PreferencesKeys {
     const val IS_SHOW_NOT_SUPPORTED_DIALOG = "is_show_not_supported_dialog"
     const val IS_SHOW_INSTRUCTION = "is_show_instruction"
 
-    const val IS_ENABLE_SERVICE = "is_enable_service"
     const val IS_AUTO_START_SERVICE = "is_auto_start_service"
     const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
     const val IS_SERVICE_TIME = "is_service_time"

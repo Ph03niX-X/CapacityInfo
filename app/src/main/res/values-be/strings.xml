@@ -32,7 +32,6 @@
     <string name="show_last_charge_time">Паказваць час апошняй зарадкі</string>
     <string name="last_charge_time">"Час апошняй зарадкі: %1$s (%2$s - %3$s)"</string>
     <string name="service">Служба</string>
-    <string name="enable_service">Ўключыць службу</string>
     <string name="charging_time">"Час зарадкі: %1$s"</string>
     <string name="seconds">"%1$s секунд"</string>
     <string name="minute">"%1$s Хвіліна"</string>

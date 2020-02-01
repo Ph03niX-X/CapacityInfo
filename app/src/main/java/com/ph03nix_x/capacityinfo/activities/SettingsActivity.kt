@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
@@ -54,8 +53,7 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
 
         super.onResume()
 
-        if(pref.getBoolean(IS_ENABLE_SERVICE, true)
-            && CapacityInfoService.instance == null) startService(this)
+        if(CapacityInfoService.instance == null) startService(this)
 
         isInstalledGooglePlay = isInstalledGooglePlay(this)
 

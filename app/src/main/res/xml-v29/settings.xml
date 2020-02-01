@@ -12,13 +12,6 @@
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
-                android:title="@string/enable_service"
-                android:defaultValue="true"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_power_24dp"
-                android:key="is_enable_service"/>
-
-        <SwitchPreferenceCompat
                 android:title="@string/auto_start"
                 android:summary="@string/auto_start_summary"
                 android:defaultValue="true"
@@ -39,19 +32,18 @@
                 app:icon="@drawable/ic_access_time_24dp"
                 android:key="is_service_time"/>
 
+        <SwitchPreferenceCompat
+                android:title="@string/show_capacity_added"
+                app:defaultValue="true"
+                app:singleLineTitle="false"
+                android:icon="@drawable/ic_battery_charging_50_24dp"
+                android:key="is_show_capacity_added_in_notification"/>
+
         <Preference
                 android:title="@string/more"
                 app:icon="@drawable/ic_expand_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_service_and_notification"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/show_capacity_added"
-                app:defaultValue="true"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:icon="@drawable/ic_battery_charging_50_24dp"
-                android:key="is_show_capacity_added_in_notification"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"

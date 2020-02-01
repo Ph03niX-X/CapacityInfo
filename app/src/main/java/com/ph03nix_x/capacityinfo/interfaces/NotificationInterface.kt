@@ -21,7 +21,6 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.StopService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
@@ -72,11 +71,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 addAction(NotificationCompat.Action(0, context.getString(R.string.stop_service), stopService))
         }
 
-        if(pref.getBoolean(IS_ENABLE_SERVICE, true))
         (context as CapacityInfoService).startForeground(notificationId, notificationBuilder.build())
-        else (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(
-            notificationId
-        )
     }
 
     fun updateNotification(context: Context) {
@@ -102,9 +97,7 @@ interface NotificationInterface : BatteryInfoInterface {
             else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, true) && mActions.isNotEmpty()) mActions.clear()
         }
 
-        if(pref.getBoolean(IS_ENABLE_SERVICE, true))
         notificationManager.notify(notificationId, notificationBuilder.build())
-        else notificationManager.cancel(notificationId)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

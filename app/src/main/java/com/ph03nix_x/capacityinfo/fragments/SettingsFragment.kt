@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP
@@ -33,7 +32,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private lateinit var pref: SharedPreferences
 
     // Service and Notification
-    private var enableService: SwitchPreferenceCompat? = null
     private var isAutoStartService: SwitchPreferenceCompat? = null
     private var showStopService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
@@ -68,8 +66,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         // Service and Notification
 
-        enableService = findPreference(IS_ENABLE_SERVICE)
-
         isAutoStartService = findPreference(IS_AUTO_START_SERVICE)
 
         showStopService = findPreference(IS_SHOW_STOP_SERVICE)
@@ -86,37 +82,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
-        isAutoStartService?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        showStopService?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        serviceTime?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        showCapacityAddedInNotification?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        showCapacityAddedLastChargeTimeInNotification?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        showLastChargeTimeInNotification?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        openNotificationCategorySettings?.isEnabled = pref.getBoolean(IS_ENABLE_SERVICE, true)
-
-        enableService?.setOnPreferenceChangeListener { _, newValue ->
-
-            if(!(newValue as Boolean) && CapacityInfoService.instance != null) requireContext().stopService(Intent(requireContext(), CapacityInfoService::class.java))
-
-            else if(newValue && CapacityInfoService.instance == null) startService(requireContext())
-
-            isAutoStartService?.isEnabled = newValue
-            serviceTime?.isEnabled = newValue
-            showLastChargeTimeInNotification?.isEnabled = newValue
-            showCapacityAddedLastChargeTimeInNotification?.isEnabled = newValue
-            showStopService?.isEnabled = newValue
-            showCapacityAddedInNotification?.isEnabled = newValue
-            openNotificationCategorySettings?.isEnabled = newValue
-
-            true
-        }
-
         moreServiceAndNotification?.setOnPreferenceClickListener {
 
             if(it.title == requireContext().getString(R.string.more)) {
@@ -124,7 +89,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
                 it.title = getString(R.string.hide)
 
-                showCapacityAddedInNotification?.isVisible = true
                 showLastChargeTimeInNotification?.isVisible = true
                 showCapacityAddedLastChargeTimeInNotification?.isVisible = true
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -136,7 +100,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                showCapacityAddedInNotification?.isVisible = false
                 showLastChargeTimeInNotification?.isVisible = false
                 showCapacityAddedLastChargeTimeInNotification?.isVisible = false
                 openNotificationCategorySettings?.isVisible = false

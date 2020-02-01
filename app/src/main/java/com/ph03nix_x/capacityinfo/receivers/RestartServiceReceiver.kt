@@ -10,7 +10,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -34,8 +33,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
                 removeOldPref(context)
 
-                if(pref.getBoolean(IS_ENABLE_SERVICE, true)
-                    && CapacityInfoService.instance == null) startService(context)
+                if(CapacityInfoService.instance == null) startService(context)
             }
         }
     }
@@ -52,7 +50,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
             newPrefs.edit().apply {
 
                 putBoolean(IS_DARK_MODE, oldPrefs.getBoolean(IS_DARK_MODE, false))
-                putBoolean(IS_ENABLE_SERVICE, oldPrefs.getBoolean(IS_ENABLE_SERVICE, true))
+                putBoolean("is_enable_service", oldPrefs.getBoolean("is_enable_service", true))
                 putBoolean(TEMPERATURE_IN_FAHRENHEIT, oldPrefs.getBoolean("fahrenheit", false))
                 putBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP, oldPrefs.getBoolean("show_last_charge_time", true))
                 putInt(DESIGN_CAPACITY, oldPrefs.getInt(DESIGN_CAPACITY, 0))
@@ -87,7 +85,7 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
         if(newPrefs.contains("enable_service")) {
 
-            newPrefs.edit().putBoolean(IS_ENABLE_SERVICE,
+            newPrefs.edit().putBoolean("is_enable_service",
                 newPrefs.getBoolean("enable_service", true)).apply()
 
             removeOldPref(context)
@@ -125,6 +123,8 @@ class RestartServiceReceiver : BroadcastReceiver(),
             if(pref.contains("charge_counter")) remove("charge_counter")
 
             if(pref.contains("is_show_debug")) remove("is_show_debug")
+
+            if(pref.contains("is_enable_service")) remove("is_enable_service")
 
             apply()
         }

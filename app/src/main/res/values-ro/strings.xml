@@ -32,7 +32,6 @@
     <string name="show_last_charge_time">Afișează ultima încărcare</string>
     <string name="last_charge_time">"Ultima încărcare: %1$s (%2$s - %3$s)"</string>
     <string name="service">Serviciu</string>
-    <string name="enable_service">Activare serviciu</string>
     <string name="charging_time">"Timp încărcare: %1$s"</string>
     <string name="seconds">"%1$s secunde"</string>
     <string name="minute">"%1$s minut"</string>

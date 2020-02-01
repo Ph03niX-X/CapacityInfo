@@ -28,7 +28,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -290,10 +289,6 @@ interface DebugOptionsInterface : ServiceInterface {
 
             (context as DebugActivity).recreate()
         }
-
-        else if(key == IS_ENABLE_SERVICE && !value
-            && CapacityInfoService.instance != null)
-            context.stopService(Intent(context, CapacityInfoService::class.java))
     }
 
     fun resetSettingDialog(context: Context, pref: SharedPreferences) {
@@ -457,8 +452,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
-                if(pref.getBoolean(IS_ENABLE_SERVICE, true))
-                    startService(context)
+                startService(context)
 
                 launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
                     Intent().putExtra("is_import_settings", true))
@@ -478,8 +472,6 @@ interface DebugOptionsInterface : ServiceInterface {
 
     fun changeLanguage(context: Context, newValue: String) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
         if(CapacityInfoService.instance != null)
             context.stopService(Intent(context, CapacityInfoService::class.java))
 
@@ -489,6 +481,6 @@ interface DebugOptionsInterface : ServiceInterface {
 
         (context as DebugActivity).recreate()
 
-        if(pref.getBoolean(IS_ENABLE_SERVICE, true)) startService(context)
+        startService(context)
     }
 }

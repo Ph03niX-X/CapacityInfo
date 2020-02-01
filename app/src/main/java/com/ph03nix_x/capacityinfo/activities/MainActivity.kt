@@ -23,7 +23,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLE_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CHARGING_TIME_IN_APP
@@ -142,8 +141,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         super.onResume()
 
-        if(pref.getBoolean(IS_ENABLE_SERVICE, true)
-            && CapacityInfoService.instance == null) startService(this)
+        if(CapacityInfoService.instance == null) startService(this)
 
         instance = this
 
@@ -256,11 +254,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
                             withContext(Dispatchers.Main) {
 
-                                if(chargingTime.visibility == View.GONE && pref.getBoolean(IS_ENABLE_SERVICE, true))
-                                    chargingTime.visibility = View.VISIBLE
+                                if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
 
-                                else if(chargingTime.visibility == View.VISIBLE && !pref.getBoolean(IS_ENABLE_SERVICE, true))
-                                    chargingTime.visibility = View.GONE
+                                else chargingTime.visibility = View.GONE
 
                                 if(chargingTime.visibility == View.VISIBLE)
                                     chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
