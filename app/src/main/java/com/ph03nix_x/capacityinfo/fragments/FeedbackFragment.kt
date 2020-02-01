@@ -8,7 +8,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utils.Constants.telegramLink
+import com.ph03nix_x.capacityinfo.utils.Constants.TELEGRAM_LINK
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 
@@ -37,12 +37,12 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         telegram?.setOnPreferenceClickListener {
 
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(telegramLink))) }
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_LINK))) }
 
             catch (e: ActivityNotFoundException) {
 
                 val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("telegram", telegramLink)
+                val clipData = ClipData.newPlainText("telegram", TELEGRAM_LINK)
                 clipboardManager.setPrimaryClip(clipData)
                 Toast.makeText(requireContext(), getString(R.string.telegram_link_copied), Toast.LENGTH_LONG).show()
             }

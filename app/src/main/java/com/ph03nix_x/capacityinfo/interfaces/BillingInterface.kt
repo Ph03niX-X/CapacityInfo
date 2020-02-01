@@ -17,11 +17,15 @@ interface BillingInterface {
 
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchasesList != null) {
 
-                Toast.makeText(context, context.getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
-
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-                pref.edit().putBoolean(IS_DONATED, true).apply()
+                for(list in purchasesList)
+                    if(list.sku == "donate") {
+
+                        Toast.makeText(context, context.getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+
+                        pref.edit().putBoolean(IS_DONATED, true).apply()
+                    }
             }
 
         })).enablePendingPurchases().build()
@@ -54,15 +58,13 @@ interface BillingInterface {
         })
     }
 
-    fun onPurchase(context: Context, billingClient: BillingClient) {
+    fun onPurchase(context: Context, billingClient: BillingClient, idPurchase: String) {
 
         val skuDetailsMap = HashMap<String, SkuDetails>()
 
-        val skuList = arrayListOf("donate")
-
         val skuDetailsParamsBuilder = SkuDetailsParams.newBuilder().apply {
 
-            setSkusList(skuList)
+            setSkusList(getSkuList(idPurchase))
 
             setType(BillingClient.SkuType.INAPP)
 
@@ -80,10 +82,12 @@ interface BillingInterface {
                 billingClient.launchBillingFlow((context as SettingsActivity),
                     BillingFlowParams.newBuilder().apply {
 
-                        setSkuDetails(skuDetailsMap[skuList[0]])
+                        setSkuDetails(skuDetailsMap[idPurchase])
 
                     }.build())
             }
         }))
     }
+
+    fun getSkuList(idPurchase: String) = arrayListOf(idPurchase)
 }

@@ -10,8 +10,8 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
-import com.ph03nix_x.capacityinfo.utils.Constants.exportSettingsRequestCode
-import com.ph03nix_x.capacityinfo.utils.Constants.importSettingsRequestCode
+import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
+import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -109,7 +109,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         exportSettings?.setOnPreferenceClickListener {
 
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), exportSettingsRequestCode)
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
 
             true
         }
@@ -120,7 +120,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = "text/xml"
-            }, importSettingsRequestCode)
+            }, IMPORT_SETTINGS_REQUEST_CODE)
 
             true
         }
@@ -141,7 +141,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             true
         }
 
-        if(orderId != null)
         getOrderId?.setOnPreferenceClickListener {
 
             val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -177,10 +176,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         when(requestCode) {
 
-            exportSettingsRequestCode ->
+            EXPORT_SETTINGS_REQUEST_CODE ->
                 if(resultCode == RESULT_OK) exportSettings(requireContext(), data!!, prefPath, prefName)
 
-            importSettingsRequestCode ->
+            IMPORT_SETTINGS_REQUEST_CODE ->
                 if(resultCode == RESULT_OK) importSettings(requireContext(), data!!.data!!, prefPath, prefName)
         }
     }

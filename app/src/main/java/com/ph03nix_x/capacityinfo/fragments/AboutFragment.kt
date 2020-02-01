@@ -11,11 +11,11 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
-import com.ph03nix_x.capacityinfo.utils.Constants.githubLink
-import com.ph03nix_x.capacityinfo.utils.Constants.designerLink
-import com.ph03nix_x.capacityinfo.utils.Constants.romanianTranslationLink
-import com.ph03nix_x.capacityinfo.utils.Constants.belorussianTranslationLink
-import com.ph03nix_x.capacityinfo.utils.Constants.helpWithTranslationLink
+import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
+import com.ph03nix_x.capacityinfo.utils.Constants.DESIGNER_LINK
+import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
+import com.ph03nix_x.capacityinfo.utils.Constants.BELORUSSIAN_TRANSLATION_LINK
+import com.ph03nix_x.capacityinfo.utils.Constants.HELP_WITH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DONATED
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
@@ -84,35 +84,35 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         github?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(githubLink)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LINK)))
 
             true
         }
 
         designer?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(designerLink)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DESIGNER_LINK)))
 
             true
         }
 
         romanianTranslation?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(romanianTranslationLink)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ROMANIAN_TRANSLATION_LINK)))
 
             true
         }
 
         belorussianTranslation?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(belorussianTranslationLink)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELORUSSIAN_TRANSLATION_LINK)))
 
             true
         }
 
         helpWithTranslation?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(helpWithTranslationLink)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(HELP_WITH_TRANSLATION_LINK)))
 
             true
         }
@@ -120,7 +120,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         if(isInstalledGooglePlay && billingClient.isReady && !pref.getBoolean(IS_DONATED, false))
         donate?.setOnPreferenceClickListener {
 
-            onPurchase(requireActivity(), billingClient)
+            onPurchase(requireActivity(), billingClient, "donate")
 
             true
         }
