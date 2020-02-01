@@ -16,6 +16,7 @@ object Utils {
     var tempBatteryLevelWith = 0
     var percentAdded = 0
     var batteryIntent: Intent? = null
+    var orderId: String? = null
 
     fun launchActivity(context: Context, activity: Class<*>) {
 

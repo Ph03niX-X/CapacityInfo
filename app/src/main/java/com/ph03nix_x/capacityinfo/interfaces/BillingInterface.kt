@@ -7,6 +7,7 @@ import com.android.billingclient.api.*
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DONATED
+import com.ph03nix_x.capacityinfo.utils.Utils.orderId
 
 interface BillingInterface {
 
@@ -39,10 +40,13 @@ interface BillingInterface {
                     val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
                     for(list in purchasesResultList)
-                        if(list.sku == "donate" && !pref.getBoolean(IS_DONATED, false))
-                            pref.edit().putBoolean(IS_DONATED, true).apply()
-                    else if(list.sku != "donate" && pref.getBoolean(IS_DONATED, false))
-                            pref.edit().remove(IS_DONATED).apply()
+                        if(list.sku == "donate") {
+
+                            if(!pref.getBoolean(IS_DONATED, false)) pref.edit().putBoolean(IS_DONATED, true).apply()
+
+                            orderId = list.orderId
+                        }
+                        else if(pref.getBoolean(IS_DONATED, false)) pref.edit().remove(IS_DONATED).apply()
                 }
             }
 

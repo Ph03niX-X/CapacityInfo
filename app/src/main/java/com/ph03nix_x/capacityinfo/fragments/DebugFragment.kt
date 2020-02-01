@@ -1,9 +1,9 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.os.Bundle
+import android.widget.Toast
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
@@ -13,13 +13,18 @@ import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.utils.Constants.exportSettingsRequestCode
 import com.ph03nix_x.capacityinfo.utils.Constants.importSettingsRequestCode
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DONATED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
+import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import com.ph03nix_x.capacityinfo.utils.Utils.orderId
 import java.io.File
 
-class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
+class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface, BillingInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var prefPath: String
@@ -33,16 +38,26 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var importSettings: Preference? = null
     private var openSettings: Preference? = null
     private var restartService: Preference? = null
+    private var getOrderId: Preference? = null
     private var selectLanguage: ListPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
         prefPath = "${requireContext().filesDir.parent}/shared_prefs/${requireContext().packageName}_preferences.xml"
         prefName = File(prefPath).name
 
-        addPreferencesFromResource(R.xml.debug)
+        isInstalledGooglePlay = isInstalledGooglePlay(requireContext())
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        if(isInstalledGooglePlay && pref.getBoolean(IS_DONATED, false) && orderId == null) {
+
+            billingClient = onBillingClientBuilder(requireContext())
+
+            onBillingStartConnection(requireContext(), billingClient)
+        }
+
+        addPreferencesFromResource(R.xml.debug)
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
@@ -59,6 +74,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         openSettings = findPreference("open_settings")
 
         restartService = findPreference("restart_service")
+
+        getOrderId = findPreference("get_order_id")
 
         selectLanguage = findPreference(LANGUAGE)
 
@@ -124,6 +141,17 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             true
         }
 
+        if(orderId != null)
+        getOrderId?.setOnPreferenceClickListener {
+
+            val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("order_id", orderId)
+            clipboardManager.setPrimaryClip(clipData)
+            Toast.makeText(requireContext(), getString(R.string.order_id_successfully_copied), Toast.LENGTH_LONG).show()
+
+            true
+        }
+
         selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
 
             changeLanguage(requireContext(), newValue as String)
@@ -139,6 +167,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         exportSettings?.isVisible = File(prefPath).exists()
 
         restartService?.isVisible = CapacityInfoService.instance != null
+
+        getOrderId?.isVisible = orderId != null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
