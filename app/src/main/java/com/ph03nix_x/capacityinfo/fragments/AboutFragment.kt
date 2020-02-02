@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -16,7 +17,6 @@ import com.ph03nix_x.capacityinfo.utils.Constants.DESIGNER_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELORUSSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.HELP_WITH_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DONATED
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 
@@ -61,7 +61,16 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate = findPreference("donate")
 
-        donate?.isVisible = isInstalledGooglePlay && !pref.getBoolean(IS_DONATED, false)
+        try {
+
+            donate?.isVisible = isInstalledGooglePlay && !isPurchased(requireContext())
+        }
+
+        catch(e: Exception) {
+
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+        }
+
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 
@@ -117,10 +126,10 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             true
         }
 
-        if(isInstalledGooglePlay && billingClient.isReady && !pref.getBoolean(IS_DONATED, false))
+        if(isInstalledGooglePlay && billingClient != null && billingClient!!.isReady && !isPurchased(requireContext()))
         donate?.setOnPreferenceClickListener {
 
-            onPurchase(requireActivity(), billingClient, "donate")
+            onPurchase(requireActivity(), billingClient!!, "donate")
 
             true
         }
@@ -130,9 +139,15 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         super.onResume()
 
-        donate?.isVisible = isInstalledGooglePlay && !pref.getBoolean(IS_DONATED, false)
+        isInstalledGooglePlay = isInstalledGooglePlay(requireContext())
 
-        if(!isInstalledGooglePlay && pref.getBoolean(IS_DONATED, false))
-            pref.edit().remove(IS_DONATED).apply()
+        if(billingClient == null && isInstalledGooglePlay) {
+
+            billingClient = onBillingClientBuilder(requireContext())
+
+            onBillingStartConnection(requireContext())
+        }
+
+        donate?.isVisible = isInstalledGooglePlay && !isPurchased(requireContext())
     }
 }

@@ -12,9 +12,9 @@ import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
+import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 
 class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface {
 
@@ -42,6 +42,15 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
             onBackPressed()
         }
 
+        isInstalledGooglePlay = isInstalledGooglePlay(this)
+
+        if(isInstalledGooglePlay) {
+
+            billingClient = onBillingClientBuilder(this)
+
+            onBillingStartConnection(this)
+        }
+
         supportFragmentManager.beginTransaction().apply {
 
             replace(R.id.container, SettingsFragment())
@@ -54,15 +63,6 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
         super.onResume()
 
         if(CapacityInfoService.instance == null) startService(this)
-
-        isInstalledGooglePlay = isInstalledGooglePlay(this)
-
-        if(isInstalledGooglePlay) {
-
-            billingClient = onBillingClientBuilder(this)
-
-            onBillingStartConnection(this, billingClient)
-        }
     }
 
     override fun onBackPressed() {
@@ -79,5 +79,14 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
         }
 
         else super.onBackPressed()
+    }
+
+    override fun onStop() {
+
+        super.onStop()
+
+        billingClient!!.endConnection()
+
+        billingClient = null
     }
 }

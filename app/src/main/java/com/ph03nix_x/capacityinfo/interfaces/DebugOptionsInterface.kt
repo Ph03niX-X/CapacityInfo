@@ -319,7 +319,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 (context as DebugActivity).recreate()
             }
 
-            Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.key_successfully_reset, key), Toast.LENGTH_LONG).show()
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
@@ -414,8 +414,6 @@ interface DebugOptionsInterface : ServiceInterface {
     }
 
     fun importSettings(context: Context, uri: Uri, prefPath: String, prefName: String) {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 

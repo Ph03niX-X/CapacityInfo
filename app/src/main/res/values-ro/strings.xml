@@ -84,7 +84,7 @@
     <string name="error_changing_key">"Eroare la modificarea setării \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Resetați setarea</string>
     <string name="reset">Resetare</string>
-    <string name="key_successfully_reset">"Setare \"%$s\" resetată cu succes"</string>
+    <string name="key_successfully_reset">"Setare \"%1$s\" resetată cu succes"</string>
     <string name="reset_settings">Restareți toate setările</string>
     <string name="are_you_sure">Sunteți sigur?</string>
     <string name="settings_reset_successfully">Setările au fost resetate cu succes</string>

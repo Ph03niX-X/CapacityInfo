@@ -82,7 +82,7 @@
     <string name="error_changing_key">"Помилка зміни налаштування \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Скинути налаштування</string>
     <string name="reset">Скинути</string>
-    <string name="key_successfully_reset">"Настройка \"%$s\" успішно скинута"</string>
+    <string name="key_successfully_reset">"Настройка \"%1$s\" успішно скинута"</string>
     <string name="reset_settings">Скинути налаштування</string>
     <string name="are_you_sure">Ви впевнені?</string>
     <string name="settings_reset_successfully">Налаштування успішно скинуті</string>

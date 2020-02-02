@@ -82,7 +82,7 @@
     <string name="error_changing_key">"Ошибка изменения настройки \"%1$s\"!\n%2$s"</string>
     <string name="reset_setting">Сбросить настройку</string>
     <string name="reset">Сбросить</string>
-    <string name="key_successfully_reset">"Настройка \"%$s\" успешно сброшена"</string>
+    <string name="key_successfully_reset">"Настройка \"%1$s\" успешно сброшена"</string>
     <string name="reset_settings">Сбросить все настройки</string>
     <string name="are_you_sure">Вы уверены?</string>
     <string name="settings_reset_successfully">Настройки успешно сброшены</string>
