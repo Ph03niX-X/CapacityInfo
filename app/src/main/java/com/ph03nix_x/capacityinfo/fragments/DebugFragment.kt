@@ -17,7 +17,6 @@ import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
@@ -37,7 +36,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var importSettings: Preference? = null
     private var openSettings: Preference? = null
     private var restartService: Preference? = null
-    private var getOrderId: Preference? = null
+    private var orderId: Preference? = null
     private var selectLanguage: ListPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -65,9 +64,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService = findPreference("restart_service")
 
-        getOrderId = findPreference("get_order_id")
+        orderId = findPreference("order_id")
 
-        getOrderId?.isVisible = getOrderId(requireContext()) != null
+        orderId?.isVisible = getOrderId(requireContext()) != null
+
+        if(orderId!!.isVisible) orderId?.summary = getOrderId(requireContext())
 
         selectLanguage = findPreference(LANGUAGE)
 
@@ -133,7 +134,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             true
         }
 
-        getOrderId?.setOnPreferenceClickListener {
+        orderId?.setOnPreferenceClickListener {
 
             val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText("order_id", getOrderId(requireContext()))
@@ -159,14 +160,17 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService?.isVisible = CapacityInfoService.instance != null
 
-        if(billingClient == null && isInstalledGooglePlay) {
+        if(isInstalledGooglePlay) {
 
-            billingClient = onBillingClientBuilder(requireContext())
+           if(billingClient == null)
+               billingClient = onBillingClientBuilder(requireContext())
 
             onBillingStartConnection(requireContext())
         }
 
-        getOrderId?.isVisible = isInstalledGooglePlay && getOrderId(requireContext()) != null
+        orderId?.isVisible = isInstalledGooglePlay && getOrderId(requireContext()) != null
+
+        if(orderId!!.isVisible) orderId?.summary = getOrderId(requireContext())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
