@@ -114,4 +114,8 @@
     <string name="service_restarted_successfully">Службу успішно перезапущено!</string>
     <string name="service_restart_failed">Помилка перезапуску служби!\n%1$s</string>
     <string name="import_settings_3dots">Імпортування налаштувань&#8230;</string>
+    <string name="donate">Пожертвувати</string>
+    <string name="thanks_for_the_donation">Дякую за пожертвування</string>
+    <string name="order_id">Номер замовлення</string>
+    <string name="order_id_successfully_copied">Номер замовлення успішно скопійований!</string>
 </resources>
