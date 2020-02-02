@@ -17,7 +17,7 @@ object Utils {
     var tempBatteryLevelWith = 0
     var percentAdded = 0
     var batteryIntent: Intent? = null
-    var purchasesList: List<Purchase> = mutableListOf()
+    var purchasesList: List<Purchase>? = mutableListOf()
 
     fun launchActivity(context: Context, activity: Class<*>) {
 

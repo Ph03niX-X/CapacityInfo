@@ -13,6 +13,9 @@ import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DebugActivity : AppCompatActivity(), BillingInterface {
 
@@ -20,8 +23,6 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
     lateinit var toolbar: CenteredToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        isInstalledGooglePlay = isInstalledGooglePlay(this)
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -42,11 +43,12 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
             onBackPressed()
         }
 
-        if(isInstalledGooglePlay) {
+        if(isInstalledGooglePlay)
+        CoroutineScope(Dispatchers.Default).launch {
 
-            billingClient = onBillingClientBuilder(this)
+            billingClient = onBillingClientBuilder(this@DebugActivity)
 
-            onBillingStartConnection(this)
+            onBillingStartConnection(this@DebugActivity)
         }
 
         supportFragmentManager.beginTransaction().apply {
@@ -60,7 +62,7 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
 
         super.onStop()
 
-        if(billingClient != null) billingClient!!.endConnection()
+        billingClient?.endConnection()
 
         billingClient = null
     }

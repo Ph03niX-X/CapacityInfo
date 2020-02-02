@@ -15,6 +15,9 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface {
 
@@ -42,13 +45,12 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
             onBackPressed()
         }
 
-        isInstalledGooglePlay = isInstalledGooglePlay(this)
+        if(isInstalledGooglePlay)
+        CoroutineScope(Dispatchers.Default).launch {
 
-        if(isInstalledGooglePlay) {
+            billingClient = onBillingClientBuilder(this@SettingsActivity)
 
-            billingClient = onBillingClientBuilder(this)
-
-            onBillingStartConnection(this)
+            onBillingStartConnection(this@SettingsActivity)
         }
 
         supportFragmentManager.beginTransaction().apply {
@@ -85,7 +87,7 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
 
         super.onStop()
 
-        billingClient!!.endConnection()
+        billingClient?.endConnection()
 
         billingClient = null
     }

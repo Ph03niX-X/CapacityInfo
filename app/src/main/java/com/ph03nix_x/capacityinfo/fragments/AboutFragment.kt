@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -19,6 +18,7 @@ import com.ph03nix_x.capacityinfo.utils.Constants.BELORUSSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.HELP_WITH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import kotlinx.coroutines.*
 
 class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
@@ -34,8 +34,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var belorussianTranslation: Preference? = null
     private var helpWithTranslation: Preference? = null
     private var donate: Preference? = null
+    private var isPurchased: Boolean = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
+        isPurchased = isPurchased(requireContext())
 
         addPreferencesFromResource(R.xml.about)
 
@@ -61,16 +64,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate = findPreference("donate")
 
-        try {
-
-            donate?.isVisible = isInstalledGooglePlay && !isPurchased(requireContext())
-        }
-
-        catch(e: Exception) {
-
-            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
-        }
-
+        donate?.isVisible = !isPurchased
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 
@@ -126,10 +120,10 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             true
         }
 
-        if(isInstalledGooglePlay && billingClient != null && billingClient!!.isReady && !isPurchased(requireContext()))
         donate?.setOnPreferenceClickListener {
 
-            onPurchase(requireActivity(), billingClient!!, "donate")
+            if(isInstalledGooglePlay && billingClient != null && billingClient!!.isReady && !isPurchased)
+                onPurchase(requireActivity(), "donate")
 
             true
         }
@@ -139,15 +133,21 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         super.onResume()
 
-        isInstalledGooglePlay = isInstalledGooglePlay(requireContext())
+        if(isInstalledGooglePlay)
+        CoroutineScope(Dispatchers.Default).launch {
 
-        if(billingClient == null && isInstalledGooglePlay) {
-
-            billingClient = onBillingClientBuilder(requireContext())
+            if(billingClient == null)
+                billingClient = onBillingClientBuilder(requireContext())
 
             onBillingStartConnection(requireContext())
-        }
 
-        donate?.isVisible = isInstalledGooglePlay && !isPurchased(requireContext())
+            delay(100)
+            isPurchased = isPurchased(requireContext())
+
+            withContext(Dispatchers.Main) {
+
+                donate?.isVisible = isInstalledGooglePlay && !isPurchased
+            }
+        }
     }
 }

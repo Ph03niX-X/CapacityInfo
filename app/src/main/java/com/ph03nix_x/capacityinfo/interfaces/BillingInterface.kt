@@ -27,7 +27,7 @@ interface BillingInterface {
                     }
                 }
 
-                billingClient!!.endConnection()
+                billingClient?.endConnection()
             }
 
         })).enablePendingPurchases().build()
@@ -35,13 +35,13 @@ interface BillingInterface {
 
     fun onBillingStartConnection(context: Context) {
 
-        billingClient!!.startConnection(object : BillingClientStateListener {
+        billingClient?.startConnection(object : BillingClientStateListener {
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
 
                 if(billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
 
-                    purchasesList = billingClient!!.queryPurchases(BillingClient.SkuType.INAPP).purchasesList
+                    purchasesList = billingClient?.queryPurchases(BillingClient.SkuType.INAPP)?.purchasesList
                 }
             }
 
@@ -51,14 +51,14 @@ interface BillingInterface {
 
     fun isPurchased(context: Context): Boolean {
 
-        if(purchasesList.isNotEmpty()) {
+        if(!purchasesList.isNullOrEmpty()) {
 
-            purchasesList.forEach {
+            purchasesList?.forEach {
 
                 if(it.sku == "donate") return true
             }
 
-            billingClient!!.endConnection()
+            billingClient?.endConnection()
         }
 
         return false
@@ -66,8 +66,8 @@ interface BillingInterface {
 
     fun getOrderId(context: Context): String? {
 
-        if(purchasesList.isNotEmpty())
-            purchasesList.forEach {
+        if(!purchasesList.isNullOrEmpty())
+            purchasesList?.forEach {
 
                 if (it.sku == "donate") return it.orderId
             }
@@ -77,19 +77,19 @@ interface BillingInterface {
         return null
     }
 
-    fun onPurchase(context: Context, billingClient: BillingClient, idPurchase: String) {
+    fun onPurchase(context: Context, sku: String) {
 
         val skuDetailsMap = HashMap<String, SkuDetails>()
 
         val skuDetailsParamsBuilder = SkuDetailsParams.newBuilder().apply {
 
-            setSkusList(getSkuList(idPurchase))
+            setSkusList(getSkuList(sku))
 
             setType(BillingClient.SkuType.INAPP)
 
         }.build()
 
-        billingClient.querySkuDetailsAsync(skuDetailsParamsBuilder, ({ billingResult, skuDetailsList ->
+        billingClient?.querySkuDetailsAsync(skuDetailsParamsBuilder, ({ billingResult, skuDetailsList ->
 
             if(billingResult.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList.isNotEmpty()) {
 
@@ -98,15 +98,15 @@ interface BillingInterface {
                     skuDetailsMap.put(it.sku, it)
                 }
 
-                billingClient.launchBillingFlow((context as SettingsActivity),
+                billingClient?.launchBillingFlow((context as SettingsActivity),
                     BillingFlowParams.newBuilder().apply {
 
-                        setSkuDetails(skuDetailsMap[idPurchase])
+                        setSkuDetails(skuDetailsMap[sku])
 
                     }.build())
             }
         }))
     }
 
-    fun getSkuList(idPurchase: String) = arrayListOf(idPurchase)
+    fun getSkuList(sku: String) = arrayListOf(sku)
 }

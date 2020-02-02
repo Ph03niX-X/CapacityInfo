@@ -20,6 +20,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import kotlinx.coroutines.*
 import java.io.File
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface, BillingInterface {
@@ -27,7 +28,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private lateinit var pref: SharedPreferences
     private lateinit var prefPath: String
     private lateinit var prefName: String
-
+    
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -36,8 +37,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var importSettings: Preference? = null
     private var openSettings: Preference? = null
     private var restartService: Preference? = null
-    private var orderId: Preference? = null
+    private var orderIdPref: Preference? = null
     private var selectLanguage: ListPreference? = null
+    private var orderId: String? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -45,6 +47,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         prefPath = "${requireContext().filesDir.parent}/shared_prefs/${requireContext().packageName}_preferences.xml"
         prefName = File(prefPath).name
+
+        orderId = getOrderId(requireContext())
 
         addPreferencesFromResource(R.xml.debug)
 
@@ -64,11 +68,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService = findPreference("restart_service")
 
-        orderId = findPreference("order_id")
+        orderIdPref = findPreference("order_id")
 
-        orderId?.isVisible = getOrderId(requireContext()) != null
+        orderIdPref?.isVisible = orderId != null
 
-        if(orderId!!.isVisible) orderId?.summary = getOrderId(requireContext())
+        orderIdPref?.summary = if(orderId != null) orderId else ""
 
         selectLanguage = findPreference(LANGUAGE)
 
@@ -134,10 +138,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             true
         }
 
-        orderId?.setOnPreferenceClickListener {
+        orderIdPref?.setOnPreferenceClickListener {
 
             val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("order_id", getOrderId(requireContext()))
+            val clipData = ClipData.newPlainText("order_id", orderId)
             clipboardManager.setPrimaryClip(clipData)
             Toast.makeText(requireContext(), getString(R.string.order_id_successfully_copied), Toast.LENGTH_LONG).show()
 
@@ -160,17 +164,23 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService?.isVisible = CapacityInfoService.instance != null
 
-        if(isInstalledGooglePlay) {
+        if(billingClient == null && isInstalledGooglePlay)
+        CoroutineScope(Dispatchers.Default).launch {
 
-           if(billingClient == null)
-               billingClient = onBillingClientBuilder(requireContext())
+            billingClient = onBillingClientBuilder(requireContext())
 
             onBillingStartConnection(requireContext())
+
+            delay(100)
+            orderId = getOrderId(requireContext())
+
+            withContext(Dispatchers.Main) {
+
+                orderIdPref?.isVisible = isInstalledGooglePlay && orderId != null
+
+                orderIdPref?.summary = if(orderId != null) orderId else ""
+            }
         }
-
-        orderId?.isVisible = isInstalledGooglePlay && getOrderId(requireContext()) != null
-
-        if(orderId!!.isVisible) orderId?.summary = getOrderId(requireContext())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

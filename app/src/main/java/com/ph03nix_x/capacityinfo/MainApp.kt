@@ -9,6 +9,7 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 
 class MainApp : Application(), BillingInterface {
 
@@ -27,6 +28,8 @@ class MainApp : Application(), BillingInterface {
             isSystemDarkMode(resources.configuration)
 
         defLang()
+
+        isInstalledGooglePlay = isInstalledGooglePlay(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
