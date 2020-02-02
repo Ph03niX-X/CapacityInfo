@@ -119,8 +119,8 @@
     <string name="service_restarted_successfully">Service restarted successfully!</string>
     <string name="service_restart_failed">Service restart failed!\n%1$s</string>
     <string name="import_settings_3dots">Import Settings&#8230;</string>
-    <string name="donate">Donate</string>
-    <string name="thanks_for_the_donation">Thanks for the Donation</string>
+    <string name="donate">Support the Project</string>
+    <string name="thanks_for_the_donation">Thanks for supporting the project</string>
     <string name="order_id">Order ID</string>
     <string name="order_id_successfully_copied">Order ID Successfully Copied!</string>
 </resources>
