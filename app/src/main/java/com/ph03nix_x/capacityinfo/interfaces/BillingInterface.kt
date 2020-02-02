@@ -8,6 +8,10 @@ import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.purchasesList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 interface BillingInterface {
 
@@ -24,6 +28,11 @@ interface BillingInterface {
                         Toast.makeText(context, context.getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
 
                         Utils.purchasesList = purchasesList
+
+                        CoroutineScope(Dispatchers.Default).launch {
+
+                                onConsumePurchase(it.purchaseToken, it.developerPayload)
+                            }
                     }
                 }
 
@@ -106,6 +115,21 @@ interface BillingInterface {
                     }.build())
             }
         }))
+    }
+
+    private suspend fun onConsumePurchase(token: String, developerPayload: String?) {
+
+        val consumeParams = ConsumeParams.newBuilder().apply {
+
+            setPurchaseToken(token)
+            setDeveloperPayload(developerPayload)
+
+        }.build()
+
+        withContext(Dispatchers.IO) {
+
+            billingClient?.consumePurchase(consumeParams)
+        }
     }
 
     fun getSkuList(sku: String) = arrayListOf(sku)
