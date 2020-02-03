@@ -46,7 +46,8 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
         if(isInstalledGooglePlay)
         CoroutineScope(Dispatchers.Default).launch {
 
-            billingClient = onBillingClientBuilder(this@DebugActivity)
+            if(billingClient == null)
+                billingClient = onBillingClientBuilder(this@DebugActivity)
 
             onBillingStartConnection(this@DebugActivity)
         }
@@ -63,7 +64,14 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
         super.onStop()
 
         billingClient?.endConnection()
+        billingClient = null
+    }
 
+    override fun onDestroy() {
+
+        super.onDestroy()
+
+        billingClient?.endConnection()
         billingClient = null
     }
 }

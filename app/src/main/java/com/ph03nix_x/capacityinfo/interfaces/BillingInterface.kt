@@ -7,7 +7,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
-import com.ph03nix_x.capacityinfo.utils.Utils.purchasesList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,16 +26,12 @@ interface BillingInterface {
 
                         Toast.makeText(context, context.getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
 
-                        Utils.purchasesList = purchasesList
-
                         CoroutineScope(Dispatchers.Default).launch {
 
-                                onConsumePurchase(it.purchaseToken, it.developerPayload)
-                            }
+                            onConsumePurchase(it.purchaseToken, it.developerPayload)
+                        }
                     }
                 }
-
-                billingClient?.endConnection()
             }
 
         })).enablePendingPurchases().build()
@@ -46,13 +41,7 @@ interface BillingInterface {
 
         billingClient?.startConnection(object : BillingClientStateListener {
 
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-
-                if(billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-
-                    purchasesList = billingClient?.queryPurchases(BillingClient.SkuType.INAPP)?.purchasesList
-                }
-            }
+            override fun onBillingSetupFinished(billingResult: BillingResult) { }
 
             override fun onBillingServiceDisconnected() { }
         })
@@ -60,30 +49,23 @@ interface BillingInterface {
 
     fun isPurchased(context: Context): Boolean {
 
-        if(!purchasesList.isNullOrEmpty()) {
+        var isPurchased = false
 
-            purchasesList?.forEach {
+        billingClient?.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) {
 
-                if(it.sku == "donate") return true
+                response, purchaseHistoryList ->
+
+            if (response.responseCode == BillingClient.BillingResponseCode.OK) {
+
+                if(purchaseHistoryList.isNotEmpty())
+                purchaseHistoryList.forEach {
+
+                    if(it.sku == "donate") isPurchased = true
+                }
             }
-
-            billingClient?.endConnection()
         }
 
-        return false
-    }
-
-    fun getOrderId(context: Context): String? {
-
-        if(!purchasesList.isNullOrEmpty())
-            purchasesList?.forEach {
-
-                if (it.sku == "donate") return it.orderId
-            }
-
-        billingClient!!.endConnection()
-
-        return null
+        return isPurchased
     }
 
     fun onPurchase(context: Context, sku: String) {

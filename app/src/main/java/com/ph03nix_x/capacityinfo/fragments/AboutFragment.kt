@@ -64,7 +64,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate = findPreference("donate")
 
-        donate?.isVisible = !isPurchased
+        donate?.isVisible = isInstalledGooglePlay && !isPurchased
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 

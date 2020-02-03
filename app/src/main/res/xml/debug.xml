@@ -50,12 +50,6 @@
                 app:icon="@drawable/ic_restart_service"
                 app:key="restart_service"/>
 
-        <Preference
-                app:title="@string/order_id"
-                app:singleLineTitle="false"
-                app:isPreferenceVisible="false"
-                app:key="order_id"/>
-
         <ListPreference
                 android:title="@string/application_language"
                 app:singleLineTitle="false"

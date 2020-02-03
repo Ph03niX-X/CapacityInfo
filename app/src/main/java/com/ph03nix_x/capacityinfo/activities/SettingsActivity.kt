@@ -48,7 +48,8 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
         if(isInstalledGooglePlay)
         CoroutineScope(Dispatchers.Default).launch {
 
-            billingClient = onBillingClientBuilder(this@SettingsActivity)
+            if(billingClient == null)
+                billingClient = onBillingClientBuilder(this@SettingsActivity)
 
             onBillingStartConnection(this@SettingsActivity)
         }
@@ -88,7 +89,13 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
         super.onStop()
 
         billingClient?.endConnection()
+        billingClient = null
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        billingClient?.endConnection()
         billingClient = null
     }
 }

@@ -39,7 +39,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var restartService: Preference? = null
     private var orderIdPref: Preference? = null
     private var selectLanguage: ListPreference? = null
-    private var orderId: String? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -47,8 +46,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         prefPath = "${requireContext().filesDir.parent}/shared_prefs/${requireContext().packageName}_preferences.xml"
         prefName = File(prefPath).name
-
-        orderId = getOrderId(requireContext())
 
         addPreferencesFromResource(R.xml.debug)
 
@@ -67,12 +64,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         openSettings = findPreference("open_settings")
 
         restartService = findPreference("restart_service")
-
-        orderIdPref = findPreference("order_id")
-
-        orderIdPref?.isVisible = orderId != null
-
-        orderIdPref?.summary = if(orderId != null) orderId else ""
 
         selectLanguage = findPreference(LANGUAGE)
 
@@ -138,16 +129,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             true
         }
 
-        orderIdPref?.setOnPreferenceClickListener {
-
-            val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("order_id", orderId)
-            clipboardManager.setPrimaryClip(clipData)
-            Toast.makeText(requireContext(), getString(R.string.order_id_successfully_copied), Toast.LENGTH_LONG).show()
-
-            true
-        }
-
         selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
 
             changeLanguage(requireContext(), newValue as String)
@@ -163,24 +144,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         exportSettings?.isVisible = File(prefPath).exists()
 
         restartService?.isVisible = CapacityInfoService.instance != null
-
-        if(billingClient == null && isInstalledGooglePlay)
-        CoroutineScope(Dispatchers.Default).launch {
-
-            billingClient = onBillingClientBuilder(requireContext())
-
-            onBillingStartConnection(requireContext())
-
-            delay(100)
-            orderId = getOrderId(requireContext())
-
-            withContext(Dispatchers.Main) {
-
-                orderIdPref?.isVisible = isInstalledGooglePlay && orderId != null
-
-                orderIdPref?.summary = if(orderId != null) orderId else ""
-            }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
