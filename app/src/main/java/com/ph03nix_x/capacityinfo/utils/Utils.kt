@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.PurchaseHistoryRecord
 import com.ph03nix_x.capacityinfo.utils.Constants.GOOGLE_PLAY_PACKAGE_NAME
 
 object Utils {
@@ -16,6 +17,7 @@ object Utils {
     var tempBatteryLevelWith = 0
     var percentAdded = 0
     var batteryIntent: Intent? = null
+    var purchaseHistoryList: List<PurchaseHistoryRecord>? = null
 
     fun launchActivity(context: Context, activity: Class<*>) {
 

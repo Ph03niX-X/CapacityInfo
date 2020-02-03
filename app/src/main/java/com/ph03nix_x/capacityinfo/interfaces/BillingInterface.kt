@@ -7,6 +7,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
+import com.ph03nix_x.capacityinfo.utils.Utils.purchaseHistoryList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +31,8 @@ interface BillingInterface {
 
                             onConsumePurchase(it.purchaseToken, it.developerPayload)
                         }
+
+                        queryPurchaseHistory()
                     }
                 }
             }
@@ -41,15 +44,16 @@ interface BillingInterface {
 
         billingClient?.startConnection(object : BillingClientStateListener {
 
-            override fun onBillingSetupFinished(billingResult: BillingResult) { }
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+
+                queryPurchaseHistory()
+            }
 
             override fun onBillingServiceDisconnected() { }
         })
     }
 
-    fun isPurchased(context: Context): Boolean {
-
-        var isPurchased = false
+    fun queryPurchaseHistory() {
 
         billingClient?.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) {
 
@@ -57,15 +61,20 @@ interface BillingInterface {
 
             if (response.responseCode == BillingClient.BillingResponseCode.OK) {
 
-                if(purchaseHistoryList.isNotEmpty())
-                purchaseHistoryList.forEach {
-
-                    if(it.sku == "donate") isPurchased = true
-                }
+                Utils.purchaseHistoryList = purchaseHistoryList
             }
         }
+    }
 
-        return isPurchased
+    fun isPurchased(): Boolean {
+
+        if(!purchaseHistoryList.isNullOrEmpty())
+            purchaseHistoryList?.forEach {
+
+                if(it.sku == "donate") return true
+            }
+
+        return false
     }
 
     fun onPurchase(context: Context, sku: String) {

@@ -34,11 +34,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var belorussianTranslation: Preference? = null
     private var helpWithTranslation: Preference? = null
     private var donate: Preference? = null
-    private var isPurchased: Boolean = false
+    private var isPurchase: Boolean = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        isPurchased = isPurchased(requireContext())
+        isPurchase = isPurchased()
 
         addPreferencesFromResource(R.xml.about)
 
@@ -64,7 +64,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate = findPreference("donate")
 
-        donate?.isVisible = isInstalledGooglePlay && !isPurchased
+        donate?.isVisible = isInstalledGooglePlay && !isPurchase
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 
@@ -122,7 +122,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate?.setOnPreferenceClickListener {
 
-            if(isInstalledGooglePlay && billingClient != null && billingClient!!.isReady && !isPurchased)
+            if(isInstalledGooglePlay && billingClient != null && billingClient!!.isReady && !isPurchase)
                 onPurchase(requireActivity(), "donate")
 
             true
@@ -142,11 +142,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             onBillingStartConnection(requireContext())
 
             delay(100)
-            isPurchased = isPurchased(requireContext())
+            isPurchase = isPurchased()
 
             withContext(Dispatchers.Main) {
 
-                donate?.isVisible = isInstalledGooglePlay && !isPurchased
+                donate?.isVisible = isInstalledGooglePlay && !isPurchase
             }
         }
     }

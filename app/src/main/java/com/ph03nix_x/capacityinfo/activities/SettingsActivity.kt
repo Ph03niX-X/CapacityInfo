@@ -15,6 +15,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
+import com.ph03nix_x.capacityinfo.utils.Utils.purchaseHistoryList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,6 +91,7 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
 
         billingClient?.endConnection()
         billingClient = null
+        purchaseHistoryList = null
     }
 
     override fun onDestroy() {
@@ -97,5 +99,6 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
 
         billingClient?.endConnection()
         billingClient = null
+        purchaseHistoryList = null
     }
 }

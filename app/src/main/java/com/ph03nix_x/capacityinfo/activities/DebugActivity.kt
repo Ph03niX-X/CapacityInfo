@@ -11,11 +11,6 @@ import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
-import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class DebugActivity : AppCompatActivity(), BillingInterface {
 
@@ -43,35 +38,10 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
             onBackPressed()
         }
 
-        if(isInstalledGooglePlay)
-        CoroutineScope(Dispatchers.Default).launch {
-
-            if(billingClient == null)
-                billingClient = onBillingClientBuilder(this@DebugActivity)
-
-            onBillingStartConnection(this@DebugActivity)
-        }
-
         supportFragmentManager.beginTransaction().apply {
 
             replace(R.id.container, DebugFragment())
             commit()
         }
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        billingClient?.endConnection()
-        billingClient = null
-    }
-
-    override fun onDestroy() {
-
-        super.onDestroy()
-
-        billingClient?.endConnection()
-        billingClient = null
     }
 }
