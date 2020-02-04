@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELORUSSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.HELP_WITH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
+import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import kotlinx.coroutines.*
 
@@ -34,11 +35,8 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var belorussianTranslation: Preference? = null
     private var helpWithTranslation: Preference? = null
     private var donate: Preference? = null
-    private var isPurchase: Boolean = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-
-        isPurchase = isPurchased()
 
         addPreferencesFromResource(R.xml.about)
 
@@ -64,7 +62,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate = findPreference("donate")
 
-        donate?.isVisible = isInstalledGooglePlay && !isPurchase
+        donate?.isVisible = isInstalledGooglePlay && !isDonated
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 
@@ -122,8 +120,17 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate?.setOnPreferenceClickListener {
 
-            if(isInstalledGooglePlay && billingClient != null && billingClient!!.isReady && !isPurchase)
-                onPurchase(requireActivity(), "donate")
+            if(isInstalledGooglePlay && !isDonated) {
+
+                CoroutineScope(Dispatchers.Default).launch {
+
+                    if(billingClient == null)
+                        billingClient = onBillingClientBuilder(requireContext())
+                    onBillingStartConnection()
+
+                    onPurchase(requireActivity(), "donate")
+                }
+            }
 
             true
         }
@@ -133,21 +140,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         super.onResume()
 
-        if(isInstalledGooglePlay)
-        CoroutineScope(Dispatchers.Default).launch {
-
-            if(billingClient == null)
-                billingClient = onBillingClientBuilder(requireContext())
-
-            onBillingStartConnection(requireContext())
-
-            delay(100)
-            isPurchase = isPurchased()
-
-            withContext(Dispatchers.Main) {
-
-                donate?.isVisible = isInstalledGooglePlay && !isPurchase
-            }
-        }
+        donate?.isVisible = isInstalledGooglePlay && !isDonated
     }
 }

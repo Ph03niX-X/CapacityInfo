@@ -9,7 +9,12 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainApp : Application(), BillingInterface {
 
@@ -30,6 +35,8 @@ class MainApp : Application(), BillingInterface {
         defLang()
 
         isInstalledGooglePlay = isInstalledGooglePlay(this)
+
+        if(isInstalledGooglePlay) billingClient()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -54,5 +61,19 @@ class MainApp : Application(), BillingInterface {
 
         if(pref.getString(LANGUAGE, null) != defLang)
             pref.edit().putString(LANGUAGE, defLang).apply()
+    }
+
+    private fun billingClient() {
+
+        CoroutineScope(Dispatchers.Default).launch {
+
+            if(billingClient == null)
+                billingClient = onBillingClientBuilder(this@MainApp)
+            onBillingStartConnection()
+
+            delay(5 * 1000)
+            billingClient?.endConnection()
+            billingClient = null
+        }
     }
 }

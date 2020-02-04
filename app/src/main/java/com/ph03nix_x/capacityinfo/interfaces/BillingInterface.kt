@@ -5,9 +5,8 @@ import android.widget.Toast
 import com.android.billingclient.api.*
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
-import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
-import com.ph03nix_x.capacityinfo.utils.Utils.purchaseHistoryList
+import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,13 +39,14 @@ interface BillingInterface {
         })).enablePendingPurchases().build()
     }
 
-    fun onBillingStartConnection(context: Context) {
+    fun onBillingStartConnection() {
 
         billingClient?.startConnection(object : BillingClientStateListener {
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
 
-                queryPurchaseHistory()
+                if(billingResult.responseCode == BillingClient.BillingResponseCode.OK)
+                    queryPurchaseHistory()
             }
 
             override fun onBillingServiceDisconnected() { }
@@ -61,20 +61,12 @@ interface BillingInterface {
 
             if (response.responseCode == BillingClient.BillingResponseCode.OK) {
 
-                Utils.purchaseHistoryList = purchaseHistoryList
+                purchaseHistoryList.forEach {
+
+                    if(it.sku == "donate") isDonated = true
+                }
             }
         }
-    }
-
-    fun isPurchased(): Boolean {
-
-        if(!purchaseHistoryList.isNullOrEmpty())
-            purchaseHistoryList?.forEach {
-
-                if(it.sku == "donate") return true
-            }
-
-        return false
     }
 
     fun onPurchase(context: Context, sku: String) {
