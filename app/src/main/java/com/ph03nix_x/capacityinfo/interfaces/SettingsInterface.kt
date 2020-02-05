@@ -15,9 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 
-interface SettingsInterface {
+interface SettingsInterface : ServiceInterface {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun openNotificationCategorySettings(context: Context) {
@@ -83,5 +87,19 @@ interface SettingsInterface {
         }
 
         dialogCreate.show()
+    }
+
+    fun changeLanguage(context: Context, language: String) {
+
+        if(CapacityInfoService.instance != null)
+            context.stopService(Intent(context, CapacityInfoService::class.java))
+
+        LocaleHelper.setLocale(context, language)
+
+        MainActivity.instance?.recreate()
+
+        (context as SettingsActivity).recreate()
+
+        startService(context)
     }
 }

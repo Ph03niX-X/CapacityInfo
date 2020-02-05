@@ -3,8 +3,8 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import androidx.preference.*
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_L
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_STOP_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -44,6 +45,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     // Appearance
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
+    private var selectLanguage: ListPreference? = null
 
     // Misc
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
@@ -125,7 +127,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode = findPreference(IS_DARK_MODE)
 
+        selectLanguage = findPreference(LANGUAGE)
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled = !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+
+        if(pref.getString(LANGUAGE, null) !in resources.getStringArray(R.array.languages_codes))
+            selectLanguage?.value = defLang
+
+        selectLanguage?.summary = selectLanguage?.entry
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -139,6 +148,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
             setTheme(requireContext(), isSystemDarkMode = newValue as Boolean)
+
+            true
+        }
+
+        selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
+
+            changeLanguage(requireContext(), newValue as String)
 
             true
         }

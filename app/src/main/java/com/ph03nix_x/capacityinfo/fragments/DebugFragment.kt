@@ -3,10 +3,8 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.app.Activity.RESULT_OK
 import android.content.*
 import android.os.Bundle
-import android.widget.Toast
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
-import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
@@ -16,11 +14,7 @@ import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
-import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
-import kotlinx.coroutines.*
 import java.io.File
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface, BillingInterface {
@@ -37,8 +31,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var importSettings: Preference? = null
     private var openSettings: Preference? = null
     private var restartService: Preference? = null
-    private var orderIdPref: Preference? = null
-    private var selectLanguage: ListPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -65,14 +57,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService = findPreference("restart_service")
 
-        selectLanguage = findPreference(LANGUAGE)
-
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
-
-        if(pref.getString(LANGUAGE, null) !in resources.getStringArray(R.array.languages_codes))
-            selectLanguage?.value = defLang
-
-        selectLanguage?.summary = selectLanguage?.entry
 
         changeSetting?.setOnPreferenceClickListener {
 
@@ -125,13 +110,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             restartService(requireContext())
 
             it.isVisible = CapacityInfoService.instance != null
-
-            true
-        }
-
-        selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
-
-            changeLanguage(requireContext(), newValue as String)
 
             true
         }

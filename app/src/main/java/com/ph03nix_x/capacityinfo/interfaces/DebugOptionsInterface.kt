@@ -256,7 +256,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         if(key == LANGUAGE) {
 
-            changeLanguage(context, value)
+            LocaleHelper.setLocale(context, value)
 
             MainActivity.instance?.recreate()
 
@@ -466,19 +466,5 @@ interface DebugOptionsInterface : ServiceInterface {
                 }
             }
         }
-    }
-
-    fun changeLanguage(context: Context, newValue: String) {
-
-        if(CapacityInfoService.instance != null)
-            context.stopService(Intent(context, CapacityInfoService::class.java))
-
-        LocaleHelper.setLocale(context, newValue)
-
-        MainActivity.instance?.recreate()
-
-        (context as DebugActivity).recreate()
-
-        startService(context)
     }
 }
