@@ -64,6 +64,12 @@
             android:key="help_with_translation"/>
 
     <Preference
+            app:title="@string/become_a_beta_tester"
+            app:summary="@string/become_a_beta_tester_summary"
+            app:singleLineTitle="false"
+            app:key="become_a_beta_tester"/>
+
+    <Preference
             app:title="@string/donate"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_monetization_24dp"

@@ -34,6 +34,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var romanianTranslation: Preference? = null
     private var belorussianTranslation: Preference? = null
     private var helpWithTranslation: Preference? = null
+    private var betaTester: Preference? = null
     private var donate: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -59,6 +60,10 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         belorussianTranslation = findPreference("belorussian_translation")
 
         helpWithTranslation = findPreference("help_with_translation")
+
+        betaTester = findPreference("become_a_beta_tester")
+
+        betaTester?.isVisible = isInstalledGooglePlay(requireContext())
 
         donate = findPreference("donate")
 
@@ -114,6 +119,13 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         helpWithTranslation?.setOnPreferenceClickListener {
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(HELP_WITH_TRANSLATION_LINK)))
+
+            true
+        }
+
+        betaTester?.setOnPreferenceClickListener {
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/testing/${requireContext().packageName}")))
 
             true
         }
