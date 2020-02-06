@@ -427,6 +427,19 @@ interface DebugOptionsInterface : ServiceInterface {
                 if(CapacityInfoService.instance != null)
                     context.stopService(Intent(context, CapacityInfoService::class.java))
 
+                val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+                val prefArrays = HashMap<String, Any?>()
+
+                pref.all.forEach {
+
+                    when(it.key) {
+
+                        NUMBER_OF_CHARGES, DESIGN_CAPACITY, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
+                        CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY -> prefArrays.put(it.key, it.value)
+                    }
+                }
+
                 delay(1500)
                 if(File(prefPath).exists()) File(prefPath).delete()
 
@@ -454,6 +467,19 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
                     Intent().putExtra("is_import_settings", true))
+
+                prefArrays.forEach {
+
+                    when(it.key) {
+
+                        NUMBER_OF_CHARGES -> pref.edit().putLong(it.key, it.value as Long).apply()
+
+                        DESIGN_CAPACITY, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
+                        RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key, it.value as Int).apply()
+
+                        CAPACITY_ADDED -> pref.edit().putFloat(it.key, it.value as Float).apply()
+                    }
+                }
 
                 System.exit(0)
             }
