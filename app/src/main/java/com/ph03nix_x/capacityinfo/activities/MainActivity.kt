@@ -206,16 +206,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         super.onStop()
 
         isJob = false
-
         job?.cancel()
+        job = null
     }
 
     override fun onDestroy() {
 
         isJob = false
-
         job?.cancel()
-
+        job = null
         instance = null
 
         super.onDestroy()
@@ -235,188 +234,188 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     private fun startJob() {
 
-        job = CoroutineScope(Dispatchers.Default).launch {
+        if(job == null)
+            job = CoroutineScope(Dispatchers.Default).launch {
+                while(isJob) {
 
-            while(isJob) {
-
-                val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
-                val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
-
-                withContext(Dispatchers.Main) {
-
-                    batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
-                    numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(NUMBER_OF_CHARGES, 0))
-                }
-
-                if(pref.getBoolean(IS_SHOW_CHARGING_TIME_IN_APP, true))
-                    when(plugged) {
-
-                        BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                            withContext(Dispatchers.Main) {
-
-                                if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
-
-                                else chargingTime.visibility = View.GONE
-
-                                if(chargingTime.visibility == View.VISIBLE)
-                                    chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
-                            }
-
-                        else -> withContext(Dispatchers.Main) { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
-                    }
-
-                else withContext(Dispatchers.Main) { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
-
-                if(pref.getBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP, true)) {
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+                    val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
                     withContext(Dispatchers.Main) {
 
-                        if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
+                        batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
+                        numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(NUMBER_OF_CHARGES, 0))
+                    }
 
-                        if(pref.getInt(LAST_CHARGE_TIME, 0) > 0)
-                            lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
+                    if(pref.getBoolean(IS_SHOW_CHARGING_TIME_IN_APP, true))
+                        when(plugged) {
+
+                            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                                withContext(Dispatchers.Main) {
+
+                                    if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
+
+                                    else chargingTime.visibility = View.GONE
+
+                                    if(chargingTime.visibility == View.VISIBLE)
+                                        chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
+                                }
+
+                            else -> withContext(Dispatchers.Main) { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
+                        }
+
+                    else withContext(Dispatchers.Main) { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
+
+                    if(pref.getBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP, true)) {
+
+                        withContext(Dispatchers.Main) {
+
+                            if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
+
+                            if(pref.getInt(LAST_CHARGE_TIME, 0) > 0)
+                                lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
                                     "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
 
-                        else {
+                            else {
 
-                            if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
-                        }
-
-                    }
-                }
-
-                else {
-
-                    withContext(Dispatchers.Main) {
-
-                        if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
-
-                    }
-                }
-
-                withContext(Dispatchers.Main) {
-
-                    this@MainActivity.status.text = getStatus(this@MainActivity, status)
-
-                    if(getPlugged(this@MainActivity, plugged) != "N/A") {
-
-                        if(this@MainActivity.plugged.visibility == View.GONE) this@MainActivity.plugged.visibility = View.VISIBLE
-
-                        this@MainActivity.plugged.text = getPlugged(this@MainActivity, plugged)
-                    }
-
-                    else this@MainActivity.plugged.visibility = View.GONE
-                }
-
-                withContext(Dispatchers.Main) {
-
-                    technology.text = getString(R.string.battery_technology, batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
-
-                    temperatute.text = if (!pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) getString(R.string.temperature_celsius,
-                            getTemperature(this@MainActivity))
-
-                    else getString(R.string.temperature_fahrenheit, getTemperature(this@MainActivity))
-
-                    voltage.text = getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv else R.string.voltage,
-                        DecimalFormat("#.#").format(getVoltage(this@MainActivity)))
-                }
-
-                if (pref.getBoolean(IS_SUPPORTED, true)) {
-
-                    if (pref.getInt(DESIGN_CAPACITY, 0) > 0 && pref.getInt(RESIDUAL_CAPACITY, 0) > 0) {
-
-                        withContext(Dispatchers.Main) {
-
-                            residualCapacity.text =  getResidualCapacity(this@MainActivity,
-                                batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING)
-
-                            batteryWear.text = getBatteryWear(this@MainActivity)
-                        }
-                    }
-
-                    if (getCurrentCapacity(this@MainActivity) > 0) {
-
-                        if (currentCapacity.visibility == View.GONE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.VISIBLE }
-
-                        withContext(Dispatchers.Main) {
-
-                            currentCapacity.text = getString(R.string.current_capacity,
-                                    DecimalFormat("#.#").format(getCurrentCapacity(this@MainActivity)))
-
-                            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_APP, true) && getPlugged(this@MainActivity, plugged) != "N/A") {
-
-                                if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
-
-                                capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
                             }
-
-                            else if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP, true) && getPlugged(this@MainActivity, plugged) == "N/A") {
-
-                                if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
-
-                                capacityAdded.text = getCapacityAdded(this@MainActivity)
-                            }
-
-                            else if(capacityAdded.visibility == View.VISIBLE) capacityAdded.visibility = View.GONE
                         }
                     }
 
                     else {
 
-                        if (currentCapacity.visibility == View.VISIBLE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.GONE }
+                        withContext(Dispatchers.Main) {
 
-                        if (capacityAdded.visibility == View.GONE && pref.getFloat(CAPACITY_ADDED, 0f) > 0f)
-                            withContext(Dispatchers.Main) { capacityAdded.visibility = View.VISIBLE }
+                            if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
 
-                        else withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+                        }
                     }
-                }
-
-                else {
-
-                    if (capacityAdded.visibility == View.VISIBLE) withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
 
                     withContext(Dispatchers.Main) {
 
-                        residualCapacity.text = getString(R.string.residual_capacity_not_supported)
-                        batteryWear.text = getString(R.string.battery_wear_not_supported)
+                        this@MainActivity.status.text = getStatus(this@MainActivity, status)
+
+                        if(getPlugged(this@MainActivity, plugged) != "N/A") {
+
+                            if(this@MainActivity.plugged.visibility == View.GONE) this@MainActivity.plugged.visibility = View.VISIBLE
+
+                            this@MainActivity.plugged.text = getPlugged(this@MainActivity, plugged)
+                        }
+
+                        else this@MainActivity.plugged.visibility = View.GONE
                     }
-
-                    if(pref.contains(CAPACITY_ADDED)) pref.edit().remove(CAPACITY_ADDED).apply()
-
-                    if(pref.contains(PERCENT_ADDED)) pref.edit().remove(PERCENT_ADDED).apply()
-                }
-
-                if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                    if (chargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) { chargeCurrent.visibility = View.VISIBLE }
-
-                    if (numberOfCharges.visibility == View.VISIBLE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.GONE }
 
                     withContext(Dispatchers.Main) {
 
-                        chargeCurrent.text = getString(R.string.charge_current, getChargeDischargeCurrent(this@MainActivity).toString())
+                        technology.text = getString(R.string.battery_technology, batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
+
+                        temperatute.text = if (!pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) getString(R.string.temperature_celsius,
+                            getTemperature(this@MainActivity))
+
+                        else getString(R.string.temperature_fahrenheit, getTemperature(this@MainActivity))
+
+                        voltage.text = getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv else R.string.voltage,
+                            DecimalFormat("#.#").format(getVoltage(this@MainActivity)))
                     }
 
-                } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+                    if (pref.getBoolean(IS_SUPPORTED, true)) {
 
-                    if (chargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) { chargeCurrent.visibility = View.VISIBLE }
+                        if (pref.getInt(DESIGN_CAPACITY, 0) > 0 && pref.getInt(RESIDUAL_CAPACITY, 0) > 0) {
 
-                    if (numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+                            withContext(Dispatchers.Main) {
 
-                    withContext(Dispatchers.Main) {
+                                residualCapacity.text =  getResidualCapacity(this@MainActivity,
+                                    batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING)
 
-                        chargeCurrent.text = getString(R.string.discharge_current, getChargeDischargeCurrent(this@MainActivity).toString())
+                                batteryWear.text = getBatteryWear(this@MainActivity)
+
+                            }
+                        }
+
+                        if (getCurrentCapacity(this@MainActivity) > 0) {
+
+                            if (currentCapacity.visibility == View.GONE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.VISIBLE }
+
+                            withContext(Dispatchers.Main) {
+
+                                currentCapacity.text = getString(R.string.current_capacity,
+                                    DecimalFormat("#.#").format(getCurrentCapacity(this@MainActivity)))
+
+                                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_APP, true) && getPlugged(this@MainActivity, plugged) != "N/A") {
+
+                                    if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+
+                                    capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                }
+
+                                else if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP, true) && getPlugged(this@MainActivity, plugged) == "N/A") {
+
+                                    if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+
+                                    capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                }
+
+                                else if(capacityAdded.visibility == View.VISIBLE) capacityAdded.visibility = View.GONE
+                            }
+                        }
+
+                        else {
+
+                            if (currentCapacity.visibility == View.VISIBLE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.GONE }
+
+                            if (capacityAdded.visibility == View.GONE && pref.getFloat(CAPACITY_ADDED, 0f) > 0f)
+                                withContext(Dispatchers.Main) { capacityAdded.visibility = View.VISIBLE }
+
+                            else withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+                        }
                     }
-                } else {
 
-                    if (chargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {  chargeCurrent.visibility = View.GONE }
+                    else {
 
-                    if (numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+                        if (capacityAdded.visibility == View.VISIBLE) withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+
+                        withContext(Dispatchers.Main) {
+
+                            residualCapacity.text = getString(R.string.residual_capacity_not_supported)
+                            batteryWear.text = getString(R.string.battery_wear_not_supported)
+                        }
+
+                        if(pref.contains(CAPACITY_ADDED)) pref.edit().remove(CAPACITY_ADDED).apply()
+
+                        if(pref.contains(PERCENT_ADDED)) pref.edit().remove(PERCENT_ADDED).apply()
+                    }
+
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
+
+                        if (chargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) { chargeCurrent.visibility = View.VISIBLE }
+
+                        if (numberOfCharges.visibility == View.VISIBLE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.GONE }
+
+                        withContext(Dispatchers.Main) {
+
+                            chargeCurrent.text = getString(R.string.charge_current, getChargeDischargeCurrent(this@MainActivity).toString())
+                        }
+
+                    } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING || status == BatteryManager.BATTERY_STATUS_FULL || status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+
+                        if (chargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) { chargeCurrent.visibility = View.VISIBLE }
+
+                        if (numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+
+                        withContext(Dispatchers.Main) {
+
+                            chargeCurrent.text = getString(R.string.discharge_current, getChargeDischargeCurrent(this@MainActivity).toString())
+                        }
+                    } else {
+
+                        if (chargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {  chargeCurrent.visibility = View.GONE }
+
+                        if (numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+                    }
+
+                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 958 else 965)
                 }
-
-                delay(if(getCurrentCapacity(this@MainActivity) > 0) 958 else 965)
             }
-        }
     }
 }

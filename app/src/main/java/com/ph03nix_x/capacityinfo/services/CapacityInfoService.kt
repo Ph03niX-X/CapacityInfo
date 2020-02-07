@@ -6,7 +6,6 @@ import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
@@ -94,84 +93,85 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isJob = true
 
-        jobService = CoroutineScope(Dispatchers.Default).launch {
+        if(jobService == null)
+            jobService = CoroutineScope(Dispatchers.Default).launch {
 
-            while (isJob) {
+                while (isJob) {
 
-                if(!::wakeLock.isInitialized) {
+                    if(!::wakeLock.isInitialized) {
 
-                    if(!::powerManager.isInitialized) powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+                        if(!::powerManager.isInitialized) powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
 
-                    wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
-                }
-
-                if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(45 * 1000)
-
-                if(getBatteryLevel(this@CapacityInfoService) < batteryLevelWith) batteryLevelWith = getBatteryLevel(this@CapacityInfoService)
-
-                batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
-                val status = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
-
-                if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                    if(numberOfCharges == pref.getLong(NUMBER_OF_CHARGES, 0))
-                        pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
-
-                    val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-
-                    for(display in displayManager.displays)
-                        if(display.state == Display.STATE_ON)
-                            delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 950 else 957)
-                    else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 920 else 927)
-
-                    if(!isStopService) {
-
-                        seconds++
-                        updateNotification(this@CapacityInfoService)
+                        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "${packageName}:service_wakelock")
                     }
-                }
 
-                else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
-                    && getBatteryLevel(this@CapacityInfoService) == 100) {
-                    
-                    isFull = true
+                    if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(45 * 1000)
 
-                    numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
+                    if(getBatteryLevel(this@CapacityInfoService) < batteryLevelWith) batteryLevelWith = getBatteryLevel(this@CapacityInfoService)
 
-                    pref.edit().apply {
+                    batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                        putInt(LAST_CHARGE_TIME, seconds)
-                        putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-                        putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
+                    val status = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                        if (getCurrentCapacity(this@CapacityInfoService) > 0) {
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                            if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                                putInt(RESIDUAL_CAPACITY, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
-                            else putInt(RESIDUAL_CAPACITY, getCurrentCapacity(this@CapacityInfoService).toInt())
+                        if(numberOfCharges == pref.getLong(NUMBER_OF_CHARGES, 0))
+                            pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
-                            putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
+                        val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
-                            putInt(PERCENT_ADDED, percentAdded)
+                        for(display in displayManager.displays)
+                            if(display.state == Display.STATE_ON)
+                                delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 950 else 957)
+                            else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 920 else 927)
+
+                        if(!isStopService) {
+
+                            seconds++
+                            updateNotification(this@CapacityInfoService)
+                        }
+                    }
+
+                    else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
+                        && getBatteryLevel(this@CapacityInfoService) == 100) {
+
+                        isFull = true
+
+                        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
+
+                        pref.edit().apply {
+
+                            putInt(LAST_CHARGE_TIME, seconds)
+                            putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
+                            putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
+
+                            if (getCurrentCapacity(this@CapacityInfoService) > 0) {
+
+                                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                                    putInt(RESIDUAL_CAPACITY, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
+                                else putInt(RESIDUAL_CAPACITY, getCurrentCapacity(this@CapacityInfoService).toInt())
+
+                                putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
+
+                                putInt(PERCENT_ADDED, percentAdded)
+                            }
+
+                            apply()
                         }
 
-                        apply()
+                        updateNotification(this@CapacityInfoService)
                     }
 
-                    updateNotification(this@CapacityInfoService)
-                }
+                    else {
 
-                else {
+                        updateNotification(this@CapacityInfoService)
 
-                    updateNotification(this@CapacityInfoService)
+                        if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                    if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
-
-                    delay(2 * 1000)
+                        delay(2 * 1000)
+                    }
                 }
             }
-        }
 
         return START_STICKY
     }
@@ -183,6 +183,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         instance = null
         isJob = false
         jobService?.cancel()
+        jobService = null
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
