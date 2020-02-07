@@ -80,7 +80,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
             try {
 
-                requireContext().startActivity(Intent(Intent.ACTION_VIEW,
+                startActivity(Intent(Intent.ACTION_VIEW,
                     Uri.parse("market://search?q=pub:${developer?.summary}")))
             }
 

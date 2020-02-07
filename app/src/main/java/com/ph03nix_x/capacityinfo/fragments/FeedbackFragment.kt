@@ -76,7 +76,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             rateTheApp?.setOnPreferenceClickListener {
 
-                requireContext().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${requireContext().packageName}")))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${requireContext().packageName}")))
 
                 true
             }

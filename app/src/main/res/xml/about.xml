@@ -74,4 +74,5 @@
             app:singleLineTitle="false"
             app:icon="@drawable/ic_monetization_24dp"
             app:key="donate"/>
+
 </PreferenceScreen>
