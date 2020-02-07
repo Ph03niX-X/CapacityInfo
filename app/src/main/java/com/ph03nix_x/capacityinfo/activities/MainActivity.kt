@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 setIcon(R.drawable.ic_help_outline_dialog_24dp)
                 setTitle(getString(R.string.faq))
                 setMessage(getString(R.string.faq_how_does_the_app_work) + getString(R.string.faq_capacity_added)
+                        + getString(R.string.faq_i_have_everything_in_zeros)
                         + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
                         + getString(R.string.faq_add_device_support))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
