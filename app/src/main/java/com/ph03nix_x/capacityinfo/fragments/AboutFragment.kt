@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -132,7 +133,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate?.setOnPreferenceClickListener {
 
-            if(isInstalledGooglePlay && !isDonated) {
+            if(isInstalledGooglePlay) {
 
                 CoroutineScope(Dispatchers.Default).launch {
 
@@ -140,7 +141,17 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
                         billingClient = onBillingClientBuilder(requireContext())
                     onBillingStartConnection()
 
-                    onPurchase(requireActivity(), "donate")
+                    delay(450)
+                    if(isDonated) {
+
+                        donate?.isVisible = false
+
+                        withContext(Dispatchers.Main) {
+
+                            Toast.makeText(requireContext(), getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    else onPurchase(requireActivity(), "donate")
                 }
             }
 
