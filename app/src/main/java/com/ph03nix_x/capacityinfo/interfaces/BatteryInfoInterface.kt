@@ -53,7 +53,7 @@ interface BatteryInfoInterface {
         (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
     }
 
-    catch (e: RuntimeException) { 0 }
+    catch (e: RuntimeException) { batteryIntent!!.getStringExtra(BatteryManager.EXTRA_LEVEL)!!.toInt() }
 
     fun getChargeDischargeCurrent(context: Context): Int {
 
