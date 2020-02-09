@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import kotlinx.coroutines.*
+import java.lang.IllegalStateException
 
 class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
@@ -151,7 +152,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
                             Toast.makeText(requireContext(), getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
                         }
                     }
-                    else onPurchase(requireActivity(), "donate")
+                    else try {
+
+                        onPurchase(requireActivity(), "donate")
+                    }
+                    catch(e: IllegalStateException) {}
                 }
             }
 
