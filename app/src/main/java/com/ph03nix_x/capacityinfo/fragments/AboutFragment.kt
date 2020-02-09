@@ -143,18 +143,18 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
                     onBillingStartConnection()
 
                     delay(450)
-                    if(isDonated) {
+                    try {
 
-                        donate?.isVisible = false
+                        if(isDonated) {
 
-                        withContext(Dispatchers.Main) {
+                            donate?.isVisible = false
 
-                            Toast.makeText(requireContext(), getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                            withContext(Dispatchers.Main) {
+
+                                Toast.makeText(requireContext(), getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                            }
                         }
-                    }
-                    else try {
-
-                        onPurchase(requireActivity(), "donate")
+                        else onPurchase(requireActivity(), "donate")
                     }
                     catch(e: IllegalStateException) {}
                 }
