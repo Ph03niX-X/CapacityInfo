@@ -18,12 +18,9 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import java.io.File
 
-class RestartServiceReceiver : BroadcastReceiver(),
-    ServiceInterface {
+class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         when(intent.action) {
 
@@ -79,14 +76,6 @@ class RestartServiceReceiver : BroadcastReceiver(),
 
             newPrefs.edit().putBoolean(IS_DARK_MODE,
                 newPrefs.getBoolean("dark_mode", true)).apply()
-
-            removeOldPref(context)
-        }
-
-        if(newPrefs.contains("enable_service")) {
-
-            newPrefs.edit().putBoolean("is_enable_service",
-                newPrefs.getBoolean("enable_service", true)).apply()
 
             removeOldPref(context)
         }

@@ -251,7 +251,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.about)
 
-           requireActivity().supportFragmentManager.beginTransaction().apply {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
 
                 replace(R.id.container, AboutFragment())
                 commit()
