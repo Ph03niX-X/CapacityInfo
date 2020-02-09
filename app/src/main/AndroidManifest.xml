@@ -31,8 +31,7 @@
 
         <activity android:name=".activities.SettingsActivity"
                   android:launchMode="singleTask"
-                  android:label="@string/settings"
-                  android:parentActivityName=".activities.SettingsActivity">
+                  android:label="@string/settings">
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW"/>
@@ -43,8 +42,7 @@
 
         <activity android:name=".activities.DebugActivity"
                 android:launchMode="singleTask"
-                android:label="@string/debug"
-                android:parentActivityName=".activities.DebugActivity">
+                android:label="@string/debug">
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW"/>
@@ -82,8 +80,8 @@
 
         <receiver android:name=".receivers.OpenDebugReceiver">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SECRET_CODE" />
-                <data android:scheme="android_secret_code" android:host="24324" />
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data android:scheme="android_secret_code" android:host="24324"/>
             </intent-filter>
         </receiver>
 
