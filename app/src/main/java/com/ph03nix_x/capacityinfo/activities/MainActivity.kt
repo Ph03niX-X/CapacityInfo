@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         if(CapacityInfoService.instance == null) startService(this)
 
-        instance = this
+        if(instance == null) instance = this
 
         if(pref.getInt(DESIGN_CAPACITY, 0) <= 0 || pref.getInt(DESIGN_CAPACITY, 0) >= 100000) {
 
@@ -255,8 +255,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 withContext(Dispatchers.Main) {
 
                                     if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
-
-                                    else chargingTime.visibility = View.GONE
 
                                     if(chargingTime.visibility == View.VISIBLE)
                                         chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
