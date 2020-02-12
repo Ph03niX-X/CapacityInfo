@@ -81,8 +81,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
             try {
 
+                if(isInstalledGooglePlay)
                 startActivity(Intent(Intent.ACTION_VIEW,
                     Uri.parse("market://search?q=pub:${developer?.summary}")))
+
+                else startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=${developer?.summary}")))
             }
 
             catch(e: ActivityNotFoundException) {}
