@@ -55,8 +55,7 @@ interface BatteryInfoInterface {
 
     catch (e: RuntimeException) {
 
-        if(batteryIntent == null)
-            batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         batteryIntent!!.getStringExtra(BatteryManager.EXTRA_LEVEL)!!.toInt()
     }
