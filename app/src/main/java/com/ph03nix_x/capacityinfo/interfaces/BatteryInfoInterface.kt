@@ -55,9 +55,13 @@ interface BatteryInfoInterface {
 
     catch (e: RuntimeException) {
 
-        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        batteryIntent!!.getStringExtra(BatteryManager.EXTRA_LEVEL)!!.toInt()
+        try {
+
+            batteryIntent!!.getStringExtra(BatteryManager.EXTRA_LEVEL)!!.toInt()
+        }
+        catch (e: KotlinNullPointerException) { 0 }
     }
 
     fun getChargeDischargeCurrent(context: Context): Int {
