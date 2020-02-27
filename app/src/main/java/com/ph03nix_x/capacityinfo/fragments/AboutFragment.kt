@@ -95,42 +95,89 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         github?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LINK)))
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LINK)))
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
 
         designer?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DESIGNER_LINK)))
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DESIGNER_LINK)))
+
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
 
         romanianTranslation?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ROMANIAN_TRANSLATION_LINK)))
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ROMANIAN_TRANSLATION_LINK)))
+
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
 
         belorussianTranslation?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELORUSSIAN_TRANSLATION_LINK)))
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELORUSSIAN_TRANSLATION_LINK)))
+
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
 
         helpWithTranslation?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(HELP_WITH_TRANSLATION_LINK)))
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(HELP_WITH_TRANSLATION_LINK)))
+
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
 
         betaTester?.setOnPreferenceClickListener {
 
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/testing/${requireContext().packageName}")))
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/testing/${requireContext().packageName}")))
+
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
