@@ -119,4 +119,5 @@
     <string name="thanks_for_the_donation">Спасибо за поддержку проекта</string>
     <string name="become_a_beta_tester">Стать бета-тестером</string>
     <string name="become_a_beta_tester_summary">Получайте обновления одними из первых</string>
+    <string name="error_opening_link">Ошибка открытия ссылки!</string>
 </resources>
