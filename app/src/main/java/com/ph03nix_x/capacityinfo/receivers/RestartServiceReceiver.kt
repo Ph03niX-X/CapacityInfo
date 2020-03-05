@@ -115,6 +115,8 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
             if(pref.contains("is_enable_service")) remove("is_enable_service")
 
+            if(pref.contains("is_show_stop_service")) remove("is_show_stop_service")
+
             apply()
         }
     }

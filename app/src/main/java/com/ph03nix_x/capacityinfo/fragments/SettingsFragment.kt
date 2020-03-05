@@ -20,7 +20,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_I
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
@@ -34,7 +33,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
     // Service and Notification
     private var isAutoStartService: SwitchPreferenceCompat? = null
-    private var showStopService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
     private var moreServiceAndNotification: Preference? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
@@ -69,8 +67,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         // Service and Notification
 
         isAutoStartService = findPreference(IS_AUTO_START_SERVICE)
-
-        showStopService = findPreference(IS_SHOW_STOP_SERVICE)
 
         serviceTime = findPreference(IS_SERVICE_TIME)
 

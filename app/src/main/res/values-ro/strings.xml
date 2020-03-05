@@ -36,12 +36,10 @@
     <string name="seconds">"%1$s secunde"</string>
     <string name="minute">"%1$s minut"</string>
     <string name="apply">Aplicare</string>
-    <string name="stop_service">Oprire serviciu</string>
     <string name="open_notification_category_settings">Deschideți setările categoriei de notificare</string>
     <string name="service_and_notification">Serviciu și notificare</string>
     <string name="appearance">Aspect</string>
     <string name="misc">Altele</string>
-    <string name="show_stop_service">"Afișare \"Oprire serviciu\""</string>
     <string name="voltage_in_mv">Tensiune în mV</string>
     <string name="voltage_mv">"Tensiune: %1$s mV"</string>
     <string name="show_last_charge_time_in_app">Afișează ultima încărcare în aplicație</string>

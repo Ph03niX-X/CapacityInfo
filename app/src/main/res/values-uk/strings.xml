@@ -36,12 +36,10 @@
     <string name="seconds">"%1$s секунд"</string>
     <string name="minute">"%1$s хвилина"</string>
     <string name="apply">Застосувати</string>
-    <string name="stop_service">Зупинити службу</string>
     <string name="open_notification_category_settings">Відкрити параметри категорії повідомлення</string>
     <string name="service_and_notification">Служба &amp; повідомлення</string>
     <string name="appearance">Зовнішній вигляд</string>
     <string name="misc">Інше</string>
-    <string name="show_stop_service">"Показувати \"Зупинити службу\""</string>
     <string name="voltage_in_mv">Напруга в мВ</string>
     <string name="voltage_mv">"Напруга: %1$s мВ"</string>
     <string name="show_last_charge_time_in_app">Показувати час останньої зарядки в додатку</string>
