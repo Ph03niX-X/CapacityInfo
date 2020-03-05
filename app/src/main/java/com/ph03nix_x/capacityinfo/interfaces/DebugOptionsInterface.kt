@@ -435,7 +435,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     when(it.key) {
 
-                        NUMBER_OF_CHARGES, DESIGN_CAPACITY, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
+                        NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
                         CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY -> prefArrays.put(it.key, it.value)
                     }
                 }
@@ -474,7 +474,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                         NUMBER_OF_CHARGES -> pref.edit().putLong(it.key, it.value as Long).apply()
 
-                        DESIGN_CAPACITY, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
+                        BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
                         RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key, it.value as Int).apply()
 
                         CAPACITY_ADDED -> pref.edit().putFloat(it.key, it.value as Float).apply()
