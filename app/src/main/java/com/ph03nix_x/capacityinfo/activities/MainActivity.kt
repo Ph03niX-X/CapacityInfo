@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         val extras = intent.extras
         if(extras != null && extras.getBoolean("is_import_settings", false)) {
 
-            launchActivity(this, DebugActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
+            launchActivity(this, SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
 
             Toast.makeText(this, getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
 

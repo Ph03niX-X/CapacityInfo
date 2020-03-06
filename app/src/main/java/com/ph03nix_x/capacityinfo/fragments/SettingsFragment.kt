@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.app.Activity
 import android.content.*
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,8 @@ import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utils.Constants
+import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
@@ -52,6 +55,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
+    private var exportSettings: Preference? = null
+    private var importSettings: Preference? = null
     private var changeDesignCapacity: Preference? = null
 
     // About & Feedback
@@ -169,6 +174,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         voltageUnit = findPreference(VOLTAGE_UNIT)
 
+        exportSettings = findPreference("export_settings")
+
+        importSettings = findPreference("import_settings")
+
         changeDesignCapacity = findPreference("change_design_capacity")
 
         moreOther?.setOnPreferenceClickListener {
@@ -183,6 +192,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfChargeDischargeCurrent?.isVisible = true
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
                 voltageUnit?.isVisible = true
+                exportSettings?.isVisible = true
+                importSettings?.isVisible = true
                 changeDesignCapacity?.isVisible = true
             }
 
@@ -196,6 +207,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
+                exportSettings?.isVisible = false
+                importSettings?.isVisible = false
                 changeDesignCapacity?.isVisible = false
             }
 
@@ -232,6 +245,24 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         changeDesignCapacity?.setOnPreferenceClickListener {
 
             changeDesignCapacity(requireContext(), pref, it)
+
+            true
+        }
+
+        exportSettings?.setOnPreferenceClickListener {
+
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
+
+            true
+        }
+
+        importSettings?.setOnPreferenceClickListener {
+
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "text/xml"
+            }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
 
             true
         }
@@ -295,5 +326,19 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         changeDesignCapacity?.summary = getString(R.string.change_design_summary, pref.getInt(DESIGN_CAPACITY, 0))
 
         preferenceScreen.isVisible = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+
+            EXPORT_SETTINGS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) exportSettings(requireContext(), data!!)
+
+            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) importSettings(requireContext(), data!!.data!!)
+        }
     }
 }
