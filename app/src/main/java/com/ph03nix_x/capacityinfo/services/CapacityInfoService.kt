@@ -40,7 +40,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var jobService: Job? = null
     private var isJob = false
     var isFull = false
-    var isStopService = false
     var batteryLevelWith = -1
     var seconds = 0
     var numberOfCharges: Long = 0
@@ -125,11 +124,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 949 else 956)
                             else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 919 else 926)
 
-                        if(!isStopService) {
+                        seconds++
+                        updateNotification(this@CapacityInfoService)
 
-                            seconds++
-                            updateNotification(this@CapacityInfoService)
-                        }
                     }
 
                     else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull

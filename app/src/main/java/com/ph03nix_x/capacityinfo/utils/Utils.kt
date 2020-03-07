@@ -18,11 +18,6 @@ object Utils {
     var percentAdded = 0
     var batteryIntent: Intent? = null
 
-    fun launchActivity(context: Context, activity: Class<*>) {
-
-        context.startActivity(Intent(context, activity))
-    }
-
     fun launchActivity(context: Context, activity: Class<*>, flags: ArrayList<Int>) {
 
         context.startActivity(Intent(context, activity).apply {
@@ -31,14 +26,6 @@ object Utils {
 
                 this.addFlags(it)
             }
-        })
-    }
-
-    fun launchActivity(context: Context, activity: Class<*>, intent: Intent) {
-
-        context.startActivity(Intent(context, activity).apply {
-
-            putExtras(intent)
         })
     }
 
