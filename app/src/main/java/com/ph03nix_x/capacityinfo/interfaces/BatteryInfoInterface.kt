@@ -38,6 +38,7 @@ interface BatteryInfoInterface {
         var residualCapacity = 0.0
         var batteryLevel = 0
         var maxChargeCurrent = 0
+        var minChargeCurrent = 0
     }
 
     fun getDesignCapacity(context: Context): Int {
@@ -86,9 +87,15 @@ interface BatteryInfoInterface {
                 when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
                     BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
-                        BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                        if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING
-                            && chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+                        BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                        if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING) {
+
+                            if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+
+                            if(chargeCurrent < minChargeCurrent) minChargeCurrent = chargeCurrent
+                        }
+                    }
                 }
 
                 chargeCurrent
@@ -99,8 +106,15 @@ interface BatteryInfoInterface {
                 when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
                     BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
-                    BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                        if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+
+                        if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING) {
+
+                            if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+
+                            if(chargeCurrent < minChargeCurrent) minChargeCurrent = chargeCurrent
+                        }
+                    }
                 }
 
                 chargeCurrent

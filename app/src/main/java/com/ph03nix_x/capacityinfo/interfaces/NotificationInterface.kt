@@ -141,6 +141,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val capacityAdded = getCapacityAdded(context)
         val chargeCurrent = context.getString(R.string.charge_current, getChargeDischargeCurrent(context).toString())
         val maxChargeCurrent = context.getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
+        val minChargeCurrent = context.getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) R.string.temperature_fahrenheit
         else R.string.temperature_celsius, getTemperature(context))
 
@@ -149,10 +150,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
-            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
+                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
+            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
 
-        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$chargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
+        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$chargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
     }
 
     private fun getBatteryStatusNotCharging(context: Context): String {
@@ -177,6 +178,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val capacityAdded = getCapacityAdded(context)
         val dischargeCurrent = context.getString(R.string.discharge_current, getChargeDischargeCurrent(context).toString())
         val maxChargeCurrent = context.getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
+        val minChargeCurrent = context.getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) R.string.temperature_fahrenheit
         else R.string.temperature_celsius, getTemperature(context))
 
@@ -184,10 +186,10 @@ interface NotificationInterface : BatteryInfoInterface {
             DecimalFormat("#.#").format(getVoltage(context)))
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
-                "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n$dischargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
-            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$dischargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
+                "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
+            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
 
-        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
+        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
     }
 
     private fun getBatteryStatusFull(context: Context): String {
@@ -213,6 +215,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val capacityAdded = getCapacityAdded(context)
         val dischargeCurrent = context.getString(R.string.discharge_current, getChargeDischargeCurrent(context).toString())
         val maxChargeCurrent = context.getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
+        val minChargeCurrent = context.getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) R.string.temperature_fahrenheit
         else R.string.temperature_celsius, getTemperature(context))
 
@@ -223,13 +226,13 @@ interface NotificationInterface : BatteryInfoInterface {
 
             if(getCurrentCapacity(context) > 0)
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
-                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
-                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
+                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
+                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
 
-            else "$fullCharging\n$batteryLevel\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n$maxChargeCurrent\n$temperature\n$voltage"
+            else "$fullCharging\n$batteryLevel\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature\n$voltage"
         }
 
-        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargeCurrent\n$maxChargeCurrent\n$temperature"
+        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargeCurrent\n$maxChargeCurrent\n$minChargeCurrent\n$temperature"
     }
 
     private fun getBatteryStatusDischarging(context: Context): String {
