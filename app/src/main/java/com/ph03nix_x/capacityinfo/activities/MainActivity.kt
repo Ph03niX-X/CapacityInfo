@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var maxChargeCurrent: TextView
     private lateinit var averageChargeCurrent: TextView
     private lateinit var minChargeCurrent: TextView
-    private lateinit var temperatute: TextView
+    private lateinit var temperature: TextView
     private lateinit var voltage: TextView
     private lateinit var lastChargeTime: TextView
     private lateinit var batteryWear: TextView
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         maxChargeCurrent = findViewById(R.id.max_charge_current)
         averageChargeCurrent = findViewById(R.id.average_charge_current)
         minChargeCurrent = findViewById(R.id.min_charge_current)
-        temperatute = findViewById(R.id.temperature)
+        temperature = findViewById(R.id.temperature)
         voltage = findViewById(R.id.voltage)
         lastChargeTime = findViewById(R.id.last_charge_time)
         batteryWear = findViewById(R.id.battery_wear)
@@ -315,7 +315,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         technology.text = getString(R.string.battery_technology, batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
 
-                        temperatute.text = if (!pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) getString(R.string.temperature_celsius,
+                        temperature.text = if (!pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) getString(R.string.temperature_celsius,
                             getTemperature(this@MainActivity))
 
                         else getString(R.string.temperature_fahrenheit, getTemperature(this@MainActivity))
