@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/max_charge_current"
             android:visibility="gone"
-            android:text="@string/charge_current"
+            android:text="@string/max_charge_current"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
