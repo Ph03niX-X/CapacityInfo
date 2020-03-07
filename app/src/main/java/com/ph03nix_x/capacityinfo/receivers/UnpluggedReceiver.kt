@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
@@ -65,6 +66,8 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 CapacityInfoService.instance!!.seconds = 0
 
                 batteryLevel = 0
+
+                BatteryInfoInterface.maxChargeCurrent = 0
 
                 CapacityInfoService.instance!!.isFull = false
             }

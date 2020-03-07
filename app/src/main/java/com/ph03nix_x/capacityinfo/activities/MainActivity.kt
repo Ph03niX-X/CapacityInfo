@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var status: TextView
     private lateinit var plugged: TextView
     private lateinit var chargeCurrent: TextView
+    private lateinit var maxChargeCurrent: TextView
     private lateinit var temperatute: TextView
     private lateinit var voltage: TextView
     private lateinit var lastChargeTime: TextView
@@ -130,6 +131,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         status = findViewById(R.id.status)
         plugged = findViewById(R.id.plugged)
         chargeCurrent = findViewById(R.id.charge_current)
+        maxChargeCurrent = findViewById(R.id.max_charge_current)
         temperatute = findViewById(R.id.temperature)
         voltage = findViewById(R.id.voltage)
         lastChargeTime = findViewById(R.id.last_charge_time)
@@ -411,6 +413,25 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         if (chargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {  chargeCurrent.visibility = View.GONE }
 
                         if (numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+                    }
+
+                    if(getPlugged(this@MainActivity, plugged) != "N/A") {
+
+                        if(maxChargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) {
+
+                            maxChargeCurrent.visibility = View.VISIBLE
+
+                            maxChargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
+                        }
+
+                    }
+
+                    else {
+
+                        if(maxChargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {
+
+                            maxChargeCurrent.visibility = View.GONE
+                        }
                     }
 
                     delay(if(getCurrentCapacity(this@MainActivity) > 0) 958 else 965)

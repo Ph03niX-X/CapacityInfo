@@ -129,13 +129,24 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/max_charge_current"
+            android:visibility="gone"
+            android:text="@string/charge_current"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:fontFamily="@font/medium"
+            android:layout_below="@id/charge_current"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/temperature"
             android:visibility="visible"
             android:text="@string/temperature_celsius"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/charge_current"/>
+            android:layout_below="@id/max_charge_current"/>
 
     <TextView
             android:layout_width="match_parent"

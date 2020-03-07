@@ -37,6 +37,7 @@ interface BatteryInfoInterface {
 
         var residualCapacity = 0.0
         var batteryLevel = 0
+        var maxChargeCurrent = 0
     }
 
     fun getDesignCapacity(context: Context): Int {
@@ -68,6 +69,8 @@ interface BatteryInfoInterface {
 
         return try {
 
+            batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -76,8 +79,32 @@ interface BatteryInfoInterface {
 
             if(chargeCurrent < 0) chargeCurrent /= -1
 
-            if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") chargeCurrent / 1000
-            else chargeCurrent
+            if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") {
+
+                chargeCurrent /= 1000
+
+                when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+
+                    BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
+                        BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                        if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING
+                            && chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+                }
+
+                chargeCurrent
+            }
+
+            else {
+
+                when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+
+                    BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
+                    BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                        if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+                }
+
+                chargeCurrent
+            }
         }
 
         catch (e: RuntimeException) { 0 }
