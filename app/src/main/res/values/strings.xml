@@ -124,5 +124,6 @@
     <string name="become_a_beta_tester_summary">Be the first to receive updates</string>
     <string name="error_opening_link">Error opening link!</string>
     <string name="max_charge_current">Max. Charge Current %1$d mA</string>
+    <string name="average_charge_current">Average Charge Current %1$d mA</string>
     <string name="min_charge_current">Min. Charge Current %1$d mA</string>
 </resources>

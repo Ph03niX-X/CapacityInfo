@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var plugged: TextView
     private lateinit var chargeCurrent: TextView
     private lateinit var maxChargeCurrent: TextView
+    private lateinit var averageChargeCurrent: TextView
     private lateinit var minChargeCurrent: TextView
     private lateinit var temperatute: TextView
     private lateinit var voltage: TextView
@@ -133,6 +134,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         plugged = findViewById(R.id.plugged)
         chargeCurrent = findViewById(R.id.charge_current)
         maxChargeCurrent = findViewById(R.id.max_charge_current)
+        averageChargeCurrent = findViewById(R.id.average_charge_current)
         minChargeCurrent = findViewById(R.id.min_charge_current)
         temperatute = findViewById(R.id.temperature)
         voltage = findViewById(R.id.voltage)
@@ -426,6 +428,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             maxChargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
                         }
 
+                        if(averageChargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) {
+
+                            averageChargeCurrent.visibility = View.VISIBLE
+
+                            averageChargeCurrent.text = getString(R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
+                        }
+
                         if(minChargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) {
 
                             minChargeCurrent.visibility = View.VISIBLE
@@ -441,13 +450,18 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             maxChargeCurrent.visibility = View.GONE
                         }
 
+                        if(averageChargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {
+
+                            averageChargeCurrent.visibility = View.GONE
+                        }
+
                         if(minChargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {
 
                             minChargeCurrent.visibility = View.GONE
                         }
                     }
 
-                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 957 else 964)
+                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 956 else 963)
                 }
             }
     }

@@ -38,6 +38,7 @@ interface BatteryInfoInterface {
         var residualCapacity = 0.0
         var batteryLevel = 0
         var maxChargeCurrent = 0
+        var averageChargeCurrent = 0
         var minChargeCurrent = 0
     }
 
@@ -94,6 +95,9 @@ interface BatteryInfoInterface {
                             if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
 
                             if(chargeCurrent < minChargeCurrent) minChargeCurrent = chargeCurrent
+
+                            if(maxChargeCurrent > 0 || minChargeCurrent > 0)
+                                averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
                         }
                     }
                 }
@@ -113,6 +117,9 @@ interface BatteryInfoInterface {
                             if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
 
                             if(chargeCurrent < minChargeCurrent) minChargeCurrent = chargeCurrent
+
+                            if(maxChargeCurrent > 0 || minChargeCurrent > 0)
+                                averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
                         }
                     }
                 }
