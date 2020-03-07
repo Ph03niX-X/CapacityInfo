@@ -134,7 +134,7 @@
             android:id="@+id/max_charge_current"
             android:visibility="gone"
             android:text="@string/max_charge_current"
-            android:layout_centerInParent="true"
+            android:layout_centerInParent="false"
             android:gravity="center"
             android:fontFamily="@font/medium"
             android:layout_below="@id/charge_current"/>
