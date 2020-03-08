@@ -54,13 +54,13 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 <b>Instruction:</b>
 </p>
 
-1.In order for the application to show the remaining capacity, put the device on charge, while the service must be turned on.
-2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed.
-3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%.
-4.If the design capacity is incorrect, change it in the application settings.
+1.In order for the application to show the remaining capacity, put the device on charge, while the service must be turned on.<br/>
+2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed. <br/>
+3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%. <br/>
+4.If the design capacity is incorrect, change it in the application settings.<br/>
 5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings.
 
-ATTENTION! Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS
+<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS
 
 ---
 <p align="center">
@@ -73,7 +73,10 @@ Answer: Residual capacity is formed on the basis of the current capacity upon re
 Question: What is considered to be "Capacity Added"?
 Answer: "Capacity Added" is considered very simple: the current capacity - capacity, which was before you connected the charging.
 
-Question: very large or small numbers are shown in the current capacity, charge/discharge current, voltage.
+Question: I have everything (or almost everything) in zeros. Why?
+Answer: Because the manufacturer of your device has saved on various sensors.  And since the kernel cannot get the value, it returns 0.
+
+Question: Very large or small numbers are shown in the current capacity, charge/discharge current, voltage.
 Answer: Go to the settings, in the "Misc" section, expand all the settings and change the unit of measurement.
 
 Question: The current capacity has ceased to be displayed, although it was previously displayed (or is displayed, but not always).
