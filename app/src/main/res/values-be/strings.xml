@@ -118,7 +118,7 @@
     <string name="become_a_beta_tester">Стаць бэта-тэстарам</string>
     <string name="become_a_beta_tester_summary">Атрымлівайце абнаўлення аднымі з першых</string>
     <string name="error_opening_link">Памылка адкрыцця спасылкі!</string>
-    <string name="max_charge_current">Макс. ток зарадкі %1$d мА</string>
+    <string name="max_charge_current">Максімальны ток зарадкі %1$d мА</string>
     <string name="average_charge_current">Сярэдні ток зарадкі %1$d мА</string>
-    <string name="min_charge_current">Мін. ток зарадкі %1$d мА</string>
+    <string name="min_charge_current">Мінімальны ток зарадкі %1$d мА</string>
 </resources>
