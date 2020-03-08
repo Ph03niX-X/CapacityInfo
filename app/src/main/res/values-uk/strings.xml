@@ -118,7 +118,7 @@
     <string name="become_a_beta_tester">Стати бета-тестером</string>
     <string name="become_a_beta_tester_summary">Отримуйте оновлення одними з перших</string>
     <string name="error_opening_link">Помилка відкриття посилання!</string>
-    <string name="max_charge_current">Макс. струм зарядки %1$d мА</string>
+    <string name="max_charge_current">Максимальний струм зарядки %1$d мА</string>
     <string name="average_charge_current">Середній струм зарядки %1$d мА</string>
-    <string name="min_charge_current">Мін. струм зарядки %1$d мА</string>
+    <string name="min_charge_current">Мінімальний струм зарядки %1$d мА</string>
 </resources>
