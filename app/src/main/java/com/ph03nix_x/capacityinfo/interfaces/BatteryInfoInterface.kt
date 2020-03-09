@@ -71,8 +71,6 @@ interface BatteryInfoInterface {
 
         return try {
 
-            batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
@@ -80,6 +78,8 @@ interface BatteryInfoInterface {
             var chargeCurrent = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
 
             if(chargeCurrent < 0) chargeCurrent /= -1
+
+            batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
             if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") {
 
@@ -94,8 +94,10 @@ interface BatteryInfoInterface {
 
                             if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
 
-                            if(chargeCurrent < minChargeCurrent || minChargeCurrent == 0)
+                            if(chargeCurrent < minChargeCurrent && chargeCurrent < maxChargeCurrent)
                                 minChargeCurrent = chargeCurrent
+
+                            else if(minChargeCurrent == 0 && chargeCurrent < maxChargeCurrent) minChargeCurrent = chargeCurrent
 
                             if(maxChargeCurrent > 0 && minChargeCurrent > 0)
                                 averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2

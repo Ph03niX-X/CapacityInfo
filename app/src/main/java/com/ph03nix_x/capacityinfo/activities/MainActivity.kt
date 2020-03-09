@@ -421,25 +421,24 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     if(getPlugged(this@MainActivity, plugged) != "N/A") {
 
-                        if(maxChargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Main) {
 
-                            maxChargeCurrent.visibility = View.VISIBLE
+                            if(maxChargeCurrent.visibility == View.GONE) maxChargeCurrent.visibility = View.VISIBLE
 
-                            maxChargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
-                        }
+                            if(maxChargeCurrent.visibility == View.VISIBLE)
+                                maxChargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
 
-                        if(averageChargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) {
+                            if(averageChargeCurrent.visibility == View.GONE)
+                                averageChargeCurrent.visibility = View.VISIBLE
 
-                            averageChargeCurrent.visibility = View.VISIBLE
+                            if(averageChargeCurrent.visibility == View.VISIBLE)
+                                averageChargeCurrent.text = getString(R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
 
-                            averageChargeCurrent.text = getString(R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
-                        }
+                            if(minChargeCurrent.visibility == View.GONE)
+                                minChargeCurrent.visibility = View.VISIBLE
 
-                        if(minChargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) {
-
-                            minChargeCurrent.visibility = View.VISIBLE
-
-                            minChargeCurrent.text = getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
+                            if(minChargeCurrent.visibility == View.VISIBLE)
+                                minChargeCurrent.text = getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
                         }
                     }
 
