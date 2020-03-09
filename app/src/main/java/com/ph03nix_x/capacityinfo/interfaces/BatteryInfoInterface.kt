@@ -94,9 +94,10 @@ interface BatteryInfoInterface {
 
                             if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
 
-                            if(chargeCurrent < minChargeCurrent) minChargeCurrent = chargeCurrent
+                            if(chargeCurrent < minChargeCurrent || minChargeCurrent == 0)
+                                minChargeCurrent = chargeCurrent
 
-                            if(maxChargeCurrent > 0 || minChargeCurrent > 0)
+                            if(maxChargeCurrent > 0 && minChargeCurrent > 0)
                                 averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
                         }
                     }
@@ -116,9 +117,10 @@ interface BatteryInfoInterface {
 
                             if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
 
-                            if(chargeCurrent < minChargeCurrent) minChargeCurrent = chargeCurrent
+                            if(chargeCurrent < minChargeCurrent || minChargeCurrent == 0)
+                                minChargeCurrent = chargeCurrent
 
-                            if(maxChargeCurrent > 0 || minChargeCurrent > 0)
+                            if(maxChargeCurrent > 0 && minChargeCurrent > 0)
                                 averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
                         }
                     }
