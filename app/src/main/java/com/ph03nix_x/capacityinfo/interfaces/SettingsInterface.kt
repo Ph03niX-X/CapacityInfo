@@ -174,27 +174,32 @@ interface SettingsInterface : ServiceInterface {
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
-                startService(context)
+                withContext(Dispatchers.Main) {
 
-                launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
-                    Intent().putExtra("is_import_settings", true))
+                   MainActivity.instance?.finish()
 
-                prefArrays.forEach {
+                    launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
+                        Intent().putExtra("is_import_settings", true))
 
-                    when(it.key) {
+                    prefArrays.forEach {
 
-                        NUMBER_OF_CHARGES -> pref.edit().putLong(it.key, it.value as Long).apply()
+                        when(it.key) {
 
-                        BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
-                        DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key, it.value as Int).apply()
+                            NUMBER_OF_CHARGES -> pref.edit().putLong(it.key, it.value as Long).apply()
 
-                        CAPACITY_ADDED -> pref.edit().putFloat(it.key, it.value as Float).apply()
+                            BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
+                            DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key, it.value as Int).apply()
 
-                        IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION -> pref.edit().putBoolean(it.key, it.value as Boolean).apply()
+                            CAPACITY_ADDED -> pref.edit().putFloat(it.key, it.value as Float).apply()
+
+                            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
+                                pref.edit().putBoolean(it.key, it.value as Boolean).apply()
+                        }
                     }
+
+                    System.exit(0)
                 }
 
-                System.exit(0)
             }
 
             catch(e: Exception) {
