@@ -139,7 +139,7 @@ interface SettingsInterface : ServiceInterface {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-                val prefArrays = HashMap<String, Any?>()
+                val prefArrays: HashMap<String, Any?> = hashMapOf()
 
                 pref.all.forEach {
 
@@ -176,30 +176,13 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                   MainActivity.instance?.finish()
+                    MainActivity.instance?.finish()
 
                     launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
-                        Intent().putExtra("is_import_settings", true))
+                        Intent().putExtra("pref_arrays", prefArrays))
 
-                    prefArrays.forEach {
-
-                        when(it.key) {
-
-                            NUMBER_OF_CHARGES -> pref.edit().putLong(it.key, it.value as Long).apply()
-
-                            BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
-                            DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key, it.value as Int).apply()
-
-                            CAPACITY_ADDED -> pref.edit().putFloat(it.key, it.value as Float).apply()
-
-                            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
-                                pref.edit().putBoolean(it.key, it.value as Boolean).apply()
-                        }
-                    }
-
-                    System.exit(0)
+                    Runtime.getRuntime().exit(0)
                 }
-
             }
 
             catch(e: Exception) {

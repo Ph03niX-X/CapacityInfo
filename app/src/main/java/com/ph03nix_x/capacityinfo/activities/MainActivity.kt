@@ -198,13 +198,50 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         startJob()
 
         val extras = intent.extras
-        if(extras != null && extras.getBoolean("is_import_settings", false)) {
+        if(extras != null) {
+
+            val prefArrays = intent.getSerializableExtra("pref_arrays") as HashMap<*, *>
+
+            val prefsTempList = arrayListOf(NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
+                CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
+                IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
+
+
+            prefsTempList.forEach {
+
+                with(prefArrays) {
+
+                    when {
+
+                        !containsKey(it) -> pref.edit().remove(it).apply()
+
+                        else -> {
+
+                            prefArrays.forEach {
+
+                                when(it.key as String) {
+
+                                    NUMBER_OF_CHARGES -> pref.edit().putLong(it.key as String, it.value as Long).apply()
+
+                                    BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
+                                    DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key as String, it.value as Int).apply()
+
+                                    CAPACITY_ADDED -> pref.edit().putFloat(it.key as String, it.value as Float).apply()
+
+                                    IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
+                                        pref.edit().putBoolean(it.key as String, it.value as Boolean).apply()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             launchActivity(this, SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
 
             Toast.makeText(this, getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
 
-            intent.removeExtra("is_import_settings")
+            intent.removeExtra("pref_arrays")
         }
     }
 
