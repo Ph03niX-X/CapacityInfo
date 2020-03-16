@@ -79,8 +79,6 @@ interface BatteryInfoInterface {
 
             if(chargeCurrent < 0) chargeCurrent /= -1
 
-            batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
             if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") {
 
                 chargeCurrent /= 1000
