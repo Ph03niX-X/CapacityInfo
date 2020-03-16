@@ -165,7 +165,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                         if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                        delay(2000)
+                        delay(3000)
                     }
                 }
             }
