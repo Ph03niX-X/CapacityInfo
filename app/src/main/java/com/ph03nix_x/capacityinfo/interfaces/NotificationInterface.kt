@@ -53,7 +53,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
-            setSmallIcon(R.drawable.service_small_icon)
+            setSmallIcon(R.drawable.ic_service_small_icon)
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 color = ContextCompat.getColor(context.applicationContext,
