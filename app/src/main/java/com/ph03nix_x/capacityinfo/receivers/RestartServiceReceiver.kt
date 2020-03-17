@@ -26,66 +26,10 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
 
-                migrateToDefaultPrefs(context)
-
                 removeOldPref(context)
 
                 if(CapacityInfoService.instance == null) startService(context)
             }
-        }
-    }
-
-    // Migrate settings from 1.3.1 and below
-    private fun migrateToDefaultPrefs(context: Context) {
-
-        val oldPrefs = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
-        val newPrefs = PreferenceManager.getDefaultSharedPreferences(context)
-
-        if (!newPrefs.getBoolean("migrated", false)
-            && File("/data/data/${context.packageName}/shared_prefs/preferences.xml").exists()) {
-
-            newPrefs.edit().apply {
-
-                putBoolean(IS_DARK_MODE, oldPrefs.getBoolean(IS_DARK_MODE, false))
-                putBoolean("is_enable_service", oldPrefs.getBoolean("is_enable_service", true))
-                putBoolean(TEMPERATURE_IN_FAHRENHEIT, oldPrefs.getBoolean("fahrenheit", false))
-                putBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP, oldPrefs.getBoolean("show_last_charge_time", true))
-                putInt(DESIGN_CAPACITY, oldPrefs.getInt(DESIGN_CAPACITY, 0))
-                putInt(RESIDUAL_CAPACITY, oldPrefs.getInt("charge_counter", 0))
-                putBoolean(IS_SHOW_INSTRUCTION, oldPrefs.getBoolean(IS_SHOW_INSTRUCTION, false))
-                putBoolean(IS_SUPPORTED, oldPrefs.getBoolean(IS_SUPPORTED, true))
-                putInt(LAST_CHARGE_TIME, oldPrefs.getInt(LAST_CHARGE_TIME, 0))
-                putInt(BATTERY_LEVEL_WITH, oldPrefs.getInt(BATTERY_LEVEL_WITH, 0))
-                putInt(BATTERY_LEVEL_TO, oldPrefs.getInt(BATTERY_LEVEL_TO, 0))
-                putBoolean("migrated", true)
-                apply()
-            }
-
-            oldPrefs.edit().clear().apply()
-        }
-
-        if(newPrefs.contains("show_last_charge_time")) {
-
-            newPrefs.edit().putBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP,
-                newPrefs.getBoolean("show_last_charge_time", true)).apply()
-
-            removeOldPref(context)
-        }
-
-        if(newPrefs.contains("dark_mode")) {
-
-            newPrefs.edit().putBoolean(IS_DARK_MODE,
-                newPrefs.getBoolean("dark_mode", true)).apply()
-
-            removeOldPref(context)
-        }
-
-        if(newPrefs.contains("charge_counter")) {
-
-            newPrefs.edit().putInt(RESIDUAL_CAPACITY,
-                newPrefs.getInt("charge_counter", 0)).apply()
-
-            removeOldPref(context)
         }
     }
 
@@ -116,6 +60,8 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
             if(pref.contains("is_enable_service")) remove("is_enable_service")
 
             if(pref.contains("is_show_stop_service")) remove("is_show_stop_service")
+
+            if(pref.contains("migrated")) remove("migrated")
 
             apply()
         }
