@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         if(instance == null) instance = this
 
-        if(pref.getInt(DESIGN_CAPACITY, 0) <= 0 || pref.getInt(DESIGN_CAPACITY, 0) >= 100000) {
+        if(pref.getInt(DESIGN_CAPACITY, 0) <= 0 || pref.getInt(DESIGN_CAPACITY, 0) > 18500) {
 
             pref.edit().apply {
 

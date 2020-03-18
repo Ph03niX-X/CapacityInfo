@@ -236,7 +236,7 @@ interface SettingsInterface : ServiceInterface {
 
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
                             && s.toString() != pref.getInt(DESIGN_CAPACITY, 0).toString()
-                            && s.count() >= 4 && s.toString().toInt() <= 10500
+                            && s.count() >= 4 && s.toString().toInt() <= 18500
                 }
             })
         }
