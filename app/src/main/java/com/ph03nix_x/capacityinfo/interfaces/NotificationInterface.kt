@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Build
+import android.os.RemoteException
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -36,7 +37,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
     companion object {
 
-        private lateinit var notificationBuilder: NotificationCompat.Builder
+        var notificationBuilder: NotificationCompat.Builder? = null
         private lateinit var channelId: String
         private const val notificationId = 101
     }
@@ -65,7 +66,7 @@ interface NotificationInterface : BatteryInfoInterface {
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
         }
 
-        (context as CapacityInfoService).startForeground(notificationId, notificationBuilder.build())
+        (context as? CapacityInfoService)?.startForeground(notificationId, notificationBuilder?.build())
     }
 
     fun updateNotification(context: Context) {
@@ -74,7 +75,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        notificationBuilder.apply {
+        notificationBuilder?.apply {
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             color = ContextCompat.getColor(context.applicationContext, if(isSystemDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
@@ -84,7 +85,13 @@ interface NotificationInterface : BatteryInfoInterface {
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
         }
 
-        notificationManager.notify(notificationId, notificationBuilder.build())
+        notificationManager.notify(notificationId, notificationBuilder?.build())
+
+        if(notificationBuilder == null) try {
+
+            notificationManager.cancel(notificationId)
+        }
+        catch(e: RemoteException) {}
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -148,14 +155,14 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity" +
+                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargeCurrent" +
                         "\n$temperature\n$voltage"
-            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity" +
+            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                     "\n${getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n$chargeCurrent\n" +
                     "$temperature\n$voltage"
 
-        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$chargeCurrent\n" +
+        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$chargeCurrent\n" +
                 "$temperature\n$voltage"
     }
 
@@ -187,12 +194,12 @@ interface NotificationInterface : BatteryInfoInterface {
             DecimalFormat("#.#").format(getVoltage(context)))
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
-                "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity" +
+                "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n$dischargeCurrent\n$temperature\n$voltage"
-            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity" +
+            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                     "\n$dischargeCurrent\n$temperature\n$voltage"
 
-        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargeCurrent\n" +
+        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$dischargeCurrent\n" +
                 "$temperature\n$voltage"
     }
 
@@ -228,18 +235,18 @@ interface NotificationInterface : BatteryInfoInterface {
 
             if(getCurrentCapacity(context) > 0)
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
-                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity" +
+                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                             "\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n" +
                             "$temperature\n$voltage"
-                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$currentCapacity" +
+                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent" +
                         "\n$temperature\n$voltage"
 
-            else "$fullCharging\n$batteryLevel\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n${getResidualCapacity(context)}" +
+            else "$fullCharging\n$batteryLevel\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n${getResidualCapacity(context)}" +
                     "\n${getBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
         }
 
-        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as CapacityInfoService).seconds)}\n$dischargeCurrent" +
+        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$dischargeCurrent" +
                 "\n$temperature"
     }
 

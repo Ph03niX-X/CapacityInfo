@@ -335,10 +335,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         when(requestCode) {
 
             EXPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) exportSettings(requireContext(), data!!)
+                if(resultCode == Activity.RESULT_OK) exportSettings(requireContext(), data)
 
             Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) importSettings(requireContext(), data!!.data!!)
+                if(resultCode == Activity.RESULT_OK) importSettings(requireContext(), data?.data)
         }
     }
 }

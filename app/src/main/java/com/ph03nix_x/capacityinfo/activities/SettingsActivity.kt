@@ -8,17 +8,21 @@ import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 
-class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface {
+class SettingsActivity : AppCompatActivity(), ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     lateinit var toolbar: CenteredToolbar
+
+    companion object {
+
+        var instance: SettingsActivity? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -60,7 +64,18 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
 
         super.onResume()
 
+        DebugActivity.instance?.finish()
+
+        instance = this
+
         if(CapacityInfoService.instance == null) startService(this)
+    }
+
+    override fun onDestroy() {
+
+        instance = null
+
+        super.onDestroy()
     }
 
     override fun onBackPressed() {
@@ -76,6 +91,11 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface, BillingInterface
             }
         }
 
-        else super.onBackPressed()
+        else {
+
+            instance = null
+
+            super.onBackPressed()
+        }
     }
 }

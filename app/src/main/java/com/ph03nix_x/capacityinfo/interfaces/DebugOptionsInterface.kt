@@ -251,7 +251,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
             MainActivity.instance?.recreate()
 
-            (context as DebugActivity).recreate()
+            (context as? DebugActivity)?.recreate()
         }
     }
 
@@ -278,7 +278,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
             MainActivity.instance?.recreate()
 
-            (context as DebugActivity).recreate()
+            (context as? DebugActivity)?.recreate()
         }
     }
 
@@ -307,7 +307,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 MainActivity.instance?.recreate()
 
-                (context as DebugActivity).recreate()
+                (context as? DebugActivity)?.recreate()
             }
 
             Toast.makeText(context, context.getString(R.string.key_successfully_reset, key), Toast.LENGTH_LONG).show()
@@ -350,7 +350,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 pref.edit().clear().apply()
                 MainActivity.instance?.recreate()
-                (context as DebugActivity).recreate()
+                (context as? DebugActivity)?.recreate()
 
                 Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
             }

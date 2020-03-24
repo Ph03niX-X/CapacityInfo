@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
@@ -55,6 +56,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         super.onCreate()
 
+        instance = this
+
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
@@ -83,12 +86,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        
-        instance = this
 
         numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
-        createNotification(this@CapacityInfoService)
+        if(notificationBuilder == null)
+            createNotification(this@CapacityInfoService)
 
         isJob = true
 
@@ -110,54 +112,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                    val status = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
-                        if(numberOfCharges == pref.getLong(NUMBER_OF_CHARGES, 0))
-                            pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
-
-                        val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-
-                        for(display in displayManager.displays)
-                            if(display.state == Display.STATE_ON)
-                                delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 949 else 956)
-                            else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 919 else 926)
-
-                        seconds++
-                        updateNotification(this@CapacityInfoService)
-
-                    }
-
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) batteryCharging()
+                    
                     else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
-                        && getBatteryLevel(this@CapacityInfoService) == 100) {
-
-                        isFull = true
-
-                        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
-
-                        pref.edit().apply {
-
-                            putInt(LAST_CHARGE_TIME, seconds)
-                            putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-                            putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
-
-                            if (getCurrentCapacity(this@CapacityInfoService) > 0) {
-
-                                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                                    putInt(RESIDUAL_CAPACITY, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
-                                else putInt(RESIDUAL_CAPACITY, getCurrentCapacity(this@CapacityInfoService).toInt())
-
-                                putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
-
-                                putInt(PERCENT_ADDED, percentAdded)
-                            }
-
-                            apply()
-                        }
-
-                        updateNotification(this@CapacityInfoService)
-                    }
+                        && getBatteryLevel(this@CapacityInfoService) == 100) batteryCharged()
 
                     else {
 
@@ -217,5 +177,50 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         batteryLevel = 0
 
         super.onDestroy()
+    }
+    
+    private suspend fun batteryCharging() {
+
+        if(numberOfCharges == pref.getLong(NUMBER_OF_CHARGES, 0))
+            pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
+
+        val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+
+        for(display in displayManager.displays)
+            if(display.state == Display.STATE_ON)
+                delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 949 else 956)
+            else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 919 else 926)
+
+        seconds++
+        updateNotification(this@CapacityInfoService)
+    }
+
+    private fun batteryCharged() {
+
+        isFull = true
+
+        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
+
+        pref.edit().apply {
+
+            putInt(LAST_CHARGE_TIME, seconds)
+            putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
+            putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
+
+            if (getCurrentCapacity(this@CapacityInfoService) > 0) {
+
+                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                    putInt(RESIDUAL_CAPACITY, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())
+                else putInt(RESIDUAL_CAPACITY, getCurrentCapacity(this@CapacityInfoService).toInt())
+
+                putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
+
+                putInt(PERCENT_ADDED, percentAdded)
+            }
+
+            apply()
+        }
+
+        updateNotification(this@CapacityInfoService)
     }
 }

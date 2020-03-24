@@ -22,13 +22,13 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 isPowerConnected = true
 
-                CapacityInfoService.instance!!.numberOfCharges = PreferenceManager.getDefaultSharedPreferences(context).getLong(NUMBER_OF_CHARGES, 0)
+                CapacityInfoService.instance?.numberOfCharges = PreferenceManager.getDefaultSharedPreferences(context).getLong(NUMBER_OF_CHARGES, 0)
 
-                CapacityInfoService.instance!!.batteryLevelWith = CapacityInfoService.instance!!.getBatteryLevel(context)
+                CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0
 
-                tempBatteryLevelWith = CapacityInfoService.instance!!.batteryLevelWith
+                tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
-                tempCurrentCapacity = CapacityInfoService.instance!!.getCurrentCapacity(context)
+                tempCurrentCapacity = CapacityInfoService.instance?.getCurrentCapacity(context) ?: 0.0
             }
         }
     }

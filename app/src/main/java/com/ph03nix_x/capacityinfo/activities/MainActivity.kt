@@ -148,9 +148,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         super.onResume()
 
+        if(SettingsActivity.instance != null)
+            launchActivity(this, SettingsActivity::class.java)
+
+        else if(DebugActivity.instance != null)
+            launchActivity(this, DebugActivity::class.java)
+
         if(CapacityInfoService.instance == null) startService(this)
 
-        if(instance == null) instance = this
+        instance = this
 
         if(pref.getInt(DESIGN_CAPACITY, 0) <= 0 || pref.getInt(DESIGN_CAPACITY, 0) > 18500) {
 
@@ -195,52 +201,10 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         else if(pref.getBoolean(IS_SHOW_INSTRUCTION, true)) showInstruction()
 
-        startJob()
+        batteryInformation()
 
         val prefArrays = intent.getSerializableExtra("pref_arrays") as? HashMap<*, *>
-        if(prefArrays != null) {
-
-            val prefsTempList = arrayListOf(NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
-                CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
-                IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
-
-
-            prefsTempList.forEach {
-
-                with(prefArrays) {
-
-                    when {
-
-                        !containsKey(it) -> pref.edit().remove(it).apply()
-
-                        else -> {
-
-                            prefArrays.forEach {
-
-                                when(it.key as String) {
-
-                                    NUMBER_OF_CHARGES -> pref.edit().putLong(it.key as String, it.value as Long).apply()
-
-                                    BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
-                                    DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key as String, it.value as Int).apply()
-
-                                    CAPACITY_ADDED -> pref.edit().putFloat(it.key as String, it.value as Float).apply()
-
-                                    IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
-                                        pref.edit().putBoolean(it.key as String, it.value as Boolean).apply()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            launchActivity(this, SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
-
-            Toast.makeText(this, getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
-
-            intent.removeExtra("pref_arrays")
-        }
+        if(prefArrays != null) importSettings(prefArrays)
     }
 
     override fun onStop() {
@@ -274,7 +238,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         }
     }
 
-    private fun startJob() {
+    private fun batteryInformation() {
 
         if(job == null)
             job = CoroutineScope(Dispatchers.Default).launch {
@@ -290,6 +254,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     }
 
                     if(pref.getBoolean(IS_SHOW_CHARGING_TIME_IN_APP, true))
+
                         when(plugged) {
 
                             BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
@@ -498,5 +463,48 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     delay(if(getCurrentCapacity(this@MainActivity) > 0) 956 else 963)
                 }
             }
+    }
+
+    private fun importSettings(prefArrays: HashMap<*, *>) {
+
+        val prefsTempList = arrayListOf(NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
+            CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
+            IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
+
+        prefsTempList.forEach {
+
+            with(prefArrays) {
+
+                when {
+
+                    !containsKey(it) -> pref.edit().remove(it).apply()
+
+                    else -> {
+
+                        prefArrays.forEach {
+
+                            when(it.key as String) {
+
+                                NUMBER_OF_CHARGES -> pref.edit().putLong(it.key as String, it.value as Long).apply()
+
+                                BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
+                                DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key as String, it.value as Int).apply()
+
+                                CAPACITY_ADDED -> pref.edit().putFloat(it.key as String, it.value as Float).apply()
+
+                                IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
+                                    pref.edit().putBoolean(it.key as String, it.value as Boolean).apply()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        launchActivity(this, SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
+
+        Toast.makeText(this, getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
+
+        intent.removeExtra("pref_arrays")
     }
 }

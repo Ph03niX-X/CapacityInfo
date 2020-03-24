@@ -29,6 +29,7 @@ import java.lang.RuntimeException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.pow
 
 @SuppressWarnings("PrivateApi")
 interface BatteryInfoInterface {
@@ -60,11 +61,7 @@ interface BatteryInfoInterface {
 
         val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        try {
-
-            batteryIntent!!.getStringExtra(BatteryManager.EXTRA_LEVEL)!!.toInt()
-        }
-        catch (e: KotlinNullPointerException) { 0 }
+        batteryIntent?.getStringExtra(BatteryManager.EXTRA_LEVEL)?.toInt() ?: 0
     }
 
     fun getChargeDischargeCurrent(context: Context): Int {
@@ -139,7 +136,7 @@ interface BatteryInfoInterface {
 
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        var temp = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0).toDouble()
+        var temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0
 
         temp /= 10
 
@@ -201,12 +198,12 @@ interface BatteryInfoInterface {
 
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        var voltage = batteryIntent!!.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0).toDouble()
+        var voltage = batteryIntent?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0)?.toDouble() ?: 0.0
 
         if(!pref.getBoolean(VOLTAGE_IN_MV, false)) {
 
             if(pref.getString(VOLTAGE_UNIT, "mV") == "μV")
-                voltage /= Math.pow(1000.0, 2.0)
+                voltage /= 1000.0.pow(2.0)
             else voltage /= 1000
         }
 
@@ -319,7 +316,7 @@ interface BatteryInfoInterface {
 
             try {
 
-                var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+                var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
 
                 val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
@@ -327,7 +324,7 @@ interface BatteryInfoInterface {
 
                     time = "${hours - 1}:$minutes:$secondsTime"
 
-                    dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+                    dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
                 }
 
                 dateTime
@@ -348,7 +345,7 @@ interface BatteryInfoInterface {
 
         return try {
 
-            var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+            var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
 
             val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
 
@@ -356,7 +353,7 @@ interface BatteryInfoInterface {
 
                 time = "${hours - 1}:$minutes:$seconds"
 
-                dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)!!.toString())).toString()
+                dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
             }
 
             dateTime

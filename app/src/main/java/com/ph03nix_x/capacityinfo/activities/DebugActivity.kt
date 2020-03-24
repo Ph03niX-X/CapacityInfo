@@ -9,13 +9,20 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 
-class DebugActivity : AppCompatActivity(), BillingInterface {
+class DebugActivity : AppCompatActivity(), BillingInterface, ServiceInterface {
 
     private lateinit var pref: SharedPreferences
     lateinit var toolbar: CenteredToolbar
+
+    companion object {
+
+        var instance: DebugActivity? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,5 +50,30 @@ class DebugActivity : AppCompatActivity(), BillingInterface {
             replace(R.id.container, DebugFragment())
             commit()
         }
+    }
+
+    override fun onResume() {
+
+        super.onResume()
+
+        SettingsActivity.instance?.finish()
+
+        instance = this
+
+        if(CapacityInfoService.instance == null) startService(this)
+    }
+
+    override fun onDestroy() {
+
+        instance = null
+
+        super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+
+        instance = null
+
+        super.onBackPressed()
     }
 }

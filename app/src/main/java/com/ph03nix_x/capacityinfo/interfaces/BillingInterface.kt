@@ -63,7 +63,7 @@ interface BillingInterface {
 
                 purchaseHistoryList.forEach {
 
-                    if(it.sku == "donate") isDonated = true
+                    isDonated = it.sku == "donate"
                 }
             }
         }
@@ -87,10 +87,10 @@ interface BillingInterface {
 
                 skuDetailsList.forEach {
 
-                    skuDetailsMap.put(it.sku, it)
+                    skuDetailsMap[it.sku] = it
                 }
 
-                billingClient?.launchBillingFlow((context as SettingsActivity),
+                billingClient?.launchBillingFlow((context as? SettingsActivity),
                     BillingFlowParams.newBuilder().apply {
 
                         setSkuDetails(skuDetailsMap[sku])

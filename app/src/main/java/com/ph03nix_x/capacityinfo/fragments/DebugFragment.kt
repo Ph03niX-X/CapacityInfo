@@ -16,8 +16,6 @@ import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface, BillingInterface {
 
     private lateinit var pref: SharedPreferences
-    private lateinit var prefPath: String
-    private lateinit var prefName: String
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var changeSetting: Preference? = null

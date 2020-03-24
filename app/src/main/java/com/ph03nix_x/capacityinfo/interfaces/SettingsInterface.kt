@@ -68,12 +68,12 @@ interface SettingsInterface : ServiceInterface {
 
         MainActivity.instance?.recreate()
 
-        (context as SettingsActivity).recreate()
+        (context as? SettingsActivity)?.recreate()
 
         startService(context)
     }
 
-    fun exportSettings(context: Context, intent: Intent) {
+    fun exportSettings(context: Context, intent: Intent?) {
 
         val prefPath = "${context.filesDir.parent}/shared_prefs/${context.packageName}_preferences.xml"
         val prefName = File(prefPath).name
@@ -82,11 +82,14 @@ interface SettingsInterface : ServiceInterface {
 
             try {
 
-                val pickerDir = DocumentFile.fromTreeUri(context, intent.data!!)!!
+                val pickerDir = intent?.data?.let { DocumentFile.fromTreeUri(context, it) }
 
-                if(pickerDir.findFile(prefName) != null) pickerDir.findFile(prefName)!!.delete()
+                pickerDir?.findFile(prefName)?.delete()
 
-                val outputStream = context.contentResolver.openOutputStream(pickerDir.createFile("text/xml", prefName)!!.uri)!!
+                val outputStream = pickerDir?.createFile("text/xml", prefName)?.uri?.let {
+                    context.contentResolver.openOutputStream(it)
+                }
+
                 val fileInputStream = FileInputStream(prefPath)
                 val buffer = byteArrayOf((1024 * 8).toByte())
                 var read: Int
@@ -96,13 +99,13 @@ interface SettingsInterface : ServiceInterface {
                     read = fileInputStream.read(buffer)
 
                     if (read != -1)
-                        outputStream.write(buffer, 0, read)
+                        outputStream?.write(buffer, 0, read)
                     else break
                 }
 
                 fileInputStream.close()
-                outputStream.flush()
-                outputStream.close()
+                outputStream?.flush()
+                outputStream?.close()
 
                 withContext(Dispatchers.Main) {
 
@@ -121,7 +124,7 @@ interface SettingsInterface : ServiceInterface {
         }
     }
 
-    fun importSettings(context: Context, uri: Uri) {
+    fun importSettings(context: Context, uri: Uri?) {
 
         val prefPath = "${context.filesDir.parent}/shared_prefs/${context.packageName}_preferences.xml"
 
@@ -147,7 +150,7 @@ interface SettingsInterface : ServiceInterface {
 
                         NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
                         CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-                        IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION -> prefArrays.put(it.key, it.value)
+                        IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION -> prefArrays[it.key] = it.value
                     }
                 }
 
@@ -157,7 +160,7 @@ interface SettingsInterface : ServiceInterface {
                 File(prefPath).createNewFile()
 
                 val fileOutputStream = FileOutputStream(prefPath)
-                val inputStream = context.contentResolver.openInputStream(uri)!!
+                val inputStream = uri?.let { context.contentResolver.openInputStream(it) }!!
                 val buffer = byteArrayOf((1024 * 8).toByte())
                 var read: Int
 
@@ -175,6 +178,8 @@ interface SettingsInterface : ServiceInterface {
                 fileOutputStream.close()
 
                 withContext(Dispatchers.Main) {
+
+                    SettingsActivity.instance = null
 
                     MainActivity.instance?.finish()
 

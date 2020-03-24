@@ -25,20 +25,20 @@ class CenteredToolbar : MaterialToolbar {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { setupTextViews() }
 
-    override fun getTitle(): CharSequence = tvTitle!!.text.toString()
+    override fun getTitle(): CharSequence = tvTitle?.text.toString()
 
     override fun setTitle(@StringRes resId: Int) { title = resources.getString(resId) }
 
-    override fun setTitle(title: CharSequence) { tvTitle!!.text = title }
+    override fun setTitle(title: CharSequence) { tvTitle?.text = title }
 
-    override fun getSubtitle() = tvSubtitle!!.text.toString()
+    override fun getSubtitle() = tvSubtitle?.text.toString()
 
     override fun setSubtitle(resId: Int) { subtitle = resources.getString(resId) }
 
     override fun setSubtitle(subtitle: CharSequence) {
 
-        tvSubtitle!!.visibility = View.VISIBLE
-        tvSubtitle!!.text = subtitle
+        tvSubtitle?.visibility = View.VISIBLE
+        tvSubtitle?.text = subtitle
     }
 
     private fun setupTextViews() {
@@ -46,25 +46,25 @@ class CenteredToolbar : MaterialToolbar {
         tvSubtitle = TextView(context)
         tvTitle = TextView(context)
 
-        tvTitle!!.ellipsize = TextUtils.TruncateAt.END
-        tvTitle!!.setTextAppearance(context, R.style.TitleTheme)
-        tvTitle!!.gravity = Gravity.CENTER
+        tvTitle?.ellipsize = TextUtils.TruncateAt.END
+        tvTitle?.setTextAppearance(context, R.style.TitleTheme)
+        tvTitle?.gravity = Gravity.CENTER
 
         linear = LinearLayout(context)
-        linear!!.gravity = Gravity.CENTER
-        linear!!.orientation = LinearLayout.VERTICAL
-        linear!!.addView(tvTitle)
-        linear!!.addView(tvSubtitle)
+        linear?.gravity = Gravity.CENTER
+        linear?.orientation = LinearLayout.VERTICAL
+        linear?.addView(tvTitle)
+        linear?.addView(tvSubtitle)
 
-        tvSubtitle!!.setSingleLine()
-        tvSubtitle!!.ellipsize = TextUtils.TruncateAt.END
-        tvSubtitle!!.setTextAppearance(context, R.style.SubtitleTheme)
+        tvSubtitle?.setSingleLine()
+        tvSubtitle?.ellipsize = TextUtils.TruncateAt.END
+        tvSubtitle?.setTextAppearance(context, R.style.SubtitleTheme)
 
-        tvSubtitle!!.visibility = View.GONE
+        tvSubtitle?.visibility = View.GONE
 
         val lp = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         lp.gravity = Gravity.CENTER
-        linear!!.layoutParams = lp
+        linear?.layoutParams = lp
 
         addView(linear)
     }

@@ -39,17 +39,17 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                         putInt(RESIDUAL_CAPACITY,
-                            (CapacityInfoService.instance!!.getCurrentCapacity(context) * 1000).toInt())
-                        else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance!!.getCurrentCapacity(context).toInt())
+                            ((CapacityInfoService.instance?.getCurrentCapacity(context)?.toInt() ?: 0) * 1000))
+                        else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance?.getCurrentCapacity(context)?.toInt() ?: 0)
                     }
 
-                    if (!CapacityInfoService.instance!!.isFull && CapacityInfoService.instance!!.seconds > 0) {
+                    if ((CapacityInfoService.instance?.isFull != true) && CapacityInfoService.instance?.seconds ?: 0 > 0) {
 
-                        putInt(LAST_CHARGE_TIME, CapacityInfoService.instance!!.seconds)
+                        putInt(LAST_CHARGE_TIME, CapacityInfoService.instance?.seconds ?: 0)
 
-                        putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance!!.batteryLevelWith)
+                        putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance?.batteryLevelWith ?: 0)
 
-                        putInt(BATTERY_LEVEL_TO, CapacityInfoService.instance!!.getBatteryLevel(context))
+                        putInt(BATTERY_LEVEL_TO, CapacityInfoService.instance?.getBatteryLevel(context) ?: 0)
 
                         if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
@@ -63,7 +63,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     apply()
                 }
 
-                CapacityInfoService.instance!!.seconds = 0
+                CapacityInfoService.instance?.seconds = 0
 
                 batteryLevel = 0
 
@@ -73,7 +73,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 BatteryInfoInterface.minChargeCurrent = 0
 
-                CapacityInfoService.instance!!.isFull = false
+                CapacityInfoService.instance?.isFull = false
             }
         }
     }
