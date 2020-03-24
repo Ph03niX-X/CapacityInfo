@@ -220,7 +220,6 @@ interface SettingsInterface : ServiceInterface {
             pref.edit().putInt(DESIGN_CAPACITY, changeDesignCapacity.text.toString().toInt()).apply()
 
             designCapacity.summary = changeDesignCapacity.text.toString()
-
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
@@ -241,7 +240,8 @@ interface SettingsInterface : ServiceInterface {
 
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
                             && s.toString() != pref.getInt(DESIGN_CAPACITY, 0).toString()
-                            && s.count() >= 4 && s.toString().toInt() <= 18500
+                            && s.count() >= 4 && s.toString().toInt() <= 18500 && s.toString().toInt() > 0
+                            && s.first() != '0'
                 }
             })
         }

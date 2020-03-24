@@ -83,14 +83,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
         LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
+
+        createNotification(this@CapacityInfoService)
+
+        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
-
-        if(notificationBuilder == null)
-            createNotification(this@CapacityInfoService)
 
         isJob = true
 
