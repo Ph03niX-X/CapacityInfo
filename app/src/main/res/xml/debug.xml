@@ -8,6 +8,12 @@
                 app:icon="@drawable/ic_star_24dp"
                 android:key="is_forcibly_show_rate_the_app"/>
 
+        <SwitchPreferenceCompat
+                android:title="@string/hide_donate"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_monetization_24dp"
+                android:key="is_hide_donate"/>
+
         <Preference
                 android:title="@string/change_setting"
                 app:singleLineTitle="false"

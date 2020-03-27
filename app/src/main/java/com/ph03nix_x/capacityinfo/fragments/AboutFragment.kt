@@ -69,7 +69,8 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         donate = findPreference("donate")
 
-        donate?.isVisible = isInstalledGooglePlay && !isDonated
+        if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
+        else donate?.isVisible = isInstalledGooglePlay && !isDonated
 
         version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
 
@@ -218,6 +219,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         super.onResume()
 
-        donate?.isVisible = isInstalledGooglePlay && !isDonated
+        if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
+        else donate?.isVisible = isInstalledGooglePlay && !isDonated
     }
 }
