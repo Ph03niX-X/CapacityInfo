@@ -50,8 +50,6 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                 if(contains("is_enable_service")) remove("is_enable_service")
 
-                if(contains("is_show_stop_service")) remove("is_show_stop_service")
-
                 if(contains("migrated")) remove("migrated")
 
                 apply()

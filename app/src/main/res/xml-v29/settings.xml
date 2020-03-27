@@ -20,6 +20,12 @@
                 android:key="is_auto_start_service"/>
 
         <SwitchPreferenceCompat
+                android:title="@string/stop_service"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_stop_24dp"
+                android:key="is_show_stop_service"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/service_time"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_access_time_24dp"

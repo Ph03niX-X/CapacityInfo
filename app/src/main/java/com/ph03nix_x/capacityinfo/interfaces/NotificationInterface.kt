@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -19,12 +20,14 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -39,9 +42,11 @@ interface NotificationInterface : BatteryInfoInterface {
 
         var notificationBuilder: NotificationCompat.Builder? = null
         private lateinit var channelId: String
+        private lateinit var stopService: PendingIntent
         private const val notificationId = 101
     }
 
+    @SuppressLint("RestrictedApi")
     fun createNotification(context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -49,6 +54,7 @@ interface NotificationInterface : BatteryInfoInterface {
         channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createNotificationChannel(context) else ""
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+        stopService = PendingIntent.getService(context, 1, Intent(context, StopCapacityInfoService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
         notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
 
@@ -61,6 +67,10 @@ interface NotificationInterface : BatteryInfoInterface {
                     if(isSystemDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
 
             setContentIntent(openApp)
+
+            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
+                addAction(0, context.getString(R.string.stop_service), stopService)
+
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
@@ -69,6 +79,7 @@ interface NotificationInterface : BatteryInfoInterface {
         (context as? CapacityInfoService)?.startForeground(notificationId, notificationBuilder?.build())
     }
 
+    @SuppressLint("RestrictedApi")
     fun updateNotification(context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -81,6 +92,11 @@ interface NotificationInterface : BatteryInfoInterface {
             color = ContextCompat.getColor(context.applicationContext, if(isSystemDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
 
             setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
+
+            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
+                addAction(0, context.getString(R.string.stop_service), stopService)
+            else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isNotEmpty())
+                mActions.clear()
 
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
         }

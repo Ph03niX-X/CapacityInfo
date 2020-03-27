@@ -96,7 +96,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(jobService == null)
             jobService = CoroutineScope(Dispatchers.Default).launch {
 
-                while (isJob) {
+                while (isJob && !StopCapacityInfoService.isStopService) {
 
                     if(!::wakeLock.isInitialized) {
 
@@ -113,18 +113,20 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
-                    if (status == BatteryManager.BATTERY_STATUS_CHARGING) batteryCharging()
+                    if (status == BatteryManager.BATTERY_STATUS_CHARGING
+                        && !StopCapacityInfoService.isStopService) batteryCharging()
                     
                     else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
-                        && getBatteryLevel(this@CapacityInfoService) == 100) batteryCharged()
+                        && getBatteryLevel(this@CapacityInfoService) == 100
+                        && !StopCapacityInfoService.isStopService) batteryCharged()
 
-                    else {
+                    else if(!StopCapacityInfoService.isStopService) {
 
-                        updateNotification(this@CapacityInfoService)
+                            updateNotification(this@CapacityInfoService)
 
-                        if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
+                            if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                        delay(3000)
+                            delay(3000)
                     }
                 }
             }

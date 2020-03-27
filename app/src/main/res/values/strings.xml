@@ -126,4 +126,5 @@
     <string name="max_charge_current">Maximum Charge Current %1$d mA</string>
     <string name="average_charge_current">Average Charge Current %1$d mA</string>
     <string name="min_charge_current">Minimum Charge Current %1$d mA</string>
+    <string name="stop_service">Stop Service</string>
 </resources>
