@@ -139,8 +139,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/max_charge_current"
-            android:visibility="gone"
+            android:id="@+id/max_charge_discharge_current"
             android:text="@string/max_charge_current"
             android:layout_centerInParent="true"
             android:gravity="center"
@@ -150,24 +149,22 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/average_charge_current"
-            android:visibility="gone"
+            android:id="@+id/average_charge_discharge_current"
             android:text="@string/average_charge_current"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/max_charge_current"/>
+            android:layout_below="@id/max_charge_discharge_current"/>
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/min_charge_current"
-            android:visibility="gone"
+            android:id="@+id/min_charge_discharge_current"
             android:text="@string/min_charge_current"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/average_charge_current"/>
+            android:layout_below="@id/average_charge_discharge_current"/>
 
     <TextView
             android:layout_width="match_parent"
@@ -178,7 +175,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/min_charge_current"/>
+            android:layout_below="@id/min_charge_discharge_current"/>
 
     <TextView
             android:layout_width="match_parent"

@@ -67,11 +67,11 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 batteryLevel = 0
 
-                BatteryInfoInterface.maxChargeCurrent = 0
+                BatteryInfoInterface.maxChargeDischargeCurrent = 0
 
-                BatteryInfoInterface.averageChargeCurrent = 0
+                BatteryInfoInterface.averageChargeDischargeCurrent = 0
 
-                BatteryInfoInterface.minChargeCurrent = 0
+                BatteryInfoInterface.minChargeDischargeCurrent = 0
 
                 CapacityInfoService.instance?.isFull = false
             }

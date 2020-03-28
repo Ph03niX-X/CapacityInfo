@@ -38,9 +38,9 @@ interface BatteryInfoInterface {
 
         var residualCapacity = 0.0
         var batteryLevel = 0
-        var maxChargeCurrent = 0
-        var averageChargeCurrent = 0
-        var minChargeCurrent = 0
+        var maxChargeDischargeCurrent = 0
+        var averageChargeDischargeCurrent = 0
+        var minChargeDischargeCurrent = 0
     }
 
     fun getDesignCapacity(context: Context): Int {
@@ -80,48 +80,30 @@ interface BatteryInfoInterface {
 
                 chargeCurrent /= 1000
 
-                when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+                if(chargeCurrent > maxChargeDischargeCurrent) maxChargeDischargeCurrent = chargeCurrent
 
-                    BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
-                        BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+                if(chargeCurrent < minChargeDischargeCurrent && chargeCurrent < maxChargeDischargeCurrent)
+                    minChargeDischargeCurrent = chargeCurrent
 
-                        if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING) {
+                else if(minChargeDischargeCurrent == 0 && chargeCurrent < maxChargeDischargeCurrent) minChargeDischargeCurrent = chargeCurrent
 
-                            if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
-
-                            if(chargeCurrent < minChargeCurrent && chargeCurrent < maxChargeCurrent)
-                                minChargeCurrent = chargeCurrent
-
-                            else if(minChargeCurrent == 0 && chargeCurrent < maxChargeCurrent) minChargeCurrent = chargeCurrent
-
-                            if(maxChargeCurrent > 0 && minChargeCurrent > 0)
-                                averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
-                        }
-                    }
-                }
+                if(maxChargeDischargeCurrent > 0 && minChargeDischargeCurrent > 0)
+                    averageChargeDischargeCurrent = (maxChargeDischargeCurrent + minChargeDischargeCurrent) / 2
 
                 chargeCurrent
             }
 
             else {
 
-                when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+                if(chargeCurrent > maxChargeDischargeCurrent) maxChargeDischargeCurrent = chargeCurrent
 
-                    BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
-                    BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+                if(chargeCurrent < minChargeDischargeCurrent && chargeCurrent < maxChargeDischargeCurrent)
+                    minChargeDischargeCurrent = chargeCurrent
 
-                        if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) == BatteryManager.BATTERY_STATUS_CHARGING) {
+                else if(minChargeDischargeCurrent == 0 && chargeCurrent < maxChargeDischargeCurrent) minChargeDischargeCurrent = chargeCurrent
 
-                            if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
-
-                            if(chargeCurrent < minChargeCurrent || minChargeCurrent == 0)
-                                minChargeCurrent = chargeCurrent
-
-                            if(maxChargeCurrent > 0 && minChargeCurrent > 0)
-                                averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
-                        }
-                    }
-                }
+                if(maxChargeDischargeCurrent > 0 && minChargeDischargeCurrent > 0)
+                    averageChargeDischargeCurrent = (maxChargeDischargeCurrent + minChargeDischargeCurrent) / 2
 
                 chargeCurrent
             }

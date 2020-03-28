@@ -126,6 +126,9 @@
     <string name="max_charge_current">Maximum Charge Current %1$d mA</string>
     <string name="average_charge_current">Average Charge Current %1$d mA</string>
     <string name="min_charge_current">Minimum Charge Current %1$d mA</string>
+    <string name="max_discharge_current">Maximum Discharge Current %1$d mA</string>
+    <string name="average_discharge_current">Average Discharge Current %1$d mA</string>
+    <string name="min_discharge_current">Minimum Discharge Current %1$d mA</string>
     <string name="stop_service">Stop Service</string>
     <string name="service_stop">Service Stop&#8230;</string>
     <string name="service_stopped_successfully">Service Stopped Successfully!</string>

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -29,6 +30,12 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
                 tempCurrentCapacity = CapacityInfoService.instance?.getCurrentCapacity(context) ?: 0.0
+
+                BatteryInfoInterface.maxChargeDischargeCurrent = 0
+
+                BatteryInfoInterface.averageChargeDischargeCurrent = 0
+
+                BatteryInfoInterface.minChargeDischargeCurrent = 0
             }
         }
     }
