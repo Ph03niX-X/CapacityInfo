@@ -212,6 +212,22 @@ interface BatteryInfoInterface {
         return voltage
     }
 
+    fun getBatteryHealth(context: Context): String {
+
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+        return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN)) {
+
+            BatteryManager.BATTERY_HEALTH_GOOD -> context.getString(R.string.battery_health_good)
+            BatteryManager.BATTERY_HEALTH_DEAD -> context.getString(R.string.battery_health_dead)
+            BatteryManager.BATTERY_HEALTH_COLD -> context.getString(R.string.battery_health_cold)
+            BatteryManager.BATTERY_HEALTH_OVERHEAT -> context.getString(R.string.battery_health_overheat)
+            BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> context.getString(R.string.battery_health_over_voltage)
+            BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> context.getString(R.string.battery_health_unspecified_failure)
+            else -> context.getString(R.string.unknown)
+        }
+    }
+
     fun getResidualCapacity(context: Context, isCharging: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)

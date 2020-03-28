@@ -77,12 +77,22 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/battery_health"
+            android:text="@string/battery_health"
+            android:layout_centerInParent="false"
+            android:gravity="center"
+            android:fontFamily="@font/medium"
+            android:layout_below="@id/capacity_added"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/residual_capacity"
             android:text="@string/residual_capacity"
             android:layout_centerInParent="false"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/capacity_added"/>
+            android:layout_below="@id/battery_health"/>
 
     <TextView
             android:layout_width="match_parent"

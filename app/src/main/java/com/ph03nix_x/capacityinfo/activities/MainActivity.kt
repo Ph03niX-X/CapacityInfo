@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var batteryLevel: TextView
     private lateinit var numberOfCharges: TextView
     private lateinit var chargingTime: TextView
+    private lateinit var batteryHealth: TextView
     private lateinit var residualCapacity: TextView
     private lateinit var currentCapacity: TextView
     private lateinit var capacityAdded: TextView
@@ -128,6 +129,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         chargingTime = findViewById(R.id.charging_time)
         currentCapacity = findViewById(R.id.current_capacity)
         capacityAdded = findViewById(R.id.capacity_added)
+        batteryHealth = findViewById(R.id.battery_health)
         residualCapacity = findViewById(R.id.residual_capacity)
         technology = findViewById(R.id.battery_technology)
         status = findViewById(R.id.status)
@@ -172,6 +174,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         }
 
         capacityDesign.text = getString(R.string.capacity_design, pref.getInt(DESIGN_CAPACITY, 0).toString())
+
+        batteryHealth.text = getString(R.string.battery_health, getBatteryHealth(this))
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
@@ -322,6 +326,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         voltage.text = getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv else R.string.voltage,
                             DecimalFormat("#.#").format(getVoltage(this@MainActivity)))
+
+                        batteryHealth.text = getString(R.string.battery_health, getBatteryHealth(this@MainActivity))
                     }
 
                     if (pref.getBoolean(IS_SUPPORTED, true)) {
