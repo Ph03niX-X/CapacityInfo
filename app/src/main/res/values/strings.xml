@@ -127,5 +127,7 @@
     <string name="average_charge_current">Average Charge Current %1$d mA</string>
     <string name="min_charge_current">Minimum Charge Current %1$d mA</string>
     <string name="stop_service">Stop Service</string>
-    <string name="hide_donate">Hide \"Support The Project\"</string>
+    <string name="service_stop">Service Stop&#8230;</string>
+    <string name="service_stopped_successfully">Service Stopped Successfully!</string>
+    <string name="hide_donate">Hide \"Support the Project\"</string>
 </resources>

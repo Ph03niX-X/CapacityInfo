@@ -5,6 +5,6 @@
     <color name="blue">#4285F4</color>
     <color name="white">#c7c7c7</color>
     <color name="darkWhite">#5F6368</color>
-    <color name="iconsColor">@color/darkWhite</color>
-    <color name="iconsPrefTitleColor">@color/blue</color>
+    <color name="icons_color">@color/darkWhite</color>
+    <color name="icons_pref_title_color">@color/blue</color>
 </resources>

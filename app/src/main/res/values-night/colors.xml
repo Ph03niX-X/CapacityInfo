@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="iconsColor">@android:color/white</color>
-    <color name="iconsPrefTitleColor">@color/red</color>
+    <color name="icons_color">@android:color/white</color>
+    <color name="icons_pref_title_color">@color/red</color>
 </resources>

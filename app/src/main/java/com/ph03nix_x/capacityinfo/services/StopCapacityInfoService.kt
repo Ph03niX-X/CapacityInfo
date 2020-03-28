@@ -3,6 +3,8 @@ package com.ph03nix_x.capacityinfo.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.widget.Toast
+import com.ph03nix_x.capacityinfo.R
 
 class StopCapacityInfoService : Service() {
 
@@ -17,9 +19,9 @@ class StopCapacityInfoService : Service() {
 
         isStopService = true
 
-        stopService(Intent(this, CapacityInfoService::class.java))
+        Toast.makeText(this, getString(R.string.service_stop), Toast.LENGTH_LONG).show()
 
-        isStopService = false
+        stopService(Intent(this, CapacityInfoService::class.java))
 
         stopService(Intent(this, StopCapacityInfoService::class.java))
 

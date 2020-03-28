@@ -40,10 +40,11 @@ interface NotificationInterface : BatteryInfoInterface {
 
     companion object {
 
+        const val notificationId = 101
         var notificationBuilder: NotificationCompat.Builder? = null
+        var notificationManager: NotificationManager? = null
         private lateinit var channelId: String
         private lateinit var stopService: PendingIntent
-        private const val notificationId = 101
     }
 
     @SuppressLint("RestrictedApi")
@@ -84,7 +85,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         notificationBuilder?.apply {
 
@@ -101,13 +102,7 @@ interface NotificationInterface : BatteryInfoInterface {
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
         }
 
-        notificationManager.notify(notificationId, notificationBuilder?.build())
-
-        if(notificationBuilder == null) try {
-
-            notificationManager.cancel(notificationId)
-        }
-        catch(e: RemoteException) {}
+        notificationManager?.notify(notificationId, notificationBuilder?.build())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

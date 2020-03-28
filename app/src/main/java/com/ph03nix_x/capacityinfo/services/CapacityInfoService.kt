@@ -5,10 +5,12 @@ import android.content.*
 import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
+import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
@@ -19,6 +21,8 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationId
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
@@ -143,6 +147,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         jobService?.cancel()
         jobService = null
 
+        notificationManager?.cancel(notificationId)
+
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (!isFull && seconds > 0) {
@@ -167,7 +173,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
 
                 apply()
-
             }
 
             percentAdded = 0
@@ -176,6 +181,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         batteryLevel = 0
+
+        if(StopCapacityInfoService.isStopService)
+            Toast.makeText(this, getString(R.string.service_stopped_successfully), Toast.LENGTH_LONG).show()
+
+        StopCapacityInfoService.isStopService = false
 
         super.onDestroy()
     }
