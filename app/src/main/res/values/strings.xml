@@ -136,4 +136,11 @@
     <string name="battery_health_overheat">Overheat</string>
     <string name="battery_health_over_voltage">Over Voltage</string>
     <string name="battery_health_unspecified_failure">Unspecified Failure</string>
+    <string name="tips_menu">Tips</string>
+    <string name="tips_dialog_title">Tips to extending battery life</string>
+    <string name="tip1">Tip #1: Try not to discharge the battery below 10%.\n\n</string>
+    <string name="tip2">Tip #2: Try not to charge the battery to 100%. The higher the voltage, the faster the battery degrades. According to Battery University research, not charging 0.1 V increases the battery life by 2 times.\n\n</string>
+    <string name="tip3">Tip #3: Do not overheat the battery (45+°C/113+°F). Overheating negatively affects battery life.\n\n</string>
+    <string name="tip4">Tip #4: Try not to use fast charging. The higher the charging current, the higher the heating, and the higher the heating, the faster the battery degrades.\n\n</string>
+    <string name="tip5">Tip #5: Calibrate the battery every ~3 months. This will allow the controller to give the correct charge.</string>
 </resources>

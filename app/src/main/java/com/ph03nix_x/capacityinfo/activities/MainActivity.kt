@@ -119,6 +119,21 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             true
         }
 
+        toolbar.menu.findItem(R.id.tips).setOnMenuItemClickListener {
+
+            MaterialAlertDialogBuilder(this).apply {
+
+                setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
+                setTitle(getString(R.string.tips_dialog_title))
+                setMessage(getString(R.string.tip1) + getString(R.string.tip2) + getString(R.string.tip3)
+                        + getString(R.string.tip4) + getString(R.string.tip5))
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                show()
+            }
+
+            true
+        }
+
         capacityDesign = findViewById(R.id.capacity_design)
         batteryLevel = findViewById(R.id.battery_level)
         numberOfCharges = findViewById(R.id.number_of_charges)
