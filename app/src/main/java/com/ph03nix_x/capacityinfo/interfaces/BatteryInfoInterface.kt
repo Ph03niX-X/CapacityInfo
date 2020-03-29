@@ -38,9 +38,12 @@ interface BatteryInfoInterface {
 
         var residualCapacity = 0.0
         var batteryLevel = 0
-        var maxChargeDischargeCurrent = 0
-        var averageChargeDischargeCurrent = 0
-        var minChargeDischargeCurrent = 0
+        var maxChargeCurrent = 0
+        var averageChargeCurrent = 0
+        var minChargeCurrent = 0
+        var maxDischargeCurrent = 0
+        var averageDischargeCurrent = 0
+        var minDischargeCurrent = 0
     }
 
     fun getDesignCapacity(context: Context): Int {
@@ -73,43 +76,77 @@ interface BatteryInfoInterface {
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
             var chargeCurrent = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+            
+            val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
 
             if(chargeCurrent < 0) chargeCurrent /= -1
 
-            if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") {
+            if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA") chargeCurrent /= 1000
 
-                chargeCurrent /= 1000
-
-                if(chargeCurrent > maxChargeDischargeCurrent) maxChargeDischargeCurrent = chargeCurrent
-
-                if(chargeCurrent < minChargeDischargeCurrent && chargeCurrent < maxChargeDischargeCurrent)
-                    minChargeDischargeCurrent = chargeCurrent
-
-                else if(minChargeDischargeCurrent == 0 && chargeCurrent < maxChargeDischargeCurrent) minChargeDischargeCurrent = chargeCurrent
-
-                if(maxChargeDischargeCurrent > 0 && minChargeDischargeCurrent > 0)
-                    averageChargeDischargeCurrent = (maxChargeDischargeCurrent + minChargeDischargeCurrent) / 2
-
-                chargeCurrent
-            }
-
-            else {
-
-                if(chargeCurrent > maxChargeDischargeCurrent) maxChargeDischargeCurrent = chargeCurrent
-
-                if(chargeCurrent < minChargeDischargeCurrent && chargeCurrent < maxChargeDischargeCurrent)
-                    minChargeDischargeCurrent = chargeCurrent
-
-                else if(minChargeDischargeCurrent == 0 && chargeCurrent < maxChargeDischargeCurrent) minChargeDischargeCurrent = chargeCurrent
-
-                if(maxChargeDischargeCurrent > 0 && minChargeDischargeCurrent > 0)
-                    averageChargeDischargeCurrent = (maxChargeDischargeCurrent + minChargeDischargeCurrent) / 2
-
-                chargeCurrent
-            }
+            getMaxAverageMinChargeDischargeCurrent(status, chargeCurrent)
+            
+            chargeCurrent
         }
 
-        catch (e: RuntimeException) { 0 }
+        catch (e: RuntimeException) {
+
+            val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
+
+            getMaxAverageMinChargeDischargeCurrent(status, 0)
+
+            0
+        }
+    }
+    
+    fun getMaxAverageMinChargeDischargeCurrent(status: Int?, chargeCurrent: Int) {
+        
+        when(status) {
+            
+            BatteryManager.BATTERY_STATUS_CHARGING -> {
+                
+                maxDischargeCurrent = 0
+                averageDischargeCurrent = 0
+                minDischargeCurrent = 0
+                
+                if(chargeCurrent > maxChargeCurrent) maxChargeCurrent = chargeCurrent
+
+                if(chargeCurrent < minChargeCurrent && chargeCurrent < maxChargeCurrent)
+                    minChargeCurrent = chargeCurrent
+
+                else if(minChargeCurrent == 0 && chargeCurrent < maxChargeCurrent) minChargeCurrent = chargeCurrent
+
+                if(maxChargeCurrent > 0 && minChargeCurrent > 0)
+                    averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
+            }
+            
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> {
+
+                maxChargeCurrent = 0
+                averageChargeCurrent = 0
+                minChargeCurrent = 0
+
+                if(chargeCurrent > maxDischargeCurrent) maxDischargeCurrent = chargeCurrent
+
+                if(chargeCurrent < minDischargeCurrent && chargeCurrent < maxDischargeCurrent)
+                    minDischargeCurrent = chargeCurrent
+
+                else if(minDischargeCurrent == 0 && chargeCurrent < maxDischargeCurrent) minDischargeCurrent = chargeCurrent
+
+                if(maxDischargeCurrent > 0 && minDischargeCurrent > 0)
+                    averageDischargeCurrent = (maxDischargeCurrent + minDischargeCurrent) / 2
+            }
+
+            BatteryManager.BATTERY_STATUS_UNKNOWN -> {
+
+                maxChargeCurrent = 0
+                averageChargeCurrent = 0
+                minChargeCurrent = 0
+                maxDischargeCurrent = 0
+                averageDischargeCurrent = 0
+                minDischargeCurrent = 0
+            }
+        }
+        
     }
 
     fun getTemperature(context: Context): String {

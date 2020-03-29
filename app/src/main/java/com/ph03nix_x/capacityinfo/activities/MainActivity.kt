@@ -401,7 +401,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL ->
+                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL, BatteryManager.BATTERY_STATUS_NOT_CHARGING ->
 
                             withContext(Dispatchers.Main) {
 
@@ -411,48 +411,43 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                                 if(minChargeDischargeCurrent.visibility ==  View.GONE) minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                maxChargeDischargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeDischargeCurrent)
+                                maxChargeDischargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
 
-                                averageChargeDischargeCurrent.text = getString(R.string.average_charge_current, BatteryInfoInterface.averageChargeDischargeCurrent)
+                                averageChargeDischargeCurrent.text = getString(R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
 
-                                minChargeDischargeCurrent.text = getString(R.string.min_charge_current, BatteryInfoInterface.minChargeDischargeCurrent)
+                                minChargeDischargeCurrent.text = getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
                         }
 
-                        BatteryManager.BATTERY_STATUS_UNKNOWN, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> withContext(Dispatchers.Main) {
+                        BatteryManager.BATTERY_STATUS_DISCHARGING -> withContext(Dispatchers.Main) {
 
-                            if(maxChargeDischargeCurrent.visibility ==  View.VISIBLE) maxChargeDischargeCurrent.visibility = View.GONE
+                            if(maxChargeDischargeCurrent.visibility ==  View.GONE) maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(averageChargeDischargeCurrent.visibility ==  View.VISIBLE) averageChargeDischargeCurrent.visibility = View.GONE
+                            if(averageChargeDischargeCurrent.visibility ==  View.GONE) averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(minChargeDischargeCurrent.visibility ==  View.VISIBLE) minChargeDischargeCurrent.visibility = View.GONE
+                            if(minChargeDischargeCurrent.visibility ==  View.GONE) minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            BatteryInfoInterface.maxChargeDischargeCurrent = 0
+                            maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current, BatteryInfoInterface.maxDischargeCurrent)
 
-                            BatteryInfoInterface.averageChargeDischargeCurrent = 0
+                            averageChargeDischargeCurrent.text = getString(R.string.average_discharge_current, BatteryInfoInterface.averageDischargeCurrent)
 
-                            BatteryInfoInterface.minChargeDischargeCurrent = 0
+                            minChargeDischargeCurrent.text = getString(R.string.min_discharge_current, BatteryInfoInterface.minDischargeCurrent)
                         }
 
                         else -> {
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility ==  View.GONE) maxChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(maxChargeDischargeCurrent.visibility ==  View.VISIBLE) maxChargeDischargeCurrent.visibility = View.GONE
 
-                                if(averageChargeDischargeCurrent.visibility ==  View.GONE) averageChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(averageChargeDischargeCurrent.visibility ==  View.VISIBLE) averageChargeDischargeCurrent.visibility = View.GONE
 
-                                if(minChargeDischargeCurrent.visibility ==  View.GONE) minChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(minChargeDischargeCurrent.visibility ==  View.VISIBLE) minChargeDischargeCurrent.visibility = View.GONE
 
-                                maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current, BatteryInfoInterface.maxChargeDischargeCurrent)
-
-                                averageChargeDischargeCurrent.text = getString(R.string.average_discharge_current, BatteryInfoInterface.averageChargeDischargeCurrent)
-
-                                minChargeDischargeCurrent.text = getString(R.string.min_discharge_current, BatteryInfoInterface.minChargeDischargeCurrent)
                             }
                         }
                     }
 
-                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 956 else 963)
+                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 955 else 962)
                 }
             }
     }

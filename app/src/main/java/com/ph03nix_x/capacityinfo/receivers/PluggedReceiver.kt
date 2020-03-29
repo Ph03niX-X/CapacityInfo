@@ -31,11 +31,12 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 tempCurrentCapacity = CapacityInfoService.instance?.getCurrentCapacity(context) ?: 0.0
 
-                BatteryInfoInterface.maxChargeDischargeCurrent = 0
-
-                BatteryInfoInterface.averageChargeDischargeCurrent = 0
-
-                BatteryInfoInterface.minChargeDischargeCurrent = 0
+                BatteryInfoInterface.maxChargeCurrent = 0
+                BatteryInfoInterface.averageChargeCurrent = 0
+                BatteryInfoInterface.minChargeCurrent = 0
+                BatteryInfoInterface.maxDischargeCurrent = 0
+                BatteryInfoInterface.averageDischargeCurrent = 0
+                BatteryInfoInterface.minDischargeCurrent = 0
             }
         }
     }
