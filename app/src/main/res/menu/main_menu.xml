@@ -20,13 +20,13 @@
             <item
                     android:id="@+id/instruction"
                     android:title="@string/instruction"
-                    android:icon="@drawable/ic_info_outline_24dp"
+                    android:icon="@drawable/ic_instruction_not_supported_24dp"
                     app:showAsAction="never"/>
 
             <item
                     android:id="@+id/faq"
                     android:title="@string/faq"
-                    android:icon="@drawable/ic_help_outline_dialog_24dp"
+                    android:icon="@drawable/ic_faq_question_24dp"
                     app:showAsAction="never"/>
         </menu>
 

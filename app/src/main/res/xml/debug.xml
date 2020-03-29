@@ -5,31 +5,31 @@
         <SwitchPreferenceCompat
                 android:title="@string/forcibly_show_rate_the_app"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_star_24dp"
+                app:icon="@drawable/ic_rate_the_app_24dp"
                 android:key="is_forcibly_show_rate_the_app"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/hide_donate"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_monetization_24dp"
+                app:icon="@drawable/ic_donate_24dp"
                 android:key="is_hide_donate"/>
 
         <Preference
                 android:title="@string/change_setting"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_edit_24dp"
+                app:icon="@drawable/ic_change_setting_24dp"
                 android:key="change_setting"/>
 
         <Preference
                 android:title="@string/reset_setting"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_delete_24dp"
+                app:icon="@drawable/ic_reset_setting_24dp"
                 android:key="reset_setting"/>
 
         <Preference
                 android:title="@string/reset_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_delete_forever_24dp"
+                app:icon="@drawable/ic_reset_all_settings_24dp"
                 android:key="reset_settings"/>
 
         <Preference

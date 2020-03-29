@@ -22,7 +22,7 @@
     <Preference
             app:title="@string/rate_the_app"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_star_24dp"
+            app:icon="@drawable/ic_rate_the_app_24dp"
             android:key="rate_the_app"/>
 
     <Preference

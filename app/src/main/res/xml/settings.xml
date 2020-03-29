@@ -7,7 +7,7 @@
     <PreferenceCategory
                 android:title="@string/service_and_notification"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_notifications_none_24dp"
+                app:icon="@drawable/ic_service_notification_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -16,31 +16,31 @@
                 android:summary="@string/auto_start_summary"
                 android:defaultValue="true"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_autorenew_24dp"
+                app:icon="@drawable/ic_auto_start_24dp"
                 android:key="is_auto_start_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/stop_service"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_stop_24dp"
+                app:icon="@drawable/ic_stop_service_24dp"
                 android:key="is_show_stop_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/service_time"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_access_time_24dp"
+                app:icon="@drawable/ic_service_time_24dp"
                 android:key="is_service_time"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_capacity_added"
                 app:defaultValue="true"
                 app:singleLineTitle="false"
-                android:icon="@drawable/ic_battery_charging_50_24dp"
+                android:icon="@drawable/ic_show_capacity_added_24dp"
                 android:key="is_show_capacity_added_in_notification"/>
 
         <Preference
                 android:title="@string/more"
-                app:icon="@drawable/ic_expand_more_24dp"
+                app:icon="@drawable/ic_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_service_and_notification"/>
 
@@ -49,7 +49,7 @@
                 android:defaultValue="true"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_av_timer_24dp"
+                app:icon="@drawable/ic_show_last_charge_time_24dp"
                 android:key="is_show_last_charge_time_in_notification"/>
 
         <SwitchPreferenceCompat
@@ -57,7 +57,7 @@
                 app:defaultValue="true"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                android:icon="@drawable/ic_battery_charging_90_24dp"
+                android:icon="@drawable/ic_show_capacity_added_lc_24dp"
                 android:key="is_show_capacity_added_last_charge_in_notification"/>
 
         <Preference
@@ -65,7 +65,7 @@
                 android:summary="@string/notification_priority"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_view_list_24dp"
+                app:icon="@drawable/ic_open_notification_category_settings_24dp"
                 android:key="open_notification_category_settings"/>
 
     </PreferenceCategory>
@@ -73,7 +73,7 @@
     <PreferenceCategory
                 app:title="@string/appearance"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_color_lens_24dp"
+                app:icon="@drawable/ic_appearance_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -81,7 +81,7 @@
                 android:title="@string/dark_mode"
                 app:singleLineTitle="false"
                 app:defaultValue="false"
-                app:icon="@drawable/ic_brightness_2_24dp"
+                app:icon="@drawable/ic_dark_mode_24dp"
                 android:key="is_dark_mode"/>
 
         <ListPreference
@@ -99,7 +99,7 @@
     <PreferenceCategory
                 android:title="@string/misc"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_more_horiz_24dp"
+                app:icon="@drawable/ic_misc_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
@@ -118,18 +118,18 @@
         <Preference
                 android:title="@string/export_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_arrow_upward_24dp"
+                app:icon="@drawable/ic_export_settings_24dp"
                 android:key="export_settings"/>
 
         <Preference
                 android:title="@string/import_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_arrow_downward_24dp"
+                app:icon="@drawable/ic_import_settings_24dp"
                 android:key="import_settings"/>
 
         <Preference
                 android:title="@string/more"
-                app:icon="@drawable/ic_expand_more_24dp"
+                app:icon="@drawable/ic_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_other"/>
 
@@ -147,8 +147,8 @@
         <ListPreference
                 android:title="@string/unit_of_measurement_of_current_capacity"
                 app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_battery_charging_full_24dp"
-                android:dialogIcon="@drawable/ic_battery_charging_full_24dp"
+                app:icon="@drawable/ic_unit_of_measurement_of_cc_24dp"
+                android:dialogIcon="@drawable/ic_unit_of_measurement_of_cc_24dp"
                 app:defaultValue="μAh"
                 android:entries="@array/unit_of_measurement_of_current_capacity"
                 android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
@@ -170,7 +170,7 @@
                 android:title="@string/change_design_capacity"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                android:icon="@drawable/ic_battery_full_24dp"
+                android:icon="@drawable/ic_change_design_capacity_24dp"
                 android:key="change_design_capacity"/>
 
     </PreferenceCategory>
@@ -178,14 +178,14 @@
     <PreferenceCategory
                 android:title="@string/about_and_feedback"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_help_outline_24dp"
+                app:icon="@drawable/ic_about_feedback_24dp"
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
         <Preference
                 android:title="@string/about"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_info_24dp"
+                app:icon="@drawable/ic_about_24dp"
                 android:key="about"/>
 
         <Preference

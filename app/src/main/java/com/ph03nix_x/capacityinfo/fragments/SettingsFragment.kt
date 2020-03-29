@@ -88,7 +88,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             if(it.title == requireContext().getString(R.string.more)) {
 
-                it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
+                it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
                 showLastChargeTimeInNotification?.isVisible = true
@@ -99,7 +99,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             else {
 
-                it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
+                it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
                 showLastChargeTimeInNotification?.isVisible = false
@@ -201,7 +201,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             if(it.title == requireContext().getString(R.string.more)) {
 
-                it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
+                it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
                 unitOfChargeDischargeCurrent?.isVisible = true
@@ -212,7 +212,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             else {
 
-                it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
+                it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
                 unitOfChargeDischargeCurrent?.isVisible = false

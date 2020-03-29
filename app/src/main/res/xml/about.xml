@@ -8,7 +8,7 @@
             app:title="@string/developer"
             app:summary="Ph03niX-X"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_person_24dp"
+            app:icon="@drawable/ic_developer_24dp"
             android:key="developer"/>
 
     <Preference
@@ -26,7 +26,7 @@
     <Preference
             app:title="@string/build_date"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_date_range_24dp"
+            app:icon="@drawable/ic_build_date_24dp"
             android:key="build_date"/>
 
     <Preference
@@ -40,7 +40,7 @@
             app:title="@string/designer"
             app:summary="F0x1d"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_brush_24dp"
+            app:icon="@drawable/ic_designer_24dp"
             android:key="designer"/>
 
     <Preference
@@ -72,7 +72,7 @@
     <Preference
             app:title="@string/donate"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_monetization_24dp"
+            app:icon="@drawable/ic_donate_24dp"
             app:key="donate"/>
 
 </PreferenceScreen>
