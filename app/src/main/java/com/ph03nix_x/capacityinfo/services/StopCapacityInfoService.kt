@@ -19,7 +19,7 @@ class StopCapacityInfoService : Service() {
 
         isStopService = true
 
-        Toast.makeText(this, getString(R.string.service_stop), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.stopping_service), Toast.LENGTH_LONG).show()
 
         stopService(Intent(this, CapacityInfoService::class.java))
 
