@@ -67,6 +67,7 @@
             app:title="@string/become_a_beta_tester"
             app:summary="@string/become_a_beta_tester_summary"
             app:singleLineTitle="false"
+            app:icon="@drawable/ic_beta"
             app:key="become_a_beta_tester"/>
 
     <Preference
