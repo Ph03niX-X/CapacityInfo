@@ -126,7 +126,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
                 setTitle(getString(R.string.tips_dialog_title))
                 setMessage(getString(R.string.tip1) + getString(R.string.tip2) + getString(R.string.tip3)
-                        + getString(R.string.tip4) + getString(R.string.tip5))
+                        + getString(R.string.tip4) + getString(R.string.tip5) + getString(R.string.tip6)
+                        + getString(R.string.tip7))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
             }
