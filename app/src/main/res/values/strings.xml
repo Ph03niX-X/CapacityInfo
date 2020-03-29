@@ -137,7 +137,7 @@
 <string name="battery_health_over_voltage">Over Voltage</string>
 <string name="battery_health_unspecified_failure">Unspecified Failure</string>
 <string name="tips_menu">Tips</string>
-<string name="tips_dialog_title">Tips to extending battery life</string>
+<string name="tips_dialog_title">Tips for extending battery life</string>
 <string name="tip1">Tip #1: Try not to discharge the battery below 10%.\n\n</string>
 <string name="tip2">Tip #2: Try not to charge the battery to 100%. The higher the voltage, the faster the battery degrades. According to Battery University research, not charging 0.1 V increases the battery life by 2 times.\n\n</string>
 <string name="tip3">Tip #3: Do not overcool (0 °C/32 °F and below) and do not overheat the battery (45+ °C/113+ °F). Overcooling and overheating negatively affect battery life.\n\n</string>
