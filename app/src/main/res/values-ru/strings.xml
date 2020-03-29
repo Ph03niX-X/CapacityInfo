@@ -42,11 +42,9 @@
     <string name="misc">Разное</string>
     <string name="voltage_in_mv">Напряжение в мВ</string>
     <string name="voltage_mv">"Напряжение: %1$s мВ"</string>
-    <string name="show_last_charge_time_in_app">Показывать время последней зарядки в приложении</string>
     <string name="service_time">Время службы</string>
     <string name="capacity_added">"Добавилось ёмкости: %1$s мАч (%2$s)"</string>
     <string name="capacity_added_last_charge">Добавилось ёмкости (Последняя зарядка): %1$s мАч (%2$s)</string>
-    <string name="show_charging_time_in_app">Показывать время зарядки в приложении</string>
     <string name="notification_priority">Приоритет уведомления и значок в строке состояния</string>
     <string name="about">О приложении</string>
     <string name="developer">Разработчик</string>
@@ -64,9 +62,7 @@
     <string name="auto_dark_mode">Автоматическая тёмная тема</string>
     <string name="auto_dark_mode_summary">Включать тёмную тему в зависимости от системы</string>
     <string name="show_capacity_added">"Показывать \"Добавилось ёмкости\""</string>
-    <string name="show_capacity_added_in_app">"Показывать \"Добавилось ёмкости\" в приложении</string>
     <string name="show_capacity_added_last_charge">"Показывать \"Добавилось ёмкости (Последняя зарядка)\""</string>
-    <string name="show_capacity_added_last_charge_in_app">"Показывать \"Добавилось ёмкости (Последняя зарядка)\" в приложении</string>
     <string name="number_of_charges">Количество зарядок: %1$d</string>
     <string name="residual_capacity_not_supported">"Остаточная ёмкость: Не поддерживается"</string>
     <string name="battery_wear_not_supported">"Износ аккумулятора: Не поддерживается"</string>

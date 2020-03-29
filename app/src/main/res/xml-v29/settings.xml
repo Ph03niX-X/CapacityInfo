@@ -118,46 +118,28 @@
                 android:key="temperature_in_fahrenheit"/>
 
         <SwitchPreferenceCompat
-                android:title="@string/show_charging_time_in_app"
-                android:defaultValue="true"
+                android:title="@string/voltage_in_mv"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_timer_24dp"
-                android:key="is_show_charging_time_in_app"/>
+                app:icon="@drawable/ic_voltage"
+                android:key="voltage_in_mv"/>
 
-        <SwitchPreferenceCompat
-                android:title="@string/show_last_charge_time_in_app"
-                android:defaultValue="true"
+        <Preference
+                android:title="@string/export_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_alarm_24dp"
-                android:key="is_show_last_charge_time_in_app"/>
+                app:icon="@drawable/ic_arrow_upward_24dp"
+                android:key="export_settings"/>
 
-        <SwitchPreferenceCompat
-                android:title="@string/show_capacity_added_in_app"
-                app:defaultValue="true"
+        <Preference
+                android:title="@string/import_settings"
                 app:singleLineTitle="false"
-                app:icon="@drawable/ic_battery_charging_60_24dp"
-                android:key="is_show_capacity_added_in_app"/>
+                app:icon="@drawable/ic_arrow_downward_24dp"
+                android:key="import_settings"/>
 
         <Preference
                 android:title="@string/more"
                 app:icon="@drawable/ic_expand_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_other"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/show_capacity_added_last_charge_in_app"
-                app:defaultValue="true"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_battery_charging_80_24dp"
-                android:key="is_show_capacity_added_last_charge_in_app"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/voltage_in_mv"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_voltage"
-                android:key="voltage_in_mv"/>
 
         <ListPreference
                 android:title="@string/unit_of_charge_discharge_current"
@@ -191,20 +173,6 @@
                 android:entryValues="@array/voltage_unit_values"
                 app:singleLineTitle="false"
                 android:key="voltage_unit"/>
-
-        <Preference
-                android:title="@string/export_settings"
-                app:singleLineTitle="false"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_arrow_upward_24dp"
-                android:key="export_settings"/>
-
-        <Preference
-                android:title="@string/import_settings"
-                app:singleLineTitle="false"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_arrow_downward_24dp"
-                android:key="import_settings"/>
 
         <Preference
                 android:title="@string/change_design_capacity"

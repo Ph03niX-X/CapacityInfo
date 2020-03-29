@@ -52,6 +52,14 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                 if(contains("migrated")) remove("migrated")
 
+                if(contains("is_show_charging_time_in_app")) remove("is_show_charging_time_in_app")
+
+                if(contains("is_show_last_charge_time_in_app")) remove("is_show_last_charge_time_in_app")
+
+                if(contains("is_show_capacity_added_in_app")) remove("is_show_capacity_added_in_app")
+
+                if(contains("is_show_capacity_added_last_charge_in_app")) remove("is_show_capacity_added_last_charge_in_app")
+
                 apply()
             }
         }

@@ -20,7 +20,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
@@ -52,11 +51,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
     private var moreOther: Preference? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
+    private var exportSettings: Preference? = null
+    private var importSettings: Preference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
-    private var exportSettings: Preference? = null
-    private var importSettings: Preference? = null
     private var changeDesignCapacity: Preference? = null
 
     // About & Feedback
@@ -168,17 +167,35 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         voltageInMv = findPreference(VOLTAGE_IN_MV)
 
+        exportSettings = findPreference("export_settings")
+
+        importSettings = findPreference("import_settings")
+
         unitOfChargeDischargeCurrent = findPreference(UNIT_OF_CHARGE_DISCHARGE_CURRENT)
 
         unitOfMeasurementOfCurrentCapacity = findPreference(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY)
 
         voltageUnit = findPreference(VOLTAGE_UNIT)
 
-        exportSettings = findPreference("export_settings")
-
-        importSettings = findPreference("import_settings")
-
         changeDesignCapacity = findPreference("change_design_capacity")
+
+        exportSettings?.setOnPreferenceClickListener {
+
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
+
+            true
+        }
+
+        importSettings?.setOnPreferenceClickListener {
+
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "text/xml"
+            }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+
+            true
+        }
 
         moreOther?.setOnPreferenceClickListener {
 
@@ -187,13 +204,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_less_24dp)
                 it.title = getString(R.string.hide)
 
-                findPreference<SwitchPreferenceCompat>(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP)?.isVisible = true
-                voltageInMv?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = true
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
                 voltageUnit?.isVisible = true
-                exportSettings?.isVisible = true
-                importSettings?.isVisible = true
                 changeDesignCapacity?.isVisible = true
             }
 
@@ -202,13 +215,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_expand_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                findPreference<SwitchPreferenceCompat>(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP)?.isVisible = false
-                voltageInMv?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
-                exportSettings?.isVisible = false
-                importSettings?.isVisible = false
                 changeDesignCapacity?.isVisible = false
             }
 
@@ -245,24 +254,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         changeDesignCapacity?.setOnPreferenceClickListener {
 
             changeDesignCapacity(requireContext(), pref, it)
-
-            true
-        }
-
-        exportSettings?.setOnPreferenceClickListener {
-
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
-
-            true
-        }
-
-        importSettings?.setOnPreferenceClickListener {
-
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "text/xml"
-            }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
 
             true
         }

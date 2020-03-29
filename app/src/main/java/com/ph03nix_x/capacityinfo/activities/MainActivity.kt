@@ -23,11 +23,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_APP
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CHARGING_TIME_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_APP
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
@@ -254,51 +250,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     withContext(Dispatchers.Main) {
 
                         batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
+
                         numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(NUMBER_OF_CHARGES, 0))
-                    }
 
-                    if(pref.getBoolean(IS_SHOW_CHARGING_TIME_IN_APP, true))
+                        chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
 
-                        when(plugged) {
-
-                            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS ->
-                                withContext(Dispatchers.Main) {
-
-                                    if(chargingTime.visibility == View.GONE) chargingTime.visibility = View.VISIBLE
-
-                                    if(chargingTime.visibility == View.VISIBLE)
-                                        chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
-                                }
-
-                            else -> withContext(Dispatchers.Main) { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
-                        }
-
-                    else withContext(Dispatchers.Main) { if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.GONE }
-
-                    if(pref.getBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_APP, true)) {
-
-                        withContext(Dispatchers.Main) {
-
-                            if(lastChargeTime.visibility == View.GONE) lastChargeTime.visibility = View.VISIBLE
-
-                            if(pref.getInt(LAST_CHARGE_TIME, 0) > 0)
-                                lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
-                                    "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
-
-                            else {
-
-                                if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
-                            }
-                        }
-                    }
-
-                    else {
-
-                        withContext(Dispatchers.Main) {
-
-                            if(lastChargeTime.visibility == View.VISIBLE) lastChargeTime.visibility = View.GONE
-
-                        }
+                        lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
+                            "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
                     }
 
                     withContext(Dispatchers.Main) {
@@ -353,21 +311,21 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 currentCapacity.text = getString(R.string.current_capacity,
                                     DecimalFormat("#.#").format(getCurrentCapacity(this@MainActivity)))
 
-                                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_APP, true) && getPlugged(this@MainActivity, plugged) != "N/A") {
+                                when {
+                                    getPlugged(this@MainActivity, plugged) != "N/A" -> {
 
-                                    if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+                                        if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
 
-                                    capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                        capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                    }
+                                    getPlugged(this@MainActivity, plugged) == "N/A" -> {
+
+                                        if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+
+                                        capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                    }
+                                    capacityAdded.visibility == View.VISIBLE -> capacityAdded.visibility = View.GONE
                                 }
-
-                                else if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_APP, true) && getPlugged(this@MainActivity, plugged) == "N/A") {
-
-                                    if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
-
-                                    capacityAdded.text = getCapacityAdded(this@MainActivity)
-                                }
-
-                                else if(capacityAdded.visibility == View.VISIBLE) capacityAdded.visibility = View.GONE
                             }
                         }
 
@@ -478,7 +436,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         }
                     }
 
-                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 955 else 962)
+                    delay(if(getCurrentCapacity(this@MainActivity) > 0) 956 else 963)
                 }
             }
     }
