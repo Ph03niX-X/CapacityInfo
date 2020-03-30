@@ -117,4 +117,27 @@
     <string name="max_charge_current">Максимальный ток зарядки %1$d мА</string>
     <string name="average_charge_current">Средний ток зарядки %1$d мА</string>
     <string name="min_charge_current">Минимальный ток зарядки %1$d мА</string>
+    <string name="max_discharge_current">Максимальный ток разрядки %1$d мА</string>
+    <string name="average_discharge_current">Средний ток разрядки %1$d мА</string>
+    <string name="min_discharge_current">Минимальный ток разрядки %1$d мА</string>
+    <string name="stop_service">Остановить службу</string>
+    <string name="stopping_service">Остановка службы&#8230;</string>
+    <string name="service_stopped_successfully">Служба успешно остановлена!</string>
+    <string name="hide_donate">Скрыть \"Поддержать проект\"</string>
+    <string name="battery_health">Состояние аккумулятора (Android): %1$s</string>
+    <string name="battery_health_good">Хорошее</string>
+    <string name="battery_health_dead">Мёртв</string>
+    <string name="battery_health_cold">Холодная</string>
+    <string name="battery_health_overheat">Перегрев</string>
+    <string name="battery_health_over_voltage">Перенапряжение</string>
+    <string name="battery_health_unspecified_failure">Неуказанный сбой</string>
+    <string name="tips_menu">Советы</string>
+    <string name="tips_dialog_title">Советы по продлению жизни аккумулятора</string>
+    <string name="tip1">Совет №1: Старайтесь не разряжать аккумулятор ниже 10%.\n\n</string>
+    <string name="tip2">Совет №2: Старайтесь не заряжать аккумулятор до 100%. Чем выше напряжение, тем быстрее деградирует аккумулятор. По исследованиям Battery University не дозарядка 0.1 В увеличивает срок службы аккумулятора в 2 раза.\n\n</string>
+    <string name="tip3">Совет №3: Не переохлождайте(0 °C/32 °F  и ниже) и не перегревайте аккумулятор (45+ °C/113+ °F). Переохлождение и перегрев негативно влияют на срок службы аккумулятора.\n\n</string>
+    <string name="tip4">Совет №4: Старайтесь не пользоваться быстрой зарядкой. Чем выше ток зарядки, тем выше нагрев, а чем выше нагрев, тем быстрее деградирует аккумулятор.\n\n</string>
+    <string name="tip5">Совет №5: Проводите калибровку аккумулятора раз в ~3 месяца. Это позволит контроллеру отдавать правильный заряд.\n\n</string>
+    <string name="tip6">Совет №6: Старайтесь не держать долго на зарядке полностью заряженный аккумулятор. Чем дольше вы держите на зарядке полностью заряженный аккумулятор на зарядке, тем чаще происходит подзарядка аккумулятора, а каждая подзарядка уменьшает количество циклов.\n\n</string>
+    <string name="tip7">Совет №7: Старайтесь не пользоваться девайсом при полном заряде во время подкюченного зарядного устройства. Если вы пользуетесь девайсом при полностью заряженном аккумуляторе при подключенном зарядном устройстве, то происходит 2 вещи - нагрев, который негативно влияет на срок службы аккумулятора и частая подзарядка, которая уменьшает количество циклов.</string>
 </resources>
