@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -35,11 +36,11 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEI
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface {
+class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface, SettingsInterface {
 
     private lateinit var toolbar: CenteredToolbar
 
-    private lateinit var capacityDesign: TextView
+    lateinit var capacityDesign: TextView
     private lateinit var batteryLevel: TextView
     private lateinit var numberOfCharges: TextView
     private lateinit var chargingTime: TextView
@@ -156,6 +157,11 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         batteryWear = findViewById(R.id.battery_wear)
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+
+        capacityDesign.setOnClickListener {
+
+            changeDesignCapacity(this, pref)
+        }
     }
 
     override fun onResume() {
@@ -264,6 +270,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
                     withContext(Dispatchers.Main) {
+
+                        capacityDesign.text = getString(R.string.capacity_design, pref.getInt(DESIGN_CAPACITY, 0).toString())
 
                         batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
 

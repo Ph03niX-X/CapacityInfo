@@ -200,7 +200,7 @@ interface SettingsInterface : ServiceInterface {
         }
     }
 
-    fun changeDesignCapacity(context: Context, pref: SharedPreferences, designCapacity: Preference) {
+    fun changeDesignCapacity(context: Context, pref: SharedPreferences, designCapacity: Preference? = null) {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
@@ -219,7 +219,9 @@ interface SettingsInterface : ServiceInterface {
 
             pref.edit().putInt(DESIGN_CAPACITY, changeDesignCapacity.text.toString().toInt()).apply()
 
-            designCapacity.summary = changeDesignCapacity.text.toString()
+            designCapacity?.summary = changeDesignCapacity.text.toString()
+
+            (context as? MainActivity)?.capacityDesign?.text = context.getString(R.string.capacity_design, changeDesignCapacity.text.toString())
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
