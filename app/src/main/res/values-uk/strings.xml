@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="capacity_design">"Проектна ємність: %1$s мАг"</string>
+    <string name="design_capacity">"Проектна ємність: %1$s мАг"</string>
     <string name="residual_capacity">"Залишкова ємність: %1$s мАг (%2$s)"</string>
     <string name="current_capacity">"Поточна ємність: %1$s мАг"</string>
     <string name="battery_wear">"Знос акумулятора: %1$s (%2$s мАг)"</string>

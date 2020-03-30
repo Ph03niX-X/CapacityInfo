@@ -21,6 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
@@ -200,7 +201,9 @@ interface SettingsInterface : ServiceInterface {
         }
     }
 
-    fun changeDesignCapacity(context: Context, pref: SharedPreferences, designCapacity: Preference? = null) {
+    fun changeDesignCapacity(context: Context, designCapacity: Preference? = null) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val dialog = MaterialAlertDialogBuilder(context)
 
@@ -221,7 +224,7 @@ interface SettingsInterface : ServiceInterface {
 
             designCapacity?.summary = changeDesignCapacity.text.toString()
 
-            (context as? MainActivity)?.capacityDesign?.text = context.getString(R.string.capacity_design, changeDesignCapacity.text.toString())
+            (context as? MainActivity)?.designCapacity?.text = context.getString(R.string.design_capacity, changeDesignCapacity.text.toString())
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }

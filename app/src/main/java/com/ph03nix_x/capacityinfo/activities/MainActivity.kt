@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     private lateinit var toolbar: CenteredToolbar
 
-    lateinit var capacityDesign: TextView
+    lateinit var designCapacity: TextView
     private lateinit var batteryLevel: TextView
     private lateinit var numberOfCharges: TextView
     private lateinit var chargingTime: TextView
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             true
         }
 
-        capacityDesign = findViewById(R.id.capacity_design)
+        designCapacity = findViewById(R.id.design_capacity)
         batteryLevel = findViewById(R.id.battery_level)
         numberOfCharges = findViewById(R.id.number_of_charges)
         chargingTime = findViewById(R.id.charging_time)
@@ -158,9 +158,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        capacityDesign.setOnClickListener {
+        designCapacity.setOnClickListener {
 
-            changeDesignCapacity(this, pref)
+            changeDesignCapacity(this)
         }
     }
 
@@ -168,11 +168,17 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         super.onResume()
 
-        if(SettingsActivity.instance != null)
-            launchActivity(this, SettingsActivity::class.java)
+        if(SettingsActivity.instance != null) {
 
-        else if(DebugActivity.instance != null)
+            launchActivity(this, SettingsActivity::class.java)
+            overridePendingTransition(0, 0)
+        }
+        else if(DebugActivity.instance != null) {
+
             launchActivity(this, DebugActivity::class.java)
+
+            overridePendingTransition(0, 0)
+        }
 
         if(CapacityInfoService.instance == null) startService(this)
 
@@ -191,7 +197,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             }
         }
 
-        capacityDesign.text = getString(R.string.capacity_design, pref.getInt(DESIGN_CAPACITY, 0).toString())
+        designCapacity.text = getString(R.string.design_capacity, pref.getInt(DESIGN_CAPACITY, 0).toString())
 
         batteryHealth.text = getString(R.string.battery_health, getBatteryHealth(this))
 
@@ -271,7 +277,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     withContext(Dispatchers.Main) {
 
-                        capacityDesign.text = getString(R.string.capacity_design, pref.getInt(DESIGN_CAPACITY, 0).toString())
+                        designCapacity.text = getString(R.string.design_capacity, pref.getInt(DESIGN_CAPACITY, 0).toString())
 
                         batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
 

@@ -253,7 +253,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 
-            changeDesignCapacity(requireContext(), pref, it)
+            changeDesignCapacity(requireContext())
 
             true
         }

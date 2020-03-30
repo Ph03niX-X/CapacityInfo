@@ -304,14 +304,14 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val capacityDesign = pref.getInt(DESIGN_CAPACITY, 0).toDouble()
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, 0).toDouble()
 
         return context.getString(
             R.string.battery_wear,
-            if(residualCapacity > 0 && residualCapacity < capacityDesign)
-                "${DecimalFormat("#.#").format(100 - ((residualCapacity / capacityDesign) * 100))}%" else "0%",
-            if (residualCapacity > 0 && residualCapacity < capacityDesign)
-                DecimalFormat("#.#").format(capacityDesign - residualCapacity) else "0")
+            if(residualCapacity > 0 && residualCapacity < designCapacity)
+                "${DecimalFormat("#.#").format(100 - ((residualCapacity / designCapacity) * 100))}%" else "0%",
+            if (residualCapacity > 0 && residualCapacity < designCapacity)
+                DecimalFormat("#.#").format(designCapacity - residualCapacity) else "0")
     }
 
     fun getChargingTime(context: Context, seconds: Int): String {

@@ -1,6 +1,6 @@
 <resources>
 <string name="app_name" translatable="false">Capacity Info</string>
-<string name="capacity_design">"Design Capacity: %1$s mAh"</string>
+<string name="design_capacity">"Design Capacity: %1$s mAh"</string>
 <string name="residual_capacity">"Residual Capacity: %1$s mAh (%2$s)"</string>
 <string name="current_capacity">"Current Capacity: %1$s mAh"</string>
 <string name="battery_wear">"Battery Wear: %1$s (%2$s mAh)"</string>

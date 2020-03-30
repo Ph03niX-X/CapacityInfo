@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="capacity_design">"Проектная ёмкость: %1$s мАч"</string>
+    <string name="design_capacity">"Проектная ёмкость: %1$s мАч"</string>
     <string name="residual_capacity">"Остаточная ёмкость: %1$s мАч (%2$s)"</string>
     <string name="current_capacity">"Текущая ёмкость: %1$s мАч"</string>
     <string name="battery_wear">"Износ аккумулятора: %1$s (%2$s мАч)"</string>
