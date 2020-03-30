@@ -117,4 +117,27 @@
     <string name="max_charge_current">Максимальний струм зарядки %1$d мА</string>
     <string name="average_charge_current">Середній струм зарядки %1$d мА</string>
     <string name="min_charge_current">Мінімальний струм зарядки %1$d мА</string>
+    <string name="max_discharge_current">Максимальный струм розрядки %1$d мА</string>
+    <string name="average_discharge_current">Середній струм розрядки %1$d мА</string>
+    <string name="min_discharge_current">Мінімальний струм розрядки %1$d мА</string>
+    <string name="stop_service">Зупинити службу</string>
+    <string name="stopping_service">Зупинка служби&#8230;</string>
+    <string name="service_stopped_successfully">Служба успішно зупинена!</string>
+    <string name="hide_donate">Приховати \"Підтримати проект\"</string>
+    <string name="battery_health">Стан акумулятора (Android): %1$s</string>
+    <string name="battery_health_good">Гарне</string>
+    <string name="battery_health_dead">Мертвий</string>
+    <string name="battery_health_cold">Холодна</string>
+    <string name="battery_health_overheat">Перегрів</string>
+    <string name="battery_health_over_voltage">Перенапруження</string>
+    <string name="battery_health_unspecified_failure">Невизачений збій</string>
+    <string name="tips_menu">Поради</string>
+    <string name="tips_dialog_title">Поради по продовженню життя акумулятора</string>
+    <string name="tip1">Порада №1: Намагайтеся не розряджати акумулятор нижче 10%.\n\n</string>
+    <string name="tip2">Порада №2: Намагайтеся не заряджати акумулятор до 100%. Чим вище напруга, тим швидше деградує акумулятор. За дослідженнями Battery University не дозарядка 0.1 В збільшує термін служби акумулятора в 2 рази.\n\n</string>
+    <string name="tip3">Порада №3: Не переохолоджуйте (0 ° C/32 ° F і нижче) та не перегрівайте акумулятор (45+ ° C/113 + ° F). Переохолодження та перегрів негативно впливають на термін служби акумулятора.\n\n</string>
+    <string name="tip4">Порада №4: Намагайтеся не користуватися швидкою зарядкою. Чим вище струм зарядки, тим вище нагрівання, а чим вище нагрівання, тим швидше деградує акумулятор.\n\n</string>
+    <string name="tip5">Порада №5: Проводьте калібрування акумулятора раз в ~3 місяці. Це дозволить контролеру віддавати правильний заряд.\n\n</string>
+    <string name="tip6">Порада №6: Намагайтеся не тримати довго на зарядці повністю заряджений акумулятор. Чим довше ви тримаєте на зарядці повністю заряджений акумулятор на зарядці, тим частіше відбувається підзарядка акумулятора, а кожна підзарядка зменшує кількість циклів.\n\n</string>
+    <string name="tip7">Порада №7: Намагайтеся не користуватися девайсом при повному заряді під час підключенному зарядному пристрої. Якщо ви користуєтеся девайсом при повністю зарядженому акумуляторі при підключеному зарядному пристрої, то відбувається 2 речі - нагрів, який негативно впливає на термін служби акумулятора та часта підзарядка, яка зменшує кількість циклів.</string>
 </resources>
