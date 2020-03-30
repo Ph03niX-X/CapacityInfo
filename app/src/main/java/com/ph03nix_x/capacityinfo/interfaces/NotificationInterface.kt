@@ -120,7 +120,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+        return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> getBatteryStatusCharging(context)
 
@@ -130,9 +130,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
             BatteryManager.BATTERY_STATUS_DISCHARGING -> getBatteryStatusDischarging(context)
 
-            BatteryManager.BATTERY_STATUS_UNKNOWN -> getBatteryStatusUnknown(context)
-
-            else -> "N/A"
+            else -> getBatteryStatusUnknown(context)
         }
     }
 

@@ -24,15 +24,15 @@
                     app:showAsAction="never"/>
 
             <item
-                    android:id="@+id/faq"
-                    android:title="@string/faq"
-                    android:icon="@drawable/ic_faq_question_24dp"
-                    app:showAsAction="never"/>
-
-            <item
                     android:id="@+id/tips"
                     android:title="@string/tips_menu"
                     android:icon="@drawable/ic_tips_for_extending_battery_life_24dp"
+                    app:showAsAction="never"/>
+
+            <item
+                    android:id="@+id/faq"
+                    android:title="@string/faq"
+                    android:icon="@drawable/ic_faq_question_24dp"
                     app:showAsAction="never"/>
         </menu>
 

@@ -5,21 +5,21 @@ import android.content.Intent
 import android.os.IBinder
 import android.widget.Toast
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 
 class StopCapacityInfoService : Service() {
-
-    companion object {
-
-        var isStopService = false
-    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        isStopService = true
+        val capacityInfoService = CapacityInfoService.instance
+
+        capacityInfoService?.isStopService = true
 
         Toast.makeText(this, getString(R.string.stopping_service), Toast.LENGTH_LONG).show()
+
+        NotificationInterface.notificationManager?.cancel(NotificationInterface.notificationId)
 
         stopService(Intent(this, CapacityInfoService::class.java))
 

@@ -20,7 +20,6 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationId
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
@@ -48,6 +47,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var batteryLevelWith = -1
     var seconds = 0
     var numberOfCharges: Long = 0
+    var isStopService = false
 
     companion object {
 
@@ -100,7 +100,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(jobService == null)
             jobService = CoroutineScope(Dispatchers.Default).launch {
 
-                while (isJob && !StopCapacityInfoService.isStopService) {
+                while (isJob && !isStopService) {
 
                     if(!::wakeLock.isInitialized) {
 
@@ -115,16 +115,16 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
 
                     if (status == BatteryManager.BATTERY_STATUS_CHARGING
-                        && !StopCapacityInfoService.isStopService) batteryCharging()
+                        && !isStopService) batteryCharging()
                     
                     else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
                         && getBatteryLevel(this@CapacityInfoService) == 100
-                        && !StopCapacityInfoService.isStopService) batteryCharged()
+                        && !isStopService) batteryCharged()
 
-                    else if(!StopCapacityInfoService.isStopService) {
+                    else if(!isStopService) {
 
                             updateNotification(this@CapacityInfoService)
 
@@ -182,10 +182,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         batteryLevel = 0
 
-        if(StopCapacityInfoService.isStopService)
+        if(isStopService)
             Toast.makeText(this, getString(R.string.service_stopped_successfully), Toast.LENGTH_LONG).show()
-
-        StopCapacityInfoService.isStopService = false
 
         super.onDestroy()
     }

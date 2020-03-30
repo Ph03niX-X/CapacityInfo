@@ -103,7 +103,7 @@ interface BatteryInfoInterface {
         when(status) {
             
             BatteryManager.BATTERY_STATUS_CHARGING -> {
-                
+
                 maxDischargeCurrent = 0
                 averageDischargeCurrent = 0
                 minDischargeCurrent = 0
@@ -192,7 +192,7 @@ interface BatteryInfoInterface {
 
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-            return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1)) {
+            return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)) {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
@@ -280,27 +280,11 @@ interface BatteryInfoInterface {
 
         return when(extraStatus) {
 
-            BatteryManager.BATTERY_STATUS_DISCHARGING -> context.getString(
-                R.string.status, context.getString(
-                    R.string.discharging
-                ))
-            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> context.getString(
-                R.string.status, context.getString(
-                    R.string.not_charging
-                ))
-            BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(
-                R.string.status, context.getString(
-                    R.string.charging
-                ))
-            BatteryManager.BATTERY_STATUS_FULL -> context.getString(
-                R.string.status, context.getString(
-                    R.string.full
-                ))
-            BatteryManager.BATTERY_STATUS_UNKNOWN -> context.getString(
-                R.string.status, context.getString(
-                    R.string.unknown
-                ))
-            else -> "N/A"
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> context.getString(R.string.discharging)
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> context.getString(R.string.not_charging)
+            BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(R.string.charging)
+            BatteryManager.BATTERY_STATUS_FULL -> context.getString(R.string.full)
+            else -> context.getString(R.string.unknown)
         }
     }
 
@@ -308,18 +292,10 @@ interface BatteryInfoInterface {
 
         return when(extraPlugged) {
 
-            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(
-                R.string.plugged, context.getString(
-                    R.string.plugged_ac
-                ))
-            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(
-                R.string.plugged, context.getString(
-                    R.string.plugged_usb
-                ))
-            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(
-                R.string.plugged, context.getString(
-                    R.string.plugged_wireless
-                ))
+            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.plugged, context.getString(R.string.plugged_ac))
+            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.plugged, context.getString(R.string.plugged_usb))
+            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(R.string.plugged,
+                context.getString(R.string.plugged_wireless))
             else -> "N/A"
         }
     }
