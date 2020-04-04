@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
@@ -109,7 +110,7 @@ interface DebugOptionsInterface : ServiceInterface {
                                 changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
                             }
 
-                            CAPACITY_ADDED -> {
+                            CAPACITY_ADDED, NUMBER_OF_CYCLES -> {
 
                                 valueType = "float"
 
@@ -219,13 +220,12 @@ interface DebugOptionsInterface : ServiceInterface {
             when(key) {
 
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT ->
-                    changeSetting(context, pref, key, value.toString())
+                UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT -> changeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED -> changeSetting(context, pref, key, value.toString().toInt())
 
-                CAPACITY_ADDED -> changeSetting(context, pref, key, value.toString().toFloat())
+                CAPACITY_ADDED, NUMBER_OF_CYCLES -> changeSetting(context, pref, key, value.toString().toFloat())
 
                 NUMBER_OF_CHARGES -> changeSetting(context, pref, key, value.toString().toLong())
 

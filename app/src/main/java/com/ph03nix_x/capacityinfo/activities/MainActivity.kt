@@ -493,7 +493,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         val prefsTempList = arrayListOf(NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
             CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
-            IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
+            IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION, NUMBER_OF_CYCLES)
 
         prefsTempList.forEach {
 
@@ -514,7 +514,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
                                 DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key as String, it.value as Int).apply()
 
-                                CAPACITY_ADDED -> pref.edit().putFloat(it.key as String, it.value as Float).apply()
+                                CAPACITY_ADDED, NUMBER_OF_CYCLES -> pref.edit().putFloat(it.key as String, it.value as Float).apply()
 
                                 IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
                                     pref.edit().putBoolean(it.key as String, it.value as Boolean).apply()
