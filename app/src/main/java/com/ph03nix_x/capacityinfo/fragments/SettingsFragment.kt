@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.*
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
@@ -181,18 +182,32 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         exportSettings?.setOnPreferenceClickListener {
 
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings, e.message), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
 
         importSettings?.setOnPreferenceClickListener {
 
-            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            try {
 
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "text/xml"
-            }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "text/xml"
+                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_importing_settings, e.message), Toast.LENGTH_LONG).show()
+            }
 
             true
         }
