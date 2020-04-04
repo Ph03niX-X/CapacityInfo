@@ -33,4 +33,5 @@ object PreferencesKeys {
     const val LAST_CHARGE_TIME = "last_charge_time"
     const val BATTERY_LEVEL_WITH = "battery_level_with"
     const val BATTERY_LEVEL_TO = "battery_level_to"
+    const val NUMBER_OF_CYCLES = "number_of_cycles"
 }

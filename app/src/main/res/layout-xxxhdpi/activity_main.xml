@@ -42,12 +42,21 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@id/number_of_cycles"
+            android:text="@string/number_of_cycles"
+            android:gravity="center"
+            android:fontFamily="@font/medium"
+            android:layout_below="@id/number_of_charges"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@id/charging_time"
             android:visibility="gone"
             android:text="@string/charging_time"
             android:gravity="center"
             android:fontFamily="@font/medium"
-            android:layout_below="@id/number_of_charges"/>
+            android:layout_below="@id/number_of_cycles"/>
 
     <TextView
             android:layout_width="match_parent"
@@ -120,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@id/charge_current"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="@string/charge_current"
             android:gravity="center"
             android:fontFamily="@font/medium"

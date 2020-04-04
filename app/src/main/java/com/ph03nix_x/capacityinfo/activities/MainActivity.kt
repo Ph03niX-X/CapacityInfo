@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     lateinit var designCapacity: TextView
     private lateinit var batteryLevel: TextView
     private lateinit var numberOfCharges: TextView
+    private lateinit var numberOfCycles: TextView
     private lateinit var chargingTime: TextView
     private lateinit var batteryHealth: TextView
     private lateinit var residualCapacity: TextView
@@ -139,6 +141,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         designCapacity = findViewById(R.id.design_capacity)
         batteryLevel = findViewById(R.id.battery_level)
         numberOfCharges = findViewById(R.id.number_of_charges)
+        numberOfCycles = findViewById(R.id.number_of_cycles)
         chargingTime = findViewById(R.id.charging_time)
         currentCapacity = findViewById(R.id.current_capacity)
         capacityAdded = findViewById(R.id.capacity_added)
@@ -282,6 +285,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
 
                         numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(NUMBER_OF_CHARGES, 0))
+
+                        numberOfCycles.text = getString(R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
 
                         if(CapacityInfoService.instance?.seconds ?: 0 > 0) {
 

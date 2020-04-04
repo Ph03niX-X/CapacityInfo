@@ -24,12 +24,14 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -147,6 +149,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         jobService?.cancel()
         jobService = null
 
+        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this) / 100) - (batteryLevelWith / 100)
+
         notificationManager?.cancel(notificationId)
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -171,6 +175,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
                 if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
+
+                putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
                 apply()
             }
@@ -210,6 +216,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
+        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this@CapacityInfoService) / 100) - (batteryLevelWith / 100)
+
         pref.edit().apply {
 
             putInt(LAST_CHARGE_TIME, seconds)
@@ -225,6 +233,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
                 putInt(PERCENT_ADDED, percentAdded)
+
+                putFloat(NUMBER_OF_CYCLES, numberOfCycles)
             }
 
             apply()
