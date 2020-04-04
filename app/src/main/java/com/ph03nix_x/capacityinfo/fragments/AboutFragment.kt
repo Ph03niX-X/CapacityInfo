@@ -15,7 +15,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.DESIGNER_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utils.Constants.BELORUSSIAN_TRANSLATION_LINK
+import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.HELP_WITH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
@@ -34,7 +34,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var github: Preference? = null
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
-    private var belorussianTranslation: Preference? = null
+    private var belarusianTranslation: Preference? = null
     private var helpWithTranslation: Preference? = null
     private var betaTester: Preference? = null
     private var donate: Preference? = null
@@ -59,7 +59,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         romanianTranslation = findPreference("romanian_translation")
 
-        belorussianTranslation = findPreference("belorussian_translation")
+        belarusianTranslation = findPreference("belarusian_translation")
 
         helpWithTranslation = findPreference("help_with_translation")
 
@@ -138,11 +138,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             true
         }
 
-        belorussianTranslation?.setOnPreferenceClickListener {
+        belarusianTranslation?.setOnPreferenceClickListener {
 
             try {
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELORUSSIAN_TRANSLATION_LINK)))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
 
             }
             catch(e: ActivityNotFoundException) {

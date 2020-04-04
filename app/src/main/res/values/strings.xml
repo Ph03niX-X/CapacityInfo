@@ -57,7 +57,7 @@
     <string name="license">License: Apache 2.0</string>
     <string name="designer">Designer</string>
     <string name="romanian_translation">Romanian translation</string>
-    <string name="belorussian_translation">Belorussian translation</string>
+    <string name="belarusian_translation">Belarusian translation</string>
     <string name="feedback">Feedback</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="email" translatable="false">E-mail</string>

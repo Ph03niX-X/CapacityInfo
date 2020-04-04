@@ -51,11 +51,11 @@
             android:key="romanian_translation"/>
 
     <Preference
-            app:title="@string/belorussian_translation"
+            app:title="@string/belarusian_translation"
             app:summary="Dr.Cyanogen"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_belarus"
-            android:key="belorussian_translation"/>
+            android:key="belarusian_translation"/>
 
     <Preference
             app:title="@string/help_with_translation"
