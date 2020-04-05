@@ -60,47 +60,50 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     override fun onCreate() {
 
-        super.onCreate()
+        if(jobService == null) {
 
-        instance = this
+            super.onCreate()
 
-        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            instance = this
 
-        when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
+            batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-            BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+            when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
-                isPowerConnected = true
+                BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB, BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
 
-                batteryLevelWith = getBatteryLevel(this)
+                    isPowerConnected = true
 
-                tempBatteryLevelWith = batteryLevelWith
+                    batteryLevelWith = getBatteryLevel(this)
 
-                tempCurrentCapacity = getCurrentCapacity(this)
+                    tempBatteryLevelWith = batteryLevelWith
+
+                    tempCurrentCapacity = getCurrentCapacity(this)
+                }
             }
+
+            registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+
+            registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+
+            pref = PreferenceManager.getDefaultSharedPreferences(this)
+
+            batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+
+            LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
+
+            createNotification(this@CapacityInfoService)
+
+            numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
         }
-
-        registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
-
-        registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
-
-        pref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-
-        LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
-
-        createNotification(this@CapacityInfoService)
-
-        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        isJob = true
-
         if(jobService == null)
             jobService = CoroutineScope(Dispatchers.Default).launch {
+
+                isJob = !isJob
 
                 while (isJob && !isStopService) {
 
