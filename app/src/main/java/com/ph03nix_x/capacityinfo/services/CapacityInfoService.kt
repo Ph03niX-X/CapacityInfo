@@ -208,7 +208,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0) 919 else 926)
 
         seconds++
-        updateNotification(this@CapacityInfoService)
+
+        try {
+
+            updateNotification(this@CapacityInfoService)
+        }
+        catch(e: RuntimeException) {}
     }
 
     private fun batteryCharged() {
@@ -243,6 +248,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isSaveNumberOfCharges = false
 
-        updateNotification(this@CapacityInfoService)
+        try {
+
+            updateNotification(this@CapacityInfoService)
+        }
+        catch(e: RuntimeException) {}
     }
 }
