@@ -28,6 +28,7 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
         }
     }
 
+    @Deprecated("Will be removed soon")
     private fun removeOldPref(context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
