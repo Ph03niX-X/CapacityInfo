@@ -216,6 +216,10 @@ interface DebugOptionsInterface : ServiceInterface {
         var value: Any = ""
         var valueType = ""
 
+        val prefValueInputTypeDef = changePrefValue.inputType
+
+        val prefValueKeyListenerDef = changePrefValue.keyListener
+
         dialog.apply {
 
             setPositiveButton(context.getString(R.string.change)) { _, _ -> changeSettingPositiveButton(context, key, value) }
@@ -251,6 +255,10 @@ interface DebugOptionsInterface : ServiceInterface {
                                 changePrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
 
                                 changePrefValue.setText(pref.all.getValue(key).toString())
+
+                                changePrefValue.inputType = prefValueInputTypeDef
+
+                                changePrefValue.keyListener = prefValueKeyListenerDef
                             }
 
                             DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
@@ -312,9 +320,9 @@ interface DebugOptionsInterface : ServiceInterface {
                     if(changePrefValue.isEnabled && s.isNotEmpty() &&
                         (changePrefKey.text.toString() == CAPACITY_ADDED || changePrefKey.text.toString() == NUMBER_OF_CYCLES)) {
 
-                        if(s.first() == '.') changePrefValue.text.clear()
+                        if(s.first() == '.') changePrefValue.setText(pref.all.getValue(key).toString())
 
-                        if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
+                        else if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
                             changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
 
                         else if(changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
@@ -338,7 +346,8 @@ interface DebugOptionsInterface : ServiceInterface {
                         else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
                     }
 
-                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty() && when(valueType) {
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty() && s.last() != '.'
+                            && when(valueType) {
 
                         "string" -> s.toString() != pref.getString(key, "")
 
