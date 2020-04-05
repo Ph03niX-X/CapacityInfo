@@ -50,6 +50,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var seconds = 0
     var numberOfCharges: Long = 0
     var isStopService = false
+    var isSaveNumberOfCharges = true
 
     companion object {
 
@@ -149,7 +150,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         jobService?.cancel()
         jobService = null
 
-        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this) / 100) - (batteryLevelWith / 100)
+        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this) / 100f) - (batteryLevelWith / 100f)
 
         notificationManager?.cancel(notificationId)
 
@@ -176,7 +177,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
 
-                putFloat(NUMBER_OF_CYCLES, numberOfCycles)
+                if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
                 apply()
             }
@@ -216,7 +217,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
-        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this@CapacityInfoService) / 100) - (batteryLevelWith / 100)
+        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this@CapacityInfoService) / 100f) - (batteryLevelWith / 100f)
 
         pref.edit().apply {
 
@@ -234,11 +235,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 putInt(PERCENT_ADDED, percentAdded)
 
-                putFloat(NUMBER_OF_CYCLES, numberOfCycles)
+                if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
             }
 
             apply()
         }
+
+        isSaveNumberOfCharges = false
 
         updateNotification(this@CapacityInfoService)
     }

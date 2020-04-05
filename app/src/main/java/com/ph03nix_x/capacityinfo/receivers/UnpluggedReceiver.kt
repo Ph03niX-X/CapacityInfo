@@ -37,7 +37,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 val batteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
-                val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100) - (batteryLevelWith / 100)
+                val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (batteryLevelWith / 100f)
 
                 pref.edit().apply {
 
@@ -57,7 +57,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                         putInt(BATTERY_LEVEL_TO, batteryLevel)
 
-                        putFloat(NUMBER_OF_CYCLES, numberOfCycles)
+                        if(CapacityInfoService.instance?.isSaveNumberOfCharges != false) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
                         if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 

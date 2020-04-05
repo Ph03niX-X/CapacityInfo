@@ -37,6 +37,8 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 BatteryInfoInterface.maxDischargeCurrent = 0
                 BatteryInfoInterface.averageDischargeCurrent = 0
                 BatteryInfoInterface.minDischargeCurrent = 0
+
+                CapacityInfoService.instance?.isSaveNumberOfCharges = true
             }
         }
     }
