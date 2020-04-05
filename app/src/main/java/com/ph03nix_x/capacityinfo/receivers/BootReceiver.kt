@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
+import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class BootReceiver : BroadcastReceiver(), ServiceInterface {
 
@@ -18,7 +19,12 @@ class BootReceiver : BroadcastReceiver(), ServiceInterface {
         when(intent.action) {
 
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" ->
-                if(CapacityInfoService.instance == null) startService(context)
+                if(CapacityInfoService.instance == null && !isStartedService) {
+
+                    isStartedService = true
+
+                    startService(context)
+                }
         }
     }
 }

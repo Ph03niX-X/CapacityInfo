@@ -12,6 +12,7 @@ object Utils {
     var isPowerConnected = false
     var isInstalledGooglePlay = true
     var isDonated = false
+    var isStartedService = false
     var tempCurrentCapacity = 0.0
     var capacityAdded = 0.0
     var tempBatteryLevelWith = 0

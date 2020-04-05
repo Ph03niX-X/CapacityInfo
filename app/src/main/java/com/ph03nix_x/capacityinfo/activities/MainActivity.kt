@@ -35,6 +35,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
+import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface, SettingsInterface {
@@ -183,7 +184,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             overridePendingTransition(0, 0)
         }
 
-        if(CapacityInfoService.instance == null) startService(this)
+        if(CapacityInfoService.instance == null && !isStartedService) {
+
+            isStartedService = true
+
+            startService(this)
+        }
 
         instance = this
 

@@ -34,6 +34,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import kotlinx.coroutines.*
 import java.io.File
@@ -69,6 +70,8 @@ interface SettingsInterface : ServiceInterface {
         MainActivity.instance?.recreate()
 
         (context as? SettingsActivity)?.recreate()
+
+        isStartedService = true
 
         startService(context)
     }

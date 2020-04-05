@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
@@ -17,7 +18,12 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                 removeOldPref(context)
 
-                if(CapacityInfoService.instance == null) startService(context)
+                if(CapacityInfoService.instance == null && !isStartedService) {
+
+                    isStartedService = true
+
+                    startService(context)
+                }
             }
         }
     }

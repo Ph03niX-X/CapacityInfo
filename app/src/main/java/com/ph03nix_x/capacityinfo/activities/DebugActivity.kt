@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class DebugActivity : AppCompatActivity(), BillingInterface, ServiceInterface {
 
@@ -60,7 +61,12 @@ class DebugActivity : AppCompatActivity(), BillingInterface, ServiceInterface {
 
         instance = this
 
-        if(CapacityInfoService.instance == null) startService(this)
+        if(CapacityInfoService.instance == null && !isStartedService) {
+
+            isStartedService = true
+
+            startService(this)
+        }
     }
 
     override fun onDestroy() {
