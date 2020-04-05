@@ -9,7 +9,10 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -36,8 +39,162 @@ import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface {
 
+    fun addSettingDialog(context: Context, pref: SharedPreferences) =
+        addSettingCreateDialog(context, pref)
+
     fun changeSettingDialog(context: Context, pref: SharedPreferences) =
         changeSettingCreateDialog(context, pref)
+
+    private fun addSettingCreateDialog(context: Context, pref: SharedPreferences) {
+
+        val dialog = MaterialAlertDialogBuilder(context)
+
+        val view = LayoutInflater.from(context).inflate(R.layout.add_pref_key, null)
+
+        dialog.setView(view)
+
+        val addPrefKey = view.findViewById<EditText>(R.id.add_pref_key_edit)
+
+        val addPrefType = view.findViewById<Spinner>(R.id.add_pref_spinner)
+
+        val addPrefValue = view.findViewById<EditText>(R.id.add_pref_value_edit)
+
+        val prefValueInputTypeDef = addPrefValue.inputType
+
+        val prefValueKeyListenerDef = addPrefValue.keyListener
+
+        dialog.apply {
+
+            setPositiveButton(context.getString(R.string.add)) { _, _ ->
+
+                try {
+
+                    when(addPrefType.selectedItemPosition) {
+
+                        0 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString())
+
+                        1 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toInt())
+
+                        2 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toLong())
+
+                        3 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toFloat())
+
+                        4 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toBoolean())
+                    }
+
+                    Toast.makeText(context, context.getString(R.string.setting_added_successfully, addPrefKey.text.toString()), Toast.LENGTH_LONG).show()
+                }
+                catch(e: Exception) {
+
+                    Toast.makeText(context, context.getString(R.string.error_adding_settings, addPrefKey.text.toString(), e.message),
+                        Toast.LENGTH_LONG).show()
+                }
+
+
+            }
+            setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+        }
+        
+        val dialogCreate = dialog.create()
+        
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+            
+            addPrefKey.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    if(addPrefValue.text.isNotEmpty()) addPrefValue.text.clear()
+
+                    addPrefValue.isEnabled = s.isNotEmpty() && !pref.contains(addPrefKey.text.toString())
+                }
+            })
+
+            addPrefType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                    when(position) {
+
+                        0 -> {
+
+                            addPrefValue.text.clear()
+
+                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
+
+                            addPrefValue.inputType = prefValueInputTypeDef
+
+                            addPrefValue.keyListener = prefValueKeyListenerDef
+                        }
+
+                        1, 2 -> {
+
+                            addPrefValue.text.clear()
+
+                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(if(position == 1) Int.MAX_VALUE.toString().count() else Long.MAX_VALUE.toString().count()))
+
+                            addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                            addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                        }
+
+                        3 -> {
+
+                            addPrefValue.text.clear()
+
+                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
+
+                            addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
+                        }
+
+                        4 -> {
+
+                            addPrefValue.text.clear()
+
+                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
+
+                            addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                            addPrefValue.keyListener = DigitsKeyListener.getInstance("01")
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) { }
+            }
+
+            addPrefValue.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    if(addPrefValue.isEnabled && s.isNotEmpty() && addPrefType.selectedItemPosition == 3) {
+
+                        dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.first() != '.' && s.last() != '.'
+
+                        if(s.first() == '.') addPrefValue.text.clear()
+
+                        if(s.contains(".") && addPrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
+                            addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                        else if(addPrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
+                            addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                    }
+                    else dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = addPrefValue.isEnabled && s.isNotEmpty()
+                }
+            })
+        }
+
+        dialogCreate.show()
+    }
 
     private fun changeSettingCreateDialog(context: Context, pref: SharedPreferences) {
 
@@ -140,7 +297,7 @@ interface DebugOptionsInterface : ServiceInterface {
                         }
                     }
 
-                    else changePrefValue.setText("")
+                    else changePrefValue.text.clear()
                 }
             })
 
@@ -152,9 +309,10 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                    if(changePrefValue.isEnabled && s.isNotEmpty() && changePrefKey.text.toString() == CAPACITY_ADDED) {
+                    if(changePrefValue.isEnabled && s.isNotEmpty() &&
+                        (changePrefKey.text.toString() == CAPACITY_ADDED || changePrefKey.text.toString() == NUMBER_OF_CYCLES)) {
 
-                        if(s.first() == '.') changePrefValue.setText("")
+                        if(s.first() == '.') changePrefValue.text.clear()
 
                         if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
                             changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
@@ -220,16 +378,16 @@ interface DebugOptionsInterface : ServiceInterface {
             when(key) {
 
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT -> changeSetting(context, pref, key, value.toString())
+                UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT -> addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
-                RESIDUAL_CAPACITY, PERCENT_ADDED -> changeSetting(context, pref, key, value.toString().toInt())
+                RESIDUAL_CAPACITY, PERCENT_ADDED -> addChangeSetting(context, pref, key, value.toString().toInt())
 
-                CAPACITY_ADDED, NUMBER_OF_CYCLES -> changeSetting(context, pref, key, value.toString().toFloat())
+                CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(context, pref, key, value.toString().toFloat())
 
-                NUMBER_OF_CHARGES -> changeSetting(context, pref, key, value.toString().toLong())
+                NUMBER_OF_CHARGES -> addChangeSetting(context, pref, key, value.toString().toLong())
 
-                else -> changeSetting(context, pref, key, value = value == "1")
+                else -> addChangeSetting(context, pref, key, value = value == "1")
             }
 
             Toast.makeText(context, context.getString(R.string.success_change_key, key), Toast.LENGTH_LONG).show()
@@ -241,7 +399,7 @@ interface DebugOptionsInterface : ServiceInterface {
         }
     }
 
-    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: String) {
+    fun addChangeSetting(context: Context, pref: SharedPreferences, key: String, value: String) {
 
         pref.edit().putString(key, value).apply()
 
@@ -255,22 +413,22 @@ interface DebugOptionsInterface : ServiceInterface {
         }
     }
 
-    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Int) {
+    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String, value: Int) {
 
         pref.edit().putInt(key, value).apply()
     }
 
-    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Long) {
+    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String, value: Long) {
 
         pref.edit().putLong(key, value).apply()
     }
 
-    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Float) {
+    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String, value: Float) {
 
         pref.edit().putFloat(key, value).apply()
     }
 
-    fun changeSetting(context: Context, pref: SharedPreferences, key: String, value: Boolean) {
+    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String, value: Boolean) {
 
         pref.edit().putBoolean(key, value).apply()
 

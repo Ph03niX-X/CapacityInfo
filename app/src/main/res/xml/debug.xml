@@ -15,6 +15,12 @@
                 android:key="is_hide_donate"/>
 
         <Preference
+                android:title="@string/add_setting"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_add_setting_24dp"
+                android:key="add_setting"/>
+
+        <Preference
                 android:title="@string/change_setting"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_change_setting_24dp"

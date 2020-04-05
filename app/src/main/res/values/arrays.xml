@@ -44,4 +44,12 @@
         <item>μV</item>
         <item>mV</item>
     </string-array>
+
+    <string-array name="key_type"> // Do Not Translation
+        <item>String</item>
+        <item>Int</item>
+        <item>Long</item>
+        <item>Float</item>
+        <item>Boolean</item>
+    </string-array>
 </resources>

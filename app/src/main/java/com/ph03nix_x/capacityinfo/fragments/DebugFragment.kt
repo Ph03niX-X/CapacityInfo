@@ -18,6 +18,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private lateinit var pref: SharedPreferences
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
+    private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
@@ -32,6 +33,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
+        addSetting = findPreference("add_setting")
+
         changeSetting = findPreference("change_setting")
 
         resetSetting = findPreference("reset_setting")
@@ -43,6 +46,13 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         restartService = findPreference("restart_service")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
+
+        addSetting?.setOnPreferenceClickListener {
+
+            addSettingDialog(requireContext(), pref)
+
+            true
+        }
 
         changeSetting?.setOnPreferenceClickListener {
 
