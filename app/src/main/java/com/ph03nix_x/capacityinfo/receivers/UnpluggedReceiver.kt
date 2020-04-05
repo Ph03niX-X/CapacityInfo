@@ -33,6 +33,8 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 isPowerConnected = false
 
+                val seconds = CapacityInfoService.instance?.seconds ?: 0
+
                 val batteryLevel = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0
 
                 val batteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
@@ -49,9 +51,9 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                         else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance?.getCurrentCapacity(context)?.toInt() ?: 0)
                     }
 
-                    if ((CapacityInfoService.instance?.isFull != true) && CapacityInfoService.instance?.seconds ?: 0 > 0) {
+                    if ((CapacityInfoService.instance?.isFull != true) && seconds > 0) {
 
-                        putInt(LAST_CHARGE_TIME, CapacityInfoService.instance?.seconds ?: 0)
+                        putInt(LAST_CHARGE_TIME, seconds + ((seconds / 100) * (seconds / 3600)))
 
                         putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance?.batteryLevelWith ?: 0)
 

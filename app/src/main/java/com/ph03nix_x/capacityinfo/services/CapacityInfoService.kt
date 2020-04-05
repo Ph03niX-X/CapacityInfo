@@ -24,7 +24,6 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -167,7 +166,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     else putInt(RESIDUAL_CAPACITY, residualCapacity.toInt())
                 }
 
-                putInt(LAST_CHARGE_TIME, seconds)
+                putInt(LAST_CHARGE_TIME, seconds + ((seconds / 100) * (seconds / 3600)))
 
                 putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
 
@@ -226,7 +225,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         pref.edit().apply {
 
-            putInt(LAST_CHARGE_TIME, seconds)
+            putInt(LAST_CHARGE_TIME, seconds + ((seconds / 100) * (seconds / 3600)))
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
 
