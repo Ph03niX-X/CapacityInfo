@@ -47,7 +47,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var isFull = false
     var batteryLevelWith = -1
     var seconds = 0
-    var numberOfCharges: Long = 0
     var isStopService = false
     var isSaveNumberOfCharges = true
 
@@ -60,13 +59,17 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     override fun onCreate() {
 
-        if(jobService == null) {
+        if(instance == null) {
 
             super.onCreate()
 
             instance = this
 
+            pref = PreferenceManager.getDefaultSharedPreferences(this)
+
             batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+            val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
             when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
@@ -79,6 +82,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     tempBatteryLevelWith = batteryLevelWith
 
                     tempCurrentCapacity = getCurrentCapacity(this)
+
+                    if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
+                        == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
                 }
             }
 
@@ -86,15 +92,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
-            pref = PreferenceManager.getDefaultSharedPreferences(this)
-
             batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
             LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
 
             createNotification(this@CapacityInfoService)
-
-            numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
         }
     }
 
@@ -199,9 +201,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     
     private suspend fun batteryCharging() {
 
-        if(numberOfCharges == pref.getLong(NUMBER_OF_CHARGES, 0))
-            pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
-
         val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
         for(display in displayManager.displays)
@@ -221,8 +220,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private fun batteryCharged() {
 
         isFull = true
-
-        numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (getBatteryLevel(this@CapacityInfoService) / 100f) - (batteryLevelWith / 100f)
 

@@ -3,11 +3,14 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
@@ -23,7 +26,14 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 isPowerConnected = true
 
-                CapacityInfoService.instance?.numberOfCharges = PreferenceManager.getDefaultSharedPreferences(context).getLong(NUMBER_OF_CHARGES, 0)
+                val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+                val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
+
+                batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
+                if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
+                    == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                 CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0
 
