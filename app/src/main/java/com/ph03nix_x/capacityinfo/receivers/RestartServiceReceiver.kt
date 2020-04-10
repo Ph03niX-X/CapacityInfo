@@ -67,6 +67,8 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                 if(contains("is_show_capacity_added_last_charge_in_app")) remove("is_show_capacity_added_last_charge_in_app")
 
+                if(contains("is_show_capacity_added_last_charge_in_notification")) remove("is_show_capacity_added_last_charge_in_notification")
+
                 apply()
             }
         }

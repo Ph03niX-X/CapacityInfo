@@ -205,8 +205,7 @@ interface BatteryInfoInterface {
                 context.getString(R.string.capacity_added, DecimalFormat("#.#").format(capacityAdded), "$percentAdded%")
             }
 
-            else -> context.getString(R.string.capacity_added_last_charge,
-                DecimalFormat("#.#").format(pref.getFloat(CAPACITY_ADDED, 0f).toDouble()),
+            else -> context.getString(R.string.capacity_added, DecimalFormat("#.#").format(pref.getFloat(CAPACITY_ADDED, 0f).toDouble()),
                 "${pref.getInt(PERCENT_ADDED, 0)}%")
         }
     }

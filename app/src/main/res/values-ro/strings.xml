@@ -44,7 +44,6 @@
     <string name="voltage_mv">"Tensiune: %1$s mV"</string>
     <string name="service_time">Timp serviciu</string>
     <string name="capacity_added">"Capacitate adăugată: %1$s mAh (%2$s)"</string>
-    <string name="capacity_added_last_charge">Capacitate adăugată (Ultima încărcare): %1$s mAh (%2$s)</string>
     <string name="notification_priority">Prioritatea notificării și pictograma în bara de stare</string>
     <string name="about">Despre</string>
     <string name="developer">Dezvoltator</string>
@@ -64,7 +63,6 @@
     <string name="auto_dark_mode">Modul întunecat automat</string>
     <string name="auto_dark_mode_summary">Se activează modul întunecat în funcție de sistem</string>
     <string name="show_capacity_added">"Se afișează \"Capacitate adăugată\""</string>
-    <string name="show_capacity_added_last_charge">"Se afișează \"Capacitate adăugată (Ultima încărcare)\""</string>
     <string name="number_of_charges">Numărul încărcărilor: %1$d</string>
     <string name="residual_capacity_not_supported">"Capacitate reziduală: Nu este disponibilă"</string>
     <string name="battery_wear_not_supported">"Uzura bateriei: Nu este disponibilă"</string>

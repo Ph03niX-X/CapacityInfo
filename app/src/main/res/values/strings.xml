@@ -46,7 +46,6 @@
     <string name="voltage_mv">"Voltage: %1$s mV"</string>
     <string name="service_time">Service Time</string>
     <string name="capacity_added">"Capacity Added: %1$s mAh (%2$s)"</string>
-    <string name="capacity_added_last_charge">"Capacity Added (Last Charge): %1$s mAh (%2$s)"</string>
     <string name="notification_priority">Notification Priority and Status Bar Icon</string>
     <string name="about">About</string>
     <string name="developer">Developer</string>
@@ -66,7 +65,6 @@
     <string name="auto_dark_mode">Auto Dark Mode</string>
     <string name="auto_dark_mode_summary">Turn on dark mode depending on the system</string>
     <string name="show_capacity_added">"Show \"Capacity Added\""</string>
-    <string name="show_capacity_added_last_charge">"Show \"Capacity Added (Last Charge)\""</string>
     <string name="number_of_charges">Number of Charges: %1$d</string>
     <string name="residual_capacity_not_supported">"Residual Capacity: Not Supported"</string>
     <string name="battery_wear_not_supported">"Battery Wear: Not Supported"</string>

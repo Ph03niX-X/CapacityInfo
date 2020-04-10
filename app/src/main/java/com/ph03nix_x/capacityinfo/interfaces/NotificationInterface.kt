@@ -25,7 +25,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -202,7 +201,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv else R.string.voltage,
             DecimalFormat("#.#").format(getVoltage(context)))
         return if(getCurrentCapacity(context) > 0)
-            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
+            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
                 "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n$dischargeCurrent\n$temperature\n$voltage"
             else "$notCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
@@ -243,7 +242,7 @@ interface NotificationInterface : BatteryInfoInterface {
         return if(pref.getBoolean(IS_SUPPORTED, true)) {
 
             if(getCurrentCapacity(context) > 0)
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
+                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
                     "$fullCharging\n$batteryLevel\n$numberOfCharges\n${getChargingTime(context, (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                             "\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}\n$dischargeCurrent\n" +
                             "$temperature\n$voltage"
@@ -296,7 +295,7 @@ interface NotificationInterface : BatteryInfoInterface {
             if(pref.getInt(LAST_CHARGE_TIME, 0) > 0 && pref.getBoolean(
                     IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION, true))
 
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
+                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
                     "$discharging\n$batteryLevel\n$numberOfCharges\n$lastChargingTime\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context)}" +
                             "\n${getBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
                 else "$discharging\n$batteryLevel\n$numberOfCharges\n$lastChargingTime\n$currentCapacity\n${getResidualCapacity(context)}" +
@@ -304,7 +303,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
             else {
 
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
+                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
                     "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n$capacityAdded\n${getResidualCapacity(context)}\n${getBatteryWear(context)}" +
                             "\n$dischargeCurrent\n$temperature\n$voltage"
                 else "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n${getResidualCapacity(context)}\n${getBatteryWear(context)}" +
@@ -350,7 +349,7 @@ interface NotificationInterface : BatteryInfoInterface {
             DecimalFormat("#.#").format(getVoltage(context)))
 
         return if(getCurrentCapacity(context) > 0)
-            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION, true))
+            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
                 "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n$capacityAdded\n$temperature\n$voltage"
             else "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n$temperature\n$voltage"
 

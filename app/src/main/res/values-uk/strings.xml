@@ -44,7 +44,6 @@
     <string name="voltage_mv">"Напруга: %1$s мВ"</string>
     <string name="service_time">Час служби</string>
     <string name="capacity_added">"Додалося ємності: %1$s мАг (%2$s)"</string>
-    <string name="capacity_added_last_charge">Додалося ємності (Остання зарядка): %1$s мАг (%2$s)</string>
     <string name="notification_priority">Пріоритет повідомлення і значок в рядку стану</string>
     <string name="about">Про додаток</string>
     <string name="developer">Розробник</string>
@@ -62,7 +61,6 @@
     <string name="auto_dark_mode">Автоматична темна тема</string>
     <string name="auto_dark_mode_summary">Включати темну тему в залежності від системи</string>
     <string name="show_capacity_added">"Показувати \"Додалося ємності\""</string>
-    <string name="show_capacity_added_last_charge">"Показувати \"Додалося ємності (Остання зарядка)\""</string>
     <string name="number_of_charges">Кількість зарядок: %1$d</string>
     <string name="residual_capacity_not_supported">"Залишкова ємність: Не підтримується"</string>
     <string name="battery_wear_not_supported">"Знос акумулятора: Не підтримується"</string>

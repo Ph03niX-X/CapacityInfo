@@ -21,7 +21,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
@@ -40,7 +39,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var moreServiceAndNotification: Preference? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
-    private var showCapacityAddedLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
 
     // Appearance
@@ -81,8 +79,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         showLastChargeTimeInNotification = findPreference(IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION)
 
-        showCapacityAddedLastChargeTimeInNotification = findPreference(IS_SHOW_CAPACITY_ADDED_LAST_CHARGE_IN_NOTIFICATION)
-
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
         moreServiceAndNotification?.setOnPreferenceClickListener {
@@ -93,7 +89,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.title = getString(R.string.hide)
 
                 showLastChargeTimeInNotification?.isVisible = true
-                showCapacityAddedLastChargeTimeInNotification?.isVisible = true
+
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                     openNotificationCategorySettings?.isVisible = true
             }
@@ -104,7 +100,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.title = requireContext().getString(R.string.more)
 
                 showLastChargeTimeInNotification?.isVisible = false
-                showCapacityAddedLastChargeTimeInNotification?.isVisible = false
+
                 openNotificationCategorySettings?.isVisible = false
             }
 

@@ -51,15 +51,7 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_show_last_charge_time_24dp"
                 android:key="is_show_last_charge_time_in_notification"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/show_capacity_added_last_charge"
-                app:defaultValue="true"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:icon="@drawable/ic_show_capacity_added_lc_24dp"
-                android:key="is_show_capacity_added_last_charge_in_notification"/>
-
+        
         <Preference
                 android:title="@string/open_notification_category_settings"
                 android:summary="@string/notification_priority"
