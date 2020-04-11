@@ -180,16 +180,16 @@
                 android:key="change_design_capacity"/>
 
         <Preference
-                android:title="@string/reset_the_number_of_charges"
+                android:title="@string/reset_to_zero_the_number_of_charges"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                android:key="reset_the_number_of_charges"/>
+                android:key="reset_to_zero_the_number_of_charges"/>
 
         <Preference
-                android:title="@string/reset_the_number_of_cycles"
+                android:title="@string/reset_to_zero_the_number_of_cycles"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
-                android:key="reset_the_number_of_cycles"/>
+                android:key="reset_to_zero_the_number_of_cycles"/>
 
     </PreferenceCategory>
 

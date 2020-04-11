@@ -61,8 +61,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
-    private var resetTheNumberOfCharges: Preference? = null
-    private var resetTheNumberOfCycles: Preference? = null
+    private var resetToZeroTheNumberOfCharges: Preference? = null
+    private var resetToZeroTheNumberOfCycles: Preference? = null
 
     // About & Feedback
     private var about: Preference? = null
@@ -189,9 +189,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
-        resetTheNumberOfCharges = findPreference("reset_the_number_of_charges")
+        resetToZeroTheNumberOfCharges = findPreference("reset_to_zero_the_number_of_charges")
 
-        resetTheNumberOfCycles = findPreference("reset_the_number_of_cycles")
+        resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
 
         exportSettings?.setOnPreferenceClickListener {
 
@@ -236,8 +236,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
-                resetTheNumberOfCharges?.isVisible = true
-                resetTheNumberOfCycles?.isVisible = true
+                resetToZeroTheNumberOfCharges?.isVisible = true
+                resetToZeroTheNumberOfCycles?.isVisible = true
             }
 
             else {
@@ -249,8 +249,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
-                resetTheNumberOfCharges?.isVisible = false
-                resetTheNumberOfCycles?.isVisible = false
+                resetToZeroTheNumberOfCharges?.isVisible = false
+                resetToZeroTheNumberOfCycles?.isVisible = false
             }
 
             true
@@ -290,17 +290,17 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        resetTheNumberOfCharges?.setOnPreferenceClickListener {
+        resetToZeroTheNumberOfCharges?.setOnPreferenceClickListener {
 
             MaterialAlertDialogBuilder(requireContext()).apply {
 
-                setMessage(getString(R.string.reset_the_number_of_charges_dialog_message))
+                setMessage(getString(R.string.reset_to_zero_the_number_of_charges_dialog_message))
 
                 setPositiveButton(getString(android.R.string.yes)) { _, _ ->
 
                     pref.edit().remove(NUMBER_OF_CHARGES).apply()
 
-                    Toast.makeText(requireContext(), getString(R.string.number_of_charges_was_success_reset), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.number_of_charges_was_success_reset_to_zero), Toast.LENGTH_LONG).show()
                 }
 
                 setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
@@ -311,17 +311,17 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        resetTheNumberOfCycles?.setOnPreferenceClickListener {
+        resetToZeroTheNumberOfCycles?.setOnPreferenceClickListener {
 
             MaterialAlertDialogBuilder(requireContext()).apply {
 
-                setMessage(getString(R.string.reset_the_number_of_cycles_dialog_message))
+                setMessage(getString(R.string.reset_to_zero_the_number_of_cycles_dialog_message))
 
                 setPositiveButton(getString(android.R.string.yes)) { _, _ ->
 
                     pref.edit().remove(NUMBER_OF_CYCLES).apply()
 
-                    Toast.makeText(requireContext(), getString(R.string.number_of_cycles_was_success_reset), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.number_of_cycles_was_success_reset_to_zero), Toast.LENGTH_LONG).show()
                 }
 
                 setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
