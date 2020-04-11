@@ -6,12 +6,14 @@ import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
@@ -85,6 +87,13 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 BatteryInfoInterface.minDischargeCurrent = 0
 
                 CapacityInfoService.instance?.isFull = false
+
+                if(pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD, false)) {
+
+                    NotificationInterface.notificationManager?.cancel(NotificationInterface.notificationId)
+
+                    context.stopService(Intent(context, CapacityInfoService::class.java))
+                }
             }
         }
     }

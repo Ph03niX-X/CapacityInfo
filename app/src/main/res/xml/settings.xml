@@ -51,6 +51,13 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_show_last_charge_time_24dp"
                 android:key="is_show_last_charge_time_in_notification"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/stop_the_service_when_the_cd"
+                app:isPreferenceVisible="false"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
+                android:key="is_stop_the_service_when_the_cd"/>
         
         <Preference
                 android:title="@string/open_notification_category_settings"

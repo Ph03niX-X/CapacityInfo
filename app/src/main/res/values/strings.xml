@@ -148,4 +148,5 @@
     <string name="add">Add</string>
     <string name="setting_added_successfully">Setting \"%1$s\" added successfully!</string>
     <string name="error_adding_settings">Error adding settings \"%1$s\"!\n%2$s</string>
+    <string name="stop_the_service_when_the_cd">Stop the service when the charger is disconnected</string>
 </resources>

@@ -22,6 +22,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
@@ -39,6 +40,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var moreServiceAndNotification: Preference? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
+    private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
 
     // Appearance
@@ -79,6 +81,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         showLastChargeTimeInNotification = findPreference(IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION)
 
+        isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
+
         openNotificationCategorySettings = findPreference("open_notification_category_settings")
 
         moreServiceAndNotification?.setOnPreferenceClickListener {
@@ -90,6 +94,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 showLastChargeTimeInNotification?.isVisible = true
 
+                isStopTheServiceWhenTheCD?.isVisible = true
+
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                     openNotificationCategorySettings?.isVisible = true
             }
@@ -100,6 +106,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.title = requireContext().getString(R.string.more)
 
                 showLastChargeTimeInNotification?.isVisible = false
+
+                isStopTheServiceWhenTheCD?.isVisible = false
 
                 openNotificationCategorySettings?.isVisible = false
             }
