@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
@@ -24,6 +25,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_I
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -58,6 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
+    private var resetTheNumberOfCharges: Preference? = null
 
     // About & Feedback
     private var about: Preference? = null
@@ -184,6 +187,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
+        resetTheNumberOfCharges = findPreference("reset_the_number_of_charges")
+
         exportSettings?.setOnPreferenceClickListener {
 
             try {
@@ -227,6 +232,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
+                resetTheNumberOfCharges?.isVisible = true
             }
 
             else {
@@ -238,6 +244,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
+                resetTheNumberOfCharges?.isVisible = false
             }
 
             true
@@ -273,6 +280,27 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         changeDesignCapacity?.setOnPreferenceClickListener {
 
             changeDesignCapacity(requireContext())
+
+            true
+        }
+
+        resetTheNumberOfCharges?.setOnPreferenceClickListener {
+
+            MaterialAlertDialogBuilder(requireContext()).apply {
+
+                setMessage(getString(R.string.reset_the_number_of_charges_dialog_message))
+
+                setPositiveButton(getString(android.R.string.yes)) { _, _ ->
+
+                    pref.edit().remove(NUMBER_OF_CHARGES).apply()
+
+                    Toast.makeText(requireContext(), getString(R.string.number_of_charges_was_success_reset), Toast.LENGTH_LONG).show()
+                }
+
+                setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
+
+                show()
+            }
 
             true
         }

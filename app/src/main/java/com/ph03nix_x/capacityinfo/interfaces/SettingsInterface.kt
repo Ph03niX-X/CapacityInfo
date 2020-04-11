@@ -151,9 +151,9 @@ interface SettingsInterface : ServiceInterface {
 
                     when(it.key) {
 
-                        NUMBER_OF_CHARGES, BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
-                        CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-                        IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION, NUMBER_OF_CYCLES -> prefArrays[it.key] = it.value
+                        BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY, CAPACITY_ADDED,
+                        LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
+                        IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION, NUMBER_OF_CYCLES -> prefArrays[it.key] = it.value
                     }
                 }
 
