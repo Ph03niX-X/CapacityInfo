@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -61,6 +62,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var voltageUnit: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
     private var resetTheNumberOfCharges: Preference? = null
+    private var resetTheNumberOfCycles: Preference? = null
 
     // About & Feedback
     private var about: Preference? = null
@@ -189,6 +191,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         resetTheNumberOfCharges = findPreference("reset_the_number_of_charges")
 
+        resetTheNumberOfCycles = findPreference("reset_the_number_of_cycles")
+
         exportSettings?.setOnPreferenceClickListener {
 
             try {
@@ -233,6 +237,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
                 resetTheNumberOfCharges?.isVisible = true
+                resetTheNumberOfCycles?.isVisible = true
             }
 
             else {
@@ -245,6 +250,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
                 resetTheNumberOfCharges?.isVisible = false
+                resetTheNumberOfCycles?.isVisible = false
             }
 
             true
@@ -295,6 +301,27 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                     pref.edit().remove(NUMBER_OF_CHARGES).apply()
 
                     Toast.makeText(requireContext(), getString(R.string.number_of_charges_was_success_reset), Toast.LENGTH_LONG).show()
+                }
+
+                setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
+
+                show()
+            }
+
+            true
+        }
+
+        resetTheNumberOfCycles?.setOnPreferenceClickListener {
+
+            MaterialAlertDialogBuilder(requireContext()).apply {
+
+                setMessage(getString(R.string.reset_the_number_of_cycles_dialog_message))
+
+                setPositiveButton(getString(android.R.string.yes)) { _, _ ->
+
+                    pref.edit().remove(NUMBER_OF_CYCLES).apply()
+
+                    Toast.makeText(requireContext(), getString(R.string.number_of_cycles_was_success_reset), Toast.LENGTH_LONG).show()
                 }
 
                 setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }

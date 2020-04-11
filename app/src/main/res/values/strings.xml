@@ -152,4 +152,7 @@
     <string name="reset_the_number_of_charges">Reset the number of charges</string>
     <string name="reset_the_number_of_charges_dialog_message">Reset the number of charges?</string>
     <string name="number_of_charges_was_success_reset">The number of charges was successfully reset</string>
+    <string name="reset_the_number_of_cycles">Reset the number of cycles</string>
+    <string name="reset_the_number_of_cycles_dialog_message">Reset the number of cycles?</string>
+    <string name="number_of_cycles_was_success_reset">The number of cycles was successfully reset</string>
 </resources>
