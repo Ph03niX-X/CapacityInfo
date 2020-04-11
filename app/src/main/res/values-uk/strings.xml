@@ -123,7 +123,7 @@
     <string name="service_stopped_successfully">Служба успішно зупинена!</string>
     <string name="hide_donate">Приховати \"Підтримати проект\"</string>
     <string name="battery_health">Стан акумулятора (Android): %1$s</string>
-    <string name="battery_health_good">Гарне</string>
+    <string name="battery_health_good">Гарний</string>
     <string name="battery_health_dead">Мертвий</string>
     <string name="battery_health_cold">Холодна</string>
     <string name="battery_health_overheat">Перегрів</string>
