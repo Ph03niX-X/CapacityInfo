@@ -142,4 +142,11 @@
     <string name="add">Adăugare</string>
     <string name="setting_added_successfully">Setările \"%1$s\" adăugate cu succes!</string>
     <string name="error_adding_settings">Eroare la adăugarea setărilor \"%1$s\"!\n%2$s</string>
+    <string name="stop_the_service_when_the_cd">Se oprește serviciul atunci când încărcătorul este deconectat</string>
+    <string name="reset_to_zero_the_number_of_charges">Resetați la zero numărul de încărcări</string>
+    <string name="reset_to_zero_the_number_of_charges_dialog_message">Resetați la zero numărul de încărcări?</string>
+    <string name="number_of_charges_was_success_reset_to_zero">Numărul de încărcări a fost resetat cu succes la zero</string>
+    <string name="reset_to_zero_the_number_of_cycles">Resetați la zero numărul de cicluri</string>
+    <string name="reset_to_zero_the_number_of_cycles_dialog_message">Resetați la zero numărul de cicluri?</string>
+    <string name="number_of_cycles_was_success_reset_to_zero">Numărul de cicluri a fost resetat cu succes la zero</string>
 </resources>
