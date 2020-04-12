@@ -7,7 +7,7 @@
     <string name="dark_mode">Тёмная тема</string>
     <string name="charge_current">"Ток зарядки: %1$s мА"</string>
     <string name="discharge_current">"Ток разрядки: %1$s мА"</string>
-    <string name="not_supported">Приложение не поддерживает ваше устройство</string>
+    <string name="not_supported">Приложение не поддерживает ваше устройство.\n\nПриложение не может узнать остаточную ёмкость, так как аккумулятор не отдаёт текущую ёмкость</string>
     <string name="voltage">"Напряжение: %1$s В"</string>
     <string name="temperature_celsius">"Температура: %1$s °C"</string>
     <string name="temperature_fahrenheit">"Температура: %1$s °F"</string>
@@ -143,4 +143,11 @@
     <string name="add">Добавить</string>
     <string name="setting_added_successfully">Настройка \"%1$s\" успешно добавлена!</string>
     <string name="error_adding_settings">Ошибка добавления настройки \"%1$s\"!\n%2$s</string>
+    <string name="stop_the_service_when_the_cd">Останавливать службу при отключении зарядного устройства</string>
+    <string name="reset_to_zero_the_number_of_charges">Обнулить количество зарядок</string>
+    <string name="reset_to_zero_the_number_of_charges_dialog_message">Обнулить количество зарядок?</string>
+    <string name="number_of_charges_was_success_reset_to_zero">Количество зарядок было успешно сброшено до нуля</string>
+    <string name="reset_to_zero_the_number_of_cycles">Обнулить количество циклов</string>
+    <string name="reset_to_zero_the_number_of_cycles_dialog_message">Обнулить количество циклов?</string>
+    <string name="number_of_cycles_was_success_reset_to_zero">Количество циклов было успешно сброшено до нуля</string>
 </resources>
