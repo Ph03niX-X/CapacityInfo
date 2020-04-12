@@ -8,7 +8,7 @@
     <string name="github" translatable="false">GitHub</string>
     <string name="charge_current">"Charging current: %1$s mA"</string>
     <string name="discharge_current">"Discharge current: %1$s mA"</string>
-    <string name="not_supported">The application does not support your device</string>
+    <string name="not_supported">The application does not support your device.\n\nThe application cannot find out the remaining capacity, since the battery does not give up the current capacity</string>
     <string name="voltage">"Voltage: %1$s V"</string>
     <string name="temperature_celsius">"Temperature: %1$s °C"</string>
     <string name="temperature_fahrenheit">"Temperature: %1$s °F"</string>
