@@ -7,7 +7,7 @@
     <string name="dark_mode">Цёмная тэма</string>
     <string name="charge_current">"Ток зарадкі: %1$s мА"</string>
     <string name="discharge_current">"Ток разрадкі: %1$s мА"</string>
-    <string name="not_supported">Дадатак не падтрымлівае вашу прыладу</string>
+    <string name="not_supported">Дадатак не падтрымлівае вашу прыладу.\n\nДадатак не можа даведацца рэшткавую ёмістасць, так як акумулятар не аддае бягучую ёмістасць</string>
     <string name="voltage">"Напружанне: %1$s В"</string>
     <string name="temperature_celsius">"Тэмпература: %1$s °C"</string>
     <string name="temperature_fahrenheit">"Тэмпература: %1$s °F"</string>
@@ -143,4 +143,11 @@
     <string name="add">Дадаць</string>
     <string name="setting_added_successfully">Налада \"%1$s\" паспяхова дададзена!</string>
     <string name="error_adding_settings">Памылка дадання налады \"%1$s\"!\n%2$s</string>
+    <string name="stop_the_service_when_the_cd">Спыняць службу пры адключэнні зараднай прылады</string>
+    <string name="reset_to_zero_the_number_of_charges">Абнуліць колькасць зарадак</string>
+    <string name="reset_to_zero_the_number_of_charges_dialog_message">Абнуліць колькасць зарадак?</string>
+    <string name="number_of_charges_was_success_reset_to_zero">Колькасць зарадак было паспяхова скінута да нуля</string>
+    <string name="reset_to_zero_the_number_of_cycles">Абнуліць колькасць цыклаў</string>
+    <string name="reset_to_zero_the_number_of_cycles_dialog_message">Абнуліць колькасць цыклаў?</string>
+    <string name="number_of_cycles_was_success_reset_to_zero">Колькасць цыклаў было паспяхова скінута да нуля</string>
 </resources>
