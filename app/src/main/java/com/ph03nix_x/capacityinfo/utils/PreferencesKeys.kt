@@ -6,6 +6,7 @@ object PreferencesKeys {
     const val IS_SHOW_NOT_SUPPORTED_DIALOG = "is_show_not_supported_dialog"
     const val IS_SHOW_INSTRUCTION = "is_show_instruction"
 
+    // Service & Notification
     const val IS_AUTO_START_SERVICE = "is_auto_start_service"
     const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
     const val IS_SERVICE_TIME = "is_service_time"
@@ -13,9 +14,12 @@ object PreferencesKeys {
     const val IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION = "is_show_last_charge_time_in_notification"
     const val IS_STOP_THE_SERVICE_WHEN_THE_CD = "is_stop_the_service_when_the_cd"
 
-    const val IS_AUTO_DARK_MODE = "is_auto_dark_mode"
+    // Appearance
+    const val IS_AUTO_DARK_MODE = "is_auto_dark_mode" // Android 10+
     const val IS_DARK_MODE = "is_dark_mode"
+    const val LANGUAGE = "language"
 
+    // Misc
     const val TEMPERATURE_IN_FAHRENHEIT = "temperature_in_fahrenheit"
     const val VOLTAGE_IN_MV = "voltage_in_mv"
     const val UNIT_OF_CHARGE_DISCHARGE_CURRENT = "unit_of_charge_discharge_current"
@@ -23,9 +27,10 @@ object PreferencesKeys {
     const val VOLTAGE_UNIT = "voltage_unit"
     const val DESIGN_CAPACITY = "design_capacity"
 
+    // Debug
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"
-    const val LANGUAGE = "language"
 
+    // Battery Information
     const val NUMBER_OF_CHARGES = "number_of_charges"
     const val CAPACITY_ADDED = "capacity_added"
     const val PERCENT_ADDED = "percent_added"

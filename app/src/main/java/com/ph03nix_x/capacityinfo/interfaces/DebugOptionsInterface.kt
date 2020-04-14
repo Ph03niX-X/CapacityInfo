@@ -8,12 +8,14 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
+import android.text.method.KeyListener
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
@@ -39,6 +41,13 @@ import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface {
 
+    companion object {
+
+        private lateinit var key: String
+        private lateinit var value: Any
+        private lateinit var valueType: String
+    }
+
     fun addSettingDialog(context: Context, pref: SharedPreferences) =
         addSettingCreateDialog(context, pref)
 
@@ -59,39 +68,10 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val addPrefValue = view.findViewById<EditText>(R.id.add_pref_value_edit)
 
-        val prefValueInputTypeDef = addPrefValue.inputType
-
-        val prefValueKeyListenerDef = addPrefValue.keyListener
-
         dialog.apply {
 
-            setPositiveButton(context.getString(R.string.add)) { _, _ ->
+            setPositiveButton(context.getString(R.string.add)) { _, _ ->  addSettingCreateDialogPositiveButton(context, pref, addPrefKey, addPrefType, addPrefValue) }
 
-                try {
-
-                    when(addPrefType.selectedItemPosition) {
-
-                        0 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString())
-
-                        1 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toInt())
-
-                        2 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toLong())
-
-                        3 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toFloat())
-
-                        4 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toBoolean())
-                    }
-
-                    Toast.makeText(context, context.getString(R.string.setting_added_successfully, addPrefKey.text.toString()), Toast.LENGTH_LONG).show()
-                }
-                catch(e: Exception) {
-
-                    Toast.makeText(context, context.getString(R.string.error_adding_settings, addPrefKey.text.toString(), e.message),
-                        Toast.LENGTH_LONG).show()
-                }
-
-
-            }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         }
         
@@ -100,100 +80,145 @@ interface DebugOptionsInterface : ServiceInterface {
         dialogCreate.setOnShowListener {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
-            
-            addPrefKey.addTextChangedListener(object : TextWatcher {
 
-                override fun afterTextChanged(s: Editable) {}
+            addPrefKey.addTextChangedListener(addPrefKeyTextChangedListener(addPrefKey, addPrefValue, pref))
 
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            addPrefType.onItemSelectedListener = addPrefTypeOnItemSelectedListener(addPrefValue)
 
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                    if(addPrefValue.text.isNotEmpty()) addPrefValue.text.clear()
-
-                    addPrefValue.isEnabled = s.isNotEmpty() && !pref.contains(addPrefKey.text.toString())
-                }
-            })
-
-            addPrefType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                    when(position) {
-
-                        0 -> {
-
-                            addPrefValue.text.clear()
-
-                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
-
-                            addPrefValue.inputType = prefValueInputTypeDef
-
-                            addPrefValue.keyListener = prefValueKeyListenerDef
-                        }
-
-                        1, 2 -> {
-
-                            addPrefValue.text.clear()
-
-                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(if(position == 1) Int.MAX_VALUE.toString().count() else Long.MAX_VALUE.toString().count()))
-
-                            addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER
-
-                            addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-                        }
-
-                        3 -> {
-
-                            addPrefValue.text.clear()
-
-                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
-
-                            addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
-                        }
-
-                        4 -> {
-
-                            addPrefValue.text.clear()
-
-                            addPrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
-
-                            addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER
-
-                            addPrefValue.keyListener = DigitsKeyListener.getInstance("01")
-                        }
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) { }
-            }
-
-            addPrefValue.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) {}
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                    if(addPrefValue.isEnabled && s.isNotEmpty() && addPrefType.selectedItemPosition == 3) {
-
-                        dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.first() != '.' && s.last() != '.'
-
-                        if(s.first() == '.') addPrefValue.text.clear()
-
-                        if(s.contains(".") && addPrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
-                            addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-
-                        else if(addPrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
-                            addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
-                    }
-                    else dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = addPrefValue.isEnabled && s.isNotEmpty()
-                }
-            })
+            addPrefValue.addTextChangedListener(addPrefValueTextChangedListener(addPrefValue, addPrefType, dialogCreate))
         }
 
         dialogCreate.show()
+    }
+
+    private fun addSettingCreateDialogPositiveButton(context: Context, pref: SharedPreferences, addPrefKey: EditText, addPrefType: Spinner, addPrefValue: EditText) {
+
+        try {
+
+            when(addPrefType.selectedItemPosition) {
+
+                0 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString())
+
+                1 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toInt())
+
+                2 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toLong())
+
+                3 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toFloat())
+
+                4 -> addChangeSetting(context, pref, addPrefKey.text.toString(), addPrefValue.text.toString().toBoolean())
+            }
+
+            Toast.makeText(context, context.getString(R.string.setting_added_successfully, addPrefKey.text.toString()), Toast.LENGTH_LONG).show()
+        }
+        catch(e: Exception) {
+
+            Toast.makeText(context, context.getString(R.string.error_adding_settings, addPrefKey.text.toString(), e.message),
+                Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun addPrefKeyTextChangedListener(addPrefKey: EditText, addPrefValue: EditText, pref: SharedPreferences): TextWatcher {
+
+        return object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                if(addPrefValue.text.isNotEmpty()) addPrefValue.text.clear()
+
+                addPrefValue.isEnabled = s.isNotEmpty() && !pref.contains(addPrefKey.text.toString())
+            }
+        }
+    }
+
+    private fun addPrefTypeOnItemSelectedListener(addPrefValue: EditText): AdapterView.OnItemSelectedListener {
+
+        val prefValueInputTypeDef = addPrefValue.inputType
+
+        val prefValueKeyListenerDef = addPrefValue.keyListener
+
+        return object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                when(position) {
+
+                    0 -> {
+
+                        addPrefValue.text.clear()
+
+                        addPrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
+
+                        addPrefValue.inputType = prefValueInputTypeDef
+
+                        addPrefValue.keyListener = prefValueKeyListenerDef
+                    }
+
+                    1, 2 -> {
+
+                        addPrefValue.text.clear()
+
+                        addPrefValue.filters = arrayOf(InputFilter.LengthFilter(if(position == 1) Int.MAX_VALUE.toString().count() else Long.MAX_VALUE.toString().count()))
+
+                        addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                        addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                    }
+
+                    3 -> {
+
+                        addPrefValue.text.clear()
+
+                        addPrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
+
+                        addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
+                    }
+
+                    4 -> {
+
+                        addPrefValue.text.clear()
+
+                        addPrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
+
+                        addPrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                        addPrefValue.keyListener = DigitsKeyListener.getInstance("01")
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+        }
+    }
+
+    private fun addPrefValueTextChangedListener(addPrefValue: EditText, addPrefType: Spinner, dialogCreate: AlertDialog): TextWatcher {
+
+        return object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                if(addPrefValue.isEnabled && s.isNotEmpty() && addPrefType.selectedItemPosition == 3) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.first() != '.' && s.last() != '.'
+
+                    if(s.first() == '.') addPrefValue.text.clear()
+
+                    if(s.contains(".") && addPrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
+                        addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                    else if(addPrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
+                        addPrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                }
+                else dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = addPrefValue.isEnabled && s.isNotEmpty()
+            }
+        }
     }
 
     private fun changeSettingCreateDialog(context: Context, pref: SharedPreferences) {
@@ -212,13 +237,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val changePrefValue = view.findViewById<EditText>(R.id.change_pref_value_edit)
 
-        var key = ""
-        var value: Any = ""
-        var valueType = ""
-
-        val prefValueInputTypeDef = changePrefValue.inputType
-
-        val prefValueKeyListenerDef = changePrefValue.keyListener
+        key = ""
+        value = ""
+        valueType = ""
 
         dialog.apply {
 
@@ -232,147 +253,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
 
-            changePrefKey.addTextChangedListener(object : TextWatcher {
+            changePrefKey.addTextChangedListener(changePrefKeyTextChangedListener(changePrefValue, pref, prefKeysArray))
 
-                override fun afterTextChanged(s: Editable) { }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                    key = s.toString()
-                    changePrefValue.isEnabled = key in prefKeysArray
-
-                    if(key in prefKeysArray) {
-
-                        when(key) {
-
-                            LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                            UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT -> {
-
-                                valueType = "string"
-
-                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
-
-                                changePrefValue.setText(pref.all.getValue(key).toString())
-
-                                changePrefValue.inputType = prefValueInputTypeDef
-
-                                changePrefValue.keyListener = prefValueKeyListenerDef
-                            }
-
-                            DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
-                            RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES -> {
-
-                                valueType = "int|long"
-
-                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(Long.MAX_VALUE.toString().count()))
-
-                                changePrefValue.setText(pref.all.getValue(key).toString())
-
-                                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
-
-                                changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-                            }
-
-                            CAPACITY_ADDED, NUMBER_OF_CYCLES -> {
-
-                                valueType = "float"
-
-                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
-
-                                changePrefValue.setText(pref.all.getValue(key).toString())
-
-                                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
-
-                                if(changePrefValue.text.toString().contains("."))
-                                    changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-                                else changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
-                            }
-
-                            else -> {
-
-                                valueType = "boolean"
-
-                                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
-
-                                changePrefValue.setText(if(pref.all.getValue(key).toString() == "true") "1" else "0")
-
-                                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
-
-                                changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
-                            }
-                        }
-                    }
-
-                    else changePrefValue.text.clear()
-                }
-            })
-
-            changePrefValue.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) { }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                    if(changePrefValue.isEnabled && s.isNotEmpty() &&
-                        (changePrefKey.text.toString() == CAPACITY_ADDED || changePrefKey.text.toString() == NUMBER_OF_CYCLES)) {
-
-                        if(s.first() == '.') changePrefValue.setText(pref.all.getValue(key).toString())
-
-                        else if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
-                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
-
-                        else if(changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
-                            changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
-                    }
-
-                    when(key) {
-
-                        LANGUAGE -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                            s.toString() in context.resources.getStringArray(R.array.languages_codes)
-
-                        UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                            s.toString() in context.resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values)
-
-                        UNIT_OF_CHARGE_DISCHARGE_CURRENT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                            s.toString() in context.resources.getStringArray(R.array.unit_of_charge_discharge_current_values)
-
-                        VOLTAGE_UNIT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                            s.toString() in context.resources.getStringArray(R.array.voltage_unit_values)
-
-                        else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
-                    }
-
-                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty() && s.last() != '.'
-                            && when(valueType) {
-
-                        "string" -> s.toString() != pref.getString(key, "")
-
-                        "int|long" -> {
-
-                            if(key != NUMBER_OF_CHARGES)
-                                s.toString().toInt() != pref.getInt(key, 0)
-                            else s.toString().toLong() != pref.getLong(key, 0)
-                        }
-
-                        "float" -> s.toString().toFloat() != pref.getFloat(key, 0f)
-
-                        "boolean" -> {
-
-                            val b = s.toString() == "1"
-
-                            b != pref.getBoolean(key, false)
-                        }
-
-                        else -> false
-                    }
-
-                    value = s.toString()
-                }
-            })
+            changePrefValue.addTextChangedListener(changePrefValueTextChangedListener(context, dialogCreate, changePrefKey, changePrefValue, pref))
         }
 
         dialogCreate.show()
@@ -405,6 +288,171 @@ interface DebugOptionsInterface : ServiceInterface {
         catch (e: Exception) {
 
             Toast.makeText(context, context.getString(R.string.error_changing_key, key, e.message), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun changePrefKeyTextChangedListener(changePrefValue: EditText, pref: SharedPreferences, prefKeysArray: MutableList<String>): TextWatcher {
+
+        val prefValueInputTypeDef = changePrefValue.inputType
+
+        val prefValueKeyListenerDef = changePrefValue.keyListener
+
+        return object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) { }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                key = s.toString()
+                changePrefValue.isEnabled = key in prefKeysArray
+
+                if(key in prefKeysArray) {
+
+                    when(key) {
+
+                        LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                        UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT ->
+                            setValueType("string", changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+
+                        DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
+                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES ->
+                            setValueType("int|long", changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+
+                        CAPACITY_ADDED, NUMBER_OF_CYCLES ->
+                            setValueType("float", changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+
+                        else -> setValueType("boolean", changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+                    }
+                }
+
+                else changePrefValue.text.clear()
+            }
+        }
+    }
+
+    private fun setValueType(valueType: String, changePrefValue: EditText, pref: SharedPreferences, prefValueInputTypeDef: Int, prefValueKeyListenerDef: KeyListener) {
+
+        Companion.valueType = valueType
+
+        when(valueType) {
+
+            "string" -> {
+
+                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
+
+                changePrefValue.setText(pref.all.getValue(key).toString())
+
+                changePrefValue.inputType = prefValueInputTypeDef
+
+                changePrefValue.keyListener = prefValueKeyListenerDef
+            }
+
+            "int|long" -> {
+
+                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(Long.MAX_VALUE.toString().count()))
+
+                changePrefValue.setText(pref.all.getValue(key).toString())
+
+                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+            }
+
+            "float" -> {
+
+
+                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
+
+                changePrefValue.setText(pref.all.getValue(key).toString())
+
+                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
+
+                if(changePrefValue.text.toString().contains("."))
+                    changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+                else changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+            }
+
+            "boolean" -> {
+
+                changePrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
+
+                changePrefValue.setText(if(pref.all.getValue(key).toString() == "true") "1" else "0")
+
+                changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                changePrefValue.keyListener = DigitsKeyListener.getInstance("01")
+            }
+        }
+    }
+
+    private fun changePrefValueTextChangedListener(context: Context, dialogCreate: AlertDialog, changePrefKey: EditText, changePrefValue: EditText,
+                                                   pref: SharedPreferences): TextWatcher {
+
+        return object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) { }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                if(changePrefValue.isEnabled && s.isNotEmpty() &&
+                    (changePrefKey.text.toString() == CAPACITY_ADDED || changePrefKey.text.toString() == NUMBER_OF_CYCLES)) {
+
+                    if(s.first() == '.') changePrefValue.setText(pref.all.getValue(key).toString())
+
+                    else if(s.contains(".") && changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789."))
+                        changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789")
+
+                    else if(changePrefValue.keyListener == DigitsKeyListener.getInstance("0123456789"))
+                        changePrefValue.keyListener = DigitsKeyListener.getInstance("0123456789.")
+                }
+
+                when(key) {
+
+                    LANGUAGE -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.toString() in context.resources.getStringArray(R.array.languages_codes)
+
+                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.toString() in context.resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values)
+
+                    UNIT_OF_CHARGE_DISCHARGE_CURRENT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.toString() in context.resources.getStringArray(R.array.unit_of_charge_discharge_current_values)
+
+                    VOLTAGE_UNIT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.toString() in context.resources.getStringArray(R.array.voltage_unit_values)
+
+                    else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
+                }
+
+                dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty() && s.last() != '.'
+                        && when(valueType) {
+
+                    "string" -> s.toString() != pref.getString(key, "")
+
+                    "int|long" -> {
+
+                        if(key != NUMBER_OF_CHARGES)
+                            s.toString().toInt() != pref.getInt(key, 0)
+                        else s.toString().toLong() != pref.getLong(key, 0)
+                    }
+
+                    "float" -> s.toString().toFloat() != pref.getFloat(key, 0f)
+
+                    "boolean" -> {
+
+                        val b = s.toString() == "1"
+
+                        b != pref.getBoolean(key, false)
+                    }
+
+                    else -> false
+                }
+
+                value = s.toString()
+            }
         }
     }
 

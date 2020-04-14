@@ -37,7 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
     private lateinit var pref: SharedPreferences
 
-    // Service and Notification
+    // Service & Notification
     private var isAutoStartService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
     private var moreServiceAndNotification: Preference? = null
@@ -74,8 +74,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        // Service and Notification
-
+        // Service & Notification
         isAutoStartService = findPreference(IS_AUTO_START_SERVICE)
 
         serviceTime = findPreference(IS_SERVICE_TIME)
@@ -132,7 +131,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         else openNotificationCategorySettings?.isVisible = false
 
         // Appearance
-
         autoDarkMode = findPreference(IS_AUTO_DARK_MODE)
 
         darkMode = findPreference(IS_DARK_MODE)
@@ -170,7 +168,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         }
 
         // Misc
-
         temperatureInFahrenheit = findPreference(TEMPERATURE_IN_FAHRENHEIT)
 
         moreOther = findPreference("more_other")

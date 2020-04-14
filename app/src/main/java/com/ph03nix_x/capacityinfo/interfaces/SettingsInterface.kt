@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -13,6 +14,7 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
@@ -30,8 +32,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
@@ -163,20 +163,20 @@ interface SettingsInterface : ServiceInterface {
                 File(prefPath).createNewFile()
 
                 val fileOutputStream = FileOutputStream(prefPath)
-                val inputStream = uri?.let { context.contentResolver.openInputStream(it) }!!
+                val inputStream = uri?.let { context.contentResolver.openInputStream(it) }
                 val buffer = byteArrayOf((1024 * 8).toByte())
                 var read: Int
 
                 while (true) {
 
-                    read = inputStream.read(buffer)
+                    read = inputStream?.read(buffer) ?: -1
 
                     if (read != -1)
                         fileOutputStream.write(buffer, 0, read)
                     else break
                 }
 
-                inputStream.close()
+                inputStream?.close()
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
@@ -233,6 +233,13 @@ interface SettingsInterface : ServiceInterface {
 
         val dialogCreate = dialog.create()
 
+        changeDesignCapacityDialogCreateShowListener(dialogCreate, changeDesignCapacity, pref)
+
+        dialogCreate.show()
+    }
+
+    private fun changeDesignCapacityDialogCreateShowListener(dialogCreate: AlertDialog, changeDesignCapacity: EditText, pref: SharedPreferences) {
+
         dialogCreate.setOnShowListener {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
@@ -252,7 +259,5 @@ interface SettingsInterface : ServiceInterface {
                 }
             })
         }
-
-        dialogCreate.show()
     }
 }
