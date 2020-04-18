@@ -82,26 +82,30 @@ interface NotificationInterface : BatteryInfoInterface {
     @SuppressLint("RestrictedApi")
     fun updateNotification(context: Context) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        try {
 
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        notificationBuilder?.apply {
+            notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            color = ContextCompat.getColor(context.applicationContext, if(isSystemDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
+            notificationBuilder?.apply {
 
-            setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    color = ContextCompat.getColor(context.applicationContext, if(isSystemDarkMode(context.resources.configuration)) R.color.red else R.color.blue)
 
-            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
-                addAction(0, context.getString(R.string.stop_service), stopService)
-            else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isNotEmpty())
-                mActions.clear()
+                setStyle(NotificationCompat.BigTextStyle().bigText(getNotificationMessage(context)))
 
-            setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
+                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
+                    addAction(0, context.getString(R.string.stop_service), stopService)
+                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isNotEmpty())
+                    mActions.clear()
+
+                setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
+            }
+
+            notificationManager?.notify(notificationId, notificationBuilder?.build())
         }
-
-        notificationManager?.notify(notificationId, notificationBuilder?.build())
+        catch(e: RuntimeException) { return }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
