@@ -175,12 +175,16 @@ interface BatteryInfoInterface {
 
           val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-          var currentCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
+          val currentCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
 
-          if (currentCapacity < 0) currentCapacity /= -1
+          when {
 
-          if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-              currentCapacity / 1000 else currentCapacity
+              currentCapacity < 0 -> 0.0
+
+              pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh" -> currentCapacity / 1000
+
+              else -> currentCapacity
+          }
       }
 
       catch (e: RuntimeException) { 0.0 }
