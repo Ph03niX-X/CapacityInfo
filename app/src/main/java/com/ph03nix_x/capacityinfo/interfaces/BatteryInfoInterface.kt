@@ -179,7 +179,7 @@ interface BatteryInfoInterface {
 
           when {
 
-              currentCapacity < 0 -> 0.0
+              currentCapacity < 0 -> 0.01
 
               pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh" -> currentCapacity / 1000
 
