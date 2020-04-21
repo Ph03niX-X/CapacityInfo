@@ -171,7 +171,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     else putInt(RESIDUAL_CAPACITY, residualCapacity.toInt())
                 }
 
-                putInt(LAST_CHARGE_TIME, seconds + ((seconds / 100) * (seconds / 3600)))
+                putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (seconds / 3600)) else seconds)
 
                 putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
 
@@ -225,7 +225,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         pref.edit().apply {
 
-            putInt(LAST_CHARGE_TIME, seconds + ((seconds / 100) * (seconds / 3600)))
+            putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (seconds / 3600)) else seconds)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
 
