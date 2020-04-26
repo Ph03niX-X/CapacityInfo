@@ -179,7 +179,7 @@ interface BatteryInfoInterface {
 
           when {
 
-              currentCapacity < 0 -> 0.01
+              currentCapacity < 0 -> 0.001
 
               pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh" -> currentCapacity / 1000
 
@@ -187,7 +187,7 @@ interface BatteryInfoInterface {
           }
       }
 
-      catch (e: RuntimeException) { 0.0 }
+      catch (e: RuntimeException) { 0.001 }
     }
 
     fun getCapacityAdded(context: Context): String {
