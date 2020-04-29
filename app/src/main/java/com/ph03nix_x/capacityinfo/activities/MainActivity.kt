@@ -98,8 +98,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.instruction))
-                setMessage(getString(R.string.instruction_message + R.string.instruction_message_do_not_kill_the_service
-                        + R.string.instruction_message_huawei_honor))
+                setMessage(getString(R.string.instruction_message) + getString(R.string.instruction_message_do_not_kill_the_service)
+                        + getString(R.string.instruction_message_huawei_honor))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
             }
