@@ -49,7 +49,9 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 4.If the design capacity is incorrect, change it in the application settings.<br/>
 5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings.
 
-<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS
+<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS.
+
+<b>ATTENTION!</b> On Huawei & Honor, the current capacity may not display correctly. Unfortunately nothing can be done about it
 
 ---
 <p align="center">
@@ -86,6 +88,4 @@ Answer: Alas, this is impossible, since it depends primarily on the battery and 
 + Українська
 
 ---
-If you want to help with the translation and you do not have a GitHub account, then follow this [link](https://drive.google.com/drive/folders/1DoBUA5wye-vGw8Me6b-7Y44iXfpBSu91)
-
 All suggestions for improving the application should be written to E-Mail: Ph03niX-X@outlook.com or to Telegram: [@Ph03niX_X](https://t.me/Ph03niX_X)
