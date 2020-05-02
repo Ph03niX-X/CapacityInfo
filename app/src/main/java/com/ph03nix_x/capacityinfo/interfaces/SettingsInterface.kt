@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -64,6 +65,9 @@ interface SettingsInterface : ServiceInterface {
 
         if(CapacityInfoService.instance != null)
             context.stopService(Intent(context, CapacityInfoService::class.java))
+
+        if(OverlayService.instance != null)
+            context.stopService(Intent(context, OverlayService::class.java))
 
         LocaleHelper.setLocale(context, language)
 
@@ -142,6 +146,9 @@ interface SettingsInterface : ServiceInterface {
 
                 if(CapacityInfoService.instance != null)
                     context.stopService(Intent(context, CapacityInfoService::class.java))
+
+                if(OverlayService.instance != null)
+                    context.stopService(Intent(context, OverlayService::class.java))
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 

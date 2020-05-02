@@ -157,4 +157,16 @@
     <string name="reset_to_zero_the_number_of_cycles">Reset to zero the number of cycles</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Reset to zero the number of cycles?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">The number of cycles was successfully reset to zero</string>
+    <string name="overlay">Overlay</string>
+    <string name="battery_level_overlay">Battery Level</string>
+    <string name="current_capacity_overlay">Current Capacity</string>
+    <string name="battery_health_overlay">Battery Health (Android)</string>
+    <string name="status_overlay">Status</string>
+    <string name="charge_discharge_current_overlay">Charge/Discharge Current</string>
+    <string name="max_charge_discharge_current_overlay">Maximum Charge/Discharge Current</string>
+    <string name="average_charge_discharge_current_overlay">Average Charge/Discharge Current</string>
+    <string name="min_charge_discharge_current_overlay">Minimum Charge/Discharge Current</string>
+    <string name="temperature_overlay">Temperature</string>
+    <string name="voltage_overlay">Voltage</string>
+    <string name="overlay_permission_dialog_message">Permission is required for the overlay to work. Please go to the next window and provide permission</string>
 </resources>

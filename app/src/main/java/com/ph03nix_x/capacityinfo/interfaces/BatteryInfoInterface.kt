@@ -157,12 +157,12 @@ interface BatteryInfoInterface {
 
         var temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0
 
-        temp /= 10
+        temp /= 10.0
 
-        var tempString = temp.toString()
+        var tempString = DecimalFormat("#.#").format(temp)
 
         if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
-            tempString = DecimalFormat("#.#").format((temp * 1.8) + 32)
+            tempString = DecimalFormat("#.#").format((temp * 1.8) + 32.0)
 
         return tempString
     }

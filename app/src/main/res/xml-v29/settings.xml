@@ -181,6 +181,12 @@
                 android:key="change_design_capacity"/>
 
         <Preference
+                android:title="@string/overlay"
+                app:isPreferenceVisible="false"
+                app:singleLineTitle="false"
+                android:key="overlay"/>
+
+        <Preference
                 android:title="@string/reset_to_zero_the_number_of_charges"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"

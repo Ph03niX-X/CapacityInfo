@@ -2,8 +2,10 @@ package com.ph03nix_x.capacityinfo.activities
 
 import android.content.*
 import android.os.BatteryManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -35,6 +37,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
+import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import kotlinx.coroutines.*
 
@@ -243,6 +246,16 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         val prefArrays = intent.getSerializableExtra("pref_arrays") as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
+
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if(Settings.canDrawOverlays(this) && isEnabledOverlay(this)
+                && OverlayService.instance == null)
+                startService(Intent(this, OverlayService::class.java))
+        }
+
+        else if(isEnabledOverlay(this) && OverlayService.instance == null)
+            startService(Intent(this, OverlayService::class.java))
     }
 
     override fun onStop() {

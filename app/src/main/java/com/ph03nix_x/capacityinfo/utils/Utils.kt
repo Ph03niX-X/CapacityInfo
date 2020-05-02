@@ -3,8 +3,19 @@ package com.ph03nix_x.capacityinfo.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.preference.PreferenceManager
 import com.android.billingclient.api.BillingClient
 import com.ph03nix_x.capacityinfo.utils.Constants.GOOGLE_PLAY_PACKAGE_NAME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
 
 object Utils {
 
@@ -60,5 +71,26 @@ object Utils {
         }
 
         catch (e: PackageManager.NameNotFoundException) { false }
+    }
+
+    fun isEnabledOverlay(context: Context): Boolean {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        with(pref) {
+
+            return when {
+
+                getBoolean(IS_BATTERY_LEVEL_OVERLAY, false) || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
+                        || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false) || getBoolean(IS_STATUS_OVERLAY, false)
+                        || getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false) || getBoolean(
+                    IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false) || getBoolean(
+                    IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false) || getBoolean(
+                    IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false) || getBoolean(
+                    IS_TEMPERATURE_OVERLAY, false) || getBoolean(IS_VOLTAGE_OVERLAY, false) -> true
+
+                else -> false
+            }
+        }
     }
 }

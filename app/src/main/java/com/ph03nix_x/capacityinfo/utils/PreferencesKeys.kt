@@ -27,6 +27,18 @@ object PreferencesKeys {
     const val VOLTAGE_UNIT = "voltage_unit"
     const val DESIGN_CAPACITY = "design_capacity"
 
+    // Overlay
+    const val IS_BATTERY_LEVEL_OVERLAY = "is_battery_level_overlay"
+    const val IS_CURRENT_CAPACITY_OVERLAY = "is_current_capacity_overlay"
+    const val IS_BATTERY_HEALTH_OVERLAY = "is_battery_health_overlay"
+    const val IS_STATUS_OVERLAY = "is_status_overlay"
+    const val IS_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_charge_discharge_current_overlay"
+    const val IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_max_charge_discharge_current_overlay"
+    const val IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_average_charge_discharge_current_overlay"
+    const val IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_min_charge_discharge_current_overlay"
+    const val IS_TEMPERATURE_OVERLAY = "is_temperature_overlay"
+    const val IS_VOLTAGE_OVERLAY = "is_voltage_overlay"
+
     // Debug
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"
 

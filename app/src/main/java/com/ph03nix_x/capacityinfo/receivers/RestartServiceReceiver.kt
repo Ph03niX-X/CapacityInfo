@@ -3,9 +3,13 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
@@ -24,6 +28,16 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
 
                     startService(context)
                 }
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                    if(Settings.canDrawOverlays(context) && Utils.isEnabledOverlay(context)
+                        && OverlayService.instance == null)
+                        context.startService(Intent(context, OverlayService::class.java))
+                }
+
+                else if(Utils.isEnabledOverlay(context) && OverlayService.instance == null)
+                    context.startService(Intent(context, OverlayService::class.java))
             }
         }
     }

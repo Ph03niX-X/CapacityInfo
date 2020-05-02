@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="overlay_screen">
+
+    <SwitchPreferenceCompat
+            android:title="@string/battery_level_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_battery_level_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/current_capacity_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_current_capacity_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/battery_health_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_battery_health_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/status_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_status_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/charge_discharge_current_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_charge_discharge_current_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/max_charge_discharge_current_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_max_charge_discharge_current_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/average_charge_discharge_current_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_average_charge_discharge_current_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/min_charge_discharge_current_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_min_charge_discharge_current_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/temperature_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_temperature_overlay"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/voltage_overlay"
+            android:defaultValue="false"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_voltage_overlay"/>
+
+</PreferenceScreen>

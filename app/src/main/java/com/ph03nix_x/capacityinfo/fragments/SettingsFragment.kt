@@ -61,6 +61,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
     private var changeDesignCapacity: Preference? = null
+    private var overlay: Preference? = null
     private var resetToZeroTheNumberOfCharges: Preference? = null
     private var resetToZeroTheNumberOfCycles: Preference? = null
 
@@ -186,6 +187,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity = findPreference("change_design_capacity")
 
+        overlay = findPreference("overlay")
+
         resetToZeroTheNumberOfCharges = findPreference("reset_to_zero_the_number_of_charges")
 
         resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
@@ -233,6 +236,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfMeasurementOfCurrentCapacity?.isVisible = true
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
+                overlay?.isVisible = true
                 resetToZeroTheNumberOfCharges?.isVisible = true
                 resetToZeroTheNumberOfCycles?.isVisible = true
             }
@@ -246,6 +250,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
+                overlay?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
                 resetToZeroTheNumberOfCycles?.isVisible = false
             }
@@ -283,6 +288,19 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         changeDesignCapacity?.setOnPreferenceClickListener {
 
             changeDesignCapacity(requireContext())
+
+            true
+        }
+
+        overlay?.setOnPreferenceClickListener {
+
+            (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.overlay)
+
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+
+                replace(R.id.container, OverlayFragment())
+                commit()
+            }
 
             true
         }
@@ -331,7 +349,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
 
         // About & Feedback
-
         about = findPreference("about")
 
         feedback = findPreference("feedback")

@@ -11,4 +11,5 @@ object Constants {
     const val GOOGLE_PLAY_PACKAGE_NAME = "com.android.vending"
     const val EXPORT_SETTINGS_REQUEST_CODE = 0
     const val IMPORT_SETTINGS_REQUEST_CODE = 1
+    const val ACTION_MANAGE_OVERLAY_PERMISSION = 2
 }
