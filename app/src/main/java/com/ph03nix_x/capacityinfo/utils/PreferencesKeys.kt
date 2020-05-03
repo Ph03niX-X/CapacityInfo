@@ -30,6 +30,7 @@ object PreferencesKeys {
     // Overlay
     const val IS_ENABLED_OVERLAY = "is_enabled_overlay"
     const val OVERLAY_SIZE = "overlay_size"
+    const val OVERLAY_OPACITY = "overlay_opacity"
     const val IS_BATTERY_LEVEL_OVERLAY = "is_battery_level_overlay"
     const val IS_CURRENT_CAPACITY_OVERLAY = "is_current_capacity_overlay"
     const val IS_BATTERY_HEALTH_OVERLAY = "is_battery_health_overlay"

@@ -14,7 +14,6 @@ import android.util.TypedValue
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
@@ -30,6 +29,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
@@ -92,10 +92,16 @@ interface OverlayInterface : BatteryInfoInterface {
 
         linearLayout.orientation = LinearLayout.VERTICAL
 
-        linearLayout.setBackgroundColor(Color.argb(100,0,0,0))
+        linearLayout.setBackgroundColor(Color.argb(onSetBackgroundLinearLayout(), 0, 0, 0))
 
         linearLayout.layoutParams = layoutParameters
     }
+
+    private fun onSetBackgroundLinearLayout() =
+
+        if(pref.getInt(OVERLAY_OPACITY, 127) > 255
+            || pref.getInt(OVERLAY_OPACITY, 127) < 0) 127
+        else pref.getInt(OVERLAY_OPACITY, 127)
 
     private fun onCreateViews(context: Context) {
 
@@ -306,6 +312,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+
+        linearLayout.setBackgroundColor(Color.argb(onSetBackgroundLinearLayout(), 0, 0, 0))
 
         batteryLevelOverlay.apply {
 

@@ -6,9 +6,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.LayoutInflater
+import android.widget.SeekBar
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textview.MaterialTextView
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.ACTION_MANAGE_OVERLAY_PERMISSION
@@ -25,7 +29,9 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
+import java.text.DecimalFormat
 
 class OverlayFragment : PreferenceFragmentCompat() {
 
@@ -37,6 +43,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
     //Appearance
     private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
+    private var overlayOpacity: Preference? = null
 
     //Overlay
     private var overlayCategory: PreferenceCategory? = null
@@ -64,19 +71,6 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         enableOverlay = findPreference(IS_ENABLED_OVERLAY)
 
-        //Appearance
-        appearanceCategory = findPreference("appearance_overlay")
-        overlaySize = findPreference(OVERLAY_SIZE)
-
-        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
-
-            overlaySize?.value = resources.getStringArray(R.array.overlay_size_keys)[1]
-
-            pref.edit().putString(OVERLAY_SIZE, "1").apply()
-        }
-
-        overlaySize?.summary = overlaySize?.entry
-
         enableOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             when(newValue as? Boolean) {
@@ -103,6 +97,41 @@ class OverlayFragment : PreferenceFragmentCompat() {
             true
         }
 
+        //Appearance
+        appearanceCategory = findPreference("appearance_overlay")
+        overlaySize = findPreference(OVERLAY_SIZE)
+        overlayOpacity = findPreference("overlay_opacity")
+
+        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
+
+            overlaySize?.value = resources.getStringArray(R.array.overlay_size_keys)[1]
+
+            pref.edit().putString(OVERLAY_SIZE, "1").apply()
+        }
+
+        overlaySize?.summary = overlaySize?.entry
+
+        if(pref.getInt(OVERLAY_OPACITY, 127) > 255
+            || pref.getInt(OVERLAY_OPACITY, 127) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, 127).apply()
+
+        overlayOpacity?.summary = "${DecimalFormat("#")
+            .format((pref.getInt(OVERLAY_OPACITY, 127).toFloat() / 255f) * 100f)}%"
+
+        overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.overlay_size_list)[(newValue as? String)?.toInt() ?: 1]
+
+            true
+        }
+
+        overlayOpacity?.setOnPreferenceClickListener {
+
+            overlayOpacityDialog()
+
+            true
+        }
+
         //Overlay
         overlayCategory = findPreference("overlay_category")
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
@@ -119,13 +148,6 @@ class OverlayFragment : PreferenceFragmentCompat() {
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
-
-        overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = resources.getStringArray(R.array.overlay_size_list)[(newValue as? String)?.toInt() ?: 1]
-
-            true
-        }
 
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -224,6 +246,13 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         overlaySize?.summary = overlaySize?.entry
 
+        if(pref.getInt(OVERLAY_OPACITY, 127) > 255
+            || pref.getInt(OVERLAY_OPACITY, 127) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, 127).apply()
+
+        overlayOpacity?.summary = "${DecimalFormat("#")
+            .format((pref.getInt(OVERLAY_OPACITY, 127).toFloat() / 255f) * 100f)}%"
+
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -231,12 +260,12 @@ class OverlayFragment : PreferenceFragmentCompat() {
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
 
             if(!Settings.canDrawOverlays(requireContext())) {
-                
-                MaterialAlertDialogBuilder(requireContext()).apply { 
-                    
+
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
                     setMessage(getString(R.string.overlay_permission_dialog_message))
                     setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-                        
+
                         requireSystemAlertWindowPermission()
                     }
                     setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
@@ -260,5 +289,50 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         appearanceCategory?.isEnabled = enable ?: false
         overlayCategory?.isEnabled = enable ?: false
+    }
+
+    private fun overlayOpacityDialog() {
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.overlay_opacity_dialog, null)
+
+        dialog.setView(view)
+
+        val opacityTV = view.findViewById<MaterialTextView>(R.id.opacity_tv)
+
+        val opacitySeekBar = view.findViewById<AppCompatSeekBar>(R.id.opacity_seekbar)
+
+        opacitySeekBar.progress = if(pref.getInt(OVERLAY_OPACITY, 127) > 255
+            || pref.getInt(OVERLAY_OPACITY, 127) < 0) 127
+        else pref.getInt(OVERLAY_OPACITY, 127)
+
+        opacityTV.text = getString(R.string.opacity,
+            "${DecimalFormat("#")
+                .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%")
+
+        opacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+
+                opacityTV.text = getString(R.string.opacity,
+                    "${DecimalFormat("#")
+                        .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%")
+
+                overlayOpacity?.summary = "${DecimalFormat("#")
+                    .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+                pref.edit().putInt(OVERLAY_OPACITY, seekBar.progress).apply()
+            }
+        })
+
+        dialog.setPositiveButton(getString(android.R.string.ok)) { d, _ -> d.dismiss() }
+
+        dialog.show()
     }
 }

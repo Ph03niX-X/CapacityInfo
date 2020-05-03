@@ -160,6 +160,8 @@
     <string name="overlay">Overlay</string>
     <string name="enable_overlay">Enable Overlay</string>
     <string name="overlay_size">Overlay Size</string>
+    <string name="overlay_opacity">Overlay Opacity</string>
+    <string name="opacity">Opacity: %1$s</string>
     <string name="battery_level_overlay">Battery Level</string>
     <string name="current_capacity_overlay">Current Capacity</string>
     <string name="battery_health_overlay">Battery Health (Android)</string>

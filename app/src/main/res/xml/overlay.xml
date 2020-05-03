@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:key="overlay_screen">
 
@@ -27,6 +29,12 @@
             app:defaultValue="1"
             app:iconSpaceReserved="false"
             android:key="overlay_size"/>
+
+        <Preference
+                android:title="@string/overlay_opacity"
+                app:singleLineTitle="false"
+                app:iconSpaceReserved="false"
+                android:key="overlay_opacity"/>
 
     </PreferenceCategory>
 
