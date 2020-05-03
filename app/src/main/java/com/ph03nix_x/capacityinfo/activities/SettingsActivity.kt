@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
@@ -83,12 +84,14 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if(Settings.canDrawOverlays(this) && isEnabledOverlay(this)
+                && pref.getBoolean(IS_ENABLED_OVERLAY, false)
                 && OverlayService.instance == null)
                 startService(Intent(this, OverlayService::class.java))
         }
 
-        else if(isEnabledOverlay(this) && OverlayService.instance == null)
-                startService(Intent(this, OverlayService::class.java))
+        else if(isEnabledOverlay(this) && OverlayService.instance == null
+            && pref.getBoolean(IS_ENABLED_OVERLAY, false))
+            startService(Intent(this, OverlayService::class.java))
     }
 
     override fun onDestroy() {

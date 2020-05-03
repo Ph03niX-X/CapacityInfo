@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -250,11 +251,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if(Settings.canDrawOverlays(this) && isEnabledOverlay(this)
+                && pref.getBoolean(IS_ENABLED_OVERLAY, false)
                 && OverlayService.instance == null)
                 startService(Intent(this, OverlayService::class.java))
         }
 
-        else if(isEnabledOverlay(this) && OverlayService.instance == null)
+        else if(isEnabledOverlay(this) && OverlayService.instance == null
+            && pref.getBoolean(IS_ENABLED_OVERLAY, false))
             startService(Intent(this, OverlayService::class.java))
     }
 

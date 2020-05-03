@@ -32,6 +32,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -506,11 +507,13 @@ interface DebugOptionsInterface : ServiceInterface {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                 if(Settings.canDrawOverlays(context) && isEnabledOverlay(context)
+                    && pref.getBoolean(IS_ENABLED_OVERLAY, false)
                     && OverlayService.instance == null)
                     context.startService(Intent(context, OverlayService::class.java))
             }
 
-            else if(isEnabledOverlay(context) && OverlayService.instance == null)
+            else if(isEnabledOverlay(context) && OverlayService.instance == null
+                && pref.getBoolean(IS_ENABLED_OVERLAY, false))
                 context.startService(Intent(context, OverlayService::class.java))
         }
     }

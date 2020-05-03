@@ -20,18 +20,21 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLA
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 
 class OverlayFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
     private var overlayScreen: PreferenceScreen? = null
+    private var enableOverlay: SwitchPreferenceCompat? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
@@ -53,7 +56,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
-        
+
+        enableOverlay = findPreference(IS_ENABLED_OVERLAY)
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
@@ -67,6 +71,33 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
+        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
+
+        enableOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            when(newValue as? Boolean) {
+
+                true -> {
+
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                        if(Settings.canDrawOverlays(requireContext()) && isEnabledOverlay(requireContext())
+                            && OverlayService.instance == null)
+                            requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                    }
+
+                    else if(isEnabledOverlay(requireContext()) && OverlayService.instance == null)
+                        requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                }
+
+                false -> if(OverlayService.instance != null) requireContext()
+                    .stopService(Intent(requireContext(), OverlayService::class.java))
+            }
+
+            enableAllOverlay(newValue as? Boolean)
+
+            true
+        }
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
@@ -155,6 +186,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
+        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
@@ -183,5 +216,19 @@ class OverlayFragment : PreferenceFragmentCompat() {
             Uri.parse("package:${requireContext().packageName}"))
 
         startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION)
+    }
+
+    private fun enableAllOverlay(enable: Boolean?) {
+
+        batteryLevelOverlay?.isEnabled = enable ?: false
+        currentCapacityOverlay?.isEnabled = (enable ?: false) && (currentCapacityOverlay?.isVisible ?: false)
+        batteryHealthOverlay?.isEnabled = enable ?: false
+        statusOverlay?.isEnabled = enable ?: false
+        chargeDischargeCurrentOverlay?.isEnabled = enable ?: false
+        maxChargeDischargeCurrentOverlay?.isEnabled = enable ?: false
+        averageChargeDischargeCurrentOverlay?.isEnabled = enable ?: false
+        minChargeDischargeCurrentOverlay?.isEnabled = enable ?: false
+        temperatureOverlay?.isEnabled = enable ?: false
+        voltageOverlay?.isEnabled = enable ?: false
     }
 }
