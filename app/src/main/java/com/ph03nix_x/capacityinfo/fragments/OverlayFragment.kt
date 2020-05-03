@@ -7,10 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.annotation.RequiresApi
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.PreferenceScreen
-import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -27,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 
 class OverlayFragment : PreferenceFragmentCompat() {
@@ -35,6 +33,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
+    private var overlaySize: ListPreference? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
@@ -58,6 +57,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
 
         enableOverlay = findPreference(IS_ENABLED_OVERLAY)
+        overlaySize = findPreference(OVERLAY_SIZE)
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
@@ -72,6 +72,15 @@ class OverlayFragment : PreferenceFragmentCompat() {
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
+
+        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
+
+            overlaySize?.value = resources.getStringArray(R.array.overlay_size_keys)[1]
+
+            pref.edit().putString(OVERLAY_SIZE, "1").apply()
+        }
+
+        overlaySize?.summary = overlaySize?.entry
 
         enableOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -98,6 +107,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
             true
         }
+
+        overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.overlay_size_list)[(newValue as? String)?.toInt() ?: 1]
+
+            true
+        }
+
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
@@ -186,6 +203,15 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
+        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
+
+            overlaySize?.value = resources.getStringArray(R.array.overlay_size_keys)[1]
+
+            pref.edit().putString(OVERLAY_SIZE, "1").apply()
+        }
+
+        overlaySize?.summary = overlaySize?.entry
+
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -220,6 +246,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private fun enableAllOverlay(enable: Boolean?) {
 
+        overlaySize?.isEnabled = enable ?: false
         batteryLevelOverlay?.isEnabled = enable ?: false
         currentCapacityOverlay?.isEnabled = (enable ?: false) && (currentCapacityOverlay?.isVisible ?: false)
         batteryHealthOverlay?.isEnabled = enable ?: false

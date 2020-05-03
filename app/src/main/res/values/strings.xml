@@ -159,6 +159,7 @@
     <string name="number_of_cycles_was_success_reset_to_zero">The number of cycles was successfully reset to zero</string>
     <string name="overlay">Overlay</string>
     <string name="enable_overlay">Enable Overlay</string>
+    <string name="overlay_size">Overlay Size</string>
     <string name="battery_level_overlay">Battery Level</string>
     <string name="current_capacity_overlay">Current Capacity</string>
     <string name="battery_health_overlay">Battery Health (Android)</string>

@@ -10,6 +10,16 @@
             app:iconSpaceReserved="false"
             android:key="is_enabled_overlay"/>
 
+    <ListPreference
+            android:title="@string/overlay_size"
+            app:singleLineTitle="false"
+            android:entries="@array/overlay_size_list"
+            android:entryValues="@array/overlay_size_keys"
+            app:defaultValue="1"
+            app:iconSpaceReserved="false"
+            app:enabled="false"
+            android:key="overlay_size"/>
+
     <SwitchPreferenceCompat
             android:title="@string/battery_level_overlay"
             android:defaultValue="false"

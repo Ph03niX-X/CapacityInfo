@@ -1,4 +1,5 @@
 <resources>
+
     <string-array name="languages"> // Do Not Translation
         <item>English</item>
         <item>Română</item>
@@ -52,4 +53,17 @@
         <item>Float</item>
         <item>Boolean</item>
     </string-array>
+
+    <string-array name="overlay_size_list">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+
+    <string-array name="overlay_size_keys"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

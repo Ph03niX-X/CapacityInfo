@@ -10,9 +10,11 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.BatteryManager
 import android.os.Build
+import android.util.TypedValue
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
@@ -28,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
@@ -116,6 +119,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
 
+            onSetTextSize(this)
+
             setTextColor(Color.WHITE)
 
             text = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
@@ -129,6 +134,8 @@ interface OverlayInterface : BatteryInfoInterface {
         currentCapacityOverlay = TextView(context).apply {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
+
+            onSetTextSize(this)
 
             setTextColor(Color.WHITE)
 
@@ -144,6 +151,8 @@ interface OverlayInterface : BatteryInfoInterface {
         batteryHealthOverlay = TextView(context).apply {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
+
+            onSetTextSize(this)
 
             setTextColor(Color.WHITE)
 
@@ -163,6 +172,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
 
+            onSetTextSize(this)
+
             setTextColor(Color.WHITE)
 
             text = context.getString(R.string.status, getStatus(context, status))
@@ -180,6 +191,8 @@ interface OverlayInterface : BatteryInfoInterface {
         chargeDischargeCurrentOverlay = TextView(context).apply {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
+
+            onSetTextSize(this)
 
             setTextColor(Color.WHITE)
 
@@ -200,6 +213,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
 
+            onSetTextSize(this)
+
             setTextColor(Color.WHITE)
 
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
@@ -218,6 +233,8 @@ interface OverlayInterface : BatteryInfoInterface {
         averageChargeDischargeCurrentOverlay = TextView(context).apply {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
+
+            onSetTextSize(this)
 
             setTextColor(Color.WHITE)
 
@@ -238,6 +255,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
 
+            onSetTextSize(this)
+
             setTextColor(Color.WHITE)
 
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
@@ -253,6 +272,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
 
+            onSetTextSize(this)
+
             setTextColor(Color.WHITE)
 
             text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) R.string.temperature_fahrenheit
@@ -267,6 +288,8 @@ interface OverlayInterface : BatteryInfoInterface {
         voltageOverlay = TextView(context).apply {
 
             typeface = ResourcesCompat.getFont(context, R.font.medium)
+
+            onSetTextSize(this)
 
             setTextColor(Color.WHITE)
 
@@ -286,6 +309,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
         batteryLevelOverlay.apply {
 
+            onSetTextSize(this)
+
             text = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
 
             visibility = if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)) View.VISIBLE
@@ -296,6 +321,8 @@ interface OverlayInterface : BatteryInfoInterface {
             View.VISIBLE)
             currentCapacityOverlay.apply {
 
+                onSetTextSize(this)
+
                 text = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
 
                 visibility = if(pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
@@ -304,6 +331,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
         batteryHealthOverlay.apply {
 
+            onSetTextSize(this)
+
             text = context.getString(R.string.battery_health, getBatteryHealth(context))
 
             visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)) View.VISIBLE else View.GONE
@@ -311,12 +340,16 @@ interface OverlayInterface : BatteryInfoInterface {
 
         statusOverlay.apply {
 
+            onSetTextSize(this)
+
             text = context.getString(R.string.status, getStatus(context, status))
 
             visibility = if(pref.getBoolean(IS_STATUS_OVERLAY, false)) View.VISIBLE else View.GONE
         }
 
         chargeDischargeCurrentOverlay.apply {
+
+            onSetTextSize(this)
 
             text = context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge_current
             else R.string.discharge_current, getChargeDischargeCurrent(context).toString())
@@ -326,6 +359,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
         maxChargeDischargeCurrentOverlay.apply {
 
+            onSetTextSize(this)
+
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
             else context.getString(R.string.max_discharge_current, BatteryInfoInterface.maxDischargeCurrent)
 
@@ -333,6 +368,8 @@ interface OverlayInterface : BatteryInfoInterface {
         }
 
         averageChargeDischargeCurrentOverlay.apply {
+
+            onSetTextSize(this)
 
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
             else context.getString(R.string.average_discharge_current, BatteryInfoInterface.averageDischargeCurrent)
@@ -342,6 +379,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
         minChargeDischargeCurrentOverlay.apply {
 
+            onSetTextSize(this)
+
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
             else context.getString(R.string.min_discharge_current, BatteryInfoInterface.minDischargeCurrent)
 
@@ -349,6 +388,8 @@ interface OverlayInterface : BatteryInfoInterface {
         }
 
         temperatureOverlay.apply {
+
+            onSetTextSize(this)
 
             text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) R.string.temperature_fahrenheit
             else R.string.temperature_celsius, getTemperature(context))
@@ -358,10 +399,24 @@ interface OverlayInterface : BatteryInfoInterface {
 
         voltageOverlay.apply {
 
+            onSetTextSize(this)
+
             text = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv
             else R.string.voltage, DecimalFormat("#.#").format(getVoltage(context)))
 
             visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun onSetTextSize(textView: TextView) {
+
+        when(pref.getString(OVERLAY_SIZE, "1")) {
+
+            "0" -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+
+            "1" -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+
+            "2" -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
         }
     }
 
