@@ -33,7 +33,13 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
+
+    //Appearance
+    private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
+
+    //Overlay
+    private var overlayCategory: PreferenceCategory? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
@@ -57,21 +63,10 @@ class OverlayFragment : PreferenceFragmentCompat() {
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
 
         enableOverlay = findPreference(IS_ENABLED_OVERLAY)
+
+        //Appearance
+        appearanceCategory = findPreference("appearance_overlay")
         overlaySize = findPreference(OVERLAY_SIZE)
-        batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
-        currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
-        batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
-        statusOverlay = findPreference(IS_STATUS_OVERLAY)
-        chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
-        maxChargeDischargeCurrentOverlay = findPreference(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY)
-        averageChargeDischargeCurrentOverlay = findPreference(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY)
-        minChargeDischargeCurrentOverlay = findPreference(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY)
-        temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
-        voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
-
-        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-
-        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
         if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
 
@@ -107,6 +102,23 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
             true
         }
+
+        //Overlay
+        overlayCategory = findPreference("overlay_category")
+        batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
+        currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
+        batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
+        statusOverlay = findPreference(IS_STATUS_OVERLAY)
+        chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        maxChargeDischargeCurrentOverlay = findPreference(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        averageChargeDischargeCurrentOverlay = findPreference(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        minChargeDischargeCurrentOverlay = findPreference(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
+        voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
+
+        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+
+        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
@@ -246,16 +258,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private fun enableAllOverlay(enable: Boolean?) {
 
-        overlaySize?.isEnabled = enable ?: false
-        batteryLevelOverlay?.isEnabled = enable ?: false
-        currentCapacityOverlay?.isEnabled = (enable ?: false) && (currentCapacityOverlay?.isVisible ?: false)
-        batteryHealthOverlay?.isEnabled = enable ?: false
-        statusOverlay?.isEnabled = enable ?: false
-        chargeDischargeCurrentOverlay?.isEnabled = enable ?: false
-        maxChargeDischargeCurrentOverlay?.isEnabled = enable ?: false
-        averageChargeDischargeCurrentOverlay?.isEnabled = enable ?: false
-        minChargeDischargeCurrentOverlay?.isEnabled = enable ?: false
-        temperatureOverlay?.isEnabled = enable ?: false
-        voltageOverlay?.isEnabled = enable ?: false
+        appearanceCategory?.isEnabled = enable ?: false
+        overlayCategory?.isEnabled = enable ?: false
     }
 }

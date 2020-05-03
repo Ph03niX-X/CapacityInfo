@@ -10,6 +10,15 @@
             app:iconSpaceReserved="false"
             android:key="is_enabled_overlay"/>
 
+    <PreferenceCategory
+            app:title="@string/appearance"
+            app:singleLineTitle="false"
+            app:enabled="false"
+            app:iconSpaceReserved="false"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false"
+            android:key="appearance_overlay">
+
     <ListPreference
             android:title="@string/overlay_size"
             app:singleLineTitle="false"
@@ -17,15 +26,24 @@
             android:entryValues="@array/overlay_size_keys"
             app:defaultValue="1"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="overlay_size"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:title="@string/overlay"
+            app:singleLineTitle="false"
+            app:enabled="false"
+            app:iconSpaceReserved="false"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false"
+            android:key="overlay_category">
 
     <SwitchPreferenceCompat
             android:title="@string/battery_level_overlay"
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_battery_level_overlay"/>
 
     <SwitchPreferenceCompat
@@ -33,7 +51,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_current_capacity_overlay"/>
 
     <SwitchPreferenceCompat
@@ -41,7 +58,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_battery_health_overlay"/>
 
     <SwitchPreferenceCompat
@@ -49,7 +65,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_status_overlay"/>
 
     <SwitchPreferenceCompat
@@ -57,7 +72,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_charge_discharge_current_overlay"/>
 
     <SwitchPreferenceCompat
@@ -65,7 +79,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_max_charge_discharge_current_overlay"/>
 
     <SwitchPreferenceCompat
@@ -73,7 +86,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_average_charge_discharge_current_overlay"/>
 
     <SwitchPreferenceCompat
@@ -81,7 +93,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_min_charge_discharge_current_overlay"/>
 
     <SwitchPreferenceCompat
@@ -89,7 +100,6 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_temperature_overlay"/>
 
     <SwitchPreferenceCompat
@@ -97,7 +107,8 @@
             android:defaultValue="false"
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
-            app:enabled="false"
             android:key="is_voltage_overlay"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
