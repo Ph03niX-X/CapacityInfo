@@ -58,12 +58,6 @@
             android:key="belarusian_translation"/>
 
     <Preference
-            app:title="@string/help_with_translation"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_translate_24dp"
-            android:key="help_with_translation"/>
-
-    <Preference
             app:title="@string/become_a_beta_tester"
             app:summary="@string/become_a_beta_tester_summary"
             app:singleLineTitle="false"

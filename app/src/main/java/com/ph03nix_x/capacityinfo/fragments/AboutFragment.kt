@@ -16,7 +16,6 @@ import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.DESIGNER_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utils.Constants.HELP_WITH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
@@ -35,7 +34,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
-    private var helpWithTranslation: Preference? = null
     private var betaTester: Preference? = null
     private var donate: Preference? = null
 
@@ -60,8 +58,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         romanianTranslation = findPreference("romanian_translation")
 
         belarusianTranslation = findPreference("belarusian_translation")
-
-        helpWithTranslation = findPreference("help_with_translation")
 
         betaTester = findPreference("become_a_beta_tester")
 
@@ -143,21 +139,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
-
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        helpWithTranslation?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(HELP_WITH_TRANSLATION_LINK)))
 
             }
             catch(e: ActivityNotFoundException) {
