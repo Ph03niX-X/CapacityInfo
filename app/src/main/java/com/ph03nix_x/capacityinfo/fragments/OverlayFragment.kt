@@ -37,6 +37,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
+    private var dialogRequestOverlayPermission: MaterialAlertDialogBuilder? = null
+
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
 
@@ -259,30 +261,34 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
 
-            if(!Settings.canDrawOverlays(requireContext())) {
-
-                MaterialAlertDialogBuilder(requireContext()).apply {
-
-                    setMessage(getString(R.string.overlay_permission_dialog_message))
-                    setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-
-                        requireSystemAlertWindowPermission()
-                    }
-                    setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
-
-                    show()
-                }
-            }
+            if(dialogRequestOverlayPermission == null)
+                if(!Settings.canDrawOverlays(requireContext())) requestOverlayPermission()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun requireSystemAlertWindowPermission() {
+    private fun requestOverlayPermission() {
 
-        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-            Uri.parse("package:${requireContext().packageName}"))
+        dialogRequestOverlayPermission = MaterialAlertDialogBuilder(requireContext()).apply {
 
-        startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION)
+            setMessage(getString(R.string.overlay_permission_dialog_message))
+            setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:${requireContext().packageName}"))
+
+                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION)
+
+                dialogRequestOverlayPermission = null
+            }
+            setNegativeButton(getString(android.R.string.cancel)) { _, _ ->
+
+                dialogRequestOverlayPermission = null
+            }
+            setOnCancelListener { dialogRequestOverlayPermission = null }
+
+            show()
+        }
     }
 
     private fun enableAllOverlay(enable: Boolean?) {
