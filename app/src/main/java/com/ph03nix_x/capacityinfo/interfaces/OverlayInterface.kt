@@ -25,11 +25,13 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVER
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
@@ -44,6 +46,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var view: View
         private lateinit var batteryLevelOverlay: AppCompatTextView
         private lateinit var numberOfChargesOverlay: AppCompatTextView
+        private lateinit var numberOfCyclesOverlay: AppCompatTextView
         private lateinit var currentCapacityOverlay: AppCompatTextView
         private lateinit var batteryHealthOverlay: AppCompatTextView
         private lateinit var statusOverlay: AppCompatTextView
@@ -94,6 +97,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         batteryLevelOverlay = view.findViewById(R.id.battery_level_overlay)
         numberOfChargesOverlay = view.findViewById(R.id.number_of_charges_overlay)
+        numberOfCyclesOverlay = view.findViewById(R.id.number_of_cycles_overlay)
         currentCapacityOverlay = view.findViewById(R.id.current_capacity_overlay)
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
         statusOverlay = view.findViewById(R.id.status_overlay)
@@ -122,6 +126,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
+        onUpdateNumberOfCyclesOverlay()
         onUpdateCurrentCapacityOverlay()
         onUpdateBatteryHealthOverlay()
         onUpdateStatusOverlay(status)
@@ -162,6 +167,20 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getLong(NUMBER_OF_CHARGES, 0))
 
             visibility = if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false))
+                View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun onUpdateNumberOfCyclesOverlay() {
+
+        numberOfCyclesOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = context.getString(R.string.number_of_cycles,
+                pref.getFloat(NUMBER_OF_CYCLES, 0f).toString())
+
+            visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false))
                 View.VISIBLE else View.GONE
         }
     }

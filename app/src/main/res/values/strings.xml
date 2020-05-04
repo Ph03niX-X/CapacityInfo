@@ -163,6 +163,7 @@
     <string name="opacity_percent">Opacity: %1$s</string>
     <string name="battery_level_overlay">Battery Level</string>
     <string name="number_of_charges_overlay">Number of Charges</string>
+    <string name="number_of_cycles_overlay">Number of Cycles</string>
     <string name="current_capacity_overlay">Current Capacity</string>
     <string name="battery_health_overlay">Battery Health (Android)</string>
     <string name="status_overlay">Status</string>
