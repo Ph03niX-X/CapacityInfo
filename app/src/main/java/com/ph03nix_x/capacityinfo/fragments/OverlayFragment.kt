@@ -122,7 +122,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = resources.getStringArray(R.array.overlay_size_list)[(newValue as? String)?.toInt() ?: 1]
+            preference.summary = resources.getStringArray(R.array.overlay_size_list)[
+                    (newValue as? String)?.toInt() ?: 1]
 
             true
         }
@@ -301,7 +302,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.overlay_opacity_dialog, null)
+        val view = LayoutInflater.from(requireContext())
+            .inflate(R.layout.overlay_opacity_dialog, null)
 
         dialog.setView(view)
 
@@ -313,7 +315,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
             || pref.getInt(OVERLAY_OPACITY, 127) < 0) 127
         else pref.getInt(OVERLAY_OPACITY, 127)
 
-        opacityTV.text = getString(R.string.opacity,
+        opacityTV.text = getString(R.string.opacity_percent,
             "${DecimalFormat("#")
                 .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%")
 
@@ -321,7 +323,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
 
-                opacityTV.text = getString(R.string.opacity,
+                opacityTV.text = getString(R.string.opacity_percent,
                     "${DecimalFormat("#")
                         .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%")
 

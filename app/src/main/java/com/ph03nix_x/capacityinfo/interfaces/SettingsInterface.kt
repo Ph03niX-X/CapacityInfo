@@ -105,7 +105,7 @@ interface SettingsInterface : ServiceInterface {
 
                     read = fileInputStream.read(buffer)
 
-                    if (read != -1)
+                    if(read != -1)
                         outputStream?.write(buffer, 0, read)
                     else break
                 }
@@ -178,7 +178,7 @@ interface SettingsInterface : ServiceInterface {
 
                     read = inputStream?.read(buffer) ?: -1
 
-                    if (read != -1)
+                    if(read != -1)
                         fileOutputStream.write(buffer, 0, read)
                     else break
                 }

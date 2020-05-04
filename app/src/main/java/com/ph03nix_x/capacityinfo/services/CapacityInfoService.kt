@@ -39,7 +39,6 @@ import kotlinx.coroutines.*
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
-    private lateinit var batteryManager: BatteryManager
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private var jobService: Job? = null
@@ -92,8 +91,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
-            batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-
             LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
 
             createNotification(this@CapacityInfoService)
@@ -124,10 +121,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
 
-                    if (status == BatteryManager.BATTERY_STATUS_CHARGING
+                    if(status == BatteryManager.BATTERY_STATUS_CHARGING
                         && !isStopService) batteryCharging()
                     
-                    else if (status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
+                    else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected && !isFull
                         && getBatteryLevel(this@CapacityInfoService) == 100
                         && !isStopService) batteryCharged()
 
@@ -160,7 +157,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (!isFull && seconds > 0) {
+        if(!isFull && seconds > 0) {
 
             pref.edit().apply {
 
@@ -229,7 +226,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, getBatteryLevel(this@CapacityInfoService))
 
-            if (getCurrentCapacity(this@CapacityInfoService) > 0) {
+            if(getCurrentCapacity(this@CapacityInfoService) > 0) {
 
                 if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                     putInt(RESIDUAL_CAPACITY, (getCurrentCapacity(this@CapacityInfoService) * 1000).toInt())

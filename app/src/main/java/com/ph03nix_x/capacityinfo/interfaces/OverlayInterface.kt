@@ -107,7 +107,7 @@ interface OverlayInterface : BatteryInfoInterface {
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
-        linearLayout.setBackgroundColor(Color.argb(onSetBackgroundLinearLayout(), 0, 0, 0))
+        linearLayout.setBackgroundColor(onSetBackgroundLinearLayout())
 
         onUpdateBatteryLevelOverlay()
         onUpdateCurrentCapacityOverlay()

@@ -17,7 +17,7 @@ interface ServiceInterface {
 
             isStartedService = false
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 context.startForegroundService(Intent(context, CapacityInfoService::class.java))
             else context.startService(Intent(context, CapacityInfoService::class.java))
         }

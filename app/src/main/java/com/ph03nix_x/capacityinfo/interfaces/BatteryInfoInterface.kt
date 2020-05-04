@@ -313,7 +313,7 @@ interface BatteryInfoInterface {
             R.string.battery_wear,
             if(residualCapacity > 0 && residualCapacity < designCapacity)
                 "${DecimalFormat("#.#").format(100 - ((residualCapacity / designCapacity) * 100))}%" else "0%",
-            if (residualCapacity > 0 && residualCapacity < designCapacity)
+            if(residualCapacity > 0 && residualCapacity < designCapacity)
                 DecimalFormat("#.#").format(designCapacity - residualCapacity) else "0")
     }
 

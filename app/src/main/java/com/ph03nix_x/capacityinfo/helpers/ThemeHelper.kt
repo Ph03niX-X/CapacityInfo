@@ -14,7 +14,7 @@ object ThemeHelper {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
             AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(IS_DARK_MODE, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)

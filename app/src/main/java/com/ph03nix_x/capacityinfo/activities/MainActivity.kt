@@ -42,7 +42,8 @@ import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface, SettingsInterface {
+class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface,
+    SettingsInterface {
 
     private lateinit var toolbar: CenteredToolbar
 
@@ -67,7 +68,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var lastChargeTime: TextView
     private lateinit var batteryWear: TextView
     private lateinit var pref: SharedPreferences
-    private lateinit var batteryManager: BatteryManager
     private var isJob = false
     private var job: Job? = null
 
@@ -102,7 +102,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.instruction))
-                setMessage(getString(R.string.instruction_message) + getString(R.string.instruction_message_do_not_kill_the_service)
+                setMessage(getString(R.string.instruction_message)
+                        + getString(R.string.instruction_message_do_not_kill_the_service)
                         + getString(R.string.instruction_message_huawei_honor))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
@@ -117,7 +118,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 setIcon(R.drawable.ic_faq_question_24dp)
                 setTitle(getString(R.string.faq))
-                setMessage(getString(R.string.faq_how_does_the_app_work) + getString(R.string.faq_capacity_added)
+                setMessage(getString(R.string.faq_how_does_the_app_work)
+                        + getString(R.string.faq_capacity_added)
                         + getString(R.string.faq_i_have_everything_in_zeros)
                         + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
                         + getString(R.string.faq_add_device_support))
@@ -134,8 +136,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
                 setTitle(getString(R.string.tips_dialog_title))
-                setMessage(getString(R.string.tip1) + getString(R.string.tip2) + getString(R.string.tip3)
-                        + getString(R.string.tip4) + getString(R.string.tip5) + getString(R.string.tip6)
+                setMessage(getString(R.string.tip1) + getString(R.string.tip2)
+                        + getString(R.string.tip3) + getString(R.string.tip4)
+                        + getString(R.string.tip5) + getString(R.string.tip6)
                         + getString(R.string.tip7))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
@@ -164,8 +167,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         voltage = findViewById(R.id.voltage)
         lastChargeTime = findViewById(R.id.last_charge_time)
         batteryWear = findViewById(R.id.battery_wear)
-
-        batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
         designCapacity.setOnClickListener {
 
@@ -198,7 +199,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         instance = this
 
-        if(pref.getInt(DESIGN_CAPACITY, 0) <= 0 || pref.getInt(DESIGN_CAPACITY, 0) > 18500) {
+        if(pref.getInt(DESIGN_CAPACITY, 0) <= 0
+            || pref.getInt(DESIGN_CAPACITY, 0) > 18500) {
 
             pref.edit().apply {
 
@@ -211,7 +213,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             }
         }
 
-        designCapacity.text = getString(R.string.design_capacity, pref.getInt(DESIGN_CAPACITY, 0).toString())
+        designCapacity.text = getString(R.string.design_capacity,
+            pref.getInt(DESIGN_CAPACITY, 0).toString())
 
         batteryHealth.text = getString(R.string.battery_health, getBatteryHealth(this))
 
@@ -223,7 +226,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-        if(getCurrentCapacity(this) == 0.0 && pref.getBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, true)) {
+        if(getCurrentCapacity(this) == 0.0
+            && pref.getBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, true)) {
 
             pref.edit().putBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, false).apply()
 
@@ -239,7 +243,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             }
         }
 
-        if(getCurrentCapacity(this) == 0.0) toolbar.menu.findItem(R.id.instruction).isVisible = false
+        if(getCurrentCapacity(this) == 0.0)
+            toolbar.menu.findItem(R.id.instruction).isVisible = false
 
         else if(pref.getBoolean(IS_SHOW_INSTRUCTION, true)) showInstruction()
 
@@ -287,7 +292,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message))
-            setPositiveButton(android.R.string.ok) { _, _ -> pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply() }
+            setPositiveButton(android.R.string.ok) { _, _ ->
+                pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply() }
             show()
         }
     }
@@ -298,29 +304,39 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             job = CoroutineScope(Dispatchers.Default).launch {
                 while(isJob) {
 
-                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
-                    val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                        BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+                    val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
+                        -1) ?: -1
 
                     withContext(Dispatchers.Main) {
 
-                        designCapacity.text = getString(R.string.design_capacity, pref.getInt(DESIGN_CAPACITY, 0).toString())
+                        designCapacity.text = getString(R.string.design_capacity,
+                            pref.getInt(DESIGN_CAPACITY, 0).toString())
 
                         batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
 
-                        numberOfCharges.text = getString(R.string.number_of_charges, pref.getLong(NUMBER_OF_CHARGES, 0))
+                        numberOfCharges.text = getString(R.string.number_of_charges,
+                            pref.getLong(NUMBER_OF_CHARGES, 0))
 
-                        numberOfCycles.text = getString(R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
+                        numberOfCycles.text = getString(R.string.number_of_cycles,
+                            DecimalFormat("#.##")
+                                .format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
 
                         if(CapacityInfoService.instance?.seconds ?: 0 > 0) {
 
                             chargingTime.visibility = View.VISIBLE
 
-                            chargingTime.text = getChargingTime(this@MainActivity, CapacityInfoService.instance?.seconds ?: 0)
+                            chargingTime.text = getChargingTime(this@MainActivity,
+                                CapacityInfoService.instance?.seconds ?: 0)
                         }
-                        else if(chargingTime.visibility == View.VISIBLE) chargingTime.visibility = View.VISIBLE
+                        else if(chargingTime.visibility == View.VISIBLE)
+                            chargingTime.visibility = View.VISIBLE
 
-                        lastChargeTime.text = getString(R.string.last_charge_time, getLastChargeTime(this@MainActivity),
-                            "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
+                        lastChargeTime.text = getString(R.string.last_charge_time,
+                            getLastChargeTime(this@MainActivity),
+                            "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%",
+                            "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
                     }
 
                     withContext(Dispatchers.Main) {
@@ -329,7 +345,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         if(getPlugged(this@MainActivity, plugged) != "N/A") {
 
-                            if(this@MainActivity.plugged.visibility == View.GONE) this@MainActivity.plugged.visibility = View.VISIBLE
+                            if(this@MainActivity.plugged.visibility == View.GONE)
+                                this@MainActivity.plugged.visibility = View.VISIBLE
 
                             this@MainActivity.plugged.text = getPlugged(this@MainActivity, plugged)
                         }
@@ -339,75 +356,96 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     withContext(Dispatchers.Main) {
 
-                        technology.text = getString(R.string.battery_technology, batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
+                        technology.text = getString(R.string.battery_technology,
+                            batteryIntent?.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY)
+                                ?: getString(R.string.unknown))
 
-                        temperature.text = if (!pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) getString(R.string.temperature_celsius,
-                            getTemperature(this@MainActivity))
+                        temperature.text =
+                            if(!pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
+                                getString(R.string.temperature_celsius,
+                                    getTemperature(this@MainActivity))
 
-                        else getString(R.string.temperature_fahrenheit, getTemperature(this@MainActivity))
+                        else getString(R.string.temperature_fahrenheit,
+                                getTemperature(this@MainActivity))
 
-                        voltage.text = getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv else R.string.voltage,
-                            DecimalFormat("#.#").format(getVoltage(this@MainActivity)))
+                        voltage.text = getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+                            R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#")
+                            .format(getVoltage(this@MainActivity)))
 
-                        batteryHealth.text = getString(R.string.battery_health, getBatteryHealth(this@MainActivity))
+                        batteryHealth.text = getString(R.string.battery_health,
+                            getBatteryHealth(this@MainActivity))
                     }
 
-                    if (pref.getBoolean(IS_SUPPORTED, true)) {
+                    if(pref.getBoolean(IS_SUPPORTED, true)) {
 
-                        if (pref.getInt(DESIGN_CAPACITY, 0) > 0 && pref.getInt(RESIDUAL_CAPACITY, 0) > 0) {
+                        if(pref.getInt(DESIGN_CAPACITY, 0) > 0
+                            && pref.getInt(RESIDUAL_CAPACITY, 0) > 0) {
 
                             withContext(Dispatchers.Main) {
 
                                 residualCapacity.text =  getResidualCapacity(this@MainActivity,
                                     batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                                        BatteryManager.BATTERY_STATUS_UNKNOWN) == BatteryManager.BATTERY_STATUS_CHARGING)
+                                        BatteryManager.BATTERY_STATUS_UNKNOWN) ==
+                                            BatteryManager.BATTERY_STATUS_CHARGING)
 
                                 batteryWear.text = getBatteryWear(this@MainActivity)
 
                             }
                         }
 
-                        if (getCurrentCapacity(this@MainActivity) > 0) {
+                        if(getCurrentCapacity(this@MainActivity) > 0) {
 
-                            if (currentCapacity.visibility == View.GONE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.VISIBLE }
+                            if(currentCapacity.visibility == View.GONE)
+                                withContext(Dispatchers.Main) {
+                                    currentCapacity.visibility = View.VISIBLE }
 
                             withContext(Dispatchers.Main) {
 
                                 currentCapacity.text = getString(R.string.current_capacity,
-                                    DecimalFormat("#.#").format(getCurrentCapacity(this@MainActivity)))
+                                    DecimalFormat("#.#")
+                                        .format(getCurrentCapacity(this@MainActivity)))
 
                                 when {
                                     getPlugged(this@MainActivity, plugged) != "N/A" -> {
 
-                                        if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+                                        if(capacityAdded.visibility == View.GONE)
+                                            capacityAdded.visibility = View.VISIBLE
 
                                         capacityAdded.text = getCapacityAdded(this@MainActivity)
                                     }
                                     getPlugged(this@MainActivity, plugged) == "N/A" -> {
 
-                                        if(capacityAdded.visibility == View.GONE) capacityAdded.visibility = View.VISIBLE
+                                        if(capacityAdded.visibility == View.GONE)
+                                            capacityAdded.visibility = View.VISIBLE
 
                                         capacityAdded.text = getCapacityAdded(this@MainActivity)
                                     }
-                                    capacityAdded.visibility == View.VISIBLE -> capacityAdded.visibility = View.GONE
+                                    capacityAdded.visibility == View.VISIBLE ->
+                                        capacityAdded.visibility = View.GONE
                                 }
                             }
                         }
 
                         else {
 
-                            if (currentCapacity.visibility == View.VISIBLE) withContext(Dispatchers.Main) { currentCapacity.visibility = View.GONE }
+                            if(currentCapacity.visibility == View.VISIBLE)
+                                withContext(Dispatchers.Main) {
+                                    currentCapacity.visibility = View.GONE }
 
-                            if (capacityAdded.visibility == View.GONE && pref.getFloat(CAPACITY_ADDED, 0f) > 0f)
-                                withContext(Dispatchers.Main) { capacityAdded.visibility = View.VISIBLE }
+                            if(capacityAdded.visibility == View.GONE
+                                && pref.getFloat(CAPACITY_ADDED, 0f) > 0f)
+                                withContext(Dispatchers.Main) {
+                                    capacityAdded.visibility = View.VISIBLE }
 
-                            else withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+                            else withContext(Dispatchers.Main) {
+                                capacityAdded.visibility = View.GONE }
                         }
                     }
 
                     else {
 
-                        if (capacityAdded.visibility == View.VISIBLE) withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+                        if(capacityAdded.visibility == View.VISIBLE)
+                            withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
 
                         withContext(Dispatchers.Main) {
 
@@ -424,87 +462,118 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-                            if(chargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) { chargeCurrent.visibility = View.VISIBLE }
+                            if(chargeCurrent.visibility == View.GONE)
+                                withContext(Dispatchers.Main) {
+                                    chargeCurrent.visibility = View.VISIBLE }
 
-                            if(numberOfCharges.visibility == View.VISIBLE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.GONE }
+                            if(numberOfCharges.visibility == View.VISIBLE)
+                                withContext(Dispatchers.Main) {
+                                    numberOfCharges.visibility = View.GONE }
 
                             withContext(Dispatchers.Main) {
 
-                                chargeCurrent.text = getString(R.string.charge_current, getChargeDischargeCurrent(this@MainActivity).toString())
+                                chargeCurrent.text = getString(R.string.charge_current,
+                                    getChargeDischargeCurrent(this@MainActivity).toString())
                             }
                         }
 
-                        BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_FULL, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
+                        BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_FULL,
+                        BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
 
-                            if(chargeCurrent.visibility == View.GONE) withContext(Dispatchers.Main) { chargeCurrent.visibility = View.VISIBLE }
+                            if(chargeCurrent.visibility == View.GONE)
+                                withContext(Dispatchers.Main) {
+                                    chargeCurrent.visibility = View.VISIBLE }
 
-                            if(numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+                            if(numberOfCharges.visibility == View.GONE)
+                                withContext(Dispatchers.Main) {
+                                    numberOfCharges.visibility = View.VISIBLE }
 
                             withContext(Dispatchers.Main) {
 
-                                chargeCurrent.text = getString(R.string.discharge_current, getChargeDischargeCurrent(this@MainActivity).toString())
+                                chargeCurrent.text = getString(R.string.discharge_current,
+                                    getChargeDischargeCurrent(this@MainActivity).toString())
                             }
                         }
 
                         else -> {
 
-                            if(chargeCurrent.visibility == View.VISIBLE) withContext(Dispatchers.Main) {  chargeCurrent.visibility = View.GONE }
+                            if(chargeCurrent.visibility == View.VISIBLE)
+                                withContext(Dispatchers.Main) {
+                                    chargeCurrent.visibility = View.GONE }
 
-                            if(numberOfCharges.visibility == View.GONE) withContext(Dispatchers.Main) { numberOfCharges.visibility = View.VISIBLE }
+                            if(numberOfCharges.visibility == View.GONE)
+                                withContext(Dispatchers.Main) {
+                                    numberOfCharges.visibility = View.VISIBLE }
                         }
                     }
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL, BatteryManager.BATTERY_STATUS_NOT_CHARGING ->
+                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL,
+                        BatteryManager.BATTERY_STATUS_NOT_CHARGING ->
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility ==  View.GONE) maxChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(maxChargeDischargeCurrent.visibility ==  View.GONE)
+                                    maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                if(averageChargeDischargeCurrent.visibility ==  View.GONE) averageChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(averageChargeDischargeCurrent.visibility ==  View.GONE)
+                                    averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                if(minChargeDischargeCurrent.visibility ==  View.GONE) minChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(minChargeDischargeCurrent.visibility ==  View.GONE)
+                                    minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                maxChargeDischargeCurrent.text = getString(R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
+                                maxChargeDischargeCurrent.text =getString(R.string.max_charge_current,
+                                    BatteryInfoInterface.maxChargeCurrent)
 
-                                averageChargeDischargeCurrent.text = getString(R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
+                                averageChargeDischargeCurrent.text = getString(R.string.average_charge_current,
+                                    BatteryInfoInterface.averageChargeCurrent)
 
-                                minChargeDischargeCurrent.text = getString(R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
+                                minChargeDischargeCurrent.text = getString(R.string.min_charge_current,
+                                    BatteryInfoInterface.minChargeCurrent)
                         }
 
                         BatteryManager.BATTERY_STATUS_DISCHARGING -> withContext(Dispatchers.Main) {
 
-                            if(maxChargeDischargeCurrent.visibility ==  View.GONE) maxChargeDischargeCurrent.visibility = View.VISIBLE
+                            if(maxChargeDischargeCurrent.visibility ==  View.GONE)
+                                maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(averageChargeDischargeCurrent.visibility ==  View.GONE) averageChargeDischargeCurrent.visibility = View.VISIBLE
+                            if(averageChargeDischargeCurrent.visibility ==  View.GONE)
+                                averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(minChargeDischargeCurrent.visibility ==  View.GONE) minChargeDischargeCurrent.visibility = View.VISIBLE
+                            if(minChargeDischargeCurrent.visibility ==  View.GONE)
+                                minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current, BatteryInfoInterface.maxDischargeCurrent)
+                            maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
+                                BatteryInfoInterface.maxDischargeCurrent)
 
-                            averageChargeDischargeCurrent.text = getString(R.string.average_discharge_current, BatteryInfoInterface.averageDischargeCurrent)
+                            averageChargeDischargeCurrent.text = getString(R.string.average_discharge_current,
+                                BatteryInfoInterface.averageDischargeCurrent)
 
-                            minChargeDischargeCurrent.text = getString(R.string.min_discharge_current, BatteryInfoInterface.minDischargeCurrent)
+                            minChargeDischargeCurrent.text = getString(R.string.min_discharge_current,
+                                BatteryInfoInterface.minDischargeCurrent)
                         }
 
                         else -> {
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility ==  View.VISIBLE) maxChargeDischargeCurrent.visibility = View.GONE
+                                if(maxChargeDischargeCurrent.visibility ==  View.VISIBLE)
+                                    maxChargeDischargeCurrent.visibility = View.GONE
 
-                                if(averageChargeDischargeCurrent.visibility ==  View.VISIBLE) averageChargeDischargeCurrent.visibility = View.GONE
+                                if(averageChargeDischargeCurrent.visibility ==  View.VISIBLE)
+                                    averageChargeDischargeCurrent.visibility = View.GONE
 
-                                if(minChargeDischargeCurrent.visibility ==  View.VISIBLE) minChargeDischargeCurrent.visibility = View.GONE
-
+                                if(minChargeDischargeCurrent.visibility ==  View.VISIBLE)
+                                    minChargeDischargeCurrent.visibility = View.GONE
                             }
                         }
                     }
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING -> delay(if(getCurrentCapacity(this@MainActivity) > 0) 955 else 962)
+                        BatteryManager.BATTERY_STATUS_CHARGING ->
+                            delay(if(getCurrentCapacity(this@MainActivity) > 0) 955 else 962)
 
                         else -> delay(3000)
                     }
@@ -514,9 +583,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     private fun importSettings(prefArrays: HashMap<*, *>) {
 
-        val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
-            CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
-            IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
+        val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
+            DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
+            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
 
         prefsTempList.forEach {
 
@@ -532,12 +601,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                             when(it.key as String) {
 
-                                NUMBER_OF_CHARGES -> pref.edit().putLong(it.key as String, it.value as Long).apply()
+                                NUMBER_OF_CHARGES -> pref.edit().putLong(it.key as String,
+                                    it.value as Long).apply()
 
                                 BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
-                                DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED -> pref.edit().putInt(it.key as String, it.value as Int).apply()
+                                DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED ->
+                                    pref.edit().putInt(it.key as String, it.value as Int).apply()
 
-                                CAPACITY_ADDED, NUMBER_OF_CYCLES -> pref.edit().putFloat(it.key as String, it.value as Float).apply()
+                                CAPACITY_ADDED, NUMBER_OF_CYCLES ->
+                                    pref.edit().putFloat(it.key as String, it.value as Float).apply()
 
                                 IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
                                     pref.edit().putBoolean(it.key as String, it.value as Boolean).apply()
@@ -548,9 +620,11 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             }
         }
 
-        launchActivity(this, SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
+        launchActivity(this, SettingsActivity::class.java,
+            arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
 
-        Toast.makeText(this, getString(R.string.settings_imported_successfully), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.settings_imported_successfully),
+            Toast.LENGTH_LONG).show()
 
         intent.removeExtra("pref_arrays")
     }

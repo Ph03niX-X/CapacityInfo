@@ -51,7 +51,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createNotificationChannel(context) else ""
+        channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createNotificationChannel(context) else ""
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         stopService = PendingIntent.getService(context, 1, Intent(context, StopCapacityInfoService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)

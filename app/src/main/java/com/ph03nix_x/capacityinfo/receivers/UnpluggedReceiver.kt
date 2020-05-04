@@ -53,7 +53,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                         else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance?.getCurrentCapacity(context)?.toInt() ?: 0)
                     }
 
-                    if ((CapacityInfoService.instance?.isFull != true) && seconds > 0) {
+                    if((CapacityInfoService.instance?.isFull != true) && seconds > 0) {
 
                         putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (seconds / 3600)) else seconds)
 

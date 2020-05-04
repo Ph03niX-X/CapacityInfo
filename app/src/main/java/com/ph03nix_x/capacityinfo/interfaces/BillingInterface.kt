@@ -18,7 +18,7 @@ interface BillingInterface {
 
         return BillingClient.newBuilder(context).setListener(({ billingResult, purchasesList ->
 
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && !purchasesList.isNullOrEmpty()) {
+            if(billingResult.responseCode == BillingClient.BillingResponseCode.OK && !purchasesList.isNullOrEmpty()) {
 
                 purchasesList.forEach {
 
@@ -59,7 +59,7 @@ interface BillingInterface {
 
                 response, purchaseHistoryList ->
 
-            if (response.responseCode == BillingClient.BillingResponseCode.OK) {
+            if(response.responseCode == BillingClient.BillingResponseCode.OK) {
 
                 purchaseHistoryList.forEach {
 

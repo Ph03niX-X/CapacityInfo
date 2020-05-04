@@ -22,7 +22,7 @@
             android:key="appearance_overlay">
 
     <ListPreference
-            android:title="@string/overlay_size"
+            android:title="@string/size"
             app:singleLineTitle="false"
             android:entries="@array/overlay_size_list"
             android:entryValues="@array/overlay_size_keys"
@@ -31,7 +31,7 @@
             android:key="overlay_size"/>
 
         <Preference
-                android:title="@string/overlay_opacity"
+                android:title="@string/opacity"
                 app:singleLineTitle="false"
                 app:iconSpaceReserved="false"
                 android:key="overlay_opacity"/>
