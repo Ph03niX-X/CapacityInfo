@@ -12,8 +12,8 @@ import android.os.BatteryManager
 import android.os.Build
 import android.util.TypedValue
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -42,21 +42,21 @@ interface OverlayInterface : BatteryInfoInterface {
     companion object {
 
         private lateinit var view: View
-        private lateinit var batteryLevelOverlay: TextView
-        private lateinit var numberOfChargesOverlay: TextView
-        private lateinit var currentCapacityOverlay: TextView
-        private lateinit var batteryHealthOverlay: TextView
-        private lateinit var statusOverlay: TextView
-        private lateinit var chargeDischargeCurrentOverlay: TextView
-        private lateinit var maxChargeDischargeCurrentOverlay: TextView
-        private lateinit var averageChargeDischargeCurrentOverlay: TextView
-        private lateinit var minChargeDischargeCurrentOverlay: TextView
-        private lateinit var temperatureOverlay: TextView
-        private lateinit var voltageOverlay: TextView
+        private lateinit var batteryLevelOverlay: AppCompatTextView
+        private lateinit var numberOfChargesOverlay: AppCompatTextView
+        private lateinit var currentCapacityOverlay: AppCompatTextView
+        private lateinit var batteryHealthOverlay: AppCompatTextView
+        private lateinit var statusOverlay: AppCompatTextView
+        private lateinit var chargeDischargeCurrentOverlay: AppCompatTextView
+        private lateinit var maxChargeDischargeCurrentOverlay: AppCompatTextView
+        private lateinit var averageChargeDischargeCurrentOverlay: AppCompatTextView
+        private lateinit var minChargeDischargeCurrentOverlay: AppCompatTextView
+        private lateinit var temperatureOverlay: AppCompatTextView
+        private lateinit var voltageOverlay: AppCompatTextView
         private lateinit var layoutParams: ViewGroup.LayoutParams
         private lateinit var pref: SharedPreferences
         lateinit var windowManager: WindowManager
-        lateinit var linearLayout: LinearLayout
+        lateinit var linearLayout: LinearLayoutCompat
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -299,7 +299,7 @@ interface OverlayInterface : BatteryInfoInterface {
         }
     }
 
-    private fun onSetTextSize(textView: TextView) {
+    private fun onSetTextSize(textView: AppCompatTextView) {
 
         when(pref.getString(OVERLAY_SIZE, "1")) {
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -8,7 +8,7 @@
         android:background="@android:color/black"
         android:id="@+id/overlay_linear_layout">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -16,7 +16,7 @@
             android:id="@+id/battery_level_overlay"
             android:text="@string/battery_level"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -24,7 +24,7 @@
             android:id="@+id/number_of_charges_overlay"
             android:text="@string/number_of_charges"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -32,7 +32,7 @@
             android:id="@+id/current_capacity_overlay"
             android:text="@string/current_capacity"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -40,7 +40,7 @@
             android:id="@+id/battery_health_overlay"
             android:text="@string/battery_health"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -48,7 +48,7 @@
             android:id="@+id/status_overlay"
             android:text="@string/battery_level"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -56,7 +56,7 @@
             android:id="@+id/charge_discharge_current_overlay"
             android:text="@string/discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -64,7 +64,7 @@
             android:id="@+id/max_charge_discharge_current_overlay"
             android:text="@string/max_discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -72,7 +72,7 @@
             android:id="@+id/average_charge_discharge_current_overlay"
             android:text="@string/average_discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -80,7 +80,7 @@
             android:id="@+id/min_charge_discharge_current_overlay"
             android:text="@string/min_discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -88,7 +88,7 @@
             android:id="@+id/temperature_overlay"
             android:text="@string/temperature_celsius"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
@@ -96,4 +96,4 @@
             android:id="@+id/voltage_overlay"
             android:text="@string/voltage"/>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

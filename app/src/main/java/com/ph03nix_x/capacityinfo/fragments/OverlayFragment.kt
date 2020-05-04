@@ -10,9 +10,9 @@ import android.view.LayoutInflater
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textview.MaterialTextView
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.ACTION_MANAGE_OVERLAY_PERMISSION
@@ -318,7 +318,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         dialog.setView(view)
 
-        val opacityTV = view.findViewById<MaterialTextView>(R.id.opacity_tv)
+        val opacityTV = view.findViewById<AppCompatTextView>(R.id.opacity_tv)
 
         val opacitySeekBar = view.findViewById<AppCompatSeekBar>(R.id.opacity_seekbar)
 

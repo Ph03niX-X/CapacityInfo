@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
@@ -47,26 +47,26 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     private lateinit var toolbar: CenteredToolbar
 
-    lateinit var designCapacity: TextView
-    private lateinit var batteryLevel: TextView
-    private lateinit var numberOfCharges: TextView
-    private lateinit var numberOfCycles: TextView
-    private lateinit var chargingTime: TextView
-    private lateinit var batteryHealth: TextView
-    private lateinit var residualCapacity: TextView
-    private lateinit var currentCapacity: TextView
-    private lateinit var capacityAdded: TextView
-    private lateinit var technology: TextView
-    private lateinit var status: TextView
-    private lateinit var plugged: TextView
-    private lateinit var chargeCurrent: TextView
-    private lateinit var maxChargeDischargeCurrent: TextView
-    private lateinit var averageChargeDischargeCurrent: TextView
-    private lateinit var minChargeDischargeCurrent: TextView
-    private lateinit var temperature: TextView
-    private lateinit var voltage: TextView
-    private lateinit var lastChargeTime: TextView
-    private lateinit var batteryWear: TextView
+    lateinit var designCapacity: AppCompatTextView
+    private lateinit var batteryLevel: AppCompatTextView
+    private lateinit var numberOfCharges: AppCompatTextView
+    private lateinit var numberOfCycles: AppCompatTextView
+    private lateinit var chargingTime: AppCompatTextView
+    private lateinit var batteryHealth: AppCompatTextView
+    private lateinit var residualCapacity: AppCompatTextView
+    private lateinit var currentCapacity: AppCompatTextView
+    private lateinit var capacityAdded: AppCompatTextView
+    private lateinit var technology: AppCompatTextView
+    private lateinit var status: AppCompatTextView
+    private lateinit var plugged: AppCompatTextView
+    private lateinit var chargeCurrent: AppCompatTextView
+    private lateinit var maxChargeDischargeCurrent: AppCompatTextView
+    private lateinit var averageChargeDischargeCurrent: AppCompatTextView
+    private lateinit var minChargeDischargeCurrent: AppCompatTextView
+    private lateinit var temperature: AppCompatTextView
+    private lateinit var voltage: AppCompatTextView
+    private lateinit var lastChargeTime: AppCompatTextView
+    private lateinit var batteryWear: AppCompatTextView
     private lateinit var pref: SharedPreferences
     private var isJob = false
     private var job: Job? = null

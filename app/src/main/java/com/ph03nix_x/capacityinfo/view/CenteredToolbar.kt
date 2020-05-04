@@ -5,25 +5,25 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import com.google.android.material.appbar.MaterialToolbar
-
 import com.ph03nix_x.capacityinfo.R
 
 class CenteredToolbar : MaterialToolbar {
 
-    private var tvTitle: TextView? = null
-    private var tvSubtitle: TextView? = null
+    private var tvTitle: AppCompatTextView? = null
+    private var tvSubtitle: AppCompatTextView? = null
 
-    private var linear: LinearLayout? = null
+    private var linear: LinearLayoutCompat? = null
 
     constructor(context: Context) : super(context) { setupTextViews() }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) { setupTextViews() }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { setupTextViews() }
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs,
+        defStyleAttr) { setupTextViews() }
 
     override fun getTitle(): CharSequence = tvTitle?.text.toString()
 
@@ -43,16 +43,16 @@ class CenteredToolbar : MaterialToolbar {
 
     private fun setupTextViews() {
 
-        tvSubtitle = TextView(context)
-        tvTitle = TextView(context)
+        tvSubtitle = AppCompatTextView(context)
+        tvTitle = AppCompatTextView(context)
 
         tvTitle?.ellipsize = TextUtils.TruncateAt.END
         tvTitle?.setTextAppearance(context, R.style.TitleTheme)
         tvTitle?.gravity = Gravity.CENTER
 
-        linear = LinearLayout(context)
+        linear = LinearLayoutCompat(context)
         linear?.gravity = Gravity.CENTER
-        linear?.orientation = LinearLayout.VERTICAL
+        linear?.orientation = LinearLayoutCompat.VERTICAL
         linear?.addView(tvTitle)
         linear?.addView(tvSubtitle)
 

@@ -11,7 +11,7 @@
             layout="@layout/card_toolbar"
             android:id="@+id/toolbar_card"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/design_capacity"
@@ -21,7 +21,7 @@
             android:layout_marginTop="100dp"
             android:layout_below="@id/toolbar_card"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/battery_level"
@@ -30,7 +30,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/design_capacity"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/number_of_charges"
@@ -39,7 +39,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/battery_level"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/number_of_cycles"
@@ -48,7 +48,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/number_of_charges"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/charging_time"
@@ -58,7 +58,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/number_of_cycles"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/current_capacity"
@@ -68,7 +68,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/charging_time"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/capacity_added"
@@ -77,7 +77,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/current_capacity"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/battery_health"
@@ -86,7 +86,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/capacity_added"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/residual_capacity"
@@ -95,7 +95,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/battery_health"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/battery_technology"
@@ -105,7 +105,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/residual_capacity"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/status"
@@ -115,7 +115,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/battery_technology"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/plugged"
@@ -125,7 +125,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/status"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/charge_current"
@@ -135,7 +135,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/plugged"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/max_charge_discharge_current"
@@ -144,7 +144,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/charge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/average_charge_discharge_current"
@@ -153,7 +153,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/max_charge_discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/min_charge_discharge_current"
@@ -162,7 +162,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/average_charge_discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/temperature"
@@ -172,7 +172,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/min_charge_discharge_current"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/voltage"
@@ -182,7 +182,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/temperature"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/last_charge_time"
@@ -191,7 +191,7 @@
             android:fontFamily="@font/medium"
             android:layout_below="@id/voltage"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/battery_wear"
