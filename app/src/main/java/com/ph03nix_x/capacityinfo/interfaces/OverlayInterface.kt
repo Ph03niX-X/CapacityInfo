@@ -24,10 +24,12 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURR
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
@@ -41,6 +43,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         private lateinit var view: View
         private lateinit var batteryLevelOverlay: TextView
+        private lateinit var numberOfChargesOverlay: TextView
         private lateinit var currentCapacityOverlay: TextView
         private lateinit var batteryHealthOverlay: TextView
         private lateinit var statusOverlay: TextView
@@ -63,15 +66,18 @@ interface OverlayInterface : BatteryInfoInterface {
 
         windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
 
-        val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT,
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            else WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT)
+        val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT, if(Build.VERSION.SDK_INT >=
+                Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            else WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT)
 
         parameters.gravity = Gravity.TOP
         parameters.x = 0
         parameters.y = 0
 
-        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
 
         onCreateViews(context)
 
@@ -87,13 +93,17 @@ interface OverlayInterface : BatteryInfoInterface {
         linearLayout = view.findViewById(R.id.overlay_linear_layout)
 
         batteryLevelOverlay = view.findViewById(R.id.battery_level_overlay)
+        numberOfChargesOverlay = view.findViewById(R.id.number_of_charges_overlay)
         currentCapacityOverlay = view.findViewById(R.id.current_capacity_overlay)
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
         statusOverlay = view.findViewById(R.id.status_overlay)
         chargeDischargeCurrentOverlay = view.findViewById(R.id.charge_discharge_current_overlay)
-        maxChargeDischargeCurrentOverlay = view.findViewById(R.id.max_charge_discharge_current_overlay)
-        averageChargeDischargeCurrentOverlay = view.findViewById(R.id.average_charge_discharge_current_overlay)
-        minChargeDischargeCurrentOverlay = view.findViewById(R.id.min_charge_discharge_current_overlay)
+        maxChargeDischargeCurrentOverlay = view.findViewById(R.id
+            .max_charge_discharge_current_overlay)
+        averageChargeDischargeCurrentOverlay = view.findViewById(R.id
+            .average_charge_discharge_current_overlay)
+        minChargeDischargeCurrentOverlay = view.findViewById(R.id
+            .min_charge_discharge_current_overlay)
         temperatureOverlay = view.findViewById(R.id.temperature_overlay)
         voltageOverlay = view.findViewById(R.id.voltage_overlay)
 
@@ -102,7 +112,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
     fun onUpdateOverlay(context: Context) {
 
-        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+            .ACTION_BATTERY_CHANGED))
 
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
@@ -110,6 +121,7 @@ interface OverlayInterface : BatteryInfoInterface {
         linearLayout.setBackgroundColor(onSetBackgroundLinearLayout())
 
         onUpdateBatteryLevelOverlay()
+        onUpdateNumberOfChargesOverlay()
         onUpdateCurrentCapacityOverlay()
         onUpdateBatteryHealthOverlay()
         onUpdateStatusOverlay(status)
@@ -132,10 +144,25 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = context.getString(R.string.battery_level, "${getBatteryLevel(context)}%")
+            text = context.getString(R.string.battery_level,
+                "${getBatteryLevel(context)}%")
 
             visibility = if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)) View.VISIBLE
             else View.GONE
+        }
+    }
+
+    private fun onUpdateNumberOfChargesOverlay() {
+
+        numberOfChargesOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = context.getString(R.string.number_of_charges,
+                pref.getLong(NUMBER_OF_CHARGES, 0))
+
+            visibility = if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false))
+                View.VISIBLE else View.GONE
         }
     }
 
@@ -147,7 +174,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 onSetTextSize(this)
 
-                text = context.getString(R.string.current_capacity, DecimalFormat("#.#").format(getCurrentCapacity(context)))
+                text = context.getString(R.string.current_capacity, DecimalFormat("#.#")
+                    .format(getCurrentCapacity(context)))
 
                 visibility = if(pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
                     && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
@@ -162,7 +190,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = context.getString(R.string.battery_health, getBatteryHealth(context))
 
-            visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)) View.VISIBLE
+            else View.GONE
         }
     }
 
@@ -174,7 +203,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = context.getString(R.string.status, getStatus(context, status))
 
-            visibility = if(pref.getBoolean(IS_STATUS_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_STATUS_OVERLAY, false)) View.VISIBLE
+            else View.GONE
         }
     }
 
@@ -184,10 +214,12 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge_current
-            else R.string.discharge_current, getChargeDischargeCurrent(context).toString())
+            text = context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
+                R.string.charge_current else R.string.discharge_current,
+                getChargeDischargeCurrent(context).toString())
 
-            visibility = if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false))
+                View.VISIBLE else View.GONE
         }
     }
 
@@ -197,10 +229,12 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.max_charge_current, BatteryInfoInterface.maxChargeCurrent)
-            else context.getString(R.string.max_discharge_current, BatteryInfoInterface.maxDischargeCurrent)
+            text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
+                .max_charge_current, BatteryInfoInterface.maxChargeCurrent) else context.getString(
+                R.string.max_discharge_current, BatteryInfoInterface.maxDischargeCurrent)
 
-            visibility = if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false))
+                View.VISIBLE else View.GONE
         }
     }
 
@@ -210,10 +244,13 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.average_charge_current, BatteryInfoInterface.averageChargeCurrent)
-            else context.getString(R.string.average_discharge_current, BatteryInfoInterface.averageDischargeCurrent)
+            text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
+                .average_charge_current, BatteryInfoInterface.averageChargeCurrent)
+            else context.getString(R.string.average_discharge_current,
+                BatteryInfoInterface.averageDischargeCurrent)
 
-            visibility = if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY,
+                    false)) View.VISIBLE else View.GONE
         }
     }
 
@@ -223,10 +260,12 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString( R.string.min_charge_current, BatteryInfoInterface.minChargeCurrent)
-            else context.getString(R.string.min_discharge_current, BatteryInfoInterface.minDischargeCurrent)
+            text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
+                .min_charge_current, BatteryInfoInterface.minChargeCurrent) else context.getString(
+                R.string.min_discharge_current, BatteryInfoInterface.minDischargeCurrent)
 
-            visibility = if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false))
+                View.VISIBLE else View.GONE
         }
     }
 
@@ -236,10 +275,12 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) R.string.temperature_fahrenheit
-            else R.string.temperature_celsius, getTemperature(context))
+            text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
+                R.string.temperature_fahrenheit else R.string.temperature_celsius,
+                getTemperature(context))
 
-            visibility = if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, false)) View.VISIBLE
+            else View.GONE
         }
     }
 
@@ -249,10 +290,12 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onSetTextSize(this)
 
-            text = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false)) R.string.voltage_mv
-            else R.string.voltage, DecimalFormat("#.#").format(getVoltage(context)))
+            text = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+                R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
+                getVoltage(context)))
 
-            visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)) View.VISIBLE
+            else View.GONE
         }
     }
 

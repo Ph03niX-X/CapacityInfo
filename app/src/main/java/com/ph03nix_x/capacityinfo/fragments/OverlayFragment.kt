@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVER
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
@@ -42,13 +43,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
 
-    //Appearance
+    // Appearance
     private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
     private var overlayOpacity: Preference? = null
 
-    //Overlay
+    // Overlay
     private var overlayCategory: PreferenceCategory? = null
+    private var numberOfChargesOverlay: SwitchPreferenceCompat? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
@@ -99,7 +101,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
             true
         }
 
-        //Appearance
+        // Appearance
         appearanceCategory = findPreference("appearance_overlay")
         overlaySize = findPreference(OVERLAY_SIZE)
         overlayOpacity = findPreference("overlay_opacity")
@@ -135,9 +137,10 @@ class OverlayFragment : PreferenceFragmentCompat() {
             true
         }
 
-        //Overlay
+        // Overlay
         overlayCategory = findPreference("overlay_category")
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
+        numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
@@ -153,6 +156,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as Boolean && OverlayService.instance == null)
+                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+
+            true
+        }
+
+        numberOfChargesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
                 requireContext().startService(Intent(requireContext(), OverlayService::class.java))

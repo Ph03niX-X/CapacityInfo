@@ -54,6 +54,13 @@
             app:iconSpaceReserved="false"
             android:key="is_battery_level_overlay"/>
 
+        <SwitchPreferenceCompat
+                android:title="@string/number_of_charges_overlay"
+                android:defaultValue="false"
+                app:singleLineTitle="false"
+                app:iconSpaceReserved="false"
+                android:key="is_number_of_charges_overlay"/>
+
     <SwitchPreferenceCompat
             android:title="@string/current_capacity_overlay"
             android:defaultValue="false"
