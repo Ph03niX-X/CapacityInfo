@@ -77,7 +77,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         openSettings?.setOnPreferenceClickListener {
 
-            launchActivity(requireContext(), SettingsActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
+            launchActivity(requireContext(), SettingsActivity::class.java,
+                arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
 
             true
         }
