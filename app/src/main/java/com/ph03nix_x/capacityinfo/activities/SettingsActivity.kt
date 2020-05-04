@@ -1,23 +1,20 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.content.*
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
-import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class SettingsActivity : AppCompatActivity(), ServiceInterface {
@@ -78,20 +75,11 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
 
             isStartedService = true
 
-            startService(this)
+            onStartService(this, CapacityInfoService::class.java)
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            if(Settings.canDrawOverlays(this) && isEnabledOverlay(this)
-                && pref.getBoolean(IS_ENABLED_OVERLAY, false)
-                && OverlayService.instance == null)
-                startService(Intent(this, OverlayService::class.java))
-        }
-
-        else if(isEnabledOverlay(this) && OverlayService.instance == null
-            && pref.getBoolean(IS_ENABLED_OVERLAY, false))
-            startService(Intent(this, OverlayService::class.java))
+        if(OverlayInterface.isEnabledOverlay(this) && OverlayService.instance == null)
+            onStartService(this, OverlayService::class.java)
     }
 
     override fun onDestroy() {

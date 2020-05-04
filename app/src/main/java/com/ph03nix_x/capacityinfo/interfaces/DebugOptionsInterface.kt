@@ -2,10 +2,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
-import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -32,7 +29,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -43,7 +39,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface {
@@ -564,20 +559,8 @@ interface DebugOptionsInterface : ServiceInterface {
             (context as? DebugActivity)?.recreate()
         }
 
-        else {
-
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                if(Settings.canDrawOverlays(context) && isEnabledOverlay(context)
-                    && pref.getBoolean(IS_ENABLED_OVERLAY, false)
-                    && OverlayService.instance == null)
-                    context.startService(Intent(context, OverlayService::class.java))
-            }
-
-            else if(isEnabledOverlay(context) && OverlayService.instance == null
-                && pref.getBoolean(IS_ENABLED_OVERLAY, false))
-                context.startService(Intent(context, OverlayService::class.java))
-        }
+        else if(OverlayInterface.isEnabledOverlay(context) && OverlayService.instance == null)
+            onStartService(context, OverlayService::class.java)
     }
 
     fun resetSettingDialog(context: Context, pref: SharedPreferences) {

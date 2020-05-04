@@ -68,9 +68,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
         else donate?.isVisible = isInstalledGooglePlay && !isDonated
 
-        version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionName
+        version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+            0)?.versionName
 
-        build?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName, 0)?.versionCode?.toString()
+        build?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+            0)?.versionCode?.toString()
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 
@@ -82,7 +84,9 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
                 startActivity(Intent(Intent.ACTION_VIEW,
                     Uri.parse("market://search?q=pub:${developer?.summary}")))
 
-                else startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=${developer?.summary}")))
+                else startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/developer?id=${developer
+                        ?.summary}")))
             }
 
             catch(e: ActivityNotFoundException) {}
@@ -153,12 +157,15 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
             try {
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/apps/testing/${requireContext().packageName}")))
+                startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/apps/testing/${requireContext()
+                        .packageName}")))
 
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link),
+                    Toast.LENGTH_LONG).show()
             }
 
             true
@@ -183,7 +190,8 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
                             withContext(Dispatchers.Main) {
 
-                                Toast.makeText(requireContext(), getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), getString(
+                                    R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
                             }
                         }
                         else onPurchase(requireActivity(), "donate")

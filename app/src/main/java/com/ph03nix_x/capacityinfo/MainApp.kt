@@ -55,7 +55,8 @@ class MainApp : Application(), BillingInterface {
 
         val systemLanguage = LocaleHelper.getSystemLocale(resources.configuration)
 
-        if(systemLanguage in resources.getStringArray(R.array.languages_codes)) defLang = systemLanguage
+        if(systemLanguage in resources.getStringArray(R.array.languages_codes)) defLang =
+            systemLanguage
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 

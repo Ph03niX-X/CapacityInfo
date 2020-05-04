@@ -33,7 +33,8 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_C
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 
-class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface, DebugOptionsInterface {
+class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface,
+    DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -138,9 +139,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         selectLanguage = findPreference(LANGUAGE)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled = !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
+            !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
-        if(pref.getString(LANGUAGE, null) !in resources.getStringArray(R.array.languages_codes))
+        if(pref.getString(LANGUAGE, null) !in
+            resources.getStringArray(R.array.languages_codes))
             selectLanguage?.value = defLang
 
         selectLanguage?.summary = selectLanguage?.entry
@@ -197,11 +200,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             try {
 
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), EXPORT_SETTINGS_REQUEST_CODE)
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
+                    EXPORT_SETTINGS_REQUEST_CODE)
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings, e.message), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
+                    e.message), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -219,7 +224,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_importing_settings, e.message), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
+                    e.message), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -261,8 +267,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->
 
             if((newValue as String) == "μA")
-                preference.summary = resources.getStringArray(R.array.unit_of_charge_discharge_current)[0]
-            else preference.summary = resources.getStringArray(R.array.unit_of_charge_discharge_current)[1]
+                preference.summary = resources.getStringArray(R.array
+                    .unit_of_charge_discharge_current)[0]
+            else preference.summary = resources.getStringArray(R.array
+                .unit_of_charge_discharge_current)[1]
 
             true
         }
@@ -270,8 +278,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         unitOfMeasurementOfCurrentCapacity?.setOnPreferenceChangeListener { preference, newValue ->
 
             if((newValue as String) == "μAh")
-                preference.summary = resources.getStringArray(R.array.unit_of_measurement_of_current_capacity)[0]
-            else preference.summary = resources.getStringArray(R.array.unit_of_measurement_of_current_capacity)[1]
+                preference.summary = resources.getStringArray(R.array
+                    .unit_of_measurement_of_current_capacity)[0]
+            else preference.summary = resources.getStringArray(R.array
+                .unit_of_measurement_of_current_capacity)[1]
 
             true
         }
@@ -315,7 +325,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                     pref.edit().remove(NUMBER_OF_CHARGES).apply()
 
-                    Toast.makeText(requireContext(), getString(R.string.number_of_charges_was_success_reset_to_zero), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(
+                        R.string.number_of_charges_was_success_reset_to_zero),
+                        Toast.LENGTH_LONG).show()
                 }
 
                 setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
@@ -336,7 +348,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                     pref.edit().remove(NUMBER_OF_CYCLES).apply()
 
-                    Toast.makeText(requireContext(), getString(R.string.number_of_cycles_was_success_reset_to_zero), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(
+                        R.string.number_of_cycles_was_success_reset_to_zero),
+                        Toast.LENGTH_LONG).show()
                 }
 
                 setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
@@ -368,7 +382,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         feedback?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.feedback)
+            (activity as SettingsActivity).toolbar.title = requireContext().getString(
+                R.string.feedback)
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
 
@@ -402,7 +417,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         voltageUnit?.summary = voltageUnit?.entry
 
-        changeDesignCapacity?.summary = getString(R.string.change_design_summary, pref.getInt(DESIGN_CAPACITY, 0))
+        changeDesignCapacity?.summary = getString(R.string.change_design_summary,
+            pref.getInt(DESIGN_CAPACITY, 0))
 
         preferenceScreen.isVisible = false
     }

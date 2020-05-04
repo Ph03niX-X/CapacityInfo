@@ -14,6 +14,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
+import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.ACTION_MANAGE_OVERLAY_PERMISSION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
@@ -32,10 +34,9 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
-import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 import java.text.DecimalFormat
 
-class OverlayFragment : PreferenceFragmentCompat() {
+class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -83,19 +84,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
                 true -> {
 
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                        if(Settings.canDrawOverlays(requireContext()) && isEnabledOverlay(requireContext())
-                            && OverlayService.instance == null)
-                            requireContext().startService(Intent(requireContext(), OverlayService::class.java))
-                    }
-
-                    else if(isEnabledOverlay(requireContext()) && OverlayService.instance == null)
-                        requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                    if(OverlayInterface.isEnabledOverlay(requireContext(),
+                            newValue as? Boolean == true) &&
+                        OverlayService.instance == null)
+                        onStartService(requireContext(), OverlayService::class.java)
                 }
 
-                false -> if(OverlayService.instance != null) requireContext()
-                    .stopService(Intent(requireContext(), OverlayService::class.java))
+                false -> if(OverlayService.instance != null) onStopService(requireContext(),
+                OverlayService::class.java)
             }
 
             enableAllOverlay(newValue as? Boolean)
@@ -161,7 +157,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -169,7 +165,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         numberOfChargesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -177,7 +173,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         numberOfCyclesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -186,7 +182,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         currentCapacityOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -194,7 +190,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         batteryHealthOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -202,7 +198,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         statusOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -210,7 +206,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         chargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -218,7 +214,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         maxChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -226,7 +222,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         averageChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -234,7 +230,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         minChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -242,7 +238,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         temperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -250,7 +246,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         voltageOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
-                requireContext().startService(Intent(requireContext(), OverlayService::class.java))
+                onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -282,10 +278,12 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-            overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
+            val canDrawOverlays = Settings.canDrawOverlays(requireContext())
 
-            if(dialogRequestOverlayPermission == null)
-                if(!Settings.canDrawOverlays(requireContext())) requestOverlayPermission()
+            overlayScreen?.isEnabled = canDrawOverlays
+
+            if(dialogRequestOverlayPermission == null && !canDrawOverlays)
+                requestOverlayPermission()
         }
     }
 
@@ -314,10 +312,10 @@ class OverlayFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun enableAllOverlay(enable: Boolean?) {
+    private fun enableAllOverlay(isEnable: Boolean?) {
 
-        appearanceCategory?.isEnabled = enable ?: false
-        overlayCategory?.isEnabled = enable ?: false
+        appearanceCategory?.isEnabled = isEnable ?: false
+        overlayCategory?.isEnabled = isEnable ?: false
     }
 
     private fun overlayOpacityDialog() {
@@ -331,7 +329,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         val opacityTV = view.findViewById<AppCompatTextView>(R.id.opacity_tv)
 
-        val opacitySeekBar = view.findViewById<AppCompatSeekBar>(R.id.opacity_seekbar)
+        val opacitySeekBar = view.findViewById<AppCompatSeekBar>(
+            R.id.opacity_seekbar)
 
         opacitySeekBar.progress = if(pref.getInt(OVERLAY_OPACITY, 127) > 255
             || pref.getInt(OVERLAY_OPACITY, 127) < 0) 127

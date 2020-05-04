@@ -10,13 +10,15 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 
 object ThemeHelper {
 
-    fun setTheme(context: Context, isSystemDarkMode: Boolean? = null, isAutoDarkMode: Boolean? = null) {
+    fun setTheme(context: Context, isSystemDarkMode: Boolean? = null,
+                 isAutoDarkMode: Boolean? = null) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
-            AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(IS_DARK_MODE, false))
+            AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(
+                    IS_DARK_MODE, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
 
             if(pref.contains(IS_AUTO_DARK_MODE)) pref.edit().remove(IS_AUTO_DARK_MODE).apply()
@@ -26,7 +28,8 @@ object ThemeHelper {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         else
-            AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(IS_DARK_MODE, false))
+            AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(
+                    IS_DARK_MODE, false))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 

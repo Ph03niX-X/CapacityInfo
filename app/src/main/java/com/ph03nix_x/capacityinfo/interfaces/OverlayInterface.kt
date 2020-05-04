@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.BatteryManager
 import android.os.Build
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.widget.AppCompatTextView
@@ -17,11 +18,13 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
@@ -39,7 +42,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import java.text.DecimalFormat
 
-interface OverlayInterface : BatteryInfoInterface {
+interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     companion object {
 
@@ -60,33 +63,82 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var pref: SharedPreferences
         lateinit var windowManager: WindowManager
         lateinit var linearLayout: LinearLayoutCompat
+
+        fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
+
+            val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+            with(pref) {
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                return when {
+
+                    Settings.canDrawOverlays(context)
+                            && (getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
+                            && (getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
+                            || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
+                            || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
+                            || getBoolean(IS_STATUS_OVERLAY, false)
+                            || getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_TEMPERATURE_OVERLAY, false)
+                            || getBoolean(IS_VOLTAGE_OVERLAY, false)) -> true
+
+                    else -> false
+                }
+
+                else return when {
+
+                    (getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
+                            && (getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
+                            || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
+                            || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
+                            || getBoolean(IS_STATUS_OVERLAY, false)
+                            || getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+                            || getBoolean(IS_TEMPERATURE_OVERLAY, false)
+                            || getBoolean(IS_VOLTAGE_OVERLAY, false)) -> true
+
+                    else -> false
+                }
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     fun onCreateOverlay(context: Context) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(context)
+        if(isEnabledOverlay(context)) {
 
-        windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+            pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT, if(Build.VERSION.SDK_INT >=
-                Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            else WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT)
+            windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
 
-        parameters.gravity = Gravity.TOP
-        parameters.x = 0
-        parameters.y = 0
+            val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT, if(Build.VERSION.SDK_INT >=
+                    Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                else WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT)
 
-        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT)
+            parameters.gravity = Gravity.TOP
+            parameters.x = 0
+            parameters.y = 0
 
-        onCreateViews(context)
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        windowManager.addView(linearLayout, parameters)
+            onCreateViews(context)
 
-        linearLayout.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
+            windowManager.addView(linearLayout, parameters)
+
+            linearLayout.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
+        }
+
+        else if(OverlayService.instance != null) onStopService(context, OverlayService::class.java)
     }
 
     private fun onCreateViews(context: Context) {
@@ -360,9 +412,4 @@ interface OverlayInterface : BatteryInfoInterface {
                 return false
             }
         }
-
-    fun stopOverlayService(context: Context) {
-
-        context.stopService(Intent(context, OverlayService::class.java))
-    }
 }

@@ -18,13 +18,15 @@ interface BillingInterface {
 
         return BillingClient.newBuilder(context).setListener(({ billingResult, purchasesList ->
 
-            if(billingResult.responseCode == BillingClient.BillingResponseCode.OK && !purchasesList.isNullOrEmpty()) {
+            if(billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
+                !purchasesList.isNullOrEmpty()) {
 
                 purchasesList.forEach {
 
                     if(it.sku == "donate") {
 
-                        Toast.makeText(context, context.getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, context.getString(R.string.thanks_for_the_donation),
+                            Toast.LENGTH_LONG).show()
 
                         CoroutineScope(Dispatchers.Default).launch {
 
@@ -83,7 +85,8 @@ interface BillingInterface {
 
         billingClient?.querySkuDetailsAsync(skuDetailsParamsBuilder, ({ billingResult, skuDetailsList ->
 
-            if(billingResult.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList.isNotEmpty()) {
+            if(billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
+                skuDetailsList.isNotEmpty()) {
 
                 skuDetailsList.forEach {
 

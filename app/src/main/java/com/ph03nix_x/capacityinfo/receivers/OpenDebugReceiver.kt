@@ -12,8 +12,8 @@ class OpenDebugReceiver : BroadcastReceiver() {
 
         when(intent.action) {
 
-            "android.provider.Telephony.SECRET_CODE" ->
-                launchActivity(context, DebugActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
+            "android.provider.Telephony.SECRET_CODE" -> launchActivity(context,
+                DebugActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
     }
 }

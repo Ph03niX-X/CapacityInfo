@@ -2,10 +2,8 @@ package com.ph03nix_x.capacityinfo.activities
 
 import android.content.*
 import android.os.BatteryManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
@@ -20,13 +18,14 @@ import java.text.DecimalFormat
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -38,7 +37,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
-import com.ph03nix_x.capacityinfo.utils.Utils.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import kotlinx.coroutines.*
 
@@ -194,13 +192,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             isStartedService = true
 
-            startService(this)
+            onStartService(this, CapacityInfoService::class.java)
         }
 
         instance = this
 
         if(pref.getInt(DESIGN_CAPACITY, 0) <= 0
-            || pref.getInt(DESIGN_CAPACITY, 0) > 18500) {
+            || pref.getInt(DESIGN_CAPACITY, 0) > MAX_DESIGN_CAPACITY) {
 
             pref.edit().apply {
 
@@ -250,20 +248,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         batteryInformation()
 
-        val prefArrays = intent.getSerializableExtra("pref_arrays") as? HashMap<*, *>
+        val prefArrays = intent.getSerializableExtra("pref_arrays")
+                as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
-        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            if(Settings.canDrawOverlays(this) && isEnabledOverlay(this)
-                && pref.getBoolean(IS_ENABLED_OVERLAY, false)
-                && OverlayService.instance == null)
-                startService(Intent(this, OverlayService::class.java))
-        }
-
-        else if(isEnabledOverlay(this) && OverlayService.instance == null
-            && pref.getBoolean(IS_ENABLED_OVERLAY, false))
-            startService(Intent(this, OverlayService::class.java))
+        else if(OverlayInterface.isEnabledOverlay(this) && OverlayService.instance == null)
+            onStartService(this, OverlayService::class.java)
     }
 
     override fun onStop() {
@@ -305,7 +295,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 while(isJob) {
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                        BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+                        BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
+                        .BATTERY_STATUS_UNKNOWN
                     val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
                         -1) ?: -1
 
@@ -314,7 +305,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         designCapacity.text = getString(R.string.design_capacity,
                             pref.getInt(DESIGN_CAPACITY, 0).toString())
 
-                        batteryLevel.text = getString(R.string.battery_level, "${getBatteryLevel(this@MainActivity)}%")
+                        batteryLevel.text = getString(R.string.battery_level,
+                            "${getBatteryLevel(this@MainActivity)}%")
 
                         numberOfCharges.text = getString(R.string.number_of_charges,
                             pref.getLong(NUMBER_OF_CHARGES, 0))
@@ -341,14 +333,16 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                     withContext(Dispatchers.Main) {
 
-                        this@MainActivity.status.text = getString(R.string.status, getStatus(this@MainActivity, status))
+                        this@MainActivity.status.text = getString(R.string.status,
+                            getStatus(this@MainActivity, status))
 
                         if(getPlugged(this@MainActivity, plugged) != "N/A") {
 
                             if(this@MainActivity.plugged.visibility == View.GONE)
                                 this@MainActivity.plugged.visibility = View.VISIBLE
 
-                            this@MainActivity.plugged.text = getPlugged(this@MainActivity, plugged)
+                            this@MainActivity.plugged.text = getPlugged(this@MainActivity,
+                                plugged)
                         }
 
                         else this@MainActivity.plugged.visibility = View.GONE
@@ -449,7 +443,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         withContext(Dispatchers.Main) {
 
-                            residualCapacity.text = getString(R.string.residual_capacity_not_supported)
+                            residualCapacity.text = getString(R.string
+                                .residual_capacity_not_supported)
                             batteryWear.text = getString(R.string.battery_wear_not_supported)
                         }
 

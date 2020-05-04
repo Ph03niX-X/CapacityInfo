@@ -25,6 +25,7 @@ import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -35,7 +36,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import kotlinx.coroutines.*
 import java.io.File
@@ -47,9 +47,11 @@ interface SettingsInterface : ServiceInterface {
     @RequiresApi(Build.VERSION_CODES.O)
     fun openNotificationCategorySettings(context: Context) {
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val notificationChannel = notificationManager.getNotificationChannel("service_channel")
+        val notificationChannel = notificationManager
+            .getNotificationChannel("service_channel")
 
         val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
 
@@ -64,20 +66,16 @@ interface SettingsInterface : ServiceInterface {
     fun changeLanguage(context: Context, language: String) {
 
         if(CapacityInfoService.instance != null)
-            context.stopService(Intent(context, CapacityInfoService::class.java))
+            onStopService(context, CapacityInfoService::class.java)
 
         if(OverlayService.instance != null)
-            context.stopService(Intent(context, OverlayService::class.java))
+            onStopService(context, OverlayService::class.java)
 
         LocaleHelper.setLocale(context, language)
 
         MainActivity.instance?.recreate()
 
         (context as? SettingsActivity)?.recreate()
-
-        isStartedService = true
-
-        startService(context)
     }
 
     fun exportSettings(context: Context, intent: Intent?) {
@@ -89,12 +87,13 @@ interface SettingsInterface : ServiceInterface {
 
             try {
 
-                val pickerDir = intent?.data?.let { DocumentFile.fromTreeUri(context, it) }
+                val pickerDir = intent?.data?.let {
+                    DocumentFile.fromTreeUri(context, it) }
 
                 pickerDir?.findFile(prefName)?.delete()
 
-                val outputStream = pickerDir?.createFile("text/xml", prefName)?.uri?.let {
-                    context.contentResolver.openOutputStream(it)
+                val outputStream = pickerDir?.createFile("text/xml",
+                    prefName)?.uri?.let { context.contentResolver.openOutputStream(it)
                 }
 
                 val fileInputStream = FileInputStream(prefPath)
@@ -116,7 +115,8 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string.successful_export_of_settings, prefName), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, context.getString(R.string.successful_export_of_settings,
+                        prefName), Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -125,7 +125,8 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string.error_exporting_settings, e.message), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, context.getString(R.string.error_exporting_settings, e.message),
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -145,10 +146,10 @@ interface SettingsInterface : ServiceInterface {
                 }
 
                 if(CapacityInfoService.instance != null)
-                    context.stopService(Intent(context, CapacityInfoService::class.java))
+                    onStopService(context, CapacityInfoService::class.java)
 
                 if(OverlayService.instance != null)
-                    context.stopService(Intent(context, OverlayService::class.java))
+                    onStopService(context, OverlayService::class.java)
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -160,7 +161,8 @@ interface SettingsInterface : ServiceInterface {
 
                         BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY, CAPACITY_ADDED,
                         LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
-                        IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION -> prefArrays[it.key] = it.value
+                        IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
+                            prefArrays[it.key] = it.value
                     }
                 }
 
@@ -170,7 +172,9 @@ interface SettingsInterface : ServiceInterface {
                 File(prefPath).createNewFile()
 
                 val fileOutputStream = FileOutputStream(prefPath)
-                val inputStream = uri?.let { context.contentResolver.openInputStream(it) }
+                val inputStream = uri?.let {
+                    context.contentResolver.openInputStream(it) }
+
                 val buffer = byteArrayOf((1024 * 8).toByte())
                 var read: Int
 
@@ -193,7 +197,8 @@ interface SettingsInterface : ServiceInterface {
 
                     MainActivity.instance?.finish()
 
-                    launchActivity(context, MainActivity::class.java, arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
+                    launchActivity(context, MainActivity::class.java,
+                        arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
                         Intent().putExtra("pref_arrays", prefArrays))
 
                     Runtime.getRuntime().exit(0)
@@ -204,7 +209,8 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string.error_importing_settings, e.message), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, context.getString(R.string.error_importing_settings,
+                        e.message), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -216,11 +222,13 @@ interface SettingsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.change_design_capacity, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.change_design_capacity,
+            null)
 
         dialog.setView(view)
 
-        val changeDesignCapacity = view.findViewById<EditText>(R.id.change_design_capacity_edit)
+        val changeDesignCapacity = view.findViewById<EditText>(R.id
+            .change_design_capacity_edit)
 
         changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, 0) >= 0)
             pref.getInt(DESIGN_CAPACITY, 0).toString()
@@ -229,11 +237,13 @@ interface SettingsInterface : ServiceInterface {
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(DESIGN_CAPACITY, changeDesignCapacity.text.toString().toInt()).apply()
+            pref.edit().putInt(DESIGN_CAPACITY, changeDesignCapacity.text.toString().toInt())
+                .apply()
 
             designCapacity?.summary = changeDesignCapacity.text.toString()
 
-            (context as? MainActivity)?.designCapacity?.text = context.getString(R.string.design_capacity, changeDesignCapacity.text.toString())
+            (context as? MainActivity)?.designCapacity?.text = context.getString(
+                R.string.design_capacity, changeDesignCapacity.text.toString())
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
@@ -245,7 +255,9 @@ interface SettingsInterface : ServiceInterface {
         dialogCreate.show()
     }
 
-    private fun changeDesignCapacityDialogCreateShowListener(dialogCreate: AlertDialog, changeDesignCapacity: EditText, pref: SharedPreferences) {
+    private fun changeDesignCapacityDialogCreateShowListener(dialogCreate: AlertDialog,
+                                                             changeDesignCapacity: EditText,
+                                                             pref: SharedPreferences) {
 
         dialogCreate.setOnShowListener {
 
@@ -259,10 +271,10 @@ interface SettingsInterface : ServiceInterface {
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
-                            && s.toString() != pref.getInt(DESIGN_CAPACITY, 0).toString()
-                            && s.count() >= 4 && s.toString().toInt() <= 18500 && s.toString().toInt() > 0
-                            && s.first() != '0'
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.isNotEmpty() && s.toString() != pref.getInt(DESIGN_CAPACITY, 0)
+                            .toString() && s.count() >= 4 && s.toString().toInt() <=
+                                MAX_DESIGN_CAPACITY && s.toString().toInt() > 0 && s.first() != '0'
                 }
             })
         }

@@ -41,27 +41,34 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 val batteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
-                val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (batteryLevelWith / 100f)
+                val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) +
+                        (batteryLevel / 100f) - (batteryLevelWith / 100f)
 
                 pref.edit().apply {
 
                     if(residualCapacity > 0) {
 
-                        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
+                            == "μAh")
                         putInt(RESIDUAL_CAPACITY,
-                            ((CapacityInfoService.instance?.getCurrentCapacity(context)?.toInt() ?: 0) * 1000))
-                        else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance?.getCurrentCapacity(context)?.toInt() ?: 0)
+                            ((CapacityInfoService.instance?.getCurrentCapacity(context)
+                                ?.toInt() ?: 0) * 1000))
+                        else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance
+                            ?.getCurrentCapacity(context)?.toInt() ?: 0)
                     }
 
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 0) {
 
-                        putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (seconds / 3600)) else seconds)
+                        putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds +
+                                ((seconds / 100) * (seconds / 3600)) else seconds)
 
-                        putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance?.batteryLevelWith ?: 0)
+                        putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance
+                            ?.batteryLevelWith ?: 0)
 
                         putInt(BATTERY_LEVEL_TO, batteryLevel)
 
-                        if(CapacityInfoService.instance?.isSaveNumberOfCharges != false) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
+                        if(CapacityInfoService.instance?.isSaveNumberOfCharges != false)
+                            putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
                         if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
@@ -90,9 +97,10 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 if(pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD, false)) {
 
-                    NotificationInterface.notificationManager?.cancel(NotificationInterface.notificationId)
+                    NotificationInterface.notificationManager?.cancel(NotificationInterface
+                        .notificationId)
 
-                    context.stopService(Intent(context, CapacityInfoService::class.java))
+                    onStopService(context, CapacityInfoService::class.java)
                 }
             }
         }

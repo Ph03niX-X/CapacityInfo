@@ -30,16 +30,21 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 
-                batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+                    .ACTION_BATTERY_CHANGED))
 
-                if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN)
-                    == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
+                if(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                        BatteryManager.BATTERY_STATUS_UNKNOWN) ==
+                    BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(NUMBER_OF_CHARGES,
+                    numberOfCharges + 1).apply()
 
-                CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0
+                CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance
+                    ?.getBatteryLevel(context) ?: 0
 
                 tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
-                tempCurrentCapacity = CapacityInfoService.instance?.getCurrentCapacity(context) ?: 0.0
+                tempCurrentCapacity = CapacityInfoService.instance
+                    ?.getCurrentCapacity(context) ?: 0.0
 
                 BatteryInfoInterface.maxChargeCurrent = 0
                 BatteryInfoInterface.averageChargeCurrent = 0

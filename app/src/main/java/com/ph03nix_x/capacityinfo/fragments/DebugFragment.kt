@@ -13,7 +13,8 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 
-class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface, BillingInterface {
+class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface,
+    BillingInterface {
 
     private lateinit var pref: SharedPreferences
     
@@ -85,7 +86,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         restartService?.setOnPreferenceClickListener {
 
-            restartService(requireContext())
+            onRestartService(requireContext(), CapacityInfoService::class.java)
 
             it.isVisible = CapacityInfoService.instance != null
 
