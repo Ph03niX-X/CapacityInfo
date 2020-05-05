@@ -69,6 +69,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
             android:textColor="@android:color/white"
+            android:id="@+id/residual_capacity_overlay"
+            android:text="@string/residual_capacity"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
+            android:textColor="@android:color/white"
             android:id="@+id/status_overlay"
             android:text="@string/status"/>
 

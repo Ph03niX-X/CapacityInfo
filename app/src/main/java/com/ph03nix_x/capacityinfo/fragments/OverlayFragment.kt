@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
@@ -61,6 +62,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var capacityAddedOverlay: SwitchPreferenceCompat? = null
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
+    private var residualCapacityOverlay: SwitchPreferenceCompat? = null
     private var statusOverlay: SwitchPreferenceCompat? = null
     private var chargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var maxChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
@@ -148,10 +150,12 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
+        residualCapacityOverlay = findPreference(IS_RESIDUAL_CAPACITY_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
         chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         maxChargeDischargeCurrentOverlay = findPreference(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY)
-        averageChargeDischargeCurrentOverlay = findPreference(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        averageChargeDischargeCurrentOverlay =
+            findPreference(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         minChargeDischargeCurrentOverlay = findPreference(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
         voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
@@ -210,6 +214,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         }
 
         batteryHealthOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as Boolean && OverlayService.instance == null)
+                onStartService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        residualCapacityOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)

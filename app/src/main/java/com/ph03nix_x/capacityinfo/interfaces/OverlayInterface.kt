@@ -31,6 +31,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
@@ -56,6 +57,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         private lateinit var currentCapacityOverlay: AppCompatTextView
         private lateinit var capacityAddedOverlay: AppCompatTextView
         private lateinit var batteryHealthOverlay: AppCompatTextView
+        private lateinit var residualCapacityOverlay: AppCompatTextView
         private lateinit var statusOverlay: AppCompatTextView
         private lateinit var chargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var maxChargeDischargeCurrentOverlay: AppCompatTextView
@@ -74,50 +76,41 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             with(pref) {
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                return when {
+                val overlayArray = arrayListOf(getBoolean(IS_BATTERY_LEVEL_OVERLAY,
+                    false), getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false),
+                    getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false),
+                    getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false),
+                    getBoolean(IS_CHARGING_TIME_OVERLAY, false),
+                    getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false),
+                    getBoolean(IS_CAPACITY_ADDED_OVERLAY, false),
+                    getBoolean(IS_BATTERY_HEALTH_OVERLAY, false),
+                    getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false),
+                    getBoolean(IS_STATUS_OVERLAY, false),
+                    getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
+                    getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
+                    getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
+                    getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
+                    getBoolean(IS_TEMPERATURE_OVERLAY, false),
+                    getBoolean(IS_VOLTAGE_OVERLAY, false))
 
-                    Settings.canDrawOverlays(context)
-                            && (getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
-                            && (getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
-                            || getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false)
-                            || getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false)
-                            || getBoolean(IS_CHARGING_TIME_OVERLAY, false)
-                            || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
-                            || getBoolean(IS_CAPACITY_ADDED_OVERLAY, false)
-                            || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
-                            || getBoolean(IS_STATUS_OVERLAY, false)
-                            || getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_TEMPERATURE_OVERLAY, false)
-                            || getBoolean(IS_VOLTAGE_OVERLAY, false)) -> true
+                overlayArray.forEach {
 
-                    else -> false
-                }
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                else return when {
+                        if(Settings.canDrawOverlays(context)
+                            && (getBoolean(IS_ENABLED_OVERLAY, false)
+                                    || isEnabledOverlay) && it) return true
+                    }
 
-                    (getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
-                            && (getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
-                            || getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false)
-                            || getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false)
-                            || getBoolean(IS_CHARGING_TIME_OVERLAY, false)
-                            || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
-                            || getBoolean(IS_CAPACITY_ADDED_OVERLAY, false)
-                            || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
-                            || getBoolean(IS_STATUS_OVERLAY, false)
-                            || getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-                            || getBoolean(IS_TEMPERATURE_OVERLAY, false)
-                            || getBoolean(IS_VOLTAGE_OVERLAY, false)) -> true
+                    else {
 
-                    else -> false
+                        if((getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
+                            && it) return true
+                    }
                 }
             }
+
+            return false
         }
     }
 
@@ -166,6 +159,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         currentCapacityOverlay = view.findViewById(R.id.current_capacity_overlay)
         capacityAddedOverlay = view.findViewById(R.id.capacity_added_overlay)
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
+        residualCapacityOverlay = view.findViewById(R.id.residual_capacity_overlay)
         statusOverlay = view.findViewById(R.id.status_overlay)
         chargeDischargeCurrentOverlay = view.findViewById(R.id.charge_discharge_current_overlay)
         maxChargeDischargeCurrentOverlay = view.findViewById(R.id
@@ -197,6 +191,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         onUpdateCurrentCapacityOverlay()
         onUpdateCapacityAddedOverlay()
         onUpdateBatteryHealthOverlay()
+        onUpdateResidualCapacityOverlay(status)
         onUpdateStatusOverlay(status)
         onUpdateChargeDischargeCurrentOverlay(status)
         onUpdateMaxChargeDischargeCurrentOverlay(status)
@@ -308,6 +303,20 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)) View.VISIBLE
             else View.GONE
+        }
+    }
+
+    private fun onUpdateResidualCapacityOverlay(status: Int) {
+
+        residualCapacityOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = getResidualCapacity(context,
+                status == BatteryManager.BATTERY_STATUS_CHARGING)
+
+            visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false))
+                View.VISIBLE else View.GONE
         }
     }
 
