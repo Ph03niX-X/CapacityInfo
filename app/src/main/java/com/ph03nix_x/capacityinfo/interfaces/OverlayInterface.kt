@@ -17,12 +17,13 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
@@ -50,6 +51,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         private lateinit var batteryLevelOverlay: AppCompatTextView
         private lateinit var numberOfChargesOverlay: AppCompatTextView
         private lateinit var numberOfCyclesOverlay: AppCompatTextView
+        private lateinit var chargingTimeOverlay: AppCompatTextView
         private lateinit var currentCapacityOverlay: AppCompatTextView
         private lateinit var batteryHealthOverlay: AppCompatTextView
         private lateinit var statusOverlay: AppCompatTextView
@@ -76,6 +78,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
                     Settings.canDrawOverlays(context)
                             && (getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
                             && (getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
+                            || getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false)
+                            || getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false)
+                            || getBoolean(IS_CHARGING_TIME_OVERLAY, false)
                             || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
                             || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
                             || getBoolean(IS_STATUS_OVERLAY, false)
@@ -93,6 +98,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
                     (getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
                             && (getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
+                            || getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false)
+                            || getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false)
+                            || getBoolean(IS_CHARGING_TIME_OVERLAY, false)
                             || getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
                             || getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
                             || getBoolean(IS_STATUS_OVERLAY, false)
@@ -121,8 +129,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT, if(Build.VERSION.SDK_INT >=
                     Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                else WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT)
+                else WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT)
 
             parameters.gravity = Gravity.TOP
             parameters.x = 0
@@ -150,6 +158,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         batteryLevelOverlay = view.findViewById(R.id.battery_level_overlay)
         numberOfChargesOverlay = view.findViewById(R.id.number_of_charges_overlay)
         numberOfCyclesOverlay = view.findViewById(R.id.number_of_cycles_overlay)
+        chargingTimeOverlay = view.findViewById(R.id.charging_time_overlay)
         currentCapacityOverlay = view.findViewById(R.id.current_capacity_overlay)
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
         statusOverlay = view.findViewById(R.id.status_overlay)
@@ -179,6 +188,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
         onUpdateNumberOfCyclesOverlay()
+        onUpdateChargingTimeOverlay()
         onUpdateCurrentCapacityOverlay()
         onUpdateBatteryHealthOverlay()
         onUpdateStatusOverlay(status)
@@ -233,6 +243,22 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
                 pref.getFloat(NUMBER_OF_CYCLES, 0f).toString())
 
             visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false))
+                View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun onUpdateChargingTimeOverlay() {
+
+        if((CapacityInfoService.instance?.seconds ?: 0) > 0
+            || chargingTimeOverlay.visibility == View.VISIBLE)
+        chargingTimeOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = getChargingTime(this.context, (CapacityInfoService.instance?.seconds ?: 0))
+
+            visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, false)
+                && (CapacityInfoService.instance?.seconds ?: 0) > 0)
                 View.VISIBLE else View.GONE
         }
     }

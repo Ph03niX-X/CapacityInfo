@@ -39,7 +39,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:title="@string/overlay"
+            app:title="@string/window_overlay"
             app:singleLineTitle="false"
             app:enabled="false"
             app:iconSpaceReserved="false"
@@ -67,6 +67,13 @@
                 app:singleLineTitle="false"
                 app:iconSpaceReserved="false"
                 android:key="is_number_of_cycles_overlay"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/charging_time_overlay"
+                android:defaultValue="false"
+                app:singleLineTitle="false"
+                app:iconSpaceReserved="false"
+                android:key="is_charging_time_overlay"/>
 
     <SwitchPreferenceCompat
             android:title="@string/current_capacity_overlay"

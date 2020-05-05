@@ -304,7 +304,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         overlay?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.overlay)
+            (activity as SettingsActivity).toolbar.title = requireContext().getString(
+                R.string.overlays)
 
             requireActivity().supportFragmentManager.beginTransaction().apply {
 
