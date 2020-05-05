@@ -94,7 +94,6 @@
     <string name="share_the_app">Partajare aplicație</string>
     <string name="more">Mai multe&#8230;</string>
     <string name="hide">Ascundere</string>
-    <string name="restart_service">Repornire serviciu</string>
     <string name="change_design_summary">%1$d mAh</string>
     <string name="unit_of_charge_discharge_current">Unități curent de încărcare/descărcare</string>
     <string name="unit_of_measurement_of_current_capacity">Unitatea de măsură a capacității curente</string>
@@ -105,9 +104,6 @@
     <string name="faq_units">Întrebare: Numere foarte mari sau mici sunt afișate în capacitatea curentă, curentul de încărcare/descărcare, tensiune.\nRăspuns: Accesați setările, în secțiunea \"Altele\", extindeți toate setările și schimbați unitatea de măsură.\n\n</string>
     <string name="faq_current_capacity">Întrebare: Capacitatea curentă a încetat să mai fie afișată, deși anterior a fost afișată (sau este afișată, dar nu întotdeauna).\nRăspuns: Aceasta înseamnă că bateria se apropie sau a ajuns deja la sfârșitul vieții. Dacă totul este în regulă cu bateria, atunci nucleul sau controlerul care furnizează capacitatea curentă, ar putea fi defectuos.\n\n</string>
     <string name="faq_add_device_support">Întrebare: Dispozitivul nu este acceptat. Adăugați dispozitivul.\nRăspuns: Din păcate, acest lucru este imposibil, deoarece depinde în primul rând de baterie și în al doilea rând de nucleul SO. Prin urmare, notarea cu 1 și scrierea despre aceea că nu este acceptat, precum și solicitarea de a adăuga asistență pentru dispozitiv nu are rost. Puteți nota cu 1, dar gândiți-vă de trei ori. Merită să stricați ratingul mediu al aplicației datorită faptului că bateria sau nucleul dispozitivului dvs. nu furnizează informația despre capacitatea actuală?</string>
-    <string name="restarting_the_service">Repornire serviciu&#8230;</string>
-    <string name="service_restarted_successfully">Serviciul a repornit cu succes!</string>
-    <string name="service_restart_failed">Repornirea serviciului a eșuat!\n%1$s</string>
     <string name="import_settings_3dots">Importare setări&#8230;</string>
     <string name="donate">Susțineți proiectul</string>
     <string name="thanks_for_the_donation">Vă mulțumim pentru susținerea proiectului</string>

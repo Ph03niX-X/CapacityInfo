@@ -97,7 +97,6 @@
     <string name="share_the_app">Share The App</string>
     <string name="more">More&#8230;</string>
     <string name="hide">Hide</string>
-    <string name="restart_service">Restart Service</string>
     <string name="change_design_summary">%1$d mAh</string>
     <string name="unit_of_charge_discharge_current">Unit of Charge/Discharge Current</string>
     <string name="unit_of_measurement_of_current_capacity">Unit of measurement of current capacity</string>
@@ -109,9 +108,6 @@
     <string name="faq_units">Question: Very large or small numbers are shown in the current capacity, charge/discharge current, voltage.\nAnswer: Go to the settings, in the \"Misc\" section, expand all the settings and change the unit of measurement.\n\n</string>
     <string name="faq_current_capacity">Question: The current capacity has ceased to be displayed, although it was previously displayed (or is displayed, but not always).\nAnswer: This means that the battery is coming or has already come to an end. If everything is in order with the battery, then the firmware kernel or the controller, which gives the current capacity, may be buggy.\n\n</string>
     <string name="faq_add_device_support">Question: The device is not supported. Add device support.\nAnswer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or core does not give up the current capacity?</string>
-    <string name="restarting_the_service">Restarting the Service&#8230;</string>
-    <string name="service_restarted_successfully">Service restarted successfully!</string>
-    <string name="service_restart_failed">Service restart failed!\n%1$s</string>
     <string name="import_settings_3dots">Import Settings&#8230;</string>
     <string name="donate">Support the Project</string>
     <string name="thanks_for_the_donation">Thanks for supporting the project</string>

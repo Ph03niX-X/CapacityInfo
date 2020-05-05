@@ -9,7 +9,6 @@ import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 
@@ -24,7 +23,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
     private var openSettings: Preference? = null
-    private var restartService: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -43,8 +41,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         resetSettings = findPreference("reset_settings")
 
         openSettings = findPreference("open_settings")
-
-        restartService = findPreference("restart_service")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
@@ -83,21 +79,5 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
             true
         }
-
-        restartService?.setOnPreferenceClickListener {
-
-            onRestartService(requireContext(), CapacityInfoService::class.java)
-
-            it.isVisible = CapacityInfoService.instance != null
-
-            true
-        }
-    }
-
-    override fun onResume() {
-
-        super.onResume()
-
-        restartService?.isVisible = CapacityInfoService.instance != null
     }
 }

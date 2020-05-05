@@ -44,10 +44,4 @@
                 app:icon="@drawable/ic_settings_24dp"
                 android:key="open_settings"/>
 
-        <Preference
-                app:title="@string/restart_service"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_restart_service"
-                app:key="restart_service"/>
-
 </PreferenceScreen>
