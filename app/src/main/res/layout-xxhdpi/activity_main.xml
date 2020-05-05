@@ -8,7 +8,7 @@
         tools:context=".activities.MainActivity">
 
     <include
-            layout="@layout/card_toolbar"
+            layout="@layout/toolbar"
             android:id="@+id/toolbar_card"/>
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -73,7 +73,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        addPreferencesFromResource(R.xml.overlay)
+        addPreferencesFromResource(R.xml.overlay_settings)
 
         overlayScreen = findPreference("overlay_screen")
 

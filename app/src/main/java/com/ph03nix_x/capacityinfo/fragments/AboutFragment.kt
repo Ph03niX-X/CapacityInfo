@@ -39,7 +39,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(R.xml.about)
+        addPreferencesFromResource(R.xml.about_settings)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 

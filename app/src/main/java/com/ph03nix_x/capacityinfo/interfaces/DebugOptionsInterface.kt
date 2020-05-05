@@ -256,7 +256,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key_dialog, null)
 
         dialog.setView(view)
 
@@ -571,7 +571,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.reset_pref_key, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.reset_pref_key_dialog, null)
 
         var key = ""
 

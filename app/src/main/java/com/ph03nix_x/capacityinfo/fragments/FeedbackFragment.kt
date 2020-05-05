@@ -21,7 +21,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(R.xml.feedback)
+        addPreferencesFromResource(R.xml.feedback_settings)
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 

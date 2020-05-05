@@ -28,7 +28,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        addPreferencesFromResource(R.xml.debug)
+        addPreferencesFromResource(R.xml.debug_settings)
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 

@@ -155,7 +155,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onCreateViews(context: Context) {
 
-        view = LayoutInflater.from(context).inflate(R.layout.overlay, null)
+        view = LayoutInflater.from(context).inflate(R.layout.overlay_layout, null)
 
         linearLayout = view.findViewById(R.id.overlay_linear_layout)
 

@@ -222,7 +222,7 @@ interface SettingsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.change_design_capacity,
+        val view = LayoutInflater.from(context).inflate(R.layout.change_design_capacity_dialog,
             null)
 
         dialog.setView(view)
