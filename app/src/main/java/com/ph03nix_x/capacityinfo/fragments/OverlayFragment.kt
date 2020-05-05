@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.utils.Constants.ACTION_MANAGE_OVERLAY_PERMISSI
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CAPACITY_ADDED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
@@ -51,13 +52,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     private var overlaySize: ListPreference? = null
     private var overlayOpacity: Preference? = null
 
-    // Window Overlay
+    // Overlay
     private var overlayCategory: PreferenceCategory? = null
     private var numberOfChargesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesOverlay: SwitchPreferenceCompat? = null
     private var chargingTimeOverlay: SwitchPreferenceCompat? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
+    private var capacityAddedOverlay: SwitchPreferenceCompat? = null
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
     private var statusOverlay: SwitchPreferenceCompat? = null
     private var chargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
@@ -137,13 +139,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             true
         }
 
-        // Window Overlay
+        // Overlay
         overlayCategory = findPreference("overlay_category")
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
         numberOfCyclesOverlay = findPreference(IS_NUMBER_OF_CYCLES_OVERLAY)
         chargingTimeOverlay = findPreference(IS_CHARGING_TIME_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
+        capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
         chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
@@ -191,6 +194,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         if(pref.getBoolean(IS_SUPPORTED, true))
         currentCapacityOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as Boolean && OverlayService.instance == null)
+                onStartService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        capacityAddedOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)

@@ -39,7 +39,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:title="@string/window_overlay"
+            app:title="@string/overlay"
             app:singleLineTitle="false"
             app:enabled="false"
             app:iconSpaceReserved="false"
@@ -81,6 +81,13 @@
             app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             android:key="is_current_capacity_overlay"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/capacity_added_overlay"
+                android:defaultValue="false"
+                app:singleLineTitle="false"
+                app:iconSpaceReserved="false"
+                android:key="is_capacity_added_overlay"/>
 
     <SwitchPreferenceCompat
             android:title="@string/battery_health_overlay"

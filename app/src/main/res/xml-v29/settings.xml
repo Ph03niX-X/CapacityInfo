@@ -181,7 +181,7 @@
                 android:key="change_design_capacity"/>
 
         <Preference
-                android:title="@string/overlays"
+                android:title="@string/overlay"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 android:key="overlay"/>
