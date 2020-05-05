@@ -29,7 +29,7 @@
     <string name="full">Заражана</string>
     <string name="unknown">Невядома</string>
     <string name="plugged_ac">Сетка</string>
-    <string name="plugged_wireless">Бесправадны</string>
+    <string name="plugged_wireless">Бесправадная</string>
     <string name="battery_level">"Ўзровень зарада: %1$s"</string>
     <string name="show_last_charge_time">Паказваць час апошняй зарадкі</string>
     <string name="last_charge_time">"Час апошняй зарадкі: %1$s (%2$s - %3$s)"</string>
@@ -120,7 +120,7 @@
     <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
     <string name="hide_donate">Схаваць \"Падтрымаць праэкт\"</string>
     <string name="battery_health">Стан акумулятара (Android): %1$s</string>
-    <string name="battery_health_good">Добрае</string>
+    <string name="battery_health_good">Добры</string>
     <string name="battery_health_dead">Мёртвы</string>
     <string name="battery_health_cold">Халодная</string>
     <string name="battery_health_overheat">Перагрэў</string>
