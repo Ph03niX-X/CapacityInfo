@@ -169,6 +169,13 @@
                 app:iconSpaceReserved="false"
                 app:singleLineTitle="false"/>
 
+        <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="is_battery_wear_overlay"
+                android:title="@string/battery_wear_overlay"
+                app:iconSpaceReserved="false"
+                app:singleLineTitle="false"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

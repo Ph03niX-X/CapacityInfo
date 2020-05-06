@@ -53,6 +53,7 @@ object PreferencesKeys {
     const val IS_TEMPERATURE_OVERLAY = "is_temperature_overlay"
     const val IS_VOLTAGE_OVERLAY = "is_voltage_overlay"
     const val IS_LAST_CHARGE_TIME_OVERLAY = "is_last_charge_time_overlay"
+    const val IS_BATTERY_WEAR_OVERLAY = "is_battery_wear_overlay"
 
     // Debug
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"

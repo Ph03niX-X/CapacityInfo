@@ -19,12 +19,12 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CAPACITY_ADDED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
@@ -72,6 +72,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         private lateinit var temperatureOverlay: AppCompatTextView
         private lateinit var voltageOverlay: AppCompatTextView
         private lateinit var lastChargeTimeOverlay: AppCompatTextView
+        private lateinit var batteryWearOverlay: AppCompatTextView
         private lateinit var layoutParams: ViewGroup.LayoutParams
         private lateinit var pref: SharedPreferences
         lateinit var windowManager: WindowManager
@@ -100,7 +101,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
                     getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_TEMPERATURE_OVERLAY, false),
                     getBoolean(IS_VOLTAGE_OVERLAY, false),
-                    getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false))
+                    getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false),
+                    getBoolean(IS_BATTERY_WEAR_OVERLAY, false))
 
                 overlayArray.forEach {
 
@@ -181,6 +183,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         temperatureOverlay = view.findViewById(R.id.temperature_overlay)
         voltageOverlay = view.findViewById(R.id.voltage_overlay)
         lastChargeTimeOverlay = view.findViewById(R.id.last_charge_time_overlay)
+        batteryWearOverlay = view.findViewById(R.id.battery_wear_overlay)
 
         onUpdateOverlay(context)
     }
@@ -217,6 +220,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         onUpdateTemperatureOverlay()
         onUpdateVoltageOverlay()
         onUpdateLastChargeTimeOverlay()
+        onUpdateBatteryWearOverlay()
     }
 
     private fun onSetBackgroundLinearLayout() =
@@ -300,14 +304,16 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateCapacityAddedOverlay() {
 
+        if(pref.getBoolean(IS_SUPPORTED, true)
+            || capacityAddedOverlay.visibility == View.VISIBLE)
         capacityAddedOverlay.apply {
 
             onSetTextSize(this)
 
             text = getCapacityAdded(this.context)
 
-            visibility = if(pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, false))
-                View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, false)
+                && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
         }
     }
 
@@ -326,6 +332,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateResidualCapacityOverlay(status: Int) {
 
+        if(pref.getBoolean(IS_SUPPORTED, true)
+            || residualCapacityOverlay.visibility == View.VISIBLE)
         residualCapacityOverlay.apply {
 
             onSetTextSize(this)
@@ -333,8 +341,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             text = getResidualCapacity(context,
                 status == BatteryManager.BATTERY_STATUS_CHARGING)
 
-            visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false))
-                View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false)
+                && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
         }
     }
 
@@ -469,6 +477,21 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false))
                 View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun onUpdateBatteryWearOverlay() {
+
+        if(pref.getBoolean(IS_SUPPORTED, true)
+            || batteryWearOverlay.visibility == View.VISIBLE)
+        batteryWearOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = getBatteryWear(context)
+
+            visibility = if(pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, false)
+                && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
         }
     }
 

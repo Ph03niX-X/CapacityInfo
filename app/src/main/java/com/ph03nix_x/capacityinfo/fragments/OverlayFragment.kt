@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.utils.Constants.ACTION_MANAGE_OVERLAY_PERMISSI
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CAPACITY_ADDED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
@@ -74,6 +75,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     private var temperatureOverlay: SwitchPreferenceCompat? = null
     private var voltageOverlay: SwitchPreferenceCompat? = null
     private var lastChargeTimeOverlay: SwitchPreferenceCompat? = null
+    private var batteryWearOverlay: SwitchPreferenceCompat? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -171,8 +173,12 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
         voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
         lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
+        batteryWearOverlay = findPreference(IS_BATTERY_WEAR_OVERLAY)
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
@@ -208,19 +214,38 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             true
         }
 
-        if(pref.getBoolean(IS_SUPPORTED, true))
-        currentCapacityOverlay?.setOnPreferenceChangeListener { _, newValue ->
+        currentCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as Boolean && OverlayService.instance == null
+                && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
+
+            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
+
+                (preference as? SwitchPreferenceCompat)?.apply {
+
+                    isChecked = false
+                    isVisible = false
+                }
+            }
 
             true
         }
 
-        capacityAddedOverlay?.setOnPreferenceChangeListener { _, newValue ->
+        capacityAddedOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as Boolean && OverlayService.instance == null
+                && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
+
+            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
+
+                (preference as? SwitchPreferenceCompat)?.apply {
+
+                    isChecked = false
+                    isVisible = false
+                }
+            }
 
             true
         }
@@ -233,10 +258,20 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             true
         }
 
-        residualCapacityOverlay?.setOnPreferenceChangeListener { _, newValue ->
+        residualCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as Boolean && OverlayService.instance == null
+                && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
+
+            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
+
+                (preference as? SwitchPreferenceCompat)?.apply {
+
+                    isChecked = false
+                    isVisible = false
+                }
+            }
 
             true
         }
@@ -312,6 +347,24 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
             true
         }
+
+        batteryWearOverlay?.setOnPreferenceChangeListener { preference, newValue ->
+
+            if(newValue as Boolean && OverlayService.instance == null
+                && pref.getBoolean(IS_SUPPORTED, true))
+                onStartService(requireContext(), OverlayService::class.java)
+
+            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
+
+                (preference as? SwitchPreferenceCompat)?.apply {
+
+                    isChecked = false
+                    isVisible = false
+                }
+            }
+
+            true
+        }
     }
 
     override fun onResume() {
@@ -335,6 +388,11 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlayOpacity?.summary = "${DecimalFormat("#")
             .format((pref.getInt(OVERLAY_OPACITY, 127).toFloat() / 255f) * 100f)}%"
+
+        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
