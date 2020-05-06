@@ -166,6 +166,7 @@
     <string name="battery_health_overlay">Battery Health (Android)</string>
     <string name="residual_capacity_overlay">Residual Capacity</string>
     <string name="status_overlay">Status</string>
+    <string name="source_of_power_overlay">Source of Power</string>
     <string name="charge_discharge_current_overlay">Charge/Discharge Current</string>
     <string name="max_charge_discharge_current_overlay">Maximum Charge/Discharge Current</string>
     <string name="average_charge_discharge_current_overlay">Average Charge/Discharge Current</string>

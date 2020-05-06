@@ -31,6 +31,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_PLUGGED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -59,6 +60,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         private lateinit var batteryHealthOverlay: AppCompatTextView
         private lateinit var residualCapacityOverlay: AppCompatTextView
         private lateinit var statusOverlay: AppCompatTextView
+        private lateinit var pluggedOverlay: AppCompatTextView
         private lateinit var chargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var maxChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var averageChargeDischargeCurrentOverlay: AppCompatTextView
@@ -86,6 +88,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
                     getBoolean(IS_BATTERY_HEALTH_OVERLAY, false),
                     getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false),
                     getBoolean(IS_STATUS_OVERLAY, false),
+                    getBoolean(IS_PLUGGED_OVERLAY, false),
                     getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
@@ -161,6 +164,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
         residualCapacityOverlay = view.findViewById(R.id.residual_capacity_overlay)
         statusOverlay = view.findViewById(R.id.status_overlay)
+        pluggedOverlay = view.findViewById(R.id.source_of_power_overlay)
         chargeDischargeCurrentOverlay = view.findViewById(R.id.charge_discharge_current_overlay)
         maxChargeDischargeCurrentOverlay = view.findViewById(R.id
             .max_charge_discharge_current_overlay)
@@ -182,6 +186,11 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
+        val extraPlugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
+            -1) ?: -1
+
+        val plugged = getPlugged(context, extraPlugged)
+
         linearLayout.setBackgroundColor(onSetBackgroundLinearLayout())
 
         onUpdateBatteryLevelOverlay()
@@ -193,6 +202,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         onUpdateBatteryHealthOverlay()
         onUpdateResidualCapacityOverlay(status)
         onUpdateStatusOverlay(status)
+        onUpdatePluggedOverlay(plugged)
         onUpdateChargeDischargeCurrentOverlay(status)
         onUpdateMaxChargeDischargeCurrentOverlay(status)
         onUpdateAverageChargeDischargeCurrentOverlay(status)
@@ -329,6 +339,21 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             text = context.getString(R.string.status, getStatus(context, status))
 
             visibility = if(pref.getBoolean(IS_STATUS_OVERLAY, false)) View.VISIBLE
+            else View.GONE
+        }
+    }
+
+    private fun onUpdatePluggedOverlay(plugged: String) {
+
+        if(plugged != "N/A" || pluggedOverlay.visibility == View.VISIBLE)
+        pluggedOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = plugged
+
+            visibility = if(pref.getBoolean(IS_PLUGGED_OVERLAY, false)
+                && plugged != "N/A") View.VISIBLE
             else View.GONE
         }
     }

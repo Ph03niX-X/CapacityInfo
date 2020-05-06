@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -17,8 +16,6 @@ class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
         when(intent.action) {
 
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
-
-                val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
                 if(CapacityInfoService.instance == null && !isStartedService) {
 

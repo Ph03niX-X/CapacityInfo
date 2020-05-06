@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_PLUGGED_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -64,6 +65,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
     private var residualCapacityOverlay: SwitchPreferenceCompat? = null
     private var statusOverlay: SwitchPreferenceCompat? = null
+    private var pluggedOverlay: SwitchPreferenceCompat? = null
     private var chargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var maxChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var averageChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
@@ -152,6 +154,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
         residualCapacityOverlay = findPreference(IS_RESIDUAL_CAPACITY_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
+        pluggedOverlay = findPreference(IS_PLUGGED_OVERLAY)
         chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         maxChargeDischargeCurrentOverlay = findPreference(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         averageChargeDischargeCurrentOverlay =
@@ -230,6 +233,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         }
 
         statusOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as Boolean && OverlayService.instance == null)
+                onStartService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        pluggedOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)

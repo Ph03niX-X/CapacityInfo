@@ -85,6 +85,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/medium"
             android:textColor="@android:color/white"
+            android:id="@+id/source_of_power_overlay"
+            android:text="@string/plugged"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
+            android:textColor="@android:color/white"
             android:id="@+id/charge_discharge_current_overlay"
             android:text="@string/discharge_current"/>
 

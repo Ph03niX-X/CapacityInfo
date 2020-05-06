@@ -44,6 +44,7 @@ object PreferencesKeys {
     const val IS_BATTERY_HEALTH_OVERLAY = "is_battery_health_overlay"
     const val IS_RESIDUAL_CAPACITY_OVERLAY = "is_residual_capacity_overlay"
     const val IS_STATUS_OVERLAY = "is_status_overlay"
+    const val IS_PLUGGED_OVERLAY = "is_plugged_overlay"
     const val IS_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_charge_discharge_current_overlay"
     const val IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_max_charge_discharge_current_overlay"
     const val IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY =

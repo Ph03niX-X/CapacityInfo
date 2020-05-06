@@ -330,8 +330,10 @@ interface BatteryInfoInterface {
 
         return when(extraPlugged) {
 
-            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.plugged, context.getString(R.string.plugged_ac))
-            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.plugged, context.getString(R.string.plugged_usb))
+            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.plugged,
+                context.getString(R.string.plugged_ac))
+            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.plugged,
+                context.getString(R.string.plugged_usb))
             BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(R.string.plugged,
                 context.getString(R.string.plugged_wireless))
             else -> "N/A"

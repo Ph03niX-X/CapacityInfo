@@ -89,7 +89,8 @@ interface BillingInterface {
 
         }.build()
 
-        billingClient?.querySkuDetailsAsync(skuDetailsParamsBuilder, ({ billingResult, skuDetailsList ->
+        billingClient?.querySkuDetailsAsync(skuDetailsParamsBuilder, ({ billingResult,
+                                                                        skuDetailsList ->
 
             if(billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
                 skuDetailsList.isNotEmpty()) {
