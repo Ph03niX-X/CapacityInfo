@@ -1,22 +1,21 @@
 package com.ph03nix_x.capacityinfo
 
 import android.app.Application
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.res.Configuration
 import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
-import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
+import com.ph03nix_x.capacityinfo.services.BillingJobService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-class MainApp : Application(), BillingInterface {
+
+class MainApp : Application() {
 
     companion object {
 
@@ -36,7 +35,7 @@ class MainApp : Application(), BillingInterface {
 
         isInstalledGooglePlay = isInstalledGooglePlay(this)
 
-        if(isInstalledGooglePlay) billingClient()
+        if(isInstalledGooglePlay) startBillingJob()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -64,17 +63,21 @@ class MainApp : Application(), BillingInterface {
             pref.edit().putString(LANGUAGE, defLang).apply()
     }
 
-    private fun billingClient() {
+    private fun startBillingJob() {
 
-        CoroutineScope(Dispatchers.Default).launch {
+        val componentName = ComponentName(this, BillingJobService::class.java)
+        val jobInfo = JobInfo.Builder(0, componentName).apply {
 
-            if(billingClient == null)
-                billingClient = onBillingClientBuilder(this@MainApp)
-            onBillingStartConnection()
+            setRequiresCharging(false)
 
-            delay(5 * 1000)
-            billingClient?.endConnection()
-            billingClient = null
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) setRequiresBatteryNotLow(true)
+
+            setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+            setPeriodic(12 * 60 * 60 * 1000)
         }
+
+        val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as? JobScheduler
+
+        jobScheduler?.schedule(jobInfo.build())
     }
 }

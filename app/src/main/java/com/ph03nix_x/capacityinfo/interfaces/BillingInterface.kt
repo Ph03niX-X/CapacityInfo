@@ -5,16 +5,17 @@ import android.widget.Toast
 import com.android.billingclient.api.*
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
-import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 interface BillingInterface {
 
-    fun onBillingClientBuilder(context: Context): BillingClient {
+    companion object {
+
+        var billingClient: BillingClient? = null
+        var isDonated: Boolean = false
+    }
+
+    private fun onBillingClientBuilder(context: Context): BillingClient {
 
         return BillingClient.newBuilder(context).setListener(({ billingResult, purchasesList ->
 
@@ -25,15 +26,18 @@ interface BillingInterface {
 
                     if(it.sku == "donate") {
 
-                        Toast.makeText(context, context.getString(R.string.thanks_for_the_donation),
-                            Toast.LENGTH_LONG).show()
-
                         CoroutineScope(Dispatchers.Default).launch {
 
                             onConsumePurchase(it.purchaseToken, it.developerPayload)
-                        }
 
-                        queryPurchaseHistory()
+                            isDonated = !isDonated
+
+                            withContext(Dispatchers.Main) {
+
+                                Toast.makeText(context, context.getString(
+                                    R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }
                 }
             }
@@ -41,21 +45,23 @@ interface BillingInterface {
         })).enablePendingPurchases().build()
     }
 
-    fun onBillingStartConnection() {
+    fun onBillingStartConnection(context: Context) {
+
+        if(billingClient == null) billingClient = onBillingClientBuilder(context)
 
         billingClient?.startConnection(object : BillingClientStateListener {
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
 
                 if(billingResult.responseCode == BillingClient.BillingResponseCode.OK)
-                    queryPurchaseHistory()
+                    onQueryPurchaseHistory()
             }
 
             override fun onBillingServiceDisconnected() { }
         })
     }
 
-    fun queryPurchaseHistory() {
+    private fun onQueryPurchaseHistory() {
 
         billingClient?.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) {
 
@@ -77,7 +83,7 @@ interface BillingInterface {
 
         val skuDetailsParamsBuilder = SkuDetailsParams.newBuilder().apply {
 
-            setSkusList(getSkuList(sku))
+            setSkusList(onGetSkuList(sku))
 
             setType(BillingClient.SkuType.INAPP)
 
@@ -118,5 +124,5 @@ interface BillingInterface {
         }
     }
 
-    fun getSkuList(sku: String) = arrayListOf(sku)
+    private fun onGetSkuList(sku: String) = arrayListOf(sku)
 }

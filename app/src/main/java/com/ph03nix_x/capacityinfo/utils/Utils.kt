@@ -3,15 +3,12 @@ package com.ph03nix_x.capacityinfo.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import com.android.billingclient.api.BillingClient
 import com.ph03nix_x.capacityinfo.utils.Constants.GOOGLE_PLAY_PACKAGE_NAME
 
 object Utils {
 
-    var billingClient: BillingClient? = null
     var isPowerConnected = false
     var isInstalledGooglePlay = true
-    var isDonated = false
     var isStartedService = false
     var tempCurrentCapacity = 0.0
     var capacityAdded = 0.0

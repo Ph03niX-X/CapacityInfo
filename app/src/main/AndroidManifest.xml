@@ -71,10 +71,18 @@
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
-        <service android:name=".services.OverlayService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"/>
+        <service
+                android:name=".services.OverlayService"
+                android:exported="true"
+                android:icon="@mipmap/ic_launcher"
+                android:roundIcon="@mipmap/ic_launcher_round"/>
+
+        <service
+                android:name=".services.BillingJobService"
+                android:exported="true"
+                android:icon="@mipmap/ic_launcher"
+                android:roundIcon="@mipmap/ic_launcher_round"
+                android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <receiver android:name=".receivers.BootReceiver">
 

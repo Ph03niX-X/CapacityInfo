@@ -12,12 +12,12 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
+import com.ph03nix_x.capacityinfo.interfaces.BillingInterface.Companion.billingClient
+import com.ph03nix_x.capacityinfo.interfaces.BillingInterface.Companion.isDonated
 import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.DESIGNER_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
-import com.ph03nix_x.capacityinfo.utils.Utils.isDonated
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import kotlinx.coroutines.*
 import java.lang.IllegalStateException
@@ -177,9 +177,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
                 CoroutineScope(Dispatchers.Default).launch {
 
-                    if(billingClient == null)
-                        billingClient = onBillingClientBuilder(requireContext())
-                    onBillingStartConnection()
+                    onBillingStartConnection(requireContext())
 
                     delay(450)
                     try {
@@ -194,9 +192,19 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
                                     R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
                             }
                         }
-                        else onPurchase(requireActivity(), "donate")
+                        else onPurchase(requireContext(), "donate")
                     }
-                    catch(e: IllegalStateException) {}
+                    catch(e: IllegalStateException) {
+
+                        Toast.makeText(requireContext(), e.message ?: e.toString(),
+                        Toast.LENGTH_LONG).show()
+                    }
+
+                    finally {
+
+                        billingClient?.endConnection()
+                        billingClient = null
+                    }
                 }
             }
 

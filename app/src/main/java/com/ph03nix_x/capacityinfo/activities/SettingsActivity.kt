@@ -14,7 +14,6 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
-import com.ph03nix_x.capacityinfo.utils.Utils.billingClient
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class SettingsActivity : AppCompatActivity(), ServiceInterface {
@@ -53,14 +52,6 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
             replace(R.id.container, SettingsFragment())
             commit()
         }
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        billingClient?.endConnection()
-        billingClient = null
     }
 
     override fun onResume() {
