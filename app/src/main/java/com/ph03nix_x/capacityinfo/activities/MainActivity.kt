@@ -323,7 +323,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 CapacityInfoService.instance?.seconds ?: 0)
                         }
                         else if(chargingTime.visibility == View.VISIBLE)
-                            chargingTime.visibility = View.VISIBLE
+                            chargingTime.visibility = View.GONE
 
                         lastChargeTime.text = getString(R.string.last_charge_time,
                             getLastChargeTime(this@MainActivity),

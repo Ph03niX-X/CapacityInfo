@@ -156,7 +156,6 @@
     <string name="enable_overlay">Enable Overlay</string>
     <string name="size">Size</string>
     <string name="opacity">Opacity</string>
-    <string name="opacity_percent">Opacity: %1$s</string>
     <string name="battery_level_overlay">Battery Level</string>
     <string name="number_of_charges_overlay">Number of Charges</string>
     <string name="number_of_cycles_overlay">Number of Cycles</string>
@@ -173,5 +172,6 @@
     <string name="min_charge_discharge_current_overlay">Minimum Charge/Discharge Current</string>
     <string name="temperature_overlay">Temperature</string>
     <string name="voltage_overlay">Voltage</string>
+    <string name="last_charge_time_overlay">Last Charge Time</string>
     <string name="overlay_permission_dialog_message">Permission is required for the overlay to work. Please go to the next window and provide permission</string>
 </resources>

@@ -19,6 +19,9 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
@@ -27,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURR
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_LAST_CHARGE_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
@@ -67,6 +71,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         private lateinit var minChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var temperatureOverlay: AppCompatTextView
         private lateinit var voltageOverlay: AppCompatTextView
+        private lateinit var lastChargeTimeOverlay: AppCompatTextView
         private lateinit var layoutParams: ViewGroup.LayoutParams
         private lateinit var pref: SharedPreferences
         lateinit var windowManager: WindowManager
@@ -94,7 +99,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
                     getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_TEMPERATURE_OVERLAY, false),
-                    getBoolean(IS_VOLTAGE_OVERLAY, false))
+                    getBoolean(IS_VOLTAGE_OVERLAY, false),
+                    getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false))
 
                 overlayArray.forEach {
 
@@ -174,6 +180,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             .min_charge_discharge_current_overlay)
         temperatureOverlay = view.findViewById(R.id.temperature_overlay)
         voltageOverlay = view.findViewById(R.id.voltage_overlay)
+        lastChargeTimeOverlay = view.findViewById(R.id.last_charge_time_overlay)
 
         onUpdateOverlay(context)
     }
@@ -209,6 +216,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         onUpdateMinChargeDischargeCurrentOverlay(status)
         onUpdateTemperatureOverlay()
         onUpdateVoltageOverlay()
+        onUpdateLastChargeTimeOverlay()
     }
 
     private fun onSetBackgroundLinearLayout() =
@@ -446,6 +454,21 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)) View.VISIBLE
             else View.GONE
+        }
+    }
+
+    private fun onUpdateLastChargeTimeOverlay() {
+
+        lastChargeTimeOverlay.apply {
+
+            onSetTextSize(this)
+
+            text = context.getString(R.string.last_charge_time, getLastChargeTime(context),
+                "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%",
+                "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
+
+            visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false))
+                View.VISIBLE else View.GONE
         }
     }
 

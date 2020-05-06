@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGE_DISCHARGE_CURR
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_ENABLED_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_LAST_CHARGE_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
@@ -72,6 +73,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     private var minChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var temperatureOverlay: SwitchPreferenceCompat? = null
     private var voltageOverlay: SwitchPreferenceCompat? = null
+    private var lastChargeTimeOverlay: SwitchPreferenceCompat? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -168,6 +170,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         minChargeDischargeCurrentOverlay = findPreference(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
         voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
+        lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
@@ -295,6 +298,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         }
 
         voltageOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as Boolean && OverlayService.instance == null)
+                onStartService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        lastChargeTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as Boolean && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)

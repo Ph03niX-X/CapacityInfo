@@ -136,4 +136,12 @@
             android:id="@+id/voltage_overlay"
             android:text="@string/voltage"/>
 
+    <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
+            android:textColor="@android:color/white"
+            android:id="@+id/last_charge_time_overlay"
+            android:text="@string/last_charge_time"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>
