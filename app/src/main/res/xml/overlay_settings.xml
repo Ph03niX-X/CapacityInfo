@@ -30,11 +30,20 @@
             app:iconSpaceReserved="false"
             android:key="overlay_size"/>
 
-        <Preference
+<!--        <Preference-->
+<!--                android:title="@string/opacity"-->
+<!--                app:singleLineTitle="false"-->
+<!--                app:iconSpaceReserved="false"-->
+<!--                android:key="overlay_opacity"/>-->
+
+        <SeekBarPreference
                 android:title="@string/opacity"
-                app:singleLineTitle="false"
                 app:iconSpaceReserved="false"
-                android:key="overlay_opacity"/>
+                android:summary="50%"
+                app:defaultValue="127"
+                app:singleLineTitle="false"
+                android:key="overlay_opacity"
+                android:max="255"/>
 
     </PreferenceCategory>
 

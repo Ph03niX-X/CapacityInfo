@@ -52,7 +52,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     // Appearance
     private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
-    private var overlayOpacity: Preference? = null
+    private var overlayOpacity: SeekBarPreference? = null
 
     // Overlay
     private var overlayCategory: PreferenceCategory? = null
@@ -112,6 +112,8 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         overlaySize = findPreference(OVERLAY_SIZE)
         overlayOpacity = findPreference("overlay_opacity")
 
+        overlayOpacity?.updatesContinuously
+
         if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_values)) {
 
             overlaySize?.value = resources.getStringArray(R.array.overlay_size_values)[1]
@@ -136,12 +138,16 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             true
         }
 
-        overlayOpacity?.setOnPreferenceClickListener {
+        overlayOpacity?.setOnPreferenceChangeListener { preference, newValue ->
 
-            overlayOpacityDialog()
+            val progress = newValue as? Int ?: 0
+
+            preference.summary = "${DecimalFormat("#").format(
+                (progress.toFloat() / 255f) * 100f)}%"
 
             true
         }
+
 
         // Overlay
         overlayCategory = findPreference("overlay_category")
@@ -361,52 +367,5 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         appearanceCategory?.isEnabled = isEnable ?: false
         overlayCategory?.isEnabled = isEnable ?: false
-    }
-
-    private fun overlayOpacityDialog() {
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-
-        val view = LayoutInflater.from(requireContext())
-            .inflate(R.layout.overlay_opacity_dialog, null)
-
-        dialog.setView(view)
-
-        val opacityTV = view.findViewById<AppCompatTextView>(R.id.opacity_tv)
-
-        val opacitySeekBar = view.findViewById<AppCompatSeekBar>(
-            R.id.opacity_seekbar)
-
-        opacitySeekBar.progress = if(pref.getInt(OVERLAY_OPACITY, 127) > 255
-            || pref.getInt(OVERLAY_OPACITY, 127) < 0) 127
-        else pref.getInt(OVERLAY_OPACITY, 127)
-
-        opacityTV.text = getString(R.string.opacity_percent,
-            "${DecimalFormat("#")
-                .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%")
-
-        opacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-
-                opacityTV.text = getString(R.string.opacity_percent,
-                    "${DecimalFormat("#")
-                        .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%")
-
-                overlayOpacity?.summary = "${DecimalFormat("#")
-                    .format((opacitySeekBar.progress.toFloat() / 255f) * 100f)}%"
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-
-                pref.edit().putInt(OVERLAY_OPACITY, seekBar.progress).apply()
-            }
-        })
-
-        dialog.setPositiveButton(getString(android.R.string.ok)) { d, _ -> d.dismiss() }
-
-        dialog.show()
     }
 }
