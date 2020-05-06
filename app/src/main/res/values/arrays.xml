@@ -60,7 +60,7 @@
         <item>Large</item>
     </string-array>
 
-    <string-array name="overlay_size_keys"> // Do Not Translation
+    <string-array name="overlay_size_values"> // Do Not Translation
         <item>0</item>
         <item>1</item>
         <item>2</item>

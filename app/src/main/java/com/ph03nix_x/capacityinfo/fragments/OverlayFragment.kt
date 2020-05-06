@@ -110,9 +110,9 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         overlaySize = findPreference(OVERLAY_SIZE)
         overlayOpacity = findPreference("overlay_opacity")
 
-        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
+        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_values)) {
 
-            overlaySize?.value = resources.getStringArray(R.array.overlay_size_keys)[1]
+            overlaySize?.value = resources.getStringArray(R.array.overlay_size_values)[1]
 
             pref.edit().putString(OVERLAY_SIZE, "1").apply()
         }
@@ -292,9 +292,9 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
-        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_keys)) {
+        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_values)) {
 
-            overlaySize?.value = resources.getStringArray(R.array.overlay_size_keys)[1]
+            overlaySize?.value = resources.getStringArray(R.array.overlay_size_values)[1]
 
             pref.edit().putString(OVERLAY_SIZE, "1").apply()
         }

@@ -25,7 +25,7 @@
             android:title="@string/size"
             app:singleLineTitle="false"
             android:entries="@array/overlay_size_list"
-            android:entryValues="@array/overlay_size_keys"
+            android:entryValues="@array/overlay_size_values"
             app:defaultValue="1"
             app:iconSpaceReserved="false"
             android:key="overlay_size"/>

@@ -481,7 +481,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     OVERLAY_SIZE -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE)
                         .isEnabled = s.toString() in context.resources.getStringArray(R.array
-                        .overlay_size_keys)
+                        .overlay_size_values)
 
                     else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                         s.isNotEmpty()
