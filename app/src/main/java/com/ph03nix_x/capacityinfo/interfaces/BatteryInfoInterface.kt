@@ -326,16 +326,16 @@ interface BatteryInfoInterface {
         }
     }
 
-    fun getPlugged(context: Context, extraPlugged: Int): String {
+    fun getSourceOfPower(context: Context, extraPlugged: Int): String {
 
         return when(extraPlugged) {
 
-            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.plugged,
-                context.getString(R.string.plugged_ac))
-            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.plugged,
-                context.getString(R.string.plugged_usb))
-            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(R.string.plugged,
-                context.getString(R.string.plugged_wireless))
+            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.source_of_power,
+                context.getString(R.string.source_of_power_ac))
+            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.source_of_power,
+                context.getString(R.string.source_of_power_usb))
+            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(R.string.source_of_power,
+                context.getString(R.string.source_of_power_wireless))
             else -> "N/A"
         }
     }

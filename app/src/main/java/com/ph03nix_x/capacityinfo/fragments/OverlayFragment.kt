@@ -6,11 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
-import android.widget.SeekBar
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.AppCompatSeekBar
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
@@ -32,7 +28,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_PLUGGED_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SOURCE_OF_POWER
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -67,7 +63,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     private var batteryHealthOverlay: SwitchPreferenceCompat? = null
     private var residualCapacityOverlay: SwitchPreferenceCompat? = null
     private var statusOverlay: SwitchPreferenceCompat? = null
-    private var pluggedOverlay: SwitchPreferenceCompat? = null
+    private var sourceOfPowerOverlay: SwitchPreferenceCompat? = null
     private var chargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var maxChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var averageChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
@@ -96,9 +92,9 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
                 true -> {
 
-                    if(OverlayInterface.isEnabledOverlay(requireContext(),
-                            newValue as? Boolean == true) &&
-                        OverlayService.instance == null)
+                    if(OverlayService.instance == null
+                        && OverlayInterface.isEnabledOverlay(requireContext(),
+                            newValue as? Boolean == true))
                         onStartService(requireContext(), OverlayService::class.java)
                 }
 
@@ -164,7 +160,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
         residualCapacityOverlay = findPreference(IS_RESIDUAL_CAPACITY_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
-        pluggedOverlay = findPreference(IS_PLUGGED_OVERLAY)
+        sourceOfPowerOverlay = findPreference(IS_SOURCE_OF_POWER)
         chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         maxChargeDischargeCurrentOverlay = findPreference(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         averageChargeDischargeCurrentOverlay =
@@ -184,7 +180,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -192,7 +188,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         numberOfChargesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -200,7 +196,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         numberOfCyclesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -208,7 +204,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         chargingTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -216,43 +212,32 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         currentCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null
+            if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
+            else if(!pref.getBoolean(IS_SUPPORTED, true))
+                (preference as? SwitchPreferenceCompat)?.isVisible = false
 
-                (preference as? SwitchPreferenceCompat)?.apply {
-
-                    isChecked = false
-                    isVisible = false
-                }
-            }
 
             true
         }
 
         capacityAddedOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null
+            if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
-
-                (preference as? SwitchPreferenceCompat)?.apply {
-
-                    isChecked = false
-                    isVisible = false
-                }
-            }
+            else if(!pref.getBoolean(IS_SUPPORTED, true))
+                (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
         }
 
         batteryHealthOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -260,33 +245,27 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         residualCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null
+            if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
-
-                (preference as? SwitchPreferenceCompat)?.apply {
-
-                    isChecked = false
-                    isVisible = false
-                }
-            }
+            else if(!pref.getBoolean(IS_SUPPORTED, true))
+                (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
         }
 
         statusOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
         }
 
-        pluggedOverlay?.setOnPreferenceChangeListener { _, newValue ->
+        sourceOfPowerOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -294,7 +273,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         chargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -302,7 +281,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         maxChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -310,7 +289,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         averageChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -318,7 +297,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         minChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -326,7 +305,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         temperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -334,7 +313,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         voltageOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -342,7 +321,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         lastChargeTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 onStartService(requireContext(), OverlayService::class.java)
 
             true
@@ -350,18 +329,12 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         batteryWearOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if(newValue as Boolean && OverlayService.instance == null
+            if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
                 onStartService(requireContext(), OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true)) {
-
-                (preference as? SwitchPreferenceCompat)?.apply {
-
-                    isChecked = false
-                    isVisible = false
-                }
-            }
+            else if(!pref.getBoolean(IS_SUPPORTED, true))
+                (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
         }
@@ -372,6 +345,10 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         super.onResume()
 
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
         if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_values)) {
 
@@ -388,11 +365,6 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlayOpacity?.summary = "${DecimalFormat("#")
             .format((pref.getInt(OVERLAY_OPACITY, 127).toFloat() / 255f) * 100f)}%"
-
-        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 

@@ -86,7 +86,7 @@
             android:fontFamily="@font/medium"
             android:textColor="@android:color/white"
             android:id="@+id/source_of_power_overlay"
-            android:text="@string/plugged"/>
+            android:text="@string/source_of_power"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"

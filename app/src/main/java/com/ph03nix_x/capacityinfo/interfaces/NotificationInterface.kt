@@ -160,7 +160,7 @@ interface NotificationInterface : BatteryInfoInterface {
             "${getBatteryLevel(context)}%" }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val plugged = getPlugged(context, batteryIntent?.getIntExtra(
+        val sourceOfPower = getSourceOfPower(context, batteryIntent?.getIntExtra(
             BatteryManager.EXTRA_PLUGGED, -1) ?: -1)
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat(
             "#.#").format(getCurrentCapacity(context)))
@@ -177,16 +177,16 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(getCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context
+                "$charging\n$batteryLevel\n$sourceOfPower\n${getChargingTime(context, (context
                         as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n${getResidualCapacity(context, true)}\n${
                         getBatteryWear(context)}\n$chargeCurrent\n$temperature\n$voltage"
-            else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context
+            else "$charging\n$batteryLevel\n$sourceOfPower\n${getChargingTime(context, (context
                     as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity\n${
             getResidualCapacity(context, true)}\n${getBatteryWear(context)}\n" +
                     "$chargeCurrent\n$temperature\n$voltage"
 
-        else "$charging\n$batteryLevel\n$plugged\n${getChargingTime(context, (context
+        else "$charging\n$batteryLevel\n$sourceOfPower\n${getChargingTime(context, (context
                 as? CapacityInfoService)?.seconds ?: 0)}\n$chargeCurrent\n$temperature\n$voltage"
     }
 

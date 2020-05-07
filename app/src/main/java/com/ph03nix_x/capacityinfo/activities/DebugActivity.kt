@@ -70,7 +70,7 @@ class DebugActivity : AppCompatActivity(), BillingInterface, ServiceInterface {
             onStartService(this, CapacityInfoService::class.java)
         }
 
-        if(OverlayInterface.isEnabledOverlay(this) && OverlayService.instance == null)
+        if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(this))
             onStartService(this, OverlayService::class.java)
     }
 

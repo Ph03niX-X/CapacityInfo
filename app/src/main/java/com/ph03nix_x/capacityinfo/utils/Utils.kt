@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.utils
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import com.ph03nix_x.capacityinfo.utils.Constants.GOOGLE_PLAY_PACKAGE_NAME
 
 object Utils {
@@ -48,16 +47,4 @@ object Utils {
     fun isGooglePlay(context: Context) =
         GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallerPackageName(
             context.packageName)
-
-    fun isInstalledGooglePlay(context: Context): Boolean {
-
-        return try {
-
-            context.packageManager.getPackageInfo(GOOGLE_PLAY_PACKAGE_NAME, 0)
-
-            true
-        }
-
-        catch (e: PackageManager.NameNotFoundException) { false }
-    }
 }

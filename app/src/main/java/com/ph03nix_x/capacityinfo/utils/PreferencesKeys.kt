@@ -44,7 +44,7 @@ object PreferencesKeys {
     const val IS_BATTERY_HEALTH_OVERLAY = "is_battery_health_overlay"
     const val IS_RESIDUAL_CAPACITY_OVERLAY = "is_residual_capacity_overlay"
     const val IS_STATUS_OVERLAY = "is_status_overlay"
-    const val IS_PLUGGED_OVERLAY = "is_plugged_overlay"
+    const val IS_SOURCE_OF_POWER = "is_source_of_power_overlay"
     const val IS_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_charge_discharge_current_overlay"
     const val IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_max_charge_discharge_current_overlay"
     const val IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY =
@@ -57,6 +57,7 @@ object PreferencesKeys {
 
     // Debug
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"
+    const val IS_HIDE_DONATE = "is_hide_donate"
 
     // Battery Information
     const val NUMBER_OF_CHARGES = "number_of_charges"

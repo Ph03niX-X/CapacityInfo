@@ -151,23 +151,23 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            darkMode?.isEnabled = !(newValue as Boolean)
+            darkMode?.isEnabled = (newValue as? Boolean) == false
 
-            setTheme(requireContext(), isAutoDarkMode = newValue)
+            setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
             true
         }
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            setTheme(requireContext(), isSystemDarkMode = newValue as Boolean)
+            setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 
             true
         }
 
         selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
 
-            changeLanguage(requireContext(), newValue as String)
+            changeLanguage(requireContext(), ((newValue as? String) ?: defLang))
 
             true
         }
@@ -267,7 +267,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if((newValue as String) == "μA")
+            if((newValue as? String) == "μA")
                 preference.summary = resources.getStringArray(R.array
                     .unit_of_charge_discharge_current)[0]
             else preference.summary = resources.getStringArray(R.array
@@ -278,7 +278,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         unitOfMeasurementOfCurrentCapacity?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if((newValue as String) == "μAh")
+            if((newValue as? String) == "μAh")
                 preference.summary = resources.getStringArray(R.array
                     .unit_of_measurement_of_current_capacity)[0]
             else preference.summary = resources.getStringArray(R.array
@@ -289,7 +289,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         voltageUnit?.setOnPreferenceChangeListener { preference, newValue ->
 
-            if((newValue as String) == "μV")
+            if((newValue as? String) == "μV")
                 preference.summary = resources.getStringArray(R.array.voltage_unit)[0]
             else preference.summary = resources.getStringArray(R.array.voltage_unit)[1]
 

@@ -61,7 +61,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         betaTester = findPreference("become_a_beta_tester")
 
-        betaTester?.isVisible = isInstalledGooglePlay(requireContext())
+        betaTester?.isVisible = isInstalledGooglePlay
 
         donate = findPreference("donate")
 
@@ -215,6 +215,8 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     override fun onResume() {
 
         super.onResume()
+
+        betaTester?.isVisible = isInstalledGooglePlay
 
         if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
         else donate?.isVisible = isInstalledGooglePlay && !isDonated

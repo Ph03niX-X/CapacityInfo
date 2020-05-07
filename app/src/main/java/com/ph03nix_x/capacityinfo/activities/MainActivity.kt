@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private lateinit var capacityAdded: AppCompatTextView
     private lateinit var technology: AppCompatTextView
     private lateinit var status: AppCompatTextView
-    private lateinit var plugged: AppCompatTextView
+    private lateinit var sourceOfPower: AppCompatTextView
     private lateinit var chargeCurrent: AppCompatTextView
     private lateinit var maxChargeDischargeCurrent: AppCompatTextView
     private lateinit var averageChargeDischargeCurrent: AppCompatTextView
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         residualCapacity = findViewById(R.id.residual_capacity)
         technology = findViewById(R.id.battery_technology)
         status = findViewById(R.id.status)
-        plugged = findViewById(R.id.plugged)
+        sourceOfPower = findViewById(R.id.source_of_power)
         chargeCurrent = findViewById(R.id.charge_current)
         maxChargeDischargeCurrent = findViewById(R.id.max_charge_discharge_current)
         averageChargeDischargeCurrent = findViewById(R.id.average_charge_discharge_current)
@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
-        else if(OverlayInterface.isEnabledOverlay(this) && OverlayService.instance == null)
+        else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(this))
             onStartService(this, OverlayService::class.java)
     }
 
@@ -297,7 +297,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
-                    val plugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
+                    val source_of_power = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
                         -1) ?: -1
 
                     withContext(Dispatchers.Main) {
@@ -336,16 +336,16 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                         this@MainActivity.status.text = getString(R.string.status,
                             getStatus(this@MainActivity, status))
 
-                        if(getPlugged(this@MainActivity, plugged) != "N/A") {
+                        if(getSourceOfPower(this@MainActivity, source_of_power) != "N/A") {
 
-                            if(this@MainActivity.plugged.visibility == View.GONE)
-                                this@MainActivity.plugged.visibility = View.VISIBLE
+                            if(this@MainActivity.sourceOfPower.visibility == View.GONE)
+                                this@MainActivity.sourceOfPower.visibility = View.VISIBLE
 
-                            this@MainActivity.plugged.text = getPlugged(this@MainActivity,
-                                plugged)
+                            this@MainActivity.sourceOfPower.text = getSourceOfPower(this@MainActivity,
+                                source_of_power)
                         }
 
-                        else this@MainActivity.plugged.visibility = View.GONE
+                        else this@MainActivity.sourceOfPower.visibility = View.GONE
                     }
 
                     withContext(Dispatchers.Main) {
@@ -400,7 +400,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                         .format(getCurrentCapacity(this@MainActivity)))
 
                                 when {
-                                    getPlugged(this@MainActivity, plugged) != "N/A" -> {
+                                    getSourceOfPower(this@MainActivity, source_of_power) != "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
@@ -408,7 +408,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                         capacityAdded.text = getCapacityAdded(
                                             this@MainActivity)
                                     }
-                                    getPlugged(this@MainActivity, plugged) == "N/A" -> {
+                                    getSourceOfPower(this@MainActivity, source_of_power) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE

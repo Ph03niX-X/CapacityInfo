@@ -12,12 +12,12 @@ import android.text.method.KeyListener
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.DebugActivity
@@ -60,26 +60,29 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.add_pref_key_dialog, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.add_pref_key_dialog,
+            null)
 
         dialog.setView(view)
 
-        val addPrefKey = view.findViewById<EditText>(R.id.add_pref_key_edit)
+        val addPrefKey = view.findViewById<TextInputEditText>(R.id.add_pref_key_edit)
 
         val addPrefType = view.findViewById<Spinner>(R.id.add_pref_spinner)
 
-        val addPrefValue = view.findViewById<EditText>(R.id.add_pref_value_edit)
+        val addPrefValue = view.findViewById<TextInputEditText>(
+            R.id.add_pref_value_edit)
 
         dialog.apply {
 
-            setPositiveButton(context.getString(R.string.add)) { _, _ ->  addSettingCreateDialogPositiveButton(context, pref,
-                addPrefKey, addPrefType, addPrefValue) }
+            setPositiveButton(context.getString(R.string.add)) { _, _ ->
+                addSettingCreateDialogPositiveButton(context, pref, addPrefKey, addPrefType,
+                    addPrefValue) }
 
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         }
-        
+
         val dialogCreate = dialog.create()
-        
+
         dialogCreate.setOnShowListener {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
@@ -97,8 +100,9 @@ interface DebugOptionsInterface : ServiceInterface {
     }
 
     private fun addSettingCreateDialogPositiveButton(context: Context, pref: SharedPreferences,
-                                                     addPrefKey: EditText, addPrefType: Spinner,
-                                                     addPrefValue: EditText) {
+                                                     addPrefKey: TextInputEditText,
+                                                     addPrefType: Spinner,
+                                                     addPrefValue: TextInputEditText) {
 
         try {
 
@@ -130,7 +134,8 @@ interface DebugOptionsInterface : ServiceInterface {
         }
     }
 
-    private fun addPrefKeyTextChangedListener(addPrefKey: EditText, addPrefValue: EditText,
+    private fun addPrefKeyTextChangedListener(addPrefKey: TextInputEditText,
+                                              addPrefValue: TextInputEditText,
                                               pref: SharedPreferences): TextWatcher {
 
         return object : TextWatcher {
@@ -141,14 +146,14 @@ interface DebugOptionsInterface : ServiceInterface {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                if(addPrefValue.text.isNotEmpty()) addPrefValue.text.clear()
+                if(addPrefValue.text?.isNotEmpty() == true) addPrefValue.text?.clear()
 
                 addPrefValue.isEnabled = s.isNotEmpty() && !pref.contains(addPrefKey.text.toString())
             }
         }
     }
 
-    private fun addPrefTypeOnItemSelectedListener(addPrefValue: EditText):
+    private fun addPrefTypeOnItemSelectedListener(addPrefValue: TextInputEditText):
             AdapterView.OnItemSelectedListener {
 
         val prefValueInputTypeDef = addPrefValue.inputType
@@ -164,7 +169,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     0 -> {
 
-                        addPrefValue.text.clear()
+                        addPrefValue.text?.clear()
 
                         addPrefValue.filters = arrayOf(InputFilter.LengthFilter(3))
 
@@ -175,7 +180,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     1, 2 -> {
 
-                        addPrefValue.text.clear()
+                        addPrefValue.text?.clear()
 
                         addPrefValue.filters = arrayOf(InputFilter.LengthFilter(if(position == 1)
                             Int.MAX_VALUE.toString().count()
@@ -188,7 +193,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     3 -> {
 
-                        addPrefValue.text.clear()
+                        addPrefValue.text?.clear()
 
                         addPrefValue.filters = arrayOf(InputFilter.LengthFilter(10))
 
@@ -198,7 +203,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                     4 -> {
 
-                        addPrefValue.text.clear()
+                        addPrefValue.text?.clear()
 
                         addPrefValue.filters = arrayOf(InputFilter.LengthFilter(1))
 
@@ -213,8 +218,9 @@ interface DebugOptionsInterface : ServiceInterface {
         }
     }
 
-    private fun addPrefValueTextChangedListener(addPrefValue: EditText, addPrefType: Spinner,
-                                                dialogCreate: AlertDialog): TextWatcher {
+    private fun addPrefValueTextChangedListener(addPrefValue: TextInputEditText,
+                                                addPrefType: Spinner, dialogCreate: AlertDialog):
+            TextWatcher {
 
         return object : TextWatcher {
 
@@ -230,7 +236,7 @@ interface DebugOptionsInterface : ServiceInterface {
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                         s.first() != '.' && s.last() != '.'
 
-                    if(s.first() == '.') addPrefValue.text.clear()
+                    if(s.first() == '.') addPrefValue.text?.clear()
 
                     if(s.contains(".") && addPrefValue.keyListener ==
                         DigitsKeyListener.getInstance("0123456789."))
@@ -256,13 +262,16 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key_dialog, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key_dialog,
+            null)
 
         dialog.setView(view)
 
-        val changePrefKey = view.findViewById<EditText>(R.id.change_pref_key_edit)
+        val changePrefKey = view.
+        findViewById<TextInputEditText>(R.id.change_pref_key_edit)
 
-        val changePrefValue = view.findViewById<EditText>(R.id.change_pref_value_edit)
+        val changePrefValue = view.
+        findViewById<TextInputEditText>(R.id.change_pref_value_edit)
 
         key = ""
         value = ""
@@ -270,7 +279,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
         dialog.apply {
 
-            setPositiveButton(context.getString(R.string.change)) { _, _ -> changeSettingPositiveButton(context, key, value) }
+            setPositiveButton(context.getString(R.string.change)) { _, _ ->
+                changeSettingPositiveButton(context, key, value) }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         }
 
@@ -325,7 +335,8 @@ interface DebugOptionsInterface : ServiceInterface {
         }
     }
 
-    private fun changePrefKeyTextChangedListener(changePrefValue: EditText, pref: SharedPreferences,
+    private fun changePrefKeyTextChangedListener(changePrefValue: TextInputEditText,
+                                                 pref: SharedPreferences,
                                                  prefKeysArray: MutableList<String>): TextWatcher {
 
         val prefValueInputTypeDef = changePrefValue.inputType
@@ -366,13 +377,14 @@ interface DebugOptionsInterface : ServiceInterface {
                     }
                 }
 
-                else changePrefValue.text.clear()
+                else changePrefValue.text?.clear()
             }
         }
     }
 
-    private fun setValueType(valueType: String, changePrefValue: EditText, pref: SharedPreferences,
-                             prefValueInputTypeDef: Int, prefValueKeyListenerDef: KeyListener) {
+    private fun setValueType(valueType: String, changePrefValue: TextInputEditText,
+                             pref: SharedPreferences, prefValueInputTypeDef: Int,
+                             prefValueKeyListenerDef: KeyListener) {
 
         Companion.valueType = valueType
 
@@ -432,7 +444,8 @@ interface DebugOptionsInterface : ServiceInterface {
     }
 
     private fun changePrefValueTextChangedListener(context: Context, dialogCreate: AlertDialog,
-                                                   changePrefKey: EditText, changePrefValue: EditText,
+                                                   changePrefKey: TextInputEditText,
+                                                   changePrefValue: TextInputEditText,
                                                    pref: SharedPreferences): TextWatcher {
 
         return object : TextWatcher {
@@ -559,7 +572,7 @@ interface DebugOptionsInterface : ServiceInterface {
             (context as? DebugActivity)?.recreate()
         }
 
-        else if(OverlayInterface.isEnabledOverlay(context) && OverlayService.instance == null)
+        else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
             onStartService(context, OverlayService::class.java)
     }
 
@@ -577,7 +590,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
         dialog.setView(view)
 
-        val resetPrefKey = view.findViewById<EditText>(R.id.reset_pref_key_edit)
+        val resetPrefKey = view.findViewById<TextInputEditText>(
+            R.id.reset_pref_key_edit)
 
         dialog.setPositiveButton(context.getString(R.string.reset)) { _, _ ->
 

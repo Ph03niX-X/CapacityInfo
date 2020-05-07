@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
 import androidx.preference.PreferenceManager
@@ -11,9 +12,9 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.services.BillingJobService
+import com.ph03nix_x.capacityinfo.utils.Constants
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
-
 
 class MainApp : Application() {
 
@@ -33,7 +34,7 @@ class MainApp : Application() {
 
         defLang()
 
-        isInstalledGooglePlay = isInstalledGooglePlay(this)
+        isInstalledGooglePlay = isInstalledGooglePlay()
 
         if(isInstalledGooglePlay) startBillingJob()
     }
@@ -61,6 +62,18 @@ class MainApp : Application() {
 
         if(pref.getString(LANGUAGE, null) != defLang)
             pref.edit().putString(LANGUAGE, defLang).apply()
+    }
+
+    private fun isInstalledGooglePlay(): Boolean {
+
+        return try {
+
+            packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME, 0)
+
+            true
+        }
+
+        catch (e: PackageManager.NameNotFoundException) { false }
     }
 
     private fun startBillingJob() {

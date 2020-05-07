@@ -10,7 +10,9 @@ import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_HIDE_DONATE
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
+import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface,
     BillingInterface {
@@ -18,6 +20,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private lateinit var pref: SharedPreferences
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
+    private var hideDonate: SwitchPreferenceCompat? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -32,6 +35,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
+        hideDonate = findPreference(IS_HIDE_DONATE)
+
         addSetting = findPreference("add_setting")
 
         changeSetting = findPreference("change_setting")
@@ -43,6 +48,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         openSettings = findPreference("open_settings")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
+
+        hideDonate?.isVisible = isInstalledGooglePlay
 
         addSetting?.setOnPreferenceClickListener {
 

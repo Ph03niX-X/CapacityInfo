@@ -35,7 +35,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_PLUGGED_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SOURCE_OF_POWER
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -64,7 +64,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         private lateinit var batteryHealthOverlay: AppCompatTextView
         private lateinit var residualCapacityOverlay: AppCompatTextView
         private lateinit var statusOverlay: AppCompatTextView
-        private lateinit var pluggedOverlay: AppCompatTextView
+        private lateinit var sourceOfPowerOverlay: AppCompatTextView
         private lateinit var chargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var maxChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var averageChargeDischargeCurrentOverlay: AppCompatTextView
@@ -94,7 +94,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
                     getBoolean(IS_BATTERY_HEALTH_OVERLAY, false),
                     getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false),
                     getBoolean(IS_STATUS_OVERLAY, false),
-                    getBoolean(IS_PLUGGED_OVERLAY, false),
+                    getBoolean(IS_SOURCE_OF_POWER, false),
                     getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
                     getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
@@ -172,7 +172,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
         residualCapacityOverlay = view.findViewById(R.id.residual_capacity_overlay)
         statusOverlay = view.findViewById(R.id.status_overlay)
-        pluggedOverlay = view.findViewById(R.id.source_of_power_overlay)
+        sourceOfPowerOverlay = view.findViewById(R.id.source_of_power_overlay)
         chargeDischargeCurrentOverlay = view.findViewById(R.id.charge_discharge_current_overlay)
         maxChargeDischargeCurrentOverlay = view.findViewById(R.id
             .max_charge_discharge_current_overlay)
@@ -199,7 +199,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         val extraPlugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
             -1) ?: -1
 
-        val plugged = getPlugged(context, extraPlugged)
+        val sourceOfPower = getSourceOfPower(context, extraPlugged)
 
         linearLayout.setBackgroundColor(onSetBackgroundLinearLayout())
 
@@ -212,7 +212,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         onUpdateBatteryHealthOverlay()
         onUpdateResidualCapacityOverlay(status)
         onUpdateStatusOverlay(status)
-        onUpdatePluggedOverlay(plugged)
+        onUpdateSourceOfPowerOverlay(sourceOfPower)
         onUpdateChargeDischargeCurrentOverlay(status)
         onUpdateMaxChargeDischargeCurrentOverlay(status)
         onUpdateAverageChargeDischargeCurrentOverlay(status)
@@ -230,6 +230,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateBatteryLevelOverlay() {
 
+        if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
+            || batteryLevelOverlay.visibility == View.VISIBLE)
         batteryLevelOverlay.apply {
 
             onSetTextSize(this)
@@ -244,6 +246,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateNumberOfChargesOverlay() {
 
+        if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false)
+            || numberOfChargesOverlay.visibility == View.VISIBLE)
         numberOfChargesOverlay.apply {
 
             onSetTextSize(this)
@@ -258,6 +262,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateNumberOfCyclesOverlay() {
 
+        if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false)
+            || numberOfCyclesOverlay.visibility == View.VISIBLE)
         numberOfCyclesOverlay.apply {
 
             onSetTextSize(this)
@@ -272,7 +278,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateChargingTimeOverlay() {
 
-        if((CapacityInfoService.instance?.seconds ?: 0) > 0
+        if((pref.getBoolean(IS_CHARGING_TIME_OVERLAY, false)
+                    && (CapacityInfoService.instance?.seconds ?: 0) > 0)
             || chargingTimeOverlay.visibility == View.VISIBLE)
         chargingTimeOverlay.apply {
 
@@ -288,8 +295,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateCurrentCapacityOverlay() {
 
-        if(pref.getBoolean(IS_SUPPORTED, true) || currentCapacityOverlay.visibility ==
-            View.VISIBLE)
+        if((pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
+            && pref.getBoolean(IS_SUPPORTED, true))
+            || currentCapacityOverlay.visibility == View.VISIBLE)
             currentCapacityOverlay.apply {
 
                 onSetTextSize(this)
@@ -304,7 +312,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateCapacityAddedOverlay() {
 
-        if(pref.getBoolean(IS_SUPPORTED, true)
+        if((pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, false)
+                    && pref.getBoolean(IS_SUPPORTED, true))
             || capacityAddedOverlay.visibility == View.VISIBLE)
         capacityAddedOverlay.apply {
 
@@ -319,6 +328,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateBatteryHealthOverlay() {
 
+        if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
+            || batteryHealthOverlay.visibility == View.VISIBLE)
         batteryHealthOverlay.apply {
 
             onSetTextSize(this)
@@ -332,7 +343,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateResidualCapacityOverlay(status: Int) {
 
-        if(pref.getBoolean(IS_SUPPORTED, true)
+        if((pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false)
+                    && pref.getBoolean(IS_SUPPORTED, true))
             || residualCapacityOverlay.visibility == View.VISIBLE)
         residualCapacityOverlay.apply {
 
@@ -348,6 +360,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateStatusOverlay(status: Int) {
 
+        if(pref.getBoolean(IS_STATUS_OVERLAY, false)
+            || statusOverlay.visibility == View.VISIBLE)
         statusOverlay.apply {
 
             onSetTextSize(this)
@@ -359,23 +373,26 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
         }
     }
 
-    private fun onUpdatePluggedOverlay(plugged: String) {
+    private fun onUpdateSourceOfPowerOverlay(sourceOfPower: String) {
 
-        if(plugged != "N/A" || pluggedOverlay.visibility == View.VISIBLE)
-        pluggedOverlay.apply {
+        if((pref.getBoolean(IS_SOURCE_OF_POWER, false)
+            && sourceOfPower != "N/A") || sourceOfPowerOverlay.visibility == View.VISIBLE)
+        sourceOfPowerOverlay.apply {
 
             onSetTextSize(this)
 
-            text = plugged
+            text = sourceOfPower
 
-            visibility = if(pref.getBoolean(IS_PLUGGED_OVERLAY, false)
-                && plugged != "N/A") View.VISIBLE
+            visibility = if(pref.getBoolean(IS_SOURCE_OF_POWER, false)
+                && sourceOfPower != "N/A") View.VISIBLE
             else View.GONE
         }
     }
 
     private fun onUpdateChargeDischargeCurrentOverlay(status: Int) {
 
+        if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+            || chargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         chargeDischargeCurrentOverlay.apply {
 
             onSetTextSize(this)
@@ -391,6 +408,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateMaxChargeDischargeCurrentOverlay(status: Int) {
 
+        if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+            || maxChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         maxChargeDischargeCurrentOverlay.apply {
 
             onSetTextSize(this)
@@ -406,6 +425,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateAverageChargeDischargeCurrentOverlay(status: Int) {
 
+        if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+            || averageChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         averageChargeDischargeCurrentOverlay.apply {
 
             onSetTextSize(this)
@@ -422,6 +443,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateMinChargeDischargeCurrentOverlay(status: Int) {
 
+        if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+            || minChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         minChargeDischargeCurrentOverlay.apply {
 
             onSetTextSize(this)
@@ -437,6 +460,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateTemperatureOverlay() {
 
+        if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, false)
+            || temperatureOverlay.visibility == View.VISIBLE)
         temperatureOverlay.apply {
 
             onSetTextSize(this)
@@ -452,6 +477,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateVoltageOverlay() {
 
+        if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)
+            || voltageOverlay.visibility == View.VISIBLE)
         voltageOverlay.apply {
 
             onSetTextSize(this)
@@ -467,6 +494,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateLastChargeTimeOverlay() {
 
+        if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false)
+            || lastChargeTimeOverlay.visibility == View.VISIBLE)
         lastChargeTimeOverlay.apply {
 
             onSetTextSize(this)
@@ -482,7 +511,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onUpdateBatteryWearOverlay() {
 
-        if(pref.getBoolean(IS_SUPPORTED, true)
+        if((pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, false)
+                    && pref.getBoolean(IS_SUPPORTED, true))
             || batteryWearOverlay.visibility == View.VISIBLE)
         batteryWearOverlay.apply {
 

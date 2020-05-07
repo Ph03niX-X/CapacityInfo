@@ -58,8 +58,8 @@ class OverlayService : Service(), OverlayInterface {
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
 
-                    delay(if(status == BatteryManager.BATTERY_STATUS_CHARGING) 990 else (3 * 990)
-                        .toLong())
+                    delay(if(status == BatteryManager.BATTERY_STATUS_CHARGING) 990 else 3000)
+
                     withContext(Dispatchers.Main) {
 
                         if(isEnabledOverlay(this@OverlayService))

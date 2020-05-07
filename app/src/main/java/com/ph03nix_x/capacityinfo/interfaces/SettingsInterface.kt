@@ -11,7 +11,6 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -19,6 +18,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
@@ -227,7 +227,7 @@ interface SettingsInterface : ServiceInterface {
 
         dialog.setView(view)
 
-        val changeDesignCapacity = view.findViewById<EditText>(R.id
+        val changeDesignCapacity = view.findViewById<TextInputEditText>(R.id
             .change_design_capacity_edit)
 
         changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, 0) >= 0)
@@ -256,7 +256,7 @@ interface SettingsInterface : ServiceInterface {
     }
 
     private fun changeDesignCapacityDialogCreateShowListener(dialogCreate: AlertDialog,
-                                                             changeDesignCapacity: EditText,
+                                                             changeDesignCapacity: TextInputEditText,
                                                              pref: SharedPreferences) {
 
         dialogCreate.setOnShowListener {

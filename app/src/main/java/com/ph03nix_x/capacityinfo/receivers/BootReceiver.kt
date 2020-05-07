@@ -29,7 +29,7 @@ class BootReceiver : BroadcastReceiver(), ServiceInterface {
                     onStartService(context, CapacityInfoService::class.java)
                 }
 
-                if(OverlayInterface.isEnabledOverlay(context) && OverlayService.instance == null)
+                if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
                     onStartService(context, OverlayService::class.java)
             }
         }

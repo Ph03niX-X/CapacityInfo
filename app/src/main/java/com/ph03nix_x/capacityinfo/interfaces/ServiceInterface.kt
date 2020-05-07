@@ -3,11 +3,8 @@ package com.ph03nix_x.capacityinfo.interfaces
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.widget.Toast
-import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
-import java.lang.Exception
 
 interface ServiceInterface {
 
