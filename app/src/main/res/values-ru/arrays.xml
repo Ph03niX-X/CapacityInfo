@@ -13,4 +13,11 @@
         <item>мкВ</item>
         <item>мВ</item>
     </string-array>
+
+    <string-array name="overlay_size_list">
+        <item>Маленький</item>
+        <item>Средний</item>
+        <item>Большой</item>
+    </string-array>
+
 </resources>

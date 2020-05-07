@@ -147,4 +147,27 @@
     <string name="reset_to_zero_the_number_of_cycles">Обнулить количество циклов</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Обнулить количество циклов?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">Количество циклов было успешно сброшено до нуля</string>
+    <string name="overlay">Оверлей</string>
+    <string name="enable_overlay">Включить оверлей</string>
+    <string name="size">Размер</string>
+    <string name="opacity">Непрозрачность</string>
+    <string name="battery_level_overlay">Уровень заряда</string>
+    <string name="number_of_charges_overlay">Количество зарядок</string>
+    <string name="number_of_cycles_overlay">Количество циклов</string>
+    <string name="charging_time_overlay">Время зарядки</string>
+    <string name="current_capacity_overlay">Текущая ёмкость</string>
+    <string name="capacity_added_overlay">Добавилось ёмкости</string>
+    <string name="battery_health_overlay">Состояние аккумулятора (Android)</string>
+    <string name="residual_capacity_overlay">Остаточная ёмкость</string>
+    <string name="status_overlay">Статус</string>
+    <string name="source_of_power_overlay">Источник питания</string>
+    <string name="charge_discharge_current_overlay">Ток зарядки/разрядки</string>
+    <string name="max_charge_discharge_current_overlay">Максимальный ток зарядки/разрядки</string>
+    <string name="average_charge_discharge_current_overlay">Средний ток зарядки/разрядки</string>
+    <string name="min_charge_discharge_current_overlay">Минимальный ток зарядки/разрядки</string>
+    <string name="temperature_overlay">Температура</string>
+    <string name="voltage_overlay">Напряжение</string>
+    <string name="last_charge_time_overlay">Время последней зарядки</string>
+    <string name="battery_wear_overlay">Износ аккумулятора</string>
+    <string name="overlay_permission_dialog_message">Для работы оверлея требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
 </resources>
