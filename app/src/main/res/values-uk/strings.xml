@@ -147,4 +147,27 @@
     <string name="reset_to_zero_the_number_of_cycles">Обнулить количество циклов</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Обнулити кількість циклів?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">Кількість циклів було успішно скинуто до нуля</string>
+    <string name="overlay">Оверлей</string>
+    <string name="enable_overlay">Включити оверлей</string>
+    <string name="size">Розмір</string>
+    <string name="opacity">Непрозорість</string>
+    <string name="battery_level_overlay">Рівень заряду</string>
+    <string name="number_of_charges_overlay">Кількість зарядок</string>
+    <string name="number_of_cycles_overlay">Кількість циклів</string>
+    <string name="charging_time_overlay">Час зарядки</string>
+    <string name="current_capacity_overlay">Поточна ємність</string>
+    <string name="capacity_added_overlay">Додалося ємності</string>
+    <string name="battery_health_overlay">Стан акумулятора (Android)</string>
+    <string name="residual_capacity_overlay">Залишкова ємність</string>
+    <string name="status_overlay">Стан</string>
+    <string name="source_of_power_overlay">Джерело живлення</string>
+    <string name="charge_discharge_current_overlay">Струм зарядки/розрядки</string>
+    <string name="max_charge_discharge_current_overlay">Максимальний струм зарядки</string>
+    <string name="average_charge_discharge_current_overlay">Середній струм зарядки</string>
+    <string name="min_charge_discharge_current_overlay">Мінімальний струм зарядки</string>
+    <string name="temperature_overlay">Температура</string>
+    <string name="voltage_overlay">Напруга</string>
+    <string name="last_charge_time_overlay">Час останньої зарядки</string>
+    <string name="battery_wear_overlay">Знос акумулятора</string>
+    <string name="overlay_permission_dialog_message">Для роботи оверлею потрібен дозвіл. Будь ласка, перейдіть до наступного вікна і надайте дозвіл</string>
 </resources>
