@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
@@ -239,7 +240,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.title = getString(R.string.hide)
 
                 unitOfChargeDischargeCurrent?.isVisible = true
-                unitOfMeasurementOfCurrentCapacity?.isVisible = true
+                unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
                 overlay?.isVisible = true
@@ -406,11 +407,15 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         unitOfChargeDischargeCurrent?.summary = unitOfChargeDischargeCurrent?.entry
 
+        unitOfMeasurementOfCurrentCapacity?.isVisible = moreOther?.title == getString(R.string.hide)
+                && pref.getBoolean(IS_SUPPORTED, true)
+
         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
             !in resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values))
             pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
 
         unitOfMeasurementOfCurrentCapacity?.summary = unitOfMeasurementOfCurrentCapacity?.entry
+
 
         if(pref.getString(VOLTAGE_UNIT, "mV")
             !in resources.getStringArray(R.array.voltage_unit_values))

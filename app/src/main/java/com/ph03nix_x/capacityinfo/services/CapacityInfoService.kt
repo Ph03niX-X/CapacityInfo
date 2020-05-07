@@ -254,9 +254,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
                 putInt(PERCENT_ADDED, percentAdded)
-
-                if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
             }
+
+            if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
             apply()
         }

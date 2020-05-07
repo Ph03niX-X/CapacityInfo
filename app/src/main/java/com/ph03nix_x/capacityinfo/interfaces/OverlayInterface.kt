@@ -263,7 +263,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             onSetTextSize(this)
 
             text = context.getString(R.string.number_of_cycles,
-                pref.getFloat(NUMBER_OF_CYCLES, 0f).toString())
+                DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
 
             visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false))
                 View.VISIBLE else View.GONE

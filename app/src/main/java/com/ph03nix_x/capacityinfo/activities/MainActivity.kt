@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             pref.edit().putBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, false).apply()
 
-            pref.edit().putBoolean(IS_SUPPORTED, true).apply()
+            pref.edit().putBoolean(IS_SUPPORTED, false).apply()
 
             MaterialAlertDialogBuilder(this).apply {
 
@@ -405,14 +405,16 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                        capacityAdded.text = getCapacityAdded(
+                                            this@MainActivity)
                                     }
                                     getPlugged(this@MainActivity, plugged) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = getCapacityAdded(this@MainActivity)
+                                        capacityAdded.text = getCapacityAdded(
+                                            this@MainActivity)
                                     }
                                     capacityAdded.visibility == View.VISIBLE ->
                                         capacityAdded.visibility = View.GONE
@@ -461,10 +463,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 withContext(Dispatchers.Main) {
                                     chargeCurrent.visibility = View.VISIBLE }
 
-                            if(numberOfCharges.visibility == View.VISIBLE)
-                                withContext(Dispatchers.Main) {
-                                    numberOfCharges.visibility = View.GONE }
-
                             withContext(Dispatchers.Main) {
 
                                 chargeCurrent.text = getString(R.string.charge_current,
@@ -479,10 +477,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 withContext(Dispatchers.Main) {
                                     chargeCurrent.visibility = View.VISIBLE }
 
-                            if(numberOfCharges.visibility == View.GONE)
-                                withContext(Dispatchers.Main) {
-                                    numberOfCharges.visibility = View.VISIBLE }
-
                             withContext(Dispatchers.Main) {
 
                                 chargeCurrent.text = getString(R.string.discharge_current,
@@ -495,10 +489,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             if(chargeCurrent.visibility == View.VISIBLE)
                                 withContext(Dispatchers.Main) {
                                     chargeCurrent.visibility = View.GONE }
-
-                            if(numberOfCharges.visibility == View.GONE)
-                                withContext(Dispatchers.Main) {
-                                    numberOfCharges.visibility = View.VISIBLE }
                         }
                     }
 
@@ -521,10 +511,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                 maxChargeDischargeCurrent.text =getString(R.string.max_charge_current,
                                     BatteryInfoInterface.maxChargeCurrent)
 
-                                averageChargeDischargeCurrent.text = getString(R.string.average_charge_current,
+                                averageChargeDischargeCurrent.text = getString(
+                                    R.string.average_charge_current,
                                     BatteryInfoInterface.averageChargeCurrent)
 
-                                minChargeDischargeCurrent.text = getString(R.string.min_charge_current,
+                                minChargeDischargeCurrent.text = getString(
+                                    R.string.min_charge_current,
                                     BatteryInfoInterface.minChargeCurrent)
                         }
 
@@ -542,10 +534,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                             maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
                                 BatteryInfoInterface.maxDischargeCurrent)
 
-                            averageChargeDischargeCurrent.text = getString(R.string.average_discharge_current,
+                            averageChargeDischargeCurrent.text = getString(
+                                R.string.average_discharge_current,
                                 BatteryInfoInterface.averageDischargeCurrent)
 
-                            minChargeDischargeCurrent.text = getString(R.string.min_discharge_current,
+                            minChargeDischargeCurrent.text = getString(
+                                R.string.min_discharge_current,
                                 BatteryInfoInterface.minDischargeCurrent)
                         }
 
@@ -604,10 +598,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                                     pref.edit().putInt(it.key as String, it.value as Int).apply()
 
                                 CAPACITY_ADDED, NUMBER_OF_CYCLES ->
-                                    pref.edit().putFloat(it.key as String, it.value as Float).apply()
+                                    pref.edit().putFloat(it.key as String,
+                                        it.value as Float).apply()
 
                                 IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
-                                    pref.edit().putBoolean(it.key as String, it.value as Boolean).apply()
+                                    pref.edit().putBoolean(it.key as String,
+                                        it.value as Boolean).apply()
                             }
                         }
                     }
