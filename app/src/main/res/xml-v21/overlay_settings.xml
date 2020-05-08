@@ -21,20 +21,20 @@
             app:allowDividerBelow="false"
             android:key="appearance_overlay">
 
-    <ListPreference
-            android:title="@string/size"
-            app:singleLineTitle="false"
-            android:entries="@array/overlay_size_list"
-            android:entryValues="@array/overlay_size_values"
-            app:defaultValue="1"
-            app:iconSpaceReserved="false"
-            android:key="overlay_size"/>
+        <ListPreference
+                android:title="@string/size"
+                app:singleLineTitle="false"
+                android:entries="@array/overlay_size_list"
+                android:entryValues="@array/overlay_size_values"
+                app:defaultValue="1"
+                app:iconSpaceReserved="false"
+                android:key="overlay_size"/>
 
         <SeekBarPreference
                 android:title="@string/opacity"
                 app:iconSpaceReserved="false"
-                android:summary="50%"
-                app:defaultValue="127"
+                android:summary="100%"
+                app:defaultValue="255"
                 app:singleLineTitle="false"
                 android:key="overlay_opacity"
                 android:max="255"/>

@@ -119,12 +119,17 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlaySize?.summary = overlaySize?.entry
 
-        if(pref.getInt(OVERLAY_OPACITY, 127) > 255
-            || pref.getInt(OVERLAY_OPACITY, 127) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, 127).apply()
+        if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255) > 255
+            || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                127 else 255).apply()
 
         overlayOpacity?.summary = "${DecimalFormat("#")
-            .format((pref.getInt(OVERLAY_OPACITY, 127).toFloat() / 255f) * 100f)}%"
+            .format((pref.getInt(OVERLAY_OPACITY,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255)
+                .toFloat() / 255f) * 100f)}%"
 
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
@@ -351,12 +356,17 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlaySize?.summary = overlaySize?.entry
 
-        if(pref.getInt(OVERLAY_OPACITY, 127) > 255
-            || pref.getInt(OVERLAY_OPACITY, 127) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, 127).apply()
+        if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255) > 255
+            || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                127 else 255).apply()
 
         overlayOpacity?.summary = "${DecimalFormat("#")
-            .format((pref.getInt(OVERLAY_OPACITY, 127).toFloat() / 255f) * 100f)}%"
+            .format((pref.getInt(OVERLAY_OPACITY,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255)
+                .toFloat() / 255f) * 100f)}%"
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 

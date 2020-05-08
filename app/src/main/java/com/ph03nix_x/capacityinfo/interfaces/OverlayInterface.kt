@@ -224,9 +224,13 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
     }
 
     private fun onSetBackgroundLinearLayout() =
-        Color.argb(if(pref.getInt(OVERLAY_OPACITY, 127) > 255
-            || pref.getInt(OVERLAY_OPACITY, 127) < 0) 127
-        else pref.getInt(OVERLAY_OPACITY, 127), 0, 0, 0)
+        Color.argb(if(pref.getInt(OVERLAY_OPACITY,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255) > 255
+            || pref.getInt(OVERLAY_OPACITY,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255) < 0) 127
+        else pref.getInt(OVERLAY_OPACITY,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255), 0, 0, 0)
 
     private fun onUpdateBatteryLevelOverlay() {
 
