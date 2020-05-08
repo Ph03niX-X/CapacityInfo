@@ -147,4 +147,27 @@
     <string name="reset_to_zero_the_number_of_cycles">Абнуліць колькасць цыклаў</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Абнуліць колькасць цыклаў?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">Колькасць цыклаў было паспяхова скінута да нуля</string>
+    <string name="overlay">Аверлэй</string>
+    <string name="enable_overlay">Уключыць аверлэй</string>
+    <string name="size">Памер</string>
+    <string name="opacity">Непразрыстасць</string>
+    <string name="battery_level_overlay">Узровень зарада</string>
+    <string name="number_of_charges_overlay">Колькасць зарадак</string>
+    <string name="number_of_cycles_overlay">Колькасць цыклаў</string>
+    <string name="charging_time_overlay">Час зарадкі</string>
+    <string name="current_capacity_overlay">Бягучая ёмістасць</string>
+    <string name="capacity_added_overlay">Дадалося ёмістасці</string>
+    <string name="battery_health_overlay">Стан акумулятара (Android)</string>
+    <string name="residual_capacity_overlay">Рэшткавая ёмістасць</string>
+    <string name="status_overlay">Статус</string>
+    <string name="source_of_power_overlay">Крыніца сілкавання</string>
+    <string name="charge_discharge_current_overlay">Ток зарадкі/разрадкі</string>
+    <string name="max_charge_discharge_current_overlay">Максімальны ток зарадкі/разрадкі</string>
+    <string name="average_charge_discharge_current_overlay">Сярэдні ток зарадкі/разрадкі</string>
+    <string name="min_charge_discharge_current_overlay">Мінімальны ток зарадкі/разрадкі</string>
+    <string name="temperature_overlay">Тэмпература</string>
+    <string name="voltage_overlay">Напружанне</string>
+    <string name="last_charge_time_overlay">Час апошняй зарадкі</string>
+    <string name="battery_wear_overlay">Знос акумулятара</string>
+    <string name="overlay_permission_dialog_message">Для працы авэрлэю патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
 </resources>
