@@ -181,12 +181,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             launchActivity(this, SettingsActivity::class.java)
             overridePendingTransition(0, 0)
         }
-        else if(DebugActivity.instance != null) {
-
-            launchActivity(this, DebugActivity::class.java)
-
-            overridePendingTransition(0, 0)
-        }
 
         if(CapacityInfoService.instance == null && !isStartedService) {
 

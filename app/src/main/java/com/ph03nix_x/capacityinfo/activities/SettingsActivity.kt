@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
+import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.receivers.OpenDebugReceiver.Companion.isDebug
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
@@ -38,7 +40,7 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
 
         toolbar = findViewById(R.id.toolbar)
 
-        toolbar.title = getString(R.string.settings)
+        toolbar.title = getString(if(!isDebug) R.string.settings else R.string.debug)
 
         toolbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_24dp)
 
@@ -47,18 +49,28 @@ class SettingsActivity : AppCompatActivity(), ServiceInterface {
             onBackPressed()
         }
 
+        if(!isDebug)
         supportFragmentManager.beginTransaction().apply {
 
             replace(R.id.container, SettingsFragment())
             commit()
+        }
+
+        else {
+
+            supportFragmentManager.beginTransaction().apply {
+
+                replace(R.id.container, DebugFragment())
+                commit()
+            }
+
+            isDebug = false
         }
     }
 
     override fun onResume() {
 
         super.onResume()
-
-        DebugActivity.instance?.finish()
 
         instance = this
 
