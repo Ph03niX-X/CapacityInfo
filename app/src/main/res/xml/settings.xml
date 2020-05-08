@@ -88,7 +88,7 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_language_24dp"
                 app:dialogIcon="@drawable/ic_language_24dp"
-                android:entries="@array/languages"
+                android:entries="@array/languages_list"
                 android:entryValues="@array/languages_codes"
                 app:defaultValue="en"
                 android:key="language"/>
@@ -138,7 +138,7 @@
                 app:icon="@drawable/ic_unit_of_charge_discharge_current"
                 android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
                 app:defaultValue="μA"
-                android:entries="@array/unit_of_charge_discharge_current"
+                android:entries="@array/unit_of_charge_discharge_current_list"
                 android:entryValues="@array/unit_of_charge_discharge_current_values"
                 app:singleLineTitle="false"
                 android:key="unit_of_charge_discharge_current"/>
@@ -149,7 +149,7 @@
                 app:icon="@drawable/ic_unit_of_measurement_of_cc_24dp"
                 android:dialogIcon="@drawable/ic_unit_of_measurement_of_cc_24dp"
                 app:defaultValue="μAh"
-                android:entries="@array/unit_of_measurement_of_current_capacity"
+                android:entries="@array/unit_of_measurement_of_current_capacity_list"
                 android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
                 app:singleLineTitle="false"
                 android:key="unit_of_measurement_of_current_capacity"/>
@@ -160,7 +160,7 @@
                 app:icon="@drawable/ic_voltage_unit"
                 android:dialogIcon="@drawable/ic_voltage_unit"
                 app:defaultValue="mV"
-                android:entries="@array/voltage_unit"
+                android:entries="@array/voltage_unit_list"
                 android:entryValues="@array/voltage_unit_values"
                 app:singleLineTitle="false"
                 android:key="voltage_unit"/>

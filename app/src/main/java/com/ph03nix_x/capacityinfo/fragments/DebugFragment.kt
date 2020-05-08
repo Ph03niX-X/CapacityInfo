@@ -88,12 +88,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         }
 
         if(pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") !in
-            resources.getStringArray(R.array.periodic_billing_job_service_values)) {
-
-            periodicBJS?.value = "12"
-
+            resources.getStringArray(R.array.periodic_billing_job_service_values))
             pref.edit().putString(PERIODIC_BILLING_JOB_SERVICE, "12").apply()
-        }
+
 
         periodicBJS?.apply {
 
@@ -200,12 +197,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         super.onResume()
 
         if(pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") !in
-            resources.getStringArray(R.array.periodic_billing_job_service_values)) {
-
-            periodicBJS?.value = "12"
-
+            resources.getStringArray(R.array.periodic_billing_job_service_values))
             pref.edit().putString(PERIODIC_BILLING_JOB_SERVICE, "12").apply()
-        }
 
         scheduleBJS?.apply {
 

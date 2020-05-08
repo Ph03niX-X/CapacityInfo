@@ -1,6 +1,6 @@
 <resources>
 
-    <string-array name="languages"> // Do Not Translation
+    <string-array name="languages_list"> // Do Not Translation
         <item>English</item>
         <item>Română</item>
         <item>Беларуская</item>
@@ -16,7 +16,7 @@
         <item>uk</item>
     </string-array>
 
-    <string-array name="unit_of_charge_discharge_current">
+    <string-array name="unit_of_charge_discharge_current_list">
         <item>μA</item>
         <item>mA</item>
     </string-array>
@@ -26,7 +26,7 @@
         <item>mA</item>
     </string-array>
 
-    <string-array name="unit_of_measurement_of_current_capacity">
+    <string-array name="unit_of_measurement_of_current_capacity_list">
         <item>μAh</item>
         <item>mAh</item>
     </string-array>
@@ -36,7 +36,7 @@
         <item>mAh</item>
     </string-array>
 
-    <string-array name="voltage_unit">
+    <string-array name="voltage_unit_list">
         <item>μV</item>
         <item>mV</item>
     </string-array>
@@ -46,7 +46,7 @@
         <item>mV</item>
     </string-array>
 
-    <string-array name="key_type"> // Do Not Translation
+    <string-array name="key_types_list"> // Do Not Translation
         <item>String</item>
         <item>Int</item>
         <item>Long</item>
@@ -89,7 +89,7 @@
         <item>20 Hours</item>
     </string-array>
 
-    <string-array name="periodic_billing_job_service_values">
+    <string-array name="periodic_billing_job_service_values"> // Do Not Translation
         <item>1</item>
         <item>2</item>
         <item>3</item>

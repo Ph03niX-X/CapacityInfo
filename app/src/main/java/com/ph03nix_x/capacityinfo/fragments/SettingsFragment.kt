@@ -145,7 +145,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         if(pref.getString(LANGUAGE, null) !in
             resources.getStringArray(R.array.languages_codes))
-            selectLanguage?.value = defLang
 
         selectLanguage?.summary = selectLanguage?.entry
 
@@ -269,9 +268,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             if((newValue as? String) == "μA")
                 preference.summary = resources.getStringArray(R.array
-                    .unit_of_charge_discharge_current)[0]
+                    .unit_of_charge_discharge_current_list)[0]
             else preference.summary = resources.getStringArray(R.array
-                .unit_of_charge_discharge_current)[1]
+                .unit_of_charge_discharge_current_list)[1]
 
             true
         }
@@ -280,9 +279,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             if((newValue as? String) == "μAh")
                 preference.summary = resources.getStringArray(R.array
-                    .unit_of_measurement_of_current_capacity)[0]
+                    .unit_of_measurement_of_current_capacity_list)[0]
             else preference.summary = resources.getStringArray(R.array
-                .unit_of_measurement_of_current_capacity)[1]
+                .unit_of_measurement_of_current_capacity_list)[1]
 
             true
         }
@@ -290,8 +289,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         voltageUnit?.setOnPreferenceChangeListener { preference, newValue ->
 
             if((newValue as? String) == "μV")
-                preference.summary = resources.getStringArray(R.array.voltage_unit)[0]
-            else preference.summary = resources.getStringArray(R.array.voltage_unit)[1]
+                preference.summary = resources.getStringArray(R.array.voltage_unit_list)[0]
+            else preference.summary = resources.getStringArray(R.array.voltage_unit_list)[1]
 
             true
         }

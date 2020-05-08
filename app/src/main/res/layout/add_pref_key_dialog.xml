@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/add_pref_spinner"
             android:layout_margin="10dp"
-            android:entries="@array/key_type"/>
+            android:entries="@array/key_types_list"/>
 
     <com.google.android.material.textfield.TextInputLayout
             android:hint="@string/pref_value"
