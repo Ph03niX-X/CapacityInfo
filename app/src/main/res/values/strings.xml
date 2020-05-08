@@ -184,4 +184,5 @@
     <string name="billing_job_service_is_cancelled_successfully">Billing Job Service is Cancelled Successfully!</string>
     <string name="job_services_is_cancelled_successfully">All Job Services is Cancelled Successfully!</string>
     <string name="text_style">Text Style</string>
+    <string name="font">Font</string>
 </resources>

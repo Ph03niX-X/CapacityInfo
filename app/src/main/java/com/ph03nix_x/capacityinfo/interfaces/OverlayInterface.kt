@@ -46,6 +46,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
@@ -583,7 +584,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onSetTextStyle(textView: AppCompatTextView) {
 
-        val fontFamily  = ResourcesCompat.getFont(textView.context, R.font.google_sans_medium)
+        val fontFamily = onSetTextFont(textView.context)
 
         when(pref.getString(OVERLAY_TEXT_STYLE, "0")?.toInt()) {
 
@@ -595,6 +596,34 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             2 -> textView.typeface = TypefaceCompat.create(textView.context, fontFamily,
                 Typeface.ITALIC)
+        }
+    }
+
+    private fun onSetTextFont(context: Context): Typeface? {
+
+        return when(pref.getString(OVERLAY_FONT, "6")?.toInt()) {
+
+            0 -> Typeface.DEFAULT
+
+            1 -> ResourcesCompat.getFont(context, R.font.roboto)
+
+            2 -> Typeface.SERIF
+
+            3 -> Typeface.SANS_SERIF
+
+            4 -> Typeface.MONOSPACE
+
+            5 -> ResourcesCompat.getFont(context, R.font.open_sans)
+
+            6 -> ResourcesCompat.getFont(context, R.font.google_sans)
+
+            7 -> ResourcesCompat.getFont(context, R.font.san_francisco)
+
+            8 -> ResourcesCompat.getFont(context, R.font.times_new_roman)
+
+            9 -> ResourcesCompat.getFont(context, R.font.ubuntu)
+
+            else -> ResourcesCompat.getFont(context, R.font.google_sans)
         }
     }
 

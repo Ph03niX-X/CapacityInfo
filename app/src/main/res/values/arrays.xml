@@ -124,4 +124,30 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="fonts_list">
+        <item>System</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Open Sans</item>
+        <item>Google Sans (Default)</item>
+        <item>San Francisco</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+    </string-array>
+
+    <string-array name="fonts_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
 </resources>

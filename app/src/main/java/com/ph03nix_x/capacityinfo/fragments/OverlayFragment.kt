@@ -34,6 +34,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
@@ -51,6 +52,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     // Appearance
     private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
+    private var overlayFont: ListPreference? = null
     private var overlayTextStyle: ListPreference? = null
     private var overlayOpacity: SeekBarPreference? = null
 
@@ -112,6 +114,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         // Appearance
         appearanceCategory = findPreference("appearance_overlay")
         overlaySize = findPreference(OVERLAY_SIZE)
+        overlayFont = findPreference(OVERLAY_FONT)
         overlayTextStyle = findPreference(OVERLAY_TEXT_STYLE)
         overlayOpacity = findPreference("overlay_opacity")
 
@@ -122,19 +125,19 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlaySize?.summary = overlaySize?.entry
 
-        if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255) > 255
-            || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                127 else 255).apply()
+        overlayFont?.summary = getOverlayTextFontSummary()
 
         overlayTextStyle?.summary = getOverlayTextStyleSummary()
 
-        overlayOpacity?.summary = "${DecimalFormat("#")
-            .format((pref.getInt(OVERLAY_OPACITY,
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255)
-                .toFloat() / 255f) * 100f)}%"
+        overlayOpacity?.summary = getOverlayOpacitySummary()
+
+        overlayFont?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.fonts_list)[
+                    (newValue as? String)?.toInt() ?: 1]
+
+            true
+        }
 
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
@@ -369,19 +372,11 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlaySize?.summary = overlaySize?.entry
 
+        overlayFont?.summary = getOverlayTextFontSummary()
+
         overlayTextStyle?.summary = getOverlayTextStyleSummary()
 
-        if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255) > 255
-            || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                127 else 255).apply()
-
-        overlayOpacity?.summary = "${DecimalFormat("#")
-            .format((pref.getInt(OVERLAY_OPACITY,
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255)
-                .toFloat() / 255f) * 100f)}%"
+        overlayOpacity?.summary = getOverlayOpacitySummary()
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
 
@@ -396,6 +391,15 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         }
     }
 
+    private fun getOverlayTextFontSummary(): CharSequence? {
+
+        if(pref.getString(OVERLAY_FONT, "6") !in
+            resources.getStringArray(R.array.fonts_values))
+            pref.edit().putString(OVERLAY_FONT, "6").apply()
+
+        return overlayFont?.entry
+    }
+
     private fun getOverlayTextStyleSummary(): CharSequence? {
 
         if(pref.getString(OVERLAY_TEXT_STYLE, "0") !in
@@ -403,6 +407,20 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             pref.edit().putString(OVERLAY_TEXT_STYLE, "0").apply()
 
         return overlayTextStyle?.entry
+    }
+
+    private fun getOverlayOpacitySummary(): CharSequence? {
+
+        if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255) > 255
+            || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                127 else 255).apply()
+
+        return "${DecimalFormat("#").format((pref.getInt(OVERLAY_OPACITY,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
+            else 255).toFloat() / 255f) * 100f)}%"
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

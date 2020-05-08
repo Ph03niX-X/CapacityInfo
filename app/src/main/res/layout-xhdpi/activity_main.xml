@@ -17,7 +17,7 @@
             android:id="@+id/design_capacity"
             android:text="@string/design_capacity"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"
+            android:fontFamily="@font/google_sans"
             android:layout_marginTop="100dp"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -26,7 +26,7 @@
             android:id="@+id/battery_level"
             android:text="@string/battery_level"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:id="@+id/number_of_charges"
             android:text="@string/number_of_charges"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:id="@+id/number_of_cycles"
             android:text="@string/number_of_cycles"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:visibility="gone"
             android:text="@string/charging_time"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:visibility="gone"
             android:text="@string/current_capacity"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             android:id="@+id/capacity_added"
             android:text="@string/capacity_added"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:id="@+id/battery_health"
             android:text="@string/battery_health"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
             android:id="@+id/residual_capacity"
             android:text="@string/residual_capacity"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -93,7 +93,7 @@
             android:visibility="visible"
             android:text="@string/battery_technology"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -102,7 +102,7 @@
             android:visibility="visible"
             android:text="@string/status"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -111,7 +111,7 @@
             android:visibility="visible"
             android:text="@string/source_of_power"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -120,7 +120,7 @@
             android:visibility="gone"
             android:text="@string/charge_current"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -128,7 +128,7 @@
             android:id="@+id/max_charge_discharge_current"
             android:text="@string/max_charge_current"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -136,7 +136,7 @@
             android:id="@+id/average_charge_discharge_current"
             android:text="@string/average_charge_current"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -144,7 +144,7 @@
             android:id="@+id/min_charge_discharge_current"
             android:text="@string/min_charge_current"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -153,7 +153,7 @@
             android:visibility="visible"
             android:text="@string/temperature_celsius"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -162,7 +162,7 @@
             android:visibility="visible"
             android:text="@string/voltage"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -170,7 +170,7 @@
             android:id="@+id/last_charge_time"
             android:text="@string/last_charge_time"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -178,6 +178,6 @@
             android:id="@+id/battery_wear"
             android:text="@string/battery_wear"
             android:gravity="center"
-            android:fontFamily="@font/google_sans_medium"/>
+            android:fontFamily="@font/google_sans"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
