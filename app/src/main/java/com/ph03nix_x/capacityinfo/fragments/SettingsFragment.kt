@@ -239,7 +239,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.title = getString(R.string.hide)
 
                 unitOfChargeDischargeCurrent?.isVisible = true
-                unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+                unitOfMeasurementOfCurrentCapacity?.isVisible =
+                    pref.getBoolean(IS_SUPPORTED, true)
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
                 overlay?.isVisible = true

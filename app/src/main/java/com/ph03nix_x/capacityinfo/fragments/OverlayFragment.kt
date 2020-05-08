@@ -146,7 +146,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
 
         // Overlay
-        overlayCategory = findPreference("overlay_category")
+        overlayCategory = findPreference("show_hide_pref_category")
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
         numberOfCyclesOverlay = findPreference(IS_NUMBER_OF_CYCLES_OVERLAY)

@@ -155,6 +155,7 @@
     <string name="enable_overlay">Enable Overlay</string>
     <string name="size">Size</string>
     <string name="opacity">Opacity</string>
+    <string name="show_hide">Show/Hide</string>
     <string name="battery_level_overlay">Battery Level</string>
     <string name="number_of_charges_overlay">Number of Charges</string>
     <string name="number_of_cycles_overlay">Number of Cycles</string>
