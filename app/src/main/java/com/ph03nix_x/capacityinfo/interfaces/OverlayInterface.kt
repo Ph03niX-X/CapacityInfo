@@ -583,7 +583,7 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
     private fun onSetTextStyle(textView: AppCompatTextView) {
 
-        val fontFamily  = ResourcesCompat.getFont(textView.context, R.font.medium)
+        val fontFamily  = ResourcesCompat.getFont(textView.context, R.font.google_sans_medium)
 
         when(pref.getString(OVERLAY_TEXT_STYLE, "0")?.toInt()) {
 
