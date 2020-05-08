@@ -96,16 +96,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
 
-            MaterialAlertDialogBuilder(this).apply {
-
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.instruction))
-                setMessage(getString(R.string.instruction_message)
-                        + getString(R.string.instruction_message_do_not_kill_the_service)
-                        + getString(R.string.instruction_message_huawei_honor))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                show()
-            }
+            showInstruction()
 
             true
         }
@@ -275,9 +266,16 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
             setTitle(getString(R.string.instruction))
-            setMessage(getString(R.string.instruction_message))
+            setMessage(getString(R.string.instruction_message)
+                    + getString(R.string.instruction_message_do_not_kill_the_service)
+                    + getString(R.string.instruction_message_huawei_honor))
+
             setPositiveButton(android.R.string.ok) { _, _ ->
-                pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply() }
+
+                if(pref.getBoolean(IS_SHOW_INSTRUCTION, false))
+                    pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply()
+            }
+
             show()
         }
     }
