@@ -175,4 +175,12 @@
     <string name="last_charge_time_overlay">Last Charge Time</string>
     <string name="battery_wear_overlay">Battery Wear</string>
     <string name="overlay_permission_dialog_message">Permission is required for the overlay to work. Please go to the next window and provide permission</string>
+    <string name="do_not_schedule_billing_job_service">Do not schedule Billing Job Service</string>
+    <string name="schedule_billing_job_service">Schedule Billing Job Service</string>
+    <string name="billing_job_service_is_scheduled">Billing Job Service is Scheduled. Periodic: %1$s</string>
+    <string name="cancel_billing_job_service">Cancel Billing Job Service</string>
+    <string name="cancel_all_job_services">Cancel all Job Services</string>
+    <string name="periodic_billing_job_service">Periodic Billing Job Service</string>
+    <string name="billing_job_service_is_cancelled_successfully">Billing Job Service is Cancelled Successfully!</string>
+    <string name="job_services_is_cancelled_successfully">All Job Services is Cancelled Successfully!</string>
 </resources>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <SwitchPreferenceCompat
@@ -13,6 +15,34 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_donate_24dp"
                 android:key="is_hide_donate"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/do_not_schedule_billing_job_service"
+                app:singleLineTitle="false"
+                android:key="is_do_not_schedule_billing_job_service"/>
+
+    <Preference
+            android:title="@string/schedule_billing_job_service"
+            app:singleLineTitle="false"
+            android:key="schedule_billing_job_service"/>
+
+        <Preference
+                android:title="@string/cancel_billing_job_service"
+                app:singleLineTitle="false"
+                android:key="cancel_billing_job_service"/>
+
+        <Preference
+                android:title="@string/cancel_all_job_services"
+                app:singleLineTitle="false"
+                android:key="cancel_all_billing_job_services"/>
+
+        <ListPreference
+                android:title="@string/periodic_billing_job_service"
+                app:singleLineTitle="false"
+                android:entries="@array/periodic_billing_job_service_list"
+                android:entryValues="@array/periodic_billing_job_service_values"
+                app:defaultValue="12"
+                android:key="periodic_billing_job_service"/>
 
         <Preference
                 android:title="@string/add_setting"

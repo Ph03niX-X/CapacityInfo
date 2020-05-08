@@ -12,4 +12,5 @@ object Constants {
     const val IMPORT_SETTINGS_REQUEST_CODE = 1
     const val ACTION_MANAGE_OVERLAY_PERMISSION = 2
     const val MAX_DESIGN_CAPACITY = 18500
+    const val BILLING_JOB_SERVICE_ID = 0
 }

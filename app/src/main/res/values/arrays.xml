@@ -66,4 +66,50 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="periodic_billing_job_service_list">
+        <item>1 Hour</item>
+        <item>2 Hours</item>
+        <item>3 Hours</item>
+        <item>4 Hours</item>
+        <item>5 Hours</item>
+        <item>6 Hours</item>
+        <item>7 Hours</item>
+        <item>8 Hours</item>
+        <item>9 Hours</item>
+        <item>10 Hours</item>
+        <item>11 Hours</item>
+        <item>12 Hours</item>
+        <item>13 Hours</item>
+        <item>14 Hours</item>
+        <item>15 Hours</item>
+        <item>16 Hours</item>
+        <item>17 Hours</item>
+        <item>18 Hours</item>
+        <item>19 Hours</item>
+        <item>20 Hours</item>
+    </string-array>
+
+    <string-array name="periodic_billing_job_service_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
+
 </resources>

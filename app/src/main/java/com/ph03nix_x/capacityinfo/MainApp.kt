@@ -1,9 +1,6 @@
 package com.ph03nix_x.capacityinfo
 
 import android.app.Application
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
@@ -11,12 +8,16 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
+import com.ph03nix_x.capacityinfo.interfaces.JobServiceInterface
 import com.ph03nix_x.capacityinfo.services.BillingJobService
 import com.ph03nix_x.capacityinfo.utils.Constants
+import com.ph03nix_x.capacityinfo.utils.Constants.BILLING_JOB_SERVICE_ID
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERIODIC_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 
-class MainApp : Application() {
+class MainApp : Application(), JobServiceInterface {
 
     companion object {
 
@@ -27,6 +28,8 @@ class MainApp : Application() {
 
         super.onCreate()
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+
         setTheme(this)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
@@ -36,7 +39,15 @@ class MainApp : Application() {
 
         isInstalledGooglePlay = isInstalledGooglePlay()
 
-        if(isInstalledGooglePlay) startBillingJob()
+        if(pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") !in
+            resources.getStringArray(R.array.periodic_billing_job_service_values))
+            pref.edit().putString(PERIODIC_BILLING_JOB_SERVICE, "12").apply()
+
+        if(isInstalledGooglePlay &&
+            !pref.getBoolean(IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE, false))
+            onScheduleJobService(this, BillingJobService::class.java, BILLING_JOB_SERVICE_ID,
+            periodicHours = (pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") ?: "12")
+                .toLong())
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -74,23 +85,5 @@ class MainApp : Application() {
         }
 
         catch (e: PackageManager.NameNotFoundException) { false }
-    }
-
-    private fun startBillingJob() {
-
-        val componentName = ComponentName(this, BillingJobService::class.java)
-        val jobInfo = JobInfo.Builder(0, componentName).apply {
-
-            setRequiresCharging(false)
-
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) setRequiresBatteryNotLow(true)
-
-            setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-            setPeriodic(12 * 60 * 60 * 1000)
-        }
-
-        val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as? JobScheduler
-
-        jobScheduler?.schedule(jobInfo.build())
     }
 }

@@ -20,8 +20,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.DebugActivity
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.receivers.OpenDebugReceiver.Companion.isDebug
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -539,7 +540,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
             MainActivity.instance?.recreate()
 
-            (context as? DebugActivity)?.recreate()
+            isDebug = !isDebug
+
+            (context as? SettingsActivity)?.recreate()
         }
     }
 
@@ -569,7 +572,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
             MainActivity.instance?.recreate()
 
-            (context as? DebugActivity)?.recreate()
+            isDebug = !isDebug
+
+            (context as? SettingsActivity)?.recreate()
         }
 
         else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
@@ -602,7 +607,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 MainActivity.instance?.recreate()
 
-                (context as? DebugActivity)?.recreate()
+                isDebug = !isDebug
+
+                (context as? SettingsActivity)?.recreate()
             }
 
             Toast.makeText(context, context.getString(R.string.key_successfully_reset, key), Toast.LENGTH_LONG).show()
@@ -647,7 +654,10 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 pref.edit().clear().apply()
                 MainActivity.instance?.recreate()
-                (context as? DebugActivity)?.recreate()
+
+                isDebug = !isDebug
+
+                (context as? SettingsActivity)?.recreate()
 
                 Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
             }
