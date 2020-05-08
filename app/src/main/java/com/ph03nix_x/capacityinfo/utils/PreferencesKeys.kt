@@ -32,9 +32,10 @@ object PreferencesKeys {
 
     // Overlay Appearance
     const val OVERLAY_SIZE = "overlay_size"
+    const val OVERLAY_TEXT_STYLE = "overlay_text_style"
     const val OVERLAY_OPACITY = "overlay_opacity"
 
-    // Overlay
+    // Show/Hide
     const val IS_BATTERY_LEVEL_OVERLAY = "is_battery_level_overlay"
     const val IS_NUMBER_OF_CHARGES_OVERLAY = "is_number_of_charges_overlay"
     const val IS_NUMBER_OF_CYCLES_OVERLAY = "is_number_of_cycles_overlay"

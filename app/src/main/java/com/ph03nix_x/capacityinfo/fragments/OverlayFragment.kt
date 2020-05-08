@@ -36,6 +36,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_VOLTAGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
 import java.text.DecimalFormat
 
 class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
@@ -50,9 +51,10 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
     // Appearance
     private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
+    private var overlayTextStyle: ListPreference? = null
     private var overlayOpacity: SeekBarPreference? = null
 
-    // Overlay
+    // Show/Hide
     private var overlayCategory: PreferenceCategory? = null
     private var numberOfChargesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesOverlay: SwitchPreferenceCompat? = null
@@ -110,6 +112,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         // Appearance
         appearanceCategory = findPreference("appearance_overlay")
         overlaySize = findPreference(OVERLAY_SIZE)
+        overlayTextStyle = findPreference(OVERLAY_TEXT_STYLE)
         overlayOpacity = findPreference("overlay_opacity")
 
         overlayOpacity?.updatesContinuously
@@ -126,6 +129,8 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 127 else 255).apply()
 
+        overlayTextStyle?.summary = getOverlayTextStyleSummary()
+
         overlayOpacity?.summary = "${DecimalFormat("#")
             .format((pref.getInt(OVERLAY_OPACITY,
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255)
@@ -135,6 +140,14 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
             preference.summary = resources.getStringArray(R.array.overlay_size_list)[
                     (newValue as? String)?.toInt() ?: 1]
+
+            true
+        }
+
+        overlayTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.text_style_list)[
+                    (newValue as? String)?.toInt() ?: 0]
 
             true
         }
@@ -150,7 +163,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         }
 
 
-        // Overlay
+        // Show/Hide
         overlayCategory = findPreference("show_hide_pref_category")
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
@@ -356,6 +369,8 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlaySize?.summary = overlaySize?.entry
 
+        overlayTextStyle?.summary = getOverlayTextStyleSummary()
+
         if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
             else 255) > 255
             || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
@@ -379,6 +394,15 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
             if(dialogRequestOverlayPermission == null && !canDrawOverlays)
                 requestOverlayPermission()
         }
+    }
+
+    private fun getOverlayTextStyleSummary(): CharSequence? {
+
+        if(pref.getString(OVERLAY_TEXT_STYLE, "0") !in
+                resources.getStringArray(R.array.text_style_values))
+            pref.edit().putString(OVERLAY_TEXT_STYLE, "0").apply()
+
+        return overlayTextStyle?.entry
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

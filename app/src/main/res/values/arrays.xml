@@ -56,7 +56,7 @@
 
     <string-array name="overlay_size_list">
         <item>Small</item>
-        <item>Medium</item>
+        <item>Medium (Default)</item>
         <item>Large</item>
     </string-array>
 
@@ -78,7 +78,7 @@
         <item>9 Hours</item>
         <item>10 Hours</item>
         <item>11 Hours</item>
-        <item>12 Hours</item>
+        <item>12 Hours (Default)</item>
         <item>13 Hours</item>
         <item>14 Hours</item>
         <item>15 Hours</item>
@@ -110,6 +110,18 @@
         <item>18</item>
         <item>19</item>
         <item>20</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normal (Default)</item>
+        <item>Bold</item>
+        <item>Italic</item>
+    </string-array>
+
+    <string-array name="text_style_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
 </resources>

@@ -183,4 +183,5 @@
     <string name="periodic_billing_job_service">Periodic Billing Job Service</string>
     <string name="billing_job_service_is_cancelled_successfully">Billing Job Service is Cancelled Successfully!</string>
     <string name="job_services_is_cancelled_successfully">All Job Services is Cancelled Successfully!</string>
+    <string name="text_style">Text Style</string>
 </resources>
