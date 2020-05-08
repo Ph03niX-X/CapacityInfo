@@ -7,8 +7,6 @@ import androidx.preference.*
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
-import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
-import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.interfaces.JobServiceInterface
 import com.ph03nix_x.capacityinfo.services.BillingJobService
@@ -36,7 +34,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
-    private var openSettings: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -65,8 +62,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         resetSetting = findPreference("reset_setting")
 
         resetSettings = findPreference("reset_settings")
-
-        openSettings = findPreference("open_settings")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
@@ -195,14 +190,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
         resetSettings?.setOnPreferenceClickListener {
 
             resetSettingsDialog(requireContext(), pref)
-
-            true
-        }
-
-        openSettings?.setOnPreferenceClickListener {
-
-            launchActivity(requireContext(), SettingsActivity::class.java,
-                arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK))
 
             true
         }

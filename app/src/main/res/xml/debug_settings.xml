@@ -68,10 +68,4 @@
                 app:icon="@drawable/ic_reset_all_settings_24dp"
                 android:key="reset_settings"/>
 
-        <Preference
-                android:title="@string/open_settings"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_settings_24dp"
-                android:key="open_settings"/>
-
 </PreferenceScreen>

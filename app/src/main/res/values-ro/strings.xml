@@ -82,7 +82,6 @@
     <string name="are_you_sure">Sunteți sigur?</string>
     <string name="settings_reset_successfully">Setările au fost resetate cu succes</string>
     <string name="forcibly_show_rate_the_app">Afișare forțată \"Evaluare aplicație\"</string>
-    <string name="open_settings">Deschidere setări</string>
     <string name="application_language">Limba aplicației</string>
     <string name="export_settings">Exportare setări</string>
     <string name="successful_export_of_settings">Setările au fost exportate cu succes!\n\nNume fișier: \"%1$s\"</string>
