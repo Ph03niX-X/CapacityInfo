@@ -31,7 +31,7 @@
                 android:key="overlay_size"/>
 
         <ListPreference
-                android:title="@string/font"
+                android:title="@string/font_overlay"
                 app:singleLineTitle="false"
                 android:entries="@array/fonts_list"
                 android:entryValues="@array/fonts_values"
@@ -40,7 +40,7 @@
                 android:key="overlay_font"/>
 
         <ListPreference
-                android:title="@string/text_style"
+                android:title="@string/text_style_overlay"
                 app:singleLineTitle="false"
                 android:entries="@array/text_style_list"
                 android:entryValues="@array/text_style_values"

@@ -20,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.TypefaceCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.helpers.TextTypefaceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
@@ -245,7 +246,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(R.string.battery_level,
                 "${getBatteryLevel(context)}%")
@@ -263,7 +266,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(R.string.number_of_charges,
                 pref.getLong(NUMBER_OF_CHARGES, 0))
@@ -281,7 +286,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(R.string.number_of_cycles,
                 DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
@@ -300,7 +307,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = getChargingTime(this.context, (CapacityInfoService.instance?.seconds ?: 0))
 
@@ -319,7 +328,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
                 onSetTextSize(this)
 
-                onSetTextStyle(this)
+                typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
                 text = context.getString(R.string.current_capacity, DecimalFormat("#.#")
                     .format(getCurrentCapacity(context)))
@@ -338,7 +349,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = getCapacityAdded(this.context)
 
@@ -355,7 +368,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(R.string.battery_health, getBatteryHealth(context))
 
@@ -373,7 +388,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = getResidualCapacity(context,
                 status == BatteryManager.BATTERY_STATUS_CHARGING)
@@ -391,7 +408,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(R.string.status, getStatus(context, status))
 
@@ -408,7 +427,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = sourceOfPower
 
@@ -426,7 +447,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
                 R.string.charge_current else R.string.discharge_current,
@@ -445,7 +468,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
                 .max_charge_current, BatteryInfoInterface.maxChargeCurrent) else context.getString(
@@ -464,7 +489,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
                 .average_charge_current, BatteryInfoInterface.averageChargeCurrent)
@@ -484,7 +511,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
                 .min_charge_current, BatteryInfoInterface.minChargeCurrent) else context.getString(
@@ -503,7 +532,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
                 R.string.temperature_fahrenheit else R.string.temperature_celsius,
@@ -522,7 +553,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
                 R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
@@ -541,7 +574,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = context.getString(R.string.last_charge_time, getLastChargeTime(context),
                 "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%",
@@ -561,7 +596,9 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
 
             onSetTextSize(this)
 
-            onSetTextStyle(this)
+            typeface = TextTypefaceHelper.setTextAppearance(this,
+                pref.getString(OVERLAY_TEXT_STYLE, "0"),
+            pref.getString(OVERLAY_FONT, "6"))
 
             text = getBatteryWear(context)
 
@@ -579,51 +616,6 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             1 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
 
             2 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-        }
-    }
-
-    private fun onSetTextStyle(textView: AppCompatTextView) {
-
-        val fontFamily = onSetTextFont(textView.context)
-
-        when(pref.getString(OVERLAY_TEXT_STYLE, "0")?.toInt()) {
-
-            0 -> textView.typeface = TypefaceCompat.create(textView.context, fontFamily,
-                Typeface.NORMAL)
-
-            1 -> textView.typeface = TypefaceCompat.create(textView.context, fontFamily,
-                Typeface.BOLD)
-
-            2 -> textView.typeface = TypefaceCompat.create(textView.context, fontFamily,
-                Typeface.ITALIC)
-        }
-    }
-
-    private fun onSetTextFont(context: Context): Typeface? {
-
-        return when(pref.getString(OVERLAY_FONT, "6")?.toInt()) {
-
-            0 -> Typeface.DEFAULT
-
-            1 -> ResourcesCompat.getFont(context, R.font.roboto)
-
-            2 -> Typeface.SERIF
-
-            3 -> Typeface.SANS_SERIF
-
-            4 -> Typeface.MONOSPACE
-
-            5 -> ResourcesCompat.getFont(context, R.font.open_sans)
-
-            6 -> ResourcesCompat.getFont(context, R.font.google_sans)
-
-            7 -> ResourcesCompat.getFont(context, R.font.san_francisco)
-
-            8 -> ResourcesCompat.getFont(context, R.font.times_new_roman)
-
-            9 -> ResourcesCompat.getFont(context, R.font.ubuntu)
-
-            else -> ResourcesCompat.getFont(context, R.font.google_sans)
         }
     }
 

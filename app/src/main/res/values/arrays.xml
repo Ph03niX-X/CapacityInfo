@@ -17,7 +17,7 @@
     </string-array>
 
     <string-array name="unit_of_charge_discharge_current_list">
-        <item>μA</item>
+        <item>μA (Default)</item>
         <item>mA</item>
     </string-array>
 
@@ -27,7 +27,7 @@
     </string-array>
 
     <string-array name="unit_of_measurement_of_current_capacity_list">
-        <item>μAh</item>
+        <item>μAh (Default)</item>
         <item>mAh</item>
     </string-array>
 
@@ -37,7 +37,7 @@
     </string-array>
 
     <string-array name="voltage_unit_list">
-        <item>μV</item>
+        <item>μV (Default)</item>
         <item>mV</item>
     </string-array>
 

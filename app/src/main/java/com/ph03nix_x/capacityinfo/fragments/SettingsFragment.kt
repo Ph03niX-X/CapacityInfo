@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
@@ -51,6 +52,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     // Appearance
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
+    private var mainWindowTextStyle: ListPreference? = null
     private var selectLanguage: ListPreference? = null
 
     // Misc
@@ -138,13 +140,22 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode = findPreference(IS_DARK_MODE)
 
+        mainWindowTextStyle = findPreference(MAIN_WINDOW_TEXT_STYLE)
+
         selectLanguage = findPreference(LANGUAGE)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
+        if(pref.getString(MAIN_WINDOW_TEXT_STYLE, null) !in
+            resources.getStringArray(R.array.text_style_values))
+            pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
+
+            mainWindowTextStyle?.summary = mainWindowTextStyle?.entry
+
         if(pref.getString(LANGUAGE, null) !in
             resources.getStringArray(R.array.languages_codes))
+            pref.edit().putString(LANGUAGE, defLang).apply()
 
         selectLanguage?.summary = selectLanguage?.entry
 
@@ -160,6 +171,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
+
+            true
+        }
+
+        mainWindowTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.text_style_list)[
+                    (newValue as? String)?.toInt() ?: 0]
 
             true
         }
@@ -400,6 +419,19 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     override fun onResume() {
 
         super.onResume()
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
+            !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+
+        if(pref.getString(MAIN_WINDOW_TEXT_STYLE, null) !in
+            resources.getStringArray(R.array.text_style_values))
+            pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
+
+        mainWindowTextStyle?.summary = mainWindowTextStyle?.entry
+
+        if(pref.getString(LANGUAGE, null) !in
+            resources.getStringArray(R.array.languages_codes))
+            pref.edit().putString(LANGUAGE, defLang).apply()
 
         if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
             !in resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
