@@ -172,7 +172,7 @@
     <string name="overlay_permission_dialog_message">Для работы оверлея требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
     <string name="do_not_schedule_billing_job_service">Не планировать Billing Job Service</string>
     <string name="schedule_billing_job_service">Запланировать Billing Job Service</string>
-    <string name="billing_job_service_is_scheduled">Billing Job Service Запланирован. Периодичность: %1$s</string>
+    <string name="billing_job_service_is_scheduled">Billing Job Service запланирован. Периодичность: %1$s</string>
     <string name="cancel_billing_job_service">Отменить Billing Job Service</string>
     <string name="cancel_all_job_services">Отменить все Job Services</string>
     <string name="periodic_billing_job_service">Периодичность Billing Job Service</string>
