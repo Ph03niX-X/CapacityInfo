@@ -154,6 +154,12 @@
                 app:icon="@drawable/ic_import_settings_24dp"
                 android:key="import_settings"/>
 
+        <Preference
+                android:title="@string/more"
+                app:icon="@drawable/ic_more_24dp"
+                app:singleLineTitle="false"
+                android:key="more_other"/>
+
         <ListPreference
                 android:title="@string/unit_of_charge_discharge_current"
                 app:isPreferenceVisible="false"
