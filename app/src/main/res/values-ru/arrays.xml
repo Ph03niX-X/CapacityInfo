@@ -1,23 +1,65 @@
 <resources>
     <string-array name="unit_of_charge_discharge_current_list">
-        <item>мкА</item>
+        <item>мкА (По умолчанию)</item>
         <item>мА</item>
     </string-array>
 
     <string-array name="unit_of_measurement_of_current_capacity_list">
-        <item>мкАч</item>
+        <item>мкАч (По умолчанию)</item>
         <item>мАч</item>
     </string-array>
 
     <string-array name="voltage_unit_list">
         <item>мкВ</item>
-        <item>мВ</item>
+        <item>мВ (По умолчанию)</item>
     </string-array>
 
     <string-array name="overlay_size_list">
         <item>Маленький</item>
-        <item>Средний</item>
+        <item>Средний (По умолчанию)</item>
         <item>Большой</item>
+    </string-array>
+
+    <string-array name="periodic_billing_job_service_list">
+        <item>1 Час</item>
+        <item>2 Часа</item>
+        <item>3 Часа</item>
+        <item>4 Часа</item>
+        <item>5 Часов</item>
+        <item>6 Часов</item>
+        <item>7 Часов</item>
+        <item>8 Часов</item>
+        <item>9 Часов</item>
+        <item>10 Часов</item>
+        <item>11 Часов</item>
+        <item>12 Часов (По умолчанию)</item>
+        <item>13 Часов</item>
+        <item>14 Часов</item>
+        <item>15 Часов</item>
+        <item>16 Часов</item>
+        <item>17 Часов</item>
+        <item>18 Часов</item>
+        <item>19 Часов</item>
+        <item>20 Часов</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Нормальный (По умолчанию)</item>
+        <item>Жирный</item>
+        <item>Курсив</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Системный</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Open Sans</item>
+        <item>Google Sans (По умолчанию)</item>
+        <item>San Francisco</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
     </string-array>
 
 </resources>

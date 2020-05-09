@@ -150,6 +150,7 @@
     <string name="enable_overlay">Включить оверлей</string>
     <string name="size">Размер</string>
     <string name="opacity">Непрозрачность</string>
+    <string name="show_hide">Показать/Скрыть</string>
     <string name="battery_level_overlay">Уровень заряда</string>
     <string name="number_of_charges_overlay">Количество зарядок</string>
     <string name="number_of_cycles_overlay">Количество циклов</string>
@@ -169,4 +170,16 @@
     <string name="last_charge_time_overlay">Время последней зарядки</string>
     <string name="battery_wear_overlay">Износ аккумулятора</string>
     <string name="overlay_permission_dialog_message">Для работы оверлея требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
+    <string name="do_not_schedule_billing_job_service">Не планировать Billing Job Service</string>
+    <string name="schedule_billing_job_service">Запланировать Billing Job Service</string>
+    <string name="billing_job_service_is_scheduled">Billing Job Service Запланирован. Периодичность: %1$s</string>
+    <string name="cancel_billing_job_service">Отменить Billing Job Service</string>
+    <string name="cancel_all_job_services">Отменить все Job Services</string>
+    <string name="periodic_billing_job_service">Периодичность Billing Job Service</string>
+    <string name="billing_job_service_is_cancelled_successfully">Billing Job Service успешно отменён!</string>
+    <string name="job_services_is_cancelled_successfully">Все Job Services успешно отменены!</string>
+    <string name="font_overlay">Шрифт</string>
+    <string name="text_style_overlay">Стиль текста</string>
+    <string name="main_window_text_font">Шрифт главного окна</string>
+    <string name="main_window_text_style">Стиль текста главного окна</string>
 </resources>
