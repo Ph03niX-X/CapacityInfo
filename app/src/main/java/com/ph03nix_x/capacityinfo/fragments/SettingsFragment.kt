@@ -94,7 +94,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
 
-        openNotificationCategorySettings = findPreference("open_notification_category_settings")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            openNotificationCategorySettings =
+                findPreference("open_notification_category_settings")
 
         moreServiceAndNotification?.setOnPreferenceClickListener {
 
@@ -107,8 +109,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 isStopTheServiceWhenTheCD?.isVisible = true
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    openNotificationCategorySettings?.isVisible = true
+                openNotificationCategorySettings?.isVisible = true
             }
 
             else {
@@ -126,16 +127,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        openNotificationCategorySettings?.setOnPreferenceClickListener {
 
-            openNotificationCategorySettings?.setOnPreferenceClickListener {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                onOpenNotificationCategorySettings(requireContext())
 
-                openNotificationCategorySettings(requireContext())
-
-                true
-            }
-
-        else openNotificationCategorySettings?.isVisible = false
+            true
+        }
 
         // Appearance
         autoDarkMode = findPreference(IS_AUTO_DARK_MODE)
@@ -151,23 +149,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
-        if(pref.getString(MAIN_WINDOW_TEXT_STYLE, null) !in
-            resources.getStringArray(R.array.text_style_values))
-            pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
+        mainWindowTextFont?.summary = onGetMainWindowTextFontSummary(requireContext())
 
-            mainWindowTextStyle?.summary = mainWindowTextStyle?.entry
+        mainWindowTextStyle?.summary = onGetMainWindowTextStyleSummary(requireContext())
 
-        if(pref.getString(MAIN_WINDOW_TEXT_FONT, null) !in
-            resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(MAIN_WINDOW_TEXT_FONT, "6").apply()
-
-        mainWindowTextFont?.summary = mainWindowTextFont?.entry
-
-        if(pref.getString(LANGUAGE, null) !in
-            resources.getStringArray(R.array.languages_codes))
-            pref.edit().putString(LANGUAGE, defLang).apply()
-
-        selectLanguage?.summary = selectLanguage?.entry
+        selectLanguage?.summary = onGetLanguageSummary(requireContext())
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -203,7 +189,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
 
-            changeLanguage(requireContext(), ((newValue as? String) ?: defLang))
+            onChangeLanguage(requireContext(), ((newValue as? String) ?: defLang))
 
             true
         }
@@ -243,7 +229,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             catch(e: ActivityNotFoundException) {
 
                 Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
-                    e.message), Toast.LENGTH_LONG).show()
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -262,7 +248,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             catch(e: ActivityNotFoundException) {
 
                 Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
-                    e.message), Toast.LENGTH_LONG).show()
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -335,7 +321,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 
-            changeDesignCapacity(requireContext())
+            onChangeDesignCapacity(requireContext())
 
             true
         }
@@ -441,47 +427,26 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
-        if(pref.getString(MAIN_WINDOW_TEXT_STYLE, null) !in
-            resources.getStringArray(R.array.text_style_values))
-            pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
+        mainWindowTextFont?.summary = onGetMainWindowTextFontSummary(requireContext())
 
-        mainWindowTextStyle?.summary = mainWindowTextStyle?.entry
+        mainWindowTextStyle?.summary = onGetMainWindowTextStyleSummary(requireContext())
 
-        if(pref.getString(MAIN_WINDOW_TEXT_FONT, null) !in
-            resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(MAIN_WINDOW_TEXT_FONT, "6").apply()
+        selectLanguage?.summary = onGetLanguageSummary(requireContext())
 
-        mainWindowTextFont?.summary = mainWindowTextFont?.entry
-
-        if(pref.getString(LANGUAGE, null) !in
-            resources.getStringArray(R.array.languages_codes))
-            pref.edit().putString(LANGUAGE, defLang).apply()
-
-        if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
-            !in resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
-            pref.edit().putString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA").apply()
-
-        unitOfChargeDischargeCurrent?.summary = unitOfChargeDischargeCurrent?.entry
+        unitOfChargeDischargeCurrent?.summary = onGetUnitOfChargeDischargeCurrentSummary(
+            requireContext())
 
         unitOfMeasurementOfCurrentCapacity?.isVisible = moreOther?.title == getString(R.string.hide)
                 && pref.getBoolean(IS_SUPPORTED, true)
 
-        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-            !in resources.getStringArray(R.array.unit_of_measurement_of_current_capacity_values))
-            pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
+        if(pref.getBoolean(IS_SUPPORTED, true))
+            unitOfMeasurementOfCurrentCapacity?.summary =
+                onGetUnitOfMeasurementOfCurrentCapacitySummary(requireContext())
 
-        unitOfMeasurementOfCurrentCapacity?.summary = unitOfMeasurementOfCurrentCapacity?.entry
-
-        if(pref.getString(VOLTAGE_UNIT, "mV")
-            !in resources.getStringArray(R.array.voltage_unit_values))
-            pref.edit().putString(VOLTAGE_UNIT, "mV").apply()
-
-        voltageUnit?.summary = voltageUnit?.entry
+        voltageUnit?.summary = onGetVoltageUnitSummary(requireContext())
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, 0))
-
-        preferenceScreen.isVisible = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -491,10 +456,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         when(requestCode) {
 
             EXPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) exportSettings(requireContext(), data)
+                if(resultCode == Activity.RESULT_OK) onExportSettings(requireContext(), data)
 
             Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) importSettings(requireContext(), data?.data)
+                if(resultCode == Activity.RESULT_OK) onImportSettings(requireContext(), data?.data)
         }
     }
 }

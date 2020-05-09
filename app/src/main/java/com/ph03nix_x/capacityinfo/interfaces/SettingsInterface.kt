@@ -19,6 +19,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
@@ -33,9 +34,15 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
 import kotlinx.coroutines.*
 import java.io.File
@@ -45,7 +52,7 @@ import java.io.FileOutputStream
 interface SettingsInterface : ServiceInterface {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun openNotificationCategorySettings(context: Context) {
+    fun onOpenNotificationCategorySettings(context: Context) {
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -63,7 +70,115 @@ interface SettingsInterface : ServiceInterface {
         context.startActivity(intent)
     }
 
-    fun changeLanguage(context: Context, language: String) {
+    fun onGetMainWindowTextFontSummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(MAIN_WINDOW_TEXT_FONT, null) !in
+            context.resources.getStringArray(R.array.fonts_values))
+            pref.edit().putString(MAIN_WINDOW_TEXT_FONT, "6").apply()
+
+        return context.resources.getStringArray(R.array.fonts_list)[
+                (pref.getString(MAIN_WINDOW_TEXT_FONT, "6") ?: "6").toInt()]
+    }
+
+    fun onGetMainWindowTextStyleSummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(MAIN_WINDOW_TEXT_STYLE, null) !in
+            context.resources.getStringArray(R.array.text_style_values))
+            pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
+
+        return context.resources.getStringArray(R.array.text_style_list)[
+                (pref.getString(MAIN_WINDOW_TEXT_STYLE, "0") ?: "0").toInt()]
+    }
+
+    fun onGetLanguageSummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(LANGUAGE, null) !in
+            context.resources.getStringArray(R.array.languages_codes))
+            pref.edit().putString(LANGUAGE, defLang).apply()
+
+        return when(defLang) {
+
+            "en" -> context.resources.getStringArray(R.array.languages_list)[0]
+
+            "ro" -> context.resources.getStringArray(R.array.languages_list)[1]
+
+            "be" -> context.resources.getStringArray(R.array.languages_list)[2]
+
+            "ru" -> context.resources.getStringArray(R.array.languages_list)[3]
+
+            "uk" -> context.resources.getStringArray(R.array.languages_list)[4]
+
+            else -> defLang
+        }
+    }
+
+    fun onGetUnitOfChargeDischargeCurrentSummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
+            !in context.resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
+            pref.edit().putString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA").apply()
+
+        return when(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")) {
+
+            "μA" -> context.resources.getStringArray(
+                R.array.unit_of_charge_discharge_current_list)[0]
+
+            "mA" -> context.resources.getStringArray(
+                R.array.unit_of_charge_discharge_current_list)[1]
+
+            else -> pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
+        }
+    }
+
+    fun onGetUnitOfMeasurementOfCurrentCapacitySummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
+            !in context.resources.getStringArray(
+                R.array.unit_of_measurement_of_current_capacity_values))
+            pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
+
+        return when(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")) {
+
+            "μAh" -> context.resources.getStringArray(
+                R.array.unit_of_measurement_of_current_capacity_list)[0]
+
+            "mAh" -> context.resources.getStringArray(
+                R.array.unit_of_measurement_of_current_capacity_list)[1]
+
+            else -> pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
+        }
+    }
+
+    fun onGetVoltageUnitSummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(VOLTAGE_UNIT, "μV")
+            !in context.resources.getStringArray(
+                R.array.voltage_unit_values))
+            pref.edit().putString(VOLTAGE_UNIT, "μV").apply()
+
+        return when(pref.getString(VOLTAGE_UNIT, "μV")) {
+
+            "μV" -> context.resources.getStringArray(R.array.voltage_unit_list)[0]
+
+            "mV" -> context.resources.getStringArray(R.array.voltage_unit_list)[1]
+
+            else -> pref.getString(VOLTAGE_UNIT, "μV")
+        }
+    }
+
+    fun onChangeLanguage(context: Context, language: String) {
 
         if(CapacityInfoService.instance != null)
             onStopService(context, CapacityInfoService::class.java)
@@ -78,9 +193,10 @@ interface SettingsInterface : ServiceInterface {
         (context as? SettingsActivity)?.recreate()
     }
 
-    fun exportSettings(context: Context, intent: Intent?) {
+    fun onExportSettings(context: Context, intent: Intent?) {
 
-        val prefPath = "${context.filesDir.parent}/shared_prefs/${context.packageName}_preferences.xml"
+        val prefPath = "${context.filesDir.parent}/shared_prefs/" +
+                "${context.packageName}_preferences.xml"
         val prefName = File(prefPath).name
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
@@ -125,16 +241,17 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string.error_exporting_settings, e.message),
-                        Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, context.getString(R.string.error_exporting_settings,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun importSettings(context: Context, uri: Uri?) {
+    fun onImportSettings(context: Context, uri: Uri?) {
 
-        val prefPath = "${context.filesDir.parent}/shared_prefs/${context.packageName}_preferences.xml"
+        val prefPath = "${context.filesDir.parent}/shared_prefs/" +
+                "${context.packageName}_preferences.xml"
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
@@ -210,13 +327,13 @@ interface SettingsInterface : ServiceInterface {
                 withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.error_importing_settings,
-                        e.message), Toast.LENGTH_LONG).show()
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun changeDesignCapacity(context: Context, designCapacity: Preference? = null) {
+    fun onChangeDesignCapacity(context: Context, designCapacity: Preference? = null) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 

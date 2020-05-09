@@ -39,12 +39,12 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     numberOfCharges + 1).apply()
 
                 CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance
-                    ?.getBatteryLevel(context) ?: 0
+                    ?.onGetBatteryLevel(context) ?: 0
 
                 tempBatteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
                 tempCurrentCapacity = CapacityInfoService.instance
-                    ?.getCurrentCapacity(context) ?: 0.0
+                    ?.onGetCurrentCapacity(context) ?: 0.0
 
                 BatteryInfoInterface.maxChargeCurrent = 0
                 BatteryInfoInterface.averageChargeCurrent = 0

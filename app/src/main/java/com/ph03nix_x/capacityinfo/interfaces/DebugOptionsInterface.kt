@@ -138,7 +138,7 @@ interface DebugOptionsInterface : ServiceInterface {
         catch(e: Exception) {
 
             Toast.makeText(context, context.getString(R.string.error_adding_settings,
-                addPrefKey.text.toString(), e.message), Toast.LENGTH_LONG).show()
+                addPrefKey.text.toString(), e.message ?: e.toString()), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -339,8 +339,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
         catch (e: Exception) {
 
-            Toast.makeText(context, context.getString(R.string.error_changing_key, key, e.message),
-                Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.error_changing_key, key,
+                e.message ?: e.toString()), Toast.LENGTH_LONG).show()
         }
     }
 

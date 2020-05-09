@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-                android:title="@string/service_and_notification"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_service_notification_24dp"
-                app:allowDividerAbove="false"
-                app:allowDividerBelow="false">
+            android:title="@string/service_and_notification"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_service_notification_24dp"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/auto_start"
@@ -59,22 +59,14 @@
                 app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
                 android:key="is_stop_the_service_when_the_cd"/>
         
-        <Preference
-                android:title="@string/open_notification_category_settings"
-                android:summary="@string/notification_priority"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_open_notification_category_settings_24dp"
-                android:key="open_notification_category_settings"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
-                app:title="@string/appearance"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_appearance_24dp"
-                app:allowDividerAbove="false"
-                app:allowDividerBelow="false">
+            app:title="@string/appearance"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_appearance_24dp"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
@@ -116,11 +108,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-                android:title="@string/misc"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_misc_24dp"
-                app:allowDividerAbove="false"
-                app:allowDividerBelow="false">
+            android:title="@string/misc"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_misc_24dp"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
                 android:title="@string/temperature_in_fahrenheit"
@@ -220,11 +212,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-                android:title="@string/about_and_feedback"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_about_feedback_24dp"
-                app:allowDividerAbove="false"
-                app:allowDividerBelow="false">
+            android:title="@string/about_and_feedback"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_about_feedback_24dp"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
         <Preference
                 android:title="@string/about"

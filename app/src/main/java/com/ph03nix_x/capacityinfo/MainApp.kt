@@ -45,9 +45,9 @@ class MainApp : Application(), JobServiceInterface {
 
         if(isInstalledGooglePlay &&
             !pref.getBoolean(IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE, false))
-            onScheduleJobService(this, BillingJobService::class.java, BILLING_JOB_SERVICE_ID,
-            periodicHours = (pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") ?: "12")
-                .toLong())
+            onScheduleJobService(this, BillingJobService::class.java,
+                BILLING_JOB_SERVICE_ID, periodicHours =
+                (pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") ?: "12").toLong())
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
