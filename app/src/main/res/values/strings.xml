@@ -183,7 +183,8 @@
     <string name="periodic_billing_job_service">Periodic Billing Job Service</string>
     <string name="billing_job_service_is_cancelled_successfully">Billing Job Service is Cancelled Successfully!</string>
     <string name="job_services_is_cancelled_successfully">All Job Services is Cancelled Successfully!</string>
-    <string name="text_style_overlay">Text Style</string>
     <string name="font_overlay">Font</string>
+    <string name="text_style_overlay">Text Style</string>
+    <string name="main_window_text_font">Main Window Text Font</string>
     <string name="main_window_text_style">Main Window Text Style</string>
 </resources>

@@ -84,6 +84,16 @@
                 android:key="is_dark_mode"/>
 
         <ListPreference
+                android:title="@string/main_window_text_font"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_text_font"
+                app:dialogIcon="@drawable/ic_text_font"
+                android:entries="@array/fonts_list"
+                android:entryValues="@array/fonts_values"
+                app:defaultValue="6"
+                android:key="main_window_text_font"/>
+
+        <ListPreference
                 android:title="@string/main_window_text_style"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_text_style"

@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_FONT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
@@ -53,6 +54,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
     private var mainWindowTextStyle: ListPreference? = null
+    private var mainWindowTextFont: ListPreference? = null
     private var selectLanguage: ListPreference? = null
 
     // Misc
@@ -142,6 +144,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         mainWindowTextStyle = findPreference(MAIN_WINDOW_TEXT_STYLE)
 
+        mainWindowTextFont = findPreference(MAIN_WINDOW_TEXT_FONT)
+
         selectLanguage = findPreference(LANGUAGE)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
@@ -152,6 +156,12 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
 
             mainWindowTextStyle?.summary = mainWindowTextStyle?.entry
+
+        if(pref.getString(MAIN_WINDOW_TEXT_FONT, null) !in
+            resources.getStringArray(R.array.fonts_values))
+            pref.edit().putString(MAIN_WINDOW_TEXT_FONT, "6").apply()
+
+        mainWindowTextFont?.summary = mainWindowTextFont?.entry
 
         if(pref.getString(LANGUAGE, null) !in
             resources.getStringArray(R.array.languages_codes))
@@ -178,6 +188,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         mainWindowTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.text_style_list)[
+                    (newValue as? String)?.toInt() ?: 0]
+
+            true
+        }
+
+        mainWindowTextFont?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.fonts_list)[
                     (newValue as? String)?.toInt() ?: 0]
 
             true
@@ -429,6 +447,12 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         mainWindowTextStyle?.summary = mainWindowTextStyle?.entry
 
+        if(pref.getString(MAIN_WINDOW_TEXT_FONT, null) !in
+            resources.getStringArray(R.array.fonts_values))
+            pref.edit().putString(MAIN_WINDOW_TEXT_FONT, "6").apply()
+
+        mainWindowTextFont?.summary = mainWindowTextFont?.entry
+
         if(pref.getString(LANGUAGE, null) !in
             resources.getStringArray(R.array.languages_codes))
             pref.edit().putString(LANGUAGE, defLang).apply()
@@ -447,7 +471,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
 
         unitOfMeasurementOfCurrentCapacity?.summary = unitOfMeasurementOfCurrentCapacity?.entry
-
 
         if(pref.getString(VOLTAGE_UNIT, "mV")
             !in resources.getStringArray(R.array.voltage_unit_values))

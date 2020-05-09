@@ -92,6 +92,16 @@
                 android:key="is_dark_mode"/>
 
         <ListPreference
+                android:title="@string/main_window_text_font"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_text_font"
+                app:dialogIcon="@drawable/ic_text_font"
+                android:entries="@array/fonts_list"
+                android:entryValues="@array/fonts_values"
+                app:defaultValue="6"
+                android:key="main_window_text_font"/>
+
+        <ListPreference
                 android:title="@string/main_window_text_style"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_text_style"
@@ -143,12 +153,6 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_import_settings_24dp"
                 android:key="import_settings"/>
-
-        <Preference
-                android:title="@string/more"
-                app:icon="@drawable/ic_more_24dp"
-                app:singleLineTitle="false"
-                android:key="more_other"/>
 
         <ListPreference
                 android:title="@string/unit_of_charge_discharge_current"
