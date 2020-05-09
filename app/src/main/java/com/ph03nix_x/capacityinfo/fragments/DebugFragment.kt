@@ -25,7 +25,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var hideDonate: SwitchPreferenceCompat? = null
-    private var doNotStartBJS: SwitchPreferenceCompat? = null
+    private var doNotScheduleBJS: SwitchPreferenceCompat? = null
     private var scheduleBJS: Preference? = null
     private var cancelBJS: Preference? = null
     private var cancelAllBJS: Preference? = null
@@ -45,7 +45,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         hideDonate = findPreference(IS_HIDE_DONATE)
 
-        doNotStartBJS = findPreference(IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE)
+        doNotScheduleBJS = findPreference(IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE)
 
         scheduleBJS = findPreference("schedule_billing_job_service")
 
@@ -67,7 +67,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
 
         hideDonate?.isVisible = isInstalledGooglePlay
 
-        doNotStartBJS?.isVisible = isInstalledGooglePlay
+        doNotScheduleBJS?.isVisible = isInstalledGooglePlay
 
         cancelBJS?.apply {
 
@@ -99,7 +99,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
             summary = entry
         }
 
-        doNotStartBJS?.setOnPreferenceChangeListener { _, newValue ->
+        doNotScheduleBJS?.setOnPreferenceChangeListener { _, newValue ->
 
             if((newValue as? Boolean) == true)
                 onCancelJobService(requireContext(), BILLING_JOB_SERVICE_ID)
@@ -108,6 +108,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, Service
                 BillingJobService::class.java, BILLING_JOB_SERVICE_ID,
                 periodicHours = (pref.getString(
                     PERIODIC_BILLING_JOB_SERVICE, "12")?.toLong() ?: 12))
+
+            scheduleBJS?.isEnabled = newValue as? Boolean == false
 
             cancelBJS?.isEnabled = newValue as? Boolean == false
 

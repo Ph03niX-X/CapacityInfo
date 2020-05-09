@@ -30,12 +30,19 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_HIDE_DONATE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERIODIC_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -311,7 +318,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                 UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT,
-                OVERLAY_SIZE -> addChangeSetting(context, pref, key, value.toString())
+                OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, PERIODIC_BILLING_JOB_SERVICE ->
+                    addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED -> addChangeSetting(pref, key,
@@ -361,11 +369,13 @@ interface DebugOptionsInterface : ServiceInterface {
 
                         LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT,
-                        OVERLAY_SIZE -> setValueType("string", changePrefValue, pref,
+                        OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT,
+                        PERIODIC_BILLING_JOB_SERVICE ->
+                            setValueType("string", changePrefValue, pref,
                             prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
-                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES ->
+                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY ->
                             setValueType("int|long", changePrefValue, pref,
                                 prefValueInputTypeDef, prefValueKeyListenerDef)
 
@@ -397,9 +407,26 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 changePrefValue.setText(pref.all.getValue(key).toString())
 
-                changePrefValue.inputType = prefValueInputTypeDef
+                when(key) {
 
-                changePrefValue.keyListener = prefValueKeyListenerDef
+                    OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, PERIODIC_BILLING_JOB_SERVICE
+                    -> {
+
+                        changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
+
+                        changePrefValue.keyListener = DigitsKeyListener.getInstance(
+                            "0123456789")
+                    }
+
+                    else -> {
+
+                        changePrefValue.inputType = prefValueInputTypeDef
+
+                        changePrefValue.keyListener = prefValueKeyListenerDef
+                    }
+                }
+
+
             }
 
             "int|long" -> {
@@ -474,37 +501,51 @@ interface DebugOptionsInterface : ServiceInterface {
                             DigitsKeyListener.getInstance("0123456789.")
                 }
 
-                when(key) {
-
-                    LANGUAGE -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                        s.toString() in context.resources.getStringArray(R.array.languages_codes)
-
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY ->
-                        dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                            s.toString() in context.resources.getStringArray(R.array
-                                .unit_of_measurement_of_current_capacity_values)
-
-                    UNIT_OF_CHARGE_DISCHARGE_CURRENT ->
-                        dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                        s.toString() in context.resources.getStringArray(R.array
-                            .unit_of_charge_discharge_current_values)
-
-                    VOLTAGE_UNIT -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE)
-                        .isEnabled = s.toString() in context.resources.getStringArray(R.array
-                        .voltage_unit_values)
-
-                    OVERLAY_SIZE -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE)
-                        .isEnabled = s.toString() in context.resources.getStringArray(R.array
-                        .overlay_size_values)
-
-                    else -> dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                        s.isNotEmpty()
-                }
-
                 dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = s.isNotEmpty()
                         && s.last() != '.' && when(valueType) {
 
-                    "string" -> s.toString() != pref.getString(key, "")
+                    "string" -> {
+
+                        when(key) {
+
+                            LANGUAGE -> s.toString() != pref.getString(key, "")
+                                    && s.toString() in context.resources.getStringArray(
+                                R.array.languages_codes)
+
+                            UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY ->
+                                s.toString() != pref.getString(key, "") && s.toString() in
+                                        context.resources.getStringArray(R.array
+                                            .unit_of_measurement_of_current_capacity_values)
+
+                            UNIT_OF_CHARGE_DISCHARGE_CURRENT ->
+                                s.toString() != pref.getString(key, "") && s.toString() in
+                                        context.resources.getStringArray(R.array
+                                            .unit_of_charge_discharge_current_values)
+
+                            VOLTAGE_UNIT -> s.toString() != pref.getString(key, "") &&
+                                    s.toString() in context.resources.getStringArray(R.array
+                                .voltage_unit_values)
+
+                            OVERLAY_SIZE -> s.toString() != pref.getString(key, "") &&
+                                    s.toString() in context.resources.getStringArray(R.array
+                                .overlay_size_values)
+
+                            OVERLAY_TEXT_STYLE -> s.toString() != pref.getString(key, "")
+                                    && s.toString() in context.resources.getStringArray(R.array
+                                .text_style_values)
+
+                            OVERLAY_FONT -> s.toString() != pref.getString(key, "")
+                                    && s.toString() in context.resources.getStringArray(R.array
+                                .fonts_values)
+
+                            PERIODIC_BILLING_JOB_SERVICE -> s.toString() != pref.getString(key, "")
+                                    && s.toString() in context.resources.getStringArray(R.array
+                                .periodic_billing_job_service_values)
+
+                            else -> s.isNotEmpty() && s.toString() !=
+                                    pref.getString(key, "")
+                        }
+                    }
 
                     "int|long" -> {
 
@@ -534,7 +575,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         pref.edit().putString(key, value).apply()
 
-        if(key == LANGUAGE) {
+        if(key == LANGUAGE || key == PERIODIC_BILLING_JOB_SERVICE) {
 
             LocaleHelper.setLocale(context, value)
 
@@ -564,11 +605,13 @@ interface DebugOptionsInterface : ServiceInterface {
         pref.edit().putFloat(key, value).apply()
     }
 
-    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String, value: Boolean) {
+    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String,
+                                 value: Boolean) {
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE) {
+        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == IS_FORCIBLY_SHOW_RATE_THE_APP
+            || key == IS_HIDE_DONATE || key == IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE) {
 
             MainActivity.instance?.recreate()
 
@@ -602,8 +645,11 @@ interface DebugOptionsInterface : ServiceInterface {
 
             pref.edit().remove(key).apply()
 
-            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
-                || key == LANGUAGE) {
+            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == LANGUAGE
+                || key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
+                || key == IS_FORCIBLY_SHOW_RATE_THE_APP || key == IS_HIDE_DONATE
+                || key == IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
+                || key == PERIODIC_BILLING_JOB_SERVICE) {
 
                 MainActivity.instance?.recreate()
 
@@ -612,7 +658,8 @@ interface DebugOptionsInterface : ServiceInterface {
                 (context as? SettingsActivity)?.recreate()
             }
 
-            Toast.makeText(context, context.getString(R.string.key_successfully_reset, key), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.key_successfully_reset, key),
+                Toast.LENGTH_LONG).show()
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
@@ -659,7 +706,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 (context as? SettingsActivity)?.recreate()
 
-                Toast.makeText(context, context.getString(R.string.settings_reset_successfully), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.settings_reset_successfully),
+                    Toast.LENGTH_LONG).show()
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()

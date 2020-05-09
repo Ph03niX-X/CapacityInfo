@@ -56,7 +56,7 @@ interface JobServiceInterface {
                              jobServiceId: Int, isRequiresCharging: Boolean = false,
                              isRequiresBatteryNotLow: Boolean = true,
                              requiredNetworkType: Int = JobInfo.NETWORK_TYPE_ANY,
-                             periodicHours: Long = 12, isPersisted: Boolean = false) {
+                             periodicHours: Long, isPersisted: Boolean = false) {
 
         onCancelJobService(context, jobServiceId)
 
