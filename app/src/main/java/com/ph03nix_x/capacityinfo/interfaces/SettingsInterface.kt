@@ -283,7 +283,7 @@ interface SettingsInterface : ServiceInterface {
                     }
                 }
 
-                delay(1500)
+                delay(1500L)
                 if(File(prefPath).exists()) File(prefPath).delete()
 
                 File(prefPath).createNewFile()

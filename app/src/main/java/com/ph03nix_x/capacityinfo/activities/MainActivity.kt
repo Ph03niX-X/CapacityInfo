@@ -569,10 +569,10 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(onGetCurrentCapacity(this@MainActivity) > 0) 954
-                            else 961)
+                            delay(if(onGetCurrentCapacity(this@MainActivity) > 0L) 954L
+                            else 961L)
 
-                        else -> delay(3000)
+                        else -> delay(3000L)
                     }
                 }
             }

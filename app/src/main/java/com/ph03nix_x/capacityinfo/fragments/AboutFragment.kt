@@ -179,7 +179,7 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
                     onBillingStartConnection(requireContext())
 
-                    delay(450)
+                    delay(450L)
                     try {
 
                         if(isDonated) {

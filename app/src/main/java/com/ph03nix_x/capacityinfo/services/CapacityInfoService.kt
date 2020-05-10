@@ -146,7 +146,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                             if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                            delay(3000)
+                            delay(3000L)
                     }
                 }
             }
@@ -217,10 +217,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 949
-                else 956)
-            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 919
-            else 926)
+                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 949L
+                else 956L)
+            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 919L
+            else 926L)
 
         seconds++
 

@@ -14,7 +14,7 @@ class BillingJobService : JobService(), BillingInterface {
 
             onBillingStartConnection(this@BillingJobService)
 
-            delay(5 * 1000)
+            delay(5L * 1000L)
             billingClient?.endConnection()
             billingClient = null
         }
