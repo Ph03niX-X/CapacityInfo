@@ -180,6 +180,6 @@
     <string name="job_services_is_cancelled_successfully">Все Job Services успешно отменены!</string>
     <string name="font_overlay">Шрифт</string>
     <string name="text_style_overlay">Стиль текста</string>
-    <string name="main_window_text_font">Шрифт главного окна</string>
-    <string name="main_window_text_style">Стиль текста главного окна</string>
+    <string name="main_screen_text_font">Шрифт текста главного экрана</string>
+    <string name="main_screen_text_style">Стиль текста главного экрана</string>
 </resources>

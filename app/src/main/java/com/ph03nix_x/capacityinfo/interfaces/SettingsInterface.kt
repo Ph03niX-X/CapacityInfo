@@ -36,8 +36,8 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DI
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
@@ -70,28 +70,28 @@ interface SettingsInterface : ServiceInterface {
         context.startActivity(intent)
     }
 
-    fun onGetMainWindowTextFontSummary(context: Context): String? {
+    fun onGetMainScreenTextFontSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(pref.getString(MAIN_WINDOW_TEXT_FONT, null) !in
+        if(pref.getString(MAIN_SCREEN_TEXT_FONT, "6") !in
             context.resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(MAIN_WINDOW_TEXT_FONT, "6").apply()
+            pref.edit().putString(MAIN_SCREEN_TEXT_FONT, "6").apply()
 
         return context.resources.getStringArray(R.array.fonts_list)[
-                (pref.getString(MAIN_WINDOW_TEXT_FONT, "6") ?: "6").toInt()]
+                (pref.getString(MAIN_SCREEN_TEXT_FONT, "6") ?: "6").toInt()]
     }
 
-    fun onGetMainWindowTextStyleSummary(context: Context): String? {
+    fun onGetMainScreenTextStyleSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(pref.getString(MAIN_WINDOW_TEXT_STYLE, null) !in
+        if(pref.getString(MAIN_SCREEN_TEXT_STYLE, "0") !in
             context.resources.getStringArray(R.array.text_style_values))
-            pref.edit().putString(MAIN_WINDOW_TEXT_STYLE, "0").apply()
+            pref.edit().putString(MAIN_SCREEN_TEXT_STYLE, "0").apply()
 
         return context.resources.getStringArray(R.array.text_style_list)[
-                (pref.getString(MAIN_WINDOW_TEXT_STYLE, "0") ?: "0").toInt()]
+                (pref.getString(MAIN_SCREEN_TEXT_STYLE, "0") ?: "0").toInt()]
     }
 
     fun onGetLanguageSummary(context: Context): String? {

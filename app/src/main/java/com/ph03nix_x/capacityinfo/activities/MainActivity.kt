@@ -32,8 +32,8 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DI
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_WINDOW_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
@@ -582,65 +582,65 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private fun updateTextAppearance() {
 
         designCapacity.typeface = TextTypefaceHelper.setTextAppearance(designCapacity,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         batteryLevel.typeface = TextTypefaceHelper.setTextAppearance(batteryLevel,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         numberOfCharges.typeface = TextTypefaceHelper.setTextAppearance(numberOfCharges,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         numberOfCycles.typeface = TextTypefaceHelper.setTextAppearance(numberOfCycles,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         chargingTime.typeface = TextTypefaceHelper.setTextAppearance(chargingTime,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         currentCapacity.typeface = TextTypefaceHelper.setTextAppearance(currentCapacity,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         capacityAdded.typeface = TextTypefaceHelper.setTextAppearance(capacityAdded,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         batteryHealth.typeface = TextTypefaceHelper.setTextAppearance(batteryHealth,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         residualCapacity.typeface = TextTypefaceHelper.setTextAppearance(residualCapacity,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         technology.typeface = TextTypefaceHelper.setTextAppearance(technology,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         status.typeface = TextTypefaceHelper.setTextAppearance(status,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         sourceOfPower.typeface = TextTypefaceHelper.setTextAppearance(sourceOfPower,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         chargeCurrent.typeface = TextTypefaceHelper.setTextAppearance(chargeCurrent,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         maxChargeDischargeCurrent.typeface = TextTypefaceHelper.setTextAppearance(
-            maxChargeDischargeCurrent, pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            maxChargeDischargeCurrent, pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         averageChargeDischargeCurrent.typeface = TextTypefaceHelper.setTextAppearance(
-            averageChargeDischargeCurrent, pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            averageChargeDischargeCurrent, pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         minChargeDischargeCurrent.typeface = TextTypefaceHelper.setTextAppearance(
-            minChargeDischargeCurrent, pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            minChargeDischargeCurrent, pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         temperature.typeface = TextTypefaceHelper.setTextAppearance(temperature,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         voltage.typeface = TextTypefaceHelper.setTextAppearance(voltage,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         lastChargeTime.typeface = TextTypefaceHelper.setTextAppearance(lastChargeTime,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
         batteryWear.typeface = TextTypefaceHelper.setTextAppearance(batteryWear,
-            pref.getString(MAIN_WINDOW_TEXT_STYLE, "0"),
-            pref.getString(MAIN_WINDOW_TEXT_FONT, "6"))
+            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
+            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"))
     }
 
     private fun importSettings(prefArrays: HashMap<*, *>) {
