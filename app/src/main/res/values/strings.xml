@@ -185,6 +185,7 @@
     <string name="job_services_is_cancelled_successfully">All Job Services is Cancelled Successfully!</string>
     <string name="font_overlay">Font</string>
     <string name="text_style_overlay">Text Style</string>
-    <string name="main_screen_text_font">Home Screen Text Font</string>
-    <string name="main_screen_text_style">Home Screen Text Style</string>
+    <string name="main_screen_text_size">Main Screen Text Size</string>
+    <string name="main_screen_text_font">Main Screen Text Font</string>
+    <string name="main_screen_text_style">Main Screen Text Style</string>
 </resources>

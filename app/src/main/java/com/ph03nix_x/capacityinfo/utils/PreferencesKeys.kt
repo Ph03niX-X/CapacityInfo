@@ -17,6 +17,7 @@ object PreferencesKeys {
     // Appearance
     const val IS_AUTO_DARK_MODE = "is_auto_dark_mode" // Android 10+
     const val IS_DARK_MODE = "is_dark_mode"
+    const val MAIN_SCREEN_TEXT_SIZE = "main_screen_text_size"
     const val MAIN_SCREEN_TEXT_STYLE = "main_screen_text_style"
     const val MAIN_SCREEN_TEXT_FONT = "main_screen_text_font"
     const val LANGUAGE = "language"

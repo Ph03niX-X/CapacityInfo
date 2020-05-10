@@ -37,6 +37,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
@@ -68,6 +69,18 @@ interface SettingsInterface : ServiceInterface {
         }
 
         context.startActivity(intent)
+    }
+
+    fun onGetMainScreenTextSizeSummary(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(MAIN_SCREEN_TEXT_SIZE, "1") !in
+            context.resources.getStringArray(R.array.text_size_values))
+            pref.edit().putString(MAIN_SCREEN_TEXT_SIZE, "1").apply()
+
+        return context.resources.getStringArray(R.array.text_size_list)[
+                (pref.getString(MAIN_SCREEN_TEXT_SIZE, "1") ?: "1").toInt()]
     }
 
     fun onGetMainScreenTextFontSummary(context: Context): String? {

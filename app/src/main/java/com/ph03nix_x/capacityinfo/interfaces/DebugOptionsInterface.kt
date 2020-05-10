@@ -528,7 +528,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                             OVERLAY_SIZE -> s.toString() != pref.getString(key, "") &&
                                     s.toString() in context.resources.getStringArray(R.array
-                                .overlay_size_values)
+                                .text_size_values)
 
                             OVERLAY_TEXT_STYLE -> s.toString() != pref.getString(key, "")
                                     && s.toString() in context.resources.getStringArray(R.array

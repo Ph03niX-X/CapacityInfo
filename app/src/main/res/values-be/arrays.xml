@@ -14,7 +14,7 @@
         <item>мВ</item>
     </string-array>
 
-    <string-array name="overlay_size_list">
+    <string-array name="text_size_list">
         <item>Маленькі</item>
         <item>Сярэдні</item>
         <item>Вялікі</item>

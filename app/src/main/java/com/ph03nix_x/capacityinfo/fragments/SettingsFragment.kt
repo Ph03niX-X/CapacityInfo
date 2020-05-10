@@ -27,6 +27,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
@@ -53,8 +54,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     // Appearance
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
-    private var mainScreenTextStyle: ListPreference? = null
+    private var mainScreenTextSize: ListPreference? = null
     private var mainScreenTextFont: ListPreference? = null
+    private var mainScreenTextStyle: ListPreference? = null
     private var selectLanguage: ListPreference? = null
 
     // Misc
@@ -140,14 +142,18 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode = findPreference(IS_DARK_MODE)
 
-        mainScreenTextStyle = findPreference(MAIN_SCREEN_TEXT_STYLE)
+        mainScreenTextSize = findPreference(MAIN_SCREEN_TEXT_SIZE)
 
         mainScreenTextFont = findPreference(MAIN_SCREEN_TEXT_FONT)
+
+        mainScreenTextStyle = findPreference(MAIN_SCREEN_TEXT_STYLE)
 
         selectLanguage = findPreference(LANGUAGE)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+
+        mainScreenTextSize?.summary = onGetMainScreenTextSizeSummary(requireContext())
 
         mainScreenTextFont?.summary = onGetMainScreenTextFontSummary(requireContext())
 
@@ -171,10 +177,10 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        mainScreenTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
+        mainScreenTextSize?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = resources.getStringArray(R.array.text_style_list)[
-                    (newValue as? String)?.toInt() ?: 0]
+            preference.summary = resources.getStringArray(R.array.text_size_list)[
+                    (newValue as? String)?.toInt() ?: 1]
 
             true
         }
@@ -182,6 +188,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         mainScreenTextFont?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.fonts_list)[
+                    (newValue as? String)?.toInt() ?: 0]
+
+            true
+        }
+
+        mainScreenTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.text_style_list)[
                     (newValue as? String)?.toInt() ?: 0]
 
             true
@@ -426,6 +440,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+
+        mainScreenTextSize?.summary = onGetMainScreenTextSizeSummary(requireContext())
 
         mainScreenTextFont?.summary = onGetMainScreenTextFontSummary(requireContext())
 

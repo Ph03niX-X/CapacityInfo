@@ -54,13 +54,13 @@
         <item>Boolean</item>
     </string-array>
 
-    <string-array name="overlay_size_list">
+    <string-array name="text_size_list">
         <item>Small</item>
         <item>Medium (Default)</item>
         <item>Large</item>
     </string-array>
 
-    <string-array name="overlay_size_values"> // Do Not Translation
+    <string-array name="text_size_values"> // Do Not Translation
         <item>0</item>
         <item>1</item>
         <item>2</item>

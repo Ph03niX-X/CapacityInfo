@@ -120,7 +120,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlayOpacity?.updatesContinuously
 
-        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_values))
+        if(overlaySize?.value !in resources.getStringArray(R.array.text_size_values))
             pref.edit().putString(OVERLAY_SIZE, "1").apply()
 
         overlaySize?.summary = overlaySize?.entry
@@ -141,7 +141,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = resources.getStringArray(R.array.overlay_size_list)[
+            preference.summary = resources.getStringArray(R.array.text_size_list)[
                     (newValue as? String)?.toInt() ?: 1]
 
             true
@@ -367,7 +367,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
         batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
-        if(overlaySize?.value !in resources.getStringArray(R.array.overlay_size_values))
+        if(overlaySize?.value !in resources.getStringArray(R.array.text_size_values))
             pref.edit().putString(OVERLAY_SIZE, "1").apply()
 
         overlaySize?.summary = overlaySize?.entry

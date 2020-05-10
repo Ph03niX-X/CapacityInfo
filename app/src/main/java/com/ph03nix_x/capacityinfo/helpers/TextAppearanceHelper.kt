@@ -2,19 +2,23 @@ package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.graphics.Typeface
+import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.TypefaceCompat
 import com.ph03nix_x.capacityinfo.R
 
-object TextTypefaceHelper {
+object TextAppearanceHelper {
 
     fun setTextAppearance(textView: AppCompatTextView, textStylePref: String?,
-                          textFontPref: String?): Typeface {
+                          textFontPref: String?, textSizePref: String?) {
+
+        setTextSize(textView, textSizePref)
 
         val fontFamily = setTextFont(textView.context, textFontPref)
 
-        return setTextStyle(textView, textStylePref, fontFamily)
+        textView.typeface = setTextStyle(textView, textStylePref, fontFamily)
+
     }
 
     private fun setTextStyle(textView: AppCompatTextView, textStylePref: String?,
@@ -57,6 +61,18 @@ object TextTypefaceHelper {
             9 -> ResourcesCompat.getFont(context, R.font.ubuntu)
 
             else -> ResourcesCompat.getFont(context, R.font.google_sans)
+        }
+    }
+
+    private fun setTextSize(textView: AppCompatTextView, textSizePref: String?) {
+
+        when(textSizePref?.toInt()) {
+
+            0 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+
+            1 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+
+            2 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
         }
     }
 }
