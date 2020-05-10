@@ -113,7 +113,7 @@ interface SettingsInterface : ServiceInterface {
 
         if(pref.getString(LANGUAGE, null) !in
             context.resources.getStringArray(R.array.languages_codes))
-            pref.edit().putString(LANGUAGE, defLang).apply()
+            pref.edit().putString(LANGUAGE, null).apply()
 
         return when(defLang) {
 
@@ -176,18 +176,18 @@ interface SettingsInterface : ServiceInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(pref.getString(VOLTAGE_UNIT, "μV")
+        if(pref.getString(VOLTAGE_UNIT, "mV")
             !in context.resources.getStringArray(
                 R.array.voltage_unit_values))
-            pref.edit().putString(VOLTAGE_UNIT, "μV").apply()
+            pref.edit().putString(VOLTAGE_UNIT, "mV").apply()
 
-        return when(pref.getString(VOLTAGE_UNIT, "μV")) {
+        return when(pref.getString(VOLTAGE_UNIT, "mV")) {
 
             "μV" -> context.resources.getStringArray(R.array.voltage_unit_list)[0]
 
             "mV" -> context.resources.getStringArray(R.array.voltage_unit_list)[1]
 
-            else -> pref.getString(VOLTAGE_UNIT, "μV")
+            else -> pref.getString(VOLTAGE_UNIT, "mV")
         }
     }
 

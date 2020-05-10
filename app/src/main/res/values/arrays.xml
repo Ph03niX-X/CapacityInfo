@@ -37,8 +37,8 @@
     </string-array>
 
     <string-array name="voltage_unit_list">
-        <item>μV (Default)</item>
-        <item>mV</item>
+        <item>μV</item>
+        <item>mV (Default)</item>
     </string-array>
 
     <string-array name="voltage_unit_values"> // Do Not Translation
