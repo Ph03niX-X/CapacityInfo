@@ -20,4 +20,46 @@
         <item>Вялікі</item>
     </string-array>
 
+    <string-array name="periodic_billing_job_service_list">
+        <item>1 Гадзіну</item>
+        <item>2 Гадзіны</item>
+        <item>3 Гадзіны</item>
+        <item>4 Гадзіны</item>
+        <item>5 Гадзін</item>
+        <item>6 Гадзін</item>
+        <item>7 Гадзін</item>
+        <item>8 Гадзін</item>
+        <item>9 Гадзін</item>
+        <item>10 Гадзін</item>
+        <item>11 Гадзін</item>
+        <item>12 Гадзін (Па змаўчанні)</item>
+        <item>13 Гадзін</item>
+        <item>14 Гадзін</item>
+        <item>15 Гадзін</item>
+        <item>16 Гадзін</item>
+        <item>17 Гадзін</item>
+        <item>18 Гадзін</item>
+        <item>19 Гадзін</item>
+        <item>20 Гадзін</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Нармальны (Па змаўчанні)</item>
+        <item>Тоўсты</item>
+        <item>Курсіў</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Сістэмны</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Open Sans</item>
+        <item>Google Sans (По умолчанию)</item>
+        <item>San Francisco</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+    </string-array>
+
 </resources>

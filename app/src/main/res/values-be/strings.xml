@@ -169,4 +169,16 @@
     <string name="last_charge_time_overlay">Час апошняй зарадкі</string>
     <string name="battery_wear_overlay">Знос акумулятара</string>
     <string name="overlay_permission_dialog_message">Для працы авэрлэю патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
+    <string name="do_not_schedule_billing_job_service">Не планаваць Billing Job Service</string>
+    <string name="schedule_billing_job_service">Запланаваць Billing Job Service</string>
+    <string name="billing_job_service_is_scheduled">Billing Job Service запланаваны. Перыядычнасць: %1$s</string>
+    <string name="cancel_billing_job_service">Адмяніць Billing Job Service</string>
+    <string name="cancel_all_job_services">Адмяніць усе Job Services</string>
+    <string name="periodic_billing_job_service">Перыядычнасць Billing Job Service</string>
+    <string name="billing_job_service_is_cancelled_successfully">Billing Job Service паспяхова адменены!</string>
+    <string name="job_services_is_cancelled_successfully">Усе Job Services паспяхова адмененыя!</string>
+    <string name="font_overlay">Шрыфт</string>
+    <string name="text_style_overlay">Стыль тэксту</string>
+    <string name="main_screen_text_font">Шрыфт тэксту галоўнага экрана</string>
+    <string name="main_screen_text_style">Стыль тэксту галоўнага экрана</string>
 </resources>
