@@ -278,7 +278,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             setPositiveButton(android.R.string.ok) { _, _ ->
 
-                if(pref.getBoolean(IS_SHOW_INSTRUCTION, false))
+                if(pref.getBoolean(IS_SHOW_INSTRUCTION, true))
                     pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply()
             }
 
