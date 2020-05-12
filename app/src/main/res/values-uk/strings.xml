@@ -181,7 +181,7 @@
     <string name="main_screen_text_size">Розмір тексту головного екрану</string>
     <string name="main_screen_text_font">Шрифт тексту головного екрану</string>
     <string name="main_screen_text_style">Стиль тексту головного екрану</string>
-    <string name="battery_status_information">Информация о состоянии аккумулятора</string>
+    <string name="battery_status_information">Інформація про стан акумулятора</string>
     <string name="battery_is_fully_charged">Акумулятор повністю заряджений</string>
     <string name="battery_is_charged">Акумулятор заряджений</string>
     <string name="battery_is_discharged">Акумулятр розряджений</string>
