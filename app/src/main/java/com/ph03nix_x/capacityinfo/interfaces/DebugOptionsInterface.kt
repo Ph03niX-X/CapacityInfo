@@ -24,6 +24,8 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.receivers.OpenDebugReceiver.Companion.isDebug
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -326,7 +328,8 @@ interface DebugOptionsInterface : ServiceInterface {
                     addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
-                RESIDUAL_CAPACITY, PERCENT_ADDED -> addChangeSetting(pref, key,
+                RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
+                BATTERY_LEVEL_NOTIFY_DISCHARGED-> addChangeSetting(pref, key,
                     value.toString().toInt())
 
                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(pref, key,
@@ -380,7 +383,8 @@ interface DebugOptionsInterface : ServiceInterface {
                             prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
-                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY ->
+                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY,
+                        BATTERY_LEVEL_NOTIFY_CHARGED, BATTERY_LEVEL_NOTIFY_DISCHARGED ->
                             setValueType("int|long", changePrefValue, pref,
                                 prefValueInputTypeDef, prefValueKeyListenerDef)
 
