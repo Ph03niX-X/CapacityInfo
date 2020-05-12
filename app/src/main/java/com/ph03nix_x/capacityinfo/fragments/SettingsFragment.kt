@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.Constants
 import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
+import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
@@ -139,7 +140,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         openNotificationCategorySettingsService?.setOnPreferenceClickListener {
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                onOpenNotificationCategorySettings(requireContext())
+                onOpenNotificationCategorySettings(requireContext(), SERVICE_CHANNEL_ID)
 
             true
         }

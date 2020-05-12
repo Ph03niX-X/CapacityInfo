@@ -41,4 +41,5 @@
             app:min="1"
             android:max="99"
             android:key="battery_level_notify_discharged"/>
+
 </PreferenceScreen>

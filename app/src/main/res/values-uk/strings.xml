@@ -35,10 +35,8 @@
     <string name="last_charge_time">Час останньої зарядки: %1$s (%2$s - %3$s)</string>
     <string name="service">Служба</string>
     <string name="charging_time">Час зарядки: %1$s</string>
-    <string name="seconds">%1$s секунд</string>
-    <string name="minute">%1$s хвилина</string>
     <string name="apply">Застосувати</string>
-    <string name="open_notification_category_settings">Відкрити параметри категорії повідомлення</string>
+    <string name="open_notification_category_settings_service">Відкрити параметри категорії повідомлення \"Служба\"</string>
     <string name="service_and_notification">Служба &amp; повідомлення</string>
     <string name="appearance">Зовнішній вигляд</string>
     <string name="misc">Інше</string>

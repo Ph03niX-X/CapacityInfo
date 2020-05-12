@@ -37,10 +37,8 @@
     <string name="last_charge_time">Last Charge Time: %1$s (%2$s - %3$s)</string>
     <string name="service">Service</string>
     <string name="charging_time">Charging Time: %1$s</string>
-    <string name="seconds">%1$s seconds</string>
-    <string name="minute">%1$s minute</string>
     <string name="apply">Apply</string>
-    <string name="open_notification_category_settings">Open notification category settings</string>
+    <string name="open_notification_category_settings_service">Open notification category settings \"Service\"</string>
     <string name="service_and_notification">Service &amp; Notification</string>
     <string name="appearance">Appearance</string>
     <string name="misc">Misc</string>
@@ -190,10 +188,12 @@
     <string name="main_screen_text_style">Main Screen Text Style</string>
     <string name="battery_status_information">Battery Status Information</string>
     <string name="battery_is_fully_charged">Battery is fully charged</string>
+    <string name="battery_is_charged">Battery is charged</string>
     <string name="battery_is_discharged">Battery is discharged</string>
     <string name="battery_level_charge_discharge">Battery Level</string>
     <string name="fully_charged">Fully Charged</string>
-    <string name="battery_is_charged">Battery is charged</string>
+    <string name="charged">Charged</string>
+    <string name="discharged">Discharged</string>
     <string name="battery_is_charged_notification">Battery is charged. Battery Level: %1$d</string>
     <string name="battery_is_discharged_notification">Battery is discharged. Battery Level: %1$d</string>
 </resources>

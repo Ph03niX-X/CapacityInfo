@@ -24,10 +24,10 @@ import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
-import com.ph03nix_x.capacityinfo.utils.Constants.BATTERY_IS_FULLY_CHARGED_CHANEL_ID
-import com.ph03nix_x.capacityinfo.utils.Constants.BATTERY_IS_CHARGED_CHANEL_ID
-import com.ph03nix_x.capacityinfo.utils.Constants.BATTERY_IS_DISCHARGED_CHANEL_ID
-import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.FULLY_CHARGED_CHANNEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.CHARGED_CHANNEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.DISCHARGED_CHANNEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
@@ -63,7 +63,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, SERVICE_CHANEL_ID) else ""
+            onCreateNotificationChannel(context, SERVICE_CHANNEL_ID) else ""
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context,
             MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
@@ -106,7 +106,22 @@ interface NotificationInterface : BatteryInfoInterface {
                 as? NotificationManager
 
         val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, BATTERY_IS_FULLY_CHARGED_CHANEL_ID) else ""
+            onCreateNotificationChannel(context, FULLY_CHARGED_CHANNEL_ID) else ""
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val soundAttributes = AudioAttributes.Builder().apply {
+
+                setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+
+                setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            }
+
+            notificationManager?.getNotificationChannel(FULLY_CHARGED_CHANNEL_ID)?.setSound(
+                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                        "${context.packageName}/${R.raw.battery_is_fully_charged}"),
+                soundAttributes.build())
+        }
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -147,7 +162,22 @@ interface NotificationInterface : BatteryInfoInterface {
                 as? NotificationManager
 
         val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, BATTERY_IS_CHARGED_CHANEL_ID) else ""
+            onCreateNotificationChannel(context, CHARGED_CHANNEL_ID) else ""
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val soundAttributes = AudioAttributes.Builder().apply {
+
+                setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+
+                setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            }
+
+            notificationManager?.getNotificationChannel(CHARGED_CHANNEL_ID)?.setSound(
+                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                        "${context.packageName}/${R.raw.battery_is_charged}"),
+                soundAttributes.build())
+        }
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -200,7 +230,22 @@ interface NotificationInterface : BatteryInfoInterface {
                 as? NotificationManager
 
         val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, BATTERY_IS_DISCHARGED_CHANEL_ID) else ""
+            onCreateNotificationChannel(context, DISCHARGED_CHANNEL_ID) else ""
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val soundAttributes = AudioAttributes.Builder().apply {
+
+                setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+
+                setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            }
+
+            notificationManager?.getNotificationChannel(DISCHARGED_CHANNEL_ID)?.setSound(
+                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                        "${context.packageName}/${R.raw.battery_is_discharged}"),
+                soundAttributes.build())
+        }
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -295,7 +340,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         when (notificationChannelId) {
 
-            SERVICE_CHANEL_ID -> {
+            SERVICE_CHANNEL_ID -> {
 
                 val channelName = context.getString(R.string.service)
 
@@ -306,7 +351,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 })
             }
 
-            BATTERY_IS_FULLY_CHARGED_CHANEL_ID -> {
+            FULLY_CHARGED_CHANNEL_ID -> {
 
                 val channelName = context.getString(R.string.fully_charged)
 
@@ -321,9 +366,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 })
             }
 
-            BATTERY_IS_CHARGED_CHANEL_ID -> {
+            CHARGED_CHANNEL_ID -> {
 
-                val channelName = context.getString(R.string.battery_is_charged)
+                val channelName = context.getString(R.string.charged)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
                     notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
@@ -340,9 +385,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 })
             }
 
-            BATTERY_IS_DISCHARGED_CHANEL_ID -> {
+            DISCHARGED_CHANNEL_ID -> {
 
-                val channelName = context.getString(R.string.battery_is_discharged)
+                val channelName = context.getString(R.string.discharged)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
                     notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {

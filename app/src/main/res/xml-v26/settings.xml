@@ -60,12 +60,12 @@
                 android:key="is_stop_the_service_when_the_cd"/>
 
         <Preference
-                android:title="@string/open_notification_category_settings"
+                android:title="@string/open_notification_category_settings_service"
                 android:summary="@string/notification_priority"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_open_notification_category_settings_24dp"
-                android:key="open_notification_category_settings"/>
+                android:key="open_notification_category_settings_service"/>
 
         <Preference
                 android:title="@string/battery_status_information"

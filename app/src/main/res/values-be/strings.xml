@@ -35,10 +35,8 @@
     <string name="last_charge_time">Час апошняй зарадкі: %1$s (%2$s - %3$s)</string>
     <string name="service">Служба</string>
     <string name="charging_time">Час зарадкі: %1$s</string>
-    <string name="seconds">%1$s секунд</string>
-    <string name="minute">%1$s Хвіліна</string>
     <string name="apply">Прымяніць</string>
-    <string name="open_notification_category_settings">Адкрыць налады катэгорыі паведамлення</string>
+    <string name="open_notification_category_settings_service">Адкрыць налады катэгорыі паведамлення \"Служба\"</string>
     <string name="service_and_notification">Служба &amp; паведамленне</string>
     <string name="appearance">Знешні выгляд</string>
     <string name="misc">Рознае</string>

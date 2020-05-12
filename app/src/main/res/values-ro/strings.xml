@@ -34,10 +34,8 @@
     <string name="last_charge_time">Ultima încărcare: %1$s (%2$s - %3$s)</string>
     <string name="service">Serviciu</string>
     <string name="charging_time">Timp încărcare: %1$s</string>
-    <string name="seconds">%1$s secunde</string>
-    <string name="minute">%1$s minut</string>
     <string name="apply">Aplicare</string>
-    <string name="open_notification_category_settings">Deschideți setările categoriei de notificare</string>
+    <string name="open_notification_category_settings_service">Deschideți setările categoriei de notificare \"Serviciu\"</string>
     <string name="service_and_notification">Serviciu și notificare</string>
     <string name="appearance">Aspect</string>
     <string name="misc">Altele</string>
