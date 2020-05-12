@@ -66,7 +66,7 @@ interface BatteryInfoInterface {
 
     fun onGetBatteryLevel(context: Context) = try {
 
-        (context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager).getIntProperty(
+        (context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager)?.getIntProperty(
             BatteryManager.BATTERY_PROPERTY_CAPACITY)
     }
 
@@ -225,7 +225,9 @@ interface BatteryInfoInterface {
 
             BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-                percentAdded = onGetBatteryLevel(context) - tempBatteryLevelWith
+                percentAdded = (onGetBatteryLevel(context) ?: 0) - tempBatteryLevelWith
+
+                if(percentAdded < 0) percentAdded = 0
 
                 capacityAdded = onGetCurrentCapacity(context) - tempCurrentCapacity
 
@@ -288,9 +290,9 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(isCharging && batteryLevel < onGetBatteryLevel(context)) {
+        if(isCharging && batteryLevel < (onGetBatteryLevel(context) ?: 0)) {
 
-            batteryLevel = onGetBatteryLevel(context)
+            batteryLevel = onGetBatteryLevel(context) ?: 0
 
             residualCapacity = onGetCurrentCapacity(context) / if(batteryLevel > 1)
                 (batteryLevel / 100.0) else 1.0

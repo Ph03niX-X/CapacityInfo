@@ -82,7 +82,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     isPowerConnected = true
 
-                    batteryLevelWith = onGetBatteryLevel(this)
+                    batteryLevelWith = onGetBatteryLevel(this) ?: 0
 
                     tempBatteryLevelWith = batteryLevelWith
 
@@ -127,8 +127,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(
                         45 * 1000)
 
-                    if(onGetBatteryLevel(this@CapacityInfoService) < batteryLevelWith)
-                        batteryLevelWith = onGetBatteryLevel(this@CapacityInfoService)
+                    if((onGetBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
+                        batteryLevelWith = onGetBatteryLevel(this@CapacityInfoService) ?: 0
 
                     batteryIntent = registerReceiver(null, IntentFilter(
                         Intent.ACTION_BATTERY_CHANGED))
@@ -150,8 +150,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         NotificationInterface.isNotifyBatteryCharged = true
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, false)
-                            && onGetBatteryLevel(this@CapacityInfoService) <= pref.getInt(
-                                BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)
+                            && (onGetBatteryLevel(this@CapacityInfoService) ?: 0)
+                            <= pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)
                             && NotificationInterface.isNotifyBatteryDischarged)
                             withContext(Dispatchers.Main) {
 
@@ -184,7 +184,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         NotificationInterface.isNotifyBatteryDischarged = true
 
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                onGetBatteryLevel(this) / 100f) - (batteryLevelWith / 100f)
+                (onGetBatteryLevel(this) ?: 0) / 100f) - (batteryLevelWith / 100f)
 
         notificationManager?.cancelAll()
 
@@ -206,7 +206,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
 
-                putInt(BATTERY_LEVEL_TO, onGetBatteryLevel(this@CapacityInfoService))
+                putInt(BATTERY_LEVEL_TO, (onGetBatteryLevel(this@CapacityInfoService) ?: 0))
 
                 if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
@@ -239,7 +239,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 as? DisplayManager
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, false)
-            && onGetBatteryLevel(this) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
+            && (onGetBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
                 80) && NotificationInterface.isNotifyBatteryCharged)
             withContext(Dispatchers.Main) {
 
@@ -277,7 +277,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
 
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                onGetBatteryLevel(this@CapacityInfoService) / 100f) - (
+                (onGetBatteryLevel(this@CapacityInfoService) ?: 0) / 100f) - (
                 batteryLevelWith / 100f)
 
         pref.edit().apply {
@@ -285,7 +285,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (
                     seconds / 3600)) else seconds)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-            putInt(BATTERY_LEVEL_TO, onGetBatteryLevel(this@CapacityInfoService))
+            putInt(BATTERY_LEVEL_TO, (onGetBatteryLevel(this@CapacityInfoService) ?: 0))
 
             if(onGetCurrentCapacity(this@CapacityInfoService) > 0) {
 

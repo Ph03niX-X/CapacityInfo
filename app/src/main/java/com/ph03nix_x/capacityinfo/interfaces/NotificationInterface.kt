@@ -86,6 +86,9 @@ interface NotificationInterface : BatteryInfoInterface {
             if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
                 addAction(0, context.getString(R.string.stop_service), stopService)
 
+            setContentText(context.getString(R.string.current_capacity,
+                DecimalFormat("#.#").format(onGetCurrentCapacity(context))))
+
             setStyle(NotificationCompat.BigTextStyle().bigText(onGetNotificationMessage(context)))
 
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
@@ -191,7 +194,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         isNotifyBatteryDischarged = false
 
-        val batteryLevel = onGetBatteryLevel(context)
+        val batteryLevel = onGetBatteryLevel(context) ?: 0
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
@@ -257,6 +260,9 @@ interface NotificationInterface : BatteryInfoInterface {
                     color = ContextCompat.getColor(context.applicationContext, if(
                         isSystemDarkMode(context.resources.configuration)) R.color.red
                     else R.color.blue)
+
+                setContentText(context.getString(R.string.current_capacity,
+                    DecimalFormat("#.#").format(onGetCurrentCapacity(context))))
 
                 setStyle(NotificationCompat.BigTextStyle().bigText(onGetNotificationMessage(
                     context)))

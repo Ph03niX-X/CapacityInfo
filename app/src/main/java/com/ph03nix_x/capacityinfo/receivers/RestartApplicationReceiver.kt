@@ -12,7 +12,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
-class RestartServiceReceiver : BroadcastReceiver(), ServiceInterface {
+class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 

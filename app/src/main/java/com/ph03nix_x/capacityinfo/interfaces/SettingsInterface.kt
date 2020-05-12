@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.activities.SettingsActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -329,7 +330,7 @@ interface SettingsInterface : ServiceInterface {
 
                     launchActivity(context, MainActivity::class.java,
                         arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
-                        Intent().putExtra("pref_arrays", prefArrays))
+                        Intent().putExtra(IMPORT_SETTINGS_EXTRA, prefArrays))
 
                     Runtime.getRuntime().exit(0)
                 }

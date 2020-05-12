@@ -11,7 +11,6 @@ import android.graphics.PixelFormat
 import android.os.BatteryManager
 import android.os.Build
 import android.provider.Settings
-import android.util.TypedValue
 import android.view.*
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat

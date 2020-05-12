@@ -22,6 +22,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -239,7 +240,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         batteryInformation()
 
-        val prefArrays = intent.getSerializableExtra("pref_arrays")
+        val prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
@@ -711,6 +712,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         Toast.makeText(this, getString(R.string.settings_imported_successfully),
             Toast.LENGTH_LONG).show()
 
-        intent.removeExtra("pref_arrays")
+        intent.removeExtra(IMPORT_SETTINGS_EXTRA)
     }
 }

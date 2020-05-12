@@ -14,7 +14,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHA
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 
-class BatteryIsChargedDischargedFragment : PreferenceFragmentCompat(), NotificationInterface {
+class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
