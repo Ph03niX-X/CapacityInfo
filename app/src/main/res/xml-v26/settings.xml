@@ -67,6 +67,13 @@
                 app:icon="@drawable/ic_open_notification_category_settings_24dp"
                 android:key="open_notification_category_settings"/>
 
+        <Preference
+                android:title="@string/battery_status_information"
+                app:isPreferenceVisible="false"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_notification_charge_discharge_24dp"
+                android:key="battery_status_information"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

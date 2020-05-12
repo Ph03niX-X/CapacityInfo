@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -54,6 +55,9 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 BatteryInfoInterface.minDischargeCurrent = 0
 
                 CapacityInfoService.instance?.isSaveNumberOfCharges = true
+
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
             }
         }
     }

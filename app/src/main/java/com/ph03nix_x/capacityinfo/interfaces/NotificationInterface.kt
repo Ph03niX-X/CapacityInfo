@@ -5,9 +5,13 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -20,6 +24,9 @@ import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
+import com.ph03nix_x.capacityinfo.utils.Constants.BATTERY_IS_FULLY_CHARGED_CHANEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.BATTERY_IS_CHARGED_CHANEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.BATTERY_IS_DISCHARGED_CHANEL_ID
 import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -39,7 +46,11 @@ interface NotificationInterface : BatteryInfoInterface {
 
     companion object {
 
-        const val notificationId = 101
+        const val NOTIFICATION_SERVICE_ID = 101
+        const val NOTIFICATION_BATTERY_STATUS_ID = 102
+        var isNotifyBatteryFullyCharged = true
+        var isNotifyBatteryCharged = true
+        var isNotifyBatteryDischarged = true
         var notificationBuilder: NotificationCompat.Builder? = null
         var notificationManager: NotificationManager? = null
         private lateinit var chanelId: String
@@ -80,8 +91,154 @@ interface NotificationInterface : BatteryInfoInterface {
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
         }
 
-        (context as? CapacityInfoService)?.startForeground(notificationId,
+        (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
             notificationBuilder?.build())
+    }
+    
+    fun onNotifyBatteryFullyCharged(context: Context) {
+
+        isNotifyBatteryFullyCharged = false
+
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+
+        val chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            onCreateNotificationChannel(context, BATTERY_IS_FULLY_CHARGED_CHANEL_ID) else ""
+
+        val notificationBuilder = NotificationCompat.Builder(
+            context, chanelId).apply {
+
+            setCategory(NotificationCompat.CATEGORY_ALARM)
+
+            setAutoCancel(true)
+            setOngoing(false)
+            priority = NotificationCompat.PRIORITY_MAX
+
+            setSmallIcon(R.drawable.ic_battery_is_fully_charged_24dp)
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                color = ContextCompat.getColor(context.applicationContext,
+                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
+                    else R.color.blue)
+
+            setContentTitle(context.getString(R.string.battery_status_information))
+
+            setContentText(context.getString(R.string.battery_is_fully_charged))
+
+            setShowWhen(false)
+
+            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_fully_charged}"))
+        }
+
+        notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
+    }
+
+    fun onNotifyBatteryCharged(context: Context) {
+
+        isNotifyBatteryCharged = false
+
+        val batteryLevel = onGetBatteryLevel(context)
+
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+
+        val chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            onCreateNotificationChannel(context, BATTERY_IS_CHARGED_CHANEL_ID) else ""
+
+        val notificationBuilder = NotificationCompat.Builder(
+            context, chanelId).apply {
+
+            setCategory(NotificationCompat.CATEGORY_ALARM)
+
+            setAutoCancel(true)
+            setOngoing(false)
+            priority = NotificationCompat.PRIORITY_MAX
+
+            setSmallIcon(when(batteryLevel) {
+
+                in 0..29 -> R.drawable.ic_battery_is_charged_20_24dp
+                in 30..49 -> R.drawable.ic_battery_is_charged_30_24dp
+                in 50..59 -> R.drawable.ic_battery_is_charged_50_24dp
+                in 60..79 -> R.drawable.ic_battery_is_charged_60_24dp
+                in 80..89 -> R.drawable.ic_battery_is_charged_80_24dp
+                in 90..99 -> R.drawable.ic_battery_is_charged_90_24dp
+                else -> R.drawable.ic_battery_is_fully_charged_24dp
+            })
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                color = ContextCompat.getColor(context.applicationContext,
+                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
+                    else R.color.blue)
+
+            setContentTitle(context.getString(R.string.battery_status_information))
+
+            setContentText("${context.getString(R.string.battery_is_charged_notification,
+                batteryLevel)}%")
+
+            setShowWhen(false)
+
+            setLights(Color.GREEN, 1500, 500)
+
+            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_charged}"))
+        }
+
+        notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
+    }
+
+    fun onNotifyBatteryDischarged(context: Context) {
+
+        isNotifyBatteryDischarged = false
+
+        val batteryLevel = onGetBatteryLevel(context)
+
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+
+        val chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            onCreateNotificationChannel(context, BATTERY_IS_DISCHARGED_CHANEL_ID) else ""
+
+        val notificationBuilder = NotificationCompat.Builder(
+            context, chanelId).apply {
+
+            setCategory(NotificationCompat.CATEGORY_ALARM)
+
+            setAutoCancel(true)
+            setOngoing(false)
+            priority = NotificationCompat.PRIORITY_MAX
+
+            setSmallIcon(when(batteryLevel) {
+
+                in 0..9 -> R.drawable.ic_battery_discharged_10_24dp
+                in 10..29 -> R.drawable.ic_battery_is_discharged_20_24dp
+                in 30..49 -> R.drawable.ic_battery_is_discharged_30_24dp
+                in 50..59 -> R.drawable.ic_battery_is_discharged_50_24dp
+                in 60..79 -> R.drawable.ic_battery_is_discharged_60_24dp
+                in 80..89 -> R.drawable.ic_battery_is_discharged_80_24dp
+                in 90..99 -> R.drawable.ic_battery_is_discharged_90_24dp
+                else -> R.drawable.ic_battery_is_discharged_20_24dp
+            })
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && batteryLevel >= 10)
+                color = ContextCompat.getColor(context.applicationContext,
+                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
+                    else R.color.blue)
+
+            setContentTitle(context.getString(R.string.battery_status_information))
+
+            setContentText("${context.getString(R.string.battery_is_discharged_notification,
+                batteryLevel)}%")
+
+            setShowWhen(false)
+
+            setLights(Color.RED, 1000, 500)
+
+            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_discharged}"))
+        }
+
+        notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
     }
 
     @SuppressLint("RestrictedApi")
@@ -101,7 +258,8 @@ interface NotificationInterface : BatteryInfoInterface {
                         isSystemDarkMode(context.resources.configuration)) R.color.red
                     else R.color.blue)
 
-                setStyle(NotificationCompat.BigTextStyle().bigText(onGetNotificationMessage(context)))
+                setStyle(NotificationCompat.BigTextStyle().bigText(onGetNotificationMessage(
+                    context)))
 
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
@@ -111,7 +269,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
             }
 
-            notificationManager?.notify(notificationId, notificationBuilder?.build())
+            notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
         }
         catch(e: RuntimeException) { return }
     }
@@ -119,19 +277,79 @@ interface NotificationInterface : BatteryInfoInterface {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onCreateNotificationChannel(context: Context, notificationChanelId: String): String {
 
-        val service = context.getSystemService(Context.NOTIFICATION_SERVICE)
-                as NotificationManager
+        val notificationService =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
 
-        when(notificationChanelId) {
+        val soundAttributes = AudioAttributes.Builder().apply {
+
+            setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+
+            setUsage(AudioAttributes.USAGE_NOTIFICATION)
+        }
+
+        when (notificationChanelId) {
 
             SERVICE_CHANEL_ID -> {
 
                 val chanelName = context.getString(R.string.service)
 
-                service.createNotificationChannel(NotificationChannel(notificationChanelId,
-                    chanelName, NotificationManager.IMPORTANCE_LOW).apply {
+                notificationService?.createNotificationChannel(NotificationChannel(
+                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_LOW).apply {
 
                     setShowBadge(false)
+                })
+            }
+
+            BATTERY_IS_FULLY_CHARGED_CHANEL_ID -> {
+
+                val chanelName = context.getString(R.string.fully_charged)
+
+                notificationService?.createNotificationChannel(NotificationChannel(
+                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_HIGH).apply {
+
+                    setShowBadge(true)
+
+                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                            "${context.packageName}/${R.raw.battery_is_fully_charged}"),
+                        soundAttributes.build())
+                })
+            }
+
+            BATTERY_IS_CHARGED_CHANEL_ID -> {
+
+                val chanelName = context.getString(R.string.battery_is_charged)
+
+                notificationService?.createNotificationChannel(NotificationChannel(
+                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_HIGH).apply {
+
+                    setShowBadge(true)
+
+                    enableLights(true)
+
+                    lightColor = Color.GREEN
+
+                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                            "${context.packageName}/${R.raw.battery_is_charged}"),
+                        soundAttributes.build())
+                })
+            }
+
+            BATTERY_IS_DISCHARGED_CHANEL_ID -> {
+
+                val chanelName = context.getString(R.string.battery_is_discharged)
+
+                notificationService?.createNotificationChannel(NotificationChannel(
+                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_HIGH).apply {
+
+                    setShowBadge(true)
+
+                    enableLights(true)
+
+                    lightColor = Color.RED
+
+                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                            "${context.packageName}/${R.raw.battery_is_discharged}"),
+                        soundAttributes.build())
                 })
             }
         }

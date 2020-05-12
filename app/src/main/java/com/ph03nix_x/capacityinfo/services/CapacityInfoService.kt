@@ -20,13 +20,17 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationId
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -142,11 +146,23 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     else if(!isStopService) {
 
+                        NotificationInterface.isNotifyBatteryFullyCharged = true
+                        NotificationInterface.isNotifyBatteryCharged = true
+
+                        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, false)
+                            && onGetBatteryLevel(this@CapacityInfoService) <= pref.getInt(
+                                BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)
+                            && NotificationInterface.isNotifyBatteryDischarged)
+                            withContext(Dispatchers.Main) {
+
+                                onNotifyBatteryDischarged(this@CapacityInfoService)
+                            }
+
                             onUpdateServiceNotification(this@CapacityInfoService)
 
                             if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                            delay(3000L)
+                            delay(2998L)
                     }
                 }
             }
@@ -163,10 +179,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         jobService?.cancel()
         jobService = null
 
+        NotificationInterface.isNotifyBatteryFullyCharged = true
+        NotificationInterface.isNotifyBatteryCharged = true
+        NotificationInterface.isNotifyBatteryDischarged = true
+
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
                 onGetBatteryLevel(this) / 100f) - (batteryLevelWith / 100f)
 
-        notificationManager?.cancel(notificationId)
+        notificationManager?.cancelAll()
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -213,14 +233,26 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     
     private suspend fun batteryCharging() {
 
-        val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        NotificationInterface.isNotifyBatteryDischarged = true
 
+        val displayManager = getSystemService(Context.DISPLAY_SERVICE)
+                as? DisplayManager
+
+        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, false)
+            && onGetBatteryLevel(this) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
+                80) && NotificationInterface.isNotifyBatteryCharged)
+            withContext(Dispatchers.Main) {
+
+                onNotifyBatteryCharged(this@CapacityInfoService)
+            }
+
+        if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 949L
-                else 956L)
-            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 919L
-            else 926L)
+                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 948L
+                else 955L)
+            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 918L
+            else 925L)
 
         seconds++
 
@@ -231,12 +263,22 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         catch(e: RuntimeException) {}
     }
 
-    private fun batteryCharged() {
+    private suspend fun batteryCharged() {
 
         isFull = true
 
+        NotificationInterface.isNotifyBatteryDischarged = true
+
+        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, false)
+            && NotificationInterface.isNotifyBatteryFullyCharged)
+            withContext(Dispatchers.Main) {
+
+                onNotifyBatteryFullyCharged(this@CapacityInfoService)
+            }
+
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                onGetBatteryLevel(this@CapacityInfoService) / 100f) - (batteryLevelWith / 100f)
+                onGetBatteryLevel(this@CapacityInfoService) / 100f) - (
+                batteryLevelWith / 100f)
 
         pref.edit().apply {
 

@@ -50,6 +50,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettings: Preference? = null
+    private var notificationChargeDischarge: Preference? = null
 
     // Appearance
     private var autoDarkMode: SwitchPreferenceCompat? = null
@@ -100,6 +101,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             openNotificationCategorySettings =
                 findPreference("open_notification_category_settings")
 
+        notificationChargeDischarge = findPreference("battery_status_information")
+
         moreServiceAndNotification?.setOnPreferenceClickListener {
 
             if(it.title == requireContext().getString(R.string.more)) {
@@ -112,6 +115,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 isStopTheServiceWhenTheCD?.isVisible = true
 
                 openNotificationCategorySettings?.isVisible = true
+
+                notificationChargeDischarge?.isVisible = true
             }
 
             else {
@@ -124,6 +129,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 isStopTheServiceWhenTheCD?.isVisible = false
 
                 openNotificationCategorySettings?.isVisible = false
+
+                notificationChargeDischarge?.isVisible = false
             }
 
             true
@@ -133,6 +140,20 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 onOpenNotificationCategorySettings(requireContext())
+
+            true
+        }
+
+        notificationChargeDischarge?.setOnPreferenceClickListener {
+
+            (activity as SettingsActivity).toolbar.title = requireContext().getString(
+                R.string.battery_status_information)
+
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+
+                replace(R.id.container, BatteryIsChargedDischargedFragment())
+                commit()
+            }
 
             true
         }

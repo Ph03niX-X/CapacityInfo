@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:shrinkMode="safe"
+        tools:keep="@raw/battery_is_fully_charged,@raw/battery_is_charged,@raw/battery_is_discharged"/>

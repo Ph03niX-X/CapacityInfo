@@ -98,10 +98,13 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 if(pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD, false)) {
 
                     NotificationInterface.notificationManager?.cancel(NotificationInterface
-                        .notificationId)
+                        .NOTIFICATION_SERVICE_ID)
 
                     onStopService(context, CapacityInfoService::class.java)
                 }
+
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
             }
         }
     }

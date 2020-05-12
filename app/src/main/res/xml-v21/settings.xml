@@ -58,6 +58,13 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
                 android:key="is_stop_the_service_when_the_cd"/>
+
+        <Preference
+                android:title="@string/battery_status_information"
+                app:isPreferenceVisible="false"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_notification_charge_discharge_24dp"
+                android:key="battery_status_information"/>
         
     </PreferenceCategory>
 

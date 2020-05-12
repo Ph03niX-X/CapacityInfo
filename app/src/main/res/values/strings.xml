@@ -188,4 +188,12 @@
     <string name="main_screen_text_size">Main Screen Text Size</string>
     <string name="main_screen_text_font">Main Screen Text Font</string>
     <string name="main_screen_text_style">Main Screen Text Style</string>
+    <string name="battery_status_information">Battery Status Information</string>
+    <string name="battery_is_fully_charged">Battery is fully charged</string>
+    <string name="battery_is_discharged">Battery is discharged</string>
+    <string name="battery_level_charge_discharge">Battery Level</string>
+    <string name="fully_charged">Fully Charged</string>
+    <string name="battery_is_charged">Battery is charged</string>
+    <string name="battery_is_charged_notification">Battery is charged. Battery Level: %1$d</string>
+    <string name="battery_is_discharged_notification">Battery is discharged. Battery Level: %1$d</string>
 </resources>

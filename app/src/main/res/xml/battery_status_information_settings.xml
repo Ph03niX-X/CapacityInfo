@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+            android:title="@string/battery_is_fully_charged"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_notify_battery_is_fully_charged"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/battery_is_charged"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_notify_battery_is_charged"/>
+
+    <SeekBarPreference
+            android:title="@string/battery_level_charge_discharge"
+            app:iconSpaceReserved="false"
+            app:enabled="false"
+            android:summary="80%"
+            app:defaultValue="80"
+            app:singleLineTitle="false"
+            app:min="1"
+            android:key="battery_level_notify_charged"/>
+
+    <SwitchPreferenceCompat
+            android:title="@string/battery_is_discharged"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="is_notify_battery_is_discharged"/>
+
+    <SeekBarPreference
+            android:title="@string/battery_level_charge_discharge"
+            app:iconSpaceReserved="false"
+            app:enabled="false"
+            android:summary="20%"
+            app:defaultValue="20"
+            app:singleLineTitle="false"
+            app:min="1"
+            android:max="99"
+            android:key="battery_level_notify_discharged"/>
+</PreferenceScreen>
