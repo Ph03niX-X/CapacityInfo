@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
@@ -54,13 +55,13 @@ import java.io.FileOutputStream
 interface SettingsInterface : ServiceInterface {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onOpenNotificationCategorySettings(context: Context) {
+    fun onOpenNotificationCategorySettings(context: Context, notificationId: String) {
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationChannel = notificationManager
-            .getNotificationChannel("service_channel")
+            .getNotificationChannel(notificationId)
 
         val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
 

@@ -49,7 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
-    private var openNotificationCategorySettings: Preference? = null
+    private var openNotificationCategorySettingsService: Preference? = null
     private var batteryStatusInformation: Preference? = null
 
     // Appearance
@@ -98,8 +98,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            openNotificationCategorySettings =
-                findPreference("open_notification_category_settings")
+            openNotificationCategorySettingsService =
+                findPreference("open_notification_category_settings_service")
 
         batteryStatusInformation = findPreference("battery_status_information")
 
@@ -114,7 +114,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 isStopTheServiceWhenTheCD?.isVisible = true
 
-                openNotificationCategorySettings?.isVisible = true
+                openNotificationCategorySettingsService?.isVisible = true
 
                 batteryStatusInformation?.isVisible = true
             }
@@ -128,7 +128,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                 isStopTheServiceWhenTheCD?.isVisible = false
 
-                openNotificationCategorySettings?.isVisible = false
+                openNotificationCategorySettingsService?.isVisible = false
 
                 batteryStatusInformation?.isVisible = false
             }
@@ -136,7 +136,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        openNotificationCategorySettings?.setOnPreferenceClickListener {
+        openNotificationCategorySettingsService?.setOnPreferenceClickListener {
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 onOpenNotificationCategorySettings(requireContext())

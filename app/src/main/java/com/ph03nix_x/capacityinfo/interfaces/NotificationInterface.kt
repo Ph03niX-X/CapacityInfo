@@ -53,7 +53,7 @@ interface NotificationInterface : BatteryInfoInterface {
         var isNotifyBatteryDischarged = true
         var notificationBuilder: NotificationCompat.Builder? = null
         var notificationManager: NotificationManager? = null
-        private lateinit var chanelId: String
+        private lateinit var channelId: String
         private lateinit var stopService: PendingIntent
     }
 
@@ -62,7 +62,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, SERVICE_CHANEL_ID) else ""
 
         val openApp = PendingIntent.getActivity(context, 0, Intent(context,
@@ -70,7 +70,7 @@ interface NotificationInterface : BatteryInfoInterface {
         stopService = PendingIntent.getService(context, 1, Intent(context,
             StopCapacityInfoService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
-        notificationBuilder = NotificationCompat.Builder(context, chanelId).apply {
+        notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
 
             setOngoing(true)
             setCategory(Notification.CATEGORY_SERVICE)
@@ -105,11 +105,11 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, BATTERY_IS_FULLY_CHARGED_CHANEL_ID) else ""
 
         val notificationBuilder = NotificationCompat.Builder(
-            context, chanelId).apply {
+            context, channelId).apply {
 
             setCategory(NotificationCompat.CATEGORY_ALARM)
 
@@ -146,11 +146,11 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, BATTERY_IS_CHARGED_CHANEL_ID) else ""
 
         val notificationBuilder = NotificationCompat.Builder(
-            context, chanelId).apply {
+            context, channelId).apply {
 
             setCategory(NotificationCompat.CATEGORY_ALARM)
 
@@ -199,11 +199,11 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val chanelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, BATTERY_IS_DISCHARGED_CHANEL_ID) else ""
 
         val notificationBuilder = NotificationCompat.Builder(
-            context, chanelId).apply {
+            context, channelId).apply {
 
             setCategory(NotificationCompat.CATEGORY_ALARM)
 
@@ -281,7 +281,7 @@ interface NotificationInterface : BatteryInfoInterface {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun onCreateNotificationChannel(context: Context, notificationChanelId: String): String {
+    private fun onCreateNotificationChannel(context: Context, notificationChannelId: String): String {
 
         val notificationService =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
@@ -293,14 +293,14 @@ interface NotificationInterface : BatteryInfoInterface {
             setUsage(AudioAttributes.USAGE_NOTIFICATION)
         }
 
-        when (notificationChanelId) {
+        when (notificationChannelId) {
 
             SERVICE_CHANEL_ID -> {
 
-                val chanelName = context.getString(R.string.service)
+                val channelName = context.getString(R.string.service)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
-                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_LOW).apply {
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_LOW).apply {
 
                     setShowBadge(false)
                 })
@@ -308,10 +308,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
             BATTERY_IS_FULLY_CHARGED_CHANEL_ID -> {
 
-                val chanelName = context.getString(R.string.fully_charged)
+                val channelName = context.getString(R.string.fully_charged)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
-                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_HIGH).apply {
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
 
                     setShowBadge(true)
 
@@ -323,10 +323,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
             BATTERY_IS_CHARGED_CHANEL_ID -> {
 
-                val chanelName = context.getString(R.string.battery_is_charged)
+                val channelName = context.getString(R.string.battery_is_charged)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
-                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_HIGH).apply {
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
 
                     setShowBadge(true)
 
@@ -342,10 +342,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
             BATTERY_IS_DISCHARGED_CHANEL_ID -> {
 
-                val chanelName = context.getString(R.string.battery_is_discharged)
+                val channelName = context.getString(R.string.battery_is_discharged)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
-                    notificationChanelId, chanelName, NotificationManager.IMPORTANCE_HIGH).apply {
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
 
                     setShowBadge(true)
 
@@ -360,7 +360,7 @@ interface NotificationInterface : BatteryInfoInterface {
             }
         }
 
-        return notificationChanelId
+        return notificationChannelId
     }
 
     private fun onGetNotificationMessage(context: Context): String {
