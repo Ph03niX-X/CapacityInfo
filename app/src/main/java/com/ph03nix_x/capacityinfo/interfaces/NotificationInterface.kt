@@ -108,21 +108,6 @@ interface NotificationInterface : BatteryInfoInterface {
         val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, FULLY_CHARGED_CHANNEL_ID) else ""
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            val soundAttributes = AudioAttributes.Builder().apply {
-
-                setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-
-                setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            }
-
-            notificationManager?.getNotificationChannel(FULLY_CHARGED_CHANNEL_ID)?.setSound(
-                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                        "${context.packageName}/${R.raw.battery_is_fully_charged}"),
-                soundAttributes.build())
-        }
-
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
@@ -163,21 +148,6 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, CHARGED_CHANNEL_ID) else ""
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            val soundAttributes = AudioAttributes.Builder().apply {
-
-                setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-
-                setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            }
-
-            notificationManager?.getNotificationChannel(CHARGED_CHANNEL_ID)?.setSound(
-                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                        "${context.packageName}/${R.raw.battery_is_charged}"),
-                soundAttributes.build())
-        }
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -231,21 +201,6 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             onCreateNotificationChannel(context, DISCHARGED_CHANNEL_ID) else ""
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            val soundAttributes = AudioAttributes.Builder().apply {
-
-                setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-
-                setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            }
-
-            notificationManager?.getNotificationChannel(DISCHARGED_CHANNEL_ID)?.setSound(
-                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                        "${context.packageName}/${R.raw.battery_is_discharged}"),
-                soundAttributes.build())
-        }
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
