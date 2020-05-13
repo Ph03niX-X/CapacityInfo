@@ -10,7 +10,7 @@ class BillingJobService : JobService(), BillingInterface {
 
     override fun onStartJob(params: JobParameters?): Boolean {
 
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
             onBillingStartConnection(this@BillingJobService)
 
