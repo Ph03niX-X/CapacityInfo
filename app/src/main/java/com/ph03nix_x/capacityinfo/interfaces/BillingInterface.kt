@@ -30,12 +30,15 @@ interface BillingInterface {
 
                             onConsumePurchase(it.purchaseToken, it.developerPayload)
 
-                            isDonated = !isDonated
-
                             withContext(Dispatchers.Main) {
+
+                                isDonated = !isDonated
 
                                 Toast.makeText(context, context.getString(
                                     R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+
+                                billingClient?.endConnection()
+                                billingClient = null
                             }
                         }
                     }

@@ -20,7 +20,6 @@ import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 import kotlinx.coroutines.*
-import java.lang.IllegalStateException
 
 class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
@@ -68,11 +67,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
         else donate?.isVisible = isInstalledGooglePlay && !isDonated
 
-        version?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName,
-            0)?.versionName
+        version?.summary = requireContext().packageManager?.getPackageInfo(
+            requireContext().packageName, 0)?.versionName
 
-        build?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName,
-            0)?.versionCode?.toString()
+        build?.summary = requireContext().packageManager?.getPackageInfo(
+            requireContext().packageName, 0)?.versionCode?.toString()
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 
@@ -102,7 +101,8 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link),
+                    Toast.LENGTH_LONG).show()
             }
 
             true
@@ -113,11 +113,11 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DESIGNER_LINK)))
-
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_opening_link),
+                    Toast.LENGTH_LONG).show()
             }
 
             true
@@ -128,7 +128,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ROMANIAN_TRANSLATION_LINK)))
-
             }
             catch(e: ActivityNotFoundException) {
 
@@ -143,7 +142,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
-
             }
             catch(e: ActivityNotFoundException) {
 
@@ -160,7 +158,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
                 startActivity(Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://play.google.com/apps/testing/${requireContext()
                         .packageName}")))
-
             }
             catch(e: ActivityNotFoundException) {
 
@@ -175,38 +172,37 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
             if(isInstalledGooglePlay) {
 
-                CoroutineScope(Dispatchers.Default).launch {
+                CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
-                    onBillingStartConnection(requireContext())
-
-                    delay(450L)
                     try {
 
+                        onBillingStartConnection(requireContext())
+
+                        delay(500L)
                         if(isDonated) {
 
                             donate?.isVisible = false
 
-                            withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), getString(
+                                R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
 
-                                Toast.makeText(requireContext(), getString(
-                                    R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
-                            }
+                            billingClient?.endConnection()
+                            billingClient = null
                         }
                         else onPurchase(requireContext(), "donate")
                     }
-                    catch(e: IllegalStateException) {
+                    catch(e: Exception) {
 
                         Toast.makeText(requireContext(), e.message ?: e.toString(),
-                        Toast.LENGTH_LONG).show()
-                    }
-
-                    finally {
+                            Toast.LENGTH_LONG).show()
 
                         billingClient?.endConnection()
                         billingClient = null
                     }
                 }
             }
+
+            else donate?.isVisible = false
 
             true
         }
@@ -220,5 +216,13 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
         if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
         else donate?.isVisible = isInstalledGooglePlay && !isDonated
+    }
+
+    override fun onStop() {
+
+        super.onStop()
+
+        billingClient?.endConnection()
+        billingClient = null
     }
 }
