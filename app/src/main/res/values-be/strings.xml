@@ -94,7 +94,7 @@
     <string name="unit_of_charge_discharge_current">Адзінка вымярэння току зарадкі/разрадкі</string>
     <string name="unit_of_measurement_of_current_capacity">Адзінка вымярэння бягучай ёмістасці</string>
     <string name="voltage_unit">Адзінка вымярэння напружання</string>
-    <string name="faq_how_does_the_app_work">Пытанне: Як працуе дадатак?\nАдказ: Рэшткавая ёмістасць фармуецца зыходзячы з бягучай ёмістасці пры дасягненні 100% і статусу \"Зараджана\". Падчас зарадкі адбываецца \"спроба\" даведацца рэшткавую ёмістасць шляхам такой формулы: бягучая ёмістасць / (узровень зарада / 100). Калі ўзровень зарада = 1% або 0%, або пры дасягненні 100% працягваецца зарадка, то замест разліку, у рэшткавай ёмістасці паказваецца бягучая. Бягучая ёмістасць бярэцца з ядра АС, шляхам API самага Android, што дазваляе атрымаць бягучую ёмістасць без рут правоў. Ядро жа бярэ бягучую ёмістасць з самага акумулятара і запісвае ў файл \"charge_counter\" (шлях да файла: /sys/class/power_supply/battery). Ад таго наколькі дакладная бягучая ёмістасць залежыць ад акумулятара і самага ядра.\n\n</string>
+    <string name="faq_how_does_the_app_work">Пытанне: Як працуе дадатак?\nАдказ: Рэшткавая ёмістасць фармуецца зыходзячы з бягучай ёмістасці пры дасягненні 100% і статусу \"Зараджана\". Падчас зарадкі адбываецца \"спроба\" даведацца рэшткавую ёмістасць шляхам такой формулы: бягучая ёмістасць / (узровень зарада / 100). Калі ўзровень зарада = 1% або 0%, або пры дасягненні 100% працягваецца зарадка, то замест разліку, у рэшткавай ёмістасці паказваецца бягучая. Бягучая ёмістасць бярэцца з ядра АС, шляхам API самага Android, што дазваляе атрымаць бягучую ёмістасць без правоў суперкарыстальніка. Ядро жа бярэ бягучую ёмістасць з самага акумулятара і запісвае ў файл \"charge_counter\" (шлях да файла: /sys/class/power_supply/battery). Ад таго наколькі дакладная бягучая ёмістасць залежыць ад акумулятара і самага ядра.\n\n</string>
     <string name="faq_capacity_added">Пытанне: Як лічыцца \"Дадалося ёмістасці\"?\nАдказ: \"Дадалося ёмістасці\" лічыцца вельмі проста: бягучая ёмістасць - ёмістасць, якая была да таго, як вы падключылі зарадку.\n\n</string>
     <string name="faq_i_have_everything_in_zeros">Пытанне: У мяне ўсё (ці амаль усё) па нулях. Чаму?\nАдказ: Таму што стваральнік вашай прылады зэканоміў на розных датчыках. І так, як ядро не можа атрымаць значэнне, яно аддае 0.\n\n</string>
     <string name="faq_units">Пытанне: Моцна вялікія ці маленькія колькасці паказваюцца ў бягучай ёмістасці, току зарадкі/разрадкі, напрузе.\nАдказ: Перайдзіце ў налады, у раздзеле \"Рознае\" разгарніце ўсе налады і змяніць адзінкі вымярэння.\n\n</string>
@@ -148,6 +148,7 @@
     <string name="enable_overlay">Уключыць аверлэй</string>
     <string name="size">Памер</string>
     <string name="opacity">Непразрыстасць</string>
+    <string name="show_hide">Паказаць/Схаваць</string>
     <string name="battery_level_overlay">Узровень зарада</string>
     <string name="number_of_charges_overlay">Колькасць зарадак</string>
     <string name="number_of_cycles_overlay">Колькасць цыклаў</string>
@@ -177,6 +178,17 @@
     <string name="job_services_is_cancelled_successfully">Усе Job Services паспяхова адмененыя!</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="text_style_overlay">Стыль тэксту</string>
+    <string name="main_screen_text_size">Памер тэксту галоўнага экрана</string>
     <string name="main_screen_text_font">Шрыфт тэксту галоўнага экрана</string>
     <string name="main_screen_text_style">Стыль тэксту галоўнага экрана</string>
+    <string name="battery_status_information">Інфармацыя пра стан акумулятара</string>
+    <string name="battery_is_fully_charged">Акумулятар цалкам зараджаны</string>
+    <string name="battery_is_charged">Акумулятар зараджаны</string>
+    <string name="battery_is_discharged">Акумулятар разраджаны</string>
+    <string name="battery_level_charge_discharge">Узровень зарада</string>
+    <string name="fully_charged">Цалкам зараджаны</string>
+    <string name="charged">Зараджаны</string>
+    <string name="discharged">Разраджаны</string>
+    <string name="battery_is_charged_notification">Акумулятар зараджаны. Узровень зараду: %1$d</string>
+    <string name="battery_is_discharged_notification">Акумулятар разраджаны. Узровень зараду: %1$d</string>
 </resources>
