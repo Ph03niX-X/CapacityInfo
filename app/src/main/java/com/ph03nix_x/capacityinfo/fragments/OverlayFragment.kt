@@ -118,12 +118,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         overlayTextStyle = findPreference(OVERLAY_TEXT_STYLE)
         overlayOpacity = findPreference("overlay_opacity")
 
-        overlayOpacity?.updatesContinuously
-
-        if(overlaySize?.value !in resources.getStringArray(R.array.text_size_values))
-            pref.edit().putString(OVERLAY_SIZE, "1").apply()
-
-        overlaySize?.summary = overlaySize?.entry
+        overlaySize?.summary = getOverlayTextSizeSummary()
 
         overlayFont?.summary = getOverlayTextFontSummary()
 
@@ -134,7 +129,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         overlayFont?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.fonts_list)[
-                    (newValue as? String)?.toInt() ?: 1]
+                    (newValue as? String)?.toInt() ?: 6]
 
             true
         }
@@ -367,10 +362,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
         batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
 
-        if(overlaySize?.value !in resources.getStringArray(R.array.text_size_values))
-            pref.edit().putString(OVERLAY_SIZE, "1").apply()
-
-        overlaySize?.summary = overlaySize?.entry
+        overlaySize?.summary = getOverlayTextSizeSummary()
 
         overlayFont?.summary = getOverlayTextFontSummary()
 
@@ -391,13 +383,22 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         }
     }
 
+    private fun getOverlayTextSizeSummary(): CharSequence? {
+
+        if(pref.getString(OVERLAY_SIZE, "1") !in
+            resources.getStringArray(R.array.fonts_values))
+            pref.edit().putString(OVERLAY_SIZE, "1").apply()
+
+        return pref.getString(OVERLAY_FONT, "1")
+    }
+
     private fun getOverlayTextFontSummary(): CharSequence? {
 
         if(pref.getString(OVERLAY_FONT, "6") !in
             resources.getStringArray(R.array.fonts_values))
             pref.edit().putString(OVERLAY_FONT, "6").apply()
 
-        return overlayFont?.entry
+        return pref.getString(OVERLAY_FONT, "6")
     }
 
     private fun getOverlayTextStyleSummary(): CharSequence? {
@@ -406,7 +407,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
                 resources.getStringArray(R.array.text_style_values))
             pref.edit().putString(OVERLAY_TEXT_STYLE, "0").apply()
 
-        return overlayTextStyle?.entry
+        return pref.getString(OVERLAY_TEXT_STYLE, "0")
     }
 
     private fun getOverlayOpacitySummary(): CharSequence? {
