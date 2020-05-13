@@ -176,25 +176,27 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
                     try {
 
-                        onBillingStartConnection(requireContext())
+                        onBillingStartConnection(context ?: activity ?: donate?.context!!)
 
                         delay(500L)
                         if(isDonated) {
 
                             donate?.isVisible = false
 
-                            Toast.makeText(requireContext(), getString(
-                                R.string.thanks_for_the_donation), Toast.LENGTH_LONG).show()
+                            Toast.makeText(context ?: activity ?: donate?.context!!,
+                                getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG)
+                                .show()
 
                             billingClient?.endConnection()
                             billingClient = null
                         }
-                        else onPurchase(requireContext(), "donate")
+                        else onPurchase(context ?: activity ?: donate?.context!!,
+                            "donate")
                     }
                     catch(e: Exception) {
 
-                        Toast.makeText(requireContext(), e.message ?: e.toString(),
-                            Toast.LENGTH_LONG).show()
+                        Toast.makeText(context ?: activity ?: donate?.context!!,
+                            e.message ?: e.toString(), Toast.LENGTH_LONG).show()
 
                         billingClient?.endConnection()
                         billingClient = null
