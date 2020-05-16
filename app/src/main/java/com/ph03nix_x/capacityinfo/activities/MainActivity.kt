@@ -324,7 +324,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         super.onDestroy()
     }
 
-    fun inflateMenu() {
+    private fun inflateMenu() {
 
         toolbar.inflateMenu(R.menu.main_menu)
 

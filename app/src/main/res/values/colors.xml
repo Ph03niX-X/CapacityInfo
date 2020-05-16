@@ -7,4 +7,5 @@
     <color name="darkWhite">#5F6368</color>
     <color name="icons_color">@color/darkWhite</color>
     <color name="icons_pref_title_color">@color/blue</color>
+    <color name="green">#00c652</color>
 </resources>
