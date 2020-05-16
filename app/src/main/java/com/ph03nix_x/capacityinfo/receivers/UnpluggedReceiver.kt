@@ -3,7 +3,11 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
@@ -19,6 +23,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
 
@@ -81,6 +86,26 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                     apply()
                 }
+
+                batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+                    .ACTION_BATTERY_CHANGED))
+
+                val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                    BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+
+                MainActivity.instance?.toolbar?.title = context.getString(
+                    if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
+                    else R.string.discharge)
+
+                val chargeDischargeNavigation = MainActivity.instance?.navigation
+                    ?.menu?.findItem(R.id.charge_discharge_navigation)
+
+                chargeDischargeNavigation?.title = context.getString(if(status ==
+                    BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else R.string.discharge)
+
+                chargeDischargeNavigation?.icon = context.getDrawable(if(status ==
+                    BatteryManager.BATTERY_STATUS_CHARGING) R.drawable.ic_charge_navigation_24dp
+                else R.drawable.ic_discharge_navigation_24dp)
 
                 CapacityInfoService.instance?.seconds = 0
 

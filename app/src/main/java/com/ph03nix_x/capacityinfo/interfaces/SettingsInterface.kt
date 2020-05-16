@@ -1,13 +1,15 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
-import android.app.NotificationChannel
+import android.app.AlarmManager
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
+import android.os.Process
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,7 +25,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -46,7 +48,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.launchActivity
+import com.ph03nix_x.capacityinfo.utils.Utils.fragment
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -203,9 +205,11 @@ interface SettingsInterface : ServiceInterface {
 
         LocaleHelper.setLocale(context, language)
 
-        MainActivity.instance?.recreate()
+        fragment = SettingsFragment()
 
-        (context as? SettingsActivity)?.recreate()
+        (context as? MainActivity)?.recreate()
+
+        (context as? MainActivity)?.clearMenu()
     }
 
     fun onExportSettings(context: Context, intent: Intent?) {
@@ -323,18 +327,7 @@ interface SettingsInterface : ServiceInterface {
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
-                withContext(Dispatchers.Main) {
-
-                    SettingsActivity.instance = null
-
-                    MainActivity.instance?.finish()
-
-                    launchActivity(context, MainActivity::class.java,
-                        arrayListOf(Intent.FLAG_ACTIVITY_NEW_TASK),
-                        Intent().putExtra(IMPORT_SETTINGS_EXTRA, prefArrays))
-
-                    Runtime.getRuntime().exit(0)
-                }
+                onRestartApp(context, prefArrays)
             }
 
             catch(e: Exception) {
@@ -346,6 +339,22 @@ interface SettingsInterface : ServiceInterface {
                 }
             }
         }
+    }
+
+    private fun onRestartApp(context: Context, prefArrays: HashMap<String, Any?>) {
+
+        val mgr = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+
+        intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+        intent?.putExtra(IMPORT_SETTINGS_EXTRA, prefArrays)
+
+        mgr?.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+            PendingIntent.getActivity(context, 0, Intent(intent), intent!!.flags))
+
+        Process.killProcess(Process.myPid())
     }
 
     fun onChangeDesignCapacity(context: Context, designCapacity: Preference? = null) {
@@ -373,9 +382,6 @@ interface SettingsInterface : ServiceInterface {
                 .apply()
 
             designCapacity?.summary = changeDesignCapacity.text.toString()
-
-            (context as? MainActivity)?.designCapacity?.text = context.getString(
-                R.string.design_capacity, changeDesignCapacity.text.toString())
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }

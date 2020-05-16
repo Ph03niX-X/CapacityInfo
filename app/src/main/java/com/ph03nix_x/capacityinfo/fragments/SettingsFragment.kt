@@ -10,7 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -37,6 +37,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
+import com.ph03nix_x.capacityinfo.utils.Utils.fragment
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface,
     DebugOptionsInterface {
@@ -147,14 +148,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         batteryStatusInformation?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireContext().getString(
+            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.battery_status_information)
 
-            requireActivity().supportFragmentManager.beginTransaction().apply {
+            (activity as? MainActivity)?.toolbar?.navigationIcon =
+                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-                replace(R.id.container, BatteryStatusInformationFragment())
-                commit()
-            }
+            (activity as? MainActivity)?.loadFragment(BatteryStatusInformationFragment())
 
             true
         }
@@ -187,12 +187,16 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             darkMode?.isEnabled = (newValue as? Boolean) == false
 
+            fragment = SettingsFragment()
+
             setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
             true
         }
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
+
+            fragment = SettingsFragment()
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 
@@ -364,14 +368,13 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         overlay?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireContext().getString(
+            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.overlay)
 
-            requireActivity().supportFragmentManager.beginTransaction().apply {
+            (activity as? MainActivity)?.toolbar?.navigationIcon =
+                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-                replace(R.id.container, OverlayFragment())
-                commit()
-            }
+            (activity as? MainActivity)?.loadFragment(OverlayFragment())
 
             true
         }
@@ -430,27 +433,26 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         about?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireContext().getString(R.string.about)
+            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
+                R.string.about)
 
-            requireActivity().supportFragmentManager.beginTransaction().apply {
+            (activity as? MainActivity)?.toolbar?.navigationIcon =
+                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-                replace(R.id.container, AboutFragment())
-                commit()
-            }
+            (activity as? MainActivity)?.loadFragment(AboutFragment())
 
             true
         }
 
         feedback?.setOnPreferenceClickListener {
 
-            (activity as SettingsActivity).toolbar.title = requireContext().getString(
+            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.feedback)
 
-            requireActivity().supportFragmentManager.beginTransaction().apply {
+            (activity as? MainActivity)?.toolbar?.navigationIcon =
+                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-                replace(R.id.container, FeedbackFragment())
-                commit()
-            }
+            (activity as? MainActivity)?.loadFragment(FeedbackFragment())
 
             true
         }

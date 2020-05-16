@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import com.android.billingclient.api.*
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.SettingsActivity
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import kotlinx.coroutines.*
 
 interface BillingInterface {
@@ -103,7 +103,7 @@ interface BillingInterface {
                     skuDetailsMap[it.sku] = it
                 }
 
-                billingClient?.launchBillingFlow((context as? SettingsActivity),
+                billingClient?.launchBillingFlow((context as? MainActivity),
                     BillingFlowParams.newBuilder().apply {
 
                         setSkuDetails(skuDetailsMap[sku])

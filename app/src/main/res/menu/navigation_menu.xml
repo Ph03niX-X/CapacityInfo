@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/charge_discharge_navigation"
+            android:title="@string/discharge"
+            android:icon="@drawable/ic_discharge_navigation_24dp"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/wear_navigation"
+            android:title="@string/wear"
+            android:icon="@drawable/ic_battery_wear_navigation_24dp"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/settings_navigation"
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings_24dp"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/debug_navigation"
+            android:title="@string/debug"
+            android:icon="@drawable/ic_debug_navigation_24dp"
+            android:visible="false"
+            app:showAsAction="always"/>
+
+</menu>

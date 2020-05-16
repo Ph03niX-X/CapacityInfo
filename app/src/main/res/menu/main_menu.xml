@@ -12,12 +12,6 @@
         <menu>
 
             <item
-                    android:id="@+id/settings"
-                    android:title="@string/settings"
-                    android:icon="@drawable/ic_settings_24dp"
-                    app:showAsAction="never"/>
-
-            <item
                     android:id="@+id/instruction"
                     android:title="@string/instruction"
                     android:icon="@drawable/ic_instruction_not_supported_24dp"

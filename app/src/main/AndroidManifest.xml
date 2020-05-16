@@ -21,8 +21,10 @@
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.MainActivity"
-                  android:launchMode="singleInstance">
+        <activity
+                android:name=".activities.MainActivity"
+                android:launchMode="singleInstance"
+                android:configChanges="keyboardHidden|orientation|screenSize">
 
             <intent-filter>
 
@@ -31,18 +33,6 @@
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".activities.SettingsActivity"
-                  android:launchMode="singleInstance"
-                  android:label="@string/settings">
-
-            <intent-filter>
-
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
@@ -89,13 +79,23 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.OpenDebugReceiver">
+        <receiver android:name=".receivers.EnableDebugOptionsReceiver">
 
             <intent-filter>
 
                 <action android:name="android.provider.Telephony.SECRET_CODE"/>
 
-                <data android:scheme="android_secret_code" android:host="240324"/>
+                <data android:scheme="android_secret_code" android:host="243243622533"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.DisableDebugOptionsReceiver">
+
+            <intent-filter>
+
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+
+                <data android:scheme="android_secret_code" android:host="2432434722533"/>
             </intent-filter>
         </receiver>
 
