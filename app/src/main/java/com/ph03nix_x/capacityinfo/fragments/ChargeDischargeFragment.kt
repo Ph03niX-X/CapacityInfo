@@ -220,7 +220,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                                             capacityAdded.visibility = View.VISIBLE
 
                                         capacityAdded.text = onGetCapacityAdded(
-                                            context ?: currentCapacity.context)
+                                            context ?: capacityAdded.context)
                                     }
                                     onGetSourceOfPower(
                                         context ?: this@ChargeDischargeFragment
@@ -232,8 +232,6 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                                         capacityAdded.text = onGetCapacityAdded(
                                             context ?: currentCapacity.context)
                                     }
-                                    capacityAdded.visibility == View.VISIBLE ->
-                                        capacityAdded.visibility = View.GONE
                                 }
                             }
                         }
@@ -260,12 +258,10 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
 
                         if(pref.contains(PreferencesKeys.CAPACITY_ADDED)) pref.edit().remove(
-                            PreferencesKeys.CAPACITY_ADDED
-                        ).apply()
+                            PreferencesKeys.CAPACITY_ADDED).apply()
 
                         if(pref.contains(PreferencesKeys.PERCENT_ADDED)) pref.edit().remove(
-                            PreferencesKeys.PERCENT_ADDED
-                        ).apply()
+                            PreferencesKeys.PERCENT_ADDED).apply()
                     }
 
                     when(status) {
@@ -284,8 +280,8 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             }
                         }
 
-                        BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager.BATTERY_STATUS_FULL,
-                        BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
+                        BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
+                            .BATTERY_STATUS_FULL, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
 
                             if(chargeCurrent.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -405,10 +401,6 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "1"))
-//        TextAppearanceHelper.setTextAppearance(technology,
-//            pref.getString(TEXT_STYLE, "0"),
-//            pref.getString(TEXT_FONT, "6"),
-//            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(status,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
