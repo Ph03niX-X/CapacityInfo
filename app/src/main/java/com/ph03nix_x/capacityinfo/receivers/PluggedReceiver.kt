@@ -6,8 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
@@ -38,20 +36,6 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                     BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
-
-                MainActivity.instance?.toolbar?.title = context.getString(
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
-                    else R.string.discharge)
-
-                val chargeDischargeNavigation = MainActivity.instance?.navigation
-                    ?.menu?.findItem(R.id.charge_discharge_navigation)
-
-                chargeDischargeNavigation?.title = context.getString(if(status ==
-                    BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else R.string.discharge)
-
-                chargeDischargeNavigation?.icon = context.getDrawable(if(status ==
-                    BatteryManager.BATTERY_STATUS_CHARGING) R.drawable.ic_charge_navigation_24dp
-                else R.drawable.ic_discharge_navigation_24dp)
 
                 if(status == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(
                     NUMBER_OF_CHARGES, numberOfCharges + 1).apply()

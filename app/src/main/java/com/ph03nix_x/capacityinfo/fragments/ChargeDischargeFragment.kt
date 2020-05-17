@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -122,6 +123,22 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                         BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
                     withContext(Dispatchers.Main) {
+
+                        (context as? MainActivity)?.toolbar?.title = getString(
+                            if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
+                            else R.string.discharge)
+
+                        val chargeDischargeNavigation = (context as? MainActivity)
+                            ?.navigation?.menu?.findItem(R.id.charge_discharge_navigation)
+
+                        chargeDischargeNavigation?.title = getString(if(status ==
+                            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
+                            R.string.discharge)
+
+                        chargeDischargeNavigation?.icon = requireContext().getDrawable(
+                            if(status == BatteryManager.BATTERY_STATUS_CHARGING)
+                                R.drawable.ic_charge_navigation_24dp
+                            else R.drawable.ic_discharge_navigation_24dp)
 
                         batteryLevel.text = getString(R.string.battery_level,
                             "${onGetBatteryLevel(

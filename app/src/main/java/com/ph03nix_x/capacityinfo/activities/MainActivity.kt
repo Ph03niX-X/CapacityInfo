@@ -44,16 +44,11 @@ import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface,
     SettingsInterface {
 
+    private lateinit var pref: SharedPreferences
+
     lateinit var toolbar: CenteredToolbar
 
     lateinit var navigation: BottomNavigationView
-
-    private lateinit var pref: SharedPreferences
-
-    companion object {
-
-        var instance: MainActivity? = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -61,14 +56,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         super.onCreate(savedInstanceState)
 
-        LocaleHelper.setLocale(this, pref.getString(LANGUAGE, null) ?: defLang)
+        LocaleHelper.setLocale(this, pref.getString(
+            LANGUAGE, null) ?: defLang)
 
         setContentView(R.layout.activity_main)
 
         batteryIntent = registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
 
-        var status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
         if(fragment == null) fragment = ChargeDischargeFragment()
@@ -100,16 +96,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         navigation = findViewById(R.id.navigation)
 
-        val chargeDischargeNavigation = navigation.menu.findItem(
-            R.id.charge_discharge_navigation)
-
-        chargeDischargeNavigation.title = getString(if(status ==
-            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else R.string.discharge)
-
-        chargeDischargeNavigation.icon = getDrawable(if(status ==
-            BatteryManager.BATTERY_STATUS_CHARGING) R.drawable.ic_charge_navigation_24dp
-        else R.drawable.ic_discharge_navigation_24dp)
-
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
 
@@ -120,15 +106,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 R.id.charge_discharge_navigation -> {
 
                     if(fragment !is ChargeDischargeFragment) {
-
-                        batteryIntent = registerReceiver(null, IntentFilter(
-                            Intent.ACTION_BATTERY_CHANGED))
-
-                        status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
-
-                        toolbar.title = getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
-                            R.string.charge else R.string.discharge)
 
                         toolbar.navigationIcon = null
 
@@ -203,8 +180,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         super.onResume()
 
-        instance = this
-
         if(CapacityInfoService.instance == null && !isStartedService) {
 
             isStartedService = true
@@ -231,16 +206,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             is DebugFragment -> getString(R.string.debug)
             else -> getString(R.string.app_name)
         }
-
-        val chargeDischargeNavigation = navigation.menu.findItem(
-            R.id.charge_discharge_navigation)
-
-        chargeDischargeNavigation.title = getString(if(status ==
-            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else R.string.discharge)
-
-        chargeDischargeNavigation.icon = getDrawable(if(status ==
-            BatteryManager.BATTERY_STATUS_CHARGING) R.drawable.ic_charge_navigation_24dp
-        else R.drawable.ic_discharge_navigation_24dp)
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
@@ -308,16 +273,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         else finish()
     }
 
-    override fun onStop() {
-
-        super.onStop()
-
-        instance = null
-    }
-
     override fun onDestroy() {
-
-        instance = null
 
         fragment = null
 
