@@ -378,8 +378,8 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if(onGetCurrentCapacity(
-                                    context ?: currentCapacity.context) > 0L) 954L
-                            else 961L)
+                                    context ?: currentCapacity.context) > 0L) 974L
+                            else 981L)
 
                         else -> delay(3000L)
                     }

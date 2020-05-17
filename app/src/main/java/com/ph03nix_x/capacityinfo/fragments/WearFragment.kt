@@ -288,8 +288,8 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if(onGetCurrentCapacity(
-                                    context ?: currentCapacity.context) > 0L) 954L
-                            else 961L)
+                                    context ?: currentCapacity.context) > 0L) 984L
+                            else 991L)
 
                         else -> delay(3000L)
                     }
