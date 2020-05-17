@@ -37,13 +37,6 @@
             android:key="github"/>
 
     <Preference
-            app:title="@string/designer"
-            app:summary="F0x1d"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_designer_24dp"
-            android:key="designer"/>
-
-    <Preference
             app:title="@string/romanian_translation"
             app:summary="ygorigor"
             app:singleLineTitle="false"

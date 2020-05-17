@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface.Companion.billingClient
 import com.ph03nix_x.capacityinfo.interfaces.BillingInterface.Companion.isDonated
 import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
-import com.ph03nix_x.capacityinfo.utils.Constants.DESIGNER_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
@@ -30,7 +29,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var build: Preference? = null
     private var buildDate: Preference? = null
     private var github: Preference? = null
-    private var designer: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
     private var betaTester: Preference? = null
@@ -51,8 +49,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         buildDate = findPreference("build_date")
 
         github = findPreference("github")
-
-        designer = findPreference("designer")
 
         romanianTranslation = findPreference("romanian_translation")
 
@@ -98,21 +94,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LINK)))
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link),
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        designer?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DESIGNER_LINK)))
             }
             catch(e: ActivityNotFoundException) {
 
