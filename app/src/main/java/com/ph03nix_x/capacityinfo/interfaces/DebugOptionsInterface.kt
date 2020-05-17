@@ -36,9 +36,9 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_TH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_HIDE_DONATE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_FONT
@@ -324,7 +324,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                 UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT,
                 OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, PERIODIC_BILLING_JOB_SERVICE,
-                MAIN_SCREEN_TEXT_SIZE, MAIN_SCREEN_TEXT_FONT, MAIN_SCREEN_TEXT_STYLE ->
+                TEXT_SIZE, TEXT_FONT, TEXT_STYLE ->
                     addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
@@ -377,8 +377,8 @@ interface DebugOptionsInterface : ServiceInterface {
                         LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT,
                         OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT,
-                        PERIODIC_BILLING_JOB_SERVICE, MAIN_SCREEN_TEXT_SIZE, MAIN_SCREEN_TEXT_FONT,
-                        MAIN_SCREEN_TEXT_STYLE ->
+                        PERIODIC_BILLING_JOB_SERVICE, TEXT_SIZE, TEXT_FONT,
+                        TEXT_STYLE ->
                             setValueType("string", changePrefValue, pref,
                             prefValueInputTypeDef, prefValueKeyListenerDef)
 
@@ -419,7 +419,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 when(key) {
 
                     OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, PERIODIC_BILLING_JOB_SERVICE,
-                    MAIN_SCREEN_TEXT_SIZE, MAIN_SCREEN_TEXT_FONT, MAIN_SCREEN_TEXT_STYLE -> {
+                    TEXT_SIZE, TEXT_FONT, TEXT_STYLE -> {
 
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
@@ -551,15 +551,15 @@ interface DebugOptionsInterface : ServiceInterface {
                                 key, "1") && s.toString() in context.resources
                                 .getStringArray(R.array.periodic_billing_job_service_values)
 
-                            MAIN_SCREEN_TEXT_SIZE -> s.toString() != pref.getString(
+                            TEXT_SIZE -> s.toString() != pref.getString(
                                 key, "1") && s.toString() in context.resources
                                 .getStringArray(R.array.text_size_values)
 
-                            MAIN_SCREEN_TEXT_FONT -> s.toString() != pref.getString(
+                            TEXT_FONT -> s.toString() != pref.getString(
                                 key, "6") && s.toString() in context.resources
                                 .getStringArray(R.array.fonts_values)
 
-                            MAIN_SCREEN_TEXT_STYLE -> s.toString() != pref.getString(
+                            TEXT_STYLE -> s.toString() != pref.getString(
                                 key, "0") && s.toString() in context.resources
                                 .getStringArray(R.array.fonts_values)
 

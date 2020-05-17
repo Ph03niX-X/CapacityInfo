@@ -27,9 +27,9 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
@@ -164,11 +164,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode = findPreference(IS_DARK_MODE)
 
-        mainScreenTextSize = findPreference(MAIN_SCREEN_TEXT_SIZE)
+        mainScreenTextSize = findPreference(TEXT_SIZE)
 
-        mainScreenTextFont = findPreference(MAIN_SCREEN_TEXT_FONT)
+        mainScreenTextFont = findPreference(TEXT_FONT)
 
-        mainScreenTextStyle = findPreference(MAIN_SCREEN_TEXT_STYLE)
+        mainScreenTextStyle = findPreference(TEXT_STYLE)
 
         selectLanguage = findPreference(LANGUAGE)
 

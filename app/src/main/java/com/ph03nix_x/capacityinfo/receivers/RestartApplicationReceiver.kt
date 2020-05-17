@@ -8,8 +8,9 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
@@ -47,7 +48,7 @@ class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
 
                     if(contains("main_window_text_font")) {
 
-                        putString(MAIN_SCREEN_TEXT_FONT,
+                        putString(TEXT_FONT,
                             getString("main_window_text_font", "6"))
 
                         remove("main_window_text_font")
@@ -55,15 +56,35 @@ class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
 
                     if(contains("main_window_text_style")) {
 
-                        putString(MAIN_SCREEN_TEXT_STYLE,
+                        putString(TEXT_STYLE,
                             getString("main_window_text_style", "0"))
 
                         remove("main_window_text_style")
                     }
 
+                    if(contains("main_screen_text_size")) {
+
+                        putString(TEXT_SIZE, getString("main_screen_text_size", "1"))
+
+                        remove("main_screen_text_size")
+                    }
+
+                    if(contains("main_screen_text_font")) {
+
+                        putString(TEXT_FONT, getString("main_screen_text_font", "6"))
+
+                        remove("main_screen_text_font")
+                    }
+
+                    if(contains("main_screen_text_style")) {
+
+                        putString(TEXT_STYLE, getString("main_screen_text_style", "0"))
+
+                        remove("main_screen_text_style")
+                    }
+
                     apply()
                 }
-
             }
         }
     }

@@ -177,9 +177,9 @@
     <string name="job_services_is_cancelled_successfully">Всі Job Services успішно скасовані!</string>
     <string name="font_overlay">Шрифт</string>
     <string name="text_style_overlay">Стиль тексту</string>
-    <string name="main_screen_text_size">Розмір тексту головного екрану</string>
-    <string name="main_screen_text_font">Шрифт тексту головного екрану</string>
-    <string name="main_screen_text_style">Стиль тексту головного екрану</string>
+    <string name="text_size">Розмір тексту головного екрану</string>
+    <string name="text_font">Шрифт тексту головного екрану</string>
+    <string name="text_style">Стиль тексту головного екрану</string>
     <string name="battery_status_information">Інформація про стан акумулятора</string>
     <string name="battery_is_fully_charged">Акумулятор повністю заряджений</string>
     <string name="battery_is_charged">Акумулятор заряджений</string>

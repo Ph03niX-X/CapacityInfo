@@ -17,9 +17,9 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
@@ -116,41 +116,41 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
     private fun updateTextAppearance() {
 
         TextAppearanceHelper.setTextAppearance(designCapacity,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(numberOfCharges,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(numberOfCycles,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(currentCapacity,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(capacityAdded,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(technology,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(batteryHealth,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(residualCapacity,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(batteryWear,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
     }
 
     private fun wearInformationJob() {

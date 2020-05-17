@@ -17,9 +17,9 @@ import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.MAIN_SCREEN_TEXT_STYLE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import kotlinx.coroutines.*
@@ -390,60 +390,60 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
     private fun updateTextAppearance() {
 
         TextAppearanceHelper.setTextAppearance(batteryLevel,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(chargingTime,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(currentCapacity,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(capacityAdded,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
 //        TextAppearanceHelper.setTextAppearance(technology,
-//            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-//            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-//            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+//            pref.getString(TEXT_STYLE, "0"),
+//            pref.getString(TEXT_FONT, "6"),
+//            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(status,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(sourceOfPower,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(chargeCurrent,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(
-            maxChargeDischargeCurrent, pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            maxChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(
-            averageChargeDischargeCurrent, pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            averageChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(
-            minChargeDischargeCurrent, pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            minChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(temperature,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(voltage,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
         TextAppearanceHelper.setTextAppearance(lastChargeTime,
-            pref.getString(MAIN_SCREEN_TEXT_STYLE, "0"),
-            pref.getString(MAIN_SCREEN_TEXT_FONT, "6"),
-            pref.getString(MAIN_SCREEN_TEXT_SIZE, "1"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "1"))
     }
 }
