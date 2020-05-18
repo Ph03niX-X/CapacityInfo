@@ -4,12 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
-import android.text.format.DateFormat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.helpers.TimeSpan.toHours
-import com.ph03nix_x.capacityinfo.helpers.TimeSpan.toMinutes
-import com.ph03nix_x.capacityinfo.helpers.TimeSpan.toSeconds
+import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getHours
+import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getMinutes
+import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getSeconds
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
@@ -27,8 +26,6 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import java.lang.RuntimeException
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.math.pow
 
 @SuppressWarnings("PrivateApi")
@@ -358,65 +355,22 @@ interface BatteryInfoInterface {
 
     fun onGetChargingTime(context: Context, seconds: Int): String {
 
-        val secondsTime = toSeconds(seconds)
-        val minutes = toMinutes(seconds)
-        val hours = toHours(seconds)
+        val hours = getHours(seconds.toLong())
+        val minutes = getMinutes(seconds.toLong())
+        val secondsTime = getSeconds(seconds.toLong())
 
-        var time = "$hours:$minutes:$secondsTime"
-
-        return context.getString(
-            R.string.charging_time,
-
-            try {
-
-                var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat(
-                    "HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
-
-                val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
-
-                if(hoursDate > hours) {
-
-                    time = "${hours - 1}:$minutes:$secondsTime"
-
-                    dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat(
-                        "HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
-                }
-
-                dateTime
-            }
-
-            catch (e: java.lang.IllegalArgumentException) { "${seconds}s" })
+        return context.getString(R.string.charging_time, "$hours:$minutes:$secondsTime")
     }
 
     fun onGetLastChargeTime(context: Context): String {
         
         val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(
-            LAST_CHARGE_TIME, 0)
+            LAST_CHARGE_TIME, 0).toLong()
 
-        val seconds = toSeconds(secondsPref)
-        val minutes = toMinutes(secondsPref)
-        val hours = toHours(secondsPref)
+        val hours  = getHours(secondsPref)
+        val minutes = getMinutes(secondsPref)
+        val seconds = getSeconds(secondsPref)
 
-        var time = "$hours:$minutes:$seconds"
-
-        return try {
-
-            var dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat(
-                "HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
-
-            val hoursDate = dateTime.removeRange(2, dateTime.count()).toInt()
-
-            if(hoursDate > hours) {
-
-                time = "${hours - 1}:$minutes:$seconds"
-
-                dateTime = DateFormat.format("HH:mm:ss", Date(SimpleDateFormat(
-                    "HH:mm:ss", Locale.ENGLISH).parse(time)?.toString())).toString()
-            }
-
-            dateTime
-        }
-
-        catch (e: IllegalArgumentException) { "${secondsPref}s" }
+        return "$hours:$minutes:$seconds"
     }
 }

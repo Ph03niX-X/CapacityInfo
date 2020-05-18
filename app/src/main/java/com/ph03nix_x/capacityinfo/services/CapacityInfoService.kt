@@ -249,10 +249,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 948L
-                else 955L)
-            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 918L
-            else 925L)
+                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 950L
+                else 957L)
+            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 920L
+            else 927L)
 
         seconds++
 
