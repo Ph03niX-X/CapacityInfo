@@ -21,7 +21,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -51,7 +50,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.fragment
+import com.ph03nix_x.capacityinfo.utils.Utils.isLoadDebug
 import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface {
@@ -600,7 +599,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
             LocaleHelper.setLocale(context, value)
 
-            fragment = DebugFragment()
+            isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -632,7 +631,7 @@ interface DebugOptionsInterface : ServiceInterface {
         if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == IS_FORCIBLY_SHOW_RATE_THE_APP
             || key == IS_HIDE_DONATE || key == IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE) {
 
-            fragment = DebugFragment()
+            isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -668,7 +667,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 || key == IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
                 || key == PERIODIC_BILLING_JOB_SERVICE) {
 
-                fragment = DebugFragment()
+                isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
             }
@@ -716,7 +715,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 pref.edit().clear().apply()
 
-                fragment = DebugFragment()
+                isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
 

@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
@@ -21,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
+import com.ph03nix_x.capacityinfo.utils.Utils.fragment
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
 
@@ -110,6 +114,21 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+                if(fragment != null) {
+
+                    if(fragment is ChargeDischargeFragment)
+                        MainActivity.instance?.toolbar?.title = context.getString(
+                            R.string.discharge)
+
+                    val chargeDischargeNavigation = MainActivity.instance?.navigation
+                        ?.menu?.findItem(R.id.charge_discharge_navigation)
+
+                    chargeDischargeNavigation?.title = context.getString(R.string.discharge)
+
+                    chargeDischargeNavigation?.icon = context.getDrawable(
+                        R.drawable.ic_discharge_navigation_24dp)
+                }
             }
         }
     }

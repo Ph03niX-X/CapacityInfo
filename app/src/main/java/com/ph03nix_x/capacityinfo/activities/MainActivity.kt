@@ -11,10 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
-import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
-import com.ph03nix_x.capacityinfo.fragments.DebugFragment
-import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
-import com.ph03nix_x.capacityinfo.fragments.WearFragment
+import com.ph03nix_x.capacityinfo.fragments.*
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.view.CenteredToolbar
@@ -39,6 +36,8 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Utils.fragment
+import com.ph03nix_x.capacityinfo.utils.Utils.isLoadDebug
+import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface,
@@ -49,6 +48,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     lateinit var toolbar: CenteredToolbar
 
     lateinit var navigation: BottomNavigationView
+
+    private var prefArrays: HashMap<*, *>? = null
+
+    companion object {
+
+        var instance: MainActivity? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -67,9 +73,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
-        if(fragment == null) fragment = ChargeDischargeFragment()
-
         toolbar = findViewById(R.id.toolbar)
+
+        navigation = findViewById(R.id.navigation)
+
+        prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
+                as? HashMap<*, *>
+
+        fragment = if(prefArrays == null && !isLoadSettings && !isLoadDebug)
+            ChargeDischargeFragment() else if(isLoadDebug) DebugFragment() else SettingsFragment()
 
         toolbar.title = when(fragment) {
 
@@ -93,8 +105,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             onBackPressed()
         }
-
-        navigation = findViewById(R.id.navigation)
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
@@ -139,7 +149,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 R.id.settings_navigation -> {
 
-                    if(fragment !is SettingsFragment) {
+                    if(fragment !is SettingsFragment || fragment is
+                                BatteryStatusInformationFragment || fragment is OverlayFragment
+                        || fragment is AboutFragment || fragment is FeedbackFragment) {
 
                         toolbar.title = getString(R.string.settings)
 
@@ -179,6 +191,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     override fun onResume() {
 
         super.onResume()
+
+        instance = this
+
+        isLoadSettings = false
+
+        isLoadDebug = false
 
         if(CapacityInfoService.instance == null && !isStartedService) {
 
@@ -273,9 +291,18 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         else finish()
     }
 
+    override fun onStop() {
+
+        super.onStop()
+
+        instance = null
+    }
+
     override fun onDestroy() {
 
         fragment = null
+
+        instance = null
 
         super.onDestroy()
     }
@@ -327,7 +354,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         }
     }
 
-    fun clearMenu() = toolbar.menu.clear()
+    private fun clearMenu() = toolbar.menu.clear()
 
     private fun showInstruction() {
 
@@ -357,14 +384,31 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             addToBackStack(null)
             commit()
         }
+
+        when {
+
+            fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
+                    && fragment !is AboutFragment && fragment !is FeedbackFragment -> {
+
+                navigation.selectedItemId = when(fragment) {
+
+                    is ChargeDischargeFragment -> R.id.charge_discharge_navigation
+                    is WearFragment -> R.id.wear_navigation
+                    is SettingsFragment -> R.id.settings_navigation
+                    is DebugFragment -> R.id.debug_navigation
+                    else -> R.id.charge_discharge_navigation
+                }
+            }
+        }
     }
 
-    private fun importSettings(prefArrays: HashMap<*, *>) {
+    private fun importSettings(prefArrays: HashMap<*, *>?) {
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
             IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
 
+        if(prefArrays != null)
         prefsTempList.forEach {
 
             with(prefArrays) {
@@ -401,8 +445,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         }
 
         toolbar.menu.clear()
-
-        navigation.selectedItemId = R.id.settings_navigation
 
         Toast.makeText(this, getString(R.string.settings_imported_successfully),
             Toast.LENGTH_LONG).show()

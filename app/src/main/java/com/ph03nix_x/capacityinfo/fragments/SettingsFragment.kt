@@ -38,6 +38,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_C
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 import com.ph03nix_x.capacityinfo.utils.Utils.fragment
+import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface,
     DebugOptionsInterface {
@@ -57,9 +58,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     // Appearance
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
-    private var mainScreenTextSize: ListPreference? = null
-    private var mainScreenTextFont: ListPreference? = null
-    private var mainScreenTextStyle: ListPreference? = null
+    private var textSize: ListPreference? = null
+    private var textFont: ListPreference? = null
+    private var textStyle: ListPreference? = null
     private var selectLanguage: ListPreference? = null
 
     // Misc
@@ -148,13 +149,16 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         batteryStatusInformation?.setOnPreferenceClickListener {
 
+            fragment = BatteryStatusInformationFragment()
+
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.battery_status_information)
 
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(BatteryStatusInformationFragment())
+            (activity as? MainActivity)?.loadFragment(
+                fragment ?: BatteryStatusInformationFragment())
 
             true
         }
@@ -164,22 +168,22 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode = findPreference(IS_DARK_MODE)
 
-        mainScreenTextSize = findPreference(TEXT_SIZE)
+        textSize = findPreference(TEXT_SIZE)
 
-        mainScreenTextFont = findPreference(TEXT_FONT)
+        textFont = findPreference(TEXT_FONT)
 
-        mainScreenTextStyle = findPreference(TEXT_STYLE)
+        textStyle = findPreference(TEXT_STYLE)
 
         selectLanguage = findPreference(LANGUAGE)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
-        mainScreenTextSize?.summary = onGetMainScreenTextSizeSummary(requireContext())
+        textSize?.summary = onGetTextSizeSummary(requireContext())
 
-        mainScreenTextFont?.summary = onGetMainScreenTextFontSummary(requireContext())
+        textFont?.summary = onGetTextFontSummary(requireContext())
 
-        mainScreenTextStyle?.summary = onGetMainScreenTextStyleSummary(requireContext())
+        textStyle?.summary = onGetTextStyleSummary(requireContext())
 
         selectLanguage?.summary = onGetLanguageSummary(requireContext())
 
@@ -187,7 +191,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             darkMode?.isEnabled = (newValue as? Boolean) == false
 
-            fragment = SettingsFragment()
+            isLoadSettings = true
 
             setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
@@ -196,14 +200,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            fragment = SettingsFragment()
+            isLoadSettings = true
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 
             true
         }
 
-        mainScreenTextSize?.setOnPreferenceChangeListener { preference, newValue ->
+        textSize?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.text_size_list)[
                     (newValue as? String)?.toInt() ?: 1]
@@ -211,7 +215,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        mainScreenTextFont?.setOnPreferenceChangeListener { preference, newValue ->
+        textFont?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.fonts_list)[
                     (newValue as? String)?.toInt() ?: 0]
@@ -219,7 +223,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             true
         }
 
-        mainScreenTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
+        textStyle?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.text_style_list)[
                     (newValue as? String)?.toInt() ?: 0]
@@ -368,13 +372,15 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         overlay?.setOnPreferenceClickListener {
 
+            fragment = OverlayFragment()
+
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.overlay)
 
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(OverlayFragment())
+            (activity as? MainActivity)?.loadFragment(fragment ?: OverlayFragment())
 
             true
         }
@@ -433,18 +439,22 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         about?.setOnPreferenceClickListener {
 
+            fragment = FeedbackFragment()
+
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.about)
 
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(AboutFragment())
+            (activity as? MainActivity)?.loadFragment(fragment ?: AboutFragment())
 
             true
         }
 
         feedback?.setOnPreferenceClickListener {
+
+            fragment = FeedbackFragment()
 
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.feedback)
@@ -452,7 +462,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(FeedbackFragment())
+            (activity as? MainActivity)?.loadFragment(fragment ?: FeedbackFragment())
 
             true
         }
@@ -465,11 +475,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, true)
 
-        mainScreenTextSize?.summary = onGetMainScreenTextSizeSummary(requireContext())
+        textSize?.summary = onGetTextSizeSummary(requireContext())
 
-        mainScreenTextFont?.summary = onGetMainScreenTextFontSummary(requireContext())
+        textFont?.summary = onGetTextFontSummary(requireContext())
 
-        mainScreenTextStyle?.summary = onGetMainScreenTextStyleSummary(requireContext())
+        textStyle?.summary = onGetTextStyleSummary(requireContext())
 
         selectLanguage?.summary = onGetLanguageSummary(requireContext())
 

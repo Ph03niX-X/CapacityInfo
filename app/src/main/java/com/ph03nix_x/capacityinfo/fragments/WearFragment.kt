@@ -28,7 +28,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
     
     private lateinit var pref: SharedPreferences
 
-    lateinit var designCapacity: AppCompatTextView
+    private lateinit var designCapacity: AppCompatTextView
     private lateinit var numberOfCharges: AppCompatTextView
     private lateinit var numberOfCycles: AppCompatTextView
     private lateinit var currentCapacity: AppCompatTextView

@@ -25,7 +25,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -48,7 +47,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.fragment
+import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -75,7 +74,7 @@ interface SettingsInterface : ServiceInterface {
         context.startActivity(intent)
     }
 
-    fun onGetMainScreenTextSizeSummary(context: Context): String? {
+    fun onGetTextSizeSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -87,7 +86,7 @@ interface SettingsInterface : ServiceInterface {
                 (pref.getString(TEXT_SIZE, "1") ?: "1").toInt()]
     }
 
-    fun onGetMainScreenTextFontSummary(context: Context): String? {
+    fun onGetTextFontSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -99,7 +98,7 @@ interface SettingsInterface : ServiceInterface {
                 (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
     }
 
-    fun onGetMainScreenTextStyleSummary(context: Context): String? {
+    fun onGetTextStyleSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -205,11 +204,9 @@ interface SettingsInterface : ServiceInterface {
 
         LocaleHelper.setLocale(context, language)
 
-        fragment = SettingsFragment()
+        isLoadSettings = true
 
         (context as? MainActivity)?.recreate()
-
-        (context as? MainActivity)?.clearMenu()
     }
 
     fun onExportSettings(context: Context, intent: Intent?) {
@@ -327,7 +324,11 @@ interface SettingsInterface : ServiceInterface {
                 fileOutputStream.flush()
                 fileOutputStream.close()
 
-                onRestartApp(context, prefArrays)
+
+                withContext(Dispatchers.Main) {
+
+                    onRestartApp(context, prefArrays)
+                }
             }
 
             catch(e: Exception) {
@@ -343,7 +344,8 @@ interface SettingsInterface : ServiceInterface {
 
     private fun onRestartApp(context: Context, prefArrays: HashMap<String, Any?>) {
 
-        val mgr = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE)
+                as? AlarmManager
 
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
 
@@ -351,7 +353,7 @@ interface SettingsInterface : ServiceInterface {
 
         intent?.putExtra(IMPORT_SETTINGS_EXTRA, prefArrays)
 
-        mgr?.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+        alarmManager?.set(AlarmManager.RTC, System.currentTimeMillis() + 1000L,
             PendingIntent.getActivity(context, 0, Intent(intent), intent!!.flags))
 
         Process.killProcess(Process.myPid())

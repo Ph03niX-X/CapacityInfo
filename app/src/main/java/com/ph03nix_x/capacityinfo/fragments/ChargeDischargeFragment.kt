@@ -20,7 +20,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
-import com.ph03nix_x.capacityinfo.utils.Utils
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
@@ -115,11 +114,11 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                         updateTextAppearance()
                     }
 
-                    val status = Utils.batteryIntent?.getIntExtra(
+                    val status = batteryIntent?.getIntExtra(
                         BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
-                    val sourceOfPower = Utils.batteryIntent?.getIntExtra(
+                    val sourceOfPower = batteryIntent?.getIntExtra(
                         BatteryManager.EXTRA_PLUGGED, -1) ?: -1
 
                     withContext(Dispatchers.Main) {

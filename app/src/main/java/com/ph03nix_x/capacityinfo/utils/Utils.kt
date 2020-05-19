@@ -9,6 +9,8 @@ object Utils {
 
     var fragment: Fragment? = null
 
+    var isLoadSettings = false
+    var isLoadDebug = false
     var isPowerConnected = false
     var isInstalledGooglePlay = true
     var isStartedService = false

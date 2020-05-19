@@ -77,9 +77,8 @@ interface NotificationInterface : BatteryInfoInterface {
             setSmallIcon(R.drawable.ic_service_small_icon)
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                color = ContextCompat.getColor(context.applicationContext,
-                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
-                    else R.color.blue)
+                color = ContextCompat.getColor(context, if(isSystemDarkMode(
+                        context.resources.configuration)) R.color.red else R.color.blue)
 
             setContentIntent(openApp)
 
@@ -120,15 +119,13 @@ interface NotificationInterface : BatteryInfoInterface {
             setSmallIcon(R.drawable.ic_battery_is_fully_charged_24dp)
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                color = ContextCompat.getColor(context.applicationContext,
-                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
-                    else R.color.blue)
+                color = ContextCompat.getColor(context, R.color.green)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
             setContentText(context.getString(R.string.battery_is_fully_charged))
 
-            setShowWhen(false)
+            setShowWhen(true)
 
             setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
                     "${context.packageName}/${R.raw.battery_is_fully_charged}"))
@@ -170,16 +167,14 @@ interface NotificationInterface : BatteryInfoInterface {
             })
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                color = ContextCompat.getColor(context.applicationContext,
-                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
-                    else R.color.blue)
+                color = ContextCompat.getColor(context, R.color.green)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
             setContentText("${context.getString(R.string.battery_is_charged_notification,
                 batteryLevel)}%")
 
-            setShowWhen(false)
+            setShowWhen(true)
 
             setLights(Color.GREEN, 1500, 500)
 
@@ -223,17 +218,15 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> R.drawable.ic_battery_is_discharged_20_24dp
             })
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && batteryLevel >= 10)
-                color = ContextCompat.getColor(context.applicationContext,
-                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
-                    else R.color.blue)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                color = ContextCompat.getColor(context, R.color.red)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
             setContentText("${context.getString(R.string.battery_is_discharged_notification,
                 batteryLevel)}%")
 
-            setShowWhen(false)
+            setShowWhen(true)
 
             setLights(Color.RED, 1000, 500)
 
