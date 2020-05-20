@@ -259,7 +259,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             }
         }
 
-        if(onGetCurrentCapacity(this) == 0.0)
+        if(onGetCurrentCapacity(this) == 0.0 && (fragment is ChargeDischargeFragment
+                    || fragment is WearFragment))
             toolbar.menu.findItem(R.id.instruction).isVisible = false
 
         else if(pref.getBoolean(IS_SHOW_INSTRUCTION, true)) showInstruction()
@@ -274,18 +275,17 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     override fun onBackPressed() {
 
-        if(toolbar.title != getString(R.string.settings) && fragment is SettingsFragment) {
+        if(toolbar.title != getString(R.string.settings) && fragment != null
+            && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
+            && fragment !is WearFragment && fragment !is DebugFragment) {
+
+            fragment = SettingsFragment()
 
             toolbar.title = getString(R.string.settings)
 
             toolbar.navigationIcon = null
 
-            supportFragmentManager.beginTransaction().apply {
-
-                replace(R.id.fragment_container, SettingsFragment())
-                addToBackStack(null)
-                commit()
-            }
+            loadFragment(fragment ?: SettingsFragment())
         }
 
         else finish()
