@@ -118,7 +118,7 @@ interface SettingsInterface : ServiceInterface {
             context.resources.getStringArray(R.array.languages_codes))
             pref.edit().putString(LANGUAGE, null).apply()
 
-        return when(defLang) {
+        return when(pref.getString(LANGUAGE, null)) {
 
             "en" -> context.resources.getStringArray(R.array.languages_list)[0]
 

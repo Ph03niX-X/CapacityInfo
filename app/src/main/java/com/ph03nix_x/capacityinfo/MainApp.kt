@@ -71,7 +71,8 @@ class MainApp : Application(), JobServiceInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(pref.getString(LANGUAGE, null) != defLang)
+        if(pref.getString(LANGUAGE, null) !in
+            resources.getStringArray(R.array.languages_codes))
             pref.edit().putString(LANGUAGE, defLang).apply()
     }
 
