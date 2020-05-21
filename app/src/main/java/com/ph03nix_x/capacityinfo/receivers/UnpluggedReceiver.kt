@@ -126,8 +126,10 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                     chargeDischargeNavigation?.title = context.getString(R.string.discharge)
 
-                    chargeDischargeNavigation?.icon = context.getDrawable(
-                        R.drawable.ic_discharge_navigation_24dp)
+                    chargeDischargeNavigation?.icon = MainActivity.instance
+                        ?.getChargeDischargeNavigationIcon(false)?.let {
+                            context.getDrawable(it)
+                        }
                 }
             }
         }

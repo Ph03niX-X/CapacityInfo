@@ -162,7 +162,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 in 50..59 -> R.drawable.ic_battery_is_charged_50_24dp
                 in 60..79 -> R.drawable.ic_battery_is_charged_60_24dp
                 in 80..89 -> R.drawable.ic_battery_is_charged_80_24dp
-                in 90..99 -> R.drawable.ic_battery_is_charged_90_24dp
+                in 90..95 -> R.drawable.ic_battery_is_charged_90_24dp
                 else -> R.drawable.ic_battery_is_fully_charged_24dp
             })
 
@@ -208,14 +208,14 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setSmallIcon(when(batteryLevel) {
 
-                in 0..9 -> R.drawable.ic_battery_discharged_10_24dp
+                in 0..9 -> R.drawable.ic_battery_discharged_9_24dp
                 in 10..29 -> R.drawable.ic_battery_is_discharged_20_24dp
                 in 30..49 -> R.drawable.ic_battery_is_discharged_30_24dp
                 in 50..59 -> R.drawable.ic_battery_is_discharged_50_24dp
                 in 60..79 -> R.drawable.ic_battery_is_discharged_60_24dp
                 in 80..89 -> R.drawable.ic_battery_is_discharged_80_24dp
                 in 90..99 -> R.drawable.ic_battery_is_discharged_90_24dp
-                else -> R.drawable.ic_battery_is_discharged_20_24dp
+                else -> R.drawable.ic_battery_discharged_9_24dp
             })
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)

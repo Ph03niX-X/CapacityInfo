@@ -134,10 +134,11 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                             R.string.discharge)
 
-                        chargeDischargeNavigation?.icon = requireContext().getDrawable(
-                            if(status == BatteryManager.BATTERY_STATUS_CHARGING)
-                                R.drawable.ic_charge_navigation_24dp
-                            else R.drawable.ic_discharge_navigation_24dp)
+                        chargeDischargeNavigation?.icon = (context as? MainActivity)
+                            ?.getChargeDischargeNavigationIcon(
+                                status == BatteryManager.BATTERY_STATUS_CHARGING)?.let {
+                                requireContext().getDrawable(it)
+                        }
 
                         batteryLevel.text = getString(R.string.battery_level,
                             "${onGetBatteryLevel(
