@@ -195,8 +195,6 @@
     <string name="discharged">Discharged</string>
     <string name="battery_is_charged_notification">Battery is charged. Battery Level: %1$d</string>
     <string name="battery_is_discharged_notification">Battery is discharged. Battery Level: %1$d</string>
-    <string name="charge">Charge</string>
-    <string name="discharge">Discharge</string>
     <string name="wear">Wear</string>
     <string name="debug_successfully_enabled">Debug Successfully Enabled!</string>
     <string name="debug_successfully_disabled">Debug Successfully Disabled!</string>

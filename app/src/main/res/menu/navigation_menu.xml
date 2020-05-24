@@ -3,9 +3,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/charge_discharge_navigation"
-            android:title="@string/discharge"
-            android:icon="@drawable/ic_discharge_navigation_90_24dp"
+            android:id="@+id/charging_discharging_navigation"
+            android:title="@string/discharging"
+            android:icon="@drawable/ic_discharging_navigation_90_24dp"
             app:showAsAction="always"/>
 
     <item

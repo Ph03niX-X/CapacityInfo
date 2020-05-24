@@ -7,7 +7,7 @@ import android.content.IntentFilter
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
+import com.ph03nix_x.capacityinfo.fragments.ChargingDischargingFragment
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
@@ -117,17 +117,17 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
 
                 if(fragment != null) {
 
-                    if(fragment is ChargeDischargeFragment)
+                    if(fragment is ChargingDischargingFragment)
                         MainActivity.instance?.toolbar?.title = context.getString(
-                            R.string.discharge)
+                            R.string.discharging)
 
                     val chargeDischargeNavigation = MainActivity.instance?.navigation
-                        ?.menu?.findItem(R.id.charge_discharge_navigation)
+                        ?.menu?.findItem(R.id.charging_discharging_navigation)
 
-                    chargeDischargeNavigation?.title = context.getString(R.string.discharge)
+                    chargeDischargeNavigation?.title = context.getString(R.string.discharging)
 
                     chargeDischargeNavigation?.icon = MainActivity.instance
-                        ?.getChargeDischargeNavigationIcon(false)?.let {
+                        ?.getChargingDischargingNavigationIcon(false)?.let {
                             context.getDrawable(it)
                         }
                 }

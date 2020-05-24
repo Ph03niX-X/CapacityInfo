@@ -8,7 +8,7 @@ import android.os.BatteryManager
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
+import com.ph03nix_x.capacityinfo.fragments.ChargingDischargingFragment
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
@@ -65,25 +65,25 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
                 MainActivity.instance?.toolbar?.title = context.getString(if(status ==
-                    BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
-                    R.string.discharge)
+                    BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging else
+                    R.string.discharging)
 
                 if(fragment != null) {
 
-                    if(fragment is ChargeDischargeFragment)
+                    if(fragment is ChargingDischargingFragment)
                         MainActivity.instance?.toolbar?.title = context.getString(if(status ==
-                            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
-                            R.string.discharge)
+                            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging else
+                            R.string.discharging)
 
                     val chargeDischargeNavigation = MainActivity.instance?.navigation
-                        ?.menu?.findItem(R.id.charge_discharge_navigation)
+                        ?.menu?.findItem(R.id.charging_discharging_navigation)
 
                     chargeDischargeNavigation?.title = context.getString(if(status ==
-                        BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
-                        R.string.discharge)
+                        BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging else
+                        R.string.discharging)
 
                     chargeDischargeNavigation?.icon = MainActivity.instance
-                        ?.getChargeDischargeNavigationIcon(status ==
+                        ?.getChargingDischargingNavigationIcon(status ==
                                 BatteryManager.BATTERY_STATUS_CHARGING)?.let {
                             context.getDrawable(it)
                         }

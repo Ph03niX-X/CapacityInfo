@@ -24,7 +24,7 @@ import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
-class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
+class ChargingDischargingFragment : Fragment(), BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -124,18 +124,18 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                     withContext(Dispatchers.Main) {
 
                         (context as? MainActivity)?.toolbar?.title = getString(
-                            if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
-                            else R.string.discharge)
+                            if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging
+                            else R.string.discharging)
 
                         val chargeDischargeNavigation = (context as? MainActivity)
-                            ?.navigation?.menu?.findItem(R.id.charge_discharge_navigation)
+                            ?.navigation?.menu?.findItem(R.id.charging_discharging_navigation)
 
                         chargeDischargeNavigation?.title = getString(if(status ==
-                            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
-                            R.string.discharge)
+                            BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging else
+                            R.string.discharging)
 
                         chargeDischargeNavigation?.icon = (context as? MainActivity)
-                            ?.getChargeDischargeNavigationIcon(
+                            ?.getChargingDischargingNavigationIcon(
                                 status == BatteryManager.BATTERY_STATUS_CHARGING)?.let {
                                 requireContext().getDrawable(it)
                         }
@@ -162,24 +162,24 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        this@ChargeDischargeFragment.status.text = getString(R.string.status,
+                        this@ChargingDischargingFragment.status.text = getString(R.string.status,
                             onGetStatus(
-                                context ?: this@ChargeDischargeFragment.status.context,
+                                context ?: this@ChargingDischargingFragment.status.context,
                                 status))
 
                         if(onGetSourceOfPower(
-                                context ?: this@ChargeDischargeFragment.sourceOfPower
+                                context ?: this@ChargingDischargingFragment.sourceOfPower
                                     .context, sourceOfPower) != "N/A") {
 
-                            if(this@ChargeDischargeFragment.sourceOfPower.visibility == View.GONE)
-                                this@ChargeDischargeFragment.sourceOfPower.visibility = View.VISIBLE
+                            if(this@ChargingDischargingFragment.sourceOfPower.visibility == View.GONE)
+                                this@ChargingDischargingFragment.sourceOfPower.visibility = View.VISIBLE
 
-                            this@ChargeDischargeFragment.sourceOfPower.text = onGetSourceOfPower(
-                                context ?: this@ChargeDischargeFragment
+                            this@ChargingDischargingFragment.sourceOfPower.text = onGetSourceOfPower(
+                                context ?: this@ChargingDischargingFragment
                                     .sourceOfPower.context, sourceOfPower)
                         }
 
-                        else this@ChargeDischargeFragment.sourceOfPower.visibility = View.GONE
+                        else this@ChargingDischargingFragment.sourceOfPower.visibility = View.GONE
                     }
 
                     withContext(Dispatchers.Main) {
@@ -213,7 +213,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                                 when {
                                     onGetSourceOfPower(
-                                        context ?: this@ChargeDischargeFragment
+                                        context ?: this@ChargingDischargingFragment
                                             .sourceOfPower.context, sourceOfPower) != "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
@@ -223,7 +223,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                                             context ?: capacityAdded.context)
                                     }
                                     onGetSourceOfPower(
-                                        context ?: this@ChargeDischargeFragment
+                                        context ?: this@ChargingDischargingFragment
                                             .sourceOfPower.context, sourceOfPower) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
