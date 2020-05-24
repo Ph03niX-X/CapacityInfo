@@ -85,11 +85,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         toolbar.title = when(fragment) {
 
-            is ChargeDischargeFragment -> {
-
-                getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
-                    R.string.charge else R.string.discharge)
-            }
+            is ChargeDischargeFragment -> getString(
+                if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
+                else R.string.discharge)
 
             is WearFragment -> getString(R.string.wear)
             is SettingsFragment -> getString(R.string.settings)
@@ -105,6 +103,14 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             onBackPressed()
         }
+
+        navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(
+            if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging
+            else R.string.discharge)
+
+        navigation.menu.findItem(R.id.charge_discharge_navigation).icon = getDrawable(
+            getChargeDischargeNavigationIcon(status ==
+                    BatteryManager.BATTERY_STATUS_CHARGING))
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
@@ -213,11 +219,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         toolbar.title = when(fragment) {
 
-            is ChargeDischargeFragment -> {
-
-                getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
-                    R.string.charge else R.string.discharge)
-            }
+            is ChargeDischargeFragment -> getString(
+                if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
+                else R.string.discharge)
 
             is WearFragment -> getString(R.string.wear)
             is SettingsFragment -> getString(R.string.settings)
