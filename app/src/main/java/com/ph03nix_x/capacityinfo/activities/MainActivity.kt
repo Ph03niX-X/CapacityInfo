@@ -81,13 +81,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 as? HashMap<*, *>
 
         fragment = if(prefArrays == null && !isLoadSettings && !isLoadDebug)
-            ChargingDischargingFragment() else if(isLoadDebug) DebugFragment() else SettingsFragment()
+            ChargeDischargeFragment() else if(isLoadDebug) DebugFragment() else SettingsFragment()
 
         toolbar.title = when(fragment) {
 
-            is ChargingDischargingFragment ->
+            is ChargeDischargeFragment -> {
+
                 getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
-                    R.string.charging else R.string.discharging)
+                    R.string.charge else R.string.discharge)
+            }
 
             is WearFragment -> getString(R.string.wear)
             is SettingsFragment -> getString(R.string.settings)
@@ -104,14 +106,6 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             onBackPressed()
         }
 
-        navigation.menu.findItem(R.id.charging_discharging_navigation).title = getString(
-            if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging
-            else R.string.discharging)
-
-        navigation.menu.findItem(R.id.charging_discharging_navigation).icon = getDrawable(
-            getChargingDischargingNavigationIcon(
-                status == BatteryManager.BATTERY_STATUS_CHARGING))
-
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
 
@@ -119,9 +113,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             when(it.itemId) {
 
-                R.id.charging_discharging_navigation -> {
+                R.id.charge_discharge_navigation -> {
 
-                    if(fragment !is ChargingDischargingFragment) {
+                    if(fragment !is ChargeDischargeFragment) {
 
                         toolbar.navigationIcon = null
 
@@ -129,9 +123,9 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         inflateMenu()
 
-                        fragment = ChargingDischargingFragment()
+                        fragment = ChargeDischargeFragment()
 
-                        loadFragment(fragment ?: ChargingDischargingFragment())
+                        loadFragment(fragment ?: ChargeDischargeFragment())
                     }
                 }
 
@@ -149,7 +143,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         fragment = WearFragment()
 
-                        loadFragment(fragment ?: ChargingDischargingFragment())
+                        loadFragment(fragment ?: ChargeDischargeFragment())
                     }
                 }
 
@@ -167,7 +161,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         fragment = SettingsFragment()
 
-                        loadFragment(fragment ?: ChargingDischargingFragment())
+                        loadFragment(fragment ?: ChargeDischargeFragment())
                     }
                 }
 
@@ -183,7 +177,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                         fragment = DebugFragment()
 
-                        loadFragment(fragment ?: ChargingDischargingFragment())
+                        loadFragment(fragment ?: ChargeDischargeFragment())
                     }
                 }
             }
@@ -191,7 +185,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             true
         }
 
-        loadFragment(fragment ?: ChargingDischargingFragment())
+        loadFragment(fragment ?: ChargeDischargeFragment())
     }
 
     override fun onResume() {
@@ -219,9 +213,11 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         toolbar.title = when(fragment) {
 
-            is ChargingDischargingFragment ->
+            is ChargeDischargeFragment -> {
+
                 getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
-                    R.string.charging else R.string.discharging)
+                    R.string.charge else R.string.discharge)
+            }
 
             is WearFragment -> getString(R.string.wear)
             is SettingsFragment -> getString(R.string.settings)
@@ -263,7 +259,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             }
         }
 
-        if(onGetCurrentCapacity(this) == 0.0 && (fragment is ChargingDischargingFragment
+        if(onGetCurrentCapacity(this) == 0.0 && (fragment is ChargeDischargeFragment
                     || fragment is WearFragment))
             toolbar.menu.findItem(R.id.instruction).isVisible = false
 
@@ -280,7 +276,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     override fun onBackPressed() {
 
         if(toolbar.title != getString(R.string.settings) && fragment != null
-            && fragment !is SettingsFragment && fragment !is ChargingDischargingFragment
+            && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
             && fragment !is WearFragment && fragment !is DebugFragment) {
 
             fragment = SettingsFragment()
@@ -396,42 +392,42 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 navigation.selectedItemId = when(fragment) {
 
-                    is ChargingDischargingFragment -> R.id.charging_discharging_navigation
+                    is ChargeDischargeFragment -> R.id.charge_discharge_navigation
                     is WearFragment -> R.id.wear_navigation
                     is SettingsFragment -> R.id.settings_navigation
                     is DebugFragment -> R.id.debug_navigation
-                    else -> R.id.charging_discharging_navigation
+                    else -> R.id.charge_discharge_navigation
                 }
             }
         }
     }
 
-    fun getChargingDischargingNavigationIcon(isCharge: Boolean): Int {
+    fun getChargeDischargeNavigationIcon(isCharge: Boolean): Int {
 
         val batteryLevel = onGetBatteryLevel(this) ?: 0
 
         if(isCharge)
             return when(batteryLevel) {
 
-            in 0..29 -> R.drawable.ic_charging_navigation_20_24dp
-            in 30..49 -> R.drawable.ic_charging_navigation_30_24dp
-            in 50..59 -> R.drawable.ic_charging_navigation_50_24dp
-            in 60..79 -> R.drawable.ic_charging_navigation_60_24dp
-            in 80..89 -> R.drawable.ic_charging_navigation_80_24dp
-            in 90..95 -> R.drawable.ic_charging_navigation_90_24dp
-            else -> R.drawable.ic_charging_navigation_full_24dp
+            in 0..29 -> R.drawable.ic_charge_navigation_20_24dp
+            in 30..49 -> R.drawable.ic_charge_navigation_30_24dp
+            in 50..59 -> R.drawable.ic_charge_navigation_50_24dp
+            in 60..79 -> R.drawable.ic_charge_navigation_60_24dp
+            in 80..89 -> R.drawable.ic_charge_navigation_80_24dp
+            in 90..95 -> R.drawable.ic_charge_navigation_90_24dp
+            else -> R.drawable.ic_charge_navigation_full_24dp
         }
 
         else return when(batteryLevel) {
 
-            in 0..9 -> R.drawable.ic_discharging_navigation_9_24dp
-            in 10..29 -> R.drawable.ic_discharging_navigation_20_24dp
-            in 30..49 -> R.drawable.ic_discharging_navigation_30_24dp
-            in 50..59 -> R.drawable.ic_discharging_navigation_50_24dp
-            in 60..79 -> R.drawable.ic_discharging_navigation_60_24dp
-            in 80..89 -> R.drawable.ic_discharging_navigation_80_24dp
-            in 90..95 -> R.drawable.ic_discharging_navigation_90_24dp
-            else -> R.drawable.ic_discharging_navigation_full_24dp
+            in 0..9 -> R.drawable.ic_discharge_navigation_9_24dp
+            in 10..29 -> R.drawable.ic_discharge_navigation_20_24dp
+            in 30..49 -> R.drawable.ic_discharge_navigation_30_24dp
+            in 50..59 -> R.drawable.ic_discharge_navigation_50_24dp
+            in 60..79 -> R.drawable.ic_discharge_navigation_60_24dp
+            in 80..89 -> R.drawable.ic_discharge_navigation_80_24dp
+            in 90..95 -> R.drawable.ic_discharge_navigation_90_24dp
+            else -> R.drawable.ic_discharge_navigation_full_24dp
         }
     }
 

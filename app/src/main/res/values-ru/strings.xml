@@ -190,6 +190,8 @@
     <string name="discharged">Разряжен</string>
     <string name="battery_is_charged_notification">Аккумулятор заряжен. Уровень заряда: %1$d</string>
     <string name="battery_is_discharged_notification">Аккумулятор разряжен. Уровень заряда: %1$d</string>
+    <string name="charge">Зарядка</string>
+    <string name="discharge">Разрядка</string>
     <string name="wear">Износ</string>
     <string name="debug_successfully_enabled">Отладка успешно включена!</string>
     <string name="debug_successfully_disabled">Отладка успешно отключена!</string>

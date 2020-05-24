@@ -190,6 +190,8 @@
     <string name="discharged">Разраджаны</string>
     <string name="battery_is_charged_notification">Акумулятар зараджаны. Узровень зараду: %1$d</string>
     <string name="battery_is_discharged_notification">Акумулятар разраджаны. Узровень зараду: %1$d</string>
+    <string name="charge">Зарадка</string>
+    <string name="discharge">Разрадка</string>
     <string name="wear">Знос</string>
     <string name="debug_successfully_enabled">Адладка паспяхова ўключана!</string>
     <string name="debug_successfully_disabled">Адладка паспяхова адключана!</string>
