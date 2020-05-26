@@ -36,7 +36,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 <b>Screenshots:</b>
 </p>
 
-<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/01.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/02.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/03.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/04.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/05.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/06.jpg" width="270" height="540">
+<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/01.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/02.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/03.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/04.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/05.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/06.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/07.jpg" width="270" height="540"> <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/screenshots/08.jpg" width="270" height="540">
 
 ---
 <p align="center">
