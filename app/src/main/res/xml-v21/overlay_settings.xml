@@ -37,7 +37,7 @@
                 android:entryValues="@array/fonts_values"
                 app:defaultValue="6"
                 app:iconSpaceReserved="false"
-                android:key="overlay_text_style"/>
+                android:key="overlay_font"/>
 
         <ListPreference
                 android:title="@string/text_style_overlay"
