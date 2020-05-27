@@ -439,7 +439,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         about?.setOnPreferenceClickListener {
 
-            fragment = FeedbackFragment()
+            fragment = AboutFragment()
 
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.about)
