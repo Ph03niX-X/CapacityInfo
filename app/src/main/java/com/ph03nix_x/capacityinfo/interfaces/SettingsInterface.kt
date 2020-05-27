@@ -276,13 +276,13 @@ interface SettingsInterface : ServiceInterface {
                 withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, context.getString(R.string.import_settings_3dots), Toast.LENGTH_LONG).show()
+
+                    if(CapacityInfoService.instance != null)
+                        onStopService(context, CapacityInfoService::class.java)
+
+                    if(OverlayService.instance != null)
+                        onStopService(context, OverlayService::class.java)
                 }
-
-                if(CapacityInfoService.instance != null)
-                    onStopService(context, CapacityInfoService::class.java)
-
-                if(OverlayService.instance != null)
-                    onStopService(context, OverlayService::class.java)
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -323,7 +323,6 @@ interface SettingsInterface : ServiceInterface {
                 inputStream?.close()
                 fileOutputStream.flush()
                 fileOutputStream.close()
-
 
                 withContext(Dispatchers.Main) {
 
