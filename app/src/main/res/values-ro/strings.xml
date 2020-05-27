@@ -179,9 +179,9 @@
     <string name="job_services_is_cancelled_successfully">Toate serviciile de joburi sunt anulate cu succes!</string>
     <string name="font_overlay">Font</string>
     <string name="text_style_overlay">Stil text</string>
-    <string name="text_size">Dimensiunea textului pe ecranul principal</string>
-    <string name="text_font">Fontul pe ecranul principal</string>
-    <string name="text_style">Stilul textului pe ecranul principal</string>
+    <string name="text_size">Dimensiunea textului (Încărcare/descărcare/Uzură)</string>
+    <string name="text_font">Fontul (Încărcare/descărcare/Uzură)</string>
+    <string name="text_style">Stilul textului (Încărcare/descărcare/Uzură)</string>
     <string name="battery_status_information">Informații despre starea bateriei</string>
     <string name="battery_is_fully_charged">Informații despre starea bateriei</string>
     <string name="battery_is_charged">Bateria este încărcată</string>
