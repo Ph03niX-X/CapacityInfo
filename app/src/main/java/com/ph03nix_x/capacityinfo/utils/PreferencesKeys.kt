@@ -14,7 +14,8 @@ object PreferencesKeys {
     const val IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION = "is_show_last_charge_time_in_notification"
     const val IS_STOP_THE_SERVICE_WHEN_THE_CD = "is_stop_the_service_when_the_cd"
 
-    // Notification Charge/Discharge
+    // Battery Status Information
+    const val IS_BYPASS_DND = "is_bypass_dnd_mode"
     const val IS_NOTIFY_BATTERY_IS_FULLY_CHARGED = "is_notify_battery_is_fully_charged"
     const val IS_NOTIFY_BATTERY_IS_CHARGED = "is_notify_battery_is_charged"
     const val BATTERY_LEVEL_NOTIFY_CHARGED = "battery_level_notify_charged"

@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.Constants.DISCHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
@@ -99,6 +100,8 @@ interface NotificationInterface : BatteryInfoInterface {
     
     fun onNotifyBatteryFullyCharged(context: Context) {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         isNotifyBatteryFullyCharged = false
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
@@ -110,7 +113,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            setCategory(NotificationCompat.CATEGORY_ALARM)
+            if(pref.getBoolean(IS_BYPASS_DND, true))
+                setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
             setOngoing(false)
@@ -136,6 +140,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
     fun onNotifyBatteryCharged(context: Context) {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         isNotifyBatteryCharged = false
 
         val batteryLevel = onGetBatteryLevel(context)
@@ -149,7 +155,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            setCategory(NotificationCompat.CATEGORY_ALARM)
+            if(pref.getBoolean(IS_BYPASS_DND, true))
+                setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
             setOngoing(false)
@@ -187,6 +194,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
     fun onNotifyBatteryDischarged(context: Context) {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         isNotifyBatteryDischarged = false
 
         val batteryLevel = onGetBatteryLevel(context) ?: 0
@@ -200,7 +209,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            setCategory(NotificationCompat.CATEGORY_ALARM)
+            if(pref.getBoolean(IS_BYPASS_DND, true))
+                setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
             setOngoing(false)

@@ -200,4 +200,6 @@
     <string name="wear">Wear</string>
     <string name="debug_successfully_enabled">Debug Successfully Enabled!</string>
     <string name="debug_successfully_disabled">Debug Successfully Disabled!</string>
+    <string name="bypass_dnd_mode">Bypass DND Mode</string>
+    <string name="bypass_dnd_mode_summary">Use alarms</string>
 </resources>
