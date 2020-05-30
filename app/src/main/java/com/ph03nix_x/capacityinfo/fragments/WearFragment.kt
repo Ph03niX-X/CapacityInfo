@@ -15,6 +15,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
@@ -69,7 +70,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
             onChangeDesignCapacity(it.context)
 
             (it as? AppCompatTextView)?.text = it.context.getString(R.string.design_capacity,
-                pref.getInt(DESIGN_CAPACITY, 0).toString())
+                pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toString())
         }
     }
 
@@ -78,7 +79,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
         super.onResume()
 
         designCapacity.text = getString(R.string.design_capacity,
-            pref.getInt(DESIGN_CAPACITY, 0).toString())
+            pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toString())
 
         batteryHealth.text = getString(R.string.battery_health, onGetBatteryHealth(
             context ?: batteryHealth.context))
@@ -169,7 +170,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
                     withContext(Dispatchers.Main) {
 
                         designCapacity.text = getString(R.string.design_capacity,
-                            pref.getInt(DESIGN_CAPACITY, 0).toString())
+                            pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toString())
 
                         numberOfCharges.text = getString(R.string.number_of_charges,
                             pref.getLong(PreferencesKeys.NUMBER_OF_CHARGES, 0))
@@ -187,7 +188,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, true)) {
 
-                        if(pref.getInt(DESIGN_CAPACITY, 0) > 0
+                        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) > 0
                             && pref.getInt(PreferencesKeys.RESIDUAL_CAPACITY, 0) > 0) {
 
                             withContext(Dispatchers.Main) {

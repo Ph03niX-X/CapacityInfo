@@ -9,6 +9,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getHours
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getMinutes
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getSeconds
+import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
@@ -55,7 +56,7 @@ interface BatteryInfoInterface {
 
         return when {
 
-            designCapacity == 0 -> 1000
+            designCapacity == 0 -> MIN_DESIGN_CAPACITY
             designCapacity < 0 -> designCapacity / -1
             else -> designCapacity
         }
@@ -311,7 +312,7 @@ interface BatteryInfoInterface {
         return context.getString(
             R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(
-                DESIGN_CAPACITY, 0).toDouble()) * 100)}%")
+                DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toDouble()) * 100)}%")
     }
 
     fun onGetStatus(context: Context, extraStatus: Int): String {
@@ -344,7 +345,7 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val designCapacity = pref.getInt(DESIGN_CAPACITY, 0).toDouble()
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toDouble()
 
         return context.getString(R.string.battery_wear, if(residualCapacity > 0
             && residualCapacity < designCapacity) "${DecimalFormat("#.#").format(

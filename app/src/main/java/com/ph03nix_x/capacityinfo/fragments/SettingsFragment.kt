@@ -14,8 +14,9 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
-import com.ph03nix_x.capacityinfo.utils.Constants
 import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
+import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_REQUEST_CODE
+import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
@@ -287,7 +288,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/xml"
-                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+                }, IMPORT_SETTINGS_REQUEST_CODE)
             }
             catch(e: ActivityNotFoundException) {
 
@@ -496,7 +497,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         voltageUnit?.summary = onGetVoltageUnitSummary(requireContext())
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
-            pref.getInt(DESIGN_CAPACITY, 0))
+            pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -508,7 +509,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             EXPORT_SETTINGS_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) onExportSettings(requireContext(), data)
 
-            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+            IMPORT_SETTINGS_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) onImportSettings(requireContext(), data?.data)
         }
     }

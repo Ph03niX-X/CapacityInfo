@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -372,10 +373,10 @@ interface SettingsInterface : ServiceInterface {
         val changeDesignCapacity = view.findViewById<TextInputEditText>(R.id
             .change_design_capacity_edit)
 
-        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, 0) >= 0)
-            pref.getInt(DESIGN_CAPACITY, 0).toString()
+        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) >= 0)
+            pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toString()
 
-        else (pref.getInt(DESIGN_CAPACITY, 0) / -1).toString())
+        else (pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) / -1).toString())
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
@@ -406,14 +407,16 @@ interface SettingsInterface : ServiceInterface {
 
                 override fun afterTextChanged(s: Editable) {}
 
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                        s.isNotEmpty() && s.toString() != pref.getInt(DESIGN_CAPACITY, 0)
-                            .toString() && s.count() >= 4 && s.toString().toInt() <=
-                                MAX_DESIGN_CAPACITY && s.toString().toInt() > 0 && s.first() != '0'
+                        s.isNotEmpty() && s.toString() != pref.getInt(DESIGN_CAPACITY,
+                            MIN_DESIGN_CAPACITY).toString() && s.toString().toInt() >=
+                                MIN_DESIGN_CAPACITY && s.toString().toInt() <=
+                                MAX_DESIGN_CAPACITY
                 }
             })
         }

@@ -22,6 +22,7 @@ import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -236,15 +237,15 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
 
-        if(pref.getInt(DESIGN_CAPACITY, 0) <= 0
-            || pref.getInt(DESIGN_CAPACITY, 0) > MAX_DESIGN_CAPACITY) {
+        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) <= MIN_DESIGN_CAPACITY
+            || pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) > MAX_DESIGN_CAPACITY) {
 
             pref.edit().apply {
 
                 putInt(DESIGN_CAPACITY, onGetDesignCapacity(this@MainActivity))
 
-                if(pref.getInt(DESIGN_CAPACITY, 0) < 0)
-                    putInt(DESIGN_CAPACITY, (pref.getInt(DESIGN_CAPACITY, 0) / -1))
+                if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) < 0)
+                    putInt(DESIGN_CAPACITY, (pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) / -1))
 
                 apply()
             }
