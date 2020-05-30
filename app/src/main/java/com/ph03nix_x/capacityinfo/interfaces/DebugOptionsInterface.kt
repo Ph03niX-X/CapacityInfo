@@ -30,9 +30,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_HIDE_DONATE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
@@ -45,7 +43,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERIODIC_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -320,11 +317,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
             when(key) {
 
-                LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT,
-                OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, PERIODIC_BILLING_JOB_SERVICE,
-                TEXT_SIZE, TEXT_FONT, TEXT_STYLE ->
-                    addChangeSetting(context, pref, key, value.toString())
+                LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
+                VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
+                TEXT_STYLE -> addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
@@ -374,12 +369,10 @@ interface DebugOptionsInterface : ServiceInterface {
                     when(key) {
 
                         LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT,
-                        OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT,
-                        PERIODIC_BILLING_JOB_SERVICE, TEXT_SIZE, TEXT_FONT,
-                        TEXT_STYLE ->
+                        UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_SIZE,
+                        OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT, TEXT_STYLE ->
                             setValueType("string", changePrefValue, pref,
-                            prefValueInputTypeDef, prefValueKeyListenerDef)
+                                prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY,
@@ -417,8 +410,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 when(key) {
 
-                    OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, PERIODIC_BILLING_JOB_SERVICE,
-                    TEXT_SIZE, TEXT_FONT, TEXT_STYLE -> {
+                    OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
+                    TEXT_STYLE -> {
 
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
@@ -546,10 +539,6 @@ interface DebugOptionsInterface : ServiceInterface {
                                     && s.toString() in context.resources.getStringArray(R.array
                                 .text_style_values)
 
-                            PERIODIC_BILLING_JOB_SERVICE -> s.toString() != pref.getString(
-                                key, "1") && s.toString() in context.resources
-                                .getStringArray(R.array.periodic_billing_job_service_values)
-
                             TEXT_SIZE -> s.toString() != pref.getString(
                                 key, "1") && s.toString() in context.resources
                                 .getStringArray(R.array.text_size_values)
@@ -595,7 +584,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
         pref.edit().putString(key, value).apply()
 
-        if(key == LANGUAGE || key == PERIODIC_BILLING_JOB_SERVICE) {
+        if(key == LANGUAGE) {
 
             LocaleHelper.setLocale(context, value)
 
@@ -628,8 +617,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == IS_FORCIBLY_SHOW_RATE_THE_APP
-            || key == IS_HIDE_DONATE || key == IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE) {
+        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
+            || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
             isLoadDebug = true
 
@@ -648,7 +637,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.reset_pref_key_dialog, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.reset_pref_key_dialog,
+            null)
 
         var key = ""
 
@@ -663,9 +653,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
             if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == LANGUAGE
                 || key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
-                || key == IS_FORCIBLY_SHOW_RATE_THE_APP || key == IS_HIDE_DONATE
-                || key == IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
-                || key == PERIODIC_BILLING_JOB_SERVICE) {
+                || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
                 isLoadDebug = true
 

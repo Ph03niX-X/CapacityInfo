@@ -105,8 +105,6 @@
     <string name="faq_current_capacity">Question: The current capacity has ceased to be displayed, although it was previously displayed (or is displayed, but not always).\nAnswer: This means that the battery is coming or has already come to an end. If everything is in order with the battery, then the firmware kernel or the controller, which gives the current capacity, may be buggy.\n\n</string>
     <string name="faq_add_device_support">Question: The device is not supported. Add device support.\nAnswer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or core does not give up the current capacity?</string>
     <string name="import_settings_3dots">Import Settings&#8230;</string>
-    <string name="donate">Support the Project</string>
-    <string name="thanks_for_the_donation">Thanks for supporting the project</string>
     <string name="become_a_beta_tester">Become a beta tester</string>
     <string name="become_a_beta_tester_summary">Be the first to receive updates</string>
     <string name="error_opening_link">Error opening link!</string>
@@ -119,7 +117,6 @@
     <string name="stop_service">Stop Service</string>
     <string name="stopping_service">Stopping Service&#8230;</string>
     <string name="service_stopped_successfully">Service Stopped Successfully!</string>
-    <string name="hide_donate">Hide \"Support the Project\"</string>
     <string name="battery_health">Battery Health (Android): %1$s</string>
     <string name="battery_health_good">Good</string>
     <string name="battery_health_dead">Dead</string>
@@ -172,14 +169,6 @@
     <string name="last_charge_time_overlay">Last Charge Time</string>
     <string name="battery_wear_overlay">Battery Wear</string>
     <string name="overlay_permission_dialog_message">Permission is required for the overlay to work. Please go to the next window and provide permission</string>
-    <string name="do_not_schedule_billing_job_service">Do not schedule Billing Job Service</string>
-    <string name="schedule_billing_job_service">Schedule Billing Job Service</string>
-    <string name="billing_job_service_is_scheduled">Billing Job Service is Scheduled. Periodic: %1$s</string>
-    <string name="cancel_billing_job_service">Cancel Billing Job Service</string>
-    <string name="cancel_all_job_services">Cancel all Job Services</string>
-    <string name="periodic_billing_job_service">Periodic Billing Job Service</string>
-    <string name="billing_job_service_is_cancelled_successfully">Billing Job Service is Cancelled Successfully!</string>
-    <string name="job_services_is_cancelled_successfully">All Job Services is Cancelled Successfully!</string>
     <string name="font_overlay">Font</string>
     <string name="text_style_overlay">Text Style</string>
     <string name="text_size">Text Size (Charge/Discharge/Wear)</string>

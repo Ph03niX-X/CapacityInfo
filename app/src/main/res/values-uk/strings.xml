@@ -100,8 +100,6 @@
     <string name = "faq_current_capacity">Питання: Перестала відображатися поточна ємність, хоча раніше відображалася (або відображається, але не завжди).\nВідповідь: Це означає, що акумулятору приходить або вже прийшов кінець. Якщо з акумулятором все гаразд, то можливо глючить ядро прошивки або контролер, який віддає поточну ємність.\n\n</string>
     <string name="faq_add_device_support">Питання: Пристрій не підтримується. Додайте підтримку пристрою.\nВідповідь: На жаль, але це неможливо, так як це залежить в першу чергу від акумулятора і в другу чергу від ядра ОС. Тому ставити 1 і писати про те, що не підтримується, а так само просити додати підтримку того чи іншого пристрою - безглуздо. Можете ставити 1, але подумайте про це тричі: чи варто псувати середню оцінку з додатком через те, що ваш акумулятор або ядро не дає поточну ємність?</string>
     <string name="import_settings_3dots">Імпортування налаштувань&#8230;</string>
-    <string name="donate">Підтримати проект</string>
-    <string name="thanks_for_the_donation">Дякую за підтримку проекту</string>
     <string name="become_a_beta_tester">Стати бета-тестером</string>
     <string name="become_a_beta_tester_summary">Отримуйте оновлення одними з перших</string>
     <string name="error_opening_link">Помилка відкриття посилання!</string>
@@ -114,7 +112,6 @@
     <string name="stop_service">Зупинити службу</string>
     <string name="stopping_service">Зупинка служби&#8230;</string>
     <string name="service_stopped_successfully">Служба успішно зупинена!</string>
-    <string name="hide_donate">Приховати \"Підтримати проект\"</string>
     <string name="battery_health">Стан акумулятора (Android): %1$s</string>
     <string name="battery_health_good">Гарний</string>
     <string name="battery_health_dead">Мертвий</string>
@@ -167,14 +164,6 @@
     <string name="last_charge_time_overlay">Час останньої зарядки</string>
     <string name="battery_wear_overlay">Знос акумулятора</string>
     <string name="overlay_permission_dialog_message">Для роботи оверлею потрібен дозвіл. Будь ласка, перейдіть до наступного вікна і надайте дозвіл</string>
-    <string name="do_not_schedule_billing_job_service">Не планувати Billing Job Service</string>
-    <string name="schedule_billing_job_service">Запланувати Billing Job Service</string>
-    <string name="billing_job_service_is_scheduled">Billing Job Service заплановано. Періодичність: %1$s</string>
-    <string name="cancel_billing_job_service">Скасувати Billing Job Service</string>
-    <string name="cancel_all_job_services">Скасувати всі Job Services</string>
-    <string name="periodic_billing_job_service">Періодичність Billing Job Service</string>
-    <string name="billing_job_service_is_cancelled_successfully">Billing Job Service успішно скасований!</string>
-    <string name="job_services_is_cancelled_successfully">Всі Job Services успішно скасовані!</string>
     <string name="font_overlay">Шрифт</string>
     <string name="text_style_overlay">Стиль тексту</string>
     <string name="text_size">Розмір тексту (Зарядка/Розрядка/Знос)</string>

@@ -11,16 +11,12 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.interfaces.BillingInterface
-import com.ph03nix_x.capacityinfo.interfaces.BillingInterface.Companion.billingClient
-import com.ph03nix_x.capacityinfo.interfaces.BillingInterface.Companion.isDonated
 import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
-import kotlinx.coroutines.*
 
-class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
+class AboutFragment : PreferenceFragmentCompat() {
 
     lateinit var pref: SharedPreferences
 
@@ -32,7 +28,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
     private var betaTester: Preference? = null
-    private var donate: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -57,11 +52,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         betaTester = findPreference("become_a_beta_tester")
 
         betaTester?.isVisible = isInstalledGooglePlay
-
-        donate = findPreference("donate")
-
-        if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
-        else donate?.isVisible = isInstalledGooglePlay && !isDonated
 
         version?.summary = requireContext().packageManager?.getPackageInfo(
             requireContext().packageName, 0)?.versionName
@@ -148,47 +138,6 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
 
             true
         }
-
-        donate?.setOnPreferenceClickListener {
-
-            if(isInstalledGooglePlay) {
-
-                CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
-
-                    try {
-
-                        onBillingStartConnection(context ?: activity ?: donate?.context!!)
-
-                        delay(500L)
-                        if(isDonated) {
-
-                            donate?.isVisible = false
-
-                            Toast.makeText(context ?: activity ?: donate?.context!!,
-                                getString(R.string.thanks_for_the_donation), Toast.LENGTH_LONG)
-                                .show()
-
-                            billingClient?.endConnection()
-                            billingClient = null
-                        }
-                        else onPurchase(context ?: activity ?: donate?.context!!,
-                            "donate")
-                    }
-                    catch(e: Exception) {
-
-                        Toast.makeText(context ?: activity ?: donate?.context!!,
-                            e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-
-                        billingClient?.endConnection()
-                        billingClient = null
-                    }
-                }
-            }
-
-            else donate?.isVisible = false
-
-            true
-        }
     }
 
     override fun onResume() {
@@ -196,16 +145,5 @@ class AboutFragment : PreferenceFragmentCompat(), BillingInterface {
         super.onResume()
 
         betaTester?.isVisible = isInstalledGooglePlay
-
-        if(pref.getBoolean("is_hide_donate", false)) donate?.isVisible = false
-        else donate?.isVisible = isInstalledGooglePlay && !isDonated
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        billingClient?.endConnection()
-        billingClient = null
     }
 }

@@ -8,16 +8,11 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
-import com.ph03nix_x.capacityinfo.interfaces.JobServiceInterface
-import com.ph03nix_x.capacityinfo.services.BillingJobService
 import com.ph03nix_x.capacityinfo.utils.Constants
-import com.ph03nix_x.capacityinfo.utils.Constants.BILLING_JOB_SERVICE_ID
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERIODIC_BILLING_JOB_SERVICE
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
 
-class MainApp : Application(), JobServiceInterface {
+class MainApp : Application() {
 
     companion object {
 
@@ -38,16 +33,6 @@ class MainApp : Application(), JobServiceInterface {
         defLang()
 
         isInstalledGooglePlay = isInstalledGooglePlay()
-
-        if(pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") !in
-            resources.getStringArray(R.array.periodic_billing_job_service_values))
-            pref.edit().putString(PERIODIC_BILLING_JOB_SERVICE, "12").apply()
-
-        if(isInstalledGooglePlay &&
-            !pref.getBoolean(IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE, false))
-            onScheduleJobService(this, BillingJobService::class.java,
-                BILLING_JOB_SERVICE_ID, periodicHours =
-                (pref.getString(PERIODIC_BILLING_JOB_SERVICE, "12") ?: "12").toLong())
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

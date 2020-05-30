@@ -20,29 +20,6 @@
         <item>Большой</item>
     </string-array>
 
-    <string-array name="periodic_billing_job_service_list">
-        <item>1 Час</item>
-        <item>2 Часа</item>
-        <item>3 Часа</item>
-        <item>4 Часа</item>
-        <item>5 Часов</item>
-        <item>6 Часов</item>
-        <item>7 Часов</item>
-        <item>8 Часов</item>
-        <item>9 Часов</item>
-        <item>10 Часов</item>
-        <item>11 Часов</item>
-        <item>12 Часов (По умолчанию)</item>
-        <item>13 Часов</item>
-        <item>14 Часов</item>
-        <item>15 Часов</item>
-        <item>16 Часов</item>
-        <item>17 Часов</item>
-        <item>18 Часов</item>
-        <item>19 Часов</item>
-        <item>20 Часов</item>
-    </string-array>
-
     <string-array name="text_style_list">
         <item>Нормальный (По умолчанию)</item>
         <item>Жирный</item>

@@ -20,29 +20,6 @@
         <item>Великий</item>
     </string-array>
 
-    <string-array name="periodic_billing_job_service_list">
-        <item>1 Годинна</item>
-        <item>2 Годинни</item>
-        <item>3 Годинни</item>
-        <item>4 Годинни</item>
-        <item>5 Годин</item>
-        <item>6 Годин</item>
-        <item>7 Годин</item>
-        <item>8 Годин</item>
-        <item>9 Годин</item>
-        <item>10 Годин</item>
-        <item>11 Годин</item>
-        <item>12 Годин (За замовчуванням)</item>
-        <item>13 Годин</item>
-        <item>14 Годин</item>
-        <item>15 Годин</item>
-        <item>16 Годин</item>
-        <item>17 Годин</item>
-        <item>18 Годин</item>
-        <item>19 Годин</item>
-        <item>20 Годин</item>
-    </string-array>
-
     <string-array name="text_style_list">
         <item>Норальний (За замовчуванням)</item>
         <item>Жирний</item>

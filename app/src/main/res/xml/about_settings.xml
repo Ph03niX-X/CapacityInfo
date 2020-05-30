@@ -57,10 +57,4 @@
             app:icon="@drawable/ic_beta"
             app:key="become_a_beta_tester"/>
 
-    <Preference
-            app:title="@string/donate"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_donate_24dp"
-            app:key="donate"/>
-
 </PreferenceScreen>

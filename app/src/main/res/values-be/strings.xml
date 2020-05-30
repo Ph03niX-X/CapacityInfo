@@ -100,8 +100,6 @@
     <string name="faq_current_capacity">Пытанне: Перастала адлюстроўвацца бягучая ёмістасць, хоць раней адлюстроўвалася (або паказваецца, але не заўсёды).\nАдказ: Гэта азначае, што акумулятару прыходзіць ці ўжо прыйшоў канец. Калі з акумулятарам усё ў парадку, то, магчыма, глючыць ядро прашыўкі або кантролер, які аддае бягучую ёмістасць.\n\n</string>
     <string name="faq_add_device_support">Пытанне: Прылада не падтрымліваецца. Дадайце падтрымку прылады.\nАдказ: На жаль, але гэта немагчыма, бо гэта залежыць у першую чаргу ад акумулятара і ў другую чаргу ад ядра АС. Таму ставіць 1 і пісаць пра тое, што не падтрымліваецца, а так жа прасіць дадаць падтрымку той, ці іншай прылады - бессэнсоўна. Можаце ставіць 1, але падумайце пра гэта тройчы: ці варта псаваць сярэднюю ацэнку дадатку з-за таго, што ваш акумулятар або ядро не аддае бягучую ёмістасць?</string>
     <string name="import_settings_3dots">Імпартаванне налад&#8230;</string>
-    <string name="donate">Падтрымаць праект</string>
-    <string name="thanks_for_the_donation">Дзякуй за падтрымку праекта</string>
     <string name="become_a_beta_tester">Стаць бэта-тэстарам</string>
     <string name="become_a_beta_tester_summary">Атрымлівайце абнаўлення аднымі з першых</string>
     <string name="error_opening_link">Памылка адкрыцця спасылкі!</string>
@@ -114,7 +112,6 @@
     <string name="stop_service">Спыніць службу</string>
     <string name="stopping_service">Прыпынак службы&#8230;</string>
     <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
-    <string name="hide_donate">Схаваць \"Падтрымаць праэкт\"</string>
     <string name="battery_health">Стан акумулятара (Android): %1$s</string>
     <string name="battery_health_good">Добры</string>
     <string name="battery_health_dead">Мёртвы</string>
@@ -167,14 +164,6 @@
     <string name="last_charge_time_overlay">Час апошняй зарадкі</string>
     <string name="battery_wear_overlay">Знос акумулятара</string>
     <string name="overlay_permission_dialog_message">Для працы авэрлэю патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
-    <string name="do_not_schedule_billing_job_service">Не планаваць Billing Job Service</string>
-    <string name="schedule_billing_job_service">Запланаваць Billing Job Service</string>
-    <string name="billing_job_service_is_scheduled">Billing Job Service запланаваны. Перыядычнасць: %1$s</string>
-    <string name="cancel_billing_job_service">Адмяніць Billing Job Service</string>
-    <string name="cancel_all_job_services">Адмяніць усе Job Services</string>
-    <string name="periodic_billing_job_service">Перыядычнасць Billing Job Service</string>
-    <string name="billing_job_service_is_cancelled_successfully">Billing Job Service паспяхова адменены!</string>
-    <string name="job_services_is_cancelled_successfully">Усе Job Services паспяхова адмененыя!</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="text_style_overlay">Стыль тэксту</string>
     <string name="text_size">Памер тэксту (Зарадка/Разрадка/Знос)</string>

@@ -70,9 +70,6 @@ object PreferencesKeys {
 
     // Debug
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"
-    const val IS_HIDE_DONATE = "is_hide_donate"
-    const val IS_DO_NOT_SCHEDULE_BILLING_JOB_SERVICE = "is_do_not_schedule_billing_job_service"
-    const val PERIODIC_BILLING_JOB_SERVICE = "periodic_billing_job_service"
 
     // Battery Information
     const val NUMBER_OF_CHARGES = "number_of_charges"

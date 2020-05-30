@@ -102,8 +102,6 @@
     <string name="faq_current_capacity">Întrebare: Capacitatea curentă a încetat să mai fie afișată, deși anterior a fost afișată (sau este afișată, dar nu întotdeauna).\nRăspuns: Aceasta înseamnă că bateria se apropie sau a ajuns deja la sfârșitul vieții. Dacă totul este în regulă cu bateria, atunci nucleul sau controlerul care furnizează capacitatea curentă, ar putea fi defectuos.\n\n</string>
     <string name="faq_add_device_support">Întrebare: Dispozitivul nu este acceptat. Adăugați dispozitivul.\nRăspuns: Din păcate, acest lucru este imposibil, deoarece depinde în primul rând de baterie și în al doilea rând de nucleul SO. Prin urmare, notarea cu 1 și scrierea despre aceea că nu este acceptat, precum și solicitarea de a adăuga asistență pentru dispozitiv nu are rost. Puteți nota cu 1, dar gândiți-vă de trei ori. Merită să stricați ratingul mediu al aplicației datorită faptului că bateria sau nucleul dispozitivului dvs. nu furnizează informația despre capacitatea actuală?</string>
     <string name="import_settings_3dots">Importare setări&#8230;</string>
-    <string name="donate">Susțineți proiectul</string>
-    <string name="thanks_for_the_donation">Vă mulțumim pentru susținerea proiectului</string>
     <string name="become_a_beta_tester">Deveniți un testator beta</string>
     <string name="become_a_beta_tester_summary">Fiți primul care primește actualizări</string>
     <string name="error_opening_link">Eroare la deschiderea link-ului!</string>
@@ -116,7 +114,6 @@
     <string name="stop_service">Oprire serviciu</string>
     <string name="stopping_service">Se oprește serviciul&#8230;</string>
     <string name="service_stopped_successfully">Serviciu oprit cu succes!</string>
-    <string name="hide_donate">Ascundeți \"Susțineți proiectul\"</string>
     <string name="battery_health">Sănătatea bateriei (Android): %1$s</string>
     <string name="battery_health_good">Bună</string>
     <string name="battery_health_dead">Rea</string>
@@ -169,14 +166,6 @@
     <string name="last_charge_time_overlay">Ultima dată de încărcare</string>
     <string name="battery_wear_overlay">Uzura bateriei</string>
     <string name="overlay_permission_dialog_message">Permisiunea este necesară pentru ca funcția de suprapunere să funcționeze. Mergeți la fereastra următoare și să acordați permisiunea</string>
-    <string name="do_not_schedule_billing_job_service">Nu se programează Serviciul de joburi de facturare</string>
-    <string name="schedule_billing_job_service">Serviciul de joburi de facturare</string>
-    <string name="billing_job_service_is_scheduled">Serviciul de joburi de facturare este programat. Perioada: %1$s</string>
-    <string name="cancel_billing_job_service">Anulați Serviciul de joburi de facturare</string>
-    <string name="cancel_all_job_services">Anulați toate serviciile de joburi</string>
-    <string name="periodic_billing_job_service">Serviciul de joburi de facturare periodică</string>
-    <string name="billing_job_service_is_cancelled_successfully">Serviciul de joburi de facturare este anulat cu succes!</string>
-    <string name="job_services_is_cancelled_successfully">Toate serviciile de joburi sunt anulate cu succes!</string>
     <string name="font_overlay">Font</string>
     <string name="text_style_overlay">Stil text</string>
     <string name="text_size">Dimensiunea textului (Încărcare/descărcare/Uzură)</string>
