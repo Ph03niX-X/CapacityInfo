@@ -215,6 +215,13 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             onStartService(this, CapacityInfoService::class.java)
         }
 
+        if(!pref.getBoolean("debug_options_is_enabled", false)
+            && fragment is DebugFragment) {
+
+            fragment = ChargeDischargeFragment()
+            loadFragment(fragment ?: ChargeDischargeFragment())
+        }
+
         batteryIntent = registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
 
