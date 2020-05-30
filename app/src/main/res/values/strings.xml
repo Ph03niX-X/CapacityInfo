@@ -191,4 +191,5 @@
     <string name="debug_successfully_disabled">Debug Successfully Disabled!</string>
     <string name="bypass_dnd_mode">Bypass DND Mode</string>
     <string name="bypass_dnd_mode_summary">Use alarms</string>
+    <string name="please_click_back_again_to_exit">Please, click \"Back\" again to exit</string>
 </resources>

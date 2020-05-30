@@ -4,6 +4,7 @@ import android.content.*
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     lateinit var navigation: BottomNavigationView
 
     private var prefArrays: HashMap<*, *>? = null
+
+    private var isDoubleBackToExitPressedOnce = false
 
     companion object {
 
@@ -297,7 +300,20 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
             loadFragment(fragment ?: SettingsFragment())
         }
 
-        else finish()
+        else {
+
+            if(isDoubleBackToExitPressedOnce) finish()
+
+            else if(!isDoubleBackToExitPressedOnce) {
+
+                isDoubleBackToExitPressedOnce = true
+
+                Toast.makeText(this, getString(R.string.please_click_back_again_to_exit),
+                Toast.LENGTH_LONG).show()
+
+                Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 3000)
+            }
+        }
     }
 
     override fun onStop() {
