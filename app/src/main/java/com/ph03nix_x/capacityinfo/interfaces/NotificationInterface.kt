@@ -37,7 +37,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import java.lang.RuntimeException
@@ -440,8 +440,8 @@ interface NotificationInterface : BatteryInfoInterface {
         }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val numberOfCharges = context.getString(R.string.number_of_charges,
-            pref.getLong(NUMBER_OF_CHARGES, 0))
+        val numberOfCycles = context.getString(R.string.number_of_cycles,
+            DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat(
             "#.#").format(onGetCurrentCapacity(context)))
         val capacityAdded = onGetCapacityAdded(context)
@@ -457,14 +457,14 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(onGetCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                "$notCharging\n$batteryLevel\n$numberOfCharges\n${onGetChargingTime(context, 
+                "$notCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
                     (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n$dischargeCurrent\n$temperature\n$voltage"
-            else "$notCharging\n$batteryLevel\n$numberOfCharges\n${onGetChargingTime(context, 
+            else "$notCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
                 (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                     "\n$dischargeCurrent\n$temperature\n$voltage"
 
-        else "$notCharging\n$batteryLevel\n$numberOfCharges\n${onGetChargingTime(context, 
+        else "$notCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
             (context as? CapacityInfoService)?.seconds ?: 0)}\n$dischargeCurrent\n" +
                 "$temperature\n$voltage"
     }
@@ -480,8 +480,8 @@ interface NotificationInterface : BatteryInfoInterface {
         }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val numberOfCharges = context.getString(R.string.number_of_charges,
-            pref.getLong(NUMBER_OF_CHARGES, 0))
+        val numberOfCycles = context.getString(R.string.number_of_cycles,
+            DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat(
             "#.#").format(onGetCurrentCapacity(context)))
         val capacityAdded = onGetCapacityAdded(context)
@@ -499,11 +499,11 @@ interface NotificationInterface : BatteryInfoInterface {
 
             if(onGetCurrentCapacity(context) > 0)
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                    "$fullCharging\n$batteryLevel\n$numberOfCharges\n${onGetChargingTime(context, 
+                    "$fullCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
                         (context as? CapacityInfoService)?.seconds ?: 0)}\n" +
                             "$currentCapacity\n$capacityAdded\n${onGetResidualCapacity(context)}\n" +
                             "${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
-                else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${onGetChargingTime(context, 
+                else "$fullCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
                     (context as? CapacityInfoService)?.seconds ?: 0)}\n$currentCapacity" +
                         "\n${onGetResidualCapacity(context)}\n${onGetBatteryWear(context)}\n" +
                         "$dischargeCurrent\n$temperature\n$voltage"
@@ -513,7 +513,7 @@ interface NotificationInterface : BatteryInfoInterface {
                     "\n${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
         }
 
-        else "$fullCharging\n$batteryLevel\n$numberOfCharges\n${onGetChargingTime(context, 
+        else "$fullCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
             (context as? CapacityInfoService)?.seconds ?: 0)}\n$dischargeCurrent" +
                 "\n$temperature"
     }
@@ -532,8 +532,8 @@ interface NotificationInterface : BatteryInfoInterface {
         }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val numberOfCharges = context.getString(R.string.number_of_charges, pref.getLong(
-            NUMBER_OF_CHARGES, 0))
+        val numberOfCycles = context.getString(R.string.number_of_cycles,
+            DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
         val lastChargingTime = context.getString(R.string.last_charge_time,
             onGetLastChargeTime(context), batteryLevelWith, batteryLevelTo)
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat(
@@ -555,20 +555,20 @@ interface NotificationInterface : BatteryInfoInterface {
                     IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION, true))
 
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                    "$discharging\n$batteryLevel\n$numberOfCharges\n$lastChargingTime\n" +
+                    "$discharging\n$batteryLevel\n$numberOfCycles\n$lastChargingTime\n" +
                             "$currentCapacity\n$capacityAdded\n${onGetResidualCapacity(context)}" +
                             "\n${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
-                else "$discharging\n$batteryLevel\n$numberOfCharges\n$lastChargingTime\n" +
+                else "$discharging\n$batteryLevel\n$numberOfCycles\n$lastChargingTime\n" +
                         "$currentCapacity\n${onGetResidualCapacity(context)}" +
                         "\n${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
 
             else {
 
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                    "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n" +
+                    "$discharging\n$batteryLevel\n$numberOfCycles\n$currentCapacity\n" +
                             "$capacityAdded\n${onGetResidualCapacity(context)}\n" +
                             "${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature\n$voltage"
-                else "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n" +
+                else "$discharging\n$batteryLevel\n$numberOfCycles\n$currentCapacity\n" +
                         "${onGetResidualCapacity(context)}\n${onGetBatteryWear(context)}" +
                         "\n$dischargeCurrent\n$temperature\n$voltage"
             }
@@ -578,10 +578,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
             if(pref.getInt(LAST_CHARGE_TIME, 0) > 0 && pref.getBoolean(
                     IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION, true))
-                "$discharging\n$batteryLevel\n$numberOfCharges\n$lastChargingTime\n" +
+                "$discharging\n$batteryLevel\n$numberOfCycles\n$lastChargingTime\n" +
                         "$dischargeCurrent\n$temperature\n$voltage"
 
-            else "$discharging\n$batteryLevel\n$numberOfCharges\n$dischargeCurrent\n$temperature" +
+            else "$discharging\n$batteryLevel\n$numberOfCycles\n$dischargeCurrent\n$temperature" +
                     "\n$voltage"
         }
     }
@@ -597,8 +597,8 @@ interface NotificationInterface : BatteryInfoInterface {
             "${onGetBatteryLevel(context)}%" }
         catch (e: RuntimeException)  { R.string.unknown })
 
-        val numberOfCharges = context.getString(R.string.number_of_charges, pref.getLong(
-            NUMBER_OF_CHARGES, 0))
+        val numberOfCycles = context.getString(R.string.number_of_cycles,
+            DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
         val currentCapacity = context.getString(R.string.current_capacity, DecimalFormat(
             "#.#").format(onGetCurrentCapacity(context)))
         val capacityAdded = onGetCapacityAdded(context)
@@ -612,10 +612,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
         return if(onGetCurrentCapacity(context) > 0)
             if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
-                "$discharging\n$batteryLevel\n$numberOfCharges\n$currentCapacity\n$capacityAdded" +
+                "$discharging\n$batteryLevel\n$numberOfCycles\n$currentCapacity\n$capacityAdded" +
                         "\n$temperature\n$voltage" else "$discharging\n$batteryLevel\n" +
-                    "$numberOfCharges\n$currentCapacity\n$temperature\n$voltage"
+                    "$numberOfCycles\n$currentCapacity\n$temperature\n$voltage"
 
-        else "$discharging\n$batteryLevel\n$numberOfCharges\n$temperature\n$voltage"
+        else "$discharging\n$batteryLevel\n$numberOfCycles\n$temperature\n$voltage"
     }
 }
