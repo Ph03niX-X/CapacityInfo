@@ -315,7 +315,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 isDoubleBackToExitPressedOnce = true
 
-                Toast.makeText(this, getString(R.string.please_click_back_again_to_exit),
+                Toast.makeText(this, getString(R.string.press_the_back_button_again),
                 Toast.LENGTH_LONG).show()
 
                 Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 3000)
