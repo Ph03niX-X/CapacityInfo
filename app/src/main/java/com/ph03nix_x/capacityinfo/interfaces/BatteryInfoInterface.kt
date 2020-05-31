@@ -27,6 +27,7 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import java.lang.RuntimeException
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import kotlin.math.pow
 
 @SuppressWarnings("PrivateApi")
@@ -177,12 +178,24 @@ interface BatteryInfoInterface {
 
         temp /= 10.0
 
-        var tempString = DecimalFormat("#.#").format(temp)
+        return DecimalFormat("#.#").format(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
+                false)) (temp * 1.8) + 32.0 else temp)
+    }
 
-        if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
-            tempString = DecimalFormat("#.#").format((temp * 1.8) + 32.0)
+    fun onGetTemperatureInDouble(context: Context): Double {
 
-        return tempString
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        batteryIntent = context.registerReceiver(null, IntentFilter(
+            Intent.ACTION_BATTERY_CHANGED))
+
+        var temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
+            ?.toDouble() ?: 0.0
+
+        temp /= 10.0
+
+        return if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) (temp * 1.8) + 32.0
+        else temp
     }
 
     fun onGetCurrentCapacity(context: Context): Double {

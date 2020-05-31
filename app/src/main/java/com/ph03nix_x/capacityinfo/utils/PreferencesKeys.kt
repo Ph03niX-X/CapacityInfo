@@ -16,6 +16,7 @@ object PreferencesKeys {
 
     // Battery Status Information
     const val IS_BYPASS_DND = "is_bypass_dnd_mode"
+    const val IS_NOTIFY_OVERHEAT_OVERCOOL = "is_notify_overheat_overcool"
     const val IS_NOTIFY_BATTERY_IS_FULLY_CHARGED = "is_notify_battery_is_fully_charged"
     const val IS_NOTIFY_BATTERY_IS_CHARGED = "is_notify_battery_is_charged"
     const val BATTERY_LEVEL_NOTIFY_CHARGED = "battery_level_notify_charged"

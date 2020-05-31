@@ -31,6 +31,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
@@ -136,6 +137,17 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
 
+                    val temperature = onGetTemperatureInDouble(
+                        this@CapacityInfoService)
+
+                    if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, false)
+                        && NotificationInterface.isNotifyOverheatOvercool && (temperature >= 45.0
+                                || temperature <= 0))
+                        withContext(Dispatchers.Main) {
+
+                            onNotifyOverheatOvercool(this@CapacityInfoService, temperature)
+                        }
+
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING
                         && !isStopService) batteryCharging()
                     
@@ -179,6 +191,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         jobService?.cancel()
         jobService = null
 
+        NotificationInterface.isNotifyOverheatOvercool = true
         NotificationInterface.isNotifyBatteryFullyCharged = true
         NotificationInterface.isNotifyBatteryCharged = true
         NotificationInterface.isNotifyBatteryDischarged = true
@@ -249,10 +262,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 950L
-                else 957L)
-            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 920L
-            else 927L)
+                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 949L
+                else 956L)
+            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 926L
+            else 926L)
 
         seconds++
 

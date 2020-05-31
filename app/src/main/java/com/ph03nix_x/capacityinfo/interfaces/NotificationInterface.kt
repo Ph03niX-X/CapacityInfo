@@ -27,6 +27,7 @@ import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.Constants.CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.Constants.DISCHARGED_CHANNEL_ID
+import com.ph03nix_x.capacityinfo.utils.Constants.OVERHEAT_OVERCOOL_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -49,6 +50,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
         const val NOTIFICATION_SERVICE_ID = 101
         const val NOTIFICATION_BATTERY_STATUS_ID = 102
+        const val NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID = 103
+        var isNotifyOverheatOvercool = true
         var isNotifyBatteryFullyCharged = true
         var isNotifyBatteryCharged = true
         var isNotifyBatteryDischarged = true
@@ -96,6 +99,57 @@ interface NotificationInterface : BatteryInfoInterface {
 
         (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
             notificationBuilder?.build())
+    }
+
+    fun onNotifyOverheatOvercool(context: Context, temperature: Double) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        isNotifyOverheatOvercool = false
+
+        val temperatureString = onGetTemperature(context)
+
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+
+        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            onCreateNotificationChannel(context, OVERHEAT_OVERCOOL_CHANNEL_ID) else ""
+
+        val notificationBuilder = NotificationCompat.Builder(
+            context, channelId).apply {
+
+            if(pref.getBoolean(IS_BYPASS_DND, true))
+                setCategory(NotificationCompat.CATEGORY_ALARM)
+
+            setAutoCancel(true)
+            setOngoing(false)
+            priority = NotificationCompat.PRIORITY_MAX
+
+            setSmallIcon(R.drawable.ic_overheat_overcool_24)
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                color = ContextCompat.getColor(context, R.color.red)
+
+            setContentTitle(context.getString(R.string.battery_status_information))
+
+            if(temperature >= 45.0)
+                setContentText(context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
+                    false)) R.string.battery_overheating_fahrenheit
+            else R.string.battery_overheating_celsius, temperatureString))
+
+            else
+                setContentText(context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
+                        false)) R.string.battery_overcooling_fahrenheit
+                else R.string.battery_overcooling_celsius, temperatureString))
+
+            setShowWhen(true)
+
+            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.overheat_overcool}"))
+        }
+
+        notificationManager?.notify(NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID,
+            notificationBuilder.build())
     }
     
     fun onNotifyBatteryFullyCharged(context: Context) {
@@ -306,6 +360,21 @@ interface NotificationInterface : BatteryInfoInterface {
                     notificationChannelId, channelName, NotificationManager.IMPORTANCE_LOW).apply {
 
                     setShowBadge(false)
+                })
+            }
+
+            OVERHEAT_OVERCOOL_CHANNEL_ID -> {
+
+                val channelName = context.getString(R.string.overheat_overcool)
+
+                notificationService?.createNotificationChannel(NotificationChannel(
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
+
+                    setShowBadge(true)
+
+                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                            "${context.packageName}/${R.raw.overheat_overcool}"),
+                        soundAttributes.build())
                 })
             }
 

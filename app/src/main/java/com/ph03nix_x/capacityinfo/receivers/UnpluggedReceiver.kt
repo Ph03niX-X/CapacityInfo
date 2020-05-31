@@ -115,6 +115,9 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+
                 if(fragment != null) {
 
                     if(fragment is ChargeDischargeFragment)

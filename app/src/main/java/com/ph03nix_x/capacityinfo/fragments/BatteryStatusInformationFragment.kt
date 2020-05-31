@@ -13,11 +13,13 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DIS
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
+    private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
     private var notifyBatteryIsFullyCharged: SwitchPreferenceCompat? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyCharged: SeekBarPreference? = null
@@ -30,6 +32,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
+        notifyOverheatOvercool = findPreference(IS_NOTIFY_OVERHEAT_OVERCOOL)
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
         batteryLevelNotifyCharged = findPreference(BATTERY_LEVEL_NOTIFY_CHARGED)
@@ -46,6 +49,16 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             summary = getBatteryLevelNotifyDischargeSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, false)
+        }
+
+        notifyOverheatOvercool?.setOnPreferenceChangeListener { _, _ ->
+
+            NotificationInterface.isNotifyOverheatOvercool = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+
+            true
         }
 
         notifyBatteryIsFullyCharged?.setOnPreferenceChangeListener { _, _ ->

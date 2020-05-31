@@ -64,6 +64,9 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+
                 MainActivity.instance?.toolbar?.title = context.getString(if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                     R.string.discharge)
