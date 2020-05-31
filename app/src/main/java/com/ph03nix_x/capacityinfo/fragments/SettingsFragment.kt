@@ -33,6 +33,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -70,6 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
     private var voltageInMv: SwitchPreferenceCompat? = null
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
+    private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
@@ -250,6 +252,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         importSettings = findPreference("import_settings")
 
+        tabOnApplicationLaunch = findPreference(TAB_ON_APPLICATION_LAUNCH)
+
         unitOfChargeDischargeCurrent = findPreference(UNIT_OF_CHARGE_DISCHARGE_CURRENT)
 
         unitOfMeasurementOfCurrentCapacity = findPreference(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY)
@@ -306,6 +310,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
+                tabOnApplicationLaunch?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = true
                 unitOfMeasurementOfCurrentCapacity?.isVisible =
                     pref.getBoolean(IS_SUPPORTED, true)
@@ -321,6 +326,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
+                tabOnApplicationLaunch?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
@@ -329,6 +335,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 resetToZeroTheNumberOfCharges?.isVisible = false
                 resetToZeroTheNumberOfCycles?.isVisible = false
             }
+
+            true
+        }
+
+        tabOnApplicationLaunch?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array.tab_on_application_launch_list)[
+                    (newValue as? String)?.toInt() ?: 0]
 
             true
         }
@@ -483,6 +497,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         textStyle?.summary = onGetTextStyleSummary(requireContext())
 
         selectLanguage?.summary = onGetLanguageSummary(requireContext())
+
+        tabOnApplicationLaunch?.summary = onGetTabOnApplicationLaunch(requireContext())
 
         unitOfChargeDischargeCurrent?.summary = onGetUnitOfChargeDischargeCurrentSummary(
             requireContext())

@@ -178,6 +178,17 @@
                 android:key="more_other"/>
 
         <ListPreference
+                android:title="@string/tab_on_application_launch"
+                app:isPreferenceVisible="false"
+                app:icon="@drawable/ic_tab_on_application_launch"
+                android:dialogIcon="@drawable/ic_tab_on_application_launch"
+                app:defaultValue="0"
+                android:entries="@array/tab_on_application_launch_list"
+                android:entryValues="@array/tab_on_application_launch_values"
+                app:singleLineTitle="false"
+                android:key="tab_on_application_launch"/>
+
+        <ListPreference
                 android:title="@string/unit_of_charge_discharge_current"
                 app:isPreferenceVisible="false"
                 app:icon="@drawable/ic_unit_of_charge_discharge_current"

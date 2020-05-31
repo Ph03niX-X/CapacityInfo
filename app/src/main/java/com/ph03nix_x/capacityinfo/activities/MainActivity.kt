@@ -37,6 +37,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utils.Utils.fragment
 import com.ph03nix_x.capacityinfo.utils.Utils.isLoadDebug
 import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
@@ -84,8 +85,18 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
                 as? HashMap<*, *>
 
-        fragment = if(prefArrays == null && !isLoadSettings && !isLoadDebug)
-            ChargeDischargeFragment() else if(isLoadDebug) DebugFragment() else SettingsFragment()
+        fragment = when {
+
+            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1" && prefArrays == null
+                    && !isLoadSettings && !isLoadDebug -> ChargeDischargeFragment()
+
+            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" && prefArrays == null
+                    && !isLoadSettings && !isLoadDebug -> WearFragment()
+
+            isLoadDebug -> DebugFragment()
+
+            else -> SettingsFragment()
+        }
 
         toolbar.title = when(fragment) {
 

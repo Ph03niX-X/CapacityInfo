@@ -45,6 +45,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
@@ -133,6 +134,18 @@ interface SettingsInterface : ServiceInterface {
 
             else -> defLang
         }
+    }
+
+    fun onGetTabOnApplicationLaunch(context: Context): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") !in
+            context.resources.getStringArray(R.array.tab_on_application_launch_values))
+            pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
+
+        return context.resources.getStringArray(R.array.tab_on_application_launch_list)[
+                (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]
     }
 
     fun onGetUnitOfChargeDischargeCurrentSummary(context: Context): String? {
