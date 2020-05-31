@@ -327,7 +327,15 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    onRestartApp(context, prefArrays)
+                    MaterialAlertDialogBuilder(context).apply {
+
+                        setMessage(context.getString(R.string.import_restart_app_message))
+                        setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
+                            onRestartApp(context, prefArrays)
+                        }
+                        setCancelable(false)
+                        show()
+                    }
                 }
             }
 
