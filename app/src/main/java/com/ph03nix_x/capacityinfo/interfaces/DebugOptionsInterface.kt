@@ -527,7 +527,7 @@ interface DebugOptionsInterface : ServiceInterface {
                                     s.toString() in context.resources.getStringArray(R.array
                                 .voltage_unit_values)
 
-                            OVERLAY_SIZE -> s.toString() != pref.getString(key, "1") &&
+                            OVERLAY_SIZE -> s.toString() != pref.getString(key, "2") &&
                                     s.toString() in context.resources.getStringArray(R.array
                                 .text_size_values)
 
@@ -540,7 +540,7 @@ interface DebugOptionsInterface : ServiceInterface {
                                 .text_style_values)
 
                             TEXT_SIZE -> s.toString() != pref.getString(
-                                key, "1") && s.toString() in context.resources
+                                key, "2") && s.toString() in context.resources
                                 .getStringArray(R.array.text_size_values)
 
                             TEXT_FONT -> s.toString() != pref.getString(

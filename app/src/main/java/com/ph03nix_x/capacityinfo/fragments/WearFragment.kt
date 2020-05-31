@@ -119,39 +119,39 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
         TextAppearanceHelper.setTextAppearance(designCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(numberOfCharges,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(numberOfCycles,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(currentCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(capacityAdded,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(technology,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(batteryHealth,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(residualCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(batteryWear,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
     }
 
     private fun wearInformationJob() {

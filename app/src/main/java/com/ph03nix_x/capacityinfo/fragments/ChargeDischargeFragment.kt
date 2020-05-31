@@ -388,54 +388,54 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
         TextAppearanceHelper.setTextAppearance(batteryLevel,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(chargingTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(currentCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(capacityAdded,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(status,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(sourceOfPower,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(chargeCurrent,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(
             maxChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(
             averageChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(
             minChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(temperature,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(voltage,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(lastChargeTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "1"))
+            pref.getString(TEXT_SIZE, "2"))
     }
 }

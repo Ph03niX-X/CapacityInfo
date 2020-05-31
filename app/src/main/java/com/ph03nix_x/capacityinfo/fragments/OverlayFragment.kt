@@ -385,12 +385,12 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
     private fun getOverlayTextSizeSummary(): CharSequence? {
 
-        if(pref.getString(OVERLAY_SIZE, "1") !in
+        if(pref.getString(OVERLAY_SIZE, "2") !in
             resources.getStringArray(R.array.text_size_values))
-            pref.edit().putString(OVERLAY_SIZE, "1").apply()
+            pref.edit().putString(OVERLAY_SIZE, "2").apply()
 
         return resources.getStringArray(R.array.text_size_list)[
-                pref.getString(OVERLAY_SIZE, "1")?.toInt() ?: 1]
+                pref.getString(OVERLAY_SIZE, "2")?.toInt() ?: 1]
     }
 
     private fun getOverlayTextFontSummary(): CharSequence? {

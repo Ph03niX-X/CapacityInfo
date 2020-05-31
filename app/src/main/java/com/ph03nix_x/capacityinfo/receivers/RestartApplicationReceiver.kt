@@ -64,7 +64,7 @@ class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
 
                     if(contains("main_screen_text_size")) {
 
-                        putString(TEXT_SIZE, getString("main_screen_text_size", "1"))
+                        putString(TEXT_SIZE, getString("main_screen_text_size", "2"))
 
                         remove("main_screen_text_size")
                     }

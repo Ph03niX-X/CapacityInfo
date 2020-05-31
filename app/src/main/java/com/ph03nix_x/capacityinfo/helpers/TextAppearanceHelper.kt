@@ -68,11 +68,15 @@ object TextAppearanceHelper {
 
         when(textSizePref?.toInt()) {
 
-            0 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+            0 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8f)
 
-            1 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            1 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
 
-            2 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            2 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+
+            3 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+
+            4 -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
         }
     }
 }

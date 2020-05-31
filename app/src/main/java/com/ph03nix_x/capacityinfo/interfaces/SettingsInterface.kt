@@ -79,12 +79,12 @@ interface SettingsInterface : ServiceInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(pref.getString(TEXT_SIZE, "1") !in
+        if(pref.getString(TEXT_SIZE, "2") !in
             context.resources.getStringArray(R.array.text_size_values))
-            pref.edit().putString(TEXT_SIZE, "1").apply()
+            pref.edit().putString(TEXT_SIZE, "2").apply()
 
         return context.resources.getStringArray(R.array.text_size_list)[
-                (pref.getString(TEXT_SIZE, "1") ?: "1").toInt()]
+                (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
     }
 
     fun onGetTextFontSummary(context: Context): String? {
