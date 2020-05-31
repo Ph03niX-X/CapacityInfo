@@ -326,7 +326,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                tabOnApplicationLaunch?.isVisible = true
+                tabOnApplicationLaunch?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
