@@ -189,4 +189,9 @@
     <string name="press_the_back_button_again">Нажмите ещё раз кнопку назад, чтобы выйти</string>
     <string name="import_restart_app_message">Приложение будет перезапущено. Перезапуск может занимать 5&#8211;10 секунд</string>
     <string name="tab_on_application_launch">Вкладка при запуске приложения</string>
+    <string name="overheat_overcool">Перегрев/Переохлаждение</string>
+    <string name="battery_overheating_celsius">Перегрев аккумулятора! Температура: %1$s °C</string>
+    <string name="battery_overheating_fahrenheit">Перегрев аккумулятора! Температура: %1$s °F</string>
+    <string name="battery_overcooling_celsius">Переохлаждение аккумулятора! Температура: %1$s °C</string>
+    <string name="battery_overcooling_fahrenheit">Переохлаждение аккумулятора! Температура: %1$s °F</string>
 </resources>
