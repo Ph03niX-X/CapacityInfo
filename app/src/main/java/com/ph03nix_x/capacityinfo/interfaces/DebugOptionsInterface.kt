@@ -44,10 +44,10 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.isLoadDebug
 import java.lang.Exception
 
 interface DebugOptionsInterface : ServiceInterface {
@@ -319,7 +319,8 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                TEXT_STYLE -> addChangeSetting(context, pref, key, value.toString())
+                TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
+                    addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
@@ -338,7 +339,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 Toast.LENGTH_LONG).show()
         }
 
-        catch (e: Exception) {
+        catch(e: Exception) {
 
             Toast.makeText(context, context.getString(R.string.error_changing_key, key,
                 e.message ?: e.toString()), Toast.LENGTH_LONG).show()
@@ -370,9 +371,9 @@ interface DebugOptionsInterface : ServiceInterface {
 
                         LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_SIZE,
-                        OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT, TEXT_STYLE ->
-                            setValueType("string", changePrefValue, pref,
-                                prefValueInputTypeDef, prefValueKeyListenerDef)
+                        OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT, TEXT_STYLE,
+                        TAB_ON_APPLICATION_LAUNCH -> setValueType("string",
+                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY,
@@ -411,7 +412,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 when(key) {
 
                     OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                    TEXT_STYLE -> {
+                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH -> {
 
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
@@ -551,6 +552,10 @@ interface DebugOptionsInterface : ServiceInterface {
                                 key, "0") && s.toString() in context.resources
                                 .getStringArray(R.array.fonts_values)
 
+                            TAB_ON_APPLICATION_LAUNCH -> s.toString() != pref.getString(
+                                key, "0") && s.toString() in context.resources
+                                .getStringArray(R.array.tab_on_application_launch_values)
+
                             else -> s.isNotEmpty() && s.toString() !=
                                     pref.getString(key, null)
                         }
@@ -588,7 +593,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
             LocaleHelper.setLocale(context, value)
 
-            isLoadDebug = true
+            (context as? MainActivity)?.isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -620,7 +625,7 @@ interface DebugOptionsInterface : ServiceInterface {
         if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
             || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
-            isLoadDebug = true
+            (context as? MainActivity)?.isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -655,7 +660,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 || key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
                 || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
-                isLoadDebug = true
+                (context as? MainActivity)?.isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
             }
@@ -703,7 +708,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 pref.edit().clear().apply()
 
-                isLoadDebug = true
+                (context as? MainActivity)?.isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
 

@@ -74,7 +74,11 @@ class AboutFragment : PreferenceFragmentCompat() {
                         ?.summary}")))
             }
 
-            catch(e: ActivityNotFoundException) {}
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), e.message ?: e.toString(),
+                    Toast.LENGTH_LONG).show()
+            }
 
             true
         }

@@ -39,8 +39,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.fragment
-import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
 
 class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface,
     DebugOptionsInterface {
@@ -152,7 +150,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         batteryStatusInformation?.setOnPreferenceClickListener {
 
-            fragment = BatteryStatusInformationFragment()
+            (activity as? MainActivity)?.fragment = BatteryStatusInformationFragment()
 
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.battery_status_information)
@@ -161,7 +159,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
             (activity as? MainActivity)?.loadFragment(
-                fragment ?: BatteryStatusInformationFragment())
+                (activity as? MainActivity)?.fragment ?: BatteryStatusInformationFragment())
 
             true
         }
@@ -194,7 +192,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             darkMode?.isEnabled = (newValue as? Boolean) == false
 
-            isLoadSettings = true
+            (activity as? MainActivity)?.isLoadSettings = true
 
             setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
@@ -203,7 +201,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            isLoadSettings = true
+            (activity as? MainActivity)?.isLoadSettings = true
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 
@@ -387,7 +385,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         overlay?.setOnPreferenceClickListener {
 
-            fragment = OverlayFragment()
+            (activity as? MainActivity)?.fragment = OverlayFragment()
 
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.overlay)
@@ -395,7 +393,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(fragment ?: OverlayFragment())
+            (activity as? MainActivity)?.loadFragment(
+                (activity as? MainActivity)?.fragment ?: OverlayFragment())
 
             true
         }
@@ -454,7 +453,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         about?.setOnPreferenceClickListener {
 
-            fragment = AboutFragment()
+            (activity as? MainActivity)?.fragment = AboutFragment()
 
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.about)
@@ -462,14 +461,15 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(fragment ?: AboutFragment())
+            (activity as? MainActivity)?.loadFragment(
+                (activity as? MainActivity)?.fragment ?: AboutFragment())
 
             true
         }
 
         feedback?.setOnPreferenceClickListener {
 
-            fragment = FeedbackFragment()
+            (activity as? MainActivity)?.fragment = FeedbackFragment()
 
             (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
                 R.string.feedback)
@@ -477,7 +477,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
             (activity as? MainActivity)?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(fragment ?: FeedbackFragment())
+            (activity as? MainActivity)?.loadFragment(
+                (activity as? MainActivity)?.fragment ?: FeedbackFragment())
 
             true
         }

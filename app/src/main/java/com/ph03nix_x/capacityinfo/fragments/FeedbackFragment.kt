@@ -40,7 +40,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_LINK))) }
 
-            catch (e: ActivityNotFoundException) {
+            catch(e: ActivityNotFoundException) {
 
                 val clipboardManager = requireContext()
                     .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -66,7 +66,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     ?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}")))
             }
 
-            catch (e: ActivityNotFoundException) {
+            catch(e: ActivityNotFoundException) {
 
                 val clipboardManager = requireContext().getSystemService(
                     Context.CLIPBOARD_SERVICE) as ClipboardManager

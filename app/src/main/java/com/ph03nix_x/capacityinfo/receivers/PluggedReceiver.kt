@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
-import com.ph03nix_x.capacityinfo.utils.Utils.fragment
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
@@ -71,9 +70,9 @@ class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                     R.string.discharge)
 
-                if(fragment != null) {
+                if(MainActivity.instance?.fragment != null) {
 
-                    if(fragment is ChargeDischargeFragment)
+                    if(MainActivity.instance?.fragment is ChargeDischargeFragment)
                         MainActivity.instance?.toolbar?.title = context.getString(if(status ==
                             BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                             R.string.discharge)

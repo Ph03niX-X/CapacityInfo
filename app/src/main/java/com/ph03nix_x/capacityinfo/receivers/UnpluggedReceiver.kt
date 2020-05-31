@@ -24,7 +24,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
-import com.ph03nix_x.capacityinfo.utils.Utils.fragment
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
 
@@ -118,9 +117,9 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
 
-                if(fragment != null) {
+                if(MainActivity.instance?.fragment != null) {
 
-                    if(fragment is ChargeDischargeFragment)
+                    if(MainActivity.instance?.fragment is ChargeDischargeFragment)
                         MainActivity.instance?.toolbar?.title = context.getString(
                             R.string.discharge)
 

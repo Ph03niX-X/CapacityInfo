@@ -273,7 +273,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             onUpdateServiceNotification(this@CapacityInfoService)
         }
-        catch(e: RuntimeException) {}
+        catch(e: RuntimeException) {
+
+            Toast.makeText(this@CapacityInfoService, e.message ?: e.toString(),
+            Toast.LENGTH_LONG).show()
+        }
     }
 
     private suspend fun batteryCharged() {
@@ -324,6 +328,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             onUpdateServiceNotification(this@CapacityInfoService)
         }
-        catch(e: RuntimeException) {}
+        catch(e: RuntimeException) {
+
+            Toast.makeText(this@CapacityInfoService, e.message ?: e.toString(),
+                Toast.LENGTH_LONG).show()
+        }
     }
 }

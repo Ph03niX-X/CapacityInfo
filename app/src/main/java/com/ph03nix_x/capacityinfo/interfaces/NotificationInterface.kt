@@ -14,6 +14,7 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -334,7 +335,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
             notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
         }
-        catch(e: RuntimeException) { return }
+        catch(e: RuntimeException) {
+
+            Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -466,7 +470,7 @@ interface NotificationInterface : BatteryInfoInterface {
             R.string.charging))
         val batteryLevel = context.getString(R.string.battery_level, try {
             "${onGetBatteryLevel(context)}%" }
-        catch (e: RuntimeException)  { R.string.unknown })
+        catch(e: RuntimeException)  { R.string.unknown })
 
         val sourceOfPower = onGetSourceOfPower(context, batteryIntent?.getIntExtra(
             BatteryManager.EXTRA_PLUGGED, -1) ?: -1)
@@ -507,7 +511,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val batteryLevel = context.getString(R.string.battery_level, try {
             "${onGetBatteryLevel(context)}%"
         }
-        catch (e: RuntimeException)  { R.string.unknown })
+        catch(e: RuntimeException)  { R.string.unknown })
 
         val numberOfCycles = context.getString(R.string.number_of_cycles,
             DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
@@ -547,7 +551,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val batteryLevel = context.getString(R.string.battery_level, try {
             "${onGetBatteryLevel(context)}%"
         }
-        catch (e: RuntimeException)  { R.string.unknown })
+        catch(e: RuntimeException)  { R.string.unknown })
 
         val numberOfCycles = context.getString(R.string.number_of_cycles,
             DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
@@ -599,7 +603,7 @@ interface NotificationInterface : BatteryInfoInterface {
         val batteryLevel = context.getString(R.string.battery_level, try {
             "${onGetBatteryLevel(context)}%"
         }
-        catch (e: RuntimeException)  { R.string.unknown })
+        catch(e: RuntimeException)  { R.string.unknown })
 
         val numberOfCycles = context.getString(R.string.number_of_cycles,
             DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
@@ -664,7 +668,7 @@ interface NotificationInterface : BatteryInfoInterface {
             ))
         val batteryLevel = context.getString(R.string.battery_level, try {
             "${onGetBatteryLevel(context)}%" }
-        catch (e: RuntimeException)  { R.string.unknown })
+        catch(e: RuntimeException)  { R.string.unknown })
 
         val numberOfCycles = context.getString(R.string.number_of_cycles,
             DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))

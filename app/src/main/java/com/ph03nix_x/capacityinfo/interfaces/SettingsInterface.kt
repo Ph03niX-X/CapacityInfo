@@ -49,7 +49,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNC
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -218,7 +217,7 @@ interface SettingsInterface : ServiceInterface {
 
         LocaleHelper.setLocale(context, language)
 
-        isLoadSettings = true
+        (context as? MainActivity)?.isLoadSettings = true
 
         (context as? MainActivity)?.recreate()
     }
@@ -264,7 +263,6 @@ interface SettingsInterface : ServiceInterface {
                     Toast.makeText(context, context.getString(R.string.successful_export_of_settings,
                         prefName), Toast.LENGTH_LONG).show()
                 }
-
             }
 
             catch(e: Exception) {

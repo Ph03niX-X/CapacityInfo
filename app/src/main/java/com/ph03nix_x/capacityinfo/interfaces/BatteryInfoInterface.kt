@@ -27,7 +27,6 @@ import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 import java.lang.RuntimeException
 import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import kotlin.math.pow
 
 @SuppressWarnings("PrivateApi")
@@ -69,7 +68,7 @@ interface BatteryInfoInterface {
             BatteryManager.BATTERY_PROPERTY_CAPACITY)
     }
 
-    catch (e: RuntimeException) {
+    catch(e: RuntimeException) {
 
         val batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -102,7 +101,7 @@ interface BatteryInfoInterface {
             chargeCurrent
         }
 
-        catch (e: RuntimeException) {
+        catch(e: RuntimeException) {
 
             val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                 BatteryManager.BATTERY_STATUS_UNKNOWN)
@@ -184,12 +183,10 @@ interface BatteryInfoInterface {
 
     fun onGetTemperatureInDouble(context: Context): Double {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
         batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
 
-        var temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
+        val temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
             ?.toDouble() ?: 0.0
 
         return temp / 10.0
@@ -218,7 +215,7 @@ interface BatteryInfoInterface {
           }
       }
 
-      catch (e: RuntimeException) { 0.001 }
+      catch(e: RuntimeException) { 0.001 }
     }
 
     fun onGetCapacityAdded(context: Context): String {

@@ -38,9 +38,6 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
-import com.ph03nix_x.capacityinfo.utils.Utils.fragment
-import com.ph03nix_x.capacityinfo.utils.Utils.isLoadDebug
-import com.ph03nix_x.capacityinfo.utils.Utils.isLoadSettings
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
 class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface,
@@ -55,6 +52,11 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
     private var prefArrays: HashMap<*, *>? = null
 
     private var isDoubleBackToExitPressedOnce = false
+
+    var fragment: Fragment? = null
+
+    var isLoadSettings = false
+    var isLoadDebug = false
 
     companion object {
 

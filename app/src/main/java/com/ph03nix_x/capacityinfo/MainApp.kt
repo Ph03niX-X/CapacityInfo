@@ -70,6 +70,6 @@ class MainApp : Application() {
             true
         }
 
-        catch (e: PackageManager.NameNotFoundException) { false }
+        catch(e: PackageManager.NameNotFoundException) { false }
     }
 }

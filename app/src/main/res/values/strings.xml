@@ -10,8 +10,8 @@
     <string name="discharge_current">Discharge current: %1$s mA</string>
     <string name="not_supported">The application does not support your device.\n\nThe application cannot find out the remaining capacity, since the battery does not give up the current capacity</string>
     <string name="voltage">Voltage: %1$s V</string>
-    <string name="temperature_celsius">Temperature: %1$s °C</string>
-    <string name="temperature_fahrenheit">Temperature: %1$s °F</string>
+    <string name="temperature_celsius">Temperature: %1$s°C</string>
+    <string name="temperature_fahrenheit">Temperature: %1$s°F</string>
     <string name="temperature_in_fahrenheit">Temperature in \"Fahrenheit\"</string>
     <string name="settings">Settings</string>
     <string name="instruction">Instruction</string>
@@ -128,7 +128,7 @@
     <string name="tips_dialog_title">Tips for extending battery life</string>
     <string name="tip1">Tip #1: Try not to discharge the battery below 10%.\n\n</string>
     <string name="tip2">Tip #2: Try not to charge the battery to 100%. The higher the voltage, the faster the battery degrades. According to Battery University research, not charging 0.1 V increases the battery life by 2 times.\n\n</string>
-    <string name="tip3">Tip #3: Do not overcool (0 °C/32 °F and below) and do not overheat the battery (45+ °C/113+ °F). Overcooling and overheating negatively affect battery life.\n\n</string>
+    <string name="tip3">Tip #3: Do not overcool (0°C/32°F and below) and do not overheat the battery (45+°C/113+°F). Overcooling and overheating negatively affect battery life.\n\n</string>
     <string name="tip4">Tip #4: Try not to use fast charging. The higher the charging current, the higher the heating, and the higher the heating, the faster the battery degrades.\n\n</string>
     <string name="tip5">Tip #5: Calibrate the battery every ~3 months. This will allow the controller to give the correct charge.\n\n</string>
     <string name="tip6">Tip #6: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.\n\n</string>
@@ -195,8 +195,8 @@
     <string name="import_restart_app_message">The application will restart. A restart may take 5&#8211;10 seconds</string>
     <string name="tab_on_application_launch">Tab on application launch</string>
     <string name="overheat_overcool">Overheat/Overcool</string>
-    <string name="battery_overheating_celsius">Battery overheating! Temperature: %1$s °C</string>
-    <string name="battery_overheating_fahrenheit">Battery overheating! Temperature: %1$s °F</string>
-    <string name="battery_overcooling_celsius">Battery overcooling! Temperature: %1$s °C</string>
-    <string name="battery_overcooling_fahrenheit">Battery overcooling! Temperature: %1$s °F</string>
+    <string name="battery_overheating_celsius">Battery overheating! Temperature: %1$s°C</string>
+    <string name="battery_overheating_fahrenheit">Battery overheating! Temperature: %1$s°F</string>
+    <string name="battery_overcooling_celsius">Battery overcooling! Temperature: %1$s°C</string>
+    <string name="battery_overcooling_fahrenheit">Battery overcooling! Temperature: %1$s°F</string>
 </resources>
