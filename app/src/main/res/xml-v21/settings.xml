@@ -202,16 +202,10 @@
                 android:key="change_design_capacity"/>
 
         <Preference
-                android:title="@string/change_design_capacity"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:icon="@drawable/ic_change_design_capacity_24dp"
-                android:key="change_design_capacity"/>
-
-        <Preference
                 android:title="@string/overlay"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                android:icon="@drawable/ic_overlay"
                 android:key="overlay"/>
 
         <Preference

@@ -221,6 +221,7 @@
                 android:title="@string/overlay"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
+                android:icon="@drawable/ic_overlay"
                 android:key="overlay"/>
 
         <Preference
