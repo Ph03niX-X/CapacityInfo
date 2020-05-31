@@ -184,8 +184,8 @@
     <string name="wear">Знос</string>
     <string name="debug_successfully_enabled">Налагодження успішно включено!</string>
     <string name="debug_successfully_disabled">Налагодження успішно відключено!</string>
-    <string name="bypass_dnd_mode">Обходити режим "Не турбувати"</string>
-    <string name="bypass_dnd_mode_summary">Використовувати "Сигнали будильника"</string>
+    <string name="bypass_dnd_mode">Обходити режим \"Не турбувати\"</string>
+    <string name="bypass_dnd_mode_summary">Використовувати \"Сигнали будильника\"</string>
     <string name="press_the_back_button_again">Натисніть ще раз кнопку назад, щоб вийти</string>
     <string name="import_restart_app_message">Додаток перезапуститься. Перезапуск може займати 5&#8211;10 секунд</string>
     <string name="tab_on_application_launch">Вкладка при запуску додатка</string>
