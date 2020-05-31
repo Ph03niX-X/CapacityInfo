@@ -192,10 +192,7 @@ interface BatteryInfoInterface {
         var temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
             ?.toDouble() ?: 0.0
 
-        temp /= 10.0
-
-        return if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false)) (temp * 1.8) + 32.0
-        else temp
+        return temp / 10.0
     }
 
     fun onGetCurrentCapacity(context: Context): Double {
