@@ -184,8 +184,8 @@
     <string name="wear">Знос</string>
     <string name="debug_successfully_enabled">Адладка паспяхова ўключана!</string>
     <string name="debug_successfully_disabled">Адладка паспяхова адключана!</string>
-    <string name="bypass_dnd_mode">Абыходзіць рэжым "Не турбаваць"</string>
-    <string name="bypass_dnd_mode_summary">Выкарыстоўваць "Сігналы будзільніка"</string>
+    <string name="bypass_dnd_mode">Абыходзіць рэжым \"Не турбаваць\"</string>
+    <string name="bypass_dnd_mode_summary">Выкарыстоўваць \"Сігналы будзільніка\"</string>
     <string name="press_the_back_button_again">Націсніце яшчэ раз кнопку назад, каб выйсці</string>
     <string name="import_restart_app_message">Дадатак будзе перазагружаны. Перазапуск можа займаць 5&#8211;10 секунд</string>
     <string name="tab_on_application_launch">Укладка пры запуску дадатку</string>
