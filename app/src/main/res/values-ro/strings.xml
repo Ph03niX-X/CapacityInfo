@@ -168,9 +168,9 @@
     <string name="overlay_permission_dialog_message">Permisiunea este necesară pentru ca funcția de suprapunere să funcționeze. Mergeți la fereastra următoare și să acordați permisiunea</string>
     <string name="font_overlay">Font</string>
     <string name="text_style_overlay">Stil text</string>
-    <string name="text_size">Dimensiunea textului (Încărcare/descărcare/Uzură)</string>
-    <string name="text_font">Fontul (Încărcare/descărcare/Uzură)</string>
-    <string name="text_style">Stilul textului (Încărcare/descărcare/Uzură)</string>
+    <string name="text_size">Dimensiunea textului (încărcare/descărcare/uzură)</string>
+    <string name="text_font">Font (încărcare/descărcare/uzură)</string>
+    <string name="text_style">Stilul textului (încărcare/descărcare/uzură)</string>
     <string name="battery_status_information">Informații despre starea bateriei</string>
     <string name="battery_is_fully_charged">Informații despre starea bateriei</string>
     <string name="battery_is_charged">Bateria este încărcată</string>
@@ -186,4 +186,14 @@
     <string name="wear">Uzură</string>
     <string name="debug_successfully_enabled">Depanare activată cu succes!</string>
     <string name="debug_successfully_disabled">Depanare dezactivată cu succes!</string>
+    <string name="bypass_dnd_mode">Omite modul Nu deranjați</string>
+    <string name="bypass_dnd_mode_summary">Utilizare alarme</string>
+    <string name="press_the_back_button_again">Apăsați din nou butonul înapoi pentru a ieși</string>
+    <string name="import_restart_app_message">Aplicația va reporni. O repornire poate dura 5&#8211;10 secunde</string>
+    <string name="tab_on_application_launch">Fila la lansarea aplicației</string>
+    <string name="overheat_overcool">Supraîncălzire/Suprarăcire</string>
+    <string name="battery_overheating_celsius">Supraîncălzire baterie! Temperatura: %1$s°C</string>
+    <string name="battery_overheating_fahrenheit">Supraîncălzire baterie! Temperatura: %1$s°F</string>
+    <string name="battery_overcooling_celsius">Suprarăcire baterie! Temperatura: %1$s°C</string>
+    <string name="battery_overcooling_fahrenheit">Suprarăcire baterie! Temperatura: %1$s°F</string>
 </resources>

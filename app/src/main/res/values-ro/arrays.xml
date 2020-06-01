@@ -1,0 +1,50 @@
+<resources>
+
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Implicit)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Implicit)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Implicit)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Foarte mic</item>
+        <item>Mic</item>
+        <item>Medium (Implicit)</item>
+        <item>Mare</item>
+        <item>Foarte mare</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normal (Implicit)</item>
+        <item>Aldin</item>
+        <item>Cursiv</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Sistem</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Open Sans</item>
+        <item>Google Sans (Implicit)</item>
+        <item>San Francisco</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Încărcare/Descărcare (Implicit)</item>
+        <item>Uzură</item>
+    </string-array>
+
+</resources>
