@@ -15,9 +15,11 @@
     </string-array>
 
     <string-array name="text_size_list">
+        <item>Вельмі маленькі</item>
         <item>Маленькі</item>
         <item>Сярэдні</item>
         <item>Вялікі</item>
+        <item>Вельмі вялікі</item>>
     </string-array>
 
     <string-array name="text_style_list">
@@ -37,6 +39,11 @@
         <item>San Francisco</item>
         <item>Times New Roman</item>
         <item>Ubuntu</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Зарадка/Разрадка (Па змаўчанні)</item>
+        <item>Знос</item>
     </string-array>
 
 </resources>
