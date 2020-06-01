@@ -593,7 +593,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
             LocaleHelper.setLocale(context, value)
 
-            (context as? MainActivity)?.isLoadDebug = true
+            MainActivity.isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -625,7 +625,7 @@ interface DebugOptionsInterface : ServiceInterface {
         if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
             || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
-            (context as? MainActivity)?.isLoadDebug = true
+            MainActivity.isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -660,7 +660,7 @@ interface DebugOptionsInterface : ServiceInterface {
                 || key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
                 || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
-                (context as? MainActivity)?.isLoadDebug = true
+                MainActivity.isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
             }
@@ -708,7 +708,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 pref.edit().clear().apply()
 
-                (context as? MainActivity)?.isLoadDebug = true
+                MainActivity.isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
 

@@ -55,12 +55,11 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
     var fragment: Fragment? = null
 
-    var isLoadSettings = false
-    var isLoadDebug = false
-
     companion object {
 
         var instance: MainActivity? = null
+        var isLoadSettings = false
+        var isLoadDebug = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

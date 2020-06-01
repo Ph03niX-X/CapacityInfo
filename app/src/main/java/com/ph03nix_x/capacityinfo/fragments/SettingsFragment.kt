@@ -192,7 +192,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
             darkMode?.isEnabled = (newValue as? Boolean) == false
 
-            (activity as? MainActivity)?.isLoadSettings = true
+            MainActivity.isLoadSettings = true
 
             setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
@@ -201,7 +201,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            (activity as? MainActivity)?.isLoadSettings = true
+            MainActivity.isLoadSettings = true
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 

@@ -217,7 +217,7 @@ interface SettingsInterface : ServiceInterface {
 
         LocaleHelper.setLocale(context, language)
 
-        (context as? MainActivity)?.isLoadSettings = true
+        MainActivity.isLoadSettings = true
 
         (context as? MainActivity)?.recreate()
     }
