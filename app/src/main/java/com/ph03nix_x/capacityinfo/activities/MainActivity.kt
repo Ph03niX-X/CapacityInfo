@@ -259,15 +259,12 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
 
-        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) <= MIN_DESIGN_CAPACITY
+        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) < MIN_DESIGN_CAPACITY
             || pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) > MAX_DESIGN_CAPACITY) {
 
             pref.edit().apply {
 
                 putInt(DESIGN_CAPACITY, onGetDesignCapacity(this@MainActivity))
-
-                if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) < 0)
-                    putInt(DESIGN_CAPACITY, (pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) / -1))
 
                 apply()
             }
