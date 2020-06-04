@@ -14,12 +14,12 @@
 
         <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:cardElevation="10dp">
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:layout_marginStart="@dimen/margin_start"
+                android:layout_marginEnd="@dimen/margin_end"
+                app:cardElevation="@dimen/card_elevation">
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -89,12 +89,12 @@
 
         <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:cardElevation="10dp">
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:layout_marginStart="@dimen/margin_start"
+                android:layout_marginEnd="@dimen/margin_end"
+                app:cardElevation="@dimen/card_elevation">
 
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -142,11 +142,11 @@
 
         <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:cardElevation="10dp">
+                android:layout_marginStart="@dimen/margin_start"
+                android:layout_marginEnd="@dimen/margin_end"
+                app:cardElevation="@dimen/card_elevation">
 
             <RelativeLayout
                     android:layout_width="match_parent"

@@ -116,39 +116,39 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
     private fun updateTextAppearance() {
 
-        TextAppearanceHelper.setTextAppearance(designCapacity,
+        TextAppearanceHelper.setTextAppearance(requireContext(), designCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(numberOfCharges,
+        TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCharges,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(numberOfCycles,
+        TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCycles,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(currentCapacity,
+        TextAppearanceHelper.setTextAppearance(requireContext(), currentCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(capacityAdded,
+        TextAppearanceHelper.setTextAppearance(requireContext(), capacityAdded,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(technology,
+        TextAppearanceHelper.setTextAppearance(requireContext(), technology,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(batteryHealth,
+        TextAppearanceHelper.setTextAppearance(requireContext(), batteryHealth,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(residualCapacity,
+        TextAppearanceHelper.setTextAppearance(requireContext(), residualCapacity,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(batteryWear,
+        TextAppearanceHelper.setTextAppearance(requireContext(), batteryWear,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))

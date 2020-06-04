@@ -242,7 +242,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || batteryLevelOverlay.visibility == View.VISIBLE)
         batteryLevelOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -261,7 +261,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || numberOfChargesOverlay.visibility == View.VISIBLE)
         numberOfChargesOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -280,7 +280,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || numberOfCyclesOverlay.visibility == View.VISIBLE)
         numberOfCyclesOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -300,7 +300,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || chargingTimeOverlay.visibility == View.VISIBLE)
         chargingTimeOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -320,7 +320,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || currentCapacityOverlay.visibility == View.VISIBLE)
             currentCapacityOverlay.apply {
 
-                TextAppearanceHelper.setTextAppearance(this,
+                TextAppearanceHelper.setTextAppearance(this.context, this,
                     pref.getString(OVERLAY_TEXT_STYLE, "0"),
                     pref.getString(OVERLAY_FONT, "6"),
                     pref.getString(OVERLAY_SIZE, "2"))
@@ -340,7 +340,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || capacityAddedOverlay.visibility == View.VISIBLE)
         capacityAddedOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -358,7 +358,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || batteryHealthOverlay.visibility == View.VISIBLE)
         batteryHealthOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -377,7 +377,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || residualCapacityOverlay.visibility == View.VISIBLE)
         residualCapacityOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -396,7 +396,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || statusOverlay.visibility == View.VISIBLE)
         statusOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -414,7 +414,7 @@ interface OverlayInterface : BatteryInfoInterface {
             && sourceOfPower != "N/A") || sourceOfPowerOverlay.visibility == View.VISIBLE)
         sourceOfPowerOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -433,7 +433,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || chargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         chargeDischargeCurrentOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -453,7 +453,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || maxChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         maxChargeDischargeCurrentOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -473,7 +473,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || averageChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         averageChargeDischargeCurrentOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -494,7 +494,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || minChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
         minChargeDischargeCurrentOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -514,7 +514,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || temperatureOverlay.visibility == View.VISIBLE)
         temperatureOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -534,7 +534,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || voltageOverlay.visibility == View.VISIBLE)
         voltageOverlay.apply {
 
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -554,7 +554,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || lastChargeTimeOverlay.visibility == View.VISIBLE)
         lastChargeTimeOverlay.apply {
             
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
@@ -575,7 +575,7 @@ interface OverlayInterface : BatteryInfoInterface {
             || batteryWearOverlay.visibility == View.VISIBLE)
         batteryWearOverlay.apply {
             
-            TextAppearanceHelper.setTextAppearance(this,
+            TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
