@@ -2,21 +2,21 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/dark</item>
-        <item name="android:navigationBarColor">@color/dark</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="android:windowBackground">@color/dark</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:scrollbarThumbVertical">@color/red</item>
+        <item name="android:scrollbarThumbVertical">@color/scrollbar_thumb_vertical</item>
         <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="popupMenuBackground">@color/dark</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:windowBackground">@color/dark</item>
-        <item name="android:background">@color/dark</item>
+        <item name="android:windowBackground">@color/dialog_window_background</item>
+        <item name="android:background">@color/dialog_background</item>
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButtonStyle</item>
@@ -27,11 +27,11 @@
     </style>
 
     <style name="TitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/title_text</item>
     </style>
 
     <style name="SubtitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/subtitle_text</item>
     </style>
 
 </resources>

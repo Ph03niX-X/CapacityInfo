@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -50,7 +51,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_C
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 import java.lang.Exception
 
-interface DebugOptionsInterface : ServiceInterface {
+interface DebugOptionsInterface {
 
     companion object {
 
@@ -631,7 +632,7 @@ interface DebugOptionsInterface : ServiceInterface {
         }
 
         else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
-            onStartService(context, OverlayService::class.java)
+            ServiceHelper.startService(context, OverlayService::class.java)
     }
 
     fun resetSettingDialog(context: Context, pref: SharedPreferences) {
@@ -657,7 +658,6 @@ interface DebugOptionsInterface : ServiceInterface {
             pref.edit().remove(key).apply()
 
             if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == LANGUAGE
-                || key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
                 || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
                 MainActivity.isLoadDebug = true
@@ -712,7 +712,7 @@ interface DebugOptionsInterface : ServiceInterface {
 
                 (context as? MainActivity)?.recreate()
 
-                Toast.makeText(context, context.getString(R.string.settings_reset_successfully),
+                Toast.makeText(context, R.string.settings_reset_successfully,
                     Toast.LENGTH_LONG).show()
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }

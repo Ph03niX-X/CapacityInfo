@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@color/blue</color>
+    <color name="primary_dark">@color/white</color>
+    <color name="accent">@color/blue</color>
+    <color name="navigation_bar">@color/white</color>
+    <color name="window_background">@color/dark</color>
+    <color name="scrollbar_thumb_vertical">@color/blue</color>
+    <color name="popup_menu_background">@color/dark</color>
+    <color name="text_dialog_list_item">@color/dark_white</color>
+    <color name="dialog_window_background">@color/dark</color>
+    <color name="dialog_background">@color/dark</color>
+    <color name="title_text">@color/dark_white</color>
+    <color name="subtitle_text">@color/dark_white</color>
+    <color name="dialog_text">@color/dark_white</color>
+    <color name="dialog_text_primary">@color/dark_white</color>
+    <color name="menu_text">@color/dark_white</color>
+</resources>

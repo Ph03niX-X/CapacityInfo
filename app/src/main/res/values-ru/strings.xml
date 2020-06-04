@@ -102,7 +102,6 @@
     <string name="import_settings_3dots">Импортирование настроек&#8230;</string>
     <string name="become_a_beta_tester">Стать бета-тестером</string>
     <string name="become_a_beta_tester_summary">Получайте обновления одними из первых</string>
-    <string name="error_opening_link">Ошибка открытия ссылки!</string>
     <string name="max_charge_current">Максимальный ток зарядки %1$d мА</string>
     <string name="average_charge_current">Средний ток зарядки %1$d мА</string>
     <string name="min_charge_current">Минимальный ток зарядки %1$d мА</string>

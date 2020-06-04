@@ -28,6 +28,8 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
 
+    private var mainContext: MainActivity? = null
+
     private lateinit var batteryLevel: AppCompatTextView
     private lateinit var chargingTime: AppCompatTextView
     private lateinit var currentCapacity: AppCompatTextView
@@ -55,6 +57,8 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
         super.onViewCreated(view, savedInstanceState)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        
+        mainContext = context as? MainActivity
 
         batteryLevel = view.findViewById(R.id.battery_level)
         chargingTime = view.findViewById(R.id.charging_time)
@@ -123,18 +127,18 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        (context as? MainActivity)?.toolbar?.title = getString(
+                        mainContext?.toolbar?.title = getString(
                             if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
                             else R.string.discharge)
 
-                        val chargeDischargeNavigation = (context as? MainActivity)
+                        val chargeDischargeNavigation = mainContext
                             ?.navigation?.menu?.findItem(R.id.charge_discharge_navigation)
 
                         chargeDischargeNavigation?.title = getString(if(status ==
                             BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                             R.string.discharge)
 
-                        chargeDischargeNavigation?.icon = (context as? MainActivity)
+                        chargeDischargeNavigation?.icon = mainContext
                             ?.getChargeDischargeNavigationIcon(
                                 status == BatteryManager.BATTERY_STATUS_CHARGING)?.let {
                                 requireContext().getDrawable(it)

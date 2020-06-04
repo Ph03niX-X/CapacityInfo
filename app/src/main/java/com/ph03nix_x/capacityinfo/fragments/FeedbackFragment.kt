@@ -46,7 +46,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("telegram", TELEGRAM_LINK)
                 clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), getString(R.string.telegram_link_copied),
+                Toast.makeText(requireContext(), R.string.telegram_link_copied,
                     Toast.LENGTH_LONG).show()
             }
 
@@ -72,7 +72,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("email", email?.summary)
                 clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), getString(R.string.email_copied),
+                Toast.makeText(requireContext(), R.string.email_copied,
                     Toast.LENGTH_LONG).show()
             }
 

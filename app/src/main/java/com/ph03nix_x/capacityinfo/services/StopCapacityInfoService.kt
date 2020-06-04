@@ -17,7 +17,7 @@ class StopCapacityInfoService : Service() {
 
         capacityInfoService?.isStopService = true
 
-        Toast.makeText(this, getString(R.string.stopping_service), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, R.string.stopping_service, Toast.LENGTH_LONG).show()
 
         NotificationInterface.notificationManager?.cancel(NotificationInterface
             .NOTIFICATION_SERVICE_ID)

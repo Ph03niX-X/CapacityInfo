@@ -91,7 +91,7 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link),
+                Toast.makeText(requireContext(), e.message ?: e.toString(),
                     Toast.LENGTH_LONG).show()
             }
 
@@ -106,7 +106,7 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -120,7 +120,7 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -136,7 +136,7 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_opening_link),
+                Toast.makeText(requireContext(), e.message ?: e.toString(),
                     Toast.LENGTH_LONG).show()
             }
 

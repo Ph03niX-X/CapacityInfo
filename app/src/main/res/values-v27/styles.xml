@@ -1,25 +1,25 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorAccent">@color/blue</item>
-        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="colorPrimary">@color/blue</item>
-        <item name="android:scrollbarThumbVertical">@color/blue</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:scrollbarThumbVertical">@color/scrollbar_thumb_vertical</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
         <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
-        <item name="android:itemTextAppearance">@style/MenuTextCustom</item>
-        <item name="textColorAlertDialogListItem">@color/darkWhite</item>
+        <item name="android:itemTextAppearance">@style/MenuText</item>
+        <item name="textColorAlertDialogListItem">@color/text_dialog_list_item</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButtonStyle</item>
-        <item name="android:textColor">@color/darkWhite</item>
-        <item name="android:textColorPrimary">@color/darkWhite</item>
+        <item name="android:textColor">@color/dialog_text</item>
+        <item name="android:textColorPrimary">@color/dialog_text_primary</item>
     </style>
 
     <style name="AlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -27,15 +27,15 @@
     </style>
 
     <style name="TitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/darkWhite</item>
+        <item name="android:textColor">@color/title_text</item>
     </style>
 
     <style name="SubtitleTheme" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@color/darkWhite</item>
+        <item name="android:textColor">@color/subtitle_text</item>
     </style>
 
-    <style name="MenuTextCustom">
-        <item name="android:textColor">@color/darkWhite</item>
+    <style name="MenuText">
+        <item name="android:textColor">@color/menu_text</item>
     </style>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo.interfaces
+package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.content.Intent
@@ -6,9 +6,9 @@ import android.os.Build
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
-interface ServiceInterface {
+object ServiceHelper {
 
-    fun onStartService(context: Context, serviceName: Class<*>) {
+    fun startService(context: Context, serviceName: Class<*>) {
 
         if(serviceName == CapacityInfoService::class.java && isStartedService) {
 
@@ -22,7 +22,7 @@ interface ServiceInterface {
         else context.startService(Intent(context, serviceName))
     }
 
-    fun onStopService(context: Context, serviceName: Class<*>) {
+    fun stopService(context: Context, serviceName: Class<*>) {
 
         context.stopService(Intent(context, serviceName))
     }

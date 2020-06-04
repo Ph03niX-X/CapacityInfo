@@ -12,7 +12,6 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_REQUEST_CODE
@@ -40,10 +39,11 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_C
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 
-class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsInterface,
-    DebugOptionsInterface {
+class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
+
+    private var mainActivity: MainActivity? = null
 
     // Service & Notification
     private var isAutoStartService: SwitchPreferenceCompat? = null
@@ -87,6 +87,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         addPreferencesFromResource(R.xml.settings)
         
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        mainActivity = activity as? MainActivity
 
         // Service & Notification
         isAutoStartService = findPreference(IS_AUTO_START_SERVICE)
@@ -150,16 +152,16 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         batteryStatusInformation?.setOnPreferenceClickListener {
 
-            (activity as? MainActivity)?.fragment = BatteryStatusInformationFragment()
+            mainActivity?.fragment = BatteryStatusInformationFragment()
 
-            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
+            mainActivity?.toolbar?.title = requireContext().getString(
                 R.string.battery_status_information)
 
-            (activity as? MainActivity)?.toolbar?.navigationIcon =
+            mainActivity?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(
-                (activity as? MainActivity)?.fragment ?: BatteryStatusInformationFragment())
+            mainActivity?.loadFragment(
+                mainActivity?.fragment ?: BatteryStatusInformationFragment())
 
             true
         }
@@ -211,7 +213,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
         textSize?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.text_size_list)[
-                    (newValue as? String)?.toInt() ?: 1]
+                    (newValue as? String)?.toInt() ?: 2]
 
             true
         }
@@ -385,16 +387,16 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         overlay?.setOnPreferenceClickListener {
 
-            (activity as? MainActivity)?.fragment = OverlayFragment()
+            mainActivity?.fragment = OverlayFragment()
 
-            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
+            mainActivity?.toolbar?.title = requireContext().getString(
                 R.string.overlay)
 
-            (activity as? MainActivity)?.toolbar?.navigationIcon =
+            mainActivity?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(
-                (activity as? MainActivity)?.fragment ?: OverlayFragment())
+            mainActivity?.loadFragment(
+                mainActivity?.fragment ?: OverlayFragment())
 
             true
         }
@@ -409,8 +411,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                     pref.edit().remove(NUMBER_OF_CHARGES).apply()
 
-                    Toast.makeText(requireContext(), getString(
-                        R.string.number_of_charges_was_success_reset_to_zero),
+                    Toast.makeText(requireContext(),
+                        R.string.number_of_charges_was_success_reset_to_zero,
                         Toast.LENGTH_LONG).show()
                 }
 
@@ -432,8 +434,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
                     pref.edit().remove(NUMBER_OF_CYCLES).apply()
 
-                    Toast.makeText(requireContext(), getString(
-                        R.string.number_of_cycles_was_success_reset_to_zero),
+                    Toast.makeText(requireContext(),
+                        R.string.number_of_cycles_was_success_reset_to_zero,
                         Toast.LENGTH_LONG).show()
                 }
 
@@ -453,32 +455,32 @@ class SettingsFragment : PreferenceFragmentCompat(), ServiceInterface, SettingsI
 
         about?.setOnPreferenceClickListener {
 
-            (activity as? MainActivity)?.fragment = AboutFragment()
+            mainActivity?.fragment = AboutFragment()
 
-            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
+            mainActivity?.toolbar?.title = requireContext().getString(
                 R.string.about)
 
-            (activity as? MainActivity)?.toolbar?.navigationIcon =
+            mainActivity?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(
-                (activity as? MainActivity)?.fragment ?: AboutFragment())
+            mainActivity?.loadFragment(
+                mainActivity?.fragment ?: AboutFragment())
 
             true
         }
 
         feedback?.setOnPreferenceClickListener {
 
-            (activity as? MainActivity)?.fragment = FeedbackFragment()
+            mainActivity?.fragment = FeedbackFragment()
 
-            (activity as? MainActivity)?.toolbar?.title = requireContext().getString(
+            mainActivity?.toolbar?.title = requireContext().getString(
                 R.string.feedback)
 
-            (activity as? MainActivity)?.toolbar?.navigationIcon =
+            mainActivity?.toolbar?.navigationIcon =
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            (activity as? MainActivity)?.loadFragment(
-                (activity as? MainActivity)?.fragment ?: FeedbackFragment())
+            mainActivity?.loadFragment(
+                mainActivity?.fragment ?: FeedbackFragment())
 
             true
         }

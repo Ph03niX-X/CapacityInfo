@@ -11,7 +11,7 @@ import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.ACTION_MANAGE_OVERLAY_PERMISSION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
@@ -40,7 +40,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.OVERLAY_TEXT_STYLE
 import java.text.DecimalFormat
 
-class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
+class OverlayFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
@@ -99,11 +99,11 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
                     if(OverlayService.instance == null
                         && OverlayInterface.isEnabledOverlay(requireContext(),
                             newValue as? Boolean == true))
-                        onStartService(requireContext(), OverlayService::class.java)
+                        ServiceHelper.startService(requireContext(), OverlayService::class.java)
                 }
 
-                false -> if(OverlayService.instance != null) onStopService(requireContext(),
-                OverlayService::class.java)
+                false -> if(OverlayService.instance != null)
+                    ServiceHelper.stopService(requireContext(), OverlayService::class.java)
             }
 
             enableAllOverlay(newValue as? Boolean)
@@ -193,7 +193,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -201,7 +201,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         numberOfChargesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -209,7 +209,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         numberOfCyclesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -217,7 +217,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         chargingTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -226,7 +226,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
             if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             else if(!pref.getBoolean(IS_SUPPORTED, true))
                 (preference as? SwitchPreferenceCompat)?.isVisible = false
@@ -239,7 +239,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
             if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             else if(!pref.getBoolean(IS_SUPPORTED, true))
                 (preference as? SwitchPreferenceCompat)?.isVisible = false
@@ -250,7 +250,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         batteryHealthOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -259,7 +259,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
             if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             else if(!pref.getBoolean(IS_SUPPORTED, true))
                 (preference as? SwitchPreferenceCompat)?.isVisible = false
@@ -270,7 +270,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         statusOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -278,7 +278,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         sourceOfPowerOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -286,7 +286,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         chargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -294,7 +294,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         maxChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -302,7 +302,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         averageChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -310,7 +310,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         minChargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -318,7 +318,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         temperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -326,7 +326,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         voltageOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -334,7 +334,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
         lastChargeTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             true
         }
@@ -343,7 +343,7 @@ class OverlayFragment : PreferenceFragmentCompat(), ServiceInterface {
 
             if(newValue as? Boolean == true && OverlayService.instance == null
                 && pref.getBoolean(IS_SUPPORTED, true))
-                onStartService(requireContext(), OverlayService::class.java)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
             else if(!pref.getBoolean(IS_SUPPORTED, true))
                 (preference as? SwitchPreferenceCompat)?.isVisible = false

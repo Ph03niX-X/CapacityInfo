@@ -63,7 +63,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.RestartApplicationReceiver">
+        <receiver android:name=".receivers.UpdateApplicationReceiver">
             <intent-filter>
 
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>

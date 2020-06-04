@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
@@ -13,7 +13,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
-class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
+class UpdateApplicationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -27,11 +27,11 @@ class RestartApplicationReceiver : BroadcastReceiver(), ServiceInterface {
 
                     isStartedService = true
 
-                    onStartService(context, CapacityInfoService::class.java)
+                    ServiceHelper.startService(context, CapacityInfoService::class.java)
                 }
 
                 if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
-                    onStartService(context, OverlayService::class.java)
+                    ServiceHelper.startService(context, OverlayService::class.java)
             }
         }
     }

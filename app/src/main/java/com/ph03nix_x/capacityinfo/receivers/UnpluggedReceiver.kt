@@ -8,10 +8,10 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
@@ -27,7 +27,7 @@ import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
 
-class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
+class UnpluggedReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -108,7 +108,7 @@ class UnpluggedReceiver : BroadcastReceiver(), ServiceInterface {
                     NotificationInterface.notificationManager?.cancel(NotificationInterface
                         .NOTIFICATION_SERVICE_ID)
 
-                    onStopService(context, CapacityInfoService::class.java)
+                    ServiceHelper.stopService(context, CapacityInfoService::class.java)
                 }
 
                 NotificationInterface.notificationManager?.cancel(

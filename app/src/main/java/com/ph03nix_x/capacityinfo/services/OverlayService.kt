@@ -8,6 +8,7 @@ import android.os.IBinder
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.linearLayout
@@ -64,7 +65,8 @@ class OverlayService : Service(), OverlayInterface {
 
                         if(isEnabledOverlay(this@OverlayService))
                             onUpdateOverlay(this@OverlayService)
-                        else onStopService(this@OverlayService, OverlayService::class.java)
+                        else ServiceHelper.stopService(this@OverlayService,
+                            OverlayService::class.java)
                     }
                 }
             }

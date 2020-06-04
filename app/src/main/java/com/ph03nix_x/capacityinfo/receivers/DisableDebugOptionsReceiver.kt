@@ -19,7 +19,7 @@ class DisableDebugOptionsReceiver : BroadcastReceiver() {
 
                 pref.edit().remove("debug_options_is_enabled").apply()
 
-                Toast.makeText(context, context.getString(R.string.debug_successfully_disabled),
+                Toast.makeText(context, R.string.debug_successfully_disabled,
                     Toast.LENGTH_LONG).show()
             }
         }

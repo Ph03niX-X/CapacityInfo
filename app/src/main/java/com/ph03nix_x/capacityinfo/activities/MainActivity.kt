@@ -19,7 +19,7 @@ import com.ph03nix_x.capacityinfo.view.CenteredToolbar
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
@@ -40,8 +40,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 
-class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface,
-    SettingsInterface {
+class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -224,7 +223,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
             isStartedService = true
 
-            onStartService(this, CapacityInfoService::class.java)
+            ServiceHelper.startService(this, CapacityInfoService::class.java)
         }
 
         if(!pref.getBoolean("debug_options_is_enabled", false)
@@ -283,22 +282,24 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
                 setTitle(getString(R.string.information))
                 setMessage(getString(R.string.not_supported))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                setCancelable(false)
                 show()
             }
         }
 
+        else if(pref.getBoolean(IS_SUPPORTED, true)
+            && pref.getBoolean(IS_SHOW_INSTRUCTION, true)) showInstruction()
+
         if(onGetCurrentCapacity(this) == 0.0 && (fragment is ChargeDischargeFragment
                     || fragment is WearFragment))
             toolbar.menu.findItem(R.id.instruction).isVisible = false
-
-        else if(pref.getBoolean(IS_SHOW_INSTRUCTION, true)) showInstruction()
 
         val prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
         if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(this))
-            onStartService(this, OverlayService::class.java)
+            ServiceHelper.startService(this, OverlayService::class.java)
     }
 
     override fun onBackPressed() {
@@ -324,8 +325,8 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
                 isDoubleBackToExitPressedOnce = true
 
-                Toast.makeText(this, getString(R.string.press_the_back_button_again),
-                Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.press_the_back_button_again,
+                    Toast.LENGTH_LONG).show()
 
                 Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 3000)
             }
@@ -401,17 +402,18 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         MaterialAlertDialogBuilder(this).apply {
 
+            if(pref.getBoolean(IS_SHOW_INSTRUCTION, true))
+                pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply()
+
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message)
                     + getString(R.string.instruction_message_do_not_kill_the_service)
                     + getString(R.string.instruction_message_huawei_honor))
 
-            setPositiveButton(android.R.string.ok) { _, _ ->
+            setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
 
-                if(pref.getBoolean(IS_SHOW_INSTRUCTION, true))
-                    pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply()
-            }
+            setCancelable(false)
 
             show()
         }
@@ -516,7 +518,7 @@ class MainActivity : AppCompatActivity(), ServiceInterface, BatteryInfoInterface
 
         toolbar.menu.clear()
 
-        Toast.makeText(this, getString(R.string.settings_imported_successfully),
+        Toast.makeText(this, R.string.settings_imported_successfully,
             Toast.LENGTH_LONG).show()
 
         intent.removeExtra(IMPORT_SETTINGS_EXTRA)

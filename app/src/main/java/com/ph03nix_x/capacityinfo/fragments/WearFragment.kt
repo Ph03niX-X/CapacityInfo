@@ -188,7 +188,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, true)) {
 
-                        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) > 0
+                        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) >= MIN_DESIGN_CAPACITY
                             && pref.getInt(PreferencesKeys.RESIDUAL_CAPACITY, 0) > 0) {
 
                             withContext(Dispatchers.Main) {
@@ -260,6 +260,10 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
                     }
 
                     else {
+
+                        if(currentCapacity.visibility == View.VISIBLE)
+                            withContext(Dispatchers.Main) {
+                                currentCapacity.visibility = View.GONE }
 
                         if(capacityAdded.visibility == View.VISIBLE)
                             withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }

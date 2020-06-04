@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -52,7 +53,7 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
 import java.text.DecimalFormat
 
-interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
+interface OverlayInterface : BatteryInfoInterface {
 
     companion object {
 
@@ -156,7 +157,8 @@ interface OverlayInterface : BatteryInfoInterface, ServiceInterface {
             linearLayout.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
         }
 
-        else if(OverlayService.instance != null) onStopService(context, OverlayService::class.java)
+        else if(OverlayService.instance != null)
+            ServiceHelper.stopService(context, OverlayService::class.java)
     }
 
     private fun onCreateViews(context: Context) {

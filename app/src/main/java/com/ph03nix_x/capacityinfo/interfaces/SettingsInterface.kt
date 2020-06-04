@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
@@ -54,7 +55,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-interface SettingsInterface : ServiceInterface {
+interface SettingsInterface {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onOpenNotificationCategorySettings(context: Context, notificationId: String) {
@@ -210,10 +211,10 @@ interface SettingsInterface : ServiceInterface {
     fun onChangeLanguage(context: Context, language: String) {
 
         if(CapacityInfoService.instance != null)
-            onStopService(context, CapacityInfoService::class.java)
+            ServiceHelper.stopService(context, CapacityInfoService::class.java)
 
         if(OverlayService.instance != null)
-            onStopService(context, OverlayService::class.java)
+            ServiceHelper.stopService(context, OverlayService::class.java)
 
         LocaleHelper.setLocale(context, language)
 
@@ -287,13 +288,14 @@ interface SettingsInterface : ServiceInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string.import_settings_3dots), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.import_settings_3dots,
+                        Toast.LENGTH_LONG).show()
 
                     if(CapacityInfoService.instance != null)
-                        onStopService(context, CapacityInfoService::class.java)
+                        ServiceHelper.stopService(context, CapacityInfoService::class.java)
 
                     if(OverlayService.instance != null)
-                        onStopService(context, OverlayService::class.java)
+                        ServiceHelper.stopService(context, OverlayService::class.java)
                 }
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -311,7 +313,7 @@ interface SettingsInterface : ServiceInterface {
                     }
                 }
 
-                delay(1500L)
+                delay(2000L)
                 if(File(prefPath).exists()) File(prefPath).delete()
 
                 File(prefPath).createNewFile()

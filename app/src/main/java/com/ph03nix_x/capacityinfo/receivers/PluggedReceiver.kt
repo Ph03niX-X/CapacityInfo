@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
@@ -19,7 +18,7 @@ import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
 import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
 
-class PluggedReceiver : BroadcastReceiver(), ServiceInterface {
+class PluggedReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 

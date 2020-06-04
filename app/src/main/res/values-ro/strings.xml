@@ -104,7 +104,6 @@
     <string name="import_settings_3dots">Importare setări&#8230;</string>
     <string name="become_a_beta_tester">Deveniți un testator beta</string>
     <string name="become_a_beta_tester_summary">Fiți primul care primește actualizări</string>
-    <string name="error_opening_link">Eroare la deschiderea link-ului!</string>
     <string name="max_charge_current">Curent maxim de încărcare: %1$d mA</string>
     <string name="average_charge_current">Curent mediu de încărcare: %1$d mA</string>
     <string name="min_charge_current">Curent minim de încărcare: %1$d mA</string>

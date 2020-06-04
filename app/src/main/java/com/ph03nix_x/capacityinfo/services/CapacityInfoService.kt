@@ -238,7 +238,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         batteryLevel = 0
 
         if(isStopService)
-            Toast.makeText(this, getString(R.string.service_stopped_successfully),
+            Toast.makeText(this, R.string.service_stopped_successfully,
                 Toast.LENGTH_LONG).show()
 
         super.onDestroy()

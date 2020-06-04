@@ -5,11 +5,10 @@ import android.os.Bundle
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.interfaces.ServiceInterface
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
 
-class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, ServiceInterface {
+class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
     
