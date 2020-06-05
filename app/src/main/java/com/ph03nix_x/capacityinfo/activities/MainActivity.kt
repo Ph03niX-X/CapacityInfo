@@ -126,7 +126,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     BatteryManager.BATTERY_STATUS_CHARGING))
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
-            pref.getBoolean("debug_options_is_enabled", false)
+            pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
+                R.bool.debug_options_is_enabled))
 
         navigation.setOnNavigationItemSelectedListener {
 
@@ -224,7 +225,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             ServiceHelper.startService(this, CapacityInfoService::class.java)
         }
 
-        if(!pref.getBoolean("debug_options_is_enabled", false)
+        if(!pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
+                R.bool.debug_options_is_enabled))
             && fragment is DebugFragment) {
 
             fragment = ChargeDischargeFragment()
@@ -254,7 +256,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
-            pref.getBoolean("debug_options_is_enabled", false)
+            pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
+                R.bool.debug_options_is_enabled))
 
         if(pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
             resources.getInteger(R.integer.min_design_capacity) || pref.getInt(DESIGN_CAPACITY,
