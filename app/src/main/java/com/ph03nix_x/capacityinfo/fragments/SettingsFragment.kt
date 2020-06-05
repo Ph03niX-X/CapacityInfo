@@ -160,7 +160,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
-                mainActivity?.fragment ?: BatteryStatusInformationFragment())
+                mainActivity?.fragment ?: BatteryStatusInformationFragment(),
+                true)
 
             true
         }
@@ -395,7 +396,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
-                mainActivity?.fragment ?: OverlayFragment())
+                mainActivity?.fragment ?: OverlayFragment(), true)
 
             true
         }
@@ -463,7 +464,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
-                mainActivity?.fragment ?: AboutFragment())
+                mainActivity?.fragment ?: AboutFragment(), true)
 
             true
         }
@@ -479,7 +480,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
-                mainActivity?.fragment ?: FeedbackFragment())
+                mainActivity?.fragment ?: FeedbackFragment(), true)
 
             true
         }

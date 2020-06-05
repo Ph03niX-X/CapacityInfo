@@ -425,11 +425,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    fun loadFragment(fragment: Fragment) {
+    fun loadFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
 
         supportFragmentManager.beginTransaction().apply {
 
             replace(R.id.fragment_container, fragment)
+            if(isAddToBackStack) addToBackStack(null)
             commit()
         }
 
