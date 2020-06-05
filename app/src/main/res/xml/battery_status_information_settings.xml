@@ -34,7 +34,7 @@
             app:iconSpaceReserved="false"
             app:enabled="false"
             android:summary="80%"
-            app:defaultValue="80"
+            app:defaultValue="@integer/battery_level_notify_charged"
             app:singleLineTitle="false"
             app:min="1"
             android:key="battery_level_notify_charged"/>
@@ -50,7 +50,7 @@
             app:iconSpaceReserved="false"
             app:enabled="false"
             android:summary="20%"
-            app:defaultValue="20"
+            app:defaultValue="@integer/battery_level_notify_discharged"
             app:singleLineTitle="false"
             app:min="1"
             android:max="99"

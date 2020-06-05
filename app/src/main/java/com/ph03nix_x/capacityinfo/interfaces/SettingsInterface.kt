@@ -30,8 +30,6 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
-import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -394,10 +392,12 @@ interface SettingsInterface {
         val changeDesignCapacity = view.findViewById<TextInputEditText>(R.id
             .change_design_capacity_edit)
 
-        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) >= 0)
-            pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toString()
+        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                R.integer.min_design_capacity)) >= context.resources.getInteger(
+                R.integer.min_design_capacity)) pref.getInt(DESIGN_CAPACITY,
+            context.resources.getInteger(R.integer.min_design_capacity)).toString()
 
-        else (pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) / -1).toString())
+        else context.resources.getInteger(R.integer.min_design_capacity).toString())
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
@@ -411,12 +411,14 @@ interface SettingsInterface {
 
         val dialogCreate = dialog.create()
 
-        changeDesignCapacityDialogCreateShowListener(dialogCreate, changeDesignCapacity, pref)
+        changeDesignCapacityDialogCreateShowListener(context, dialogCreate, changeDesignCapacity,
+            pref)
 
         dialogCreate.show()
     }
 
-    private fun changeDesignCapacityDialogCreateShowListener(dialogCreate: AlertDialog,
+    private fun changeDesignCapacityDialogCreateShowListener(context: Context,
+                                                             dialogCreate: AlertDialog,
                                                              changeDesignCapacity: TextInputEditText,
                                                              pref: SharedPreferences) {
 
@@ -435,9 +437,10 @@ interface SettingsInterface {
 
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
                         s.isNotEmpty() && s.toString() != pref.getInt(DESIGN_CAPACITY,
-                            MIN_DESIGN_CAPACITY).toString() && s.toString().toInt() >=
-                                MIN_DESIGN_CAPACITY && s.toString().toInt() <=
-                                MAX_DESIGN_CAPACITY
+                            context.resources.getInteger(R.integer.min_design_capacity)).toString()
+                                && s.toString().toInt() >= context.resources.getInteger(
+                            R.integer.min_design_capacity) && s.toString().toInt() <=
+                                context.resources.getInteger(R.integer.max_design_capacity)
                 }
             })
         }

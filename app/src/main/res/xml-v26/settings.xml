@@ -14,26 +14,28 @@
         <SwitchPreferenceCompat
                 android:title="@string/auto_start"
                 android:summary="@string/auto_start_summary"
-                android:defaultValue="true"
+                android:defaultValue="@bool/is_auto_start_service"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_auto_start_24dp"
                 android:key="is_auto_start_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/stop_service"
+                android:defaultValue="@bool/is_show_stop_service"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_stop_service_24dp"
                 android:key="is_show_stop_service"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/service_time"
+                android:defaultValue="@bool/is_service_time"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_service_time_24dp"
                 android:key="is_service_time"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_capacity_added"
-                app:defaultValue="true"
+                app:defaultValue="@bool/is_show_capacity_added_in_notification"
                 app:singleLineTitle="false"
                 android:icon="@drawable/ic_show_capacity_added_24dp"
                 android:key="is_show_capacity_added_in_notification"/>
@@ -46,7 +48,7 @@
 
         <SwitchPreferenceCompat
                 android:title="@string/show_last_charge_time"
-                android:defaultValue="true"
+                android:defaultValue="@bool/is_show_last_charge_time_in_notification"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_show_last_charge_time_24dp"
@@ -55,6 +57,7 @@
         <SwitchPreferenceCompat
                 android:title="@string/stop_the_service_when_the_cd"
                 app:isPreferenceVisible="false"
+                android:defaultValue="@bool/is_stop_the_service_when_the_cd"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
                 android:key="is_stop_the_service_when_the_cd"/>
@@ -86,7 +89,7 @@
         <SwitchPreferenceCompat
                 android:title="@string/dark_mode"
                 app:singleLineTitle="false"
-                app:defaultValue="false"
+                app:defaultValue="@bool/is_dark_mode"
                 app:icon="@drawable/ic_dark_mode_24dp"
                 android:key="is_dark_mode"/>
 
@@ -141,12 +144,14 @@
 
         <SwitchPreferenceCompat
                 android:title="@string/temperature_in_fahrenheit"
+                android:defaultValue="@bool/temperature_in_fahrenheit"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_temperature"
                 android:key="temperature_in_fahrenheit"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/voltage_in_mv"
+                android:defaultValue="@bool/voltage_in_mv"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_voltage"
                 android:key="voltage_in_mv"/>
@@ -243,7 +248,6 @@
 
     <PreferenceCategory
             android:title="@string/about_and_feedback"
-            app:singleLineTitle="false"
             app:icon="@drawable/ic_about_feedback_24dp"
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">

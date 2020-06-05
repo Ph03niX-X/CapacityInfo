@@ -42,13 +42,15 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         batteryLevelNotifyCharged?.apply {
 
             summary = getBatteryLevelNotifyChargingSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, false)
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_charged))
         }
 
         batteryLevelNotifyDischarged?.apply {
 
             summary = getBatteryLevelNotifyDischargeSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, false)
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_discharged))
         }
 
         notifyOverheatOvercool?.setOnPreferenceChangeListener { _, _ ->
@@ -129,13 +131,15 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         batteryLevelNotifyCharged?.apply {
 
             summary = getBatteryLevelNotifyChargingSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, false)
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_charged))
         }
 
         batteryLevelNotifyDischarged?.apply {
 
             summary = getBatteryLevelNotifyDischargeSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, false)
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_discharged))
         }
     }
 

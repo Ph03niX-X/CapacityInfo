@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="min_design_capacity">1500</integer>
+    <integer name="max_design_capacity">18500</integer>
+    <integer name="battery_level_notify_charged">80</integer>
+    <integer name="battery_level_notify_discharged">20</integer>
+</resources>

@@ -16,6 +16,4 @@ object Constants {
     const val EXPORT_SETTINGS_REQUEST_CODE = 0
     const val IMPORT_SETTINGS_REQUEST_CODE = 1
     const val ACTION_MANAGE_OVERLAY_PERMISSION = 2
-    const val MIN_DESIGN_CAPACITY = 1500
-    const val MAX_DESIGN_CAPACITY = 18500
 }

@@ -140,8 +140,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val temperature = onGetTemperatureInDouble(
                         this@CapacityInfoService)
 
-                    if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, false)
-                        && NotificationInterface.isNotifyOverheatOvercool && (temperature >= 45.0
+                    if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                            R.bool.is_notify_overheat_overcool)) &&
+                        NotificationInterface.isNotifyOverheatOvercool && (temperature >= 45.0
                                 || temperature <= 0))
                         withContext(Dispatchers.Main) {
 
@@ -161,8 +162,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         NotificationInterface.isNotifyBatteryFullyCharged = true
                         NotificationInterface.isNotifyBatteryCharged = true
 
-                        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, false)
-                            && (onGetBatteryLevel(this@CapacityInfoService) ?: 0)
+                        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
+                                R.bool.is_notify_battery_is_discharged)) &&
+                            (onGetBatteryLevel(this@CapacityInfoService) ?: 0)
                             <= pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)
                             && NotificationInterface.isNotifyBatteryDischarged)
                             withContext(Dispatchers.Main) {
@@ -251,8 +253,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
 
-        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, false)
-            && (onGetBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
+        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_charged)) &&
+            (onGetBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
                 80) && NotificationInterface.isNotifyBatteryCharged)
             withContext(Dispatchers.Main) {
 
@@ -286,8 +289,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         NotificationInterface.isNotifyBatteryDischarged = true
 
-        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, false)
-            && NotificationInterface.isNotifyBatteryFullyCharged)
+        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_fully_charged)) &&
+            NotificationInterface.isNotifyBatteryFullyCharged)
             withContext(Dispatchers.Main) {
 
                 onNotifyBatteryFullyCharged(this@CapacityInfoService)

@@ -190,18 +190,21 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                         temperature.text =
                             if(!pref.getBoolean(PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT,
-                                    false)) getString(R.string.temperature_celsius,
+                                    resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+                                getString(R.string.temperature_celsius,
                                 onGetTemperature(context ?: temperature.context))
                             else getString(R.string.temperature_fahrenheit,
                                 onGetTemperature(context ?: temperature.context))
 
                         voltage.text = getString(if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV,
-                                false)) R.string.voltage_mv else R.string.voltage,
+                                resources.getBoolean(R.bool.voltage_in_mv)))
+                            R.string.voltage_mv else R.string.voltage,
                             DecimalFormat("#.#").format(onGetVoltage(
                                 context ?: voltage.context)))
                     }
 
-                    if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, true)) {
+                    if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, resources.getBoolean(
+                            R.bool.is_supported))) {
 
                         if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0) {
 

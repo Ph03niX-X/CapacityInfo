@@ -88,38 +88,53 @@ interface OverlayInterface : BatteryInfoInterface {
             with(pref) {
 
                 val overlayArray = arrayListOf(getBoolean(IS_BATTERY_LEVEL_OVERLAY,
-                    false), getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false),
-                    getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false),
-                    getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false),
-                    getBoolean(IS_CHARGING_TIME_OVERLAY, false),
-                    getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false),
-                    getBoolean(IS_CAPACITY_ADDED_OVERLAY, false),
-                    getBoolean(IS_BATTERY_HEALTH_OVERLAY, false),
-                    getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false),
-                    getBoolean(IS_STATUS_OVERLAY, false),
-                    getBoolean(IS_SOURCE_OF_POWER, false),
-                    getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
-                    getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
-                    getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
-                    getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false),
-                    getBoolean(IS_TEMPERATURE_OVERLAY, false),
-                    getBoolean(IS_VOLTAGE_OVERLAY, false),
-                    getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false),
-                    getBoolean(IS_BATTERY_WEAR_OVERLAY, false))
+                    context.resources.getBoolean(R.bool.is_battery_level_overlay)),
+                    getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, context.resources.getBoolean(
+                        R.bool.is_number_of_charges_overlay)), getBoolean(
+                        IS_NUMBER_OF_CYCLES_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_number_of_cycles_overlay)), getBoolean(
+                        IS_CHARGING_TIME_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_charging_time_overlay)), getBoolean(
+                        IS_CURRENT_CAPACITY_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_current_capacity_overlay)), getBoolean(
+                        IS_CAPACITY_ADDED_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_capacity_added_overlay)), getBoolean(
+                        IS_BATTERY_HEALTH_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_battery_health_overlay)), getBoolean(
+                        IS_RESIDUAL_CAPACITY_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_residual_capacity_overlay)), getBoolean(IS_STATUS_OVERLAY,
+                        context.resources.getBoolean(R.bool.is_status_overlay)), getBoolean(
+                        IS_SOURCE_OF_POWER, context.resources.getBoolean(
+                            R.bool.is_source_of_power_overlay)), getBoolean(
+                        IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_charge_discharge_current_overlay)), getBoolean(
+                        IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_max_charge_discharge_current_overlay)), getBoolean(
+                        IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_average_charge_discharge_current_overlay)), getBoolean(
+                        IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_min_charge_discharge_current_overlay)), getBoolean(
+                        IS_TEMPERATURE_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_temperature_overlay)), getBoolean(IS_VOLTAGE_OVERLAY,
+                        context.resources.getBoolean(R.bool.is_voltage_overlay)), getBoolean(
+                        IS_LAST_CHARGE_TIME_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_last_charge_time_overlay)), getBoolean(
+                        IS_BATTERY_WEAR_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_battery_wear_overlay)))
 
                 overlayArray.forEach {
 
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                         if(Settings.canDrawOverlays(context)
-                            && (getBoolean(IS_ENABLED_OVERLAY, false)
-                                    || isEnabledOverlay) && it) return true
+                            && (getBoolean(IS_ENABLED_OVERLAY, context.resources.getBoolean(
+                                R.bool.is_enabled_overlay)) || isEnabledOverlay) && it) return true
                     }
 
                     else {
 
-                        if((getBoolean(IS_ENABLED_OVERLAY, false) || isEnabledOverlay)
-                            && it) return true
+                        if((getBoolean(IS_ENABLED_OVERLAY, context.resources.getBoolean(
+                                R.bool.is_enabled_overlay)) || isEnabledOverlay) && it) return true
                     }
                 }
             }
@@ -238,9 +253,10 @@ interface OverlayInterface : BatteryInfoInterface {
 
     private fun onUpdateBatteryLevelOverlay() {
 
-        if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)
+        if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, batteryLevelOverlay.resources.getBoolean(
+                R.bool.is_battery_level_overlay))
             || batteryLevelOverlay.visibility == View.VISIBLE)
-        batteryLevelOverlay.apply {
+            batteryLevelOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -250,16 +266,17 @@ interface OverlayInterface : BatteryInfoInterface {
             text = context.getString(R.string.battery_level,
                 "${onGetBatteryLevel(context)}%")
 
-            visibility = if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, false)) View.VISIBLE
-            else View.GONE
+            visibility = if(pref.getBoolean(IS_BATTERY_LEVEL_OVERLAY, this.context.resources
+                    .getBoolean(R.bool.is_battery_level_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateNumberOfChargesOverlay() {
 
-        if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false)
-            || numberOfChargesOverlay.visibility == View.VISIBLE)
-        numberOfChargesOverlay.apply {
+        if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, numberOfChargesOverlay.context.resources
+                .getBoolean(R.bool.is_number_of_charges_overlay)) ||
+            numberOfChargesOverlay.visibility == View.VISIBLE)
+            numberOfChargesOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -269,16 +286,17 @@ interface OverlayInterface : BatteryInfoInterface {
             text = context.getString(R.string.number_of_charges,
                 pref.getLong(NUMBER_OF_CHARGES, 0))
 
-            visibility = if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, false))
-                View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, this.context.resources
+                    .getBoolean(R.bool.is_number_of_charges_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateNumberOfCyclesOverlay() {
 
-        if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false)
-            || numberOfCyclesOverlay.visibility == View.VISIBLE)
-        numberOfCyclesOverlay.apply {
+        if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, numberOfCyclesOverlay.context.resources
+                .getBoolean(R.bool.is_number_of_cycles_overlay)) ||
+            numberOfCyclesOverlay.visibility == View.VISIBLE)
+            numberOfCyclesOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -288,17 +306,18 @@ interface OverlayInterface : BatteryInfoInterface {
             text = context.getString(R.string.number_of_cycles,
                 DecimalFormat("#.##").format(pref.getFloat(NUMBER_OF_CYCLES, 0f)))
 
-            visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, false))
-                View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, this.context.resources
+                    .getBoolean(R.bool.is_number_of_cycles_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateChargingTimeOverlay() {
 
-        if((pref.getBoolean(IS_CHARGING_TIME_OVERLAY, false)
-                    && (CapacityInfoService.instance?.seconds ?: 0) > 0)
-            || chargingTimeOverlay.visibility == View.VISIBLE)
-        chargingTimeOverlay.apply {
+        if((pref.getBoolean(IS_CHARGING_TIME_OVERLAY, chargingTimeOverlay.context.resources
+                .getBoolean(R.bool.is_charging_time_overlay))
+                    && (CapacityInfoService.instance?.seconds ?: 0) > 0) ||
+            chargingTimeOverlay.visibility == View.VISIBLE)
+            chargingTimeOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -307,17 +326,19 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = onGetChargingTime(this.context, (CapacityInfoService.instance?.seconds ?: 0))
 
-            visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, false)
-                && (CapacityInfoService.instance?.seconds ?: 0) > 0)
-                View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, this.context.resources
+                    .getBoolean(R.bool.is_charging_time_overlay)) && (
+                        CapacityInfoService.instance?.seconds ?: 0) > 0) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateCurrentCapacityOverlay() {
 
-        if((pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
-            && pref.getBoolean(IS_SUPPORTED, true))
-            || currentCapacityOverlay.visibility == View.VISIBLE)
+        if((pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY, currentCapacityOverlay.context.resources
+                .getBoolean(R.bool.is_current_capacity_overlay))
+                    && pref.getBoolean(IS_SUPPORTED, currentCapacityOverlay.context.resources
+                .getBoolean(R.bool.is_supported))) || currentCapacityOverlay.visibility ==
+            View.VISIBLE)
             currentCapacityOverlay.apply {
 
                 TextAppearanceHelper.setTextAppearance(this.context, this,
@@ -328,17 +349,21 @@ interface OverlayInterface : BatteryInfoInterface {
                 text = context.getString(R.string.current_capacity, DecimalFormat("#.#")
                     .format(onGetCurrentCapacity(context)))
 
-                visibility = if(pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY, false)
-                    && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
+                visibility = if(pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY,
+                        this.context.resources.getBoolean(R.bool.is_current_capacity_overlay))
+                    && pref.getBoolean(IS_SUPPORTED, this.context.resources.getBoolean(
+                        R.bool.is_supported))) View.VISIBLE else View.GONE
             }
     }
 
     private fun onUpdateCapacityAddedOverlay() {
 
-        if((pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, false)
-                    && pref.getBoolean(IS_SUPPORTED, true))
-            || capacityAddedOverlay.visibility == View.VISIBLE)
-        capacityAddedOverlay.apply {
+        if((pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, capacityAddedOverlay.context.resources
+                .getBoolean(R.bool.is_capacity_added_overlay))
+                    && pref.getBoolean(IS_SUPPORTED, capacityAddedOverlay.context.resources
+                .getBoolean(R.bool.is_supported))) || capacityAddedOverlay.visibility ==
+            View.VISIBLE)
+            capacityAddedOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -347,16 +372,19 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = onGetCapacityAdded(this.context)
 
-            visibility = if(pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, false)
-                && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, this.context.resources
+                    .getBoolean(R.bool.is_capacity_added_overlay)) && pref.getBoolean(IS_SUPPORTED,
+                    this.context.resources.getBoolean(R.bool.is_supported))) View.VISIBLE else
+                View.GONE
         }
     }
 
     private fun onUpdateBatteryHealthOverlay() {
 
-        if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)
-            || batteryHealthOverlay.visibility == View.VISIBLE)
-        batteryHealthOverlay.apply {
+        if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, batteryHealthOverlay.context.resources
+                .getBoolean(R.bool.is_battery_health_overlay)) ||
+            batteryHealthOverlay.visibility == View.VISIBLE)
+            batteryHealthOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -365,17 +393,18 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = context.getString(R.string.battery_health, onGetBatteryHealth(context))
 
-            visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, false)) View.VISIBLE
-            else View.GONE
+            visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, this.context.resources
+                    .getBoolean(R.bool.is_battery_health_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateResidualCapacityOverlay(status: Int) {
 
-        if((pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false)
-                    && pref.getBoolean(IS_SUPPORTED, true))
-            || residualCapacityOverlay.visibility == View.VISIBLE)
-        residualCapacityOverlay.apply {
+        if((pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, residualCapacityOverlay.context.resources
+                .getBoolean(R.bool.is_residual_capacity_overlay)) && pref.getBoolean(
+                IS_SUPPORTED, residualCapacityOverlay.context.resources.getBoolean(
+                    R.bool.is_supported))) || residualCapacityOverlay.visibility == View.VISIBLE)
+            residualCapacityOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -385,16 +414,18 @@ interface OverlayInterface : BatteryInfoInterface {
             text = onGetResidualCapacity(context,
                 status == BatteryManager.BATTERY_STATUS_CHARGING)
 
-            visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, false)
-                && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY,
+                    this.context.resources.getBoolean(R.bool.is_residual_capacity_overlay)) &&
+                pref.getBoolean(IS_SUPPORTED, this.context.resources.getBoolean(
+                    R.bool.is_supported))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateStatusOverlay(status: Int) {
 
-        if(pref.getBoolean(IS_STATUS_OVERLAY, false)
-            || statusOverlay.visibility == View.VISIBLE)
-        statusOverlay.apply {
+        if(pref.getBoolean(IS_STATUS_OVERLAY, statusOverlay.context.resources.getBoolean(
+                R.bool.is_status_overlay)) || statusOverlay.visibility == View.VISIBLE)
+            statusOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -403,16 +434,17 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = context.getString(R.string.status, onGetStatus(context, status))
 
-            visibility = if(pref.getBoolean(IS_STATUS_OVERLAY, false)) View.VISIBLE
-            else View.GONE
+            visibility = if(pref.getBoolean(IS_STATUS_OVERLAY, this.context.resources.getBoolean(
+                    R.bool.is_status_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateSourceOfPowerOverlay(sourceOfPower: String) {
 
-        if((pref.getBoolean(IS_SOURCE_OF_POWER, false)
-            && sourceOfPower != "N/A") || sourceOfPowerOverlay.visibility == View.VISIBLE)
-        sourceOfPowerOverlay.apply {
+        if((pref.getBoolean(IS_SOURCE_OF_POWER, sourceOfPowerOverlay.context.resources.getBoolean(
+                R.bool.is_source_of_power_overlay)) && sourceOfPower != "N/A")
+            || sourceOfPowerOverlay.visibility == View.VISIBLE)
+            sourceOfPowerOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -421,17 +453,18 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = sourceOfPower
 
-            visibility = if(pref.getBoolean(IS_SOURCE_OF_POWER, false)
-                && sourceOfPower != "N/A") View.VISIBLE
+            visibility = if(pref.getBoolean(IS_SOURCE_OF_POWER, this.context.resources.getBoolean(
+                    R.bool.is_source_of_power_overlay)) && sourceOfPower != "N/A") View.VISIBLE
             else View.GONE
         }
     }
 
     private fun onUpdateChargeDischargeCurrentOverlay(status: Int) {
 
-        if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-            || chargeDischargeCurrentOverlay.visibility == View.VISIBLE)
-        chargeDischargeCurrentOverlay.apply {
+        if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, chargeDischargeCurrentOverlay
+                .context.resources.getBoolean(R.bool.is_charge_discharge_current_overlay)) ||
+            chargeDischargeCurrentOverlay.visibility == View.VISIBLE)
+            chargeDischargeCurrentOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -442,16 +475,18 @@ interface OverlayInterface : BatteryInfoInterface {
                 R.string.charge_current else R.string.discharge_current,
                 onGetChargeDischargeCurrent(context).toString())
 
-            visibility = if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, false))
+            visibility = if(pref.getBoolean(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, this.context
+                    .resources.getBoolean(R.bool.is_charge_discharge_current_overlay)))
                 View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateMaxChargeDischargeCurrentOverlay(status: Int) {
 
-        if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
+        if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, maxChargeDischargeCurrentOverlay
+                .context.resources.getBoolean(R.bool.is_max_charge_discharge_current_overlay))
             || maxChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
-        maxChargeDischargeCurrentOverlay.apply {
+            maxChargeDischargeCurrentOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -462,16 +497,19 @@ interface OverlayInterface : BatteryInfoInterface {
                 .max_charge_current, BatteryInfoInterface.maxChargeCurrent) else context.getString(
                 R.string.max_discharge_current, BatteryInfoInterface.maxDischargeCurrent)
 
-            visibility = if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, false))
+            visibility = if(pref.getBoolean(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, this.context
+                    .resources.getBoolean(R.bool.is_max_charge_discharge_current_overlay)))
                 View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateAverageChargeDischargeCurrentOverlay(status: Int) {
 
-        if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-            || averageChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
-        averageChargeDischargeCurrentOverlay.apply {
+        if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY,
+                averageChargeDischargeCurrentOverlay.context.resources.getBoolean(
+                    R.bool.is_residual_capacity_overlay)) ||
+            averageChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
+            averageChargeDischargeCurrentOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -483,16 +521,18 @@ interface OverlayInterface : BatteryInfoInterface {
             else context.getString(R.string.average_discharge_current,
                 BatteryInfoInterface.averageDischargeCurrent)
 
-            visibility = if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY,
-                    false)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, this
+                    .resources.getBoolean(R.bool.is_average_charge_discharge_current_overlay)))
+                View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateMinChargeDischargeCurrentOverlay(status: Int) {
 
-        if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false)
-            || minChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
-        minChargeDischargeCurrentOverlay.apply {
+        if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, minChargeDischargeCurrentOverlay
+                .context.resources.getBoolean(R.bool.is_min_charge_discharge_current_overlay)) ||
+            minChargeDischargeCurrentOverlay.visibility == View.VISIBLE)
+            minChargeDischargeCurrentOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -503,54 +543,58 @@ interface OverlayInterface : BatteryInfoInterface {
                 .min_charge_current, BatteryInfoInterface.minChargeCurrent) else context.getString(
                 R.string.min_discharge_current, BatteryInfoInterface.minDischargeCurrent)
 
-            visibility = if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, false))
+            visibility = if(pref.getBoolean(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, this.context
+                    .resources.getBoolean(R.bool.is_min_charge_discharge_current_overlay)))
                 View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateTemperatureOverlay() {
 
-        if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, false)
-            || temperatureOverlay.visibility == View.VISIBLE)
-        temperatureOverlay.apply {
+        if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, temperatureOverlay.resources.getBoolean(
+                R.bool.is_temperature_overlay)) || temperatureOverlay.visibility == View.VISIBLE)
+            temperatureOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
-            text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, false))
+            text = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
+                    context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
                 R.string.temperature_fahrenheit else R.string.temperature_celsius,
                 onGetTemperature(context))
 
-            visibility = if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, false)) View.VISIBLE
-            else View.GONE
+            visibility = if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, this.resources.getBoolean(
+                    R.bool.is_temperature_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateVoltageOverlay() {
 
-        if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)
-            || voltageOverlay.visibility == View.VISIBLE)
-        voltageOverlay.apply {
+        if(pref.getBoolean(IS_VOLTAGE_OVERLAY, voltageOverlay.resources.getBoolean(
+                R.bool.is_voltage_overlay)) || voltageOverlay.visibility == View.VISIBLE)
+            voltageOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
-            text = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+            text = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
+                    context.resources.getBoolean(R.bool.voltage_in_mv)))
                 R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
                 onGetVoltage(context)))
 
-            visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, false)) View.VISIBLE
-            else View.GONE
+            visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, this.resources.getBoolean(
+                    R.bool.is_voltage_overlay))) View.VISIBLE else View.GONE
         }
     }
 
     private fun onUpdateLastChargeTimeOverlay() {
 
-        if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false)
+        if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, lastChargeTimeOverlay.context.resources
+                .getBoolean(R.bool.is_last_charge_time_overlay))
             || lastChargeTimeOverlay.visibility == View.VISIBLE)
         lastChargeTimeOverlay.apply {
             
@@ -563,17 +607,19 @@ interface OverlayInterface : BatteryInfoInterface {
                 "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%",
                 "${pref.getInt(BATTERY_LEVEL_TO, 0)}%")
 
-            visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, false))
-                View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, this.context
+                    .resources.getBoolean(R.bool.is_last_charge_time_overlay))) View.VISIBLE else
+                View.GONE
         }
     }
 
     private fun onUpdateBatteryWearOverlay() {
 
-        if((pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, false)
-                    && pref.getBoolean(IS_SUPPORTED, true))
-            || batteryWearOverlay.visibility == View.VISIBLE)
-        batteryWearOverlay.apply {
+        if((pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, batteryWearOverlay.resources.getBoolean(
+                R.bool.is_battery_wear_overlay)) && pref.getBoolean(IS_SUPPORTED,
+                batteryWearOverlay.context.resources.getBoolean(R.bool.is_supported))) ||
+            batteryWearOverlay.visibility == View.VISIBLE)
+            batteryWearOverlay.apply {
             
             TextAppearanceHelper.setTextAppearance(this.context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -582,8 +628,10 @@ interface OverlayInterface : BatteryInfoInterface {
 
             text = onGetBatteryWear(context)
 
-            visibility = if(pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, false)
-                && pref.getBoolean(IS_SUPPORTED, true)) View.VISIBLE else View.GONE
+            visibility = if(pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, this.resources.getBoolean(
+                    R.bool.is_battery_wear_overlay)) && pref.getBoolean(IS_SUPPORTED,
+                    batteryWearOverlay.context.resources.getBoolean(R.bool.is_supported)))
+                View.VISIBLE else View.GONE
         }
     }
 

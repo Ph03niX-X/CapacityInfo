@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -17,7 +18,8 @@ class BootReceiver : BroadcastReceiver() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(pref.getBoolean(IS_AUTO_START_SERVICE, true))
+        if(pref.getBoolean(IS_AUTO_START_SERVICE, context.resources.getBoolean(
+                R.bool.is_auto_start_service)))
         when(intent.action) {
 
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> {

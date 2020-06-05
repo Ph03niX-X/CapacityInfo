@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 
@@ -18,18 +19,19 @@ object ThemeHelper {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
             AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(
-                    IS_DARK_MODE, false))
+                    IS_DARK_MODE, context.resources.getBoolean(R.bool.is_dark_mode)))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
 
             if(pref.contains(IS_AUTO_DARK_MODE)) pref.edit().remove(IS_AUTO_DARK_MODE).apply()
         }
 
-        else if(isAutoDarkMode ?: pref.getBoolean(IS_AUTO_DARK_MODE, true))
+        else if(isAutoDarkMode ?: pref.getBoolean(IS_AUTO_DARK_MODE, context.resources.getBoolean(
+                R.bool.is_auto_dark_mode)))
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         else
             AppCompatDelegate.setDefaultNightMode(if(isSystemDarkMode ?: pref.getBoolean(
-                    IS_DARK_MODE, false))
+                    IS_DARK_MODE, context.resources.getBoolean(R.bool.is_dark_mode)))
                 AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 

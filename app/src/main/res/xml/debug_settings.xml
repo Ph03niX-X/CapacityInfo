@@ -6,6 +6,7 @@
 
         <SwitchPreferenceCompat
                 android:title="@string/forcibly_show_rate_the_app"
+                android:defaultValue="@bool/is_forcibly_show_rate_the_app"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_rate_the_app_24dp"
                 android:key="is_forcibly_show_rate_the_app"/>

@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_REQUEST_CODE
-import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_DARK_MODE
@@ -180,7 +179,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         selectLanguage = findPreference(LANGUAGE)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
-            !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+            !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = onGetTextSizeSummary(requireContext())
 
@@ -312,8 +311,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 tabOnApplicationLaunch?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = true
-                unitOfMeasurementOfCurrentCapacity?.isVisible =
-                    pref.getBoolean(IS_SUPPORTED, true)
+                unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
+                    resources.getBoolean(R.bool.is_supported))
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
                 overlay?.isVisible = true
@@ -491,7 +490,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         super.onResume()
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
-            !pref.getBoolean(IS_AUTO_DARK_MODE, true)
+            !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = onGetTextSizeSummary(requireContext())
 
@@ -507,16 +506,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             requireContext())
 
         unitOfMeasurementOfCurrentCapacity?.isVisible = moreOther?.title == getString(R.string.hide)
-                && pref.getBoolean(IS_SUPPORTED, true)
+                && pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
 
-        if(pref.getBoolean(IS_SUPPORTED, true))
+        if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
             unitOfMeasurementOfCurrentCapacity?.summary =
                 onGetUnitOfMeasurementOfCurrentCapacitySummary(requireContext())
 
         voltageUnit?.summary = onGetVoltageUnitSummary(requireContext())
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
-            pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY))
+            pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

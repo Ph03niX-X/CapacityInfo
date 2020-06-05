@@ -183,12 +183,17 @@ class OverlayFragment : PreferenceFragmentCompat() {
         lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
         batteryWearOverlay = findPreference(IS_BATTERY_WEAR_OVERLAY)
 
-        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
 
-        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
+        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(
+            R.bool.is_enabled_overlay)))
 
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -225,10 +230,10 @@ class OverlayFragment : PreferenceFragmentCompat() {
         currentCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null
-                && pref.getBoolean(IS_SUPPORTED, true))
+                && pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true))
+            else if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
                 (preference as? SwitchPreferenceCompat)?.isVisible = false
 
 
@@ -238,10 +243,11 @@ class OverlayFragment : PreferenceFragmentCompat() {
         capacityAddedOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null
-                && pref.getBoolean(IS_SUPPORTED, true))
-                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+                && pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+                    R.bool.is_supported))) ServiceHelper.startService(requireContext(),
+                OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true))
+            else if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
                 (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
@@ -258,11 +264,12 @@ class OverlayFragment : PreferenceFragmentCompat() {
         residualCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null
-                && pref.getBoolean(IS_SUPPORTED, true))
-                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+                && pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+                    R.bool.is_supported))) ServiceHelper.startService(requireContext(),
+                OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true))
-                (preference as? SwitchPreferenceCompat)?.isVisible = false
+            else if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+                    R.bool.is_supported))) (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
         }
@@ -342,11 +349,12 @@ class OverlayFragment : PreferenceFragmentCompat() {
         batteryWearOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null
-                && pref.getBoolean(IS_SUPPORTED, true))
-                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+                && pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+                    R.bool.is_supported))) ServiceHelper.startService(requireContext(),
+                OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, true))
-                (preference as? SwitchPreferenceCompat)?.isVisible = false
+            else if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+                    R.bool.is_supported))) (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
         }
@@ -356,11 +364,16 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
-        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
-        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, true)
+        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
+        batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+            R.bool.is_supported))
 
         overlaySize?.summary = getOverlayTextSizeSummary()
 
@@ -370,7 +383,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         overlayOpacity?.summary = getOverlayOpacitySummary()
 
-        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, false))
+        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(
+            R.bool.is_enabled_overlay)))
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 

@@ -89,7 +89,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setContentIntent(openApp)
 
-            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
+            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                    R.bool.is_show_stop_service)) && mActions.isEmpty())
                 addAction(0, context.getString(R.string.stop_service), stopService)
 
             setContentText(context.getString(R.string.current_capacity,
@@ -97,7 +98,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setStyle(NotificationCompat.BigTextStyle().bigText(onGetNotificationMessage(context)))
 
-            setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
+            setShowWhen(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
+                R.bool.is_service_time)))
         }
 
         (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
@@ -121,7 +123,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            if(pref.getBoolean(IS_BYPASS_DND, true))
+            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
+                    R.bool.is_bypass_dnd_mode)))
                 setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
@@ -137,13 +140,15 @@ interface NotificationInterface : BatteryInfoInterface {
 
             if(temperature >= 45.0)
                 setContentText(context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                    false)) R.string.battery_overheating_fahrenheit
-            else R.string.battery_overheating_celsius, temperatureString))
+                        context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+                    R.string.battery_overheating_fahrenheit else R.string.battery_overheating_celsius,
+                    temperatureString))
 
             else
                 setContentText(context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                        false)) R.string.battery_overcooling_fahrenheit
-                else R.string.battery_overcooling_celsius, temperatureString))
+                        context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+                    R.string.battery_overcooling_fahrenheit else R.string.battery_overcooling_celsius,
+                    temperatureString))
 
             setShowWhen(true)
 
@@ -170,7 +175,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            if(pref.getBoolean(IS_BYPASS_DND, true))
+            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
+                    R.bool.is_bypass_dnd_mode)))
                 setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
@@ -212,7 +218,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            if(pref.getBoolean(IS_BYPASS_DND, true))
+            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
+                    R.bool.is_bypass_dnd_mode)))
                 setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
@@ -266,7 +273,8 @@ interface NotificationInterface : BatteryInfoInterface {
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
-            if(pref.getBoolean(IS_BYPASS_DND, true))
+            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
+                    R.bool.is_bypass_dnd_mode)))
                 setCategory(NotificationCompat.CATEGORY_ALARM)
 
             setAutoCancel(true)
@@ -327,12 +335,15 @@ interface NotificationInterface : BatteryInfoInterface {
                 setStyle(NotificationCompat.BigTextStyle().bigText(onGetNotificationMessage(
                     context)))
 
-                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, false) && mActions.isEmpty())
+                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                        R.bool.is_show_stop_service)) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
-                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, false) &&
+                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                        R.bool.is_show_stop_service)) &&
                     mActions.isNotEmpty()) mActions.clear()
 
-                setShowWhen(pref.getBoolean(IS_SERVICE_TIME, false))
+                setShowWhen(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
+                    R.bool.is_service_time)))
             }
 
             notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
@@ -484,15 +495,18 @@ interface NotificationInterface : BatteryInfoInterface {
         val chargeCurrent = context.getString(R.string.charge_current,
             onGetChargeDischargeCurrent(context).toString())
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                false)) R.string.temperature_fahrenheit else R.string.temperature_celsius,
+                context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+            R.string.temperature_fahrenheit else R.string.temperature_celsius,
             onGetTemperature(context))
 
-        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
+                context.resources.getBoolean(R.bool.voltage_in_mv)))
             R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
             onGetVoltage(context)))
 
         return if(onGetCurrentCapacity(context) > 0)
-            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
+            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION,
+                    context.resources.getBoolean(R.bool.is_show_capacity_added_in_notification)))
                 "$charging\n$batteryLevel\n$sourceOfPower\n${onGetChargingTime(context, 
                     capacityInfoServiceContext?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n${onGetResidualCapacity(context, true)}\n${
@@ -528,15 +542,18 @@ interface NotificationInterface : BatteryInfoInterface {
         val dischargeCurrent = context.getString(R.string.discharge_current,
             onGetChargeDischargeCurrent(context).toString())
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                false)) R.string.temperature_fahrenheit else R.string.temperature_celsius,
+                context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+            R.string.temperature_fahrenheit else R.string.temperature_celsius,
             onGetTemperature(context))
 
-        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
+                context.resources.getBoolean(R.bool.voltage_in_mv)))
             R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
             onGetVoltage(context)))
 
         return if(onGetCurrentCapacity(context) > 0)
-            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
+            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION,
+                    context.resources.getBoolean(R.bool.is_show_capacity_added_in_notification)))
                 "$notCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
                     capacityInfoServiceContext?.seconds ?: 0)}\n$currentCapacity" +
                         "\n$capacityAdded\n$dischargeCurrent\n$temperature\n$voltage"
@@ -570,17 +587,21 @@ interface NotificationInterface : BatteryInfoInterface {
         val dischargeCurrent = context.getString(R.string.discharge_current,
             onGetChargeDischargeCurrent(context).toString())
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                false)) R.string.temperature_fahrenheit else R.string.temperature_celsius,
+                context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+            R.string.temperature_fahrenheit else R.string.temperature_celsius,
             onGetTemperature(context))
 
-        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
+                context.resources.getBoolean(R.bool.voltage_in_mv)))
             R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
             onGetVoltage(context)))
 
-        return if(pref.getBoolean(IS_SUPPORTED, true)) {
+        return if(pref.getBoolean(IS_SUPPORTED, context.resources.getBoolean(
+                R.bool.is_supported))) {
 
             if(onGetCurrentCapacity(context) > 0)
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
+                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION,
+                        context.resources.getBoolean(R.bool.is_show_capacity_added_in_notification)))
                     "$fullCharging\n$batteryLevel\n$numberOfCycles\n${onGetChargingTime(context, 
                         capacityInfoServiceContext?.seconds ?: 0)}\n$currentCapacity" +
                             "\n$capacityAdded\n${onGetResidualCapacity(context)}" +
@@ -625,19 +646,23 @@ interface NotificationInterface : BatteryInfoInterface {
         val dischargeCurrent = context.getString(R.string.discharge_current,
             onGetChargeDischargeCurrent(context).toString())
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                false)) R.string.temperature_fahrenheit else R.string.temperature_celsius,
+                context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+            R.string.temperature_fahrenheit else R.string.temperature_celsius,
             onGetTemperature(context))
 
-        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
+                context.resources.getBoolean(R.bool.voltage_in_mv)))
             R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
             onGetVoltage(context)))
 
         return if(onGetCurrentCapacity(context) > 0) {
 
             if(pref.getInt(LAST_CHARGE_TIME, 0) > 0 && pref.getBoolean(
-                    IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION, true))
+                    IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION,
+                    context.resources.getBoolean(R.bool.is_show_last_charge_time_in_notification)))
 
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
+                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION,
+                        context.resources.getBoolean(R.bool.is_show_capacity_added_in_notification)))
                     "$discharging\n$batteryLevel\n$numberOfCycles\n$lastChargingTime\n" +
                             "$currentCapacity\n$capacityAdded\n${onGetResidualCapacity(context)}" +
                             "\n${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature" +
@@ -648,7 +673,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             else {
 
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
+                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION,
+                        context.resources.getBoolean(R.bool.is_show_capacity_added_in_notification)))
                     "$discharging\n$batteryLevel\n$numberOfCycles\n$currentCapacity\n" +
                             "$capacityAdded\n${onGetResidualCapacity(context)}\n" +
                             "${onGetBatteryWear(context)}\n$dischargeCurrent\n$temperature" +
@@ -662,7 +688,8 @@ interface NotificationInterface : BatteryInfoInterface {
         else {
 
             if(pref.getInt(LAST_CHARGE_TIME, 0) > 0 && pref.getBoolean(
-                    IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION, true))
+                    IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION,
+                    context.resources.getBoolean(R.bool.is_show_last_charge_time_in_notification)))
                 "$discharging\n$batteryLevel\n$numberOfCycles\n$lastChargingTime\n" +
                         "$dischargeCurrent\n$temperature\n$voltage"
 
@@ -688,15 +715,18 @@ interface NotificationInterface : BatteryInfoInterface {
             "#.#").format(onGetCurrentCapacity(context)))
         val capacityAdded = onGetCapacityAdded(context)
         val temperature = context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                false)) R.string.temperature_fahrenheit else R.string.temperature_celsius,
+                context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+            R.string.temperature_fahrenheit else R.string.temperature_celsius,
             onGetTemperature(context))
 
-        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV, false))
+        val voltage = context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
+                context.resources.getBoolean(R.bool.voltage_in_mv)))
             R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
             onGetVoltage(context)))
 
         return if(onGetCurrentCapacity(context) > 0)
-            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, true))
+            if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION,
+                    context.resources.getBoolean(R.bool.is_show_capacity_added_in_notification)))
                 "$discharging\n$batteryLevel\n$numberOfCycles\n$currentCapacity\n$capacityAdded" +
                         "\n$temperature\n$voltage" else "$discharging\n$batteryLevel\n" +
                     "$numberOfCycles\n$currentCapacity\n$temperature\n$voltage"

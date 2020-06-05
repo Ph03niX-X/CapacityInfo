@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="is_supported">true</bool>
+    <bool name="is_show_not_supported_dialog">true</bool>
+    <bool name="is_show_instruction">true</bool>
+
+    <!--Settings-->
+    <bool name="is_auto_start_service">true</bool>
+    <bool name="is_show_stop_service">false</bool>
+    <bool name="is_service_time">false</bool>
+    <bool name="is_show_capacity_added_in_notification">true</bool>
+    <bool name="is_show_last_charge_time_in_notification">true</bool>
+    <bool name="is_stop_the_service_when_the_cd">false</bool>
+    <bool name="is_auto_dark_mode">true</bool>
+    <bool name="is_dark_mode">false</bool>
+    <bool name="temperature_in_fahrenheit">false</bool>
+    <bool name="voltage_in_mv">false</bool>
+
+    <!--Battery Status Information-->
+    <bool name="is_bypass_dnd_mode">true</bool>
+    <bool name="is_notify_overheat_overcool">false</bool>
+    <bool name="is_notify_battery_is_fully_charged">false</bool>
+    <bool name="is_notify_battery_is_charged">false</bool>
+    <bool name="is_notify_battery_is_discharged">false</bool>
+
+    <!--Overlay-->
+    <bool name="is_enabled_overlay">false</bool>
+    <bool name="is_battery_level_overlay">false</bool>
+    <bool name="is_number_of_charges_overlay">false</bool>
+    <bool name="is_number_of_cycles_overlay">false</bool>
+    <bool name="is_charging_time_overlay">false</bool>
+    <bool name="is_current_capacity_overlay">false</bool>
+    <bool name="is_capacity_added_overlay">false</bool>
+    <bool name="is_battery_health_overlay">false</bool>
+    <bool name="is_residual_capacity_overlay">false</bool>
+    <bool name="is_status_overlay">false</bool>
+    <bool name="is_source_of_power_overlay">false</bool>
+    <bool name="is_charge_discharge_current_overlay">false</bool>
+    <bool name="is_max_charge_discharge_current_overlay">false</bool>
+    <bool name="is_average_charge_discharge_current_overlay">false</bool>
+    <bool name="is_min_charge_discharge_current_overlay">false</bool>
+    <bool name="is_temperature_overlay">false</bool>
+    <bool name="is_voltage_overlay">false</bool>
+    <bool name="is_last_charge_time_overlay">false</bool>
+    <bool name="is_battery_wear_overlay">false</bool>
+
+    <!--Debug-->
+    <bool name="is_forcibly_show_rate_the_app">false</bool>
+</resources>

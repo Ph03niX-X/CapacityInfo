@@ -9,7 +9,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getHours
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getMinutes
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getSeconds
-import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
@@ -56,7 +55,7 @@ interface BatteryInfoInterface {
 
         return when {
 
-            designCapacity == 0 -> MIN_DESIGN_CAPACITY
+            designCapacity == 0 -> context.resources.getInteger(R.integer.min_design_capacity)
             designCapacity < 0 -> designCapacity / -1
             else -> designCapacity
         }
@@ -178,7 +177,8 @@ interface BatteryInfoInterface {
         temp /= 10.0
 
         return DecimalFormat("#.#").format(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                false)) (temp * 1.8) + 32.0 else temp)
+                context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
+            (temp * 1.8) + 32.0 else temp)
     }
 
     fun onGetTemperatureInDouble(context: Context): Double {
@@ -258,7 +258,7 @@ interface BatteryInfoInterface {
         var voltage = batteryIntent?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0)
             ?.toDouble() ?: 0.0
 
-        if(!pref.getBoolean(VOLTAGE_IN_MV, false)) {
+        if(!pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv))) {
 
             if(pref.getString(VOLTAGE_UNIT, "mV") == "μV")
                 voltage /= 1000.0.pow(2.0)
@@ -319,7 +319,8 @@ interface BatteryInfoInterface {
         return context.getString(
             R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
             "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(
-                DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toDouble()) * 100)}%")
+                DESIGN_CAPACITY, context.resources.getInteger(R.integer.min_design_capacity))
+                .toDouble()) * 100)}%")
     }
 
     fun onGetStatus(context: Context, extraStatus: Int): String {
@@ -352,7 +353,8 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val designCapacity = pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY).toDouble()
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+            R.integer.min_design_capacity)).toDouble()
 
         return context.getString(R.string.battery_wear, if(residualCapacity > 0
             && residualCapacity < designCapacity) "${DecimalFormat("#.#").format(

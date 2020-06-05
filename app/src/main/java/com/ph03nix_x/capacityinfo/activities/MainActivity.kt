@@ -22,8 +22,6 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_EXTRA
-import com.ph03nix_x.capacityinfo.utils.Constants.MAX_DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.Constants.MIN_DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
@@ -164,7 +162,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         fragment = WearFragment()
 
-                        loadFragment(fragment ?: ChargeDischargeFragment())
+                        loadFragment(fragment ?: WearFragment())
                     }
                 }
 
@@ -182,7 +180,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         fragment = SettingsFragment()
 
-                        loadFragment(fragment ?: ChargeDischargeFragment())
+                        loadFragment(fragment ?: SettingsFragment())
                     }
                 }
 
@@ -198,7 +196,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         fragment = DebugFragment()
 
-                        loadFragment(fragment ?: ChargeDischargeFragment())
+                        loadFragment(fragment ?: DebugFragment())
                     }
                 }
             }
@@ -258,8 +256,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
             pref.getBoolean("debug_options_is_enabled", false)
 
-        if(pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) < MIN_DESIGN_CAPACITY
-            || pref.getInt(DESIGN_CAPACITY, MIN_DESIGN_CAPACITY) > MAX_DESIGN_CAPACITY) {
+        if(pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
+            resources.getInteger(R.integer.min_design_capacity) || pref.getInt(DESIGN_CAPACITY,
+                resources.getInteger(R.integer.min_design_capacity)) > resources.getInteger(
+                R.integer.max_design_capacity)) {
 
             pref.edit().apply {
 
@@ -270,7 +270,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         if(onGetCurrentCapacity(this) == 0.0
-            && pref.getBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, true)) {
+            && pref.getBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, resources.getBoolean(
+                R.bool.is_show_not_supported_dialog))) {
 
             pref.edit().putBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, false).apply()
 
@@ -287,8 +288,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-        else if(pref.getBoolean(IS_SUPPORTED, true)
-            && pref.getBoolean(IS_SHOW_INSTRUCTION, true)) showInstruction()
+        else if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
+            && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
+                R.bool.is_show_instruction))) showInstruction()
 
         if(onGetCurrentCapacity(this) == 0.0 && (fragment is ChargeDischargeFragment
                     || fragment is WearFragment))
@@ -402,7 +404,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         MaterialAlertDialogBuilder(this).apply {
 
-            if(pref.getBoolean(IS_SHOW_INSTRUCTION, true))
+            if(pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
+                    R.bool.is_show_instruction)))
                 pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply()
 
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
