@@ -316,7 +316,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.navigationIcon = null
 
-            loadFragment(fragment ?: SettingsFragment())
+            super.onBackPressed()
         }
 
         else {
@@ -427,7 +427,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         supportFragmentManager.beginTransaction().apply {
 
             replace(R.id.fragment_container, fragment)
-            addToBackStack(null)
             commit()
         }
 
