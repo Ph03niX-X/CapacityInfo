@@ -23,7 +23,7 @@
     </string-array>
 
     <string-array name="text_style_list">
-        <item>Норальний (За замовчуванням)</item>
+        <item>Нормальний (За замовчуванням)</item>
         <item>Жирний</item>
         <item>Курсив</item>
     </string-array>
