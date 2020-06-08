@@ -13,4 +13,5 @@
     <color name="subtitle_text">@android:color/white</color>
     <color name="icons">@android:color/white</color>
     <color name="icons_pref_category">@color/red</color>
+    <color name="service_notification_text">@android:color/darker_gray</color>
 </resources>
