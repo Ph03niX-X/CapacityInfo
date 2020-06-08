@@ -63,8 +63,6 @@
     <string name="number_of_charges">Количество зарядок: %1$d</string>
     <string name="residual_capacity_not_supported">Остаточная ёмкость: Не поддерживается</string>
     <string name="battery_wear_not_supported">Износ аккумулятора: Не поддерживается</string>
-    <string name="auto_start">Автоматический запуск</string>
-    <string name="auto_start_summary">Запускать службу после запуска ОС</string>
     <string name="debug">Отладка</string>
     <string name="change_setting">Изменить настройку</string>
     <string name="pref_key">Ключ</string>

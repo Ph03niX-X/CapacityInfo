@@ -5,7 +5,6 @@
     <bool name="is_show_instruction">true</bool>
 
     <!--Settings-->
-    <bool name="is_auto_start_service">true</bool>
     <bool name="is_show_stop_service">false</bool>
     <bool name="is_service_time">false</bool>
     <bool name="is_show_capacity_added_in_notification">true</bool>

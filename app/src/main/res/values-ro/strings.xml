@@ -65,8 +65,6 @@
     <string name="number_of_charges">Numărul încărcărilor: %1$d</string>
     <string name="residual_capacity_not_supported">Capacitate reziduală: Nu este disponibilă</string>
     <string name="battery_wear_not_supported">Uzura bateriei: Nu este disponibilă</string>
-    <string name="auto_start">Pornire automată</string>
-    <string name="auto_start_summary">Se pornește serviciul după pornirea sistemului de operare</string>
     <string name="debug">Depanare</string>
     <string name="change_setting">Schimbare setare</string>
     <string name="pref_key">Cheie</string>

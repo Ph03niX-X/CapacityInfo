@@ -21,7 +21,6 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_SETTINGS_REQUEST_CO
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
@@ -51,7 +50,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var mainActivity: MainActivity? = null
 
     // Service & Notification
-    private var isAutoStartService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
     private var moreServiceAndNotification: Preference? = null
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
@@ -98,8 +96,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         mainActivity = activity as? MainActivity
 
         // Service & Notification
-        isAutoStartService = findPreference(IS_AUTO_START_SERVICE)
-
         serviceTime = findPreference(IS_SERVICE_TIME)
 
         moreServiceAndNotification = findPreference("more_service_and_notification")
@@ -155,8 +151,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
-                showLastChargeTimeInNotification?.isVisible = true
-
                 isStopTheServiceWhenTheCD?.isVisible = true
 
                 isShowExtendedNotificationWhenDischarging?.isVisible = true
@@ -172,8 +166,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
-
-                showLastChargeTimeInNotification?.isVisible = false
 
                 isStopTheServiceWhenTheCD?.isVisible = false
 

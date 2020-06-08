@@ -46,6 +46,8 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 edit().apply {
 
+                    if(contains("is_auto_start_service")) remove("is_auto_start_service")
+
                     if(contains("main_window_text_font")) {
 
                         putString(TEXT_FONT,

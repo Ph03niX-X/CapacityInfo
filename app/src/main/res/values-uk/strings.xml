@@ -63,8 +63,6 @@
     <string name="number_of_charges">Кількість зарядок: %1$d</string>
     <string name="residual_capacity_not_supported">Залишкова ємність: Не підтримується</string>
     <string name="battery_wear_not_supported">Знос акумулятора: Не підтримується</string>
-    <string name="auto_start">Автоматичний запуск</string>
-    <string name="auto_start_summary">Запускати службу після запуску ОС</string>
     <string name="debug">Налагодження</string>
     <string name="change_setting">Змінити налаштування</string>
     <string name="pref_key">Ключ</string>

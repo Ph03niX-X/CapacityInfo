@@ -67,8 +67,6 @@
     <string name="number_of_charges">Number of Charges: %1$d</string>
     <string name="residual_capacity_not_supported">Residual Capacity: Not Supported</string>
     <string name="battery_wear_not_supported">Battery Wear: Not Supported</string>
-    <string name="auto_start">Auto Start</string>
-    <string name="auto_start_summary">Start the service after starting the OS</string>
     <string name="debug">Debug</string>
     <string name="change_setting">Change Setting</string>
     <string name="pref_key">Key</string>
