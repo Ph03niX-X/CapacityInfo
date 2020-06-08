@@ -5,10 +5,11 @@ import android.content.Intent
 import android.os.Build
 import androidx.preference.Preference
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
 import kotlinx.coroutines.*
 
 object ServiceHelper {
+
+    var isStartedService = false
 
     fun startService(context: Context, serviceName: Class<*>, isRestartService: Boolean = false) {
 

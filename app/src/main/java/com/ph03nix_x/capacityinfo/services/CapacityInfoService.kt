@@ -14,33 +14,33 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
-import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
-import com.ph03nix_x.capacityinfo.utils.Utils.isPowerConnected
-import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
-import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CHARGES
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
 
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
@@ -92,7 +92,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     tempCurrentCapacity = onGetCurrentCapacity(this)
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                        BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+                        BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
+                        .BATTERY_STATUS_UNKNOWN
 
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(
                         NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
@@ -288,9 +289,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 949L
+                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
                 else 956L)
-            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0) 926L
+            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0.0) 926L
             else 926L)
 
         seconds++
@@ -331,7 +332,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, (onGetBatteryLevel(this@CapacityInfoService) ?: 0))
 
-            if(onGetCurrentCapacity(this@CapacityInfoService) > 0) {
+            if(onGetCurrentCapacity(this@CapacityInfoService) > 0.0) {
 
                 if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                     putInt(RESIDUAL_CAPACITY, (onGetCurrentCapacity(

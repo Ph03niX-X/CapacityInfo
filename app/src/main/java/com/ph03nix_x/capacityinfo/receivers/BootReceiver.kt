@@ -9,8 +9,8 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
-import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_SERVICE
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper.isStartedService
 
 class BootReceiver : BroadcastReceiver() {
 

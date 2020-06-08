@@ -3,10 +3,10 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Bundle
 import androidx.preference.*
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
-import com.ph03nix_x.capacityinfo.utils.Utils.isGooglePlay
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 

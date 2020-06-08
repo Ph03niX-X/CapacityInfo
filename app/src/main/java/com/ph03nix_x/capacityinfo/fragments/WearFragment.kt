@@ -15,12 +15,12 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
-import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
+import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
@@ -196,7 +196,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
                             withContext(Dispatchers.Main) {
 
-                                residualCapacity.text =  onGetResidualCapacity(
+                                residualCapacity.text = onGetResidualCapacity(
                                     context ?: residualCapacity.context,
                                     batteryIntent?.getIntExtra(
                                         BatteryManager.EXTRA_STATUS, BatteryManager
@@ -209,7 +209,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
                             }
                         }
 
-                        if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0) {
+                        if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
 
                             if(currentCapacity.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -296,7 +296,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if(onGetCurrentCapacity(
-                                    context ?: currentCapacity.context) > 0L) 986L
+                                    context ?: currentCapacity.context) > 0.0) 986L
                             else 993L)
 
                         else -> delay(3000L)

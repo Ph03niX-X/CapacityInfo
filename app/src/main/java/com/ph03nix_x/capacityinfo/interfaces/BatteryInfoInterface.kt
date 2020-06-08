@@ -9,21 +9,17 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getHours
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getMinutes
 import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper.getSeconds
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.PERCENT_ADDED
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.RESIDUAL_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
-import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
-import com.ph03nix_x.capacityinfo.utils.Utils.capacityAdded
-import com.ph03nix_x.capacityinfo.utils.Utils.percentAdded
-import com.ph03nix_x.capacityinfo.utils.Utils.tempBatteryLevelWith
-import com.ph03nix_x.capacityinfo.utils.Utils.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
+import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 import kotlin.math.pow
@@ -33,6 +29,10 @@ interface BatteryInfoInterface {
 
     companion object {
 
+        var tempCurrentCapacity = 0.0
+        var capacityAdded = 0.0
+        var tempBatteryLevelWith = 0
+        var percentAdded = 0
         var residualCapacity = 0.0
         var batteryLevel = 0
         var maxChargeCurrent = 0
@@ -377,7 +377,7 @@ interface BatteryInfoInterface {
         val secondsPref = PreferenceManager.getDefaultSharedPreferences(context).getInt(
             LAST_CHARGE_TIME, 0).toLong()
 
-        val hours  = getHours(secondsPref)
+        val hours = getHours(secondsPref)
         val minutes = getMinutes(secondsPref)
         val seconds = getSeconds(secondsPref)
 

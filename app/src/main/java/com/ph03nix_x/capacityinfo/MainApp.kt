@@ -1,19 +1,27 @@
 package com.ph03nix_x.capacityinfo
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utils.Constants
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 
 class MainApp : Application() {
 
     companion object {
 
+        var batteryIntent: Intent? = null
         var defLang: String = "en"
+        var isPowerConnected = false
+        var isInstalledGooglePlay = true
+
+        fun isGooglePlay(context: Context) =
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallerPackageName(
+                context.packageName)
     }
 
     override fun onCreate() {

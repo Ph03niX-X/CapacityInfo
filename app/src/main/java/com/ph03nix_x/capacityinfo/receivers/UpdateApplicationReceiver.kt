@@ -8,10 +8,10 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
-import com.ph03nix_x.capacityinfo.utils.Utils.isStartedService
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper.isStartedService
 
 class UpdateApplicationReceiver : BroadcastReceiver() {
 

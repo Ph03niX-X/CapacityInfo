@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo.view
+package com.ph03nix_x.capacityinfo.views
 
 import android.content.Context
 import android.text.TextUtils

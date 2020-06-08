@@ -21,7 +21,7 @@ object TextAppearanceHelper {
     }
 
     private fun setTextStyle(textView: AppCompatTextView, textStylePref: String?,
-                             fontFamily: Typeface?): Typeface {
+                             fontFamily: Typeface?): Typeface? {
 
         return when(textStylePref?.toInt()) {
 
@@ -31,7 +31,7 @@ object TextAppearanceHelper {
 
             2 -> TypefaceCompat.create(textView.context, fontFamily, Typeface.ITALIC)
 
-            else -> TypefaceCompat.create(textView.context, fontFamily, Typeface.NORMAL)
+            else -> null
         }
     }
 
@@ -59,7 +59,7 @@ object TextAppearanceHelper {
 
             9 -> ResourcesCompat.getFont(context, R.font.ubuntu)
 
-            else -> ResourcesCompat.getFont(context, R.font.google_sans)
+            else -> null
         }
     }
 

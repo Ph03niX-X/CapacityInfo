@@ -13,8 +13,8 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.linearLayout
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.windowManager
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
-import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
 
 class OverlayService : Service(), OverlayInterface {

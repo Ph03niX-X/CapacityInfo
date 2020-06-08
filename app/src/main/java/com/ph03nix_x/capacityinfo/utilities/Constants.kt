@@ -1,4 +1,4 @@
-package com.ph03nix_x.capacityinfo.utils
+package com.ph03nix_x.capacityinfo.utilities
 
 object Constants {
 

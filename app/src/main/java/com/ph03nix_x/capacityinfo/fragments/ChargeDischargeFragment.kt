@@ -16,11 +16,11 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_FONT
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.TEXT_STYLE
-import com.ph03nix_x.capacityinfo.utils.Utils.batteryIntent
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
+import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
@@ -206,7 +206,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, resources.getBoolean(
                             R.bool.is_supported))) {
 
-                        if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0) {
+                        if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
 
                             if(currentCapacity.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -317,13 +317,13 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility ==  View.GONE)
+                                if(maxChargeDischargeCurrent.visibility == View.GONE)
                                     maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                if(averageChargeDischargeCurrent.visibility ==  View.GONE)
+                                if(averageChargeDischargeCurrent.visibility == View.GONE)
                                     averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                if(minChargeDischargeCurrent.visibility ==  View.GONE)
+                                if(minChargeDischargeCurrent.visibility == View.GONE)
                                     minChargeDischargeCurrent.visibility = View.VISIBLE
 
                                 maxChargeDischargeCurrent.text =getString(R.string.max_charge_current,
@@ -340,13 +340,13 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                         BatteryManager.BATTERY_STATUS_DISCHARGING -> withContext(Dispatchers.Main) {
 
-                            if(maxChargeDischargeCurrent.visibility ==  View.GONE)
+                            if(maxChargeDischargeCurrent.visibility == View.GONE)
                                 maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(averageChargeDischargeCurrent.visibility ==  View.GONE)
+                            if(averageChargeDischargeCurrent.visibility == View.GONE)
                                 averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(minChargeDischargeCurrent.visibility ==  View.GONE)
+                            if(minChargeDischargeCurrent.visibility == View.GONE)
                                 minChargeDischargeCurrent.visibility = View.VISIBLE
 
                             maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
@@ -365,13 +365,13 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility ==  View.VISIBLE)
+                                if(maxChargeDischargeCurrent.visibility == View.VISIBLE)
                                     maxChargeDischargeCurrent.visibility = View.GONE
 
-                                if(averageChargeDischargeCurrent.visibility ==  View.VISIBLE)
+                                if(averageChargeDischargeCurrent.visibility == View.VISIBLE)
                                     averageChargeDischargeCurrent.visibility = View.GONE
 
-                                if(minChargeDischargeCurrent.visibility ==  View.VISIBLE)
+                                if(minChargeDischargeCurrent.visibility == View.VISIBLE)
                                     minChargeDischargeCurrent.visibility = View.GONE
                             }
                         }
@@ -381,7 +381,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if(onGetCurrentCapacity(
-                                    context ?: currentCapacity.context) > 0L) 976L
+                                    context ?: currentCapacity.context) > 0.0) 976L
                             else 983L)
 
                         else -> delay(3000L)

@@ -11,10 +11,10 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utils.Constants.GITHUB_LINK
-import com.ph03nix_x.capacityinfo.utils.Constants.ROMANIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utils.Constants.BELARUSIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
+import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
+import com.ph03nix_x.capacityinfo.utilities.Constants.ROMANIAN_TRANSLATION_LINK
+import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LINK
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 
 class AboutFragment : PreferenceFragmentCompat() {
 
