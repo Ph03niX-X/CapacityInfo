@@ -188,9 +188,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 R.id.settings_navigation -> {
 
-                    if(fragment !is SettingsFragment || fragment is
-                                BatteryStatusInformationFragment || fragment is OverlayFragment
-                        || fragment is AboutFragment || fragment is FeedbackFragment) {
+                    if(fragment !is SettingsFragment) {
 
                         toolbar.title = getString(R.string.settings)
 
@@ -247,7 +245,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
-        instance = this
+        if(instance == null) instance = this
 
         isLoadChargeDischarge = false
 
@@ -257,13 +255,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         isLoadDebug = false
 
+        batteryIntent = registerReceiver(null, IntentFilter(
+            Intent.ACTION_BATTERY_CHANGED))
+
+        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+
         if(fragment !is ChargeDischargeFragment) {
-
-            batteryIntent = registerReceiver(null, IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED))
-
-            val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
             navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(if(
                 status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
@@ -288,12 +286,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             fragment = ChargeDischargeFragment()
             loadFragment(fragment ?: ChargeDischargeFragment())
         }
-
-        batteryIntent = registerReceiver(null, IntentFilter(
-            Intent.ACTION_BATTERY_CHANGED))
-
-        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
         toolbar.title = when(fragment) {
 
@@ -351,9 +343,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
-        if(onGetCurrentCapacity(this) == 0.0 && (fragment is ChargeDischargeFragment
-                    || fragment is WearFragment))
-            toolbar.menu.findItem(R.id.instruction).isVisible = false
+        if(fragment is ChargeDischargeFragment || fragment is WearFragment)
+            toolbar.menu.findItem(R.id.instruction).isVisible = onGetCurrentCapacity(
+                this) > 0.0 && (fragment is ChargeDischargeFragment ||
+                    fragment is WearFragment)
 
         val prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
                 as? HashMap<*, *>
@@ -406,6 +399,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private fun inflateMenu() {
 
         toolbar.inflateMenu(R.menu.main_menu)
+
+        toolbar.menu.findItem(R.id.instruction).isVisible = onGetCurrentCapacity(
+            this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
 
         toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
 
