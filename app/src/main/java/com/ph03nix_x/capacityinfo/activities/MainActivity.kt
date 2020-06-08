@@ -257,6 +257,23 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         isLoadDebug = false
 
+        if(fragment !is ChargeDischargeFragment) {
+
+            batteryIntent = registerReceiver(null, IntentFilter(
+                Intent.ACTION_BATTERY_CHANGED))
+
+            val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+
+            navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(if(
+                status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
+                R.string.discharge)
+
+            navigation.menu.findItem(R.id.charge_discharge_navigation).icon = getDrawable(
+                getChargeDischargeNavigationIcon(status == BatteryManager
+                    .BATTERY_STATUS_CHARGING))
+        }
+
         if(CapacityInfoService.instance == null && !isStartedService) {
 
             isStartedService = true
