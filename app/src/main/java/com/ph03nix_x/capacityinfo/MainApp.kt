@@ -3,11 +3,8 @@ package com.ph03nix_x.capacityinfo
 import android.app.Application
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
-import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.utils.Constants
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utils.Utils.isInstalledGooglePlay
@@ -23,13 +20,6 @@ class MainApp : Application() {
 
         super.onCreate()
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        setTheme(this)
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            isSystemDarkMode(resources.configuration)
-
         defLang()
 
         isInstalledGooglePlay = isInstalledGooglePlay()
@@ -38,9 +28,6 @@ class MainApp : Application() {
     override fun onConfigurationChanged(newConfig: Configuration) {
 
         super.onConfigurationChanged(newConfig)
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            isSystemDarkMode(newConfig)
 
         if(LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
     }
