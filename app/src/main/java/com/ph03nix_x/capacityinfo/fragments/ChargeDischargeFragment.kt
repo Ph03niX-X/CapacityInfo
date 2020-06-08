@@ -147,7 +147,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                         batteryLevel.text = getString(R.string.battery_level,
                             "${onGetBatteryLevel(
                                 context ?: batteryLevel.context)}%")
-                        if(CapacityInfoService.instance?.seconds ?: 0 > 0) {
+                        if(CapacityInfoService.instance?.seconds ?: 0 > 1) {
 
                             chargingTime.visibility = View.VISIBLE
 
