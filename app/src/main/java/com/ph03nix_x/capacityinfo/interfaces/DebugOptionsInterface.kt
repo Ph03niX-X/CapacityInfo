@@ -594,8 +594,6 @@ interface DebugOptionsInterface {
 
             LocaleHelper.setLocale(context, value)
 
-            MainActivity.isLoadDebug = true
-
             (context as? MainActivity)?.recreate()
         }
     }
@@ -625,8 +623,6 @@ interface DebugOptionsInterface {
 
         if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
             || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
-
-            MainActivity.isLoadDebug = true
 
             (context as? MainActivity)?.recreate()
         }
@@ -659,8 +655,6 @@ interface DebugOptionsInterface {
 
             if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == LANGUAGE
                 || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
-
-                MainActivity.isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
             }
@@ -707,8 +701,6 @@ interface DebugOptionsInterface {
             setPositiveButton(context.getString(R.string.reset)) { _, _ ->
 
                 pref.edit().clear().apply()
-
-                MainActivity.isLoadDebug = true
 
                 (context as? MainActivity)?.recreate()
 

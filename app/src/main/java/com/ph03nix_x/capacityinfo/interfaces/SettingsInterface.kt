@@ -216,8 +216,6 @@ interface SettingsInterface {
 
         LocaleHelper.setLocale(context, language)
 
-        MainActivity.isLoadSettings = true
-
         (context as? MainActivity)?.recreate()
     }
 

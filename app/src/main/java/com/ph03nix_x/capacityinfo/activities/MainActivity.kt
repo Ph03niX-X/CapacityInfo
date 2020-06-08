@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     companion object {
 
         var instance: MainActivity? = null
+        var isLoadChargeDischarge = false
+        var isLoadWear = false
         var isLoadSettings = false
         var isLoadDebug = false
     }
@@ -85,11 +87,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         fragment = when {
 
-            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1" && prefArrays == null
-                    && !isLoadSettings && !isLoadDebug -> ChargeDischargeFragment()
+            isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1"
+                    && prefArrays == null && !isLoadSettings && !isLoadDebug) ->
+                ChargeDischargeFragment()
 
-            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" && prefArrays == null
-                    && !isLoadSettings && !isLoadDebug -> WearFragment()
+            isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
+                    prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
 
             isLoadDebug -> DebugFragment()
 
@@ -139,6 +142,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         toolbar.navigationIcon = null
 
+                        isLoadChargeDischarge = true
+
+                        isLoadWear = false
+
+                        isLoadSettings = false
+
+                        isLoadDebug = false
+
                         clearMenu()
 
                         inflateMenu()
@@ -156,6 +167,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         toolbar.title = getString(R.string.wear)
 
                         toolbar.navigationIcon = null
+
+                        isLoadChargeDischarge = false
+
+                        isLoadWear = true
+
+                        isLoadSettings = false
+
+                        isLoadDebug = false
 
                         clearMenu()
 
@@ -177,6 +196,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         toolbar.navigationIcon = null
 
+                        isLoadChargeDischarge = false
+
+                        isLoadWear = false
+
+                        isLoadSettings = true
+
+                        isLoadDebug = false
+
                         clearMenu()
 
                         fragment = SettingsFragment()
@@ -192,6 +219,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         toolbar.title = getString(R.string.debug)
 
                         toolbar.navigationIcon = null
+
+                        isLoadChargeDischarge = false
+
+                        isLoadWear = false
+
+                        isLoadSettings = false
+
+                        isLoadDebug = true
 
                         clearMenu()
 
@@ -213,6 +248,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         super.onResume()
 
         instance = this
+
+        isLoadChargeDischarge = false
+
+        isLoadWear = false
 
         isLoadSettings = false
 
@@ -336,13 +375,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 3000)
             }
         }
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        instance = null
     }
 
     override fun onDestroy() {
