@@ -17,6 +17,8 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.NUMBER_OF_CYCLES
@@ -134,6 +136,13 @@ class UnpluggedReceiver : BroadcastReceiver() {
                             context.getDrawable(it)
                         }
                 }
+
+                if(!pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING, context
+                        .resources.getBoolean(
+                            R.bool.is_show_expanded_notification_when_discharging)) || !pref
+                        .getBoolean(IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING, context.resources
+                            .getBoolean(R.bool.is_show_expanded_notification_when_charging)))
+                    ServiceHelper.restartService(context, CapacityInfoService::class.java)
             }
         }
     }

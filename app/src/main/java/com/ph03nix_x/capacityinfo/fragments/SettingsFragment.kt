@@ -11,8 +11,11 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utils.Constants.EXPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utils.Constants.IMPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utils.Constants.SERVICE_CHANNEL_ID
@@ -22,6 +25,8 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_AUTO_START_SERVICE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING
+import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.IS_SUPPORTED
@@ -38,7 +43,8 @@ import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_C
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utils.PreferencesKeys.VOLTAGE_UNIT
 
-class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface {
+class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
+    BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -51,6 +57,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
+    private var isShowExtendedNotificationWhenDischarging: SwitchPreferenceCompat? = null
+    private var isShowExtendedNotificationWhenCharging: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettingsService: Preference? = null
     private var batteryStatusInformation: Preference? = null
 
@@ -102,9 +110,41 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
 
+        isShowExtendedNotificationWhenDischarging = findPreference(
+            IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING)
+
+        isShowExtendedNotificationWhenCharging = findPreference(
+            IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING)
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             openNotificationCategorySettingsService =
                 findPreference("open_notification_category_settings_service")
+
+        showCapacityAddedInNotification?.isVisible = onGetCurrentCapacity(requireContext()) > 0.0
+
+        isShowExtendedNotificationWhenDischarging?.setOnPreferenceChangeListener { preference, _ ->
+
+            preference.isEnabled = false
+
+            isShowExtendedNotificationWhenCharging?.isEnabled = false
+
+            ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                arrayListOf(preference, (isShowExtendedNotificationWhenCharging as? Preference)))
+
+            true
+        }
+
+        isShowExtendedNotificationWhenCharging?.setOnPreferenceChangeListener { preference, _ ->
+
+            isShowExtendedNotificationWhenDischarging?.isEnabled = false
+
+            preference.isEnabled = false
+
+            ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                arrayListOf((isShowExtendedNotificationWhenDischarging as? Preference), preference))
+
+            true
+        }
 
         batteryStatusInformation = findPreference("battery_status_information")
 
@@ -119,6 +159,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 isStopTheServiceWhenTheCD?.isVisible = true
 
+                isShowExtendedNotificationWhenDischarging?.isVisible = true
+
+                isShowExtendedNotificationWhenCharging?.isVisible = true
+
                 openNotificationCategorySettingsService?.isVisible = true
 
                 batteryStatusInformation?.isVisible = true
@@ -132,6 +176,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 showLastChargeTimeInNotification?.isVisible = false
 
                 isStopTheServiceWhenTheCD?.isVisible = false
+
+                isShowExtendedNotificationWhenDischarging?.isVisible = false
+
+                isShowExtendedNotificationWhenCharging?.isVisible = false
 
                 openNotificationCategorySettingsService?.isVisible = false
 
@@ -194,16 +242,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             darkMode?.isEnabled = (newValue as? Boolean) == false
 
-            MainActivity.isLoadSettings = true
-
             setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
             true
         }
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
-
-            MainActivity.isLoadSettings = true
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 
@@ -489,6 +533,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     override fun onResume() {
 
         super.onResume()
+
+        showCapacityAddedInNotification?.isVisible = onGetCurrentCapacity(requireContext()) > 0.0
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))

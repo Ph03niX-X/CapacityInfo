@@ -61,6 +61,22 @@
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
                 android:key="is_stop_the_service_when_the_cd"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/show_expanded_notification_when_discharging"
+                android:summary="@string/service_restart_required"
+                app:isPreferenceVisible="false"
+                android:defaultValue="@bool/is_show_expanded_notification_when_discharging"
+                app:singleLineTitle="false"
+                android:key="is_show_expanded_notification_when_discharging"/>
+
+        <SwitchPreferenceCompat
+                android:title="@string/show_expanded_notification_when_charging"
+                android:summary="@string/service_restart_required"
+                app:isPreferenceVisible="false"
+                android:defaultValue="@bool/is_show_expanded_notification_when_charging"
+                app:singleLineTitle="false"
+                android:key="is_show_expanded_notification_when_charging"/>
         
         <Preference
                 android:title="@string/open_notification_category_settings_service"
