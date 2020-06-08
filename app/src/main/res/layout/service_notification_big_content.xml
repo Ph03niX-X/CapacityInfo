@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/status"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/status_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/battery_level"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/battery_level_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/number_of_cycles"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/number_of_cycles_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/charging_time"
+            android:visibility="gone"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/charging_time_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/last_charge_time"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/last_charge_time_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:text="@string/source_of_power"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/source_of_power_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/current_capacity"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/current_capacity_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/capacity_added"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/capacity_added_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/residual_capacity"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/residual_capacity_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/battery_wear"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/battery_wear_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/discharge_current"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/charge_discharge_current_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/temperature_celsius"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/temperature_service_notification"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/voltage"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@color/service_notification_text"
+            android:id="@+id/voltage_service_notification"/>
+
+</LinearLayout>
