@@ -26,7 +26,7 @@
         <activity
                 android:name=".activities.MainActivity"
                 android:launchMode="singleInstance"
-                android:configChanges="keyboardHidden|orientation|screenSize">
+                android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout">
 
             <intent-filter>
 
