@@ -44,12 +44,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private lateinit var pref: SharedPreferences
 
     lateinit var toolbar: CenteredToolbar
-
     lateinit var navigation: BottomNavigationView
 
-    private var prefArrays: HashMap<*, *>? = null
-
     private var isDoubleBackToExitPressedOnce = false
+
+    private var prefArrays: HashMap<*, *>? = null
 
     var fragment: Fragment? = null
 
@@ -189,25 +188,28 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 R.id.settings_navigation -> {
 
-                    if(fragment !is SettingsFragment) {
+                    when(fragment) {
 
-                        toolbar.title = getString(R.string.settings)
+                        null, is ChargeDischargeFragment, is WearFragment, is DebugFragment -> {
 
-                        toolbar.navigationIcon = null
+                            toolbar.title = getString(R.string.settings)
 
-                        isLoadChargeDischarge = false
+                            toolbar.navigationIcon = null
 
-                        isLoadWear = false
+                            isLoadChargeDischarge = false
 
-                        isLoadSettings = true
+                            isLoadWear = false
 
-                        isLoadDebug = false
+                            isLoadSettings = true
 
-                        clearMenu()
+                            isLoadDebug = false
 
-                        fragment = SettingsFragment()
+                            clearMenu()
 
-                        loadFragment(fragment ?: SettingsFragment())
+                            fragment = SettingsFragment()
+
+                            loadFragment(fragment ?: SettingsFragment())
+                        }
                     }
                 }
 
@@ -247,14 +249,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         super.onResume()
 
         if(instance == null) instance = this
-
-        isLoadChargeDischarge = false
-
-        isLoadWear = false
-
-        isLoadSettings = false
-
-        isLoadDebug = false
 
         batteryIntent = registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -390,6 +384,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         fragment = null
 
         instance = null
+
+        isLoadChargeDischarge = false
+        isLoadWear = false
+        isLoadSettings = false
+        isLoadDebug = false
 
         super.onDestroy()
     }
