@@ -37,8 +37,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -113,13 +112,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setCustomContentView(remoteViewsServiceContent)
 
-            val isShowBigContent = (status != BatteryManager
-                .BATTERY_STATUS_CHARGING && pref.getBoolean(
-                IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING, context.resources
-                    .getBoolean(R.bool.is_show_expanded_notification_when_discharging))) ||
-                    (status == BatteryManager.BATTERY_STATUS_CHARGING && pref.getBoolean(
-                        IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING, context.resources
-                            .getBoolean(R.bool.is_show_expanded_notification_when_charging)))
+            val isShowBigContent = pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION, context
+                .resources.getBoolean(R.bool.is_show_expanded_notification))
 
             if(isShowBigContent) {
 
@@ -185,13 +179,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
                 setCustomContentView(remoteViewsServiceContent)
 
-                val isShowBigContent = (status == BatteryManager
-                    .BATTERY_STATUS_DISCHARGING && pref.getBoolean(
-                    IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING, context.resources
-                        .getBoolean(R.bool.is_show_expanded_notification_when_discharging))) ||
-                        (status == BatteryManager.BATTERY_STATUS_CHARGING && pref.getBoolean(
-                            IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING, context.resources
-                                .getBoolean(R.bool.is_show_expanded_notification_when_charging)))
+                val isShowBigContent = pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION,
+                    context.resources.getBoolean(R.bool.is_show_expanded_notification))
 
                 if(isShowBigContent) {
 

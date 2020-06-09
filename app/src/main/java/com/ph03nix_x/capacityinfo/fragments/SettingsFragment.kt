@@ -24,8 +24,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
@@ -55,8 +54,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
     private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
-    private var isShowExtendedNotificationWhenDischarging: SwitchPreferenceCompat? = null
-    private var isShowExtendedNotificationWhenCharging: SwitchPreferenceCompat? = null
+    private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettingsService: Preference? = null
     private var batteryStatusInformation: Preference? = null
 
@@ -106,11 +104,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
 
-        isShowExtendedNotificationWhenDischarging = findPreference(
-            IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING)
-
-        isShowExtendedNotificationWhenCharging = findPreference(
-            IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING)
+        isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             openNotificationCategorySettingsService =
@@ -118,26 +112,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         showCapacityAddedInNotification?.isVisible = onGetCurrentCapacity(requireContext()) > 0.0
 
-        isShowExtendedNotificationWhenDischarging?.setOnPreferenceChangeListener { preference, _ ->
-
-            preference.isEnabled = false
-
-            isShowExtendedNotificationWhenCharging?.isEnabled = false
-
-            ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
-                arrayListOf(preference, (isShowExtendedNotificationWhenCharging as? Preference)))
-
-            true
-        }
-
-        isShowExtendedNotificationWhenCharging?.setOnPreferenceChangeListener { preference, _ ->
-
-            isShowExtendedNotificationWhenDischarging?.isEnabled = false
+        isShowExtendedNotification?.setOnPreferenceChangeListener { preference, _ ->
 
             preference.isEnabled = false
 
             ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
-                arrayListOf((isShowExtendedNotificationWhenDischarging as? Preference), preference))
+                preference)
 
             true
         }
@@ -153,9 +133,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 isStopTheServiceWhenTheCD?.isVisible = true
 
-                isShowExtendedNotificationWhenDischarging?.isVisible = true
-
-                isShowExtendedNotificationWhenCharging?.isVisible = true
+                isShowExtendedNotification?.isVisible = true
 
                 openNotificationCategorySettingsService?.isVisible = true
 
@@ -169,9 +147,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 isStopTheServiceWhenTheCD?.isVisible = false
 
-                isShowExtendedNotificationWhenDischarging?.isVisible = false
-
-                isShowExtendedNotificationWhenCharging?.isVisible = false
+                isShowExtendedNotification?.isVisible = false
 
                 openNotificationCategorySettingsService?.isVisible = false
 

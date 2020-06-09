@@ -12,10 +12,7 @@ object PreferencesKeys {
     const val IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION = "is_show_capacity_added_in_notification"
     const val IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION = "is_show_last_charge_time_in_notification"
     const val IS_STOP_THE_SERVICE_WHEN_THE_CD = "is_stop_the_service_when_the_cd"
-    const val IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING =
-        "is_show_expanded_notification_when_discharging"
-    const val IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING =
-        "is_show_expanded_notification_when_charging"
+    const val IS_SHOW_EXPANDED_NOTIFICATION = "is_show_expanded_notification"
 
     // Battery Status Information
     const val IS_BYPASS_DND = "is_bypass_dnd_mode"

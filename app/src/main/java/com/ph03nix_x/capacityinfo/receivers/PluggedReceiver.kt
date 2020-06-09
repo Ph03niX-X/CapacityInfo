@@ -9,11 +9,9 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
-import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
@@ -29,21 +27,9 @@ class PluggedReceiver : BroadcastReceiver() {
 
             Intent.ACTION_POWER_CONNECTED -> {
 
-                val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-                if(!pref.getBoolean(PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_DISCHARGING,
-                        context.resources.getBoolean(
-                            R.bool.is_show_expanded_notification_when_discharging)) || !pref
-                        .getBoolean(PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION_WHEN_CHARGING,
-                            context.resources.getBoolean(
-                                R.bool.is_show_expanded_notification_when_charging))) {
-
-                    ServiceHelper.restartService(context, CapacityInfoService::class.java)
-
-                    return
-                }
-
                 isPowerConnected = true
+
+                val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
                 val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
 

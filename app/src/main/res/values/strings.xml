@@ -196,7 +196,6 @@
     <string name="battery_overheating_fahrenheit">Battery overheating! Temperature: %1$s°F</string>
     <string name="battery_overcooling_celsius">Battery overcooling! Temperature: %1$s°C</string>
     <string name="battery_overcooling_fahrenheit">Battery overcooling! Temperature: %1$s°F</string>
-    <string name="show_expanded_notification_when_discharging">Show expanded notification when discharging</string>
-    <string name="show_expanded_notification_when_charging">Show expanded notification when charging</string>
+    <string name="show_expanded_notification">Show expanded notification</string>
     <string name="service_restart_required">Service restart required</string>
 </resources>
