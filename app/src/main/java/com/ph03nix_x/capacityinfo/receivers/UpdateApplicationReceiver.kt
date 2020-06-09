@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
-import com.ph03nix_x.capacityinfo.helpers.ServiceHelper.isStartedService
 
 class UpdateApplicationReceiver : BroadcastReceiver() {
 
@@ -23,12 +22,9 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 migratedPrefs(context)
 
-                if(CapacityInfoService.instance == null && !isStartedService) {
-
-                    isStartedService = true
-
-                    ServiceHelper.startService(context, CapacityInfoService::class.java)
-                }
+                if(CapacityInfoService.instance == null && !ServiceHelper.isStartedService())
+                    ServiceHelper.startService(context, CapacityInfoService::class.java,
+                        true)
 
                 if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
                     ServiceHelper.startService(context, OverlayService::class.java)

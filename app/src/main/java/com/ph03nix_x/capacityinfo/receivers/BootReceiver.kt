@@ -7,7 +7,6 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.helpers.ServiceHelper.isStartedService
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -17,12 +16,9 @@ class BootReceiver : BroadcastReceiver() {
 
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> {
 
-                if(CapacityInfoService.instance == null && !isStartedService) {
-
-                    isStartedService = true
-
-                    ServiceHelper.startService(context, CapacityInfoService::class.java)
-                }
+                if(CapacityInfoService.instance == null && !ServiceHelper.isStartedService())
+                    ServiceHelper.startService(context, CapacityInfoService::class.java,
+                        true)
 
                 if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
                     ServiceHelper.startService(context, OverlayService::class.java)

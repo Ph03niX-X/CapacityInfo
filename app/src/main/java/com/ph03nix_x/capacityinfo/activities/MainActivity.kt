@@ -36,7 +36,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
-import com.ph03nix_x.capacityinfo.helpers.ServiceHelper.isStartedService
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface {
 
@@ -272,12 +271,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     .BATTERY_STATUS_CHARGING))
         }
 
-        if(CapacityInfoService.instance == null && !isStartedService) {
-
-            isStartedService = true
-
-            ServiceHelper.startService(this, CapacityInfoService::class.java)
-        }
+        if(CapacityInfoService.instance == null && !ServiceHelper.isStartedService())
+            ServiceHelper.startService(this, CapacityInfoService::class.java,
+                true)
 
         if(!pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
                 R.bool.debug_options_is_enabled))
@@ -542,7 +538,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                     else -> {
 
-                        prefArrays.forEach {
+                        forEach {
 
                             when(it.key as String) {
 

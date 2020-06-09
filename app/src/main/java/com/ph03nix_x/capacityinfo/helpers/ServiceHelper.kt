@@ -9,36 +9,36 @@ import kotlinx.coroutines.*
 
 object ServiceHelper {
 
-    var isStartedService = false
+    private var isStartedService = false
 
-    fun startService(context: Context, serviceName: Class<*>, isRestartService: Boolean = false) {
+    fun startService(context: Context, serviceName: Class<*>, isStartedService: Boolean = false) {
+
+        this.isStartedService = isStartedService
 
         CoroutineScope(Dispatchers.Default).launch {
 
-            if(serviceName == CapacityInfoService::class.java &&
-                (isStartedService || isRestartService)) {
+            if(serviceName == CapacityInfoService::class.java) {
 
                 withContext(Dispatchers.Main) {
 
-                    delay(2500)
+                    if(isStartedService) delay(2500)
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                         context.startForegroundService(Intent(context, serviceName))
                     else context.startService(Intent(context, serviceName))
 
                     if(isStartedService) delay(1000)
-                    isStartedService = false
+                    this@ServiceHelper.isStartedService = false
                 }
             }
 
-            else if(serviceName != CapacityInfoService::class.java)
-                context.startService(Intent(context, serviceName))
+            else context.startService(Intent(context, serviceName))
         }
     }
 
-    fun stopService(context: Context, serviceName: Class<*>) {
+    fun isStartedService() = isStartedService
 
+    fun stopService(context: Context, serviceName: Class<*>) =
         context.stopService(Intent(context, serviceName))
-    }
 
     fun restartService(context: Context, serviceName: Class<*>) {
 
@@ -50,7 +50,7 @@ object ServiceHelper {
 
                 if(serviceName == CapacityInfoService::class.java) delay(2500)
 
-                startService(context, serviceName, true)
+                startService(context, serviceName)
             }
         }
     }
@@ -65,7 +65,7 @@ object ServiceHelper {
 
                 if(serviceName == CapacityInfoService::class.java) delay(2500)
 
-                startService(context, serviceName, true)
+                startService(context, serviceName)
 
                 delay(1000)
                 preference?.isEnabled = true
@@ -84,7 +84,7 @@ object ServiceHelper {
 
                 if(serviceName == CapacityInfoService::class.java) delay(2500)
 
-                startService(context, serviceName, true)
+                startService(context, serviceName)
 
                 delay(1000)
                 preferencesList?.forEach {
