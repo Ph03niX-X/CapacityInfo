@@ -22,19 +22,22 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 class ApplicationBackup : BackupAgent() {
 
     private var pref: SharedPreferences? = null
-
     private var prefArrays: MutableMap<String, *>? = null
 
-    override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput?,
-                          newState: ParcelFileDescriptor?) {}
+    override fun onCreate() {
 
-    override fun onRestore(data: BackupDataInput?, appVersionCode: Int,
-                           newState: ParcelFileDescriptor?) {
+        super.onCreate()
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         prefArrays = pref.all
     }
+
+    override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput?,
+                          newState: ParcelFileDescriptor?) {}
+
+    override fun onRestore(data: BackupDataInput?, appVersionCode: Int,
+                           newState: ParcelFileDescriptor?) {}
 
     override fun onRestoreFinished() {
 
