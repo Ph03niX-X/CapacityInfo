@@ -28,6 +28,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
@@ -129,8 +130,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     BatteryManager.BATTERY_STATUS_CHARGING))
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
-            pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
-                R.bool.debug_options_is_enabled))
+            pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
+                R.bool.is_enabled_debug_options))
 
         navigation.setOnNavigationItemSelectedListener {
 
@@ -271,8 +272,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             ServiceHelper.startService(this, CapacityInfoService::class.java,
                 true)
 
-        if(!pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
-                R.bool.debug_options_is_enabled))
+        if(!pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
+                R.bool.is_enabled_debug_options))
             && fragment is DebugFragment) {
 
             fragment = ChargeDischargeFragment()
@@ -296,8 +297,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
-            pref.getBoolean("debug_options_is_enabled", resources.getBoolean(
-                R.bool.debug_options_is_enabled))
+            pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
+                R.bool.is_enabled_debug_options))
 
         if(pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
             resources.getInteger(R.integer.min_design_capacity) || pref.getInt(DESIGN_CAPACITY,

@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
@@ -79,6 +81,15 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                         putString(TEXT_STYLE, getString("main_screen_text_style", "0"))
 
                         remove("main_screen_text_style")
+                    }
+
+                    if(contains("debug_options_is_enabled")) {
+
+                        putBoolean(IS_ENABLED_DEBUG_OPTIONS, getBoolean(
+                            "debug_options_is_enabled", context.resources.getBoolean(
+                                R.bool.is_enabled_debug_options)))
+
+                        remove("debug_options_is_enabled")
                     }
 
                     apply()

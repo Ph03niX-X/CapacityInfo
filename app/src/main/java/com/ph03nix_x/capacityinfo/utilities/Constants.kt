@@ -14,6 +14,8 @@ object Constants {
     const val FULLY_CHARGED_CHANNEL_ID = "fully_charged_channel"
     const val CHARGED_CHANNEL_ID = "charged_channel"
     const val DISCHARGED_CHANNEL_ID = "discharged_channel"
+    const val ENABLED_DEBUG_OPTIONS_HOST = "243243622533" // CIDBGENABLED
+    const val DISABLED_DEBUG_OPTIONS_HOST = "2432434722533" // CIDBGDISABLED
     const val EXPORT_SETTINGS_REQUEST_CODE = 0
     const val IMPORT_SETTINGS_REQUEST_CODE = 1
     const val ACTION_MANAGE_OVERLAY_PERMISSION = 2

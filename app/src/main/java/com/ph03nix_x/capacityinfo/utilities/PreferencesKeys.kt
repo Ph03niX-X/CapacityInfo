@@ -71,6 +71,7 @@ object PreferencesKeys {
     const val IS_BATTERY_WEAR_OVERLAY = "is_battery_wear_overlay"
 
     // Debug
+    const val IS_ENABLED_DEBUG_OPTIONS = "is_enabled_debug_options"
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"
 
     // Battery Information

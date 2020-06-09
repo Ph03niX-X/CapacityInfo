@@ -45,6 +45,6 @@
     <bool name="is_battery_wear_overlay">false</bool>
 
     <!--Debug-->
-    <bool name="debug_options_is_enabled">false</bool>
+    <bool name="is_enabled_debug_options">false</bool>
     <bool name="is_forcibly_show_rate_the_app">false</bool>
 </resources>
