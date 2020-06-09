@@ -12,7 +12,10 @@
     <application
             android:name=".MainApp"
             android:configChanges="locale|uiMode"
+            android:backupAgent=".ApplicationBackup"
             android:allowBackup="true"
+            android:fullBackupContent="true"
+            android:fullBackupOnly="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
@@ -37,19 +40,19 @@
 
         <service
                 android:name=".services.CapacityInfoService"
-                android:exported="true"
+                android:exported="false"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
         <service
                 android:name=".services.StopCapacityInfoService"
-                android:exported="true"
+                android:exported="false"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
         <service
                 android:name=".services.OverlayService"
-                android:exported="true"
+                android:exported="false"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
@@ -77,6 +80,7 @@
 
                 <action android:name="android.provider.Telephony.SECRET_CODE"/>
 
+                <!--CIDBGENABLED-->
                 <data android:scheme="android_secret_code" android:host="243243622533"/>
             </intent-filter>
         </receiver>
@@ -87,6 +91,7 @@
 
                 <action android:name="android.provider.Telephony.SECRET_CODE"/>
 
+                <!--CIDBGDISABLED-->
                 <data android:scheme="android_secret_code" android:host="2432434722533"/>
             </intent-filter>
         </receiver>
