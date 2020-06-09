@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.content.*
+import android.net.Uri
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -440,6 +442,21 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             true
         }
+
+        toolbar.menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
+
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONT_KILL_MY_APP_LINK)))
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            true
+        }
     }
 
     private fun clearMenu() = toolbar.menu.clear()
@@ -456,6 +473,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message)
                     + getString(R.string.instruction_message_do_not_kill_the_service)
+                    + getString(R.string.instruction_message_dont_kill_my_app)
                     + getString(R.string.instruction_message_huawei_honor))
 
             setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }

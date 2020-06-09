@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
-      tools:context=".activities.MainActivity">
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".activities.MainActivity">
 
     <item
             android:id="@+id/more_menu"
@@ -27,6 +29,12 @@
                     android:id="@+id/faq"
                     android:title="@string/faq"
                     android:icon="@drawable/ic_faq_question_24dp"
+                    app:showAsAction="never"/>
+
+            <item
+                    android:id="@+id/dont_kill_my_app"
+                    android:title="@string/dont_kill_my_app"
+                    android:icon="@drawable/ic_dont_kill_my_app"
                     app:showAsAction="never"/>
         </menu>
 
