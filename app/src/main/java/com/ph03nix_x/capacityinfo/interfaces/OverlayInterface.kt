@@ -315,7 +315,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         if((pref.getBoolean(IS_CHARGING_TIME_OVERLAY, chargingTimeOverlay.context.resources
                 .getBoolean(R.bool.is_charging_time_overlay))
-                    && (CapacityInfoService.instance?.seconds ?: 0) > 1) ||
+                    && (CapacityInfoService.instance?.seconds ?: 0) > 0) ||
             chargingTimeOverlay.visibility == View.VISIBLE)
             chargingTimeOverlay.apply {
 
@@ -328,7 +328,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
             visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, this.context.resources
                     .getBoolean(R.bool.is_charging_time_overlay)) && (
-                        CapacityInfoService.instance?.seconds ?: 0) > 1) View.VISIBLE else View.GONE
+                        CapacityInfoService.instance?.seconds ?: 0) > 0) View.VISIBLE else View.GONE
         }
     }
 
