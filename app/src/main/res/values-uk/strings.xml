@@ -192,4 +192,10 @@
     <string name="battery_overheating_fahrenheit">Перегрів акумулятора! Температура: %1$s°F</string>
     <string name="battery_overcooling_celsius">Переохолодження акумулятора! Температура: %1$s°C</string>
     <string name="battery_overcooling_fahrenheit">Переохолодження акумулятора! Температура: %1$s°F</string>
+    <string name="show_expanded_notification">Показувати розширене повідомлення</string>
+    <string name="service_restart_required">Потрібен перезапуск служби</string>
+    <string name="charging_time_remaining">Час, що залишився до заряда: %1$s</string>
+    <string name="charging_time_remaining_overlay">Час, що залишився до заряда</string>
+    <string name="remaining_battery_time">Час, що залишився від акумулятора: %1$s</string>
+    <string name="remaining_battery_time_overlay">Час, що залишився від акумулятора</string>
 </resources>
