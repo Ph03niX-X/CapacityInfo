@@ -39,6 +39,8 @@
         <item>San Francisco</item>
         <item>Times New Roman</item>
         <item>Ubuntu</item>
+        <item>Oxygen</item>
+        <item>Indie Flower</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">

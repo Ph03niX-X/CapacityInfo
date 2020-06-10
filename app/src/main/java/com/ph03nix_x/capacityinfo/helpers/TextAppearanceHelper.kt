@@ -59,6 +59,10 @@ object TextAppearanceHelper {
 
             9 -> ResourcesCompat.getFont(context, R.font.ubuntu)
 
+            10 -> ResourcesCompat.getFont(context, R.font.oxygen)
+
+            11 -> ResourcesCompat.getFont(context, R.font.indie_flower)
+
             else -> null
         }
     }
