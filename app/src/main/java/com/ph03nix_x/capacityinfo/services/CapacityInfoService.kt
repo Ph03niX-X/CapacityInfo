@@ -302,8 +302,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         catch(e: RuntimeException) {
 
-            Toast.makeText(this@CapacityInfoService, e.message ?: e.toString(),
-            Toast.LENGTH_LONG).show()
+            withContext(Dispatchers.Main) {
+
+                Toast.makeText(this@CapacityInfoService, e.message ?: e.toString(),
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 
