@@ -52,6 +52,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import java.text.DecimalFormat
 
 interface OverlayInterface : BatteryInfoInterface {
@@ -64,6 +65,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var numberOfCyclesOverlay: AppCompatTextView
         private lateinit var chargingTimeOverlay: AppCompatTextView
         private lateinit var chargingTimeRemainingOverlay: AppCompatTextView
+        private lateinit var remainingBatteryTimeOverlay: AppCompatTextView
         private lateinit var currentCapacityOverlay: AppCompatTextView
         private lateinit var capacityAddedOverlay: AppCompatTextView
         private lateinit var batteryHealthOverlay: AppCompatTextView
@@ -99,6 +101,8 @@ interface OverlayInterface : BatteryInfoInterface {
                             R.bool.is_charging_time_overlay)), getBoolean(
                         IS_CHARGING_TIME_REMAINING_OVERLAY, context.resources.getBoolean(
                             R.bool.is_charging_time_remaining_overlay)), getBoolean(
+                        IS_REMAINING_BATTERY_TIME_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_remaining_battery_time_overlay)), getBoolean(
                         IS_CURRENT_CAPACITY_OVERLAY, context.resources.getBoolean(
                             R.bool.is_current_capacity_overlay)), getBoolean(
                         IS_CAPACITY_ADDED_OVERLAY, context.resources.getBoolean(
@@ -191,6 +195,7 @@ interface OverlayInterface : BatteryInfoInterface {
         numberOfCyclesOverlay = view.findViewById(R.id.number_of_cycles_overlay)
         chargingTimeOverlay = view.findViewById(R.id.charging_time_overlay)
         chargingTimeRemainingOverlay = view.findViewById(R.id.charging_time_remaining_overlay)
+        remainingBatteryTimeOverlay = view.findViewById(R.id.remaining_battery_time_overlay)
         currentCapacityOverlay = view.findViewById(R.id.current_capacity_overlay)
         capacityAddedOverlay = view.findViewById(R.id.capacity_added_overlay)
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
@@ -232,6 +237,7 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateNumberOfCyclesOverlay()
         onUpdateChargingTimeOverlay()
         onUpdateChargingTimeRemainingOverlay(status)
+        onUpdateRemainingBatteryTimeOverlay(status)
         onUpdateCurrentCapacityOverlay()
         onUpdateCapacityAddedOverlay()
         onUpdateBatteryHealthOverlay()
@@ -357,6 +363,28 @@ interface OverlayInterface : BatteryInfoInterface {
                 visibility = if(pref.getBoolean(IS_CHARGING_TIME_REMAINING_OVERLAY, this.context
                         .resources.getBoolean(R.bool.is_charging_time_remaining_overlay)) &&
                     status == BatteryManager.BATTERY_STATUS_CHARGING) View.VISIBLE else View.GONE
+            }
+    }
+
+    private fun onUpdateRemainingBatteryTimeOverlay(status: Int) {
+
+        if((pref.getBoolean(IS_REMAINING_BATTERY_TIME_OVERLAY, remainingBatteryTimeOverlay.context
+                .resources.getBoolean(R.bool.is_remaining_battery_time_overlay))
+                    && status != BatteryManager.BATTERY_STATUS_CHARGING) ||
+            remainingBatteryTimeOverlay.visibility == View.VISIBLE)
+            remainingBatteryTimeOverlay.apply {
+
+                TextAppearanceHelper.setTextAppearance(this.context, this,
+                    pref.getString(OVERLAY_TEXT_STYLE, "0"),
+                    pref.getString(OVERLAY_FONT, "6"),
+                    pref.getString(OVERLAY_SIZE, "2"))
+
+                text = this.context.getString(R.string.remaining_battery_time,
+                    onGetRemainingBatteryTime(this.context))
+
+                visibility = if(pref.getBoolean(IS_REMAINING_BATTERY_TIME_OVERLAY, this.context
+                        .resources.getBoolean(R.bool.is_remaining_battery_time_overlay)) &&
+                    status != BatteryManager.BATTERY_STATUS_CHARGING) View.VISIBLE else View.GONE
             }
     }
 

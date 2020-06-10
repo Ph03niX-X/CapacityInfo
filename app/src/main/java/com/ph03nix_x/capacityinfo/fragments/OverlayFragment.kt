@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SOURCE_OF_POWER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STATUS_OVERLAY
@@ -63,6 +64,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
     private var numberOfCyclesOverlay: SwitchPreferenceCompat? = null
     private var chargingTimeOverlay: SwitchPreferenceCompat? = null
     private var chargingTimeRemainingOverlay: SwitchPreferenceCompat? = null
+    private var remainingBatteryTimeOverlay: SwitchPreferenceCompat? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var capacityAddedOverlay: SwitchPreferenceCompat? = null
@@ -170,6 +172,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         numberOfCyclesOverlay = findPreference(IS_NUMBER_OF_CYCLES_OVERLAY)
         chargingTimeOverlay = findPreference(IS_CHARGING_TIME_OVERLAY)
         chargingTimeRemainingOverlay = findPreference(IS_CHARGING_TIME_REMAINING_OVERLAY)
+        remainingBatteryTimeOverlay = findPreference(IS_REMAINING_BATTERY_TIME_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
@@ -186,6 +189,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
         lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
         batteryWearOverlay = findPreference(IS_BATTERY_WEAR_OVERLAY)
 
+        remainingBatteryTimeOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources
+            .getBoolean(R.bool.is_supported))
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
             R.bool.is_supported))
         capacityAddedOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
@@ -231,6 +236,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
         }
 
         chargingTimeRemainingOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        remainingBatteryTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)
@@ -375,6 +388,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
+        remainingBatteryTimeOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources
+            .getBoolean(R.bool.is_supported))
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
             R.bool.is_supported))
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(

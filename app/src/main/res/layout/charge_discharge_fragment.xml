@@ -56,11 +56,21 @@
                 <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/remaining_battery_time"
+                        android:visibility="gone"
+                        android:text="@string/remaining_battery_time"
+                        android:gravity="center"
+                        android:layout_below="@id/charging_time_remaining"
+                        android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/current_capacity_charge_discharge"
                         android:visibility="gone"
                         android:text="@string/current_capacity"
                         android:gravity="center"
-                        android:layout_below="@id/charging_time_remaining"
+                        android:layout_below="@id/remaining_battery_time"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView

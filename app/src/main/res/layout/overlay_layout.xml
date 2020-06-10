@@ -53,6 +53,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
+            android:id="@+id/remaining_battery_time_overlay"
+            android:text="@string/remaining_battery_time"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/google_sans"
+            android:textColor="@android:color/white"
             android:id="@+id/current_capacity_overlay"
             android:text="@string/current_capacity"/>
 

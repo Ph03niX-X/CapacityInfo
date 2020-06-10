@@ -33,6 +33,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
     private lateinit var batteryLevel: AppCompatTextView
     private lateinit var chargingTime: AppCompatTextView
     private lateinit var chargingTimeRemaining: AppCompatTextView
+    private lateinit var remainingBatteryTime: AppCompatTextView
     private lateinit var currentCapacity: AppCompatTextView
     private lateinit var capacityAdded: AppCompatTextView
     private lateinit var status: AppCompatTextView
@@ -64,6 +65,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
         batteryLevel = view.findViewById(R.id.battery_level)
         chargingTime = view.findViewById(R.id.charging_time)
         chargingTimeRemaining = view.findViewById(R.id.charging_time_remaining)
+        remainingBatteryTime = view.findViewById(R.id.remaining_battery_time)
         currentCapacity = view.findViewById(R.id.current_capacity_charge_discharge)
         capacityAdded = view.findViewById(R.id.capacity_added_charge_discharge)
         status = view.findViewById(R.id.status)
@@ -170,12 +172,27 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             if(chargingTimeRemaining.visibility == View.GONE)
                                 chargingTimeRemaining.visibility = View.VISIBLE
 
+                            if(remainingBatteryTime.visibility == View.VISIBLE)
+                                remainingBatteryTime.visibility = View.GONE
+
                             chargingTimeRemaining.text = getString(R.string.charging_time_remaining,
                                 onGetChargingTimeRemaining(requireContext()))
                         }
 
-                        else if(chargingTimeRemaining.visibility == View.VISIBLE)
-                            chargingTimeRemaining.visibility = View.GONE
+                        else {
+
+                            if(chargingTimeRemaining.visibility == View.VISIBLE)
+                                chargingTimeRemaining.visibility = View.GONE
+
+                            if(onGetCurrentCapacity(requireContext()) > 0.0) {
+
+                                if(remainingBatteryTime.visibility == View.GONE)
+                                    remainingBatteryTime.visibility = View.VISIBLE
+                                remainingBatteryTime.text = getString(
+                                    R.string.remaining_battery_time, onGetRemainingBatteryTime(
+                                        requireContext()))
+                            }
+                        }
                     }
 
                     withContext(Dispatchers.Main) {
@@ -395,8 +412,8 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if(onGetCurrentCapacity(
-                                    context ?: currentCapacity.context) > 0.0) 975L
-                            else 982L)
+                                    context ?: currentCapacity.context) > 0.0) 974L
+                            else 981L)
 
                         else -> delay(3000L)
                     }
@@ -415,6 +432,10 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), chargingTimeRemaining,
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), remainingBatteryTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))

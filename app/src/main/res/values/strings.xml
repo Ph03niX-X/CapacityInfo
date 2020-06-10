@@ -202,4 +202,6 @@
     <string name="dont_kill_my_app" translatable="false">Don\'t kill my app!</string>
     <string name="charging_time_remaining">Charging Time Remaining: %1$s</string>
     <string name="charging_time_remaining_overlay">Charging Time Remaining</string>
+    <string name="remaining_battery_time">Remaining Battery Time: %1$s</string>
+    <string name="remaining_battery_time_overlay">Remaining Battery Time</string>
 </resources>
