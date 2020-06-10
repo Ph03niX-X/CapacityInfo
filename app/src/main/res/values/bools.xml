@@ -29,6 +29,7 @@
     <bool name="is_number_of_charges_overlay">false</bool>
     <bool name="is_number_of_cycles_overlay">false</bool>
     <bool name="is_charging_time_overlay">false</bool>
+    <bool name="is_charging_time_remaining_overlay">false</bool>
     <bool name="is_current_capacity_overlay">false</bool>
     <bool name="is_capacity_added_overlay">false</bool>
     <bool name="is_battery_health_overlay">false</bool>

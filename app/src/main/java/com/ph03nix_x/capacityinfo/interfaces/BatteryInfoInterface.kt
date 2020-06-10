@@ -20,6 +20,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 import kotlin.math.pow
@@ -370,6 +371,80 @@ interface BatteryInfoInterface {
         val secondsTime = getSeconds(seconds.toLong())
 
         return context.getString(R.string.charging_time, "$hours:$minutes:$secondsTime")
+    }
+
+    fun onGetChargingTimeRemaining(context: Context): String {
+
+        val batteryLevel = onGetBatteryLevel(context) ?: 0
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val currentCapacity = onGetCurrentCapacity(context)
+
+        val residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
+
+        val chargeDischargeCurrent = onGetChargeDischargeCurrent(context).toDouble()
+
+        return if(currentCapacity > 0.0 && currentCapacity < residualCapacity
+            && residualCapacity > 0.0) {
+
+            val capacity = if(batteryLevel < 100) residualCapacity - currentCapacity
+            else ((residualCapacity - currentCapacity) - 150.0)
+
+            var res = if(chargeDischargeCurrent > 500.0)
+                (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
+
+            res *= 3600.0
+
+            val hours = getHours(res.toLong())
+            val minutes = getMinutes(res.toLong())
+            val seconds = getSeconds(res.toLong())
+
+            "$hours:$minutes:$seconds"
+        }
+
+        else if(currentCapacity > 0.0 && (currentCapacity >= residualCapacity
+                    || currentCapacity >= pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                R.integer.min_design_capacity)).toDouble()) && residualCapacity > 0.0)
+        context.getString(R.string.unknown)
+
+        else if(currentCapacity > 0.0 && residualCapacity == 0.0) {
+
+            val capacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                R.integer.min_design_capacity)) - currentCapacity
+
+            var res = if(chargeDischargeCurrent > 500.0)
+                (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
+
+            res *= 3600.0
+
+            val hours = getHours(res.toLong())
+            val minutes = getMinutes(res.toLong())
+            val seconds = getSeconds(res.toLong())
+
+            "$hours:$minutes:$seconds"
+        }
+
+        else {
+
+            val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                R.integer.min_design_capacity)).toDouble()
+
+            val capacity = designCapacity - (designCapacity * (
+                    batteryLevel.toDouble() / 100.0))
+
+            var res = if(chargeDischargeCurrent > 500.0)
+                (capacity / chargeDischargeCurrent) * 1.1
+            else capacity / chargeDischargeCurrent
+
+            res *= 3600.0
+
+            val hours = getHours(res.toLong())
+            val minutes = getMinutes(res.toLong())
+            val seconds = getSeconds(res.toLong())
+
+            "$hours:$minutes:$seconds"
+        }
     }
 
     fun onGetLastChargeTime(context: Context): String {

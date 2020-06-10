@@ -28,6 +28,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MAX_CHARGE_DISCHA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SOURCE_OF_POWER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STATUS_OVERLAY
@@ -61,6 +62,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
     private var numberOfChargesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesOverlay: SwitchPreferenceCompat? = null
     private var chargingTimeOverlay: SwitchPreferenceCompat? = null
+    private var chargingTimeRemainingOverlay: SwitchPreferenceCompat? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var capacityAddedOverlay: SwitchPreferenceCompat? = null
@@ -167,6 +169,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
         numberOfCyclesOverlay = findPreference(IS_NUMBER_OF_CYCLES_OVERLAY)
         chargingTimeOverlay = findPreference(IS_CHARGING_TIME_OVERLAY)
+        chargingTimeRemainingOverlay = findPreference(IS_CHARGING_TIME_REMAINING_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
@@ -227,6 +230,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
             true
         }
 
+        chargingTimeRemainingOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
         currentCapacityOverlay?.setOnPreferenceChangeListener { preference, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null
@@ -268,8 +279,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
                     R.bool.is_supported))) ServiceHelper.startService(requireContext(),
                 OverlayService::class.java)
 
-            else if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
-                    R.bool.is_supported))) (preference as? SwitchPreferenceCompat)?.isVisible = false
+            else if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
+                (preference as? SwitchPreferenceCompat)?.isVisible = false
 
             true
         }

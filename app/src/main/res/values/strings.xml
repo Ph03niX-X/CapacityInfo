@@ -200,4 +200,6 @@
     <string name="show_expanded_notification">Show expanded notification</string>
     <string name="service_restart_required">Service restart required</string>
     <string name="dont_kill_my_app" translatable="false">Don\'t kill my app!</string>
+    <string name="charging_time_remaining">Charging Time Remaining: %1$s</string>
+    <string name="charging_time_remaining_overlay">Charging Time Remaining</string>
 </resources>
