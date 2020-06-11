@@ -139,6 +139,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                     if(fragment !is ChargeDischargeFragment) {
 
+                        fragment = ChargeDischargeFragment()
+
                         toolbar.navigationIcon = null
 
                         isLoadChargeDischarge = true
@@ -161,6 +163,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                     if(fragment !is WearFragment) {
 
+                        fragment = WearFragment()
+
                         toolbar.title = getString(R.string.wear)
 
                         toolbar.navigationIcon = null
@@ -177,8 +181,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         inflateMenu()
 
-                        fragment = WearFragment()
-
                         loadFragment(fragment ?: WearFragment())
                     }
                 }
@@ -188,6 +190,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     when(fragment) {
 
                         null, is ChargeDischargeFragment, is WearFragment, is DebugFragment -> {
+
+                            fragment = SettingsFragment()
 
                             toolbar.title = getString(R.string.settings)
 
@@ -203,8 +207,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                             clearMenu()
 
-                            fragment = SettingsFragment()
-
                             loadFragment(fragment ?: SettingsFragment())
                         }
                     }
@@ -213,6 +215,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 R.id.debug_navigation -> {
 
                     if(fragment !is DebugFragment) {
+
+                        fragment = DebugFragment()
 
                         toolbar.title = getString(R.string.debug)
 
@@ -227,8 +231,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         isLoadDebug = true
 
                         clearMenu()
-
-                        fragment = DebugFragment()
 
                         loadFragment(fragment ?: DebugFragment())
                     }
@@ -389,7 +391,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         super.onDestroy()
     }
 
-    private fun inflateMenu() {
+    fun inflateMenu() {
 
         toolbar.inflateMenu(R.menu.main_menu)
 
@@ -454,7 +456,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    private fun clearMenu() = toolbar.menu.clear()
+    fun clearMenu() = toolbar.menu.clear()
 
     private fun showInstruction() {
 

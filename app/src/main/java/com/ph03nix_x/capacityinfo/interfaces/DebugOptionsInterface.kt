@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -31,6 +32,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -428,8 +430,6 @@ interface DebugOptionsInterface {
                         changePrefValue.keyListener = prefValueKeyListenerDef
                     }
                 }
-
-
             }
 
             "int|long" -> {
@@ -516,13 +516,13 @@ interface DebugOptionsInterface {
                                 R.array.languages_codes)
 
                             UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY ->
-                                s.toString() != pref.getString(key, "μAh") && s.toString() in
-                                        context.resources.getStringArray(R.array
+                                s.toString() != pref.getString(key, "μAh") &&
+                                        s.toString() in context.resources.getStringArray(R.array
                                             .unit_of_measurement_of_current_capacity_values)
 
                             UNIT_OF_CHARGE_DISCHARGE_CURRENT ->
-                                s.toString() != pref.getString(key, "μA") && s.toString() in
-                                        context.resources.getStringArray(R.array
+                                s.toString() != pref.getString(key, "μA") &&
+                                        s.toString() in context.resources.getStringArray(R.array
                                             .unit_of_charge_discharge_current_values)
 
                             VOLTAGE_UNIT -> s.toString() != pref.getString(key, "mV") &&
@@ -622,9 +622,22 @@ interface DebugOptionsInterface {
         pref.edit().putBoolean(key, value).apply()
 
         if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
-            || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
+            || key == IS_FORCIBLY_SHOW_RATE_THE_APP) (context as? MainActivity)?.recreate()
 
-            (context as? MainActivity)?.recreate()
+        else if(key == IS_ENABLED_DEBUG_OPTIONS && !value) {
+
+            val mainContext = context as? MainActivity
+
+            mainContext?.navigation?.menu?.findItem(R.id.debug_navigation)?.isVisible = false
+            mainContext?.fragment = ChargeDischargeFragment()
+            mainContext?.toolbar?.navigationIcon = null
+            MainActivity.isLoadChargeDischarge = true
+            MainActivity.isLoadWear = false
+            MainActivity.isLoadSettings = false
+            MainActivity.isLoadDebug = false
+            mainContext?.clearMenu()
+            mainContext?.inflateMenu()
+            mainContext?.loadFragment(mainContext.fragment ?: ChargeDischargeFragment())
         }
 
         else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
@@ -656,7 +669,26 @@ interface DebugOptionsInterface {
             if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == LANGUAGE
                 || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
 
+                Toast.makeText(context, context.getString(R.string.key_successfully_reset, key),
+                    Toast.LENGTH_LONG).show()
+
                 (context as? MainActivity)?.recreate()
+            }
+
+            else if(key == IS_ENABLED_DEBUG_OPTIONS) {
+
+                val mainContext = context as? MainActivity
+
+                mainContext?.navigation?.menu?.findItem(R.id.debug_navigation)?.isVisible = false
+                mainContext?.fragment = ChargeDischargeFragment()
+                mainContext?.toolbar?.navigationIcon = null
+                MainActivity.isLoadChargeDischarge = true
+                MainActivity.isLoadWear = false
+                MainActivity.isLoadSettings = false
+                MainActivity.isLoadDebug = false
+                mainContext?.clearMenu()
+                mainContext?.inflateMenu()
+                mainContext?.loadFragment(mainContext.fragment ?: ChargeDischargeFragment())
             }
 
             Toast.makeText(context, context.getString(R.string.key_successfully_reset, key),
@@ -702,10 +734,10 @@ interface DebugOptionsInterface {
 
                 pref.edit().clear().apply()
 
-                (context as? MainActivity)?.recreate()
-
                 Toast.makeText(context, R.string.settings_reset_successfully,
                     Toast.LENGTH_LONG).show()
+
+                (context as? MainActivity)?.recreate()
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
