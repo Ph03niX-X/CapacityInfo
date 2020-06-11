@@ -20,7 +20,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
-import com.ph03nix_x.capacityinfo.helpers.ChargingTimeHelper
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 import kotlin.math.pow
@@ -381,7 +380,9 @@ interface BatteryInfoInterface {
 
         val currentCapacity = onGetCurrentCapacity(context)
 
-        val residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
+        val residualCapacity = if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                "μAh") == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0)
+            .toDouble() / 1000.0 else pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
 
         val chargeDischargeCurrent = onGetChargeDischargeCurrent(context).toDouble()
 
