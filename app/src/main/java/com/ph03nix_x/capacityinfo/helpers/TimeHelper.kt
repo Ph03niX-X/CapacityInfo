@@ -1,6 +1,6 @@
 package com.ph03nix_x.capacityinfo.helpers
 
-object ChargingTimeHelper {
+object TimeHelper {
 
     fun getHours(seconds: Long): String {
 

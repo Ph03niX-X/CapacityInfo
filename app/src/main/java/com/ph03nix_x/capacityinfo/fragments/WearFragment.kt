@@ -81,7 +81,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
         designCapacity.text = getString(R.string.design_capacity, pref.getInt(DESIGN_CAPACITY,
             resources.getInteger(R.integer.min_design_capacity)).toString())
 
-        batteryHealth.text = getString(R.string.battery_health, onGetBatteryHealth(
+        batteryHealth.text = getString(R.string.battery_health, getOnBatteryHealth(
             context ?: batteryHealth.context))
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
@@ -184,7 +184,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
                     withContext(Dispatchers.Main) {
 
                         batteryHealth.text = getString(R.string.battery_health,
-                            onGetBatteryHealth(context ?: batteryHealth.context))
+                            getOnBatteryHealth(context ?: batteryHealth.context))
                     }
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, true)) {
@@ -196,20 +196,20 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
 
                             withContext(Dispatchers.Main) {
 
-                                residualCapacity.text = onGetResidualCapacity(
+                                residualCapacity.text = getOnResidualCapacity(
                                     context ?: residualCapacity.context,
                                     batteryIntent?.getIntExtra(
                                         BatteryManager.EXTRA_STATUS, BatteryManager
                                             .BATTERY_STATUS_UNKNOWN) == BatteryManager
                                         .BATTERY_STATUS_CHARGING)
 
-                                batteryWear.text = onGetBatteryWear(
+                                batteryWear.text = getOnBatteryWear(
                                     context ?: batteryWear.context)
 
                             }
                         }
 
-                        if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
+                        if(getOnCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
 
                             if(currentCapacity.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -218,26 +218,26 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
                             withContext(Dispatchers.Main) {
 
                                 currentCapacity.text = getString(R.string.current_capacity,
-                                    DecimalFormat("#.#").format(onGetCurrentCapacity(
+                                    DecimalFormat("#.#").format(getOnCurrentCapacity(
                                         context ?: currentCapacity.context)))
 
                                 when {
-                                    onGetSourceOfPower(context ?: capacityAdded.context,
+                                    getOnSourceOfPower(context ?: capacityAdded.context,
                                         sourceOfPower) != "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = onGetCapacityAdded(
+                                        capacityAdded.text = getOnCapacityAdded(
                                             context ?: capacityAdded.context)
                                     }
-                                    onGetSourceOfPower(context ?: capacityAdded.context,
+                                    getOnSourceOfPower(context ?: capacityAdded.context,
                                         sourceOfPower) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = onGetCapacityAdded(
+                                        capacityAdded.text = getOnCapacityAdded(
                                             context ?: capacityAdded.context)
                                     }
                                     capacityAdded.visibility == View.VISIBLE ->
@@ -295,7 +295,7 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(onGetCurrentCapacity(
+                            delay(if(getOnCurrentCapacity(
                                     context ?: currentCapacity.context) > 0.0) 986L
                             else 993L)
 

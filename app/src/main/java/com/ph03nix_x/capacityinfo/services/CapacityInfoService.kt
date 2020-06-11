@@ -51,10 +51,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var jobService: Job? = null
     private var isJob = false
     var isFull = false
-    var batteryLevelWith = -1
-    var seconds = 0
     var isStopService = false
     var isSaveNumberOfCharges = true
+    var batteryLevelWith = -1
+    var seconds = 0
 
     companion object {
 
@@ -85,11 +85,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     isPowerConnected = true
 
-                    batteryLevelWith = onGetBatteryLevel(this) ?: 0
+                    batteryLevelWith = getOnBatteryLevel(this) ?: 0
 
                     tempBatteryLevelWith = batteryLevelWith
 
-                    tempCurrentCapacity = onGetCurrentCapacity(this)
+                    tempCurrentCapacity = getOnCurrentCapacity(this)
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
@@ -152,8 +152,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(
                         45 * 1000)
 
-                    if((onGetBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
-                        batteryLevelWith = onGetBatteryLevel(this@CapacityInfoService) ?: 0
+                    if((getOnBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
+                        batteryLevelWith = getOnBatteryLevel(this@CapacityInfoService) ?: 0
 
                     batteryIntent = registerReceiver(null, IntentFilter(
                         Intent.ACTION_BATTERY_CHANGED))
@@ -161,7 +161,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
 
-                    val temperature = onGetTemperatureInDouble(
+                    val temperature = getOnTemperatureInDouble(
                         this@CapacityInfoService)
 
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
@@ -177,9 +177,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         && !isStopService) batteryCharging()
                     
                     else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected &&
-                        !isFull
-                        && onGetBatteryLevel(this@CapacityInfoService) == 100
-                        && !isStopService) batteryCharged()
+                        !isFull && !isStopService) batteryCharged()
 
                     else if(!isStopService) {
 
@@ -188,7 +186,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                                 R.bool.is_notify_battery_is_discharged)) &&
-                            (onGetBatteryLevel(this@CapacityInfoService) ?: 0)
+                            (getOnBatteryLevel(this@CapacityInfoService) ?: 0)
                             <= pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)
                             && NotificationInterface.isNotifyBatteryDischarged)
                             withContext(Dispatchers.Main) {
@@ -223,13 +221,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         NotificationInterface.isNotifyBatteryDischarged = true
 
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                (onGetBatteryLevel(this) ?: 0) / 100f) - (batteryLevelWith / 100f)
+                (getOnBatteryLevel(this) ?: 0) / 100f) - (batteryLevelWith / 100f)
 
         notificationManager?.cancelAll()
 
         if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(!isFull && seconds > 0) {
+        if(!isFull && seconds > 1) {
 
             pref.edit().apply {
 
@@ -245,7 +243,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
 
-                putInt(BATTERY_LEVEL_TO, (onGetBatteryLevel(this@CapacityInfoService) ?: 0))
+                putInt(BATTERY_LEVEL_TO, (getOnBatteryLevel(this@CapacityInfoService) ?: 0))
 
                 if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
@@ -279,7 +277,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged)) &&
-            (onGetBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
+            (getOnBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
                 80) && NotificationInterface.isNotifyBatteryCharged)
             withContext(Dispatchers.Main) {
 
@@ -289,9 +287,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
+                delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
                 else 956L)
-            else delay(if(onGetCurrentCapacity(this@CapacityInfoService) > 0.0) 926L
+            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 926L
             else 926L)
 
         seconds++
@@ -325,7 +323,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
 
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                (onGetBatteryLevel(this@CapacityInfoService) ?: 0) / 100f) - (
+                (getOnBatteryLevel(this@CapacityInfoService) ?: 0) / 100f) - (
                 batteryLevelWith / 100f)
 
         pref.edit().apply {
@@ -333,14 +331,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (
                     seconds / 3600)) else seconds)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-            putInt(BATTERY_LEVEL_TO, (onGetBatteryLevel(this@CapacityInfoService) ?: 0))
+            putInt(BATTERY_LEVEL_TO, (getOnBatteryLevel(this@CapacityInfoService) ?: 0))
 
-            if(onGetCurrentCapacity(this@CapacityInfoService) > 0.0) {
+            if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) {
 
                 if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                    putInt(RESIDUAL_CAPACITY, (onGetCurrentCapacity(
+                    putInt(RESIDUAL_CAPACITY, (getOnCurrentCapacity(
                         this@CapacityInfoService) * 1000).toInt())
-                else putInt(RESIDUAL_CAPACITY, onGetCurrentCapacity(
+                else putInt(RESIDUAL_CAPACITY, getOnCurrentCapacity(
                     this@CapacityInfoService).toInt())
 
                 putFloat(CAPACITY_ADDED, capacityAdded.toFloat())

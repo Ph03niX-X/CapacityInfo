@@ -42,7 +42,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                 val seconds = CapacityInfoService.instance?.seconds ?: 0
 
-                val batteryLevel = CapacityInfoService.instance?.onGetBatteryLevel(context) ?: 0
+                val batteryLevel = CapacityInfoService.instance?.getOnBatteryLevel(context) ?: 0
 
                 val batteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 
@@ -56,13 +56,13 @@ class UnpluggedReceiver : BroadcastReceiver() {
                         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
                             == "μAh")
                         putInt(RESIDUAL_CAPACITY,
-                            ((CapacityInfoService.instance?.onGetCurrentCapacity(context)
+                            ((CapacityInfoService.instance?.getOnCurrentCapacity(context)
                                 ?.toInt() ?: 0) * 1000))
                         else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance
-                            ?.onGetCurrentCapacity(context)?.toInt() ?: 0)
+                            ?.getOnCurrentCapacity(context)?.toInt() ?: 0)
                     }
 
-                    if((CapacityInfoService.instance?.isFull != true) && seconds > 0) {
+                    if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
 
                         putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds +
                                 ((seconds / 100) * (seconds / 3600)) else seconds)

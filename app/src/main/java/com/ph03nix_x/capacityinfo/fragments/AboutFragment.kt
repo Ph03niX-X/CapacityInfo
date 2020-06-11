@@ -18,8 +18,6 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 
 class AboutFragment : PreferenceFragmentCompat() {
 
-    lateinit var pref: SharedPreferences
-
     private var developer: Preference? = null
     private var version: Preference? = null
     private var build: Preference? = null
@@ -28,6 +26,8 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
     private var betaTester: Preference? = null
+
+    lateinit var pref: SharedPreferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 

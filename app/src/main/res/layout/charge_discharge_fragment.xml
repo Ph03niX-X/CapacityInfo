@@ -30,6 +30,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/battery_level"
                         android:text="@string/battery_level"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:fontFamily="@font/google_sans"/>
 
@@ -39,6 +40,7 @@
                         android:id="@+id/charging_time"
                         android:visibility="gone"
                         android:text="@string/charging_time"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/battery_level"
                         android:fontFamily="@font/google_sans"/>
@@ -49,6 +51,7 @@
                         android:id="@+id/charging_time_remaining"
                         android:visibility="gone"
                         android:text="@string/charging_time_remaining"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/charging_time"
                         android:fontFamily="@font/google_sans"/>
@@ -59,6 +62,7 @@
                         android:id="@+id/remaining_battery_time"
                         android:visibility="gone"
                         android:text="@string/remaining_battery_time"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/charging_time_remaining"
                         android:fontFamily="@font/google_sans"/>
@@ -69,6 +73,7 @@
                         android:id="@+id/current_capacity_charge_discharge"
                         android:visibility="gone"
                         android:text="@string/current_capacity"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/remaining_battery_time"
                         android:fontFamily="@font/google_sans"/>
@@ -78,6 +83,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/capacity_added_charge_discharge"
                         android:text="@string/capacity_added"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:visibility="gone"
                         android:layout_below="@id/current_capacity_charge_discharge"
@@ -89,6 +95,7 @@
                         android:id="@+id/status"
                         android:visibility="visible"
                         android:text="@string/status"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/capacity_added_charge_discharge"
                         android:fontFamily="@font/google_sans"/>
@@ -99,6 +106,7 @@
                         android:id="@+id/source_of_power"
                         android:visibility="gone"
                         android:text="@string/source_of_power"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/status"
                         android:fontFamily="@font/google_sans"/>
@@ -126,6 +134,7 @@
                         android:id="@+id/charge_current"
                         android:visibility="visible"
                         android:text="@string/charge_current"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:fontFamily="@font/google_sans"/>
 
@@ -134,6 +143,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/max_charge_discharge_current"
                         android:text="@string/max_charge_current"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/charge_current"
                         android:fontFamily="@font/google_sans"/>
@@ -143,6 +153,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/average_charge_discharge_current"
                         android:text="@string/average_charge_current"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/max_charge_discharge_current"
                         android:fontFamily="@font/google_sans"/>
@@ -152,6 +163,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/min_charge_discharge_current"
                         android:text="@string/min_charge_current"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/average_charge_discharge_current"
                         android:fontFamily="@font/google_sans"/>
@@ -178,6 +190,7 @@
                         android:id="@+id/temperature"
                         android:visibility="visible"
                         android:text="@string/temperature_celsius"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:fontFamily="@font/google_sans"/>
 
@@ -187,6 +200,7 @@
                         android:id="@+id/voltage"
                         android:visibility="visible"
                         android:text="@string/voltage"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/temperature"
                         android:fontFamily="@font/google_sans"/>
@@ -196,6 +210,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/last_charge_time"
                         android:text="@string/last_charge_time"
+                        android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:layout_below="@id/voltage"
                         android:fontFamily="@font/google_sans"/>

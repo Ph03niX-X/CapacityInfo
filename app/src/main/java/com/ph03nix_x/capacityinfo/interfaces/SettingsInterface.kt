@@ -74,7 +74,7 @@ interface SettingsInterface {
         context.startActivity(intent)
     }
 
-    fun onGetTextSizeSummary(context: Context): String? {
+    fun getOnTextSizeSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -86,7 +86,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
     }
 
-    fun onGetTextFontSummary(context: Context): String? {
+    fun getOnTextFontSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -98,7 +98,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
     }
 
-    fun onGetTextStyleSummary(context: Context): String? {
+    fun getOnTextStyleSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -110,7 +110,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_STYLE, "0") ?: "0").toInt()]
     }
 
-    fun onGetLanguageSummary(context: Context): String? {
+    fun getOnLanguageSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -134,7 +134,7 @@ interface SettingsInterface {
         }
     }
 
-    fun onGetTabOnApplicationLaunch(context: Context): String? {
+    fun getOnTabOnApplicationLaunch(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -146,7 +146,7 @@ interface SettingsInterface {
                 (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]
     }
 
-    fun onGetUnitOfChargeDischargeCurrentSummary(context: Context): String? {
+    fun getOnUnitOfChargeDischargeCurrentSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -166,7 +166,7 @@ interface SettingsInterface {
         }
     }
 
-    fun onGetUnitOfMeasurementOfCurrentCapacitySummary(context: Context): String? {
+    fun getOnUnitOfMeasurementOfCurrentCapacitySummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -187,7 +187,7 @@ interface SettingsInterface {
         }
     }
 
-    fun onGetVoltageUnitSummary(context: Context): String? {
+    fun getOnVoltageUnitSummary(context: Context): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 

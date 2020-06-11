@@ -15,7 +15,6 @@ class CenteredToolbar : MaterialToolbar {
 
     private var tvTitle: AppCompatTextView? = null
     private var tvSubtitle: AppCompatTextView? = null
-
     private var linear: LinearLayoutCompat? = null
 
     constructor(context: Context) : super(context) { setupTextViews() }

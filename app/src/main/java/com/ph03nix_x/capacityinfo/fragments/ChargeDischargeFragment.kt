@@ -27,9 +27,6 @@ import java.text.DecimalFormat
 class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
-
-    private var mainContext: MainActivity? = null
-
     private lateinit var batteryLevel: AppCompatTextView
     private lateinit var chargingTime: AppCompatTextView
     private lateinit var chargingTimeRemaining: AppCompatTextView
@@ -45,8 +42,10 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
     private lateinit var temperature: AppCompatTextView
     private lateinit var voltage: AppCompatTextView
     private lateinit var lastChargeTime: AppCompatTextView
-    private var isJob = false
+
+    private var mainContext: MainActivity? = null
     private var job: Job? = null
+    private var isJob = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -149,13 +148,13 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                         }
 
                         batteryLevel.text = getString(R.string.battery_level,
-                            "${onGetBatteryLevel(
+                            "${getOnBatteryLevel(
                                 context ?: batteryLevel.context)}%")
-                        if((CapacityInfoService.instance?.seconds ?: 0) > 0) {
+                        if((CapacityInfoService.instance?.seconds ?: 0) > 1) {
 
                             chargingTime.visibility = View.VISIBLE
 
-                            chargingTime.text = onGetChargingTime(
+                            chargingTime.text = getOnChargingTime(
                                 context ?: chargingTime.context,
                                 CapacityInfoService.instance?.seconds ?: 0)
                         }
@@ -163,7 +162,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             chargingTime.visibility = View.GONE
 
                         lastChargeTime.text = getString(R.string.last_charge_time,
-                            onGetLastChargeTime(context ?: lastChargeTime.context),
+                            getOnLastChargeTime(context ?: lastChargeTime.context),
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH, 0)}%",
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO, 0)}%")
 
@@ -176,7 +175,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                                 remainingBatteryTime.visibility = View.GONE
 
                             chargingTimeRemaining.text = getString(R.string.charging_time_remaining,
-                                onGetChargingTimeRemaining(requireContext()))
+                                getOnChargingTimeRemaining(requireContext()))
                         }
 
                         else {
@@ -184,12 +183,12 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             if(chargingTimeRemaining.visibility == View.VISIBLE)
                                 chargingTimeRemaining.visibility = View.GONE
 
-                            if(onGetCurrentCapacity(requireContext()) > 0.0) {
+                            if(getOnCurrentCapacity(requireContext()) > 0.0) {
 
                                 if(remainingBatteryTime.visibility == View.GONE)
                                     remainingBatteryTime.visibility = View.VISIBLE
                                 remainingBatteryTime.text = getString(
-                                    R.string.remaining_battery_time, onGetRemainingBatteryTime(
+                                    R.string.remaining_battery_time, getOnRemainingBatteryTime(
                                         requireContext()))
                             }
                         }
@@ -198,18 +197,18 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                     withContext(Dispatchers.Main) {
 
                         this@ChargeDischargeFragment.status.text = getString(R.string.status,
-                            onGetStatus(
+                            getOnStatus(
                                 context ?: this@ChargeDischargeFragment.status.context,
                                 status))
 
-                        if(onGetSourceOfPower(
+                        if(getOnSourceOfPower(
                                 context ?: this@ChargeDischargeFragment.sourceOfPower
                                     .context, sourceOfPower) != "N/A") {
 
                             if(this@ChargeDischargeFragment.sourceOfPower.visibility == View.GONE)
                                 this@ChargeDischargeFragment.sourceOfPower.visibility = View.VISIBLE
 
-                            this@ChargeDischargeFragment.sourceOfPower.text = onGetSourceOfPower(
+                            this@ChargeDischargeFragment.sourceOfPower.text = getOnSourceOfPower(
                                 context ?: this@ChargeDischargeFragment
                                     .sourceOfPower.context, sourceOfPower)
                         }
@@ -223,21 +222,21 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             if(!pref.getBoolean(PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT,
                                     resources.getBoolean(R.bool.temperature_in_fahrenheit)))
                                 getString(R.string.temperature_celsius,
-                                onGetTemperature(context ?: temperature.context))
+                                getOnTemperature(context ?: temperature.context))
                             else getString(R.string.temperature_fahrenheit,
-                                onGetTemperature(context ?: temperature.context))
+                                getOnTemperature(context ?: temperature.context))
 
                         voltage.text = getString(if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV,
                                 resources.getBoolean(R.bool.voltage_in_mv)))
                             R.string.voltage_mv else R.string.voltage,
-                            DecimalFormat("#.#").format(onGetVoltage(
+                            DecimalFormat("#.#").format(getOnVoltage(
                                 context ?: voltage.context)))
                     }
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, resources.getBoolean(
                             R.bool.is_supported))) {
 
-                        if(onGetCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
+                        if(getOnCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
 
                             if(currentCapacity.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -246,28 +245,28 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             withContext(Dispatchers.Main) {
 
                                 currentCapacity.text = getString(R.string.current_capacity,
-                                    DecimalFormat("#.#").format(onGetCurrentCapacity(
+                                    DecimalFormat("#.#").format(getOnCurrentCapacity(
                                         context ?: currentCapacity.context)))
 
                                 when {
-                                    onGetSourceOfPower(
+                                    getOnSourceOfPower(
                                         context ?: this@ChargeDischargeFragment
                                             .sourceOfPower.context, sourceOfPower) != "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = onGetCapacityAdded(
+                                        capacityAdded.text = getOnCapacityAdded(
                                             context ?: capacityAdded.context)
                                     }
-                                    onGetSourceOfPower(
+                                    getOnSourceOfPower(
                                         context ?: this@ChargeDischargeFragment
                                             .sourceOfPower.context, sourceOfPower) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = onGetCapacityAdded(
+                                        capacityAdded.text = getOnCapacityAdded(
                                             context ?: currentCapacity.context)
                                     }
                                 }
@@ -313,7 +312,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             withContext(Dispatchers.Main) {
 
                                 chargeCurrent.text = getString(R.string.charge_current,
-                                    onGetChargeDischargeCurrent(
+                                    getOnChargeDischargeCurrent(
                                         context ?: chargeCurrent.context).toString())
                             }
                         }
@@ -328,7 +327,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             withContext(Dispatchers.Main) {
 
                                 chargeCurrent.text = getString(R.string.discharge_current,
-                                    onGetChargeDischargeCurrent(
+                                    getOnChargeDischargeCurrent(
                                         context ?: chargeCurrent.context).toString())
                             }
                         }
@@ -411,7 +410,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(onGetCurrentCapacity(
+                            delay(if(getOnCurrentCapacity(
                                     context ?: currentCapacity.context) > 0.0) 974L
                             else 981L)
 

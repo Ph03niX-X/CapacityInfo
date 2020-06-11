@@ -110,7 +110,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             openNotificationCategorySettingsService =
                 findPreference("open_notification_category_settings_service")
 
-        showCapacityAddedInNotification?.isVisible = onGetCurrentCapacity(requireContext()) > 0.0
+        showCapacityAddedInNotification?.isVisible = getOnCurrentCapacity(requireContext()) > 0.0
 
         isShowExtendedNotification?.setOnPreferenceChangeListener { preference, _ ->
 
@@ -198,13 +198,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
-        textSize?.summary = onGetTextSizeSummary(requireContext())
+        textSize?.summary = getOnTextSizeSummary(requireContext())
 
-        textFont?.summary = onGetTextFontSummary(requireContext())
+        textFont?.summary = getOnTextFontSummary(requireContext())
 
-        textStyle?.summary = onGetTextStyleSummary(requireContext())
+        textStyle?.summary = getOnTextStyleSummary(requireContext())
 
-        selectLanguage?.summary = onGetLanguageSummary(requireContext())
+        selectLanguage?.summary = getOnLanguageSummary(requireContext())
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -502,22 +502,22 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         super.onResume()
 
-        showCapacityAddedInNotification?.isVisible = onGetCurrentCapacity(requireContext()) > 0.0
+        showCapacityAddedInNotification?.isVisible = getOnCurrentCapacity(requireContext()) > 0.0
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
-        textSize?.summary = onGetTextSizeSummary(requireContext())
+        textSize?.summary = getOnTextSizeSummary(requireContext())
 
-        textFont?.summary = onGetTextFontSummary(requireContext())
+        textFont?.summary = getOnTextFontSummary(requireContext())
 
-        textStyle?.summary = onGetTextStyleSummary(requireContext())
+        textStyle?.summary = getOnTextStyleSummary(requireContext())
 
-        selectLanguage?.summary = onGetLanguageSummary(requireContext())
+        selectLanguage?.summary = getOnLanguageSummary(requireContext())
 
-        tabOnApplicationLaunch?.summary = onGetTabOnApplicationLaunch(requireContext())
+        tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch(requireContext())
 
-        unitOfChargeDischargeCurrent?.summary = onGetUnitOfChargeDischargeCurrentSummary(
+        unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary(
             requireContext())
 
         unitOfMeasurementOfCurrentCapacity?.isVisible = moreOther?.title == getString(R.string.hide)
@@ -525,9 +525,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
             unitOfMeasurementOfCurrentCapacity?.summary =
-                onGetUnitOfMeasurementOfCurrentCapacitySummary(requireContext())
+                getOnUnitOfMeasurementOfCurrentCapacitySummary(requireContext())
 
-        voltageUnit?.summary = onGetVoltageUnitSummary(requireContext())
+        voltageUnit?.summary = getOnVoltageUnitSummary(requireContext())
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))

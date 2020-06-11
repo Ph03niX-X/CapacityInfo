@@ -14,7 +14,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/battery_level_overlay"
-            android:text="@string/battery_level"/>
+            android:text="@string/battery_level"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/number_of_charges_overlay"
@@ -22,7 +23,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/google_sans"
             android:text="@string/number_of_charges"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -30,7 +32,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/number_of_cycles_overlay"
-            android:text="@string/number_of_cycles"/>
+            android:text="@string/number_of_cycles"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -38,7 +41,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/charging_time_overlay"
-            android:text="@string/charging_time"/>
+            android:text="@string/charging_time"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -46,7 +50,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/charging_time_remaining_overlay"
-            android:text="@string/charging_time_remaining"/>
+            android:text="@string/charging_time_remaining"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -54,7 +59,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/remaining_battery_time_overlay"
-            android:text="@string/remaining_battery_time"/>
+            android:text="@string/remaining_battery_time"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -62,7 +68,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/current_capacity_overlay"
-            android:text="@string/current_capacity"/>
+            android:text="@string/current_capacity"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -70,7 +77,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/capacity_added_overlay"
-            android:text="@string/capacity_added"/>
+            android:text="@string/capacity_added"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -78,7 +86,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/battery_health_overlay"
-            android:text="@string/battery_health"/>
+            android:text="@string/battery_health"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -86,7 +95,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/residual_capacity_overlay"
-            android:text="@string/residual_capacity"/>
+            android:text="@string/residual_capacity"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -94,7 +104,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/status_overlay"
-            android:text="@string/status"/>
+            android:text="@string/status"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -102,7 +113,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/source_of_power_overlay"
-            android:text="@string/source_of_power"/>
+            android:text="@string/source_of_power"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -110,7 +122,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/charge_discharge_current_overlay"
-            android:text="@string/discharge_current"/>
+            android:text="@string/discharge_current"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -118,7 +131,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/max_charge_discharge_current_overlay"
-            android:text="@string/max_discharge_current"/>
+            android:text="@string/max_discharge_current"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -126,7 +140,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/average_charge_discharge_current_overlay"
-            android:text="@string/average_discharge_current"/>
+            android:text="@string/average_discharge_current"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -134,7 +149,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/min_charge_discharge_current_overlay"
-            android:text="@string/min_discharge_current"/>
+            android:text="@string/min_discharge_current"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -142,7 +158,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/temperature_overlay"
-            android:text="@string/temperature_celsius"/>
+            android:text="@string/temperature_celsius"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -150,7 +167,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/voltage_overlay"
-            android:text="@string/voltage"/>
+            android:text="@string/voltage"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -158,7 +176,8 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/last_charge_time_overlay"
-            android:text="@string/last_charge_time"/>
+            android:text="@string/last_charge_time"
+            android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -166,6 +185,7 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/battery_wear_overlay"
-            android:text="@string/battery_wear"/>
+            android:text="@string/battery_wear"
+            android:textSize="@dimen/medium_text_size"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

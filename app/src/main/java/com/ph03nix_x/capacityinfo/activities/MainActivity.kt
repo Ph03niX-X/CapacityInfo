@@ -43,13 +43,11 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface {
 
     private lateinit var pref: SharedPreferences
+    private var isDoubleBackToExitPressedOnce = false
+    private var prefArrays: HashMap<*, *>? = null
 
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
-
-    private var isDoubleBackToExitPressedOnce = false
-
-    private var prefArrays: HashMap<*, *>? = null
 
     var fragment: Fragment? = null
 
@@ -154,8 +152,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         clearMenu()
 
                         inflateMenu()
-
-                        fragment = ChargeDischargeFragment()
 
                         loadFragment(fragment ?: ChargeDischargeFragment())
                     }
@@ -307,13 +303,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             pref.edit().apply {
 
-                putInt(DESIGN_CAPACITY, onGetDesignCapacity(this@MainActivity))
+                putInt(DESIGN_CAPACITY, getOnDesignCapacity(this@MainActivity))
 
                 apply()
             }
         }
 
-        if(onGetCurrentCapacity(this) == 0.0
+        if(getOnCurrentCapacity(this) == 0.0
             && pref.getBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, resources.getBoolean(
                 R.bool.is_show_not_supported_dialog))) {
 
@@ -337,9 +333,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 R.bool.is_show_instruction))) showInstruction()
 
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
-            toolbar.menu.findItem(R.id.instruction).isVisible = onGetCurrentCapacity(
-                this) > 0.0 && (fragment is ChargeDischargeFragment ||
-                    fragment is WearFragment)
+            toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
+                this) > 0.0
 
         val prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
                 as? HashMap<*, *>
@@ -398,7 +393,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         toolbar.inflateMenu(R.menu.main_menu)
 
-        toolbar.menu.findItem(R.id.instruction).isVisible = onGetCurrentCapacity(
+        toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
             this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
 
         toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
@@ -512,7 +507,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     fun getChargeDischargeNavigationIcon(isCharge: Boolean): Int {
 
-        val batteryLevel = onGetBatteryLevel(this) ?: 0
+        val batteryLevel = getOnBatteryLevel(this) ?: 0
 
         if(isCharge)
             return when(batteryLevel) {

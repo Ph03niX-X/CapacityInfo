@@ -51,12 +51,12 @@ interface NotificationInterface : BatteryInfoInterface {
 
     companion object {
 
-        private lateinit var channelId: String
-        private lateinit var stopService: PendingIntent
-
         const val NOTIFICATION_SERVICE_ID = 101
         const val NOTIFICATION_BATTERY_STATUS_ID = 102
         const val NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID = 103
+
+        private lateinit var channelId: String
+        private lateinit var stopService: PendingIntent
 
         var notificationBuilder: NotificationCompat.Builder? = null
         var notificationManager: NotificationManager? = null
@@ -105,10 +105,10 @@ interface NotificationInterface : BatteryInfoInterface {
                 R.layout.notification_content)
 
             remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                if(onGetCurrentCapacity(context) > 0.0) context.getString(
+                if(getOnCurrentCapacity(context) > 0.0) context.getString(
                     R.string.current_capacity, DecimalFormat("#.#").format(
-                        onGetCurrentCapacity(context))) else "${context.getString(
-                    R.string.battery_level, (onGetBatteryLevel(context) ?: 0).toString())}%")
+                        getOnCurrentCapacity(context))) else "${context.getString(
+                    R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
 
             setCustomContentView(remoteViewsServiceContent)
 
@@ -123,7 +123,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 remoteViewsServiceBigContent.setViewVisibility(R.id.voltage_service_notification,
                     if(mActions.isNullOrEmpty()) View.VISIBLE else View.GONE)
 
-                onGetNotificationMessage(context, status, remoteViewsServiceBigContent)
+                getOnNotificationMessage(context, status, remoteViewsServiceBigContent)
 
                 setCustomBigContentView(remoteViewsServiceBigContent)
             }
@@ -172,10 +172,10 @@ interface NotificationInterface : BatteryInfoInterface {
                     R.layout.notification_content)
 
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                    if(onGetCurrentCapacity(context) > 0.0) context.getString(
+                    if(getOnCurrentCapacity(context) > 0.0) context.getString(
                         R.string.current_capacity, DecimalFormat("#.#").format(
-                            onGetCurrentCapacity(context))) else "${context.getString(
-                        R.string.battery_level, (onGetBatteryLevel(context) ?: 0).toString())}%")
+                            getOnCurrentCapacity(context))) else "${context.getString(
+                        R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
 
                 setCustomContentView(remoteViewsServiceContent)
 
@@ -191,7 +191,7 @@ interface NotificationInterface : BatteryInfoInterface {
                         .voltage_service_notification, if(mActions.isNullOrEmpty()) View.VISIBLE
                     else View.GONE)
 
-                    onGetNotificationMessage(context, status, remoteViewsServiceBigContent)
+                    getOnNotificationMessage(context, status, remoteViewsServiceBigContent)
 
                     setCustomBigContentView(remoteViewsServiceBigContent)
                 }
@@ -216,7 +216,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         isNotifyOverheatOvercool = false
 
-        val temperatureString = onGetTemperature(context)
+        val temperatureString = getOnTemperature(context)
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
@@ -324,7 +324,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         isNotifyBatteryCharged = false
 
-        val batteryLevel = onGetBatteryLevel(context)
+        val batteryLevel = getOnBatteryLevel(context)
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
@@ -385,7 +385,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
         isNotifyBatteryDischarged = false
 
-        val batteryLevel = onGetBatteryLevel(context) ?: 0
+        val batteryLevel = getOnBatteryLevel(context) ?: 0
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
@@ -541,26 +541,26 @@ interface NotificationInterface : BatteryInfoInterface {
         return notificationChannelId
     }
 
-    private fun onGetNotificationMessage(context: Context, status: Int?, remoteViews: RemoteViews) {
+    private fun getOnNotificationMessage(context: Context, status: Int?, remoteViews: RemoteViews) {
 
         when(status) {
 
-            BatteryManager.BATTERY_STATUS_CHARGING -> onGetBatteryStatusCharging(context,
+            BatteryManager.BATTERY_STATUS_CHARGING -> getOnBatteryStatusCharging(context,
                 batteryIntent, remoteViews)
 
-            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> onGetBatteryStatusNotCharging(context,
+            BatteryManager.BATTERY_STATUS_NOT_CHARGING -> getOnBatteryStatusNotCharging(context,
             remoteViews)
 
-            BatteryManager.BATTERY_STATUS_FULL -> onGetBatteryStatusFull(context, remoteViews)
+            BatteryManager.BATTERY_STATUS_FULL -> getOnBatteryStatusFull(context, remoteViews)
 
-            BatteryManager.BATTERY_STATUS_DISCHARGING -> onGetBatteryStatusDischarging(context,
+            BatteryManager.BATTERY_STATUS_DISCHARGING -> getOnBatteryStatusDischarging(context,
                 remoteViews)
 
-            else -> onGetBatteryStatusUnknown(context, remoteViews)
+            else -> getOnBatteryStatusUnknown(context, remoteViews)
         }
     }
 
-    private fun onGetBatteryStatusCharging(context: Context, batteryIntent: Intent?,
+    private fun getOnBatteryStatusCharging(context: Context, batteryIntent: Intent?,
                                            remoteViews: RemoteViews) {
         
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -578,66 +578,66 @@ interface NotificationInterface : BatteryInfoInterface {
             setViewVisibility(R.id.source_of_power_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.capacity_added_service_notification,
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
                         .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && onGetCurrentCapacity(context) > 0.0) View.VISIBLE
+                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
                 else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.battery_wear_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setTextViewText(R.id.status_service_notification, context.getString(
                 R.string.status, context.getString(R.string.charging)))
 
             setTextViewText(R.id.battery_level_service_notification, context.getString(
                 R.string.battery_level, try {
-                    "${onGetBatteryLevel(context)}%"
+                    "${getOnBatteryLevel(context)}%"
                 }
                 catch(e: RuntimeException)  { R.string.unknown }))
 
-            setTextViewText(R.id.charging_time_service_notification, onGetChargingTime(context,
+            setTextViewText(R.id.charging_time_service_notification, getOnChargingTime(context,
                     capacityInfoServiceContext?.seconds ?: 0))
 
-            setTextViewText(R.id.source_of_power_service_notification, onGetSourceOfPower(context,
+            setTextViewText(R.id.source_of_power_service_notification, getOnSourceOfPower(context,
                 batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
                     -1) ?: -1))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(onGetCurrentCapacity(
+                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
                     context))))
 
-            setTextViewText(R.id.capacity_added_service_notification, onGetCapacityAdded(
+            setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
 
             setTextViewText(R.id.residual_capacity_service_notification,
-                onGetResidualCapacity(context, true))
+                getOnResidualCapacity(context, true))
 
-            setTextViewText(R.id.battery_wear_service_notification, onGetBatteryWear(
+            setTextViewText(R.id.battery_wear_service_notification, getOnBatteryWear(
                 context))
 
             setTextViewText(R.id.charge_discharge_current_service_notification,
-                context.getString(R.string.charge_current, onGetChargeDischargeCurrent(context)
+                context.getString(R.string.charge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
             setTextViewText(R.id.temperature_service_notification, context.getString(
                 if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
                         R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, onGetTemperature(context)))
+                    R.string.temperature_celsius, getOnTemperature(context)))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
                         R.bool.voltage_in_mv))) R.string.voltage_mv else R.string.voltage,
-                DecimalFormat("#.#").format(onGetVoltage(context))))
+                DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
 
-    private fun onGetBatteryStatusNotCharging(context: Context, remoteViews: RemoteViews) {
+    private fun getOnBatteryStatusNotCharging(context: Context, remoteViews: RemoteViews) {
         
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         
@@ -650,25 +650,25 @@ interface NotificationInterface : BatteryInfoInterface {
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.capacity_added_service_notification,
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
                         .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.battery_wear_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setTextViewText(R.id.status_service_notification, context.getString(
                 R.string.status, context.getString(R.string.not_charging)))
 
             setTextViewText(R.id.battery_level_service_notification, context.getString(
                 R.string.battery_level, try {
-                    "${onGetBatteryLevel(context)}%"
+                    "${getOnBatteryLevel(context)}%"
                 }
                 catch(e: RuntimeException)  { R.string.unknown }))
 
@@ -676,39 +676,39 @@ interface NotificationInterface : BatteryInfoInterface {
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
 
-            setTextViewText(R.id.charging_time_service_notification, onGetChargingTime(context,
+            setTextViewText(R.id.charging_time_service_notification, getOnChargingTime(context,
                     capacityInfoServiceContext?.seconds ?: 0))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(onGetCurrentCapacity(
+                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
                     context))))
 
-            setTextViewText(R.id.capacity_added_service_notification, onGetCapacityAdded(
+            setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
 
             setTextViewText(R.id.residual_capacity_service_notification,
-                onGetResidualCapacity(context))
+                getOnResidualCapacity(context))
 
-            setTextViewText(R.id.battery_wear_service_notification, onGetBatteryWear(
+            setTextViewText(R.id.battery_wear_service_notification, getOnBatteryWear(
                 context))
 
             setTextViewText(R.id.charge_discharge_current_service_notification,
-                context.getString(R.string.discharge_current, onGetChargeDischargeCurrent(context)
+                context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
             setTextViewText(R.id.temperature_service_notification, context.getString(
                 if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
                         R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, onGetTemperature(context)))
+                    R.string.temperature_celsius, getOnTemperature(context)))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
                         R.bool.voltage_in_mv))) R.string.voltage_mv else R.string.voltage,
-                DecimalFormat("#.#").format(onGetVoltage(context))))
+                DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
 
-    private fun onGetBatteryStatusFull(context: Context, remoteViews: RemoteViews) {
+    private fun getOnBatteryStatusFull(context: Context, remoteViews: RemoteViews) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -721,26 +721,26 @@ interface NotificationInterface : BatteryInfoInterface {
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.capacity_added_service_notification,
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
                         .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && onGetCurrentCapacity(context) > 0.0) View.VISIBLE
+                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
                 else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.battery_wear_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setTextViewText(R.id.status_service_notification, context.getString(
                 R.string.status, context.getString(R.string.full)))
 
             setTextViewText(R.id.battery_level_service_notification, context.getString(
                 R.string.battery_level, try {
-                    "${onGetBatteryLevel(context)}%"
+                    "${getOnBatteryLevel(context)}%"
                 }
                 catch(e: RuntimeException)  { R.string.unknown }))
 
@@ -748,39 +748,39 @@ interface NotificationInterface : BatteryInfoInterface {
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
 
-            setTextViewText(R.id.charging_time_service_notification, onGetChargingTime(context,
+            setTextViewText(R.id.charging_time_service_notification, getOnChargingTime(context,
                     capacityInfoServiceContext?.seconds ?: 0))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(onGetCurrentCapacity(
+                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
                     context))))
 
-            setTextViewText(R.id.capacity_added_service_notification, onGetCapacityAdded(
+            setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
 
             setTextViewText(R.id.residual_capacity_service_notification,
-                onGetResidualCapacity(context))
+                getOnResidualCapacity(context))
 
-            setTextViewText(R.id.battery_wear_service_notification, onGetBatteryWear(
+            setTextViewText(R.id.battery_wear_service_notification, getOnBatteryWear(
                 context))
 
             setTextViewText(R.id.charge_discharge_current_service_notification,
-                context.getString(R.string.discharge_current, onGetChargeDischargeCurrent(context)
+                context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
             setTextViewText(R.id.temperature_service_notification, context.getString(
                 if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
                         R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, onGetTemperature(context)))
+                    R.string.temperature_celsius, getOnTemperature(context)))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
                     R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
-                    onGetVoltage(context))))
+                    getOnVoltage(context))))
         }
     }
 
-    private fun onGetBatteryStatusDischarging(context: Context, remoteViews: RemoteViews) {
+    private fun getOnBatteryStatusDischarging(context: Context, remoteViews: RemoteViews) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -797,26 +797,26 @@ interface NotificationInterface : BatteryInfoInterface {
                     pref.getInt(LAST_CHARGE_TIME, 0) > 0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.capacity_added_service_notification,
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
                         .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && onGetCurrentCapacity(context) > 0.0) View.VISIBLE
+                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
                 else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.battery_wear_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setTextViewText(R.id.status_service_notification, context.getString(
                 R.string.status, context.getString(R.string.discharging)))
 
             setTextViewText(R.id.battery_level_service_notification, context.getString(
                 R.string.battery_level, try {
-                    "${onGetBatteryLevel(context)}%"
+                    "${getOnBatteryLevel(context)}%"
                 }
                 catch(e: RuntimeException)  { R.string.unknown }))
 
@@ -825,39 +825,39 @@ interface NotificationInterface : BatteryInfoInterface {
                     NUMBER_OF_CYCLES, 0f))))
 
             setTextViewText(R.id.last_charge_time_service_notification, context.getString(
-                R.string.last_charge_time, onGetLastChargeTime(context), batteryLevelWith,
+                R.string.last_charge_time, getOnLastChargeTime(context), batteryLevelWith,
                 batteryLevelTo))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(onGetCurrentCapacity(
+                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
                     context))))
 
-            setTextViewText(R.id.capacity_added_service_notification, onGetCapacityAdded(
+            setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
 
             setTextViewText(R.id.residual_capacity_service_notification,
-                onGetResidualCapacity(context))
+                getOnResidualCapacity(context))
 
-            setTextViewText(R.id.battery_wear_service_notification, onGetBatteryWear(
+            setTextViewText(R.id.battery_wear_service_notification, getOnBatteryWear(
                 context))
 
             setTextViewText(R.id.charge_discharge_current_service_notification,
-                context.getString(R.string.discharge_current, onGetChargeDischargeCurrent(context)
+                context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
             setTextViewText(R.id.temperature_service_notification, context.getString(
                 if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
                         R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, onGetTemperature(context)))
+                    R.string.temperature_celsius, getOnTemperature(context)))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
                     R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
-                    onGetVoltage(context))))
+                    getOnVoltage(context))))
         }
     }
 
-    private fun onGetBatteryStatusUnknown(context: Context, remoteViews: RemoteViews) {
+    private fun getOnBatteryStatusUnknown(context: Context, remoteViews: RemoteViews) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -870,26 +870,26 @@ interface NotificationInterface : BatteryInfoInterface {
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.capacity_added_service_notification,
                 if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
                         .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && onGetCurrentCapacity(context) > 0.0) View.VISIBLE
+                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
                 else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.battery_wear_service_notification,
-                if(onGetCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
+                if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setTextViewText(R.id.status_service_notification, context.getString(
                 R.string.status, context.getString(R.string.unknown)))
 
             setTextViewText(R.id.battery_level_service_notification, context.getString(
                 R.string.battery_level, try {
-                    "${onGetBatteryLevel(context)}%"
+                    "${getOnBatteryLevel(context)}%"
                 }
                 catch(e: RuntimeException)  { R.string.unknown }))
 
@@ -897,35 +897,35 @@ interface NotificationInterface : BatteryInfoInterface {
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
 
-            setTextViewText(R.id.charging_time_service_notification, onGetChargingTime(context,
+            setTextViewText(R.id.charging_time_service_notification, getOnChargingTime(context,
                     capacityInfoServiceContext?.seconds ?: 0))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(onGetCurrentCapacity(
+                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
                     context))))
 
-            setTextViewText(R.id.capacity_added_service_notification, onGetCapacityAdded(
+            setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
 
             setTextViewText(R.id.residual_capacity_service_notification,
-                onGetResidualCapacity(context))
+                getOnResidualCapacity(context))
 
-            setTextViewText(R.id.battery_wear_service_notification, onGetBatteryWear(
+            setTextViewText(R.id.battery_wear_service_notification, getOnBatteryWear(
                 context))
 
             setTextViewText(R.id.charge_discharge_current_service_notification,
-                context.getString(R.string.discharge_current, onGetChargeDischargeCurrent(context)
+                context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
             setTextViewText(R.id.temperature_service_notification, context.getString(
                 if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
                         R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, onGetTemperature(context)))
+                    R.string.temperature_celsius, getOnTemperature(context)))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
                         R.bool.voltage_in_mv))) R.string.voltage_mv else R.string.voltage,
-                DecimalFormat("#.#").format(onGetVoltage(context))))
+                DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
 }
