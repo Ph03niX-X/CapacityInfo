@@ -196,6 +196,6 @@
     <string name="service_restart_required">Потрібен перезапуск служби</string>
     <string name="charging_time_remaining">Час, що залишився до заряда: %1$s</string>
     <string name="charging_time_remaining_overlay">Час, що залишився до заряда</string>
-    <string name="remaining_battery_time">Час, що залишився від акумулятора: %1$s</string>
-    <string name="remaining_battery_time_overlay">Час, що залишився від акумулятора</string>
+    <string name="remaining_battery_time">Час, що залишилося роботи від акумулятора: %1$s</string>
+    <string name="remaining_battery_time_overlay">Час, що залишилося роботи від акумулятора</string>
 </resources>
