@@ -15,20 +15,17 @@ object ServiceHelper {
 
         this.isStartedService = isStartedService
 
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
             if(serviceName == CapacityInfoService::class.java) {
 
-                withContext(Dispatchers.Main) {
+                if(isStartedService) delay(2500)
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    context.startForegroundService(Intent(context, serviceName))
+                else context.startService(Intent(context, serviceName))
 
-                    if(isStartedService) delay(2500)
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                        context.startForegroundService(Intent(context, serviceName))
-                    else context.startService(Intent(context, serviceName))
-
-                    if(isStartedService) delay(1000)
-                    this@ServiceHelper.isStartedService = false
-                }
+                if(isStartedService) delay(1000)
+                this@ServiceHelper.isStartedService = false
             }
 
             else context.startService(Intent(context, serviceName))
