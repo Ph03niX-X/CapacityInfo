@@ -204,10 +204,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
             notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
         }
-        catch(e: RuntimeException) {
-
-            Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-        }
+        catch(e: RuntimeException) { }
     }
 
     fun onNotifyOverheatOvercool(context: Context, temperature: Double) {
