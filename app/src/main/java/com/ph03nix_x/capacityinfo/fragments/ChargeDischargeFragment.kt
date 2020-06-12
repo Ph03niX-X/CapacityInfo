@@ -166,7 +166,8 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH, 0)}%",
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO, 0)}%")
 
-                        if(status == BatteryManager.BATTERY_STATUS_CHARGING) {
+                        if(sourceOfPower == BatteryManager.BATTERY_PLUGGED_AC
+                            && status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
                             if(chargingTimeRemaining.visibility == View.GONE)
                                 chargingTimeRemaining.visibility = View.VISIBLE
@@ -187,6 +188,7 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
 
                                 if(remainingBatteryTime.visibility == View.GONE)
                                     remainingBatteryTime.visibility = View.VISIBLE
+
                                 remainingBatteryTime.text = getString(
                                     R.string.remaining_battery_time, getOnRemainingBatteryTime(
                                         requireContext()))
