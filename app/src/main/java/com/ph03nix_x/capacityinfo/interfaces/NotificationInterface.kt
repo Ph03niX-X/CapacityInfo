@@ -16,7 +16,6 @@ import android.os.BatteryManager
 import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
