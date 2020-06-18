@@ -266,9 +266,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     .BATTERY_STATUS_CHARGING))
         }
 
-        if(CapacityInfoService.instance == null && !ServiceHelper.isStartedService())
-            ServiceHelper.startService(this, CapacityInfoService::class.java,
-                true)
+        if(CapacityInfoService.instance == null && !ServiceHelper.isStartedCapacityInfoService())
+            ServiceHelper.startService(this, CapacityInfoService::class.java)
 
         if(!pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
                 R.bool.is_enabled_debug_options))
@@ -342,7 +341,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
-        if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(this))
+        if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(this)
+            && !ServiceHelper.isStartedOverlayService())
             ServiceHelper.startService(this, OverlayService::class.java)
     }
 

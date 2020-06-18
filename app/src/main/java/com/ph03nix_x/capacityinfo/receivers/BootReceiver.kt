@@ -16,11 +16,12 @@ class BootReceiver : BroadcastReceiver() {
 
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> {
 
-                if(CapacityInfoService.instance == null && !ServiceHelper.isStartedService())
-                    ServiceHelper.startService(context, CapacityInfoService::class.java,
-                        true)
+                if(CapacityInfoService.instance == null &&
+                    !ServiceHelper.isStartedCapacityInfoService()) ServiceHelper.startService(
+                    context, CapacityInfoService::class.java)
 
-                if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
+                if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context)
+                    && !ServiceHelper.isStartedOverlayService())
                     ServiceHelper.startService(context, OverlayService::class.java)
             }
         }
