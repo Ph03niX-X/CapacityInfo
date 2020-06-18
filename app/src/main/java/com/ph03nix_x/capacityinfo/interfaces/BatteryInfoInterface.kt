@@ -216,7 +216,7 @@ interface BatteryInfoInterface {
       catch(e: RuntimeException) { 0.001 }
     }
 
-    fun getOnCapacityAdded(context: Context): String {
+    fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -236,11 +236,13 @@ interface BatteryInfoInterface {
 
                 if(capacityAdded < 0) capacityAdded /= -1
 
-                context.getString(R.string.capacity_added, DecimalFormat("#.#")
+                context.getString(if(!isOverlay) R.string.capacity_added else
+                    R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
                     .format(capacityAdded), "$percentAdded%")
             }
 
-            else -> context.getString(R.string.capacity_added, DecimalFormat("#.#").format(
+            else -> context.getString(if(!isOverlay) R.string.capacity_added
+            else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#").format(
                 pref.getFloat(CAPACITY_ADDED, 0f).toDouble()), "${pref.getInt(PERCENT_ADDED, 
                 0)}%")
         }
@@ -289,7 +291,8 @@ interface BatteryInfoInterface {
         }
     }
 
-    fun getOnResidualCapacity(context: Context, isCharging: Boolean = false): String {
+    fun getOnResidualCapacity(context: Context, isCharging: Boolean = false,
+                              isOverlay: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -314,11 +317,10 @@ interface BatteryInfoInterface {
 
         if(residualCapacity < 0) residualCapacity /= -1
 
-        return context.getString(
-            R.string.residual_capacity, DecimalFormat("#.#").format(residualCapacity),
-            "${DecimalFormat("#.#").format((residualCapacity / pref.getInt(
-                DESIGN_CAPACITY, context.resources.getInteger(R.integer.min_design_capacity))
-                .toDouble()) * 100)}%")
+        return context.getString(if(!isOverlay) R.string.residual_capacity else
+            R.string.residual_capacity_overlay_only_values, DecimalFormat("#.#").format(
+            residualCapacity), "${DecimalFormat("#.#").format(
+            (residualCapacity / pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(R.integer.min_design_capacity)).toDouble()) * 100)}%")
     }
 
     fun getOnStatus(context: Context, extraStatus: Int): String {
@@ -333,37 +335,43 @@ interface BatteryInfoInterface {
         }
     }
 
-    fun getOnSourceOfPower(context: Context, extraPlugged: Int): String {
+    fun getOnSourceOfPower(context: Context, extraPlugged: Int,
+                           isOverlay: Boolean = false): String {
 
         return when(extraPlugged) {
 
-            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.source_of_power,
+            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(if(!isOverlay)
+                R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_ac))
-            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.source_of_power,
+            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(if(!isOverlay)
+                R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_usb))
-            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(R.string.source_of_power,
+            BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(if(!isOverlay)
+                R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_wireless))
             else -> "N/A"
         }
     }
     
-    fun getOnBatteryWear(context: Context): String {
+    fun getOnBatteryWear(context: Context, isOverlay: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
             R.integer.min_design_capacity)).toDouble()
 
-        return context.getString(R.string.battery_wear, if(residualCapacity > 0
+        return context.getString(if(!isOverlay) R.string.battery_wear else
+            R.string.battery_wear_overlay_only_values, if(residualCapacity > 0
             && residualCapacity < designCapacity) "${DecimalFormat("#.#").format(
             100 - ((residualCapacity / designCapacity) * 100))}%" else "0%",
             if(residualCapacity > 0 && residualCapacity < designCapacity) DecimalFormat(
                 "#.#").format(designCapacity - residualCapacity) else "0")
     }
 
-    fun getOnChargingTime(context: Context, seconds: Int): String {
+    fun getOnChargingTime(context: Context, seconds: Int, isOverlay: Boolean = false): String {
 
-        return context.getString(R.string.charging_time, TimeHelper.getTime(seconds.toLong()))
+        return context.getString(if(!isOverlay) R.string.charging_time else
+            R.string.charging_time_overlay_only_values, TimeHelper.getTime(seconds.toLong()))
     }
 
     fun getOnChargingTimeRemaining(context: Context): String {

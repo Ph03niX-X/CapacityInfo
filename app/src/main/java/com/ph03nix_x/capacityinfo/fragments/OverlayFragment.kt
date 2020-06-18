@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SOURCE_OF_POWER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
@@ -50,6 +51,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
+    private var onlyValuesOverlay: SwitchPreferenceCompat? = null
 
     // Appearance
     private var appearanceCategory: PreferenceCategory? = null
@@ -93,6 +95,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
             overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
 
         enableOverlay = findPreference(IS_ENABLED_OVERLAY)
+
+        onlyValuesOverlay = findPreference(IS_ONLY_VALUES_OVERLAY)
 
         enableOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -494,7 +498,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
     private fun enableAllOverlay(isEnable: Boolean?) {
 
-        appearanceCategory?.isEnabled = isEnable ?: false
-        overlayCategory?.isEnabled = isEnable ?: false
+        onlyValuesOverlay?.isEnabled = isEnable ?: onlyValuesOverlay?.isEnabled ?: false
+        appearanceCategory?.isEnabled = isEnable ?: appearanceCategory?.isEnabled ?: false
+        overlayCategory?.isEnabled = isEnable ?: overlayCategory?.isEnabled ?: false
     }
 }

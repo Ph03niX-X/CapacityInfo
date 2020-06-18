@@ -204,4 +204,27 @@
     <string name="charging_time_remaining_overlay">Charging Time Remaining</string>
     <string name="remaining_battery_time">Remaining Battery Time: %1$s</string>
     <string name="remaining_battery_time_overlay">Remaining Battery Time</string>
+    <string name="only_values">Only Values</string>
+    <string name="battery_level_overlay_only_values" translatable="false">%1$s</string>
+    <string name="number_of_charges_overlay_only_values" translatable="false">%1$d</string>
+    <string name="number_of_cycles_overlay_only_values" translatable="false">%1$s</string>
+    <string name="charging_time_overlay_only_values" translatable="false">%1$s</string>
+    <string name="charging_time_remaining_overlay_only_values" translatable="false">%1$s</string>
+    <string name="remaining_battery_time_overlay_only_values" translatable="false">%1$s</string>
+    <string name="current_capacity_overlay_only_values">%1$s mAh</string>
+    <string name="capacity_added_overlay_only_values">%1$s mAh (%2$s)</string>
+    <string name="battery_health_overlay_only_values" translatable="false">%1$s</string>
+    <string name="residual_capacity_overlay_only_values">%1$s mAh (%2$s)</string>
+    <string name="status_overlay_only_values" translatable="false">%1$s</string>
+    <string name="source_of_power_overlay_only_values" translatable="false">%1$s</string>
+    <string name="charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="max_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="average_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="min_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="temperature_celsius_overlay_only_values" translatable="false">%1$s°C</string>
+    <string name="temperature_fahrenheit_overlay_only_values" translatable="false">%1$s°F</string>
+    <string name="voltage_overlay_only_values">%1$s V</string>
+    <string name="voltage_mv_overlay_only_values">%1$s mV</string>
+    <string name="last_charge_time_overlay_only_values" translatable="false">%1$s (%2$s - %3$s)</string>
+    <string name="battery_wear_overlay_only_values">%1$s (%2$s mAh)</string>
 </resources>

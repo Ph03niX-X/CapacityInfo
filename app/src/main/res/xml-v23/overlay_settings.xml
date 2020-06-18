@@ -12,6 +12,14 @@
             app:iconSpaceReserved="false"
             android:key="is_enabled_overlay"/>
 
+    <SwitchPreferenceCompat
+            android:title="@string/only_values"
+            android:defaultValue="@bool/is_only_values_overlay"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            app:enabled="false"
+            android:key="is_only_values_overlay"/>
+
     <PreferenceCategory
             app:title="@string/appearance"
             app:singleLineTitle="false"
