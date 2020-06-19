@@ -12,13 +12,6 @@
             app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
-                android:title="@string/stop_service"
-                android:defaultValue="@bool/is_show_stop_service"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_stop_service_24dp"
-                android:key="is_show_stop_service"/>
-
-        <SwitchPreferenceCompat
                 android:title="@string/service_time"
                 android:defaultValue="@bool/is_service_time"
                 app:singleLineTitle="false"
@@ -39,19 +32,18 @@
                 app:icon="@drawable/ic_show_last_charge_time_24dp"
                 android:key="is_show_last_charge_time_in_notification"/>
 
+        <SwitchPreferenceCompat
+            android:title="@string/stop_the_service_when_the_cd"
+            android:defaultValue="@bool/is_stop_the_service_when_the_cd"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
+            android:key="is_stop_the_service_when_the_cd"/>
+
         <Preference
                 android:title="@string/more"
                 app:icon="@drawable/ic_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_service_and_notification"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/stop_the_service_when_the_cd"
-                app:isPreferenceVisible="false"
-                android:defaultValue="@bool/is_stop_the_service_when_the_cd"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
-                android:key="is_stop_the_service_when_the_cd"/>
 
         <SwitchPreferenceCompat
                 android:title="@string/show_expanded_notification"

@@ -131,7 +131,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
-                isStopTheServiceWhenTheCD?.isVisible = true
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    isStopTheServiceWhenTheCD?.isVisible = true
 
                 isShowExtendedNotification?.isVisible = true
 
@@ -145,7 +146,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                isStopTheServiceWhenTheCD?.isVisible = false
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    isStopTheServiceWhenTheCD?.isVisible = false
 
                 isShowExtendedNotification?.isVisible = false
 

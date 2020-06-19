@@ -106,7 +106,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setContentIntent(openApp)
 
-            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                     R.bool.is_show_stop_service)) && mActions.isEmpty())
                 addAction(0, context.getString(R.string.stop_service), stopService)
 
@@ -170,12 +171,13 @@ interface NotificationInterface : BatteryInfoInterface {
                         isSystemDarkMode(context.resources.configuration)) R.color.red
                     else R.color.blue)
 
-                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                    pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
-                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) &&
-                    mActions.isNotEmpty()) mActions.clear()
+                else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                    !pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                        R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
 
                 val remoteViewsServiceContent = RemoteViews(context.packageName,
                     R.layout.notification_content)
@@ -268,8 +270,13 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            addAction(0, context.getString(R.string.close), close)
-            addAction(0, context.getString(R.string.disable), disable)
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                addAction(0, context.getString(R.string.close), close)
+                addAction(0, context.getString(R.string.disable), disable)
+            }
+
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_overheat_overcool_24)
@@ -334,8 +341,12 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            addAction(0, context.getString(R.string.close), close)
-            addAction(0, context.getString(R.string.disable), disable)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                addAction(0, context.getString(R.string.close), close)
+                addAction(0, context.getString(R.string.disable), disable)
+            }
+
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_battery_is_fully_charged_24dp)
@@ -401,8 +412,12 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            addAction(0, context.getString(R.string.close), close)
-            addAction(0, context.getString(R.string.disable), disable)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                addAction(0, context.getString(R.string.close), close)
+                addAction(0, context.getString(R.string.disable), disable)
+            }
+
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(when(batteryLevel) {
@@ -480,8 +495,12 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            addAction(0, context.getString(R.string.close), close)
-            addAction(0, context.getString(R.string.disable), disable)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                addAction(0, context.getString(R.string.close), close)
+                addAction(0, context.getString(R.string.disable), disable)
+            }
+
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(when(batteryLevel) {
