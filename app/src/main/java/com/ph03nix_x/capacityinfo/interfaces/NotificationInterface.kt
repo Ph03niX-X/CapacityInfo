@@ -25,6 +25,8 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.CloseNotificationBatteryStatusInformationService
+import com.ph03nix_x.capacityinfo.services.DisableNotificationBatteryStatusInformationService
 import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
@@ -63,6 +65,10 @@ interface NotificationInterface : BatteryInfoInterface {
         var isNotifyBatteryFullyCharged = true
         var isNotifyBatteryCharged = true
         var isNotifyBatteryDischarged = true
+        var isOverheatOvercool = false
+        var isBatteryFullyCharged = false
+        var isBatteryCharged = false
+        var isBatteryDischarged = false
     }
 
     @SuppressLint("RestrictedApi")
@@ -234,6 +240,19 @@ interface NotificationInterface : BatteryInfoInterface {
                         R.bool.temperature_in_fahrenheit))) R.string.battery_overcooling_fahrenheit
                 else R.string.battery_overcooling_celsius, temperatureString))
 
+        val close = PendingIntent.getService(context, 2, Intent(context,
+            CloseNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val disable = PendingIntent.getService(context, 3, Intent(context,
+            DisableNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        isOverheatOvercool = true
+        isBatteryFullyCharged = false
+        isBatteryCharged = false
+        isBatteryDischarged = false
+
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
@@ -243,6 +262,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_overheat_overcool_24)
@@ -283,6 +304,19 @@ interface NotificationInterface : BatteryInfoInterface {
         remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
             R.string.battery_is_fully_charged))
 
+        val close = PendingIntent.getService(context, 2, Intent(context,
+            CloseNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val disable = PendingIntent.getService(context, 3, Intent(context,
+            DisableNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        isOverheatOvercool = false
+        isBatteryFullyCharged = true
+        isBatteryCharged = false
+        isBatteryDischarged = false
+
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
@@ -292,6 +326,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_battery_is_fully_charged_24dp)
@@ -333,6 +369,19 @@ interface NotificationInterface : BatteryInfoInterface {
         remoteViewsContent.setTextViewText(R.id.notification_content_text,
             "${context.getString(R.string.battery_is_charged_notification, batteryLevel)}%")
 
+        val close = PendingIntent.getService(context, 2, Intent(context,
+            CloseNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val disable = PendingIntent.getService(context, 3, Intent(context,
+            DisableNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        isOverheatOvercool = false
+        isBatteryFullyCharged = false
+        isBatteryCharged = true
+        isBatteryDischarged = false
+
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
@@ -342,6 +391,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(when(batteryLevel) {
@@ -395,6 +446,19 @@ interface NotificationInterface : BatteryInfoInterface {
             "${context.getString(R.string.battery_is_discharged_notification,
                 batteryLevel)}%")
 
+        val close = PendingIntent.getService(context, 2, Intent(context,
+            CloseNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val disable = PendingIntent.getService(context, 3, Intent(context,
+            DisableNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        isOverheatOvercool = false
+        isBatteryFullyCharged = false
+        isBatteryCharged = false
+        isBatteryDischarged = true
+
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
 
@@ -404,6 +468,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(when(batteryLevel) {
@@ -924,4 +990,6 @@ interface NotificationInterface : BatteryInfoInterface {
                 DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
+
+
 }

@@ -56,6 +56,18 @@
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
+        <service
+            android:name=".services.CloseNotificationBatteryStatusInformationService"
+            android:exported="false"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"/>
+
+        <service
+            android:name=".services.DisableNotificationBatteryStatusInformationService"
+            android:exported="false"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"/>
+
         <receiver android:name=".receivers.BootReceiver">
 
             <intent-filter>
