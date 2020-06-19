@@ -198,4 +198,17 @@
     <string name="charging_time_remaining_overlay">Оставшееся время зарядки</string>
     <string name="remaining_battery_time">Оставшееся время работы от аккумулятора: %1$s</string>
     <string name="remaining_battery_time_overlay">Оставшееся время работы от аккумулятора</string>
+    <string name="only_values">Только значения</string>
+    <string name="current_capacity_overlay_only_values">%1$s мАч</string>
+    <string name="capacity_added_overlay_only_values">%1$s мАч (%2$s)</string>
+    <string name="residual_capacity_overlay_only_values">%1$s мАч (%2$s)</string>
+    <string name="charge_discharge_overlay_only_values">%1$d мА</string>
+    <string name="max_charge_discharge_overlay_only_values">%1$d мА</string>
+    <string name="average_charge_discharge_overlay_only_values">%1$d мА</string>
+    <string name="min_charge_discharge_overlay_only_values">%1$d мА</string>
+    <string name="voltage_overlay_only_values">%1$s В</string>
+    <string name="voltage_mv_overlay_only_values">%1$s мВ</string>
+    <string name="battery_wear_overlay_only_values">%1$s (%2$s мАч)</string>
+    <string name="close">Закрыть</string>
+    <string name="disable">Отключить</string>
 </resources>
