@@ -128,6 +128,30 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
+        notifyOverheatOvercool?.apply {
+
+            isChecked = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                R.bool.is_notify_overheat_overcool))
+        }
+
+        notifyBatteryIsFullyCharged?.apply {
+
+            isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_fully_charged))
+        }
+
+       notifyBatteryIsCharged?.apply {
+
+            isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_charged))
+        }
+
+        notifyBatteryIsDischarged?.apply {
+
+            isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
+                R.bool.is_notify_battery_is_discharged))
+        }
+
         batteryLevelNotifyCharged?.apply {
 
             summary = getBatteryLevelNotifyChargingSummary()
