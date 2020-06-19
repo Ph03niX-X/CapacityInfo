@@ -130,8 +130,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 val remoteViewsServiceBigContent = RemoteViews(context.packageName,
                     R.layout.service_notification_big_content)
 
-                remoteViewsServiceBigContent.setViewVisibility(R.id.voltage_service_notification,
-                    if(mActions.isNullOrEmpty()) View.VISIBLE else View.GONE)
+                remoteViewsServiceBigContent.setViewVisibility(R.id
+                    .voltage_service_notification, if(getOnCurrentCapacity(context) == 0.0
+                    || mActions.isNullOrEmpty()) View.VISIBLE else View.GONE)
 
                 getOnNotificationMessage(context, status, remoteViewsServiceBigContent)
 
@@ -199,8 +200,8 @@ interface NotificationInterface : BatteryInfoInterface {
                         R.layout.service_notification_big_content)
 
                     remoteViewsServiceBigContent.setViewVisibility(R.id
-                        .voltage_service_notification, if(mActions.isNullOrEmpty()) View.VISIBLE
-                    else View.GONE)
+                            .voltage_service_notification, if(getOnCurrentCapacity(context) == 0.0
+                        || mActions.isNullOrEmpty()) View.VISIBLE else View.GONE)
 
                     getOnNotificationMessage(context, status, remoteViewsServiceBigContent)
 

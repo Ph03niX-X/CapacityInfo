@@ -107,7 +107,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
                     if(OverlayService.instance == null
                         && OverlayInterface.isEnabledOverlay(requireContext(),
                             newValue as? Boolean == true))
-                        ServiceHelper.startService(requireContext(), OverlayService::class.java)
+                        ServiceHelper.startService(requireContext(), OverlayService::class.java,
+                            true)
                 }
 
                 false -> if(OverlayService.instance != null)
