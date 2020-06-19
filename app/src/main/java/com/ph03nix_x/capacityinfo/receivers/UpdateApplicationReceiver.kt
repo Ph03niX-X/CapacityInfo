@@ -35,6 +35,7 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
         }
     }
 
+    @Deprecated("This function will be removed in August-September")
     private fun migratedPrefs(context: Context) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
