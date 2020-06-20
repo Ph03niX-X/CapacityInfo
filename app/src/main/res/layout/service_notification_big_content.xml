@@ -43,14 +43,6 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/last_charge_time"
-            android:fontFamily="@font/google_sans"
-            android:textColor="@color/service_notification_text"
-            android:id="@+id/last_charge_time_service_notification"/>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:visibility="gone"
             tools:text="@string/source_of_power"
             android:fontFamily="@font/google_sans"

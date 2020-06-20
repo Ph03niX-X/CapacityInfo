@@ -31,7 +31,6 @@
     <string name="source_of_power_ac">CA</string>
     <string name="source_of_power_wireless">Fără fir</string>
     <string name="battery_level">Nivel baterie: %1$s</string>
-    <string name="show_last_charge_time">Afișează ultima încărcare</string>
     <string name="last_charge_time">Ultima încărcare: %1$s (%2$s - %3$s)</string>
     <string name="service">Serviciu</string>
     <string name="charging_time">Timp încărcare: %1$s</string>
@@ -61,7 +60,6 @@
     <string name="email_copied">E-mail copiat</string>
     <string name="auto_dark_mode">Modul întunecat automat</string>
     <string name="auto_dark_mode_summary">Se activează modul întunecat în funcție de sistem</string>
-    <string name="show_capacity_added">Se afișează \"Capacitate adăugată\"</string>
     <string name="number_of_charges">Numărul încărcărilor: %1$d</string>
     <string name="residual_capacity_not_supported">Capacitate reziduală: Nu este disponibilă</string>
     <string name="battery_wear_not_supported">Uzura bateriei: Nu este disponibilă</string>

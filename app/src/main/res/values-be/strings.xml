@@ -32,7 +32,6 @@
     <string name="source_of_power_ac">Сетка</string>
     <string name="source_of_power_wireless">Бесправадная</string>
     <string name="battery_level">Ўзровень зарада: %1$s</string>
-    <string name="show_last_charge_time">Паказваць час апошняй зарадкі</string>
     <string name="last_charge_time">Час апошняй зарадкі: %1$s (%2$s - %3$s)</string>
     <string name="service">Служба</string>
     <string name="charging_time">Час зарадкі: %1$s</string>
@@ -60,7 +59,6 @@
     <string name="email_copied">E-mail скапіяваны</string>
     <string name="auto_dark_mode">Аўтаматычная цёмная тэма</string>
     <string name="auto_dark_mode_summary">Уключаць цёмную тэму ў залежнасці ад сістэмы</string>
-    <string name="show_capacity_added">Паказваць \"Дадалося ёмістасці\"</string>
     <string name="number_of_charges">Колькасць зарадак: %1$d</string>
     <string name="residual_capacity_not_supported">Рэшткавая ёмістасць: Не падтрымліваецца</string>
     <string name="battery_wear_not_supported">Знос акумулятара: Не падтрымліваецца</string>

@@ -34,7 +34,6 @@
     <string name="source_of_power_usb" translatable="false">USB</string>
     <string name="source_of_power_wireless">Wireless</string>
     <string name="battery_level">Battery Level: %1$s</string>
-    <string name="show_last_charge_time">Show last charge time</string>
     <string name="last_charge_time">Last Charge Time: %1$s (%2$s - %3$s)</string>
     <string name="service">Service</string>
     <string name="charging_time">Charging Time: %1$s</string>
@@ -64,7 +63,6 @@
     <string name="email_copied">E-mail copied</string>
     <string name="auto_dark_mode">Auto Dark Mode</string>
     <string name="auto_dark_mode_summary">Turn on dark mode depending on the system</string>
-    <string name="show_capacity_added">Show \"Capacity Added\"</string>
     <string name="number_of_charges">Number of Charges: %1$d</string>
     <string name="residual_capacity_not_supported">Residual Capacity: Not Supported</string>
     <string name="battery_wear_not_supported">Battery Wear: Not Supported</string>

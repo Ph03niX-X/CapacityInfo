@@ -93,6 +93,12 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                         remove("debug_options_is_enabled")
                     }
+                    
+                    if(contains("is_show_capacity_added_in_notification"))
+                        remove("is_show_capacity_added_in_notification")
+
+                    if(contains("is_show_last_charge_time_in_notification"))
+                        remove("is_show_last_charge_time_in_notification")
 
                     apply()
                 }

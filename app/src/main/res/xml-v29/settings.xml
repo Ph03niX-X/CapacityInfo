@@ -26,52 +26,28 @@
                 android:key="is_service_time"/>
 
         <SwitchPreferenceCompat
-                android:title="@string/show_capacity_added"
-                app:defaultValue="@bool/is_show_capacity_added_in_notification"
-                app:singleLineTitle="false"
-                android:icon="@drawable/ic_show_capacity_added_24dp"
-                android:key="is_show_capacity_added_in_notification"/>
+            android:title="@string/stop_the_service_when_the_cd"
+            android:defaultValue="@bool/is_stop_the_service_when_the_cd"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
+            android:key="is_stop_the_service_when_the_cd"/>
 
         <SwitchPreferenceCompat
-                android:title="@string/show_last_charge_time"
-                android:defaultValue="@bool/is_show_last_charge_time_in_notification"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_show_last_charge_time_24dp"
-                android:key="is_show_last_charge_time_in_notification"/>
-
-        <Preference
-                android:title="@string/more"
-                app:icon="@drawable/ic_more_24dp"
-                app:singleLineTitle="false"
-                android:key="more_service_and_notification"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/stop_the_service_when_the_cd"
-                app:isPreferenceVisible="false"
-                android:defaultValue="@bool/is_stop_the_service_when_the_cd"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
-                android:key="is_stop_the_service_when_the_cd"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/show_expanded_notification"
-                android:summary="@string/service_restart_required"
-                app:isPreferenceVisible="false"
-                android:defaultValue="@bool/is_show_expanded_notification"
-                app:singleLineTitle="false"
-                android:key="is_show_expanded_notification"/>
+            android:title="@string/show_expanded_notification"
+            android:summary="@string/service_restart_required"
+            android:defaultValue="@bool/is_show_expanded_notification"
+            app:singleLineTitle="false"
+            android:key="is_show_expanded_notification"/>
         
         <Preference
                 android:title="@string/open_notification_category_settings_service"
                 android:summary="@string/notification_priority"
-                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_open_notification_category_settings_24dp"
                 android:key="open_notification_category_settings_service"/>
 
         <Preference
                 android:title="@string/battery_status_information"
-                app:isPreferenceVisible="false"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_notification_charge_discharge_24dp"
                 android:key="battery_status_information"/>

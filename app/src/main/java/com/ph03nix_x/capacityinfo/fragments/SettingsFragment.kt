@@ -23,9 +23,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
@@ -50,9 +48,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Service & Notification
     private var serviceTime: SwitchPreferenceCompat? = null
-    private var moreServiceAndNotification: Preference? = null
-    private var showCapacityAddedInNotification: SwitchPreferenceCompat? = null
-    private var showLastChargeTimeInNotification: SwitchPreferenceCompat? = null
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettingsService: Preference? = null
@@ -68,14 +63,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Misc
     private var temperatureInFahrenheit: SwitchPreferenceCompat? = null
-    private var moreOther: Preference? = null
     private var voltageInMv: SwitchPreferenceCompat? = null
-    private var exportSettings: Preference? = null
-    private var importSettings: Preference? = null
     private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
+    private var exportSettings: Preference? = null
+    private var importSettings: Preference? = null
+    private var moreOther: Preference? = null
     private var changeDesignCapacity: Preference? = null
     private var overlay: Preference? = null
     private var resetToZeroTheNumberOfCharges: Preference? = null
@@ -96,12 +91,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Service & Notification
         serviceTime = findPreference(IS_SERVICE_TIME)
 
-        moreServiceAndNotification = findPreference("more_service_and_notification")
-
-        showCapacityAddedInNotification = findPreference(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION)
-
-        showLastChargeTimeInNotification = findPreference(IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION)
-
         isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
 
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
@@ -109,8 +98,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             openNotificationCategorySettingsService =
                 findPreference("open_notification_category_settings_service")
-
-        showCapacityAddedInNotification?.isVisible = getOnCurrentCapacity(requireContext()) > 0.0
 
         isShowExtendedNotification?.setOnPreferenceChangeListener { preference, _ ->
 
@@ -123,41 +110,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         batteryStatusInformation = findPreference("battery_status_information")
-
-        moreServiceAndNotification?.setOnPreferenceClickListener {
-
-            if(it.title == requireContext().getString(R.string.more)) {
-
-                it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
-                it.title = getString(R.string.hide)
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    isStopTheServiceWhenTheCD?.isVisible = true
-
-                isShowExtendedNotification?.isVisible = true
-
-                openNotificationCategorySettingsService?.isVisible = true
-
-                batteryStatusInformation?.isVisible = true
-            }
-
-            else {
-
-                it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
-                it.title = requireContext().getString(R.string.more)
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    isStopTheServiceWhenTheCD?.isVisible = false
-
-                isShowExtendedNotification?.isVisible = false
-
-                openNotificationCategorySettingsService?.isVisible = false
-
-                batteryStatusInformation?.isVisible = false
-            }
-
-            true
-        }
 
         openNotificationCategorySettingsService?.setOnPreferenceClickListener {
 
@@ -503,8 +455,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     override fun onResume() {
 
         super.onResume()
-
-        showCapacityAddedInNotification?.isVisible = getOnCurrentCapacity(requireContext()) > 0.0
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))

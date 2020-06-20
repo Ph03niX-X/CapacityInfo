@@ -41,9 +41,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -665,20 +663,12 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setViewVisibility(R.id.number_of_cycles_service_notification, View.GONE)
 
-            setViewVisibility(R.id.last_charge_time_service_notification, View.GONE)
-
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.source_of_power_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
-
-            setViewVisibility(R.id.capacity_added_service_notification,
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
-                        .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
-                else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
@@ -739,17 +729,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
         remoteViews.apply {
 
-            setViewVisibility(R.id.last_charge_time_service_notification, View.GONE)
-
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
-
-            setViewVisibility(R.id.capacity_added_service_notification,
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
-                        .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
@@ -810,18 +793,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
         remoteViews.apply {
 
-            setViewVisibility(R.id.last_charge_time_service_notification, View.GONE)
-
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
-
-            setViewVisibility(R.id.capacity_added_service_notification,
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
-                        .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
-                else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
@@ -877,27 +852,11 @@ interface NotificationInterface : BatteryInfoInterface {
     private fun getOnBatteryStatusDischarging(context: Context, remoteViews: RemoteViews) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        val batteryLevelWith = "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%"
-        val batteryLevelTo = "${pref.getInt(BATTERY_LEVEL_TO, 0)}%"
         
         remoteViews.apply {
 
-            setViewVisibility(R.id.charging_time_service_notification, View.GONE)
-
-            setViewVisibility(R.id.last_charge_time_service_notification,
-                if(pref.getBoolean(IS_SHOW_LAST_CHARGE_TIME_IN_NOTIFICATION, context.resources
-                        .getBoolean(R.bool.is_show_last_charge_time_in_notification)) &&
-                    pref.getInt(LAST_CHARGE_TIME, 0) > 0) View.VISIBLE else View.GONE)
-
             setViewVisibility(R.id.current_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
-
-            setViewVisibility(R.id.capacity_added_service_notification,
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
-                        .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
-                else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
@@ -917,10 +876,6 @@ interface NotificationInterface : BatteryInfoInterface {
             setTextViewText(R.id.number_of_cycles_service_notification, context.getString(
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
-
-            setTextViewText(R.id.last_charge_time_service_notification, context.getString(
-                R.string.last_charge_time, getOnLastChargeTime(context), batteryLevelWith,
-                batteryLevelTo))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
                 R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
@@ -959,18 +914,10 @@ interface NotificationInterface : BatteryInfoInterface {
 
         remoteViews.apply {
 
-            setViewVisibility(R.id.last_charge_time_service_notification, View.GONE)
-
             setViewVisibility(R.id.charging_time_service_notification, View.VISIBLE)
 
             setViewVisibility(R.id.current_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)
-
-            setViewVisibility(R.id.capacity_added_service_notification,
-                if(pref.getBoolean(IS_SHOW_CAPACITY_ADDED_IN_NOTIFICATION, context.resources
-                        .getBoolean(R.bool.is_show_capacity_added_in_notification))
-                    && getOnCurrentCapacity(context) > 0.0) View.VISIBLE
-                else View.GONE)
 
             setViewVisibility(R.id.residual_capacity_service_notification,
                 if(getOnCurrentCapacity(context) > 0.0) View.VISIBLE else View.GONE)

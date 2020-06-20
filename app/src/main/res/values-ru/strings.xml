@@ -32,7 +32,6 @@
     <string name="source_of_power_ac">Сеть</string>
     <string name="source_of_power_wireless">Беспроводной</string>
     <string name="battery_level">Уровень заряда: %1$s</string>
-    <string name="show_last_charge_time">Показывать время последней зарядки</string>
     <string name="last_charge_time">Время последней зарядки: %1$s (%2$s - %3$s)</string>
     <string name="service">Служба</string>
     <string name="charging_time">Время зарядки: %1$s</string>
@@ -60,7 +59,6 @@
     <string name="email_copied">E-mail скопирован</string>
     <string name="auto_dark_mode">Автоматическая тёмная тема</string>
     <string name="auto_dark_mode_summary">Включать тёмную тему в зависимости от системы</string>
-    <string name="show_capacity_added">Показывать \"Добавилось ёмкости\"</string>
     <string name="number_of_charges">Количество зарядок: %1$d</string>
     <string name="residual_capacity_not_supported">Остаточная ёмкость: Не поддерживается</string>
     <string name="battery_wear_not_supported">Износ аккумулятора: Не поддерживается</string>

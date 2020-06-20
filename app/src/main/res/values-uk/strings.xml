@@ -32,7 +32,6 @@
     <string name="source_of_power_ac">Мережа</string>
     <string name="source_of_power_wireless">Бездротовий</string>
     <string name="battery_level">Рівень заряду: %1$s</string>
-    <string name="show_last_charge_time">Показувати час останньої зарядки</string>
     <string name="last_charge_time">Час останньої зарядки: %1$s (%2$s - %3$s)</string>
     <string name="service">Служба</string>
     <string name="charging_time">Час зарядки: %1$s</string>
@@ -60,7 +59,6 @@
     <string name="email_copied">E-mail скопійований</string>
     <string name="auto_dark_mode">Автоматична темна тема</string>
     <string name="auto_dark_mode_summary">Включати темну тему в залежності від системи</string>
-    <string name="show_capacity_added">Показувати \"Додалося ємності\"</string>
     <string name="number_of_charges">Кількість зарядок: %1$d</string>
     <string name="residual_capacity_not_supported">Залишкова ємність: Не підтримується</string>
     <string name="battery_wear_not_supported">Знос акумулятора: Не підтримується</string>
