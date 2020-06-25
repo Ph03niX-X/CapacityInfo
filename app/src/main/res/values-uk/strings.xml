@@ -209,4 +209,5 @@
     <string name="battery_wear_overlay_only_values">%1$s (%2$s мАг)</string>
     <string name="close">Закрити</string>
     <string name="disable">Відключити</string>
+    <string name="overlay_text_color">Колір тексту</string>
 </resources>
