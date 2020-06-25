@@ -197,4 +197,8 @@
     <string name="charging_time_remaining_overlay">Timpul de încărcare rămas</string>
     <string name="remaining_battery_time">Timpul rămas al bateriei: %1$s</string>
     <string name="remaining_battery_time_overlay">Timpul rămas al bateriei</string>
+    <string name="only_values">Doar valori</string>
+    <string name="close">Închidere</string>
+    <string name="disable">Dezactivare</string>
+    <string name="overlay_text_color">Culoare text</string>
 </resources>
