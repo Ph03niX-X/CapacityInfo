@@ -54,6 +54,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import java.text.DecimalFormat
 
 interface OverlayInterface : BatteryInfoInterface {
@@ -276,6 +277,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.battery_level
             else R.string.battery_level_overlay_only_values,
@@ -298,7 +301,9 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
-            text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
+                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.number_of_charges
             else R.string.number_of_charges_overlay_only_values, pref.getLong(NUMBER_OF_CHARGES,
                 0))
@@ -319,6 +324,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.number_of_cycles
@@ -343,6 +350,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = getOnChargingTime(context, (CapacityInfoService.instance?.seconds ?: 0), true)
 
             visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, context.resources
@@ -363,6 +372,8 @@ interface OverlayInterface : BatteryInfoInterface {
                     pref.getString(OVERLAY_TEXT_STYLE, "0"),
                     pref.getString(OVERLAY_FONT, "6"),
                     pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
                         context.resources.getBoolean(R.bool.is_only_values_overlay)))
@@ -389,6 +400,8 @@ interface OverlayInterface : BatteryInfoInterface {
                     pref.getString(OVERLAY_FONT, "6"),
                     pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay)))R.string.remaining_battery_time
                 else R.string.remaining_battery_time_overlay_only_values, getOnRemainingBatteryTime(
@@ -413,6 +426,8 @@ interface OverlayInterface : BatteryInfoInterface {
                     pref.getString(OVERLAY_TEXT_STYLE, "0"),
                     pref.getString(OVERLAY_FONT, "6"),
                     pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context
                         .resources.getBoolean(R.bool.is_only_values_overlay)))
@@ -440,6 +455,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = getOnCapacityAdded(context, true)
 
             visibility = if(pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, context.resources
@@ -460,6 +477,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.battery_health
@@ -483,6 +502,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = getOnResidualCapacity(context,
                 status == BatteryManager.BATTERY_STATUS_CHARGING, true)
 
@@ -503,6 +524,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.status
@@ -525,6 +548,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = sourceOfPower
 
             visibility = if(pref.getBoolean(IS_SOURCE_OF_POWER, context.resources.getBoolean(
@@ -544,6 +569,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
                 text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay)))
@@ -570,6 +597,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
                 text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
@@ -602,6 +631,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
                 text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
@@ -632,6 +663,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
                 text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
@@ -661,6 +694,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay)))
                 context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
@@ -688,6 +723,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) context.getString(if(
                 pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
@@ -714,6 +751,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
 
+            setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
             text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.last_charge_time else
                 R.string.last_charge_time_overlay_only_values, getOnLastChargeTime(context),
@@ -738,6 +777,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = getOnBatteryWear(context, true)
 

@@ -46,6 +46,7 @@ object PreferencesKeys {
     const val OVERLAY_SIZE = "overlay_size"
     const val OVERLAY_FONT = "overlay_font"
     const val OVERLAY_TEXT_STYLE = "overlay_text_style"
+    const val OVERLAY_TEXT_COLOR = "overlay_text_color"
     const val OVERLAY_OPACITY = "overlay_opacity"
 
     // Show/Hide

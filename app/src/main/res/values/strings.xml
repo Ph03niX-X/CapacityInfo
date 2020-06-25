@@ -227,4 +227,5 @@
     <string name="battery_wear_overlay_only_values">%1$s (%2$s mAh)</string>
     <string name="close">Close</string>
     <string name="disable">Disable</string>
+    <string name="overlay_text_color">Text Color</string>
 </resources>
