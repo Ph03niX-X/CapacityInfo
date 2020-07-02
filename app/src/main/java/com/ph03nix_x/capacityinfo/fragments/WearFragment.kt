@@ -24,7 +24,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
-class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
+class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, BatteryInfoInterface {
     
     private lateinit var pref: SharedPreferences
 
@@ -39,12 +39,6 @@ class WearFragment : Fragment(), SettingsInterface, BatteryInfoInterface {
     private lateinit var batteryWear: AppCompatTextView
     private var isJob = false
     private var job: Job? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.wear_fragment, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

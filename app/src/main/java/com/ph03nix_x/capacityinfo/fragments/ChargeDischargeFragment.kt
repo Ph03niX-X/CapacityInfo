@@ -24,7 +24,8 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
-class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
+class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
+    BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var batteryLevel: AppCompatTextView
@@ -46,12 +47,6 @@ class ChargeDischargeFragment : Fragment(), BatteryInfoInterface {
     private var mainContext: MainActivity? = null
     private var job: Job? = null
     private var isJob = false
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.charge_discharge_fragment, container,false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
