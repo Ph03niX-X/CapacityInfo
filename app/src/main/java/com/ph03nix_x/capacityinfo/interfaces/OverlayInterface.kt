@@ -84,8 +84,8 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var batteryWearOverlay: AppCompatTextView
         private lateinit var layoutParams: ViewGroup.LayoutParams
         private lateinit var pref: SharedPreferences
-        lateinit var windowManager: WindowManager
         lateinit var linearLayout: LinearLayoutCompat
+        var windowManager: WindowManager? = null
 
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
 
@@ -160,7 +160,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
             pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-            windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+            windowManager = context.getSystemService(WINDOW_SERVICE) as? WindowManager
 
             val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT, if(Build.VERSION.SDK_INT >=
@@ -177,7 +177,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onCreateViews(context)
 
-            windowManager.addView(linearLayout, parameters)
+            windowManager?.addView(linearLayout, parameters)
 
             linearLayout.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
         }
@@ -812,7 +812,7 @@ interface OverlayInterface : BatteryInfoInterface {
                     MotionEvent.ACTION_MOVE -> {
                         updatedParameters.x = (x + (event.rawX - pressedX)).toInt()
                         updatedParameters.y = (y + (event.rawY - pressedY)).toInt()
-                        windowManager.updateViewLayout(linearLayout, updatedParameters)
+                        windowManager?.updateViewLayout(linearLayout, updatedParameters)
                     }
                 }
 

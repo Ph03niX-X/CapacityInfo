@@ -84,14 +84,8 @@ class OverlayService : Service(), OverlayInterface {
 
         jobService = null
 
-        try {
+        windowManager?.removeView(linearLayout)
 
-            windowManager.removeView(linearLayout)
-        }
-
-        finally {
-
-            super.onDestroy()
-        }
+        super.onDestroy()
     }
 }
