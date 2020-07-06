@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.helpers
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.preference.Preference
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -18,27 +19,34 @@ object ServiceHelper {
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
-            if(serviceName == CapacityInfoService::class.java) {
+            try {
 
-                isStartedCapacityInfoService = true
+                if(serviceName == CapacityInfoService::class.java) {
 
-                delay(2500)
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    context.startForegroundService(Intent(context, serviceName))
-                else context.startService(Intent(context, serviceName))
+                    isStartedCapacityInfoService = true
 
-                delay(1000)
-                isStartedCapacityInfoService = false
+                    delay(2500)
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        context.startForegroundService(Intent(context, serviceName))
+                    else context.startService(Intent(context, serviceName))
+
+                    delay(1000)
+                    isStartedCapacityInfoService = false
+                }
+
+                else if(serviceName == OverlayService::class.java) {
+
+                    isStartedOverlayService = true
+
+                    if(!isStartOverlayServiceFromSettings) delay(2000)
+
+                    context.startService(Intent(context, serviceName))
+                    isStartedCapacityInfoService = false
+                }
             }
+            catch(e: Exception) {
 
-            else if(serviceName == OverlayService::class.java) {
-
-                isStartedOverlayService = true
-
-                if(!isStartOverlayServiceFromSettings) delay(2000)
-
-                context.startService(Intent(context, serviceName))
-                isStartedCapacityInfoService = false
+                Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
             }
         }
     }
