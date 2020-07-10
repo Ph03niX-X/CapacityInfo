@@ -140,33 +140,26 @@
                 android:key="voltage_in_mv"/>
 
         <Preference
-                android:title="@string/export_settings"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_export_settings_24dp"
-                android:key="export_settings"/>
+            android:title="@string/backup"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_backup"
+            android:key="backup_settings"/>
 
-        <Preference
-                android:title="@string/import_settings"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_import_settings_24dp"
-                android:key="import_settings"/>
+        <ListPreference
+            android:title="@string/tab_on_application_launch"
+            app:icon="@drawable/ic_tab_on_application_launch"
+            android:dialogIcon="@drawable/ic_tab_on_application_launch"
+            app:defaultValue="0"
+            android:entries="@array/tab_on_application_launch_list"
+            android:entryValues="@array/tab_on_application_launch_values"
+            app:singleLineTitle="false"
+            android:key="tab_on_application_launch"/>
 
         <Preference
                 android:title="@string/more"
                 app:icon="@drawable/ic_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_other"/>
-
-        <ListPreference
-                android:title="@string/tab_on_application_launch"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_tab_on_application_launch"
-                android:dialogIcon="@drawable/ic_tab_on_application_launch"
-                app:defaultValue="0"
-                android:entries="@array/tab_on_application_launch_list"
-                android:entryValues="@array/tab_on_application_launch_values"
-                app:singleLineTitle="false"
-                android:key="tab_on_application_launch"/>
 
         <ListPreference
                 android:title="@string/unit_of_charge_discharge_current"

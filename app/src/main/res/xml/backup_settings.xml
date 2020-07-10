@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <Preference
+        android:title="@string/export_settings"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_export_settings_24dp"
+        android:key="export_settings"/>
+
+    <Preference
+        android:title="@string/import_settings"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_import_settings_24dp"
+        android:key="import_settings"/>
+
+</PreferenceScreen>

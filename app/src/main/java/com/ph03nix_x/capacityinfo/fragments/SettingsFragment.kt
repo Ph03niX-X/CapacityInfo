@@ -68,8 +68,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
-    private var exportSettings: Preference? = null
-    private var importSettings: Preference? = null
+    private var backupSettings: Preference? = null
     private var moreOther: Preference? = null
     private var changeDesignCapacity: Preference? = null
     private var overlay: Preference? = null
@@ -214,9 +213,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         voltageInMv = findPreference(VOLTAGE_IN_MV)
 
-        exportSettings = findPreference("export_settings")
-
-        importSettings = findPreference("import_settings")
+        backupSettings = findPreference("backup_settings")
 
         tabOnApplicationLaunch = findPreference(TAB_ON_APPLICATION_LAUNCH)
 
@@ -234,37 +231,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
 
-        exportSettings?.setOnPreferenceClickListener {
+        backupSettings?.setOnPreferenceClickListener {
 
-            try {
+            mainActivity?.fragment = BackupSettingsFragment()
 
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    EXPORT_SETTINGS_REQUEST_CODE)
-            }
-            catch(e: ActivityNotFoundException) {
+            mainActivity?.toolbar?.title = requireContext().getString(
+                R.string.backup)
 
-                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-            }
+            mainActivity?.toolbar?.navigationIcon =
+                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
 
-            true
-        }
-
-        importSettings?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/xml"
-                }, IMPORT_SETTINGS_REQUEST_CODE)
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-            }
+            mainActivity?.loadFragment(
+                mainActivity?.fragment ?: BackupSettingsFragment(), true)
 
             true
         }
@@ -276,7 +254,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
-                tabOnApplicationLaunch?.isVisible = true
                 unitOfChargeDischargeCurrent?.isVisible = true
                 unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
                     resources.getBoolean(R.bool.is_supported))
@@ -292,7 +269,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                tabOnApplicationLaunch?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
@@ -483,19 +459,5 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode) {
-
-            EXPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onExportSettings(requireContext(), data)
-
-            IMPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onImportSettings(requireContext(), data?.data)
-        }
     }
 }

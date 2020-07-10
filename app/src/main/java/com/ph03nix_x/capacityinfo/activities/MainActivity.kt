@@ -290,6 +290,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             is AboutFragment -> getString(R.string.about)
             is FeedbackFragment -> getString(R.string.feedback)
             is DebugFragment -> getString(R.string.debug)
+            is BackupSettingsFragment -> getString(R.string.backup)
             else -> getString(R.string.app_name)
         }
 
@@ -493,7 +494,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         when {
 
             fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
-                    && fragment !is AboutFragment && fragment !is FeedbackFragment -> {
+                    && fragment !is AboutFragment && fragment !is FeedbackFragment
+                    && fragment !is BackupSettingsFragment -> {
 
                 navigation.selectedItemId = when(fragment) {
 
