@@ -25,12 +25,12 @@ object ServiceHelper {
 
                     isStartedCapacityInfoService = true
 
-                    delay(2500)
+                    delay(2500L)
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                         context.startForegroundService(Intent(context, serviceName))
                     else context.startService(Intent(context, serviceName))
 
-                    delay(1000)
+                    delay(1000L)
                     isStartedCapacityInfoService = false
                 }
 
@@ -38,7 +38,7 @@ object ServiceHelper {
 
                     isStartedOverlayService = true
 
-                    if(!isStartOverlayServiceFromSettings) delay(2000)
+                    if(!isStartOverlayServiceFromSettings) delay(2000L)
 
                     context.startService(Intent(context, serviceName))
                     isStartedCapacityInfoService = false
@@ -66,7 +66,7 @@ object ServiceHelper {
 
                 stopService(context, serviceName)
 
-                if(serviceName == CapacityInfoService::class.java) delay(2500)
+                if(serviceName == CapacityInfoService::class.java) delay(2500L)
 
                 startService(context, serviceName)
             }
@@ -81,11 +81,11 @@ object ServiceHelper {
 
                 stopService(context, serviceName)
 
-                if(serviceName == CapacityInfoService::class.java) delay(2500)
+                if(serviceName == CapacityInfoService::class.java) delay(2500L)
 
                 startService(context, serviceName)
 
-                delay(1000)
+                delay(1000L)
                 preference?.isEnabled = true
             }
         }
@@ -100,11 +100,11 @@ object ServiceHelper {
 
                 stopService(context, serviceName)
 
-                if(serviceName == CapacityInfoService::class.java) delay(2500)
+                if(serviceName == CapacityInfoService::class.java) delay(2500L)
 
                 startService(context, serviceName)
 
-                delay(1000)
+                delay(1000L)
                 preferencesList?.forEach {
 
                     it?.isEnabled = true
