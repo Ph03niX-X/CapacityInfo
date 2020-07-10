@@ -51,7 +51,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                 pref.edit().apply {
 
-                    if(residualCapacity > 0) {
+                    if(residualCapacity > 0 && CapacityInfoService.instance?.isFull != true) {
 
                         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
                             == "μAh")
