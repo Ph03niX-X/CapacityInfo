@@ -120,9 +120,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 }
             }
 
-            registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+            applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
 
-            registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+            applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
             LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
                 null) ?: defLang)
