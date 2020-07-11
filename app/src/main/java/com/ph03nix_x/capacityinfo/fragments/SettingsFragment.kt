@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.app.Activity
 import android.content.*
 import android.os.Build
 import android.os.Bundle
@@ -16,8 +15,6 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_SETTINGS_REQUEST_CODE
-import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_SETTINGS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE

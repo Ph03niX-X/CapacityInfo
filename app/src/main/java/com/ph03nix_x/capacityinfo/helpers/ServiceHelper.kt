@@ -2,19 +2,15 @@ package com.ph03nix_x.capacityinfo.helpers
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.preference.Preference
-import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import kotlinx.coroutines.*
-
 
 object ServiceHelper {
 
