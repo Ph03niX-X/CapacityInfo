@@ -21,6 +21,9 @@
     <bool name="is_notify_battery_is_charged">false</bool>
     <bool name="is_notify_battery_is_discharged">false</bool>
 
+    <!--Backup-->
+    <bool name="is_auto_backup_settings">false</bool>
+
     <!--Overlay-->
     <bool name="is_enabled_overlay">false</bool>
     <bool name="is_only_values_overlay">false</bool>

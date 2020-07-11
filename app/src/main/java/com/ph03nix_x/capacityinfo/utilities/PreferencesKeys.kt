@@ -38,6 +38,9 @@ object PreferencesKeys {
     const val VOLTAGE_UNIT = "voltage_unit"
     const val DESIGN_CAPACITY = "design_capacity"
 
+    // Backup
+    const val IS_AUTO_BACKUP_SETTINGS = "is_auto_backup_settings"
+
     // Overlay Preferences
     const val IS_ENABLED_OVERLAY = "is_enabled_overlay"
     const val IS_ONLY_VALUES_OVERLAY = "is_only_values_overlay"

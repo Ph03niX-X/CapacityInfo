@@ -3,6 +3,13 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:title="@string/auto_backup"
+        android:summary="@string/auto_backup_summary"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_backup"
+        android:key="is_auto_backup_settings"/>
     
     <Preference
         android:title="@string/export_settings"

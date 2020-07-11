@@ -1,26 +1,36 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Process
 import android.widget.Toast
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.Constants.AUTO_BACKUP_SETTINGS_JOB_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -28,6 +38,9 @@ import java.io.FileOutputStream
 
 class BackupSettingsFragment : PreferenceFragmentCompat() {
 
+    private lateinit var pref: SharedPreferences
+
+    private var autoBackupSettings: SwitchPreferenceCompat? = null
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
 
@@ -35,18 +48,59 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.backup_settings)
 
+        val backupPath =
+            "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        autoBackupSettings = findPreference(IS_AUTO_BACKUP_SETTINGS)
+
         exportSettings = findPreference("export_settings")
 
         importSettings = findPreference("import_settings")
+
+        if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
+                R.bool.is_auto_backup_settings)) && checkSelfPermission(requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
+            PackageManager.PERMISSION_GRANTED) {
+
+            pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+
+            autoBackupSettings?.isChecked = false
+        }
+
+        autoBackupSettings?.summary = getString(R.string.auto_backup_summary, backupPath)
+
+        autoBackupSettings?.setOnPreferenceChangeListener { _, newValue ->
+
+            if((newValue as? Boolean == true) && (checkSelfPermission(requireContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED))
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE),
+                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+
+            else if((newValue as? Boolean == true) && (checkSelfPermission(requireContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED))
+                ServiceHelper.jobSchedule(requireContext(),
+                    AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
+                    1 * 60 * 60 * 1000 /* 1 hour */)
+
+            else ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+
+            true
+        }
 
         exportSettings?.setOnPreferenceClickListener {
 
             try {
 
-                startActivityForResult(
-                    Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants.EXPORT_SETTINGS_REQUEST_CODE
-                )
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
+                    Constants.EXPORT_SETTINGS_REQUEST_CODE)
             }
             catch(e: ActivityNotFoundException) {
 
@@ -76,6 +130,49 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
+    }
+
+    override fun onResume() {
+
+        super.onResume()
+
+        if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
+                R.bool.is_auto_backup_settings)) && checkSelfPermission(requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
+            PackageManager.PERMISSION_GRANTED) {
+
+            pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+
+            autoBackupSettings?.isChecked = false
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+
+        when(requestCode) {
+
+            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
+                if(grantResults.isNotEmpty()) {
+
+                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                        ServiceHelper.jobSchedule(requireContext(),
+                            AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
+                            1 * 60 * 60 * 1000 /* 1 hour */)
+
+                    else {
+
+                        pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+
+                        autoBackupSettings?.isChecked = false
+
+                        ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+                    }
+                }
+
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -229,4 +229,6 @@
     <string name="disable">Disable</string>
     <string name="overlay_text_color">Text Color</string>
     <string name="backup">Backup</string>
+    <string name="auto_backup">Auto Backup Settings</string>
+    <string name="auto_backup_summary">Path: %1$s</string>
 </resources>

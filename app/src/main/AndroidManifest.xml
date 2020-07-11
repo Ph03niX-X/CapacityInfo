@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ph03nix_x.capacityinfo"
-          android:installLocation="internalOnly">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ph03nix_x.capacityinfo"
+    android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.QUICKBOOT_POWERON"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
             android:name=".MainApp"
@@ -21,7 +24,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:requestLegacyExternalStorage="true"
+            tools:targetApi="q">
 
         <activity
                 android:name=".activities.MainActivity"
@@ -67,6 +72,13 @@
             android:exported="false"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"/>
+
+        <service
+            android:name=".services.AutoBackupSettingsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round" />
 
         <receiver android:name=".receivers.BootReceiver">
 
