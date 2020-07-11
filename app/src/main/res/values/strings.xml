@@ -231,4 +231,7 @@
     <string name="backup">Backup</string>
     <string name="auto_backup">Auto Backup Settings</string>
     <string name="auto_backup_summary">Path: %1$s</string>
+    <string name="create_backup_settings">Create Backup Settings</string>
+    <string name="settings_backup_successfully_created">Settings Backup successfully created!</string>
+    <string name="error_backup_settings">Error Backup Settings!\n\n%1$s</string>
 </resources>

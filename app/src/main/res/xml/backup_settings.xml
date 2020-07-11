@@ -10,6 +10,12 @@
         app:singleLineTitle="false"
         app:icon="@drawable/ic_backup"
         android:key="is_auto_backup_settings"/>
+
+    <Preference
+        android:title="@string/create_backup_settings"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_create_backup_settings"
+        android:key="create_backup_settings"/>
     
     <Preference
         android:title="@string/export_settings"

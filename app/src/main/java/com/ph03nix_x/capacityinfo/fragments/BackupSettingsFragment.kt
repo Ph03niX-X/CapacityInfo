@@ -41,6 +41,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
     private lateinit var pref: SharedPreferences
 
     private var autoBackupSettings: SwitchPreferenceCompat? = null
+    private var createBackupSettings: Preference? = null
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
 
@@ -54,6 +55,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         autoBackupSettings = findPreference(IS_AUTO_BACKUP_SETTINGS)
+
+        createBackupSettings = findPreference("create_backup_settings")
 
         exportSettings = findPreference("export_settings")
 
@@ -71,6 +74,22 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
 
         autoBackupSettings?.summary = getString(R.string.auto_backup_summary, backupPath)
+
+        createBackupSettings?.summary = autoBackupSettings?.summary
+
+        createBackupSettings?.setOnPreferenceClickListener {
+
+            if(checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED || checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE),
+                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+
+            else backupSettings()
+
+            true
+        }
 
         autoBackupSettings?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -154,21 +173,26 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         when(requestCode) {
 
             EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
-                if(grantResults.isNotEmpty()) {
+                if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked == true) {
 
                     if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
                         ServiceHelper.jobSchedule(requireContext(),
                             AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
                             1 * 60 * 60 * 1000 /* 1 hour */)
+                }
 
-                    else {
+                else if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked != true) {
 
-                        pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+                    backupSettings()
+                }
 
-                        autoBackupSettings?.isChecked = false
+                else {
 
-                        ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
-                    }
+                    pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+
+                    autoBackupSettings?.isChecked = false
+
+                    ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
                 }
 
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -186,6 +210,36 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             Constants.IMPORT_SETTINGS_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) importSettings(data?.data)
+        }
+    }
+
+    private fun backupSettings() {
+
+        val backupPath =
+            "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                if(!File(backupPath).exists()) File(backupPath).mkdirs()
+
+                File("${context?.filesDir?.parent}/shared_prefs/" +
+                        "${context?.packageName}_preferences.xml").copyTo(File(
+                    "${backupPath}/${context?.packageName}_preferences.xml"),
+                    true)
+
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(requireContext(), getString(
+                        R.string.settings_backup_successfully_created), Toast.LENGTH_LONG).show()
+                }
+            }
+            catch(e: Exception) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_backup_settings),
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 
