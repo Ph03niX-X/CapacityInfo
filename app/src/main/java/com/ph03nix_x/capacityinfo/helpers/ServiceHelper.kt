@@ -45,7 +45,7 @@ object ServiceHelper {
 
                     isStartedOverlayService = true
 
-                    if(!isStartOverlayServiceFromSettings) delay(2000L)
+                    if(!isStartOverlayServiceFromSettings) delay(3600L)
 
                     context.startService(Intent(context, serviceName))
                     isStartedCapacityInfoService = false
