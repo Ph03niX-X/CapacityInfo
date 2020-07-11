@@ -2,7 +2,8 @@ package com.ph03nix_x.capacityinfo.utilities
 
 object Constants {
 
-    const val IMPORT_SETTINGS_EXTRA = "import_settings"
+    const val IMPORT_RESTORE_SETTINGS_EXTRA = "import_settings"
+    const val IS_RESTORE_SETTINGS_EXTRA = "is_restore_settings"
     const val GITHUB_LINK = "https://github.com/Ph03niX-X/CapacityInfo"
     const val ROMANIAN_TRANSLATION_LINK = "https://github.com/ygorigor"
     const val BELARUSIAN_TRANSLATION_LINK = "https://t.me/DrCyanogen"

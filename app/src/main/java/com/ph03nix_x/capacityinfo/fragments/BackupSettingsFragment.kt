@@ -4,17 +4,15 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.Process
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.IntentCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -22,6 +20,7 @@ import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -35,13 +34,16 @@ import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import kotlin.system.exitProcess
 
 class BackupSettingsFragment : PreferenceFragmentCompat() {
 
+    private lateinit var backupPath: String
     private lateinit var pref: SharedPreferences
 
     private var autoBackupSettings: SwitchPreferenceCompat? = null
     private var createBackupSettings: Preference? = null
+    private var restoreSettingsFromBackup: Preference? = null
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
 
@@ -49,14 +51,15 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.backup_settings)
 
-        val backupPath =
-            "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+        backupPath = "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         autoBackupSettings = findPreference(IS_AUTO_BACKUP_SETTINGS)
 
         createBackupSettings = findPreference("create_backup_settings")
+
+        restoreSettingsFromBackup = findPreference("restore_settings_from_backup")
 
         exportSettings = findPreference("export_settings")
 
@@ -73,23 +76,13 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             autoBackupSettings?.isChecked = false
         }
 
+        restoreSettingsFromBackup?.isEnabled = File("$backupPath/${requireContext()
+            .packageName}_preferences.xml").exists() && File(
+            "$backupPath/${requireContext().packageName}_preferences.xml").length() > 0
+
         autoBackupSettings?.summary = getString(R.string.auto_backup_summary, backupPath)
 
         createBackupSettings?.summary = autoBackupSettings?.summary
-
-        createBackupSettings?.setOnPreferenceClickListener {
-
-            if(checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED || checkSelfPermission(requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE),
-                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
-
-            else backupSettings()
-
-            true
-        }
 
         autoBackupSettings?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -110,6 +103,27 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     1 * 60 * 60 * 1000 /* 1 hour */)
 
             else ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+
+            true
+        }
+
+        createBackupSettings?.setOnPreferenceClickListener {
+
+            if(checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED || checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE),
+                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+
+            else backupSettings()
+
+            true
+        }
+
+        restoreSettingsFromBackup?.setOnPreferenceClickListener {
+
+            restoreSettingsFromBackup()
 
             true
         }
@@ -165,6 +179,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             autoBackupSettings?.isChecked = false
         }
+
+        restoreSettingsFromBackup?.isEnabled = File("$backupPath/${requireContext()
+            .packageName}_preferences.xml").exists() && File(
+            "$backupPath/${requireContext().packageName}_preferences.xml").length() > 0
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
@@ -237,8 +255,77 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             }
             catch(e: Exception) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_backup_settings),
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_backup_settings,
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun restoreSettingsFromBackup() {
+
+        val prefArrays: HashMap<String, Any?> = hashMapOf()
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(context, R.string.restore_settings_from_backup_3dots,
+                        Toast.LENGTH_LONG).show()
+
+                    if(CapacityInfoService.instance != null)
+                        context?.let { ServiceHelper.stopService(it, CapacityInfoService::class.java)
+
+                        }
+
+                    if(OverlayService.instance != null)
+                        context?.let { ServiceHelper.stopService(it, OverlayService::class.java) }
+                }
+
+                pref.all.forEach {
+
+                    when(it.key) {
+
+                        PreferencesKeys.BATTERY_LEVEL_TO, PreferencesKeys.BATTERY_LEVEL_WITH,
+                        PreferencesKeys.DESIGN_CAPACITY, PreferencesKeys.CAPACITY_ADDED,
+                        PreferencesKeys.LAST_CHARGE_TIME, PreferencesKeys.PERCENT_ADDED,
+                        PreferencesKeys.RESIDUAL_CAPACITY, PreferencesKeys.IS_SUPPORTED,
+                        PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG,
+                        PreferencesKeys.IS_SHOW_INSTRUCTION -> prefArrays[it.key] = it.value
+                    }
+                }
+
+                delay(2000L)
+                File("${backupPath}/${context?.packageName}_preferences.xml").copyTo(File(
+                    "${context?.filesDir?.parent}/shared_prefs/${context?.packageName}" +
+                            "_preferences.xml"), true)
+
+                withContext(Dispatchers.Main) {
+
+                    context?.let {
+                        MaterialAlertDialogBuilder(it).apply {
+
+                            setMessage(context.getString(R.string.import_restart_app_message))
+                            setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
+                                restartApp(prefArrays, true)
+                            }
+
+                            setCancelable(false)
+
+                            show()
+                        }
+                    }
+                }
+
+            }
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(context, getString(R.string.error_restoring_settings_from_backup,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
@@ -393,23 +480,23 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun restartApp(prefArrays: HashMap<String, Any?>) {
+    private fun restartApp(prefArrays: HashMap<String, Any?>, isRestore: Boolean = false) {
 
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE)
-                as? AlarmManager
+        val packageManager = requireContext().packageManager
+        
+        val componentName = packageManager.getLaunchIntentForPackage(
+            requireContext().packageName)?.component
 
-        val intent = context?.packageName?.let { context?.packageManager?.getLaunchIntentForPackage(
-            it)
-        }
+        val intent = Intent.makeRestartActivityTask(componentName)
 
-        intent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
-        intent?.putExtra(Constants.IMPORT_SETTINGS_EXTRA, prefArrays)
+        intent?.putExtra(Constants.IMPORT_RESTORE_SETTINGS_EXTRA, prefArrays)
 
-        alarmManager?.set(AlarmManager.RTC, System.currentTimeMillis() + 1000L,
-            intent?.flags?.let { PendingIntent.getActivity(context, 0, Intent(intent),
-                it) })
+        if(isRestore) intent?.putExtra(Constants.IS_RESTORE_SETTINGS_EXTRA, true)
 
-        Process.killProcess(Process.myPid())
+        requireContext().startActivity(intent)
+
+        exitProcess(0)
     }
 }

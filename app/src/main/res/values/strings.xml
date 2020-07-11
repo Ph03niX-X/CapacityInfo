@@ -233,5 +233,9 @@
     <string name="auto_backup_summary">Path: %1$s</string>
     <string name="create_backup_settings">Create Backup Settings</string>
     <string name="settings_backup_successfully_created">Settings Backup successfully created!</string>
-    <string name="error_backup_settings">Error Backup Settings!\n\n%1$s</string>
+    <string name="error_backup_settings">Error Backup Settings!\n%1$s</string>
+    <string name="restore_settings_from_backup">Restore settings from backup</string>
+    <string name="restore_settings_from_backup_3dots">Restore settings from backup&#8230;</string>
+    <string name="settings_successfully_restored_from_backup">Settings have been successfully restored from backup!</string>
+    <string name="error_restoring_settings_from_backup">Error restoring settings from backup!\n%1$s</string>
 </resources>

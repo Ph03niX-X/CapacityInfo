@@ -16,6 +16,13 @@
         app:singleLineTitle="false"
         app:icon="@drawable/ic_create_backup_settings"
         android:key="create_backup_settings"/>
+
+    <Preference
+        android:title="@string/restore_settings_from_backup"
+        app:singleLineTitle="false"
+        android:enabled="false"
+        app:icon="@drawable/ic_restore_settings_from_backup"
+        android:key="restore_settings_from_backup"/>
     
     <Preference
         android:title="@string/export_settings"

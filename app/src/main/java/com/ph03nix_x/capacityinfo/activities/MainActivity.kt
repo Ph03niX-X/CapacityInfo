@@ -23,7 +23,8 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
-import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_SETTINGS_EXTRA
+import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_RESTORE_SETTINGS_EXTRA
+import com.ph03nix_x.capacityinfo.utilities.Constants.IS_RESTORE_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         navigation = findViewById(R.id.navigation)
 
-        prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
+        prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
                 as? HashMap<*, *>
 
         fragment = when {
@@ -338,7 +339,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
                 this) > 0.0
 
-        val prefArrays = intent.getSerializableExtra(IMPORT_SETTINGS_EXTRA)
+        val prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
@@ -582,9 +583,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         toolbar.menu.clear()
 
-        Toast.makeText(this, R.string.settings_imported_successfully,
-            Toast.LENGTH_LONG).show()
+        Toast.makeText(this, if(intent.getBooleanExtra(IS_RESTORE_SETTINGS_EXTRA,
+                false)) R.string.settings_successfully_restored_from_backup else
+            R.string.settings_imported_successfully, Toast.LENGTH_LONG).show()
 
-        intent.removeExtra(IMPORT_SETTINGS_EXTRA)
+        intent.removeExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
+
+        intent.removeExtra(IS_RESTORE_SETTINGS_EXTRA)
     }
 }
