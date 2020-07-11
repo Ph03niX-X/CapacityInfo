@@ -39,9 +39,13 @@ class BootReceiver : BroadcastReceiver() {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED && checkSelfPermission(context,
                         Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED)
+                    PackageManager.PERMISSION_GRANTED) {
+
+                    ServiceHelper.cancelJob(context, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
+
                     ServiceHelper.jobSchedule(context, AutoBackupSettingsJobService::class.java,
                         Constants.AUTO_BACKUP_SETTINGS_JOB_ID, 1 * 60 * 60 * 1000 /* 1 hour */)
+                }
             }
         }
     }

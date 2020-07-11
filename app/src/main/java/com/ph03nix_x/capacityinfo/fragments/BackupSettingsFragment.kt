@@ -82,10 +82,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     Manifest.permission.READ_EXTERNAL_STORAGE),
                     EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
 
-            else if((newValue as? Boolean == true) && (checkSelfPermission(requireContext(),
+            else if((newValue as? Boolean == true) && checkSelfPermission(requireContext(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED))
+                        && checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 ServiceHelper.jobSchedule(requireContext(),
                     AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
                     1 * 60 * 60 * 1000 /* 1 hour */)
