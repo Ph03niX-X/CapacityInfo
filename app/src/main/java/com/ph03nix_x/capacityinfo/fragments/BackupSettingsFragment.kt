@@ -303,19 +303,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                 withContext(Dispatchers.Main) {
 
-                    context?.let {
-                        MaterialAlertDialogBuilder(it).apply {
-
-                            setMessage(context.getString(R.string.import_restart_app_message))
-                            setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
-                                restartApp(prefArrays, true)
-                            }
-
-                            setCancelable(false)
-
-                            show()
-                        }
-                    }
+                    restartApp(prefArrays, true)
                 }
 
             }
@@ -453,19 +441,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                 withContext(Dispatchers.Main) {
 
-                    context?.let {
-                        MaterialAlertDialogBuilder(it).apply {
-
-                            setMessage(context.getString(R.string.import_restart_app_message))
-                            setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
-                                restartApp(prefArrays)
-                            }
-
-                            setCancelable(false)
-
-                            show()
-                        }
-                    }
+                    restartApp(prefArrays)
                 }
             }
 

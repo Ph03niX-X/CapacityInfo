@@ -188,7 +188,6 @@
     <string name="bypass_dnd_mode">Bypass DND Mode</string>
     <string name="bypass_dnd_mode_summary">Use alarms</string>
     <string name="press_the_back_button_again">Press the back button again to exit</string>
-    <string name="import_restart_app_message">The application will restart. A restart may take 5&#8211;10 seconds</string>
     <string name="tab_on_application_launch">Tab on application launch</string>
     <string name="overheat_overcool">Overheat/Overcool</string>
     <string name="battery_overheating_celsius">Battery overheating! Temperature: %1$s°C</string>

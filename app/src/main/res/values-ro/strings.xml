@@ -184,7 +184,6 @@
     <string name="bypass_dnd_mode">Omite modul Nu deranjați</string>
     <string name="bypass_dnd_mode_summary">Utilizare alarme</string>
     <string name="press_the_back_button_again">Apăsați din nou butonul înapoi pentru a ieși</string>
-    <string name="import_restart_app_message">Aplicația va reporni. O repornire poate dura 5&#8211;10 secunde</string>
     <string name="tab_on_application_launch">Fila la lansarea aplicației</string>
     <string name="overheat_overcool">Supraîncălzire/Suprarăcire</string>
     <string name="battery_overheating_celsius">Supraîncălzire baterie! Temperatura: %1$s°C</string>

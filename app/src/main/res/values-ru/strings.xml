@@ -183,7 +183,6 @@
     <string name="bypass_dnd_mode">Обходить режим \"Не беспокоить\"</string>
     <string name="bypass_dnd_mode_summary">Использовать \"Сигналы будильника\"</string>
     <string name="press_the_back_button_again">Нажмите ещё раз кнопку назад, чтобы выйти</string>
-    <string name="import_restart_app_message">Приложение будет перезапущено. Перезапуск может занимать 5&#8211;10 секунд</string>
     <string name="tab_on_application_launch">Вкладка при запуске приложения</string>
     <string name="overheat_overcool">Перегрев/Переохлаждение</string>
     <string name="battery_overheating_celsius">Перегрев аккумулятора! Температура: %1$s°C</string>
