@@ -125,22 +125,35 @@ object ServiceHelper {
         val jobInfo = JobInfo.Builder(jobId, serviceComponent).apply {
 
             setPeriodic(periodic)
+
+        }.build()
+
+        if(!isJobSchedule(context, jobId)) jobScheduler?.schedule(jobInfo)
+    }
+
+    private fun isJobSchedule(context: Context, jobId: Int): Boolean {
+
+        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
+
+        jobScheduler?.allPendingJobs?.forEach {
+
+            if(it.id == jobId) return true
         }
 
-        jobScheduler?.schedule(jobInfo.build())
+        return false
     }
 
     fun cancelJob(context: Context, jobId: Int) {
 
         val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
 
-        jobScheduler?.cancel(jobId)
+        if(isJobSchedule(context, jobId)) jobScheduler?.cancel(jobId)
     }
 
     fun cancelAllJobs(context: Context) {
 
         val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
 
-        jobScheduler?.cancelAll()
+        if(jobScheduler?.allPendingJobs?.isNotEmpty() == true) jobScheduler.cancelAll()
     }
 }

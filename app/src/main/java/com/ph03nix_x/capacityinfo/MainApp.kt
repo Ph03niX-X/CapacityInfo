@@ -1,13 +1,18 @@
 package com.ph03nix_x.capacityinfo
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 
 class MainApp : Application() {
@@ -31,6 +36,18 @@ class MainApp : Application() {
         defLang()
 
         isInstalledGooglePlay = isInstalledGooglePlay()
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+
+        if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
+                R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            ServiceHelper.jobSchedule(this, AutoBackupSettingsJobService::class.java,
+                Constants.AUTO_BACKUP_SETTINGS_JOB_ID, 1 * 60 * 60 * 1000 /* 1 hour */)
+
+        else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
