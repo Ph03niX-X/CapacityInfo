@@ -210,13 +210,13 @@
     <string name="disable">Отключить</string>
     <string name="overlay_text_color">Цвет текста</string>
     <string name="backup">Резервное копирование</string>
-    <string name="auto_backup">Автоматическое резервное копирование</string>
+    <string name="auto_backup">Автоматическое резервное копирование настроек</string>
     <string name="auto_backup_summary">Путь: %1$s</string>
     <string name="create_backup_settings">Создать резервную копию настроек</string>
     <string name="settings_backup_successfully_created">Резервная копия настроек успешно создана!</string>
     <string name="error_backup_settings">Ошибка создания резервной копии настроек!\n%1$s</string>
-    <string name="restore_settings_from_backup">Восстановить настройки с резервной копии</string>
-    <string name="restore_settings_from_backup_3dots">Восстановление настроек с резервной копии&#8230;</string>
-    <string name="settings_successfully_restored_from_backup">Настройки были успешно восстановлены с резервной копии!</string>
-    <string name="error_restoring_settings_from_backup">Ошибка восстановления настроек с резервной копии!\n%1$s</string>
+    <string name="restore_settings_from_backup">Восстановить настройки из резервной копии</string>
+    <string name="restore_settings_from_backup_3dots">Восстановление настроек из резервной копии&#8230;</string>
+    <string name="settings_successfully_restored_from_backup">Настройки были успешно восстановлены из резервной копии!</string>
+    <string name="error_restoring_settings_from_backup">Ошибка восстановления настроек из резервной копии!\n%1$s</string>
 </resources>
