@@ -8,6 +8,7 @@ import com.ph03nix_x.capacityinfo.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.Exception
 
@@ -32,13 +33,16 @@ class AutoBackupSettingsJobService : JobService() {
 
             catch (e: Exception) {
 
-                Toast.makeText(applicationContext, "Capacity Info\n\n${getString(
-                    R.string.error_backup_settings, e.message ?: e.toString())}",
-                    Toast.LENGTH_LONG).show()
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(applicationContext, "Capacity Info\n\n${getString(
+                        R.string.error_backup_settings, e.message ?: e.toString())}",
+                        Toast.LENGTH_LONG).show()
+                }
             }
         }
 
-        return true
+        return false
     }
 
     override fun onStopJob(params: JobParameters?) = true
