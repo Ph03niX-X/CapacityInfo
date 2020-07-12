@@ -210,7 +210,7 @@
     <string name="disable">Відключити</string>
     <string name="overlay_text_color">Колір тексту</string>
     <string name="backup">Резервне копіювання</string>
-    <string name="auto_backup">Автоматичне резервне копіювання</string>
+    <string name="auto_backup">Автоматичне резервне копіювання налаштувань</string>
     <string name="auto_backup_summary">Шлях: %1$s</string>
     <string name="create_backup_settings">Створити резервну копію налаштувань</string>
     <string name="settings_backup_successfully_created">Резервна копія налаштувань успішно створена!</string>
