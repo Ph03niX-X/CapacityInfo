@@ -43,6 +43,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
 
+    private var isRestoreSettingsFromBackup = false
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.backup_settings)
@@ -84,10 +86,21 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     Manifest.permission.READ_EXTERNAL_STORAGE),
                     EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
 
-            else if((newValue as? Boolean == true) && isExternalStoragePermission())
+            else if((newValue as? Boolean == true) && isExternalStoragePermission()) {
+
                 ServiceHelper.jobSchedule(requireContext(),
                     AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
                     1 * 60 * 60 * 1000 /* 1 hour */)
+
+                CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
+
+                    delay(250L)
+                    restoreSettingsFromBackup?.isEnabled = File(
+                        "$backupPath/${requireContext().packageName}_preferences.xml")
+                        .exists() && File("$backupPath/${requireContext()
+                        .packageName}_preferences.xml").length() > 0
+                }
+            }
 
             else ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
 
@@ -96,9 +109,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         createBackupSettings?.setOnPreferenceClickListener {
 
-            if(checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED || checkSelfPermission(requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            if(!isExternalStoragePermission())
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE),
                     EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
@@ -110,7 +121,16 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         restoreSettingsFromBackup?.setOnPreferenceClickListener {
 
-            restoreSettingsFromBackup()
+            if(!isExternalStoragePermission()) {
+
+                isRestoreSettingsFromBackup = !isRestoreSettingsFromBackup
+
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE),
+                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+            }
+
+            else restoreSettingsFromBackup()
 
             true
         }
@@ -175,18 +195,36 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         when(requestCode) {
 
             EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
-                if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked == true) {
+                if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked == true
+                    && !isRestoreSettingsFromBackup) {
 
-                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                         ServiceHelper.jobSchedule(requireContext(),
                             AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
                             1 * 60 * 60 * 1000 /* 1 hour */)
+
+                        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
+
+                            delay(250)
+                            restoreSettingsFromBackup?.isEnabled = File(
+                                "$backupPath/${requireContext()
+                                    .packageName}_preferences.xml").exists() && File(
+                                "$backupPath/${requireContext()
+                                    .packageName}_preferences.xml").length() > 0
+                        }
+                    }
                 }
 
-                else if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked != true) {
+                else if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked != true
+                    && !isRestoreSettingsFromBackup) {
 
-                    backupSettings()
+                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED) backupSettings()
                 }
+
+                else if(grantResults.isNotEmpty() && isRestoreSettingsFromBackup)
+                        if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                            restoreSettingsFromBackup()
 
                 else {
 
@@ -249,6 +287,17 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                     Toast.makeText(requireContext(), getString(R.string.error_backup_settings,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
+            }
+
+            finally {
+
+                withContext(Dispatchers.Main) {
+
+                    restoreSettingsFromBackup?.isEnabled = File(
+                        "$backupPath/${requireContext().packageName}_preferences.xml")
+                        .exists() && File("$backupPath/${requireContext()
+                        .packageName}_preferences.xml").length() > 0
                 }
             }
         }
