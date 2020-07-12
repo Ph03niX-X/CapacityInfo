@@ -210,7 +210,7 @@
     <string name="disable">Адключыць</string>
     <string name="overlay_text_color">Колер тэксту</string>
     <string name="backup">Рэзервовае капіраванне</string>
-    <string name="auto_backup">Аўтаматычнае рэзервовае капіраванне</string>
+    <string name="auto_backup">Аўтаматычнае рэзервовае капіраванне налад</string>
     <string name="auto_backup_summary">Шлях: %1$s</string>
     <string name="create_backup_settings">Стварыць рэзервовую копію налад</string>
     <string name="settings_backup_successfully_created">Рэзервовая копія налад паспяхова створана!</string>
