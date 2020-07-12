@@ -587,6 +587,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 false)) R.string.settings_successfully_restored_from_backup else
             R.string.settings_imported_successfully, Toast.LENGTH_LONG).show()
 
+        this.prefArrays = null
+
         intent.removeExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
 
         intent.removeExtra(IS_RESTORE_SETTINGS_EXTRA)

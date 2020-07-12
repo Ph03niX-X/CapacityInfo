@@ -45,13 +45,9 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED && checkSelfPermission(context,
                         Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED) {
-
-                    ServiceHelper.cancelJob(context, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
-
+                    PackageManager.PERMISSION_GRANTED)
                     ServiceHelper.jobSchedule(context, AutoBackupSettingsJobService::class.java,
                         Constants.AUTO_BACKUP_SETTINGS_JOB_ID, 1 * 60 * 60 * 1000 /* 1 hour */)
-                }
             }
         }
     }

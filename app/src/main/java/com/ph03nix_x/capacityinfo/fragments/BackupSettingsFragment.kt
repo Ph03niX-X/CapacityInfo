@@ -2,25 +2,21 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.core.content.IntentCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -66,10 +62,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         importSettings = findPreference("import_settings")
 
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && checkSelfPermission(requireContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-            || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
-            PackageManager.PERMISSION_GRANTED) {
+                R.bool.is_auto_backup_settings)) && !isExternalStoragePermission()) {
 
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
@@ -86,18 +79,12 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         autoBackupSettings?.setOnPreferenceChangeListener { _, newValue ->
 
-            if((newValue as? Boolean == true) && (checkSelfPermission(requireContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED))
+            if((newValue as? Boolean == true) && !isExternalStoragePermission())
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE),
                     EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
 
-            else if((newValue as? Boolean == true) && checkSelfPermission(requireContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                        && checkSelfPermission(requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            else if((newValue as? Boolean == true) && isExternalStoragePermission())
                 ServiceHelper.jobSchedule(requireContext(),
                     AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
                     1 * 60 * 60 * 1000 /* 1 hour */)
@@ -170,10 +157,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         super.onResume()
 
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && checkSelfPermission(requireContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-            || checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) !=
-            PackageManager.PERMISSION_GRANTED) {
+                R.bool.is_auto_backup_settings)) && !isExternalStoragePermission()) {
 
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
@@ -231,14 +215,20 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun backupSettings() {
+    private fun isExternalStoragePermission() =
+        checkSelfPermission(requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
-        val backupPath =
-            "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+    private fun backupSettings() {
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
+
+                val backupPath =
+                    "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
 
                 if(!File(backupPath).exists()) File(backupPath).mkdirs()
 
@@ -255,8 +245,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             }
             catch(e: Exception) {
 
-                Toast.makeText(requireContext(), getString(R.string.error_backup_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(requireContext(), getString(R.string.error_backup_settings,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
