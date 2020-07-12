@@ -209,4 +209,14 @@
     <string name="close">Зачыніць</string>
     <string name="disable">Адключыць</string>
     <string name="overlay_text_color">Колер тэксту</string>
+    <string name="backup">Рэзервовае капіраванне</string>
+    <string name="auto_backup">Аўтаматычнае рэзервовае капіраванне</string>
+    <string name="auto_backup_summary">Шлях: %1$s</string>
+    <string name="create_backup_settings">Стварыць рэзервовую копію налад</string>
+    <string name="settings_backup_successfully_created">Рэзервовая копія налад паспяхова створана!</string>
+    <string name="error_backup_settings">Памылка стварэння рэзервовай копіі налад!\n%1$s</string>
+    <string name="restore_settings_from_backup">Аднавіць налады з рэзервовай копіі</string>
+    <string name="restore_settings_from_backup_3dots">Аднаўленьне налад з рэзервовай копіі&#8230;</string>
+    <string name="settings_successfully_restored_from_backup">Налады былі паспяхова адноўлены з рэзервовай копіі!</string>
+    <string name="error_restoring_settings_from_backup">Не ўдалося аднавіць налады з рэзервовай копіі!\n%1$s</string>
 </resources>
