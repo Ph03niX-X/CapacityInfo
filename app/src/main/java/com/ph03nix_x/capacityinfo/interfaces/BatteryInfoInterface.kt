@@ -311,8 +311,8 @@ interface BatteryInfoInterface {
 
             residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
 
-            if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                residualCapacity /= 1000
+            residualCapacity /= if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                    "μAh") == "μAh") 1000.0 else 100.0
         }
 
         if(residualCapacity < 0) residualCapacity /= -1
@@ -320,7 +320,7 @@ interface BatteryInfoInterface {
         return context.getString(if(!isOverlay) R.string.residual_capacity else
             R.string.residual_capacity_overlay_only_values, DecimalFormat("#.#").format(
             residualCapacity), "${DecimalFormat("#.#").format(
-            (residualCapacity / pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(R.integer.min_design_capacity)).toDouble()) * 100)}%")
+            (residualCapacity / pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(R.integer.min_design_capacity)).toDouble()) * 100.0)}%")
     }
 
     fun getOnStatus(context: Context, extraStatus: Int): String {
@@ -386,7 +386,7 @@ interface BatteryInfoInterface {
 
         val residualCapacity = if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                 "μAh") == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0)
-            .toDouble() / 1000.0 else pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
+            .toDouble() / 1000.0 else pref.getInt(RESIDUAL_CAPACITY, 0).toDouble() / 100.0
 
         val chargeDischargeCurrent = getOnChargeDischargeCurrent(context).toDouble()
 

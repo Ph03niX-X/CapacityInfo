@@ -56,10 +56,10 @@ class UnpluggedReceiver : BroadcastReceiver() {
                         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
                             == "μAh")
                         putInt(RESIDUAL_CAPACITY,
-                            ((CapacityInfoService.instance?.getOnCurrentCapacity(context)
-                                ?.toInt() ?: 0) * 1000))
-                        else putInt(RESIDUAL_CAPACITY, CapacityInfoService.instance
-                            ?.getOnCurrentCapacity(context)?.toInt() ?: 0)
+                            (((CapacityInfoService.instance?.getOnCurrentCapacity(
+                                context) ?: 0.0) * 1000.0).toInt()))
+                        else putInt(RESIDUAL_CAPACITY, (((CapacityInfoService.instance
+                            ?.getOnCurrentCapacity(context) ?: 0.0) * 100.0).toInt()))
                     }
 
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {

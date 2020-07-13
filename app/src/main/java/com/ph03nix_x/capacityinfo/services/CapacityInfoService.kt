@@ -126,9 +126,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 }
             }
 
-            applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+            applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(
+                Intent.ACTION_POWER_CONNECTED))
 
-            applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
+            applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(
+                Intent.ACTION_POWER_DISCONNECTED))
 
             LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
                 null) ?: defLang)
@@ -250,8 +252,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 if(residualCapacity > 0) {
 
                     if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-                        == "μAh") putInt(RESIDUAL_CAPACITY, (residualCapacity * 1000).toInt())
-                    else putInt(RESIDUAL_CAPACITY, residualCapacity.toInt())
+                        == "μAh") putInt(RESIDUAL_CAPACITY, (residualCapacity * 1000.0).toInt())
+                    else putInt(RESIDUAL_CAPACITY, (residualCapacity * 100.0).toInt())
                 }
 
                 putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (
@@ -353,9 +355,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                     putInt(RESIDUAL_CAPACITY, (getOnCurrentCapacity(
-                        this@CapacityInfoService) * 1000).toInt())
-                else putInt(RESIDUAL_CAPACITY, getOnCurrentCapacity(
-                    this@CapacityInfoService).toInt())
+                        this@CapacityInfoService) * 1000.0).toInt())
+                else putInt(RESIDUAL_CAPACITY, (getOnCurrentCapacity(
+                    this@CapacityInfoService) * 100.0).toInt())
 
                 putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
