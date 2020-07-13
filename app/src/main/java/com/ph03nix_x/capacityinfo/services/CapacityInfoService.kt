@@ -263,7 +263,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
 
-                putInt(BATTERY_LEVEL_TO, (getOnBatteryLevel(this@CapacityInfoService) ?: 0))
+                putInt(BATTERY_LEVEL_TO, batteryLevel)
 
                 if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
@@ -353,7 +353,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (
                     seconds / 3600)) else seconds)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-            putInt(BATTERY_LEVEL_TO, (getOnBatteryLevel(this@CapacityInfoService) ?: 0))
+            putInt(BATTERY_LEVEL_TO, batteryLevel)
 
             if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) {
 
