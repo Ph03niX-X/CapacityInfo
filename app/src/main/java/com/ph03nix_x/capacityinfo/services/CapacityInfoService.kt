@@ -10,7 +10,6 @@ import android.view.Display
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.batteryLevel
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
@@ -238,8 +237,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         NotificationInterface.isNotifyBatteryCharged = true
         NotificationInterface.isNotifyBatteryDischarged = true
 
+        val batteryLevel = getOnBatteryLevel(this) ?: 0
+
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                (getOnBatteryLevel(this) ?: 0) / 100f) - (batteryLevelWith / 100f)
+                if(batteryLevel == batteryLevelWith) 1f else batteryLevel / 100f) - (
+                batteryLevelWith / 100f)
 
         notificationManager?.cancelAll()
 
@@ -277,7 +279,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             capacityAdded = 0.0
         }
 
-        batteryLevel = 0
+        BatteryInfoInterface.batteryLevel = 0
 
         if(isStopService)
             Toast.makeText(this, R.string.service_stopped_successfully,
@@ -340,8 +342,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 onNotifyBatteryFullyCharged(this@CapacityInfoService)
             }
 
+        val batteryLevel = getOnBatteryLevel(this@CapacityInfoService) ?: 0
+
         val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                (getOnBatteryLevel(this@CapacityInfoService) ?: 0) / 100f) - (
+                if(batteryLevel == batteryLevelWith) 1f else batteryLevel / 100f) - (
                 batteryLevelWith / 100f)
 
         pref.edit().apply {
