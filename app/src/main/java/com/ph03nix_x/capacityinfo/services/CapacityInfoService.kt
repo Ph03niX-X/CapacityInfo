@@ -239,8 +239,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val batteryLevel = getOnBatteryLevel(this) ?: 0
 
-        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                if(batteryLevel == batteryLevelWith) 1f else batteryLevel / 100f) - (
+        val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
+            NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
+            NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
                 batteryLevelWith / 100f)
 
         notificationManager?.cancelAll()
@@ -344,8 +345,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val batteryLevel = getOnBatteryLevel(this@CapacityInfoService) ?: 0
 
-        val numberOfCycles = pref.getFloat(NUMBER_OF_CYCLES, 0f) + (
-                if(batteryLevel == batteryLevelWith) 1f else batteryLevel / 100f) - (
+        val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
+            NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
+            NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
                 batteryLevelWith / 100f)
 
         pref.edit().apply {
