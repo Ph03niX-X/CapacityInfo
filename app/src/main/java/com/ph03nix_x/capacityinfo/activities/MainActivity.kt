@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         var isLoadWear = false
         var isLoadSettings = false
         var isLoadDebug = false
+        var isRecreate = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,6 +101,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
 
             isLoadDebug -> DebugFragment()
+
+            prefArrays != null -> BackupSettingsFragment()
 
             else -> SettingsFragment()
         }
@@ -253,6 +256,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
+        if(isRecreate) isRecreate = false
+
         if(instance == null) instance = this
 
         batteryIntent = registerReceiver(null, IntentFilter(
@@ -365,9 +370,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onBackPressed() {
 
-        if(toolbar.title != getString(R.string.settings) && fragment != null
+        if(toolbar.title != getString(R.string.settings) && ((fragment != null
             && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
-            && fragment !is WearFragment && fragment !is DebugFragment) {
+            && fragment !is WearFragment && fragment !is DebugFragment
+                    && fragment !is BackupSettingsFragment) || (fragment is BackupSettingsFragment
+                    && supportFragmentManager.backStackEntryCount == 1))) {
 
             fragment = SettingsFragment()
 
@@ -376,6 +383,18 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             toolbar.navigationIcon = null
 
             super.onBackPressed()
+        }
+
+        else if(toolbar.title != getString(R.string.settings) &&
+            fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0) {
+
+            fragment = SettingsFragment()
+
+            toolbar.title = getString(R.string.settings)
+
+            toolbar.navigationIcon = null
+
+            loadFragment(fragment ?: SettingsFragment())
         }
 
         else {
@@ -400,10 +419,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         instance = null
 
-        isLoadChargeDischarge = false
-        isLoadWear = false
-        isLoadSettings = false
-        isLoadDebug = false
+        if(!isRecreate) {
+
+            isLoadChargeDischarge = false
+            isLoadWear = false
+            isLoadSettings = false
+            isLoadDebug = false
+        }
 
         super.onDestroy()
     }
@@ -521,6 +543,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     is DebugFragment -> R.id.debug_navigation
                     else -> R.id.charge_discharge_navigation
                 }
+            }
+
+            fragment is BatteryStatusInformationFragment || fragment is OverlayFragment
+                    || fragment is AboutFragment || fragment is FeedbackFragment
+                    || fragment is BackupSettingsFragment -> {
+
+                navigation.selectedItemId = R.id.settings_navigation
+
+                clearMenu()
+
+                toolbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_24dp)
             }
         }
     }
