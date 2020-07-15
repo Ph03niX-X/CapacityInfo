@@ -18,11 +18,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -592,6 +594,10 @@ interface DebugOptionsInterface {
 
         if(key == LANGUAGE) {
 
+            MainActivity.isRecreate = !MainActivity.isRecreate
+
+            MainActivity.tempFragment = MainActivity.instance?.fragment
+
             LocaleHelper.setLocale(context, value)
 
             (context as? MainActivity)?.recreate()
@@ -621,8 +627,19 @@ interface DebugOptionsInterface {
 
         pref.edit().putBoolean(key, value).apply()
 
-        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE
-            || key == IS_FORCIBLY_SHOW_RATE_THE_APP) (context as? MainActivity)?.recreate()
+        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE)
+            ThemeHelper.setTheme(context)
+
+        else if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
+
+            MainActivity.tempFragment = MainActivity.instance?.fragment
+
+            MainActivity.isRecreate = !MainActivity.isRecreate
+
+            (context as? MainActivity)?.recreate()
+        }
+
+        else if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) (context as? MainActivity)?.recreate()
 
         else if(key == IS_ENABLED_DEBUG_OPTIONS && !value) {
 
@@ -666,11 +683,27 @@ interface DebugOptionsInterface {
 
             pref.edit().remove(key).apply()
 
-            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE || key == LANGUAGE
-                || key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
+            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE) {
 
-                Toast.makeText(context, context.getString(R.string.key_successfully_reset, key),
-                    Toast.LENGTH_LONG).show()
+                ThemeHelper.setTheme(context)
+            }
+
+            else if(key == LANGUAGE) {
+
+                MainActivity.isRecreate = !MainActivity.isRecreate
+
+                MainActivity.tempFragment = MainActivity.instance?.fragment
+
+                LocaleHelper.setLocale(context, MainApp.defLang)
+
+                (context as? MainActivity)?.recreate()
+            }
+
+            else if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
+
+                MainActivity.tempFragment = MainActivity.instance?.fragment
+
+                MainActivity.isRecreate = !MainActivity.isRecreate
 
                 (context as? MainActivity)?.recreate()
             }

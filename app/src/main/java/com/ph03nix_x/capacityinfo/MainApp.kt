@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
@@ -57,7 +58,17 @@ class MainApp : Application() {
 
         super.onConfigurationChanged(newConfig)
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+
         if(LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
+
+        if(LocaleHelper.getSystemLocale(newConfig) != pref.getString(LANGUAGE, null)) {
+
+            MainActivity.instance?.isChangedLanguage = true
+
+            LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
+                null) ?: defLang)
+        }
     }
 
     private fun defLang() {

@@ -52,15 +52,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
-    private var currentUiMode = -1
     private var prefArrays: HashMap<*, *>? = null
 
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
     var fragment: Fragment? = null
+    var isChangedLanguage = false
 
     companion object {
+
+        private var currentTheme = -1
 
         var instance: MainActivity? = null
         var tempFragment: Fragment? = null
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
-        currentUiMode = ThemeHelper.currentUiMode(resources.configuration)
+        currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
         fragment = tempFragment
 
@@ -102,21 +104,21 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 as? HashMap<*, *>
 
         if(fragment == null)
-        fragment = when {
+            fragment = when {
 
-            isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1"
-                    && prefArrays == null && !isLoadSettings && !isLoadDebug) ->
-                ChargeDischargeFragment()
+                isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1"
+                        && prefArrays == null && !isLoadSettings && !isLoadDebug) ->
+                    ChargeDischargeFragment()
 
-            isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
-                    prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
+                isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
+                        prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
 
-            isLoadDebug -> DebugFragment()
+                isLoadDebug -> DebugFragment()
 
-            prefArrays != null -> BackupSettingsFragment()
+                prefArrays != null -> BackupSettingsFragment()
 
-            else -> SettingsFragment()
-        }
+                else -> SettingsFragment()
+            }
 
         toolbar.title = when(fragment) {
 
@@ -272,6 +274,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
+        if(isChangedLanguage) {
+
+            LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
+                null) ?: defLang)
+
+            isChangedLanguage = false
+        }
+
         tempFragment = null
 
         if(isRecreate) isRecreate = false
@@ -390,11 +400,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onConfigurationChanged(newConfig)
 
-        val uiMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK or
+        val newTheme = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
 
-        if(uiMode != currentUiMode) {
+        if(newTheme != currentTheme) {
 
             if(CapacityInfoService.instance != null)
                 ServiceHelper.stopService(this, CapacityInfoService::class.java)
@@ -571,8 +581,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             replace(R.id.fragment_container, fragment)
             if(isAddToBackStack) addToBackStack(null)
 
-            if(!isRecreate)
-            commit()
+            if(!isRecreate) commit()
         }
 
         when {

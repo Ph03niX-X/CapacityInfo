@@ -14,7 +14,7 @@
 
     <application
             android:name=".MainApp"
-            android:configChanges="locale|uiMode"
+            android:configChanges="locale|layoutDirection"
             android:backupAgent=".ApplicationBackup"
             android:allowBackup="true"
             android:fullBackupContent="true"
