@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
@@ -21,6 +22,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
@@ -40,11 +42,20 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     private var isJob = false
     private var job: Job? = null
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        LocaleHelper.setLocale(requireContext(), pref.getString(
+            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         designCapacity = view.findViewById(R.id.design_capacity)
         numberOfCharges = view.findViewById(R.id.number_of_charges)

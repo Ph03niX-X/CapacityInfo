@@ -6,8 +6,11 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreferenceCompat
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
@@ -28,9 +31,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(R.xml.battery_status_information_settings)
-
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        LocaleHelper.setLocale(requireContext(), pref.getString(
+            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+
+        addPreferencesFromResource(R.xml.battery_status_information_settings)
 
         notifyOverheatOvercool = findPreference(IS_NOTIFY_OVERHEAT_OVERCOOL)
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)

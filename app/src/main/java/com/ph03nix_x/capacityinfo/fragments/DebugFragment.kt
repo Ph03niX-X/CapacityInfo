@@ -3,9 +3,12 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.*
 import android.os.Bundle
 import androidx.preference.*
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
@@ -21,6 +24,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        LocaleHelper.setLocale(requireContext(), pref.getString(
+            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.debug_settings)
 

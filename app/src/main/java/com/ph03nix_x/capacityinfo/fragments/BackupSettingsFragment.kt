@@ -16,7 +16,9 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -47,11 +49,14 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        LocaleHelper.setLocale(requireContext(), pref.getString(
+            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+
         addPreferencesFromResource(R.xml.backup_settings)
 
         backupPath = "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
-
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         autoBackupSettings = findPreference(IS_AUTO_BACKUP_SETTINGS)
 

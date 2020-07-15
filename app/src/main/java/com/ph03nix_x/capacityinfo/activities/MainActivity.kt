@@ -3,14 +3,17 @@ package com.ph03nix_x.capacityinfo.activities
 import android.Manifest
 import android.content.*
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
+    private var currentUiMode = -1
     private var prefArrays: HashMap<*, *>? = null
 
     lateinit var toolbar: CenteredToolbar
@@ -61,6 +65,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     companion object {
 
         var instance: MainActivity? = null
+        var tempFragment: Fragment? = null
         var isLoadChargeDischarge = false
         var isLoadWear = false
         var isLoadSettings = false
@@ -81,6 +86,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
+        currentUiMode = ThemeHelper.currentUiMode(resources.configuration)
+
+        fragment = tempFragment
+
         batteryIntent = registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
 
@@ -94,6 +103,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
                 as? HashMap<*, *>
 
+        if(fragment == null)
         fragment = when {
 
             isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1"
@@ -252,12 +262,19 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             true
         }
 
-        loadFragment(fragment ?: ChargeDischargeFragment())
+        if(!isRecreate || (isRecreate && fragment !is SettingsFragment))
+        loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
+                BatteryStatusInformationFragment || fragment is BackupSettingsFragment
+                || fragment is OverlayFragment || fragment is AboutFragment
+                || fragment is FeedbackFragment)
+
     }
 
     override fun onResume() {
 
         super.onResume()
+
+        tempFragment = null
 
         if(isRecreate) isRecreate = false
 
@@ -371,6 +388,28 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             ServiceHelper.startService(this, OverlayService::class.java)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+
+        super.onConfigurationChanged(newConfig)
+
+        val uiMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+        if(uiMode != currentUiMode) {
+
+            if(CapacityInfoService.instance != null)
+                ServiceHelper.stopService(this, CapacityInfoService::class.java)
+
+            if(OverlayService.instance != null)
+                ServiceHelper.stopService(this, OverlayService::class.java)
+
+            tempFragment = fragment
+
+            isRecreate = !isRecreate
+
+            recreate()
+        }
+    }
+
     override fun onBackPressed() {
 
         if(toolbar.title != getString(R.string.settings) && ((fragment != null
@@ -418,11 +457,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onDestroy() {
 
-        fragment = null
-
         instance = null
 
+        fragment = null
+
         if(!isRecreate) {
+
+            tempFragment = null
 
             isLoadChargeDischarge = false
             isLoadWear = false
@@ -529,6 +570,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             replace(R.id.fragment_container, fragment)
             if(isAddToBackStack) addToBackStack(null)
+
+            if(!isRecreate)
             commit()
         }
 

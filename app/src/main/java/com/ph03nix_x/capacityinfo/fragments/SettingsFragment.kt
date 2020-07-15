@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
@@ -78,9 +80,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(R.xml.settings)
-        
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        LocaleHelper.setLocale(requireContext(), pref.getString(
+            LANGUAGE, null) ?: MainApp.defLang)
+
+        addPreferencesFromResource(R.xml.settings)
 
         mainActivity = activity as? MainActivity
 

@@ -10,11 +10,14 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
 class AboutFragment : PreferenceFragmentCompat() {
 
@@ -31,9 +34,12 @@ class AboutFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(R.xml.about_settings)
-
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        LocaleHelper.setLocale(requireContext(), pref.getString(
+            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+
+        addPreferencesFromResource(R.xml.about_settings)
 
         developer = findPreference("developer")
 
