@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -36,6 +37,8 @@ class MainApp : Application() {
         defLang()
 
         isInstalledGooglePlay = isInstalledGooglePlay()
+
+        ThemeHelper.setTheme(this)
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 

@@ -172,7 +172,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
 
-            setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
+            setTheme(requireContext(), isDarkMode = newValue as? Boolean == true)
 
             true
         }
