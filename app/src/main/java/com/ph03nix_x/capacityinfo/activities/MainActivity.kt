@@ -9,11 +9,9 @@ import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -392,7 +390,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onConfigurationChanged(newConfig)
 
-        val uiMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val uiMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK or
+                newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
+                newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
 
         if(uiMode != currentUiMode) {
 

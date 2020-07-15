@@ -43,5 +43,7 @@ object ThemeHelper {
     }
 
     fun currentUiMode(configuration: Configuration) =
-        configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK or
+                configuration.uiMode and Configuration.UI_MODE_NIGHT_YES or
+                configuration.uiMode and Configuration.UI_MODE_NIGHT_NO
 }

@@ -165,16 +165,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             darkMode?.isEnabled = (newValue as? Boolean) == false
 
-            MainActivity.isRecreate = true
-
             setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
 
             true
         }
 
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
-
-            MainActivity.isRecreate = true
 
             setTheme(requireContext(), isSystemDarkMode = newValue as? Boolean == true)
 
