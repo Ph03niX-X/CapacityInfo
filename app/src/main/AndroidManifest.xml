@@ -14,7 +14,7 @@
 
     <application
             android:name=".MainApp"
-            android:configChanges="locale|layoutDirection"
+            android:configChanges="locale|layoutDirection|uiMode"
             android:backupAgent=".ApplicationBackup"
             android:allowBackup="true"
             android:fullBackupContent="true"
@@ -31,7 +31,7 @@
         <activity
                 android:name=".activities.MainActivity"
                 android:launchMode="singleInstance"
-                android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode">
+                android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection">
 
             <intent-filter>
 

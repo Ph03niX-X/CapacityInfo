@@ -58,11 +58,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     lateinit var navigation: BottomNavigationView
 
     var fragment: Fragment? = null
-    var isChangedLanguage = false
 
     companion object {
-
-        private var currentTheme = -1
 
         var instance: MainActivity? = null
         var tempFragment: Fragment? = null
@@ -86,7 +83,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
-        currentTheme = ThemeHelper.currentTheme(resources.configuration)
+        MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
         fragment = tempFragment
 
@@ -274,12 +271,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
-        if(isChangedLanguage) {
+        if(LocaleHelper.getSystemLocale(resources.configuration) != pref.getString(LANGUAGE,
+                null)) {
 
             LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
                 null) ?: defLang)
-
-            isChangedLanguage = false
         }
 
         tempFragment = null
@@ -404,17 +400,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
 
-        if(newTheme != currentTheme) {
-
-            if(CapacityInfoService.instance != null)
-                ServiceHelper.stopService(this, CapacityInfoService::class.java)
-
-            if(OverlayService.instance != null)
-                ServiceHelper.stopService(this, OverlayService::class.java)
+        if(newTheme != MainApp.currentTheme) {
 
             tempFragment = fragment
 
-            isRecreate = !isRecreate
+            isRecreate = true
 
             recreate()
         }

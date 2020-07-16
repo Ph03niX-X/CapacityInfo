@@ -26,6 +26,8 @@ class MainApp : Application() {
         var isPowerConnected = false
         var isInstalledGooglePlay = true
 
+        var currentTheme = -1
+
         fun isGooglePlay(context: Context) =
             Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallerPackageName(
                 context.packageName)
@@ -41,7 +43,12 @@ class MainApp : Application() {
 
         ThemeHelper.setTheme(this)
 
+        currentTheme = ThemeHelper.currentTheme(resources.configuration)
+
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
+
+        LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
+            null) ?: defLang)
 
         if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
                 R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(
@@ -60,15 +67,20 @@ class MainApp : Application() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
+        val newTheme = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK or
+                newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
+                newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
 
-        if(LocaleHelper.getSystemLocale(newConfig) != pref.getString(LANGUAGE, null)) {
+        if(newTheme != currentTheme) {
 
-            MainActivity.instance?.isChangedLanguage = true
+            MainActivity.tempFragment = MainActivity.instance?.fragment
 
-            LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
-                null) ?: defLang)
+            MainActivity.isRecreate = true
+
+            MainActivity.instance?.recreate()
         }
+
+        if(LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
     }
 
     private fun defLang() {
