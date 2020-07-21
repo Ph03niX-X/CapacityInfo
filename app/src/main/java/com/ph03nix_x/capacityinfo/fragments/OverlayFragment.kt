@@ -152,7 +152,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = resources.getStringArray(R.array.text_size_list)[
-                    (newValue as? String)?.toInt() ?: 1]
+                    (newValue as? String)?.toInt() ?: 2]
 
             true
         }
@@ -441,7 +441,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
             pref.edit().putString(OVERLAY_SIZE, "2").apply()
 
         return resources.getStringArray(R.array.text_size_list)[
-                pref.getString(OVERLAY_SIZE, "2")?.toInt() ?: 1]
+                pref.getString(OVERLAY_SIZE, "2")?.toInt() ?: 2]
     }
 
     private fun getOverlayTextFontSummary(): CharSequence? {
