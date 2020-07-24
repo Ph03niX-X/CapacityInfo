@@ -84,7 +84,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var batteryWearOverlay: AppCompatTextView
         private lateinit var layoutParams: ViewGroup.LayoutParams
         private lateinit var pref: SharedPreferences
-        lateinit var linearLayout: LinearLayoutCompat
+        var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
 
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
@@ -179,7 +179,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
             windowManager?.addView(linearLayout, parameters)
 
-            linearLayout.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
+            linearLayout?.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
         }
 
         else if(OverlayService.instance != null)
@@ -232,7 +232,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         val sourceOfPower = getOnSourceOfPower(context, extraPlugged, true)
 
-        linearLayout.setBackgroundColor(onSetBackgroundLinearLayout())
+        linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout())
 
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
