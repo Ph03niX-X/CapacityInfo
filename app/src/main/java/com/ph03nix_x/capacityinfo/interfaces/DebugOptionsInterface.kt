@@ -32,6 +32,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
@@ -324,7 +325,7 @@ interface DebugOptionsInterface {
 
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
+                TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS ->
                     addChangeSetting(context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
@@ -377,8 +378,9 @@ interface DebugOptionsInterface {
                         LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_SIZE,
                         OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT, TEXT_STYLE,
-                        TAB_ON_APPLICATION_LAUNCH -> setValueType("string",
-                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+                        TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS ->
+                            setValueType("string", changePrefValue, pref,
+                                prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY,
@@ -417,7 +419,7 @@ interface DebugOptionsInterface {
                 when(key) {
 
                     OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH -> {
+                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> {
 
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
@@ -558,6 +560,10 @@ interface DebugOptionsInterface {
                             TAB_ON_APPLICATION_LAUNCH -> s.toString() != pref.getString(
                                 key, "0") && s.toString() in context.resources
                                 .getStringArray(R.array.tab_on_application_launch_values)
+
+                            FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> s.toString() != pref.getString(key,
+                                "1") && s.toString() in context.resources.getStringArray(
+                                R.array.frequency_of_auto_backup_settings_values)
 
                             else -> s.isNotEmpty() && s.toString() !=
                                     pref.getString(key, null)
