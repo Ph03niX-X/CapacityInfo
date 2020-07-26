@@ -40,6 +40,7 @@ object PreferencesKeys {
 
     // Backup
     const val IS_AUTO_BACKUP_SETTINGS = "is_auto_backup_settings"
+    const val FREQUENCY_OF_AUTO_BACKUP_SETTINGS = "frequency_of_auto_backup_settings"
 
     // Overlay Preferences
     const val IS_ENABLED_OVERLAY = "is_enabled_overlay"

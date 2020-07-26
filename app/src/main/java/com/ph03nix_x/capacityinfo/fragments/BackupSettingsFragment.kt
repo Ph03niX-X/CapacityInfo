@@ -12,10 +12,7 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.documentfile.provider.DocumentFile
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
@@ -27,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.AUTO_BACKUP_SETTINGS_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import kotlinx.coroutines.*
 import java.io.File
@@ -40,6 +38,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
     private lateinit var pref: SharedPreferences
 
     private var autoBackupSettings: SwitchPreferenceCompat? = null
+    private var frequencyOfAutoBackupSettings: ListPreference? = null
     private var createBackupSettings: Preference? = null
     private var restoreSettingsFromBackup: Preference? = null
     private var exportSettings: Preference? = null
@@ -60,6 +59,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         autoBackupSettings = findPreference(IS_AUTO_BACKUP_SETTINGS)
 
+        frequencyOfAutoBackupSettings = findPreference(FREQUENCY_OF_AUTO_BACKUP_SETTINGS)
+
         createBackupSettings = findPreference("create_backup_settings")
 
         restoreSettingsFromBackup = findPreference("restore_settings_from_backup")
@@ -74,6 +75,15 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
             autoBackupSettings?.isChecked = false
+        }
+
+        frequencyOfAutoBackupSettings?.apply {
+
+            isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS,
+                requireContext().resources.getBoolean(R.bool.is_auto_backup_settings)) &&
+                    isExternalStoragePermission()
+
+            summary = getFrequencyOfAutoBackupSettingsSummary()
         }
 
         restoreSettingsFromBackup?.isEnabled = File("$backupPath/${requireContext()
@@ -95,7 +105,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                 ServiceHelper.jobSchedule(requireContext(),
                     AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
-                    1 * 60 * 60 * 1000 /* 1 hour */)
+                    (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
+                        ?.toLong() ?: 1L) * 60L * 60L * 1000L)
+
+                frequencyOfAutoBackupSettings?.isEnabled = true
 
                 CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
@@ -108,6 +121,18 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             }
 
             else ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+
+            true
+        }
+
+        frequencyOfAutoBackupSettings?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = resources.getStringArray(R.array
+                .frequency_of_auto_backup_settings_list)[((newValue as? String)?.toInt() ?: 1) - 1]
+
+            ServiceHelper.rescheduleJob(requireContext(), AutoBackupSettingsJobService::class.java,
+                AUTO_BACKUP_SETTINGS_JOB_ID,
+                ((newValue as? String)?.toLong() ?: 1) * 60 * 60 * 1000)
 
             true
         }
@@ -189,6 +214,15 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             autoBackupSettings?.isChecked = false
         }
 
+        frequencyOfAutoBackupSettings?.apply {
+
+            isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS,
+                requireContext().resources.getBoolean(R.bool.is_auto_backup_settings)) &&
+                    isExternalStoragePermission()
+
+            summary = getFrequencyOfAutoBackupSettingsSummary()
+        }
+
         restoreSettingsFromBackup?.isEnabled = File("$backupPath/${requireContext()
             .packageName}_preferences.xml").exists() && File(
             "$backupPath/${requireContext().packageName}_preferences.xml").length() > 0
@@ -207,7 +241,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                         ServiceHelper.jobSchedule(requireContext(),
                             AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
-                            1 * 60 * 60 * 1000 /* 1 hour */)
+                            (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
+                                ?.toLong() ?: 1L) * 60L * 60L * 1000L)
+
+                        frequencyOfAutoBackupSettings?.isEnabled = true
 
                         CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
@@ -263,6 +300,17 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(requireContext(),
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+
+    private fun getFrequencyOfAutoBackupSettingsSummary(): CharSequence? {
+
+        if(pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1") !in
+            resources.getStringArray(R.array.frequency_of_auto_backup_settings_values))
+            pref.edit().putString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1").apply()
+
+        return resources.getStringArray(R.array.frequency_of_auto_backup_settings_list)[
+                (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")?.toInt() ?: 1) - 1]
+
+    }
 
     private fun backupSettings() {
 

@@ -56,7 +56,9 @@ class MainApp : Application() {
             PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
             ServiceHelper.jobSchedule(this, AutoBackupSettingsJobService::class.java,
-                Constants.AUTO_BACKUP_SETTINGS_JOB_ID, 1 * 60 * 60 * 1000 /* 1 hour */)
+                Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(PreferencesKeys
+                    .FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
+                    ?.toLong() ?: 1L) * 60L * 60L * 1000L)
 
         else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
     }

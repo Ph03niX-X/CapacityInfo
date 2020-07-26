@@ -14,6 +14,7 @@ import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
@@ -47,7 +48,9 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                         Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED)
                     ServiceHelper.jobSchedule(context, AutoBackupSettingsJobService::class.java,
-                        Constants.AUTO_BACKUP_SETTINGS_JOB_ID, 1 * 60 * 60 * 1000 /* 1 hour */)
+                        Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(
+                            PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
+                            "1")?.toLong() ?: 1L) * 60L * 60L * 1000L)
             }
         }
     }

@@ -20,7 +20,7 @@ object ServiceHelper {
     fun startService(context: Context, serviceName: Class<*>,
                      isStartOverlayServiceFromSettings: Boolean = false) {
 
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.Main) {
 
             try {
 
@@ -155,5 +155,12 @@ object ServiceHelper {
         val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
 
         if(jobScheduler?.allPendingJobs?.isNotEmpty() == true) jobScheduler.cancelAll()
+    }
+
+    fun rescheduleJob(context: Context, jobName: Class<*>, jobId: Int, periodic: Long) {
+
+        cancelJob(context, jobId)
+
+        jobSchedule(context, jobName, jobId, periodic)
     }
 }
