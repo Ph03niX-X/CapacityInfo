@@ -27,6 +27,8 @@ class BootReceiver : BroadcastReceiver() {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+                ServiceHelper.cancelAllJobs(context)
+
                 if(CapacityInfoService.instance == null &&
                     !ServiceHelper.isStartedCapacityInfoService()) ServiceHelper.startService(
                     context, CapacityInfoService::class.java)
