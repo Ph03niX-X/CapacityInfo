@@ -48,4 +48,19 @@
         <item>Знос</item>
     </string-array>
 
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Година</item>
+        <item>2 Години</item>
+        <item>3 Години</item>
+        <item>4 Години</item>
+        <item>5 Годин</item>
+        <item>6 Годин</item>
+        <item>7 Годин</item>
+        <item>8 Годин</item>
+        <item>9 Годин</item>
+        <item>10 Годин</item>
+        <item>11 Годин</item>
+        <item>12 Годин</item>
+    </string-array>
+
 </resources>
