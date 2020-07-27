@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Informații baterie</string>
     <string name="design_capacity">Capacitate proiectată: %1$s mAh</string>
     <string name="residual_capacity">Capacitate reziduală: %1$s mAh (%2$s)</string>
     <string name="current_capacity">Capacitatea curentă: %1$s mAh</string>
@@ -20,6 +20,7 @@
     <string name="battery_technology">Tehnologia bateriei: %1$s</string>
     <string name="instruction_message">1. Pentru ca aplicația să arate capacitatea rămasă, puneți dispozitivul la încărcare, în timp ce serviciul trebuie să fie pornit.\n2. Pentru o afișare mai exactă a capacității rămase, încărcați dispozitivul complet până când este afișat \"Încărcat\".\n3. Dacă încărcarea continuă după ce a ajuns la 100%, acest lucru este normal. Dispozitivele moderne continuă să se încarce ceva timp după ce au ajuns la 100%.\n4. Dacă capacitatea de proiectare este incorectă, schimbați-o în setările aplicației.\n5. Dacă capacitatea curentă și/sau curentul de încărcare/descărcare și/sau tensiunea nu sunt afișate corect, atunci schimbați unitatea în setările aplicației.\n\n</string>
     <string name="instruction_message_do_not_kill_the_service">ATENȚIE! Nu opriți serviciul. Dacă sistemului de operare al dispozitivului îi place să \"oprească\" aplicații, sau să \"oprească\" complet aplicațiile recente atunci când le eliminați, sau dacă utilizați economisire de energie, adăugați această aplicație în toate excepțiile posibile. Dacă sistemului de operare al dispozitivului are o setare de pornire automată a aplicațiilor, asigurați-vă că această aplicație poate porni după încărcarea sistemului de operare.\n\n</string>
+    <string name="instruction_message_dont_kill_my_app">Dacă nu știţi ce și unde să configuraţi astfel încât aplicația să nu fie \"oprită\" de sistem, folosiţi serviciul \"Don\'t kill my app!\" prin alegerea producătorului dispozitivului dvs.\n\n</string>
     <string name="instruction_message_huawei_honor">ATENŢIE! Pe Huawei și Honor, este posibil ca capacitatea actuală să nu se afișeze corect. Din păcate, nu se poate face nimic în acest sens</string>
     <string name="status">Stare: %1$s</string>
     <string name="source_of_power">Sursa de alimentare: %1$s</string>
@@ -53,9 +54,7 @@
     <string name="license">Licență: Apache 2.0</string>
     <string name="romanian_translation">Traducere în română</string>
     <string name="belarusian_translation">Traducere în belorusă</string>
-    <string name="feedback">Feedback</string>
-    <string name="telegram">Telegram</string>
-    <string name="email">E-mail</string>
+    <string name="feedback">Opinii</string>
     <string name="telegram_link_copied">Link Telegram copiat</string>
     <string name="email_copied">E-mail copiat</string>
     <string name="auto_dark_mode">Modul întunecat automat</string>
@@ -197,7 +196,28 @@
     <string name="remaining_battery_time">Timpul rămas al bateriei: %1$s</string>
     <string name="remaining_battery_time_overlay">Timpul rămas al bateriei</string>
     <string name="only_values">Doar valori</string>
+    <string name="current_capacity_overlay_only_values">%1$s mAh</string>
+    <string name="capacity_added_overlay_only_values">%1$s mAh (%2$s)</string>
+    <string name="residual_capacity_overlay_only_values">%1$s mAh (%2$s)</string>
+    <string name="charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="max_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="average_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="min_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="voltage_overlay_only_values">%1$s V</string>
+    <string name="voltage_mv_overlay_only_values">%1$s mV</string>
+    <string name="battery_wear_overlay_only_values">%1$s (%2$s mAh)</string>
     <string name="close">Închidere</string>
     <string name="disable">Dezactivare</string>
     <string name="overlay_text_color">Culoare text</string>
+    <string name="backup">Copie de rezervă</string>
+    <string name="auto_backup">Setări copiere de rezervă</string>
+    <string name="auto_backup_summary">Cale: %1$s</string>
+    <string name="create_backup_settings">Setări copiere de rezervă</string>
+    <string name="settings_backup_successfully_created">Setările au fost create cu succes!</string>
+    <string name="error_backup_settings">Eroare!\n%1$s</string>
+    <string name="restore_settings_from_backup">Restabilire setări din copia de rezervă</string>
+    <string name="restore_settings_from_backup_3dots">Restabilire setări din copia de rezervă&#8230;</string>
+    <string name="settings_successfully_restored_from_backup">Setările au fost restaurate cu succes!</string>
+    <string name="error_restoring_settings_from_backup">Eroare la restaurarea setărilor!\n%1$s</string>
+    <string name="frequency_of_auto_backup_settings">Frecvență copiere de rezervă automată</string>
 </resources>
