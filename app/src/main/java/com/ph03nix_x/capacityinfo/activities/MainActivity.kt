@@ -260,11 +260,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         if(!isRecreate || (isRecreate && fragment !is SettingsFragment))
-        loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
-                BatteryStatusInformationFragment || fragment is BackupSettingsFragment
-                || fragment is OverlayFragment || fragment is AboutFragment
-                || fragment is FeedbackFragment)
-
+            loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
+                    BatteryStatusInformationFragment || fragment is BackupSettingsFragment
+                    || fragment is OverlayFragment || fragment is AboutFragment
+                    || fragment is FeedbackFragment)
     }
 
     override fun onResume() {
@@ -573,7 +572,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             replace(R.id.fragment_container, fragment)
             if(isAddToBackStack) addToBackStack(null)
 
-            if(!isRecreate) commit()
+            if(!isRecreate || fragment is ChargeDischargeFragment || fragment is WearFragment)
+                commit()
         }
 
         when {
