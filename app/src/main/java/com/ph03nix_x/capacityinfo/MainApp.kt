@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -29,8 +30,13 @@ class MainApp : Application() {
         var currentTheme = -1
 
         fun isGooglePlay(context: Context) =
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallerPackageName(
-                context.packageName)
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                    context.packageName).installingPackageName
+
+            else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+                .getInstallerPackageName(context.packageName)
     }
 
     override fun onCreate() {
