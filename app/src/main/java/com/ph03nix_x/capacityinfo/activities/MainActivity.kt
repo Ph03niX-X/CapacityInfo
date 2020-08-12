@@ -47,6 +47,10 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface {
 
@@ -142,8 +146,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging
             else R.string.discharge)
 
-        navigation.menu.findItem(R.id.charge_discharge_navigation).icon = getDrawable(
-            getChargeDischargeNavigationIcon(status ==
+        navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat.getDrawable(
+            this, getChargeDischargeNavigationIcon(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING))
 
         navigation.menu.findItem(R.id.debug_navigation).isVisible =
@@ -295,9 +299,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                 R.string.discharge)
 
-            navigation.menu.findItem(R.id.charge_discharge_navigation).icon = getDrawable(
-                getChargeDischargeNavigationIcon(status == BatteryManager
-                    .BATTERY_STATUS_CHARGING))
+            navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat
+                .getDrawable(this, getChargeDischargeNavigationIcon(status ==
+                        BatteryManager.BATTERY_STATUS_CHARGING))
         }
 
         if(CapacityInfoService.instance == null && !ServiceHelper.isStartedCapacityInfoService())
@@ -451,7 +455,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 Toast.makeText(this, R.string.press_the_back_button_again,
                     Toast.LENGTH_LONG).show()
 
-                Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 3000)
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    delay(3000L)
+                    isDoubleBackToExitPressedOnce = false
+                }
             }
         }
     }
@@ -600,7 +608,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 clearMenu()
 
-                toolbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_24dp)
+                toolbar.navigationIcon = ContextCompat.getDrawable(this,
+                    R.drawable.ic_arrow_back_24dp)
             }
         }
     }

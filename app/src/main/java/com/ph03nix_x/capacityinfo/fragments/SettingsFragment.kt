@@ -4,10 +4,10 @@ import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
-import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -128,7 +128,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 R.string.battery_status_information)
 
             mainActivity?.toolbar?.navigationIcon =
-                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
                 mainActivity?.fragment ?: BatteryStatusInformationFragment(),
@@ -205,7 +205,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             MainActivity.isRecreate = true
 
-            onChangeLanguage(requireContext(), ((newValue as? String) ?: defLang))
+            onChangeLanguage(requireContext(), ((newValue as? String) ?: MainApp.defLang))
 
             true
         }
@@ -243,7 +243,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 R.string.backup)
 
             mainActivity?.toolbar?.navigationIcon =
-                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
                 mainActivity?.fragment ?: BackupSettingsFragment(), true)
@@ -255,7 +255,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             if(it.title == requireContext().getString(R.string.more)) {
 
-                it.icon = requireContext().getDrawable(R.drawable.ic_more_less_24dp)
+                it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
                 unitOfChargeDischargeCurrent?.isVisible = true
@@ -270,7 +270,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             else {
 
-                it.icon = requireContext().getDrawable(R.drawable.ic_more_24dp)
+                it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
                 unitOfChargeDischargeCurrent?.isVisible = false
@@ -339,7 +339,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 R.string.overlay)
 
             mainActivity?.toolbar?.navigationIcon =
-                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
                 mainActivity?.fragment ?: OverlayFragment(), true)
@@ -407,7 +407,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 R.string.about)
 
             mainActivity?.toolbar?.navigationIcon =
-                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
                 mainActivity?.fragment ?: AboutFragment(), true)
@@ -423,7 +423,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 R.string.feedback)
 
             mainActivity?.toolbar?.navigationIcon =
-                requireContext().getDrawable(R.drawable.ic_arrow_back_24dp)
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
             mainActivity?.loadFragment(
                 mainActivity?.fragment ?: FeedbackFragment(), true)

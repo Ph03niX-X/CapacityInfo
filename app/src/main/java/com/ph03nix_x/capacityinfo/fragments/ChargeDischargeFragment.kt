@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
@@ -150,7 +151,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         chargeDischargeNavigation?.icon = mainContext
                             ?.getChargeDischargeNavigationIcon(
                                 status == BatteryManager.BATTERY_STATUS_CHARGING)?.let {
-                                requireContext().getDrawable(it)
+                                ContextCompat.getDrawable(requireContext(), it)
                         }
 
                         batteryLevel.text = getString(R.string.battery_level,

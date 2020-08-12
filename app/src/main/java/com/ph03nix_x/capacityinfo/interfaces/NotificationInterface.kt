@@ -966,6 +966,4 @@ interface NotificationInterface : BatteryInfoInterface {
                 DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
-
-
 }

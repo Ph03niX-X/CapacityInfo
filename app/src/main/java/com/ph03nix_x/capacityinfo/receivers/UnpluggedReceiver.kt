@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -133,7 +134,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                     chargeDischargeNavigation?.icon = MainActivity.instance
                         ?.getChargeDischargeNavigationIcon(false)?.let {
-                            context.getDrawable(it)
+                            ContextCompat.getDrawable(context, it)
                         }
                 }
             }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -82,7 +83,7 @@ class PluggedReceiver : BroadcastReceiver() {
                     chargeDischargeNavigation?.icon = MainActivity.instance
                         ?.getChargeDischargeNavigationIcon(status ==
                                 BatteryManager.BATTERY_STATUS_CHARGING)?.let {
-                            context.getDrawable(it)
+                            ContextCompat.getDrawable(context, it)
                         }
                 }
             }

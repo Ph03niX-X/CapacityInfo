@@ -119,7 +119,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         chargeDischargeNavigation?.icon = MainActivity.instance
                             ?.getChargeDischargeNavigationIcon(status == BatteryManager
                                 .BATTERY_STATUS_CHARGING)?.let {
-                                getDrawable(it)
+                                ContextCompat.getDrawable(this, it)
                             }
                     }
                 }

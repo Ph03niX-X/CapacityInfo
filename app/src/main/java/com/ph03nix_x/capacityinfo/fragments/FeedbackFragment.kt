@@ -86,8 +86,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
             true
         }
 
-        if(rateTheApp?.isVisible!!)
-
+        if(rateTheApp?.isVisible == true)
             rateTheApp?.setOnPreferenceClickListener {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri

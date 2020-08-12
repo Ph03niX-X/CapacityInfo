@@ -112,7 +112,8 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
             }
 
             true
@@ -126,7 +127,8 @@ class AboutFragment : PreferenceFragmentCompat() {
             }
             catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
             }
 
             true

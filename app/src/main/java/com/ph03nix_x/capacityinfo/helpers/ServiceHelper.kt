@@ -61,21 +61,6 @@ object ServiceHelper {
     fun stopService(context: Context, serviceName: Class<*>) =
         context.stopService(Intent(context, serviceName))
 
-    fun restartService(context: Context, serviceName: Class<*>) {
-
-        CoroutineScope(Dispatchers.Default).launch {
-
-            withContext(Dispatchers.Main) {
-
-                stopService(context, serviceName)
-
-                if(serviceName == CapacityInfoService::class.java) delay(2500L)
-
-                startService(context, serviceName)
-            }
-        }
-    }
-
     fun restartService(context: Context, serviceName: Class<*>, preference: Preference? = null) {
 
         CoroutineScope(Dispatchers.Default).launch {
@@ -90,28 +75,6 @@ object ServiceHelper {
 
                 delay(1000L)
                 preference?.isEnabled = true
-            }
-        }
-    }
-
-    fun restartService(context: Context, serviceName: Class<*>,
-                       preferencesList: ArrayList<Preference?>? = null) {
-
-        CoroutineScope(Dispatchers.Default).launch {
-
-            withContext(Dispatchers.Main) {
-
-                stopService(context, serviceName)
-
-                if(serviceName == CapacityInfoService::class.java) delay(2500L)
-
-                startService(context, serviceName)
-
-                delay(1000L)
-                preferencesList?.forEach {
-
-                    it?.isEnabled = true
-                }
             }
         }
     }

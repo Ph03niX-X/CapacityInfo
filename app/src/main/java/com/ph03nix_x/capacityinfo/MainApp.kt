@@ -67,8 +67,6 @@ class MainApp : Application() {
 
         super.onConfigurationChanged(newConfig)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
         val newTheme = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
