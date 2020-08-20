@@ -396,12 +396,17 @@ interface BatteryInfoInterface {
             val capacity = if(batteryLevel < 100) residualCapacity - currentCapacity
             else ((residualCapacity - currentCapacity) - 150.0)
 
-            chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
-                (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
+            if(chargeDischargeCurrent > 0.0) {
 
-            chargingTimeRemaining *= 3600.0
+                chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
+                    (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
 
-            TimeHelper.getTime(chargingTimeRemaining.toLong())
+                chargingTimeRemaining *= 3600.0
+
+                TimeHelper.getTime(chargingTimeRemaining.toLong())
+            }
+
+            else context.getString(R.string.unknown)
         }
 
         else if(currentCapacity > 0.0 && (currentCapacity >= residualCapacity
@@ -414,12 +419,17 @@ interface BatteryInfoInterface {
             val capacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
                 R.integer.min_design_capacity)) - currentCapacity
 
-            chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
-                (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
+            if(chargeDischargeCurrent > 0.0) {
 
-            chargingTimeRemaining *= 3600.0
+                chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
+                    (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
 
-            TimeHelper.getTime(chargingTimeRemaining.toLong())
+                chargingTimeRemaining *= 3600.0
+
+                TimeHelper.getTime(chargingTimeRemaining.toLong())
+            }
+
+            else context.getString(R.string.unknown)
         }
 
         else {
@@ -430,13 +440,18 @@ interface BatteryInfoInterface {
             val capacity = designCapacity - (designCapacity * (
                     batteryLevel.toDouble() / 100.0))
 
-            chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
-                (capacity / chargeDischargeCurrent) * 1.1
-            else capacity / chargeDischargeCurrent
+            if(chargeDischargeCurrent > 0.0) {
 
-            chargingTimeRemaining *= 3600.0
+                chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
+                    (capacity / chargeDischargeCurrent) * 1.1
+                else capacity / chargeDischargeCurrent
 
-            TimeHelper.getTime(chargingTimeRemaining.toLong())
+                chargingTimeRemaining *= 3600.0
+
+                TimeHelper.getTime(chargingTimeRemaining.toLong())
+            }
+
+            else context.getString(R.string.unknown)
         }
     }
 
@@ -444,7 +459,7 @@ interface BatteryInfoInterface {
 
         val currentCapacity = getOnCurrentCapacity(context)
 
-        return if(averageDischargeCurrent > 0) {
+        return if(averageDischargeCurrent > 0.0) {
 
             val remainingBatteryTime =
                 ((currentCapacity / averageDischargeCurrent) * 3600.0).toLong()
