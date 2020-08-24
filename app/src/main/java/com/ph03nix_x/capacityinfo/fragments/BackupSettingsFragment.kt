@@ -154,7 +154,12 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                 }
             }
 
-            else ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+            else {
+
+                frequencyOfAutoBackupSettings?.isEnabled = false
+
+                ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+            }
 
             true
         }
