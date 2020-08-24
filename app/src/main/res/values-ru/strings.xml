@@ -220,4 +220,5 @@
     <string name="settings_successfully_restored_from_backup">Настройки были успешно восстановлены из резервной копии!</string>
     <string name="error_restoring_settings_from_backup">Ошибка восстановления настроек из резервной копии!\n%1$s</string>
     <string name="frequency_of_auto_backup_settings">Частота автоматического резервного копирования настроек</string>
+    <string name="access_memory">Для резервного копирования, требуется доступ к памяти устройства. Предоставьте разрешение в следующем окне</string>
 </resources>
