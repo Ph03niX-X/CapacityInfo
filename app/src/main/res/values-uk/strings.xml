@@ -220,4 +220,5 @@
     <string name="settings_successfully_restored_from_backup">Налаштування були успішно відновлені з резервної копії!</string>
     <string name="error_restoring_settings_from_backup">Помилка відновлення налаштувань з резервної копії!\n%1$s</string>
     <string name="frequency_of_auto_backup_settings">Частота автоматичного резервного копіювання налаштувань</string>
+    <string name="access_memory">Для резервного копіювання, необхідно мати доступ до пам\'яті пристрою. Надайте дозвіл в наступному вікні</string>
 </resources>
