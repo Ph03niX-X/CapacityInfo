@@ -238,4 +238,5 @@
     <string name="settings_successfully_restored_from_backup">Settings have been successfully restored from backup!</string>
     <string name="error_restoring_settings_from_backup">Error restoring settings from backup!\n%1$s</string>
     <string name="frequency_of_auto_backup_settings">Frequency of Auto Backup Settings</string>
+    <string name="access_memory">To Backup, access to the device memory is required. Grant permission in the next window</string>
 </resources>

@@ -7,12 +7,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
@@ -70,7 +73,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         importSettings = findPreference("import_settings")
 
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && !isExternalStoragePermission()) {
+                R.bool.is_auto_backup_settings))
+            && ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                    !Environment.isExternalStorageManager()) ||
+                    (Build.VERSION.SDK_INT < Build.VERSION_CODES.R &&
+                            !isExternalStoragePermission()))) {
 
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
@@ -79,9 +86,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         frequencyOfAutoBackupSettings?.apply {
 
-            isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS,
-                requireContext().resources.getBoolean(R.bool.is_auto_backup_settings)) &&
-                    isExternalStoragePermission()
+            isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
+                .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
+                .VERSION_CODES.R && Environment.isExternalStorageManager()) || (Build.VERSION
+                .SDK_INT < Build.VERSION_CODES.R && isExternalStoragePermission()))
 
             summary = getFrequencyOfAutoBackupSettingsSummary()
         }
@@ -96,12 +104,38 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         autoBackupSettings?.setOnPreferenceChangeListener { _, newValue ->
 
-            if((newValue as? Boolean == true) && !isExternalStoragePermission())
+           val isAutoBackup = newValue as? Boolean
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && isAutoBackup == true &&
+                !Environment.isExternalStorageManager()) {
+
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
+                    setMessage(R.string.access_memory)
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+
+                        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            Uri.parse("package:${requireContext().packageName}"))
+
+                        startActivity(intent)
+                    }
+
+                    setCancelable(false)
+
+                    show()
+                }
+            }
+
+            else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isAutoBackup == true &&
+                !isExternalStoragePermission())
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE),
                     EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
 
-            else if((newValue as? Boolean == true) && isExternalStoragePermission()) {
+            else if((newValue as? Boolean == true) &&
+                ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                        Environment.isExternalStorageManager()) || (Build.VERSION.SDK_INT < Build
+                    .VERSION_CODES.R && isExternalStoragePermission()))) {
 
                 ServiceHelper.jobSchedule(requireContext(),
                     AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
@@ -139,7 +173,27 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         createBackupSettings?.setOnPreferenceClickListener {
 
-            if(!isExternalStoragePermission())
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                !Environment.isExternalStorageManager()) {
+
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
+                    setMessage(R.string.access_memory)
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+
+                        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            Uri.parse("package:${requireContext().packageName}"))
+
+                        startActivity(intent)
+                    }
+
+                    setCancelable(false)
+
+                    show()
+                }
+            }
+
+            else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && !isExternalStoragePermission())
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE),
                     EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
@@ -151,7 +205,28 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         restoreSettingsFromBackup?.setOnPreferenceClickListener {
 
-            if(!isExternalStoragePermission()) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                !Environment.isExternalStorageManager()) {
+
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
+                    setMessage(R.string.access_memory)
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+
+                        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            Uri.parse("package:${requireContext().packageName}"))
+
+                        startActivity(intent)
+                    }
+
+                    setCancelable(false)
+
+                    show()
+                }
+            }
+
+            else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R &&
+                !isExternalStoragePermission()) {
 
                 isRestoreSettingsFromBackup = !isRestoreSettingsFromBackup
 
@@ -206,8 +281,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
-        if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && !isExternalStoragePermission()) {
+        if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
+                .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
+                .VERSION_CODES.R && !Environment.isExternalStorageManager()) || (Build.VERSION
+                .SDK_INT < Build.VERSION_CODES.R && !isExternalStoragePermission()))) {
 
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
@@ -216,9 +293,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         frequencyOfAutoBackupSettings?.apply {
 
-            isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS,
-                requireContext().resources.getBoolean(R.bool.is_auto_backup_settings)) &&
-                    isExternalStoragePermission()
+            isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
+                .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
+                .VERSION_CODES.R && Environment.isExternalStorageManager()) || (Build.VERSION
+                .SDK_INT < Build.VERSION_CODES.R && isExternalStoragePermission()))
 
             summary = getFrequencyOfAutoBackupSettingsSummary()
         }
