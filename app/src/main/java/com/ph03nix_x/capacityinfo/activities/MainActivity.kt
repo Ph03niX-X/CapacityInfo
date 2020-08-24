@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
+    private var isRestoreImportSettings = false
     private var prefArrays: HashMap<*, *>? = null
 
     lateinit var toolbar: CenteredToolbar
@@ -416,11 +418,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onBackPressed() {
 
-        if(toolbar.title != getString(R.string.settings) && ((fragment != null
+        Toast.makeText(this, supportFragmentManager.backStackEntryCount.toString(),
+        Toast.LENGTH_LONG).show()
+
+        if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
             && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
             && fragment !is WearFragment && fragment !is DebugFragment
                     && fragment !is BackupSettingsFragment) || (fragment is BackupSettingsFragment
-                    && supportFragmentManager.backStackEntryCount == 1))) {
+                    && supportFragmentManager.backStackEntryCount > 0))) {
 
             fragment = SettingsFragment()
 
@@ -432,13 +437,16 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         else if(toolbar.title != getString(R.string.settings) &&
-            fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0) {
+            (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
+            || isRestoreImportSettings) {
 
             fragment = SettingsFragment()
 
             toolbar.title = getString(R.string.settings)
 
             toolbar.navigationIcon = null
+
+            isRestoreImportSettings = false
 
             loadFragment(fragment ?: SettingsFragment())
         }
@@ -685,6 +693,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         toolbar.menu.clear()
+
+        isRestoreImportSettings = true
 
         Toast.makeText(this, if(intent.getBooleanExtra(IS_RESTORE_SETTINGS_EXTRA,
                 false)) R.string.settings_successfully_restored_from_backup else
