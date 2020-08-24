@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.BatteryManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -417,9 +416,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     override fun onBackPressed() {
-
-        Toast.makeText(this, supportFragmentManager.backStackEntryCount.toString(),
-        Toast.LENGTH_LONG).show()
 
         if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
             && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
