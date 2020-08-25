@@ -227,7 +227,15 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     override fun onDestroy() {
 
-        if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
+        if(::wakeLock.isInitialized && wakeLock.isHeld) {
+
+            try {
+
+                wakeLock.release()
+            }
+
+            catch (e: java.lang.RuntimeException) {}
+        }
 
         instance = null
         isJob = false
