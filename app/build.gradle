@@ -61,6 +61,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation "androidx.documentfile:documentfile:1.0.1"
 
+    implementation 'com.google.android.play:core-ktx:1.8.1'
+
     // Color Picker
     implementation 'com.jaredrummler:colorpicker:1.1.0'
 

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
@@ -89,8 +90,25 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         if(rateTheApp?.isVisible == true)
             rateTheApp?.setOnPreferenceClickListener {
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri
-                    .parse("market://details?id=${requireContext().packageName}")))
+                val manager = ReviewManagerFactory.create(requireContext())
+
+                val request = manager.requestReviewFlow()
+
+                request.addOnCompleteListener {
+
+                    if(it.isSuccessful) {
+
+                        val flow = manager.launchReviewFlow(requireActivity(), it.result)
+
+                        if(!flow.isSuccessful) Toast.makeText(requireContext(),
+                            requireContext().getString(R.string.unknown_error),
+                            Toast.LENGTH_LONG).show()
+                    }
+
+                    else Toast.makeText(requireContext(), requireContext().getString(
+                        R.string.unknown_error), Toast.LENGTH_LONG).show()
+
+                }
 
                 true
             }
