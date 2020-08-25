@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         var isLoadSettings = false
         var isLoadDebug = false
         var isRecreate = false
+        var isOnBackPressed = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -417,51 +418,54 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onBackPressed() {
 
-        if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
-            && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
-            && fragment !is WearFragment && fragment !is DebugFragment
-                    && fragment !is BackupSettingsFragment) || (fragment is BackupSettingsFragment
-                    && supportFragmentManager.backStackEntryCount > 0))) {
+        if(isOnBackPressed) {
 
-            fragment = SettingsFragment()
+            if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
+                        && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
+                        && fragment !is WearFragment && fragment !is DebugFragment
+                        && fragment !is BackupSettingsFragment) || (fragment is BackupSettingsFragment
+                        && supportFragmentManager.backStackEntryCount > 0))) {
 
-            toolbar.title = getString(R.string.settings)
+                fragment = SettingsFragment()
 
-            toolbar.navigationIcon = null
+                toolbar.title = getString(R.string.settings)
 
-            super.onBackPressed()
-        }
+                toolbar.navigationIcon = null
 
-        else if(toolbar.title != getString(R.string.settings) &&
-            (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
-            || isRestoreImportSettings) {
+                super.onBackPressed()
+            }
 
-            fragment = SettingsFragment()
+            else if(toolbar.title != getString(R.string.settings) &&
+                (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
+                || isRestoreImportSettings) {
 
-            toolbar.title = getString(R.string.settings)
+                fragment = SettingsFragment()
 
-            toolbar.navigationIcon = null
+                toolbar.title = getString(R.string.settings)
 
-            isRestoreImportSettings = false
+                toolbar.navigationIcon = null
 
-            loadFragment(fragment ?: SettingsFragment())
-        }
+                isRestoreImportSettings = false
 
-        else {
+                loadFragment(fragment ?: SettingsFragment())
+            }
 
-            if(isDoubleBackToExitPressedOnce) finish()
+            else {
 
-            else if(!isDoubleBackToExitPressedOnce) {
+                if(isDoubleBackToExitPressedOnce) finish()
 
-                isDoubleBackToExitPressedOnce = true
+                else if(!isDoubleBackToExitPressedOnce) {
 
-                Toast.makeText(this, R.string.press_the_back_button_again,
-                    Toast.LENGTH_LONG).show()
+                    isDoubleBackToExitPressedOnce = true
 
-                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(this, R.string.press_the_back_button_again,
+                        Toast.LENGTH_LONG).show()
 
-                    delay(3000L)
-                    isDoubleBackToExitPressedOnce = false
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        delay(3000L)
+                        isDoubleBackToExitPressedOnce = false
+                    }
                 }
             }
         }

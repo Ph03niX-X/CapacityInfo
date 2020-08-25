@@ -18,6 +18,7 @@ import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
@@ -447,6 +448,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             try {
 
+                MainActivity.isOnBackPressed = false
+
                 withContext(Dispatchers.Main) {
 
                     Toast.makeText(context, R.string.restore_settings_from_backup_3dots,
@@ -479,6 +482,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     "${context?.filesDir?.parent}/shared_prefs/${context?.packageName}" +
                             "_preferences.xml"), true)
 
+                MainActivity.isOnBackPressed = true
+
                 withContext(Dispatchers.Main) {
 
                     restartApp(prefArrays, true)
@@ -486,6 +491,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             }
             catch(e: Exception) {
+
+                MainActivity.isOnBackPressed = true
 
                 withContext(Dispatchers.Main) {
 
@@ -505,6 +512,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
+
+                MainActivity.isOnBackPressed = false
 
                 val pickerDir = intent?.data?.let {
                     context?.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
@@ -536,6 +545,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                 withContext(Dispatchers.Main) {
 
+                    MainActivity.isOnBackPressed = true
+
                     Toast.makeText(context, context?.getString(R.string.successful_export_of_settings,
                         prefName), Toast.LENGTH_LONG).show()
                 }
@@ -544,6 +555,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             catch(e: Exception) {
 
                 withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
 
                     Toast.makeText(context, context?.getString(R.string.error_exporting_settings,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
@@ -560,6 +573,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
+
+                MainActivity.isOnBackPressed = false
 
                 withContext(Dispatchers.Main) {
 
@@ -619,6 +634,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                 withContext(Dispatchers.Main) {
 
+                    MainActivity.isOnBackPressed = true
+
                     restartApp(prefArrays)
                 }
             }
@@ -626,6 +643,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             catch(e: Exception) {
 
                 withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
 
                     Toast.makeText(context, context?.getString(R.string.error_importing_settings,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
