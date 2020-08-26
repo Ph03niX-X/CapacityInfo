@@ -43,6 +43,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private lateinit var maxChargeDischargeCurrent: AppCompatTextView
     private lateinit var averageChargeDischargeCurrent: AppCompatTextView
     private lateinit var minChargeDischargeCurrent: AppCompatTextView
+    private lateinit var chargingCurrentLimit: AppCompatTextView
     private lateinit var temperature: AppCompatTextView
     private lateinit var voltage: AppCompatTextView
     private lateinit var lastChargeTime: AppCompatTextView
@@ -80,6 +81,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         maxChargeDischargeCurrent = view.findViewById(R.id.max_charge_discharge_current)
         averageChargeDischargeCurrent = view.findViewById(R.id.average_charge_discharge_current)
         minChargeDischargeCurrent = view.findViewById(R.id.min_charge_discharge_current)
+        chargingCurrentLimit = view.findViewById(R.id.charging_current_limit)
         temperature = view.findViewById(R.id.temperature)
         voltage = view.findViewById(R.id.voltage)
         lastChargeTime = view.findViewById(R.id.last_charge_time)
@@ -416,6 +418,26 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         }
                     }
 
+                    val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
+
+                    withContext(Dispatchers.Main) {
+
+                        if(chargingCurrentLimit != null && chargingCurrentLimit.toInt() > 0) {
+
+                            if(this@ChargeDischargeFragment.chargingCurrentLimit.visibility ==
+                                View.GONE) this@ChargeDischargeFragment.chargingCurrentLimit
+                                .visibility = View.VISIBLE
+
+                            this@ChargeDischargeFragment
+                                .chargingCurrentLimit.text = requireContext().getString(R.string
+                                .charging_current_limit, chargingCurrentLimit)
+                        }
+
+                        else if(this@ChargeDischargeFragment.chargingCurrentLimit.visibility ==
+                            View.VISIBLE) this@ChargeDischargeFragment.chargingCurrentLimit
+                            .visibility = View.GONE
+                    }
+
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
@@ -477,6 +499,10 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
             pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), 
             minChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(),
+            chargingCurrentLimit, pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), temperature,

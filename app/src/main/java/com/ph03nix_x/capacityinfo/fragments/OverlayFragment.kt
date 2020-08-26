@@ -14,6 +14,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants.ACTION_MANAGE_OVERLAY_PERMISSION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -23,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_LEVEL_OVE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_ADDED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
@@ -46,7 +48,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import java.text.DecimalFormat
 
-class OverlayFragment : PreferenceFragmentCompat() {
+class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -81,6 +83,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
     private var maxChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var averageChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var minChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
+    private var chargingCurrentLimitOverlay: SwitchPreferenceCompat? = null
     private var temperatureOverlay: SwitchPreferenceCompat? = null
     private var voltageOverlay: SwitchPreferenceCompat? = null
     private var lastChargeTimeOverlay: SwitchPreferenceCompat? = null
@@ -89,6 +92,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
 
         LocaleHelper.setLocale(requireContext(), pref.getString(
             PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
@@ -195,6 +200,7 @@ class OverlayFragment : PreferenceFragmentCompat() {
         averageChargeDischargeCurrentOverlay =
             findPreference(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         minChargeDischargeCurrentOverlay = findPreference(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        chargingCurrentLimitOverlay = findPreference(IS_CHARGING_CURRENT_LIMIT_OVERLAY)
         temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
         voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
         lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
@@ -208,6 +214,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
             R.bool.is_supported))
         residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
             R.bool.is_supported))
+        chargingCurrentLimitOverlay?.isVisible = chargingCurrentLimit != null &&
+                chargingCurrentLimit.toInt() > 0
         batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
             R.bool.is_supported))
 
@@ -357,6 +365,14 @@ class OverlayFragment : PreferenceFragmentCompat() {
             true
         }
 
+        chargingCurrentLimitOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
         temperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
@@ -399,6 +415,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
+        val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
+
         remainingBatteryTimeOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources
             .getBoolean(R.bool.is_supported))
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
@@ -409,6 +427,8 @@ class OverlayFragment : PreferenceFragmentCompat() {
             R.bool.is_supported))
         residualCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
             R.bool.is_supported))
+        chargingCurrentLimitOverlay?.isVisible = chargingCurrentLimit != null &&
+                chargingCurrentLimit.toInt() > 0
         batteryWearOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
             R.bool.is_supported))
 

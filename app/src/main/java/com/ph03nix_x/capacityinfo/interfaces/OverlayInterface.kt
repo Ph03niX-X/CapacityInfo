@@ -51,6 +51,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
@@ -78,6 +79,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var maxChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var averageChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var minChargeDischargeCurrentOverlay: AppCompatTextView
+        private lateinit var chargingCurrentLimitOverlay: AppCompatTextView
         private lateinit var temperatureOverlay: AppCompatTextView
         private lateinit var voltageOverlay: AppCompatTextView
         private lateinit var lastChargeTimeOverlay: AppCompatTextView
@@ -123,7 +125,9 @@ interface OverlayInterface : BatteryInfoInterface {
                         IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
                             R.bool.is_average_charge_discharge_current_overlay)), getBoolean(
                         IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
-                            R.bool.is_min_charge_discharge_current_overlay)), getBoolean(
+                            R.bool.is_min_charge_discharge_current_overlay)),
+                    getBoolean(IS_CHARGING_CURRENT_LIMIT_OVERLAY, context.resources.getBoolean(
+                        R.bool.is_charging_current_limit_overlay)), getBoolean(
                         IS_TEMPERATURE_OVERLAY, context.resources.getBoolean(
                             R.bool.is_temperature_overlay)), getBoolean(IS_VOLTAGE_OVERLAY,
                         context.resources.getBoolean(R.bool.is_voltage_overlay)), getBoolean(
@@ -211,6 +215,7 @@ interface OverlayInterface : BatteryInfoInterface {
             .average_charge_discharge_current_overlay)
         minChargeDischargeCurrentOverlay = view.findViewById(R.id
             .min_charge_discharge_current_overlay)
+        chargingCurrentLimitOverlay = view.findViewById(R.id.charging_current_limit_overlay)
         temperatureOverlay = view.findViewById(R.id.temperature_overlay)
         voltageOverlay = view.findViewById(R.id.voltage_overlay)
         lastChargeTimeOverlay = view.findViewById(R.id.last_charge_time_overlay)
@@ -250,6 +255,7 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateMaxChargeDischargeCurrentOverlay(status)
         onUpdateAverageChargeDischargeCurrentOverlay(status)
         onUpdateMinChargeDischargeCurrentOverlay(status)
+        onUpdateChargingCurrentLimitOverlay()
         onUpdateTemperatureOverlay()
         onUpdateVoltageOverlay()
         onUpdateLastChargeTimeOverlay()
@@ -683,6 +689,32 @@ interface OverlayInterface : BatteryInfoInterface {
         }
     }
 
+    private fun onUpdateChargingCurrentLimitOverlay() {
+
+        if(pref.getBoolean(
+                IS_CHARGING_CURRENT_LIMIT_OVERLAY, chargingCurrentLimitOverlay.context.resources
+                    .getBoolean(R.bool.is_min_charge_discharge_current_overlay)) ||
+            chargingCurrentLimitOverlay.visibility == View.VISIBLE)
+            chargingCurrentLimitOverlay.apply {
+
+                TextAppearanceHelper.setTextAppearance(context, this,
+                    pref.getString(OVERLAY_TEXT_STYLE, "0"),
+                    pref.getString(OVERLAY_FONT, "6"),
+                    pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
+                text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                        .getBoolean(R.bool.is_only_values_overlay))) context.getString(
+                    R.string.charging_current_limit, getOnChargingCurrentLimit(context))
+                else context.getString(R.string.charging_current_limit_overlay_only_values,
+                    getOnChargingCurrentLimit(context))
+
+                visibility = if(pref.getBoolean(IS_CHARGING_CURRENT_LIMIT_OVERLAY, context
+                        .resources.getBoolean(R.bool.is_charging_current_limit_overlay)))
+                    View.VISIBLE else View.GONE
+            }
+    }
     private fun onUpdateTemperatureOverlay() {
 
         if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, temperatureOverlay.resources.getBoolean(

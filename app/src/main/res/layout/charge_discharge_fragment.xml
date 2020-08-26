@@ -168,6 +168,16 @@
                         android:layout_below="@id/average_charge_discharge_current"
                         android:fontFamily="@font/google_sans"/>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/charging_current_limit"
+                    android:text="@string/charging_current_limit"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/min_charge_discharge_current"
+                    android:fontFamily="@font/google_sans"/>
+
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>

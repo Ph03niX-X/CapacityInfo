@@ -43,6 +43,7 @@
     <bool name="is_max_charge_discharge_current_overlay">false</bool>
     <bool name="is_average_charge_discharge_current_overlay">false</bool>
     <bool name="is_min_charge_discharge_current_overlay">false</bool>
+    <bool name="is_charging_current_limit_overlay">false</bool>
     <bool name="is_temperature_overlay">false</bool>
     <bool name="is_voltage_overlay">false</bool>
     <bool name="is_last_charge_time_overlay">false</bool>

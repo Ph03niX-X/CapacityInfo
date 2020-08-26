@@ -240,4 +240,7 @@
     <string name="frequency_of_auto_backup_settings">Frequency of Auto Backup Settings</string>
     <string name="access_memory">To Backup, access to the device memory is required. Grant permission in the next window</string>
     <string name="unknown_error">Unknown Error!</string>
+    <string name="charging_current_limit">Charging Current Limit: %1$s mA</string>
+    <string name="charging_current_limit_overlay">Charging Current Limit</string>
+    <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
 </resources>

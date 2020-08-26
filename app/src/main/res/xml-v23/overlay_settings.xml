@@ -200,6 +200,13 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_charging_current_limit_overlay"
+            android:key="is_charging_current_limit_overlay"
+            android:title="@string/charging_current_limit_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_temperature_overlay"
                 android:key="is_temperature_overlay"
                 android:title="@string/temperature_overlay"
