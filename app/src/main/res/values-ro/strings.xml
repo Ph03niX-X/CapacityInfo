@@ -92,6 +92,8 @@
     <string name="voltage_unit">Unitate tensiune</string>
     <string name="faq_how_does_the_app_work">Întrebare: Cum funcționează aplicația?\nRăspuns: Capacitatea reziduală se formează pe baza capacității actuale la atingerea 100% și a statutului de \"Încărcat\". În timpul încărcării, se face o \"încercare\" de a afla capacitatea reziduală după următoarea formulă: capacitatea curentă / (nivelul bateriei / 100). Dacă nivelul de încărcare = 1% sau 0%, sau când se ajunge la 100%, încărcarea continuă, atunci în loc de calcul, capacitatea curentă este afișată în capacitatea rămasă. Capacitatea actuală este preluată de la nucleul sistemului de operare, chiar de API-ul Android, care vă permite să obțineți capacitatea actuală fără acces root. Nucleul preia capacitatea curentă de la baterie și o scrie în fișierul \"charge_counter\" (calea fișierului: /sys/class/power_supply/battery). Cât de exactă este capacitatea curentă depinde de baterie și de nucleu în sine.\n\n</string>
     <string name="faq_capacity_added">Întrebare: Cum se calculează \"Capacitate adăugată\"?\nRăspuns: \"Capacitatea adăugată\" se calculează foarte simplu: capacitatea actuală - capacitatea care a fost înainte de a conecta la încărcare.\n\n</string>
+    <string name="faq_where_does_the_app_get_the_ccl">Întrebare: De unde primeşte aplicaţia \"Limita curentului de încărcare\"?\nRăspuns: Aplicația obține \"Limita curentului de încărcare\" din fișierul nucleului \"constant_charge_current_max\" ce se află în /sys/class/power_supply/battery.\n\n</string>
+    <string name="faq_why_is_ccl_not_displayed">Întrebare: De ce nu este afișată \"Limita curentului de încărcare\"?\nRăspuns: Afișarea \"Limita curentului de încărcare\" depinde de cazul dacă fișierul \"constant_charge_current_max\" poate fi citit sau nu. Nu toate nucleele permit \"citirea\" acestui fișier și, de asemenea, nu toate nucleele au acest fișier.\n\n</string>
     <string name="faq_i_have_everything_in_zeros">Întrebare: Am totul (sau aproape totul) în zerouri. De ce?\nRăspuns: Deoarece producătorul dispozitivului dvs. a economisit pe diverși senzori. Și din moment ce nucleul nu poate obține valoarea, acesta returnează 0.\n\n</string>
     <string name="faq_units">Întrebare: Numere foarte mari sau mici sunt afișate în capacitatea curentă, curentul de încărcare/descărcare, tensiune.\nRăspuns: Accesați setările, în secțiunea \"Altele\", extindeți toate setările și schimbați unitatea de măsură.\n\n</string>
     <string name="faq_current_capacity">Întrebare: Capacitatea curentă a încetat să mai fie afișată, deși anterior a fost afișată (sau este afișată, dar nu întotdeauna).\nRăspuns: Aceasta înseamnă că bateria se apropie sau a ajuns deja la sfârșitul vieții. Dacă totul este în regulă cu bateria, atunci nucleul sau controlerul care furnizează capacitatea curentă, ar putea fi defectuos.\n\n</string>
@@ -220,4 +222,9 @@
     <string name="settings_successfully_restored_from_backup">Setările au fost restaurate cu succes!</string>
     <string name="error_restoring_settings_from_backup">Eroare la restaurarea setărilor!\n%1$s</string>
     <string name="frequency_of_auto_backup_settings">Frecvență copiere de rezervă automată</string>
+    <string name="access_memory">Pentru copie de rezervă este necesar accesul la memoria dispozitivului. Acordați permisiunea în următoarea fereastră</string>
+    <string name="unknown_error">Eroare necunoscută!</string>
+    <string name="charging_current_limit">Limita curentului de încărcare: %1$s mA</string>
+    <string name="charging_current_limit_overlay">Limita curentului de încărcare</string>
+    <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
 </resources>
