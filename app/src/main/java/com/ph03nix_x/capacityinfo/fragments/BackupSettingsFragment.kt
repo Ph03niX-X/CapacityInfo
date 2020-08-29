@@ -103,12 +103,14 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         createBackupSettings?.summary = autoBackupSettings?.summary
 
-        autoBackupSettings?.setOnPreferenceChangeListener { _, newValue ->
+        autoBackupSettings?.setOnPreferenceChangeListener { it, newValue ->
 
            val isAutoBackup = newValue as? Boolean
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && isAutoBackup == true &&
                 !Environment.isExternalStorageManager()) {
+
+                (it as? SwitchPreferenceCompat)?.isChecked = false
 
                 MaterialAlertDialogBuilder(requireContext()).apply {
 
