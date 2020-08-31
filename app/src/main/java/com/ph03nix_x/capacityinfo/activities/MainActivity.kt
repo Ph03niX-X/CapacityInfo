@@ -337,7 +337,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
                 R.bool.is_enabled_debug_options))
 
-        if(pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
+        if(!pref.contains(DESIGN_CAPACITY) ||
+            pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
             resources.getInteger(R.integer.min_design_capacity) || pref.getInt(DESIGN_CAPACITY,
                 resources.getInteger(R.integer.min_design_capacity)) > resources.getInteger(
                 R.integer.max_design_capacity)) {
