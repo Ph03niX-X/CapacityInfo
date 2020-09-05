@@ -64,6 +64,12 @@ Answer: Residual capacity is formed on the basis of the current capacity upon re
 Question: What is considered to be "Capacity Added"?
 Answer: "Capacity Added" is considered very simple: the current capacity - capacity, which was before you connected the charging.
 
+Question: Where does the application get the "Charging Current Limit"?
+Answer: The application takes the "Charging Current Limit" from the kernel file "constant_charge_current_max" along the path /sys/class/power_supply/battery.
+
+Question: Why is "Charging Current Limit" not displayed?
+Answer: The display "Charging Current Limit" depends on whether the file "constant_charge_current_max" is readable or not. Not all kernels allow "reading" this file, and also not all kernels have this file.
+
 Question: I have everything (or almost everything) in zeros. Why?
 Answer: Because the manufacturer of your device has saved on various sensors.  And since the kernel cannot get the value, it returns 0.
 
