@@ -40,6 +40,46 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 
 ---
 <p align="center">
+<b>About:</b>
+</p>
+
+Do you want to know the remaining battery capacity of your smartphone or tablet, or have you bought a new battery and want to check its capacity? Then this app is for you! Capacity Info can help you find out the remaining capacity of the battery or the actual capacity of a new battery. Also, using this application, you can find out the number of charging cycles, the temperature and voltage of the battery, find out the charging/discharging current, receive notifications when the battery is discharged (charge level is adjustable), when the battery is charged to a certain level of charge, when the battery is fully charged (Status "Charged"). Also, with the help of this application you can receive notifications of overheating/overcooling of the battery, as well as with this application you can find out the charging current limit (it is not always possible to get the charging current limit data). It is also possible to display values ​​in an overlay.
+
+P.S This application consumes <b>very little</b> energy in the background. The wakelock, which is in the application, is used <b>only</b> during charging, it is needed for the charging time (without it, Android "puts the application to sleep" after ~40 seconds for a while, so without it, the charging time will <b>be incorrect</b>). Therefore, using this application, you will not notice the loss of autonomy. The application is completely free and without ads, and will remain so forever.
+
+<b>Application Features:</b><br/>
+• Battery wear;<br/>
+• Residual capacity;<br/>
+• Added capacity during charging;<br/>
+• Current capacity;<br/>
+• Battery Level (%);<br/>
+• Charging status;<br/>
+• Charging/discharging current;<br/>
+• Maximum, average and minimum charging/discharging current;<br/>
+• Battery temperature;<br/>
+• Battery voltage;<br/>
+• The number of cycles;<br/>
+• Number of charges;<br/>
+• Battery condition;<br/>
+• Time of the last charge;<br/>
+• Battery technology;<br/>
+• Notification of a full charge, a certain level (%) of a charge, a certain level (%) of discharge, overheating and overcooling;<br/>
+• Resetting the number of charges;<br/>
+• Zeroing the number of cycles;<br/>
+• Overlay;<br/>
+• Light and dark theme;<br/>
+• Theme depending on the system theme (Android 10+);<br/>
+
+<b>Explanations of required permissions:</b><br/>
+• Access to device memory - needed to back up settings;<br/>
+• Wakelock - needed to ensure that the OS does not "lull" the application during charging, for the correct charging time;<br/>
+• On top of all windows - needed for overlay;<br/>
+• Launch after boot - needed so that the application starts itself after loading the OS.
+
+<b>Attention!</b> Before leaving a review or asking a question, read the instructions and follow them, as well as read the FAQ.
+
+---
+<p align="center">
 <b>Instruction:</b>
 </p>
 
