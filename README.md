@@ -58,26 +58,26 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 <b>FAQ:</b>
 </p>
 
-Question: How does the app work?
+Question: How does the app work?<br/>
 Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged". During charging, an "attempt" is made to find out the residual capacity by the following formula: current capacity  / (battery level / 100). If the charge level = 1% or 0%, or when it reaches 100%, charging continues, then instead of calculating, the current capacity is displayed in the remaining capacity. The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the core itself.
 
-Question: What is considered to be "Capacity Added"?
+Question: What is considered to be "Capacity Added"?<br/>
 Answer: "Capacity Added" is considered very simple: the current capacity - capacity, which was before you connected the charging.
 
-Question: Where does the application get the "Charging Current Limit"?
+Question: Where does the application get the "Charging Current Limit"?<br/>
 Answer: The application takes the "Charging Current Limit" from the kernel file "constant_charge_current_max" along the path /sys/class/power_supply/battery.
 
-Question: Why is "Charging Current Limit" not displayed?
+Question: Why is "Charging Current Limit" not displayed?<br/>
 Answer: The display "Charging Current Limit" depends on whether the file "constant_charge_current_max" is readable or not. Not all kernels allow "reading" this file, and also not all kernels have this file.
 
-Question: I have everything (or almost everything) in zeros. Why?
+Question: I have everything (or almost everything) in zeros. Why?<br/>
 Answer: Because the manufacturer of your device has saved on various sensors.  And since the kernel cannot get the value, it returns 0.
 
-Question: Very large or small numbers are shown in the current capacity, charge/discharge current, voltage.
+Question: Very large or small numbers are shown in the current capacity, charge/discharge current, voltage.<br/>
 Answer: Go to the settings, in the "Misc" section, expand all the settings and change the unit of measurement.
 
-Question: The current capacity has ceased to be displayed, although it was previously displayed (or is displayed, but not always).
+Question: The current capacity has ceased to be displayed, although it was previously displayed (or is displayed, but not always).<br/>
 Answer: This means that the battery is coming or has already come to an end. If everything is in order with the battery, then the firmware kernel or the controller, which gives the current capacity, may be buggy.
 
-Question: The device is not supported. Add device support.
+Question: The device is not supported. Add device support.<br/>
 Answer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or core does not give up the current capacity?
