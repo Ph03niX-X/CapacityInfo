@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -22,8 +21,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
@@ -53,17 +50,6 @@ class UnpluggedReceiver : BroadcastReceiver() {
                         batteryLevelWith / 100f)
 
                 pref.edit().apply {
-
-                    if(residualCapacity > 0 && CapacityInfoService.instance?.isFull != true) {
-
-                        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-                            == "μAh")
-                        putInt(RESIDUAL_CAPACITY,
-                            (((CapacityInfoService.instance?.getOnCurrentCapacity(
-                                context) ?: 0.0) * 1000.0).toInt()))
-                        else putInt(RESIDUAL_CAPACITY, (((CapacityInfoService.instance
-                            ?.getOnCurrentCapacity(context) ?: 0.0) * 100.0).toInt()))
-                    }
 
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
 

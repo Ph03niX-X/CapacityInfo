@@ -510,8 +510,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-            text = getOnResidualCapacity(context,
-                status == BatteryManager.BATTERY_STATUS_CHARGING, true)
+            text = getOnResidualCapacity(context,true)
 
             visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY,
                     context.resources.getBoolean(R.bool.is_residual_capacity_overlay)) &&

@@ -10,7 +10,6 @@ import android.view.Display
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -261,13 +260,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(!isFull && seconds > 1) {
 
             pref.edit().apply {
-
-                if(residualCapacity > 0) {
-
-                    if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-                        == "μAh") putInt(RESIDUAL_CAPACITY, (residualCapacity * 1000.0).toInt())
-                    else putInt(RESIDUAL_CAPACITY, (residualCapacity * 100.0).toInt())
-                }
 
                 putInt(LAST_CHARGE_TIME, if(seconds >= 60) seconds + ((seconds / 100) * (
                         seconds / 3600)) else seconds)

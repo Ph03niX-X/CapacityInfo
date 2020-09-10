@@ -697,7 +697,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 context))
 
             setTextViewText(R.id.residual_capacity_service_notification,
-                getOnResidualCapacity(context, true))
+                getOnResidualCapacity(context))
 
             setTextViewText(R.id.battery_wear_service_notification, getOnBatteryWear(
                 context))

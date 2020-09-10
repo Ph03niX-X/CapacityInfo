@@ -365,50 +365,22 @@ interface BatteryInfoInterface {
         }
     }
 
-    fun getOnResidualCapacity(
-        context: Context, isCharging: Boolean = false,
-        isOverlay: Boolean = false
-    ): String {
+    fun getOnResidualCapacity(context: Context, isOverlay: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(isCharging && batteryLevel < (getOnBatteryLevel(context) ?: 0)) {
+        residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
 
-            batteryLevel = getOnBatteryLevel(context) ?: 0
+        residualCapacity /= if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                "μAh") == "μAh") 1000.0 else 100.0
 
-            residualCapacity = getOnCurrentCapacity(context) / if(batteryLevel > 1)
-                (batteryLevel / 100.0) else 1.0
-        }
+        if(residualCapacity < 0.0) residualCapacity /= -1.0
 
-        else if(isCharging && batteryLevel == 100) residualCapacity = getOnCurrentCapacity(
-            context
-        )
-
-        else if(!isCharging) {
-
-            residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
-
-            residualCapacity /= if(pref.getString(
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                    "μAh"
-                ) == "μAh") 1000.0 else 100.0
-        }
-
-        if(residualCapacity < 0) residualCapacity /= -1
-
-        return context.getString(
-            if (!isOverlay) R.string.residual_capacity else
+        return context.getString(if(!isOverlay) R.string.residual_capacity else
                 R.string.residual_capacity_overlay_only_values, DecimalFormat("#.#").format(
-                residualCapacity
-            ), "${
-                DecimalFormat("#.#").format(
-                    (residualCapacity / pref.getInt(
-                        DESIGN_CAPACITY,
-                        context.resources.getInteger(R.integer.min_design_capacity)
-                    ).toDouble()) * 100.0
-                )
-            }%"
-        )
+                residualCapacity), "${DecimalFormat("#.#").format((
+                residualCapacity / pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                    R.integer.min_design_capacity)).toDouble()) * 100.0)}%")
     }
 
     fun getOnStatus(context: Context, extraStatus: Int): String {

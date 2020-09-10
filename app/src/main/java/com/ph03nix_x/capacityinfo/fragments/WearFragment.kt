@@ -202,11 +202,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             withContext(Dispatchers.Main) {
 
                                 residualCapacity.text = getOnResidualCapacity(
-                                    context ?: residualCapacity.context,
-                                    batteryIntent?.getIntExtra(
-                                        BatteryManager.EXTRA_STATUS, BatteryManager
-                                            .BATTERY_STATUS_UNKNOWN) == BatteryManager
-                                        .BATTERY_STATUS_CHARGING)
+                                    context ?: residualCapacity.context)
 
                                 batteryWear.text = getOnBatteryWear(
                                     context ?: batteryWear.context)
