@@ -227,4 +227,6 @@
     <string name="charging_current_limit">Межа зарядного струму: %1$s мА</string>
     <string name="charging_current_limit_overlay">Межа зарядного струму</string>
     <string name="charging_current_limit_overlay_only_values">%1$s мА</string>
+    <string name="backup_settings_to_microsd">Резервне копіювання налаштувань на MicroSD</string>
+    <string name="access_memory_card">Для резервного копіювання, потрібен доступ до карти пам\'яті. Надайте дозвіл в наступному вікні</string>
 </resources>
