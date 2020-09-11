@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (por defecto)</item>
+        <item>mA</item>
+    </string-array>
+    <string-array name="unit_of_charge_discharge_current_values">
+        <item>μA</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (por defecto)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_values">
+        <item>μAh</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (por defecto)</item>
+    </string-array>
+
+    <string-array name="voltage_unit_values">
+        <item>μV</item>
+        <item>mV</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Muy pequeño</item>
+        <item>Pequeño</item>
+        <item>Medio (por defecto)</item>
+        <item>Grande</item>
+        <item>Muy grande</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normal (por defecto)</item>
+        <item>Negrita</item>
+        <item>Italic</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Sistema</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Open Sans</item>
+        <item>Google Sans (Default)</item>
+        <item>San Francisco</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Oxygen</item>
+        <item>Indie Flower</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Carga/descarga (por defecto)</item>
+        <item>Desgaste</item>
+    </string-array>
+
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Hora</item>
+        <item>2 Horas</item>
+        <item>3 Horas</item>
+        <item>4 Horas</item>
+        <item>5 Horas</item>
+        <item>6 Horas</item>
+        <item>7 Horas</item>
+        <item>8 Horas</item>
+        <item>9 Horas</item>
+        <item>10 Horas</item>
+        <item>11 Horas</item>
+        <item>12 Horas</item>
+    </string-array>
+
+</resources>

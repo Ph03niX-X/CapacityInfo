@@ -2,6 +2,7 @@
 
     <string-array name="languages_list"> // Do Not Translation
         <item>English</item>
+        <item>Español</item>
         <item>Română</item>
         <item>Беларуская</item>
         <item>Русский</item>
@@ -10,6 +11,7 @@
 
     <string-array name="languages_codes"> // Do Not Translation
         <item>en</item>
+        <item>es</item>
         <item>ro</item>
         <item>be</item>
         <item>ru</item>

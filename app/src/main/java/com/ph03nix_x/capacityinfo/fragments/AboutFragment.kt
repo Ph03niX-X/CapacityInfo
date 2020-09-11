@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.utilities.Constants.SPANISH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
 class AboutFragment : PreferenceFragmentCompat() {
@@ -28,6 +29,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var github: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
+    private var spanishTranslation: Preference? = null
     private var betaTester: Preference? = null
 
     lateinit var pref: SharedPreferences
@@ -54,6 +56,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         romanianTranslation = findPreference("romanian_translation")
 
         belarusianTranslation = findPreference("belarusian_translation")
+
+        spanishTranslation = findPreference("spanish_translation")
 
         betaTester = findPreference("become_a_beta_tester")
 
@@ -124,6 +128,21 @@ class AboutFragment : PreferenceFragmentCompat() {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            true
+        }
+
+        spanishTranslation?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SPANISH_TRANSLATION_LINK)))
             }
             catch(e: ActivityNotFoundException) {
 

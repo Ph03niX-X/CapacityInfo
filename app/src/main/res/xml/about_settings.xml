@@ -51,6 +51,13 @@
             android:key="belarusian_translation"/>
 
     <Preference
+        app:title="@string/spanish_translation"
+        app:summary="Lockednet"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_spanish"
+        android:key="spanish_translation"/>
+
+    <Preference
             app:title="@string/become_a_beta_tester"
             app:summary="@string/become_a_beta_tester_summary"
             app:singleLineTitle="false"
