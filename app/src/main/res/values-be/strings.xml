@@ -227,4 +227,6 @@
     <string name="charging_current_limit">Мяжа зараднага току: %1$s мА</string>
     <string name="charging_current_limit_overlay">Мяжа зараднага току</string>
     <string name="charging_current_limit_overlay_only_values">%1$s мА</string>
+    <string name="backup_settings_to_microsd">Рэзервовае капіраванне налад на MicroSD</string>
+    <string name="access_memory_card">Для рэзервовага капіявання, патрабуецца доступ да карткі памяці. Падайце дазвол у наступным акне</string>
 </resources>
