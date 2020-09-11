@@ -605,7 +605,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-   private fun exportSettings(intent: Intent?) {
+    @Deprecated("Will be removed early 2021")
+    private fun exportSettings(intent: Intent?) {
 
         val prefPath = "${context?.filesDir?.parent}/shared_prefs/" +
                 "${context?.packageName}_preferences.xml"
@@ -667,7 +668,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-   private fun importSettings(uri: Uri?) {
+    @Deprecated("Will be removed early 2021")
+    private fun importSettings(uri: Uri?) {
 
         val prefPath = "${context?.filesDir?.parent}/shared_prefs/" +
                 "${context?.packageName}_preferences.xml"
