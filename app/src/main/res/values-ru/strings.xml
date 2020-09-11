@@ -227,4 +227,6 @@
     <string name="charging_current_limit">Предел зарядного тока: %1$s мА</string>
     <string name="charging_current_limit_overlay">Предел зарядного тока</string>
     <string name="charging_current_limit_overlay_only_values">%1$s мА</string>
+    <string name="backup_settings_to_microsd">Резервное копирование настроек на MicroSD</string>
+    <string name="access_memory_card">Для резервного копирования, требуется доступ к карте памяти. Предоставьте разрешение в следующем окне</string>
 </resources>
