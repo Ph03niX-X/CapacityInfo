@@ -12,11 +12,13 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
+import com.ph03nix_x.capacityinfo.MainApp.Companion.microSDPath
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
@@ -30,6 +32,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.EXTERNAL_STORAGE_PERMISSIO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -42,6 +45,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
     private lateinit var pref: SharedPreferences
 
     private var autoBackupSettings: SwitchPreferenceCompat? = null
+    private var backupSettingsToMicroSD: SwitchPreferenceCompat? = null
     private var frequencyOfAutoBackupSettings: ListPreference? = null
     private var createBackupSettings: Preference? = null
     private var restoreSettingsFromBackup: Preference? = null
@@ -59,9 +63,15 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.backup_settings)
 
-        backupPath = "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+        backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext()
+                .resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
+            isMicroSD()) "$microSDPath/Capacity Info/Backup"
+        else "${Environment.getExternalStorageDirectory()
+            .absolutePath}/Capacity Info/Backup"
 
         autoBackupSettings = findPreference(IS_AUTO_BACKUP_SETTINGS)
+
+        backupSettingsToMicroSD = findPreference(IS_BACKUP_SETTINGS_TO_MICROSD)
 
         frequencyOfAutoBackupSettings = findPreference(FREQUENCY_OF_AUTO_BACKUP_SETTINGS)
 
@@ -84,6 +94,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             autoBackupSettings?.isChecked = false
         }
+
+        backupSettingsToMicroSD?.isEnabled = isMicroSD()
 
         frequencyOfAutoBackupSettings?.apply {
 
@@ -110,12 +122,12 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && isAutoBackup == true &&
                 !Environment.isExternalStorageManager()) {
 
-                (it as? SwitchPreferenceCompat)?.isChecked = false
-
                 MaterialAlertDialogBuilder(requireContext()).apply {
 
                     setMessage(R.string.access_memory)
                     setPositiveButton(android.R.string.ok) { _, _ ->
+
+                        (it as? SwitchPreferenceCompat)?.isChecked = false
 
                         val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
                             Uri.parse("package:${requireContext().packageName}"))
@@ -162,6 +174,55 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                 frequencyOfAutoBackupSettings?.isEnabled = false
 
                 ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+            }
+
+            true
+        }
+
+        backupSettingsToMicroSD?.setOnPreferenceChangeListener { it, newValue ->
+
+            if((newValue as? Boolean == true) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !Environment.isExternalStorageManager()) {
+
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
+                    setMessage(R.string.access_memory_card)
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+
+                        (it as? SwitchPreferenceCompat)?.isChecked = false
+
+                        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            Uri.parse("package:${requireContext().packageName}"))
+
+                        startActivity(intent)
+                    }
+
+                    setCancelable(false)
+
+                    show()
+                }
+            }
+
+            else if((newValue as? Boolean == true) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && Environment.isExternalStorageManager()) {
+
+                if(microSDPath == null) isMicroSD()
+
+                backupPath = "$microSDPath/Capacity Info/Backup"
+
+                autoBackupSettings?.summary = getString(R.string.auto_backup_summary, backupPath)
+
+                createBackupSettings?.summary = autoBackupSettings?.summary
+            }
+
+            else if((newValue as? Boolean != true)) {
+
+                backupPath = "${Environment.getExternalStorageDirectory()
+                    .absolutePath}/Capacity Info/Backup"
+
+                autoBackupSettings?.summary = getString(R.string.auto_backup_summary, backupPath)
+
+                createBackupSettings?.summary = autoBackupSettings?.summary
             }
 
             true
@@ -299,6 +360,18 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             autoBackupSettings?.isChecked = false
         }
 
+        backupSettingsToMicroSD?.isEnabled = isMicroSD()
+
+        val backupPath =
+            if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext()
+                    .resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
+                        isMicroSD()) "$microSDPath/Capacity Info/Backup"
+            else "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+
+        autoBackupSettings?.summary = backupPath
+
+        createBackupSettings?.summary = autoBackupSettings?.summary
+
         frequencyOfAutoBackupSettings?.apply {
 
             isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
@@ -381,6 +454,29 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    private fun isMicroSD(): Boolean {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+            val files = ContextCompat.getExternalFilesDirs(requireContext(), null)
+
+            for (m: File? in files) {
+
+                if(m?.listFiles() != null)
+                    if (m.path.contains("-", true)) {
+
+                        microSDPath = m.parentFile?.parentFile?.parentFile?.parentFile?.absolutePath
+
+                        return true
+                    }
+            }
+        }
+
+        microSDPath = null
+
+        return false
+    }
+
     private fun isExternalStoragePermission() =
         checkSelfPermission(requireContext(),
             Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
@@ -405,7 +501,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             try {
 
                 val backupPath =
-                    "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+                    if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext()
+                            .resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
+                                isMicroSD()) "$microSDPath/Capacity Info/Backup"
+                    else "${Environment.getExternalStorageDirectory()
+                        .absolutePath}/Capacity Info/Backup"
 
                 if(!File(backupPath).exists()) File(backupPath).mkdirs()
 

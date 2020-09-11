@@ -27,6 +27,8 @@ class MainApp : Application() {
         var isPowerConnected = false
         var isInstalledGooglePlay = true
 
+        var microSDPath: String? = null
+
         var currentTheme = -1
 
         fun isGooglePlay(context: Context) =

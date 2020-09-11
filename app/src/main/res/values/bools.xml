@@ -23,6 +23,7 @@
 
     <!--Backup-->
     <bool name="is_auto_backup_settings">false</bool>
+    <bool name="is_backup_settings_to_microsd">false</bool>
 
     <!--Overlay-->
     <bool name="is_enabled_overlay">false</bool>

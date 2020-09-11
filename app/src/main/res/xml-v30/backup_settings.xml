@@ -11,6 +11,12 @@
         app:icon="@drawable/ic_backup"
         android:key="is_auto_backup_settings"/>
 
+    <SwitchPreferenceCompat
+        android:title="@string/backup_settings_to_microsd"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_backup_settings_to_microsd"
+        android:key="is_backup_settings_to_microsd"/>
+
     <ListPreference
         android:title="@string/frequency_of_auto_backup_settings"
         app:singleLineTitle="false"
@@ -35,7 +41,7 @@
         android:enabled="false"
         app:icon="@drawable/ic_restore_settings_from_backup"
         android:key="restore_settings_from_backup"/>
-    
+
     <Preference
         android:title="@string/export_settings"
         app:singleLineTitle="false"

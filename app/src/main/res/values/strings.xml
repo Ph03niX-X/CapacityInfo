@@ -245,4 +245,6 @@
     <string name="charging_current_limit">Charging Current Limit: %1$s mA</string>
     <string name="charging_current_limit_overlay">Charging Current Limit</string>
     <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
+    <string name="backup_settings_to_microsd">Backup Settings to MicroSD</string>
+    <string name="access_memory_card">For backup, access to the memory card is required. Grant permission in the next window</string>
 </resources>
