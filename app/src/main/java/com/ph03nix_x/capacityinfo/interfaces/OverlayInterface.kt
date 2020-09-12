@@ -51,10 +51,12 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import java.text.DecimalFormat
 
@@ -69,6 +71,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var chargingTimeOverlay: AppCompatTextView
         private lateinit var chargingTimeRemainingOverlay: AppCompatTextView
         private lateinit var remainingBatteryTimeOverlay: AppCompatTextView
+        private lateinit var screenTimeOverlay: AppCompatTextView
         private lateinit var currentCapacityOverlay: AppCompatTextView
         private lateinit var capacityAddedOverlay: AppCompatTextView
         private lateinit var batteryHealthOverlay: AppCompatTextView
@@ -107,6 +110,8 @@ interface OverlayInterface : BatteryInfoInterface {
                             R.bool.is_charging_time_remaining_overlay)), getBoolean(
                         IS_REMAINING_BATTERY_TIME_OVERLAY, context.resources.getBoolean(
                             R.bool.is_remaining_battery_time_overlay)), getBoolean(
+                        IS_SCREEN_TIME_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_screen_time_overlay)), getBoolean(
                         IS_CURRENT_CAPACITY_OVERLAY, context.resources.getBoolean(
                             R.bool.is_current_capacity_overlay)), getBoolean(
                         IS_CAPACITY_ADDED_OVERLAY, context.resources.getBoolean(
@@ -202,6 +207,7 @@ interface OverlayInterface : BatteryInfoInterface {
         chargingTimeOverlay = view.findViewById(R.id.charging_time_overlay)
         chargingTimeRemainingOverlay = view.findViewById(R.id.charging_time_remaining_overlay)
         remainingBatteryTimeOverlay = view.findViewById(R.id.remaining_battery_time_overlay)
+        screenTimeOverlay = view.findViewById(R.id.screen_time_overlay)
         currentCapacityOverlay = view.findViewById(R.id.current_capacity_overlay)
         capacityAddedOverlay = view.findViewById(R.id.capacity_added_overlay)
         batteryHealthOverlay = view.findViewById(R.id.battery_health_overlay)
@@ -245,6 +251,7 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateChargingTimeOverlay()
         onUpdateChargingTimeRemainingOverlay(status)
         onUpdateRemainingBatteryTimeOverlay(status)
+        onUpdateScreenTimeOverlay()
         onUpdateCurrentCapacityOverlay()
         onUpdateCapacityAddedOverlay()
         onUpdateBatteryHealthOverlay()
@@ -409,13 +416,34 @@ interface OverlayInterface : BatteryInfoInterface {
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                        .getBoolean(R.bool.is_only_values_overlay)))R.string.remaining_battery_time
+                        .getBoolean(R.bool.is_only_values_overlay))) R.string.remaining_battery_time
                 else R.string.remaining_battery_time_overlay_only_values, getOnRemainingBatteryTime(
                     context))
 
                 visibility = if(pref.getBoolean(IS_REMAINING_BATTERY_TIME_OVERLAY, context
                         .resources.getBoolean(R.bool.is_remaining_battery_time_overlay)) &&
                     status != BatteryManager.BATTERY_STATUS_CHARGING) View.VISIBLE else View.GONE
+            }
+    }
+
+    private fun onUpdateScreenTimeOverlay() {
+
+        if(pref.getBoolean(IS_SCREEN_TIME_OVERLAY, screenTimeOverlay.context.resources
+                .getBoolean(R.bool.is_screen_time_overlay)))
+
+            screenTimeOverlay.apply {
+
+                TextAppearanceHelper.setTextAppearance(context, this,
+                    pref.getString(OVERLAY_TEXT_STYLE, "0"),
+                    pref.getString(OVERLAY_FONT, "6"),
+                    pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
+                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
+                        context.resources.getBoolean(R.bool.is_only_values_overlay)))
+                    R.string.screen_time else R.string.screen_time_overlay_only_values,
+                    TimeHelper.getTime(CapacityInfoService.instance?.screenTime ?: 0L))
             }
     }
 

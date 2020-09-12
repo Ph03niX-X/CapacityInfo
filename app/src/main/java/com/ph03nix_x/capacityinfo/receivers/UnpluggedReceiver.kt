@@ -81,6 +81,8 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                 CapacityInfoService.instance?.seconds = 0
 
+                if(batteryLevel >= 90) CapacityInfoService.instance?.screenTime = 0L
+
                 BatteryInfoInterface.batteryLevel = 0
 
                 BatteryInfoInterface.maxChargeCurrent = 0

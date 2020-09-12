@@ -38,6 +38,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SOURCE_OF_POWER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESIDUAL_CAPACITY_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_TEMPERATURE_OVERLAY
@@ -72,6 +73,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private var chargingTimeOverlay: SwitchPreferenceCompat? = null
     private var chargingTimeRemainingOverlay: SwitchPreferenceCompat? = null
     private var remainingBatteryTimeOverlay: SwitchPreferenceCompat? = null
+    private var screenTimeOverlay: SwitchPreferenceCompat? = null
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var capacityAddedOverlay: SwitchPreferenceCompat? = null
@@ -189,6 +191,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         chargingTimeOverlay = findPreference(IS_CHARGING_TIME_OVERLAY)
         chargingTimeRemainingOverlay = findPreference(IS_CHARGING_TIME_REMAINING_OVERLAY)
         remainingBatteryTimeOverlay = findPreference(IS_REMAINING_BATTERY_TIME_OVERLAY)
+        screenTimeOverlay = findPreference(IS_SCREEN_TIME_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
         batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
@@ -263,6 +266,14 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         }
 
         remainingBatteryTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        screenTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)

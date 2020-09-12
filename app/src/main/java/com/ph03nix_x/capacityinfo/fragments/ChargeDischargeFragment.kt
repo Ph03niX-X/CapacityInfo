@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
@@ -35,6 +36,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private lateinit var chargingTime: AppCompatTextView
     private lateinit var chargingTimeRemaining: AppCompatTextView
     private lateinit var remainingBatteryTime: AppCompatTextView
+    private lateinit var screenTime: AppCompatTextView
     private lateinit var currentCapacity: AppCompatTextView
     private lateinit var capacityAdded: AppCompatTextView
     private lateinit var status: AppCompatTextView
@@ -73,6 +75,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         chargingTime = view.findViewById(R.id.charging_time)
         chargingTimeRemaining = view.findViewById(R.id.charging_time_remaining)
         remainingBatteryTime = view.findViewById(R.id.remaining_battery_time)
+        screenTime = view.findViewById(R.id.screen_time)
         currentCapacity = view.findViewById(R.id.current_capacity_charge_discharge)
         capacityAdded = view.findViewById(R.id.capacity_added_charge_discharge)
         status = view.findViewById(R.id.status)
@@ -390,6 +393,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             if(minChargeDischargeCurrent.visibility == View.GONE)
                                 minChargeDischargeCurrent.visibility = View.VISIBLE
 
+                            screenTime.text = getString(R.string.screen_time, TimeHelper.getTime(
+                                CapacityInfoService.instance?.screenTime ?: 0L))
+
                             maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
                                 BatteryInfoInterface.maxDischargeCurrent)
 
@@ -466,6 +472,10 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), remainingBatteryTime,
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), screenTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))

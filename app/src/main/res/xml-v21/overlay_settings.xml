@@ -130,6 +130,13 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_screen_time_overlay"
+            android:key="is_screen_time_overlay"
+            android:title="@string/screen_time_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_current_capacity_overlay"
                 android:key="is_current_capacity_overlay"
                 android:title="@string/current_capacity_overlay"

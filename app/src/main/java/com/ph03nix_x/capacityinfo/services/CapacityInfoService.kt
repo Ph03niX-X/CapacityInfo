@@ -52,13 +52,16 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private lateinit var pref: SharedPreferences
     private lateinit var powerManager: PowerManager
     private lateinit var wakeLock: PowerManager.WakeLock
+    private var screenTimeJob: Job? = null
     private var jobService: Job? = null
+    private var isScreenTimeJob = false
     private var isJob = false
     var isFull = false
     var isStopService = false
     var isSaveNumberOfCharges = true
     var batteryLevelWith = -1
     var seconds = 0
+    var screenTime = 0L
 
     companion object {
 
@@ -151,6 +154,32 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
 
+        if(screenTimeJob == null)
+            screenTimeJob = CoroutineScope(Dispatchers.Default).launch {
+
+                isScreenTimeJob = !isScreenTimeJob
+
+                while(isScreenTimeJob && !isStopService) {
+
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                        BatteryManager.BATTERY_STATUS_UNKNOWN)
+
+                    if(status == BatteryManager.BATTERY_STATUS_DISCHARGING
+                        && !isPowerConnected) {
+
+                        val displayManager = getSystemService(Context.DISPLAY_SERVICE)
+                                as? DisplayManager
+
+                        if(displayManager != null)
+                            for(display in displayManager.displays)
+                                if(display.state == Display.STATE_ON) screenTime++
+                    }
+
+                    delay(998L)
+
+                }
+            }
+
         if(jobService == null)
             jobService = CoroutineScope(Dispatchers.Default).launch {
 
@@ -216,7 +245,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                             if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
 
-                            delay(2998L)
+                            delay(2997L)
                     }
                 }
             }
@@ -237,8 +266,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         instance = null
+        isScreenTimeJob = false
         isJob = false
+        screenTimeJob?.cancel()
         jobService?.cancel()
+        screenTimeJob = null
         jobService = null
 
         NotificationInterface.isNotifyOverheatOvercool = true

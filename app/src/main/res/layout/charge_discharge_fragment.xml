@@ -57,15 +57,25 @@
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/remaining_battery_time"
-                        android:visibility="gone"
-                        android:text="@string/remaining_battery_time"
-                        android:textSize="@dimen/medium_text_size"
-                        android:gravity="center"
-                        android:layout_below="@id/charging_time_remaining"
-                        android:fontFamily="@font/google_sans"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remaining_battery_time"
+                    android:visibility="gone"
+                    android:text="@string/remaining_battery_time"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/charging_time_remaining"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/screen_time"
+                    android:text="@string/screen_time"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/remaining_battery_time"
+                    android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -75,7 +85,7 @@
                         android:text="@string/current_capacity"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
-                        android:layout_below="@id/remaining_battery_time"
+                        android:layout_below="@id/screen_time"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
