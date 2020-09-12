@@ -4,29 +4,15 @@
         <item>μA (por defecto)</item>
         <item>mA</item>
     </string-array>
-    <string-array name="unit_of_charge_discharge_current_values">
-        <item>μA</item>
-        <item>mA</item>
-    </string-array>
 
     <string-array name="unit_of_measurement_of_current_capacity_list">
         <item>μAh (por defecto)</item>
         <item>mAh</item>
     </string-array>
 
-    <string-array name="unit_of_measurement_of_current_capacity_values">
-        <item>μAh</item>
-        <item>mAh</item>
-    </string-array>
-
     <string-array name="voltage_unit_list">
         <item>μV</item>
         <item>mV (por defecto)</item>
-    </string-array>
-
-    <string-array name="voltage_unit_values">
-        <item>μV</item>
-        <item>mV</item>
     </string-array>
 
     <string-array name="text_size_list">
