@@ -229,4 +229,7 @@
     <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
     <string name="backup_settings_to_microsd">Ajustes de copia de seguridad en MicroSD</string>
     <string name="access_memory_card">Para la copia de seguridad, se requiere acceso a la tarjeta de memoria. Conceder permisos en la siguiente ventana</string>
+    <string name="spanish_translation">traducción al español</string>
+    <string name="screen_time">Tiempo de pantalla:%1$s </string>
+    <string name="screen_time_overlay">Tiempo de pantalla</string>
 </resources>
