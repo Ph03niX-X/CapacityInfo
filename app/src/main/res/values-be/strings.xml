@@ -229,4 +229,7 @@
     <string name="charging_current_limit_overlay_only_values">%1$s мА</string>
     <string name="backup_settings_to_microsd">Рэзервовае капіраванне налад на MicroSD</string>
     <string name="access_memory_card">Для рэзервовага капіявання, патрабуецца доступ да карткі памяці. Падайце дазвол у наступным акне</string>
+    <string name="spanish_translation">Іспанскі пераклад</string>
+    <string name="screen_time">Час працы экрана: %1$s</string>
+    <string name="screen_time_overlay">Час працы экрана</string>
 </resources>
