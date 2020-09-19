@@ -370,16 +370,32 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                 if(minChargeDischargeCurrent.visibility == View.GONE)
                                     minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                maxChargeDischargeCurrent.text =getString(R.string.max_charge_current,
-                                    BatteryInfoInterface.maxChargeCurrent)
+                                if(status == BatteryManager.BATTERY_STATUS_NOT_CHARGING
+                                    && sourceOfPower == -1)
+                                    screenTime.text = getString(R.string.screen_time, TimeHelper
+                                        .getTime(CapacityInfoService.instance
+                                            ?.screenTime ?: 0L))
 
-                                averageChargeDischargeCurrent.text = getString(
-                                    R.string.average_charge_current,
-                                    BatteryInfoInterface.averageChargeCurrent)
+                                maxChargeDischargeCurrent.text = if(status == BatteryManager
+                                        .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
+                                    getString(R.string.max_charge_current, BatteryInfoInterface
+                                        .maxChargeCurrent) else
+                                    getString(R.string.max_discharge_current, BatteryInfoInterface
+                                        .maxDischargeCurrent)
 
-                                minChargeDischargeCurrent.text = getString(
-                                    R.string.min_charge_current,
-                                    BatteryInfoInterface.minChargeCurrent)
+                                averageChargeDischargeCurrent.text = if(status == BatteryManager
+                                        .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
+                                    getString(R.string.average_charge_current, BatteryInfoInterface
+                                        .averageChargeCurrent) else
+                                    getString(R.string.average_discharge_current, BatteryInfoInterface
+                                        .averageDischargeCurrent)
+
+                                minChargeDischargeCurrent.text = if(status == BatteryManager
+                                        .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
+                                    getString(R.string.min_charge_current, BatteryInfoInterface
+                                        .minChargeCurrent) else
+                                    getString(R.string.min_discharge_current, BatteryInfoInterface
+                                        .minDischargeCurrent)
                             }
 
                         BatteryManager.BATTERY_STATUS_DISCHARGING -> withContext(Dispatchers.Main) {
@@ -392,9 +408,6 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                             if(minChargeDischargeCurrent.visibility == View.GONE)
                                 minChargeDischargeCurrent.visibility = View.VISIBLE
-
-                            screenTime.text = getString(R.string.screen_time, TimeHelper.getTime(
-                                CapacityInfoService.instance?.screenTime ?: 0L))
 
                             maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
                                 BatteryInfoInterface.maxDischargeCurrent)
