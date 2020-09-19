@@ -99,7 +99,7 @@ P.S This application consumes <b>very little</b> energy in the background. The w
 </p>
 
 Question: How does the app work?<br/>
-Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged". During charging, an "attempt" is made to find out the residual capacity by the following formula: current capacity  / (battery level / 100). If the charge level = 1% or 0%, or when it reaches 100%, charging continues, then instead of calculating, the current capacity is displayed in the remaining capacity. The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the core itself.
+Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged". The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the core itself.
 
 Question: What is considered to be "Capacity Added"?<br/>
 Answer: "Capacity Added" is considered very simple: the current capacity - capacity, which was before you connected the charging.
