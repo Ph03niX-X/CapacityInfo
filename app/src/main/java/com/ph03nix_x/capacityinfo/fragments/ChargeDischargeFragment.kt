@@ -356,8 +356,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL,
-                        BatteryManager.BATTERY_STATUS_NOT_CHARGING ->
+                        BatteryManager.BATTERY_STATUS_CHARGING,
+                        BatteryManager.BATTERY_STATUS_FULL ->
 
                             withContext(Dispatchers.Main) {
 
@@ -369,12 +369,6 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                                 if(minChargeDischargeCurrent.visibility == View.GONE)
                                     minChargeDischargeCurrent.visibility = View.VISIBLE
-
-                                if(status == BatteryManager.BATTERY_STATUS_NOT_CHARGING
-                                    && sourceOfPower == -1)
-                                    screenTime.text = getString(R.string.screen_time, TimeHelper
-                                        .getTime(CapacityInfoService.instance
-                                            ?.screenTime ?: 0L))
 
                                 maxChargeDischargeCurrent.text = if(status == BatteryManager
                                         .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
@@ -408,10 +402,6 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                             if(minChargeDischargeCurrent.visibility == View.GONE)
                                 minChargeDischargeCurrent.visibility = View.VISIBLE
-
-                            screenTime.text = getString(R.string.screen_time, TimeHelper
-                                .getTime(CapacityInfoService.instance
-                                    ?.screenTime ?: 0L))
 
                             maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
                                 BatteryInfoInterface.maxDischargeCurrent)
@@ -459,6 +449,10 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         else if(this@ChargeDischargeFragment.chargingCurrentLimit.visibility ==
                             View.VISIBLE) this@ChargeDischargeFragment.chargingCurrentLimit
                             .visibility = View.GONE
+
+                        screenTime.text = getString(R.string.screen_time, TimeHelper
+                            .getTime(CapacityInfoService.instance
+                                ?.screenTime ?: 0L))
                     }
 
                     when(status) {

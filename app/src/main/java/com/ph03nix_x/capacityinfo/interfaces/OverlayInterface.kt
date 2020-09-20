@@ -429,7 +429,8 @@ interface OverlayInterface : BatteryInfoInterface {
     private fun onUpdateScreenTimeOverlay() {
 
         if(pref.getBoolean(IS_SCREEN_TIME_OVERLAY, screenTimeOverlay.context.resources
-                .getBoolean(R.bool.is_screen_time_overlay)))
+                .getBoolean(R.bool.is_screen_time_overlay)) || screenTimeOverlay.visibility ==
+            View.VISIBLE)
 
             screenTimeOverlay.apply {
 
@@ -444,6 +445,9 @@ interface OverlayInterface : BatteryInfoInterface {
                         context.resources.getBoolean(R.bool.is_only_values_overlay)))
                     R.string.screen_time else R.string.screen_time_overlay_only_values,
                     TimeHelper.getTime(CapacityInfoService.instance?.screenTime ?: 0L))
+
+                visibility = if(pref.getBoolean(IS_SCREEN_TIME_OVERLAY, context.resources
+                        .getBoolean(R.bool.is_screen_time_overlay))) View.VISIBLE else View.GONE
             }
     }
 

@@ -164,7 +164,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
 
-                    if(status == BatteryManager.BATTERY_STATUS_DISCHARGING
+                    if((status == BatteryManager.BATTERY_STATUS_DISCHARGING ||
+                                status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
                         && !isPowerConnected) {
 
                         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
