@@ -409,6 +409,10 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             if(minChargeDischargeCurrent.visibility == View.GONE)
                                 minChargeDischargeCurrent.visibility = View.VISIBLE
 
+                            screenTime.text = getString(R.string.screen_time, TimeHelper
+                                .getTime(CapacityInfoService.instance
+                                    ?.screenTime ?: 0L))
+
                             maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
                                 BatteryInfoInterface.maxDischargeCurrent)
 
