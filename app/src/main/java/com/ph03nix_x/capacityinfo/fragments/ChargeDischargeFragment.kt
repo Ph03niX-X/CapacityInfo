@@ -356,8 +356,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING,
-                        BatteryManager.BATTERY_STATUS_FULL ->
+                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL ->
 
                             withContext(Dispatchers.Main) {
 
@@ -370,29 +369,18 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                 if(minChargeDischargeCurrent.visibility == View.GONE)
                                     minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                maxChargeDischargeCurrent.text = if(status == BatteryManager
-                                        .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
-                                    getString(R.string.max_charge_current, BatteryInfoInterface
-                                        .maxChargeCurrent) else
-                                    getString(R.string.max_discharge_current, BatteryInfoInterface
-                                        .maxDischargeCurrent)
+                                maxChargeDischargeCurrent.text = getString(R.string
+                                    .max_charge_current, BatteryInfoInterface.maxChargeCurrent)
 
-                                averageChargeDischargeCurrent.text = if(status == BatteryManager
-                                        .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
-                                    getString(R.string.average_charge_current, BatteryInfoInterface
-                                        .averageChargeCurrent) else
-                                    getString(R.string.average_discharge_current, BatteryInfoInterface
-                                        .averageDischargeCurrent)
+                                averageChargeDischargeCurrent.text = getString(R.string
+                                    .average_charge_current, BatteryInfoInterface.averageChargeCurrent)
 
-                                minChargeDischargeCurrent.text = if(status == BatteryManager
-                                        .BATTERY_STATUS_NOT_CHARGING && sourceOfPower != -1)
-                                    getString(R.string.min_charge_current, BatteryInfoInterface
-                                        .minChargeCurrent) else
-                                    getString(R.string.min_discharge_current, BatteryInfoInterface
-                                        .minDischargeCurrent)
+                                minChargeDischargeCurrent.text = getString(R.string
+                                    .min_charge_current, BatteryInfoInterface.minChargeCurrent)
                             }
 
-                        BatteryManager.BATTERY_STATUS_DISCHARGING -> withContext(Dispatchers.Main) {
+                        BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
+                            .BATTERY_STATUS_NOT_CHARGING -> withContext(Dispatchers.Main) {
 
                             if(maxChargeDischargeCurrent.visibility == View.GONE)
                                 maxChargeDischargeCurrent.visibility = View.VISIBLE
