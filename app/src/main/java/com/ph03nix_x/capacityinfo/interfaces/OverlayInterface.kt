@@ -12,6 +12,7 @@ import android.os.BatteryManager
 import android.os.Build
 import android.provider.Settings
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
@@ -186,7 +187,16 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onCreateViews(context)
 
-            windowManager?.addView(linearLayout, parameters)
+            if(linearLayout?.windowToken != null) windowManager?.addView(linearLayout, parameters)
+
+            else if(OverlayService.instance != null) {
+
+                Toast.makeText(context, R.string.unknown_error, Toast.LENGTH_LONG).show()
+
+                ServiceHelper.stopService(context, OverlayService::class.java)
+
+                return
+            }
 
             linearLayout?.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
         }
