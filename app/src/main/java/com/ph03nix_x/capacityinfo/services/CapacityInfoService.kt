@@ -244,9 +244,17 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                             onUpdateServiceNotification(this@CapacityInfoService)
 
-                            if(::wakeLock.isInitialized && wakeLock.isHeld) wakeLock.release()
+                        if(::wakeLock.isInitialized && wakeLock.isHeld) {
 
-                            delay(2997L)
+                            try {
+
+                                wakeLock.release()
+                            }
+
+                            catch (e: java.lang.RuntimeException) {}
+                        }
+
+                        delay(2997L)
                     }
                 }
             }
