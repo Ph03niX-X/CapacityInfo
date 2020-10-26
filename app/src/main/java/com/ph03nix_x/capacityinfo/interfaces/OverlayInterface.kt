@@ -187,7 +187,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onCreateViews(context)
 
-            if(linearLayout?.windowToken != null) windowManager?.addView(linearLayout, parameters)
+            if(linearLayout != null && linearLayout?.windowToken == null) windowManager?.addView(
+                linearLayout, parameters)
 
             else if(OverlayService.instance != null) {
 
