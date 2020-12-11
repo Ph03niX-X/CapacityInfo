@@ -4,12 +4,36 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <PreferenceCategory
+        android:title="@string/telegram"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_telegram"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
+
     <Preference
-            app:title="@string/telegram"
+            app:title="@string/developer"
             app:summary="\@Ph03niX-X"
+            app:icon="@drawable/ic_developer_24dp"
             app:singleLineTitle="false"
-            app:icon="@drawable/ic_telegram"
-            android:key="telegram"/>
+            android:key="telegram_developer"/>
+
+    <Preference
+        app:title="@string/telegram_channel"
+        app:summary="\@ci_channel"
+        app:icon="@drawable/ic_telegram_channel"
+        app:singleLineTitle="false"
+        android:key="telegram_channel"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/other"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_misc_24dp"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
 
     <Preference
             app:title="@string/email"
@@ -29,5 +53,7 @@
             app:singleLineTitle="false"
             app:icon="@drawable/ic_share_24dp"
             android:key="share_the_app"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

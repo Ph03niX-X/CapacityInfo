@@ -12,13 +12,18 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_LINK
+import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_CHANNEL_LINK
+import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
 class FeedbackFragment : PreferenceFragmentCompat() {
 
-    private var telegram: Preference? = null
+    // Telegram
+    private var telegramDeveloper: Preference? = null
+    private var telegramChannel: Preference? = null
+
+    // Other
     private var email: Preference? = null
     private var rateTheApp: Preference? = null
     private var shareTheApp: Preference? = null
@@ -32,8 +37,48 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.feedback_settings)
 
-        telegram = findPreference("telegram")
+        // Telegram
+        telegramDeveloper = findPreference("telegram_developer")
 
+        telegramChannel = findPreference("telegram_channel")
+
+        telegramDeveloper?.setOnPreferenceClickListener {
+
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_DEVELOPER_LINK))) }
+
+            catch(e: ActivityNotFoundException) {
+
+                val clipboardManager = requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("telegram_developer",
+                    TELEGRAM_DEVELOPER_LINK)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(requireContext(), R.string.telegram_link_copied,
+                    Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+        telegramChannel?.setOnPreferenceClickListener {
+
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_CHANNEL_LINK))) }
+
+            catch(e: ActivityNotFoundException) {
+
+                val clipboardManager = requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("telegram_channel", TELEGRAM_CHANNEL_LINK)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(requireContext(), R.string.telegram_link_copied,
+                    Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+
+        // Other
         email = findPreference("email")
 
         rateTheApp = findPreference("rate_the_app")
@@ -43,23 +88,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         rateTheApp?.isVisible = isGooglePlay(requireContext()) || pref.getBoolean(
             IS_FORCIBLY_SHOW_RATE_THE_APP, resources.getBoolean(
                 R.bool.is_forcibly_show_rate_the_app))
-
-        telegram?.setOnPreferenceClickListener {
-
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_LINK))) }
-
-            catch(e: ActivityNotFoundException) {
-
-                val clipboardManager = requireContext()
-                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("telegram", TELEGRAM_LINK)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), R.string.telegram_link_copied,
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
 
         email?.setOnPreferenceClickListener {
 
