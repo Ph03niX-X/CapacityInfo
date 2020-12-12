@@ -232,4 +232,7 @@
     <string name="spanish_translation">Іспанскі пераклад</string>
     <string name="screen_time">Час працы экрана: %1$s</string>
     <string name="screen_time_overlay">Час працы экрана</string>
+    <string name="telegram_developer">Распрацоўшчык</string>
+    <string name="telegram_channel">Канал</string>
+    <string name="other">Іншае</string>
 </resources>
