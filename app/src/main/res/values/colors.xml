@@ -12,5 +12,6 @@
     <color name="overheat_overcool">@color/red</color>
     <color name="battery_charged">@color/green</color>
     <color name="battery_discharged">@color/red</color>
+    <color name="charging_current_notification">@color/blue</color>
     <color name="service_notification_text">@android:color/black</color>
 </resources>

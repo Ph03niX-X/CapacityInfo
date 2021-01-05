@@ -20,6 +20,8 @@ object PreferencesKeys {
     const val BATTERY_LEVEL_NOTIFY_CHARGED = "battery_level_notify_charged"
     const val IS_NOTIFY_BATTERY_IS_DISCHARGED = "is_notify_battery_is_discharged"
     const val BATTERY_LEVEL_NOTIFY_DISCHARGED = "battery_level_notify_discharged"
+    const val IS_NOTIFY_CHARGING_CURRENT = "is_notify_charging_current"
+    const val CHARGING_CURRENT_LEVEL_NOTIFY = "charging_current_level_notify"
 
     // Appearance
     const val IS_AUTO_DARK_MODE = "is_auto_dark_mode" // Android 10+

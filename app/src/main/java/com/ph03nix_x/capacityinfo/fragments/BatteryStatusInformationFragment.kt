@@ -13,9 +13,11 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
@@ -25,9 +27,11 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
     private var notifyBatteryIsFullyCharged: SwitchPreferenceCompat? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
+    private var notifyChargingCurrent: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyCharged: SeekBarPreference? = null
     private var notifyBatteryIsDischarged: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyDischarged: SeekBarPreference? = null
+    private var chargingCurrentLevelNotify: SeekBarPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -41,9 +45,11 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyOverheatOvercool = findPreference(IS_NOTIFY_OVERHEAT_OVERCOOL)
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
+        notifyChargingCurrent = findPreference(IS_NOTIFY_CHARGING_CURRENT)
         batteryLevelNotifyCharged = findPreference(BATTERY_LEVEL_NOTIFY_CHARGED)
         notifyBatteryIsDischarged = findPreference(IS_NOTIFY_BATTERY_IS_DISCHARGED)
         batteryLevelNotifyDischarged = findPreference(BATTERY_LEVEL_NOTIFY_DISCHARGED)
+        chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
 
         batteryLevelNotifyCharged?.apply {
 
@@ -91,6 +97,18 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             true
         }
 
+        notifyChargingCurrent?.setOnPreferenceChangeListener { _, newValue ->
+
+            chargingCurrentLevelNotify?.isEnabled = newValue as? Boolean == true
+
+            NotificationInterface.isNotifyChargingCurrent = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
+
+            true
+        }
+
         batteryLevelNotifyCharged?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = "${((newValue as? Int) ?: pref.getInt(
@@ -125,6 +143,20 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+            true
+        }
+
+        chargingCurrentLevelNotify?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = getString(R.string.ma, ((newValue as? Int) ?: pref.getInt(
+                CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                    .charging_current_notify_level_min))))
+
+            NotificationInterface.isNotifyChargingCurrent = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
             true
         }
@@ -171,6 +203,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_discharged))
         }
+
+        chargingCurrentLevelNotify?.apply {
+
+            summary = getChargingCurrentLevelNotifySummary()
+            isEnabled = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
+                R.bool.is_notify_charging_current))
+        }
     }
 
     private fun getBatteryLevelNotifyChargingSummary(): String {
@@ -189,5 +228,19 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             pref.edit().putInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20).apply()
 
         return "${pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)}%"
+    }
+
+    private fun getChargingCurrentLevelNotifySummary(): String {
+
+        if(pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                .charging_current_notify_level_min)) > resources.getInteger(R.integer
+                .charging_current_notify_level_max) || pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
+                resources.getInteger(R.integer.charging_current_notify_level_min)) < resources
+                .getInteger(R.integer.charging_current_notify_level_min))
+                    pref.edit().putInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                .charging_current_notify_level_min)).apply()
+
+        return getString(R.string.ma, pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
+            .getInteger(R.integer.charging_current_notify_level_min)))
     }
 }

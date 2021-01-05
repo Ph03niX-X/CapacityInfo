@@ -254,4 +254,7 @@
     <string name="telegram_developer">Developer</string>
     <string name="telegram_channel">Channel</string>
     <string name="other">Other</string>
+    <string name="charging_current">Charging Current</string>
+    <string name="charging_current_ma">Charging Current: %1$d mA</string>
+    <string name="ma">%1$d mA</string>
 </resources>

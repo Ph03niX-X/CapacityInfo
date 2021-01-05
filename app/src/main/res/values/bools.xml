@@ -20,6 +20,7 @@
     <bool name="is_notify_battery_is_fully_charged">false</bool>
     <bool name="is_notify_battery_is_charged">false</bool>
     <bool name="is_notify_battery_is_discharged">false</bool>
+    <bool name="is_notify_charging_current">false</bool>
 
     <!--Backup-->
     <bool name="is_auto_backup_settings">false</bool>

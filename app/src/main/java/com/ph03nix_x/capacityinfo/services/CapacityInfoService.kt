@@ -34,9 +34,11 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -348,13 +350,24 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 onNotifyBatteryCharged(this@CapacityInfoService)
             }
 
+        if(pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
+                R.bool.is_notify_charging_current)) && getOnChargeDischargeCurrent(this) <=
+            pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                    .charging_current_notify_level_min)) && NotificationInterface
+                .isNotifyChargingCurrent && seconds > 60)
+            withContext(Dispatchers.Main) {
+
+                onNotifyChargingCurrent(this@CapacityInfoService,
+                    getOnChargeDischargeCurrent(this@CapacityInfoService))
+            }
+
         if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
-                else 956L)
-            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 926L
-            else 926L)
+                delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 948L
+                else 955L)
+            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 925L
+            else 924L)
 
         seconds++
 
