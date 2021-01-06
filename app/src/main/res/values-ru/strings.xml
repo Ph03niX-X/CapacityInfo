@@ -235,4 +235,7 @@
     <string name="telegram_developer">Разработчик</string>
     <string name="telegram_channel">Канал</string>
     <string name="other">Прочее</string>
+    <string name="charging_current">Ток зарядки</string>
+    <string name="charging_current_ma">Ток зарядки: %1$d мА</string>
+    <string name="ma">%1$d мА</string>
 </resources>
