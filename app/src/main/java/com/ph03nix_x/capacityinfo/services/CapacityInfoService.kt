@@ -433,6 +433,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isSaveNumberOfCharges = false
 
+        notificationManager?.cancel(NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
+
         onUpdateServiceNotification(this@CapacityInfoService)
     }
 }
