@@ -288,6 +288,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         NotificationInterface.isNotifyBatteryFullyCharged = true
         NotificationInterface.isNotifyBatteryCharged = true
         NotificationInterface.isNotifyBatteryDischarged = true
+        NotificationInterface.isChargingCurrent = true
 
         val batteryLevel = getOnBatteryLevel(this) ?: 0
 
