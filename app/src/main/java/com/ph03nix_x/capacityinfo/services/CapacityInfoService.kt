@@ -354,7 +354,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 R.bool.is_notify_charging_current)) && getOnChargeDischargeCurrent(this) <=
             pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
                     .charging_current_notify_level_min)) && NotificationInterface
-                .isNotifyChargingCurrent && seconds > 60)
+                .isNotifyChargingCurrent && seconds >= 15)
             withContext(Dispatchers.Main) {
 
                 onNotifyChargingCurrent(this@CapacityInfoService,
