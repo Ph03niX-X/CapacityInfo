@@ -56,6 +56,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private lateinit var wakeLock: PowerManager.WakeLock
     private var screenTimeJob: Job? = null
     private var jobService: Job? = null
+    var chargingCurrentTemp: Int? = null
     private var isScreenTimeJob = false
     private var isJob = false
     var isFull = false
@@ -179,7 +180,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
 
                     delay(998L)
-
                 }
             }
 
@@ -256,7 +256,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             catch (e: java.lang.RuntimeException) {}
                         }
 
-                        delay(2997L)
+                        delay(2995L)
                     }
                 }
             }
@@ -352,15 +352,28 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
 
         if(pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
-                R.bool.is_notify_charging_current)) && getOnChargeDischargeCurrent(this) <=
-            pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
-                    .charging_current_notify_level_min)) && NotificationInterface
-                .isNotifyChargingCurrent && seconds >= 15)
-            withContext(Dispatchers.Main) {
+                R.bool.is_notify_charging_current))) {
 
-                onNotifyChargingCurrent(this@CapacityInfoService,
-                    getOnChargeDischargeCurrent(this@CapacityInfoService))
+            val chargingCurrent =  getOnChargeDischargeCurrent(this)
+
+            if(chargingCurrentTemp == null) chargingCurrentTemp = chargingCurrent
+
+            if(chargingCurrent > chargingCurrentTemp ?: -1) {
+
+                notificationManager?.cancel(NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
+
+                chargingCurrentTemp = null
             }
+
+            else if(chargingCurrent <= pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
+                    .getInteger(R.integer.charging_current_notify_level_min)) &&
+                NotificationInterface.isNotifyChargingCurrent && seconds >= 15)
+                    withContext(Dispatchers.Main) {
+
+                        onNotifyChargingCurrent(this@CapacityInfoService, chargingCurrent)
+
+                    }
+        }
 
         if(displayManager != null)
         for(display in displayManager.displays)

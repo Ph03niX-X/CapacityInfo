@@ -69,6 +69,12 @@ class PluggedReceiver : BroadcastReceiver() {
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
+                NotificationInterface.isOverheatOvercool = true
+                NotificationInterface.isBatteryFullyCharged = true
+                NotificationInterface.isBatteryCharged = true
+                NotificationInterface.isBatteryDischarged = true
+                NotificationInterface.isChargingCurrent = true
+
                 if(MainActivity.instance?.fragment != null) {
 
                     if(MainActivity.instance?.fragment is ChargeDischargeFragment)
