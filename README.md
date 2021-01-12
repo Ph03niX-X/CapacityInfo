@@ -33,6 +33,17 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 
 ---
 <p align="center">
+ <b>Telegram Channel:</b>
+</p>
+
+<a href="https://t.me/ci_channel">
+<p align="center">
+<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/telegram.png"
+alt="Telegram Channel" width="300" border="10"/></a>
+</p>
+
+---
+<p align="center">
 <b>Screenshots:</b>
 </p>
 
@@ -63,7 +74,7 @@ P.S This application consumes <b>very little</b> energy in the background. The w
 • Battery condition;<br/>
 • Time of the last charge;<br/>
 • Battery technology;<br/>
-• Notification of a full charge, a certain level (%) of a charge, a certain level (%) of discharge, overheating and overcooling;<br/>
+• Notification of a full charge, a certain level (%) of a charge, a certain level (%) of discharge, charging current, overheating and overcooling;<br/>
 • Resetting the number of charges;<br/>
 • Zeroing the number of cycles;<br/>
 • Overlay;<br/>
