@@ -39,7 +39,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 <a href="https://t.me/ci_channel">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/telegram.png"
-alt="Telegram Channel" width="300" border="10"/></a>
+alt="Telegram Channel" width="200" border="10"/></a>
 </p>
 
 ---
