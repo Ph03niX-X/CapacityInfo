@@ -1,11 +1,15 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SeekBarPreference
-import androidx.preference.SwitchPreferenceCompat
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import androidx.appcompat.app.AlertDialog
+import androidx.preference.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
@@ -147,6 +151,17 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             true
         }
 
+        chargingCurrentLevelNotify?.setOnPreferenceClickListener {
+
+            changeChargingCurrentNotifyLevel()
+
+//            (it as? SeekBarPreference)?.value = pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
+//                resources.getInteger(R.integer.charging_current_notify_level_min)) / resources
+//                .getInteger(R.integer.charging_current_notify_level_max)
+
+            true
+        }
+
         chargingCurrentLevelNotify?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = getString(R.string.ma, ((newValue as? Int) ?: pref.getInt(
@@ -242,5 +257,83 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         return getString(R.string.ma, pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
             .getInteger(R.integer.charging_current_notify_level_min)))
+    }
+
+    private fun changeChargingCurrentNotifyLevel() {
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+
+        val view = LayoutInflater.from(context).inflate(R.layout
+            .change_charging_current_notify_level_dialog, null)
+
+        dialog.setView(view)
+
+        val changeChargingCurrentLevel = view.findViewById<TextInputEditText>(R.id
+            .change_charging_current_level_edit)
+
+        changeChargingCurrentLevel.setText(if(pref.getInt(
+                CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
+                R.integer.charging_current_notify_level_min)) >= requireContext().resources
+                .getInteger(R.integer.charging_current_notify_level_min) || pref.getInt(
+                CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
+                    R.integer.charging_current_notify_level_min)) <= requireContext().resources
+                .getInteger(R.integer.charging_current_notify_level_max))
+                    pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources
+                        .getInteger(R.integer.charging_current_notify_level_min)).toString()
+
+        else requireContext().resources.getInteger(R.integer.min_design_capacity).toString())
+
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+
+            pref.edit().putInt(CHARGING_CURRENT_LEVEL_NOTIFY, changeChargingCurrentLevel.text
+                .toString().toInt()).apply()
+
+            chargingCurrentLevelNotify?.apply {
+
+                summary = getString(R.string.ma, changeChargingCurrentLevel.text.toString().toInt())
+
+                value = pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
+                    resources.getInteger(R.integer.charging_current_notify_level_min))
+            }
+        }
+
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+
+        val dialogCreate = dialog.create()
+
+        changeChargingCurrentNotifyLevelDialogCreateShowListener(dialogCreate,
+            changeChargingCurrentLevel)
+
+        dialogCreate.show()
+    }
+
+    private fun changeChargingCurrentNotifyLevelDialogCreateShowListener(dialogCreate: AlertDialog,
+                                                                         changeChargingCurrentLevel:
+                                                                         TextInputEditText) {
+
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+
+            changeChargingCurrentLevel.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.isNotEmpty() && s.toString() != pref.getInt(
+                            CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
+                                R.integer.charging_current_notify_level_min)).toString() &&
+                                s.toString().toInt() >= requireContext().resources.getInteger(
+                            R.integer.charging_current_notify_level_min) && s.toString().toInt() <=
+                                requireContext().resources.getInteger(
+                                    R.integer.charging_current_notify_level_max)
+                }
+            })
+        }
     }
 }
