@@ -73,6 +73,7 @@
                 android:summary="100%"
                 app:defaultValue="255"
                 app:singleLineTitle="false"
+                app:updatesContinuously="true"
                 android:key="overlay_opacity"
                 android:max="255"/>
 

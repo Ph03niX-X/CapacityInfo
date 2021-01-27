@@ -37,6 +37,7 @@
             app:defaultValue="@integer/battery_level_notify_charged"
             app:singleLineTitle="false"
             app:min="1"
+            app:updatesContinuously="true"
             android:key="battery_level_notify_charged"/>
 
     <SwitchPreferenceCompat
@@ -54,6 +55,7 @@
             app:singleLineTitle="false"
             app:min="1"
             android:max="99"
+            app:updatesContinuously="true"
             android:key="battery_level_notify_discharged"/>
 
     <SwitchPreferenceCompat
@@ -70,6 +72,7 @@
         app:defaultValue="@integer/battery_level_notify_discharged"
         app:min="@integer/charging_current_notify_level_min"
         android:max="@integer/charging_current_notify_level_max"
+        app:updatesContinuously="true"
         android:key="charging_current_level_notify"/>
 
 </PreferenceScreen>

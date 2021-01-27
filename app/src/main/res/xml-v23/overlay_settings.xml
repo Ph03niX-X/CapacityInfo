@@ -74,6 +74,7 @@
                 app:defaultValue="127"
                 app:singleLineTitle="false"
                 android:key="overlay_opacity"
+                app:updatesContinuously="true"
                 android:max="255"/>
 
     </PreferenceCategory>
