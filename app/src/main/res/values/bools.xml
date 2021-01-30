@@ -29,6 +29,7 @@
     <!--Overlay-->
     <bool name="is_enabled_overlay">false</bool>
     <bool name="is_only_values_overlay">false</bool>
+    <bool name="is_fps_overlay">false</bool>
     <bool name="is_battery_level_overlay">false</bool>
     <bool name="is_number_of_charges_overlay">false</bool>
     <bool name="is_number_of_cycles_overlay">false</bool>

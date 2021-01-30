@@ -16,6 +16,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
+import com.codemonkeylabs.fpslibrary.TinyDancer
+import com.codemonkeylabs.fpslibrary.TinyDancerBuilder
+import com.codemonkeylabs.fpslibrary.ui.TinyCoach
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
@@ -55,6 +58,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FPS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
@@ -92,6 +96,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var pref: SharedPreferences
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
+        var tinyDancer: TinyDancer? = null
 
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
 
@@ -99,7 +104,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             with(pref) {
 
-                val overlayArray = arrayListOf(getBoolean(IS_BATTERY_LEVEL_OVERLAY,
+                val overlayArray = arrayListOf(getBoolean(IS_FPS_OVERLAY, context.resources
+                    .getBoolean(R.bool.is_fps_overlay)), getBoolean(IS_BATTERY_LEVEL_OVERLAY,
                     context.resources.getBoolean(R.bool.is_battery_level_overlay)),
                     getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, context.resources.getBoolean(
                         R.bool.is_number_of_charges_overlay)), getBoolean(
@@ -187,12 +193,19 @@ interface OverlayInterface : BatteryInfoInterface {
 
             onCreateViews(context)
 
-            if(linearLayout != null && linearLayout?.windowToken == null) windowManager?.addView(
-                linearLayout, parameters)
+            if(linearLayout != null && linearLayout?.windowToken == null) {
+
+                windowManager?.addView(linearLayout, parameters)
+
+                if(pref.getBoolean(IS_FPS_OVERLAY, context.resources.getBoolean(
+                        R.bool.is_fps_overlay))) TinyDancer.create().show(context)
+            }
 
             else if(OverlayService.instance != null) {
 
                 Toast.makeText(context, R.string.unknown_error, Toast.LENGTH_LONG).show()
+
+                TinyDancer.hide(context)
 
                 ServiceHelper.stopService(context, OverlayService::class.java)
 
@@ -202,8 +215,12 @@ interface OverlayInterface : BatteryInfoInterface {
             linearLayout?.setOnTouchListener(onLinearLayoutOnTouchListener(parameters))
         }
 
-        else if(OverlayService.instance != null)
+        else if(OverlayService.instance != null) {
+
+            TinyDancer.hide(context)
+
             ServiceHelper.stopService(context, OverlayService::class.java)
+        }
     }
 
     private fun onCreateViews(context: Context) {
@@ -256,6 +273,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout())
 
+        onUpdateFPSOverlay(context)
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
         onUpdateNumberOfCyclesOverlay()
@@ -288,6 +306,12 @@ interface OverlayInterface : BatteryInfoInterface {
         else pref.getInt(OVERLAY_OPACITY,
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
             else 255), 0, 0, 0)
+
+    private fun onUpdateFPSOverlay(context: Context) {
+
+        if(!pref.getBoolean(IS_FPS_OVERLAY, context.resources.getBoolean(R.bool
+                .is_fps_overlay))) TinyDancer.hide(context)
+    }
 
     private fun onUpdateBatteryLevelOverlay() {
 

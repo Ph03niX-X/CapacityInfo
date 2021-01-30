@@ -89,6 +89,13 @@
             app:title="@string/show_hide">
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_fps_overlay"
+            android:key="is_fps_overlay"
+            android:title="@string/fps"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_battery_level_overlay"
                 android:key="is_battery_level_overlay"
                 android:title="@string/battery_level_overlay"
