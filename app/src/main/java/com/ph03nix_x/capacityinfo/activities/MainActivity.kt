@@ -479,9 +479,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onStop()
 
-        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay)) &&
-            pref.getBoolean(IS_FPS_OVERLAY, resources.getBoolean(R.bool.is_fps_overlay)))
-                TinyDancer.create().show(this)
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
+
+            delay(1000)
+            if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay)) &&
+                pref.getBoolean(IS_FPS_OVERLAY, resources.getBoolean(R.bool.is_fps_overlay)))
+                TinyDancer.create().show(this@MainActivity)
+        }
+
     }
 
     override fun onDestroy() {
