@@ -193,10 +193,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             changeChargingCurrentNotifyLevel()
 
-//            (it as? SeekBarPreference)?.value = pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
-//                resources.getInteger(R.integer.charging_current_notify_level_min)) / resources
-//                .getInteger(R.integer.charging_current_notify_level_max)
-
             true
         }
 
