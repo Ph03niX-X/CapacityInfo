@@ -238,4 +238,6 @@
     <string name="charging_current">Струм зарядки</string>
     <string name="charging_current_ma">Струм зарядки: %1$d мА</string>
     <string name="ma">%1$d мА</string>
+    <string name="overheat">Перегрів</string>
+    <string name="overcool">Переохолодження</string>
 </resources>
