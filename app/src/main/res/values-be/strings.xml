@@ -238,4 +238,6 @@
     <string name="charging_current">Ток зарадкі</string>
     <string name="charging_current_ma">Ток зарадкі: %1$d мА</string>
     <string name="ma">%1$d мА</string>
+    <string name="overheat">Перагрэў</string>
+    <string name="overcool">Пераахаладжэнне</string>
 </resources>
