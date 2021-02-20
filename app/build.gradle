@@ -11,8 +11,8 @@ android {
         applicationId "com.ph03nix_x.capacityinfo"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 638
-        versionName "3.10.0.3"
+        versionCode 650
+        versionName "3.11.0.1"
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,6 +62,9 @@ dependencies {
     implementation "androidx.documentfile:documentfile:1.0.1"
 
     implementation 'com.google.android.play:core-ktx:1.8.1'
+
+    // FPS
+    implementation "com.github.brianPlummer:tinydancer:0.1.2"
 
     // Color Picker
     implementation 'com.jaredrummler:colorpicker:1.1.0'
