@@ -238,4 +238,6 @@
     <string name="charging_current">Ток зарядки</string>
     <string name="charging_current_ma">Ток зарядки: %1$d мА</string>
     <string name="ma">%1$d мА</string>
+    <string name="overheat">Перегрев</string>
+    <string name="overcool">Переохлаждение</string>
 </resources>
