@@ -44,6 +44,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -216,8 +218,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                             R.bool.is_notify_overheat_overcool)) &&
-                        NotificationInterface.isNotifyOverheatOvercool && (temperature >= 45.0
-                                || temperature <= 0))
+                        NotificationInterface.isNotifyOverheatOvercool && (temperature >= pref.getInt(
+                            OVERHEAT_DEGREES, resources.getInteger(R.integer
+                                .overheat_degrees_default)) || temperature <= pref.getInt(
+                            OVERCOOL_DEGREES, resources.getInteger(R.integer
+                                .overcool_degrees_default))))
                         withContext(Dispatchers.Main) {
 
                             onNotifyOverheatOvercool(this@CapacityInfoService, temperature)

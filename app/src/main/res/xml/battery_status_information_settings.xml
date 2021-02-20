@@ -17,6 +17,30 @@
             app:iconSpaceReserved="false"
             android:key="is_notify_overheat_overcool"/>
 
+    <SeekBarPreference
+        android:title="@string/overheat"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/overheat_overcool_degrees"
+        app:defaultValue="@integer/overheat_degrees_default"
+        app:singleLineTitle="false"
+        app:min="@integer/overheat_degrees_min"
+        android:max="@integer/overheat_degrees_max"
+        app:updatesContinuously="true"
+        android:key="overheat_degrees"/>
+
+    <SeekBarPreference
+        android:title="@string/overcool"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/overheat_overcool_degrees"
+        app:defaultValue="@integer/overcool_degrees_default"
+        app:singleLineTitle="false"
+        app:min="@integer/overcool_degrees_min"
+        android:max="@integer/overcool_degrees_max"
+        app:updatesContinuously="true"
+        android:key="overcool_degrees"/>
+
     <SwitchPreferenceCompat
             android:title="@string/battery_is_fully_charged"
             app:singleLineTitle="false"

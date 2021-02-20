@@ -259,4 +259,7 @@
     <string name="ma">%1$d mA</string>
     <string name="ma_hint">mA</string>
     <string name="fps" translatable="false">FPS</string>
+    <string name="overheat">Overheat</string>
+    <string name="overcool">Overcool</string>
+    <string name="overheat_overcool_degrees" translatable="false">%1$d°C</string>
 </resources>

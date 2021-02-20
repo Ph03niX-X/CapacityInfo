@@ -23,12 +23,16 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
     private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
+    private var overheatDegrees: SeekBarPreference? = null
+    private var overcoolDegrees: SeekBarPreference? = null
     private var notifyBatteryIsFullyCharged: SwitchPreferenceCompat? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
     private var notifyChargingCurrent: SwitchPreferenceCompat? = null
@@ -47,6 +51,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.battery_status_information_settings)
 
         notifyOverheatOvercool = findPreference(IS_NOTIFY_OVERHEAT_OVERCOOL)
+        overheatDegrees = findPreference(OVERHEAT_DEGREES)
+        overcoolDegrees = findPreference(OVERCOOL_DEGREES)
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
         notifyChargingCurrent = findPreference(IS_NOTIFY_CHARGING_CURRENT)
@@ -54,6 +60,18 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyBatteryIsDischarged = findPreference(IS_NOTIFY_BATTERY_IS_DISCHARGED)
         batteryLevelNotifyDischarged = findPreference(BATTERY_LEVEL_NOTIFY_DISCHARGED)
         chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
+
+        overheatDegrees?.apply {
+            summary = getOverheatDegreesSummary()
+            isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                R.bool.is_notify_overheat_overcool))
+        }
+
+        overcoolDegrees?.apply {
+            summary = getOvercoolDegreesSummary()
+            isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                R.bool.is_notify_overheat_overcool))
+        }
 
         batteryLevelNotifyCharged?.apply {
 
@@ -69,12 +87,32 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 R.bool.is_notify_battery_is_discharged))
         }
 
-        notifyOverheatOvercool?.setOnPreferenceChangeListener { _, _ ->
+        notifyOverheatOvercool?.setOnPreferenceChangeListener { _, newValue ->
+
+            overheatDegrees?.isEnabled = newValue as? Boolean == true
+
+            overcoolDegrees?.isEnabled = newValue as? Boolean == true
 
             NotificationInterface.isNotifyOverheatOvercool = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+
+            true
+        }
+
+        overheatDegrees?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = getString(R.string.overheat_overcool_degrees, (
+                    newValue as? Int) ?: resources.getInteger(R.integer.overheat_degrees_default))
+
+            true
+        }
+
+        overcoolDegrees?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = getString(R.string.overheat_overcool_degrees, (
+                    newValue as? Int) ?: resources.getInteger(R.integer.overcool_degrees_default))
 
             true
         }
@@ -181,6 +219,18 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
+        overheatDegrees?.apply {
+            summary = getOverheatDegreesSummary()
+            isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                R.bool.is_notify_overheat_overcool))
+        }
+
+        overcoolDegrees?.apply {
+            summary = getOvercoolDegreesSummary()
+            isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                R.bool.is_notify_overheat_overcool))
+        }
+
         notifyOverheatOvercool?.apply {
 
             isChecked = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
@@ -225,6 +275,32 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             isEnabled = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
                 R.bool.is_notify_charging_current))
         }
+    }
+
+    private fun getOverheatDegreesSummary(): String {
+
+        if(pref.getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer.overheat_degrees_default))
+            > resources.getInteger(R.integer.overheat_degrees_max) ||
+            pref.getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer.overheat_degrees_default))
+            < resources.getInteger(R.integer.overheat_degrees_min))
+            pref.edit().putInt(OVERHEAT_DEGREES, resources.getInteger(R
+                .integer.overheat_degrees_default)).apply()
+
+        return getString(R.string.overheat_overcool_degrees, pref.getInt(OVERHEAT_DEGREES,
+            resources.getInteger(R.integer.overheat_degrees_default)))
+    }
+
+    private fun getOvercoolDegreesSummary(): String {
+
+        if(pref.getInt(OVERCOOL_DEGREES, resources.getInteger(R.integer.overcool_degrees_default))
+            > resources.getInteger(R.integer.overcool_degrees_max) ||
+            pref.getInt(OVERCOOL_DEGREES, resources.getInteger(R.integer.overcool_degrees_default))
+            < resources.getInteger(R.integer.overcool_degrees_min))
+            pref.edit().putInt(OVERCOOL_DEGREES, resources.getInteger(R
+                .integer.overcool_degrees_default)).apply()
+
+        return getString(R.string.overheat_overcool_degrees, pref.getInt(OVERCOOL_DEGREES,
+            resources.getInteger(R.integer.overcool_degrees_default)))
     }
 
     private fun getBatteryLevelNotifyChargingSummary(): String {

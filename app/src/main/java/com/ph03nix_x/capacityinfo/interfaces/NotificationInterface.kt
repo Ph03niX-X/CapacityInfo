@@ -43,6 +43,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import java.lang.RuntimeException
@@ -234,7 +235,8 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
-        if(temperature >= 45.0)
+        if(temperature >= pref.getInt(OVERHEAT_DEGREES, context.resources.getInteger(
+                R.integer.overheat_degrees_default)))
             remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
                 if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
                         R.bool.temperature_in_fahrenheit))) R.string.battery_overheating_fahrenheit

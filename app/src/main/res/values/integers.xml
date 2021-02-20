@@ -6,4 +6,10 @@
     <integer name="battery_level_notify_discharged">20</integer>
     <integer name="charging_current_notify_level_min">50</integer>
     <integer name="charging_current_notify_level_max">5000</integer>
+    <integer name="overheat_degrees_default">45</integer>
+    <integer name="overheat_degrees_min">40</integer>
+    <integer name="overheat_degrees_max">50</integer>
+    <integer name="overcool_degrees_default">0</integer>
+    <integer name="overcool_degrees_min">-20</integer>
+    <integer name="overcool_degrees_max">10</integer>
 </resources>
