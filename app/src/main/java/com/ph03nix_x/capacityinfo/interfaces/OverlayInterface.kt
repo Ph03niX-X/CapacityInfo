@@ -63,6 +63,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
+import java.lang.NullPointerException
+import java.lang.RuntimeException
 import java.text.DecimalFormat
 
 interface OverlayInterface : BatteryInfoInterface {
@@ -310,7 +312,9 @@ interface OverlayInterface : BatteryInfoInterface {
     private fun onUpdateFPSOverlay(context: Context) {
 
         if(!pref.getBoolean(IS_FPS_OVERLAY, context.resources.getBoolean(R.bool
-                .is_fps_overlay))) TinyDancer.hide(context)
+                .is_fps_overlay))) try { TinyDancer.hide(context) }
+        catch (e: RuntimeException) {}
+        catch (e: NullPointerException) {}
     }
 
     private fun onUpdateBatteryLevelOverlay() {
