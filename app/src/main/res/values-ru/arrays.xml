@@ -41,6 +41,14 @@
         <item>Ubuntu</item>
         <item>Oxygen</item>
         <item>Indie Flower</item>
+        <item>Castoro</item>
+        <item>Lora</item>
+        <item>Merriweather</item>
+        <item>Nerko One</item>
+        <item>Nunito</item>
+        <item>Oswald</item>
+        <item>Poppins</item>
+        <item>Work Sans</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">

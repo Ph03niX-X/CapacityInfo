@@ -63,6 +63,22 @@ object TextAppearanceHelper {
 
             11 -> ResourcesCompat.getFont(context, R.font.indie_flower)
 
+            12 -> ResourcesCompat.getFont(context, R.font.castoro)
+
+            13 -> ResourcesCompat.getFont(context, R.font.lora)
+
+            14 -> ResourcesCompat.getFont(context, R.font.merriweather)
+
+            15 -> ResourcesCompat.getFont(context, R.font.nerko_one)
+
+            16 -> ResourcesCompat.getFont(context, R.font.nunito)
+
+            17 -> ResourcesCompat.getFont(context, R.font.oswald)
+
+            18 -> ResourcesCompat.getFont(context, R.font.poppins)
+
+            19 -> ResourcesCompat.getFont(context, R.font.work_sans)
+
             else -> null
         }
     }
