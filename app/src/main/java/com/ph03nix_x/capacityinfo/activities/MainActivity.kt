@@ -534,6 +534,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_why_is_ccl_not_displayed)
                         + getString(R.string.faq_i_have_everything_in_zeros)
                         + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
+                        + getString(R.string.faq_battery_wear_not_change)
                         + getString(R.string.faq_add_device_support))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
