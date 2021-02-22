@@ -171,13 +171,13 @@
     <string name="battery_status_information">Інформація про стан акумулятора</string>
     <string name="battery_is_fully_charged">Акумулятор повністю заряджений</string>
     <string name="battery_is_charged">Акумулятор заряджений</string>
-    <string name="battery_is_discharged">Акумулятр розряджений</string>
+    <string name="battery_is_discharged">Акумулятор розряджений</string>
     <string name="battery_level_charge_discharge">Рівень заряду</string>
     <string name="fully_charged">Повністю заряджений</string>
     <string name="charged">Заряджений</string>
     <string name="discharged">Розряджений</string>
     <string name="battery_is_charged_notification">Акумулятор заряджений. Рівень заряду: %1$d</string>
-    <string name="battery_is_discharged_notification">Акумулятр розряджений. Рівень заряду: %1$d</string>
+    <string name="battery_is_discharged_notification">Акумулятор розряджений. Рівень заряду: %1$d</string>
     <string name="charge">Зарядка</string>
     <string name="discharge">Розрядка</string>
     <string name="wear">Знос</string>
