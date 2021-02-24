@@ -98,7 +98,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var pref: SharedPreferences
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
-        var tinyDancer: TinyDancer? = null
+        var isTinyDancerEnabled = false
 
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
 
@@ -199,15 +199,19 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 windowManager?.addView(linearLayout, parameters)
 
-                if(pref.getBoolean(IS_FPS_OVERLAY, context.resources.getBoolean(
-                        R.bool.is_fps_overlay))) TinyDancer.create().show(context)
+                isTinyDancerEnabled = pref.getBoolean(IS_FPS_OVERLAY, context.resources
+                    .getBoolean(R.bool.is_fps_overlay))
+
+                if(isTinyDancerEnabled) TinyDancer.create().show(context)
             }
 
             else if(OverlayService.instance != null) {
 
                 Toast.makeText(context, R.string.unknown_error, Toast.LENGTH_LONG).show()
 
-                TinyDancer.hide(context)
+                if(isTinyDancerEnabled) try { TinyDancer.hide(context) }
+                catch (e: RuntimeException) {}
+                catch (e: NullPointerException) {}
 
                 ServiceHelper.stopService(context, OverlayService::class.java)
 
@@ -219,7 +223,9 @@ interface OverlayInterface : BatteryInfoInterface {
 
         else if(OverlayService.instance != null) {
 
-            TinyDancer.hide(context)
+            try { TinyDancer.hide(context) }
+            catch (e: RuntimeException) {}
+            catch (e: NullPointerException) {}
 
             ServiceHelper.stopService(context, OverlayService::class.java)
         }
@@ -311,8 +317,10 @@ interface OverlayInterface : BatteryInfoInterface {
 
     private fun onUpdateFPSOverlay(context: Context) {
 
-        if(!pref.getBoolean(IS_FPS_OVERLAY, context.resources.getBoolean(R.bool
-                .is_fps_overlay))) try { TinyDancer.hide(context) }
+        isTinyDancerEnabled = pref.getBoolean(IS_FPS_OVERLAY, context.resources.getBoolean(R.bool
+            .is_fps_overlay))
+
+        if(!isTinyDancerEnabled) try { TinyDancer.hide(context) }
         catch (e: RuntimeException) {}
         catch (e: NullPointerException) {}
     }
