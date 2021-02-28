@@ -475,8 +475,7 @@ interface BatteryInfoInterface {
         return if(currentCapacity > 0.0 && currentCapacity < residualCapacity
             && residualCapacity > 0.0) {
 
-            val capacity = if(batteryLevel < 100) residualCapacity - currentCapacity
-            else ((residualCapacity - currentCapacity) - 150.0)
+            val capacity = residualCapacity - currentCapacity
 
             if(chargeDischargeCurrent > 0.0) {
 
