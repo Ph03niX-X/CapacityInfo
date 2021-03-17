@@ -17,8 +17,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
 import com.codemonkeylabs.fpslibrary.TinyDancer
-import com.codemonkeylabs.fpslibrary.TinyDancerBuilder
-import com.codemonkeylabs.fpslibrary.ui.TinyCoach
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
@@ -56,13 +54,16 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
+import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FPS_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
+import java.io.*
 import java.lang.NullPointerException
 import java.lang.RuntimeException
 import java.text.DecimalFormat
@@ -75,6 +76,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var batteryLevelOverlay: AppCompatTextView
         private lateinit var numberOfChargesOverlay: AppCompatTextView
         private lateinit var numberOfCyclesOverlay: AppCompatTextView
+        private lateinit var numberOfCyclesAndroidOverlay: AppCompatTextView
         private lateinit var chargingTimeOverlay: AppCompatTextView
         private lateinit var chargingTimeRemainingOverlay: AppCompatTextView
         private lateinit var remainingBatteryTimeOverlay: AppCompatTextView
@@ -113,8 +115,10 @@ interface OverlayInterface : BatteryInfoInterface {
                         R.bool.is_number_of_charges_overlay)), getBoolean(
                         IS_NUMBER_OF_CYCLES_OVERLAY, context.resources.getBoolean(
                             R.bool.is_number_of_cycles_overlay)), getBoolean(
-                        IS_CHARGING_TIME_OVERLAY, context.resources.getBoolean(
-                            R.bool.is_charging_time_overlay)), getBoolean(
+                        IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY, context.resources.getBoolean(R.bool
+                            .is_number_of_cycles_android_overlay)), getBoolean(
+                        IS_CHARGING_TIME_OVERLAY, context.resources.getBoolean(R.bool
+                            .is_charging_time_overlay)), getBoolean(
                         IS_CHARGING_TIME_REMAINING_OVERLAY, context.resources.getBoolean(
                             R.bool.is_charging_time_remaining_overlay)), getBoolean(
                         IS_REMAINING_BATTERY_TIME_OVERLAY, context.resources.getBoolean(
@@ -240,6 +244,7 @@ interface OverlayInterface : BatteryInfoInterface {
         batteryLevelOverlay = view.findViewById(R.id.battery_level_overlay)
         numberOfChargesOverlay = view.findViewById(R.id.number_of_charges_overlay)
         numberOfCyclesOverlay = view.findViewById(R.id.number_of_cycles_overlay)
+        numberOfCyclesAndroidOverlay = view.findViewById(R.id.number_of_cycles_android_overlay)
         chargingTimeOverlay = view.findViewById(R.id.charging_time_overlay)
         chargingTimeRemainingOverlay = view.findViewById(R.id.charging_time_remaining_overlay)
         remainingBatteryTimeOverlay = view.findViewById(R.id.remaining_battery_time_overlay)
@@ -285,6 +290,7 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
         onUpdateNumberOfCyclesOverlay()
+        onUpdateNumberOfCyclesAndroidOverlay()
         onUpdateChargingTimeOverlay()
         onUpdateChargingTimeRemainingOverlay(status)
         onUpdateRemainingBatteryTimeOverlay(status)
@@ -395,6 +401,32 @@ interface OverlayInterface : BatteryInfoInterface {
             visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_number_of_cycles_overlay))) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun onUpdateNumberOfCyclesAndroidOverlay() {
+
+        if((pref.getBoolean(IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY, numberOfCyclesAndroidOverlay.context
+                .resources.getBoolean(R.bool.is_number_of_cycles_android_overlay)) && File(
+                NUMBER_OF_CYCLES_PATH).exists()) || numberOfCyclesAndroidOverlay.visibility ==
+            View.VISIBLE)
+            numberOfCyclesAndroidOverlay.apply {
+
+                TextAppearanceHelper.setTextAppearance(context, this,
+                    pref.getString(OVERLAY_TEXT_STYLE, "0"),
+                    pref.getString(OVERLAY_FONT, "6"),
+                    pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
+                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                        .getBoolean(R.bool.is_only_values_overlay))) R.string
+                    .number_of_cycles_android else R.string
+                    .number_of_cycles_android_overlay_only_values, getNumberOfCyclesAndroid())
+
+                visibility = if(pref.getBoolean(IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY,
+                        context.resources.getBoolean(R.bool.is_number_of_cycles_android_overlay)))
+                            View.VISIBLE else View.GONE
+            }
     }
 
     private fun onUpdateChargingTimeOverlay() {
@@ -897,6 +929,30 @@ interface OverlayInterface : BatteryInfoInterface {
                     batteryWearOverlay.context.resources.getBoolean(R.bool.is_supported)))
                 View.VISIBLE else View.GONE
         }
+    }
+
+    private fun getNumberOfCyclesAndroid(): Int {
+
+        if(!File(NUMBER_OF_CYCLES_PATH).exists()) return 0
+
+        val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
+
+        var numberOfCycles = 0
+
+        try {
+
+            val br = try {
+                BufferedReader(FileReader(cycleCount))
+            }
+            catch (e: FileNotFoundException) { null }
+
+            numberOfCycles = br?.readLine()?.toInt() ?: 0
+
+            br?.close()
+
+        } catch (e: IOException) { numberOfCycles = 0 }
+
+        return numberOfCycles
     }
 
     private fun onLinearLayoutOnTouchListener(parameters: WindowManager.LayoutParams) =

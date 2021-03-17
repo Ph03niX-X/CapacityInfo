@@ -58,6 +58,16 @@
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/number_of_cycles_android"
+                    android:text="@string/number_of_cycles_android"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/number_of_cycles"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/current_capacity_wear"
@@ -65,7 +75,7 @@
                         android:text="@string/current_capacity"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
-                        android:layout_below="@id/number_of_cycles"
+                        android:layout_below="@id/number_of_cycles_android"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView

@@ -33,6 +33,7 @@
     <bool name="is_battery_level_overlay">false</bool>
     <bool name="is_number_of_charges_overlay">false</bool>
     <bool name="is_number_of_cycles_overlay">false</bool>
+    <bool name="is_number_of_cycles_android_overlay">false</bool>
     <bool name="is_charging_time_overlay">false</bool>
     <bool name="is_charging_time_remaining_overlay">false</bool>
     <bool name="is_remaining_battery_time_overlay">false</bool>
