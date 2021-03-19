@@ -17,6 +17,8 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.windowMa
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
+import java.lang.NullPointerException
+import java.lang.RuntimeException
 
 class OverlayService : Service(), OverlayInterface {
 
@@ -87,7 +89,9 @@ class OverlayService : Service(), OverlayInterface {
 
         if(linearLayout?.windowToken != null) windowManager?.removeView(linearLayout)
 
-        TinyDancer.hide(this)
+        try { TinyDancer.hide(this) }
+        catch (e: RuntimeException) {}
+        catch (e: NullPointerException) {}
 
         super.onDestroy()
     }
