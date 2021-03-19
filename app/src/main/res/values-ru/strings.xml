@@ -241,4 +241,6 @@
     <string name="ma">%1$d мА</string>
     <string name="overheat">Перегрев</string>
     <string name="overcool">Переохлаждение</string>
+    <string name="number_of_cycles_android">Количество циклов (Android): %1$d</string>
+    <string name="number_of_cycles_android_overlay">Количество циклов (Android)</string>
 </resources>
