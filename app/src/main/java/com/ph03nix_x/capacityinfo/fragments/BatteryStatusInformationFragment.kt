@@ -266,29 +266,17 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 R.bool.is_notify_overheat_overcool))
         }
 
-        notifyOverheatOvercool?.apply {
+        notifyOverheatOvercool?.isChecked = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources
+            .getBoolean(R.bool.is_notify_overheat_overcool))
 
-            isChecked = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
-                R.bool.is_notify_overheat_overcool))
-        }
+        notifyBatteryIsFullyCharged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
+            resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
 
-        notifyBatteryIsFullyCharged?.apply {
+       notifyBatteryIsCharged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources
+           .getBoolean(R.bool.is_notify_battery_is_charged))
 
-            isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_fully_charged))
-        }
-
-       notifyBatteryIsCharged?.apply {
-
-            isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_charged))
-        }
-
-        notifyBatteryIsDischarged?.apply {
-
-            isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_discharged))
-        }
+        notifyBatteryIsDischarged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED,
+            resources.getBoolean(R.bool.is_notify_battery_is_discharged))
 
         notifyChargingCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources
             .getBoolean(R.bool.is_notify_charging_current))
