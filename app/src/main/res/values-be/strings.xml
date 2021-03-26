@@ -243,4 +243,6 @@
     <string name="overcool">Пераахаладжэнне</string>
     <string name="number_of_cycles_android">Колькасць цыклаў (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Колькасць цыклаў (Android)</string>
+    <string name="discharge_current_settings_channel">Ток разрадкі</string>
+    <string name="discharge_current_ma">Ток разрадкі: %1$d мА</string>
 </resources>
