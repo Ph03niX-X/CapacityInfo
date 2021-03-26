@@ -266,4 +266,6 @@
     <string name="number_of_cycles_android">Number of Cycles (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Number of Cycles (Android)</string>
     <string name="number_of_cycles_android_overlay_only_values" translatable="false">%1$d</string>
+    <string name="discharge_current_settings_channel">Discharge Current</string>
+    <string name="discharge_current_ma">Discharge Current: %1$d mA</string>
 </resources>

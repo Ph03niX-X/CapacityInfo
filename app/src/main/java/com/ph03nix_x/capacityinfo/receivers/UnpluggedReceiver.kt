@@ -117,6 +117,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
                 NotificationInterface.isBatteryCharged = true
                 NotificationInterface.isBatteryDischarged = true
                 NotificationInterface.isChargingCurrent = true
+                NotificationInterface.isDischargeCurrent = true
 
                 if(MainActivity.instance?.fragment != null) {
 

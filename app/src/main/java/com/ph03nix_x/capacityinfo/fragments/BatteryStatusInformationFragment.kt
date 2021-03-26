@@ -18,10 +18,12 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
@@ -36,10 +38,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var notifyBatteryIsFullyCharged: SwitchPreferenceCompat? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
     private var notifyChargingCurrent: SwitchPreferenceCompat? = null
+    private var notifyDischargeCurrent: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyCharged: SeekBarPreference? = null
     private var notifyBatteryIsDischarged: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyDischarged: SeekBarPreference? = null
     private var chargingCurrentLevelNotify: SeekBarPreference? = null
+    private var dischargeCurrentLevelNotify: SeekBarPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -56,10 +60,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
         notifyChargingCurrent = findPreference(IS_NOTIFY_CHARGING_CURRENT)
+        notifyDischargeCurrent = findPreference(IS_NOTIFY_DISCHARGE_CURRENT)
         batteryLevelNotifyCharged = findPreference(BATTERY_LEVEL_NOTIFY_CHARGED)
         notifyBatteryIsDischarged = findPreference(IS_NOTIFY_BATTERY_IS_DISCHARGED)
         batteryLevelNotifyDischarged = findPreference(BATTERY_LEVEL_NOTIFY_DISCHARGED)
         chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
+        dischargeCurrentLevelNotify = findPreference(DISCHARGE_CURRENT_LEVEL_NOTIFY)
 
         overheatDegrees?.apply {
             summary = getOverheatDegreesSummary()
@@ -151,6 +157,18 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             true
         }
 
+        notifyDischargeCurrent?.setOnPreferenceChangeListener { _, newValue ->
+
+            dischargeCurrentLevelNotify?.isEnabled = newValue as? Boolean == true
+
+            NotificationInterface.isNotifyDischargeCurrent = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_DISCHARGE_CURRENT_ID)
+
+            true
+        }
+
         batteryLevelNotifyCharged?.setOnPreferenceChangeListener { preference, newValue ->
 
             preference.summary = "${((newValue as? Int) ?: pref.getInt(
@@ -206,6 +224,27 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
+
+            true
+        }
+
+        dischargeCurrentLevelNotify?.setOnPreferenceClickListener {
+
+            changeDischargeCurrentNotifyLevel()
+
+            true
+        }
+
+        dischargeCurrentLevelNotify?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = getString(R.string.ma, ((newValue as? Int) ?: pref.getInt(
+                DISCHARGE_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                    .discharge_current_notify_level_min))))
+
+            NotificationInterface.isNotifyDischargeCurrent = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_DISCHARGE_CURRENT_ID)
 
             true
         }
@@ -271,6 +310,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             isEnabled = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
                 R.bool.is_notify_charging_current))
         }
+
+        dischargeCurrentLevelNotify?.apply {
+
+            summary = getDischargeCurrentLevelNotifySummary()
+            isEnabled = pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources.getBoolean(
+                R.bool.is_notify_discharge_current))
+        }
     }
 
     private fun getOverheatDegreesSummary(): String {
@@ -329,6 +375,20 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         return getString(R.string.ma, pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
             .getInteger(R.integer.charging_current_notify_level_min)))
+    }
+
+    private fun getDischargeCurrentLevelNotifySummary(): String {
+
+        if(pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                .discharge_current_notify_level_min)) > resources.getInteger(R.integer
+                .discharge_current_notify_level_max) || pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY,
+                resources.getInteger(R.integer.discharge_current_notify_level_min)) < resources
+                .getInteger(R.integer.discharge_current_notify_level_min))
+            pref.edit().putInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
+                .discharge_current_notify_level_min)).apply()
+
+        return getString(R.string.ma, pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, resources
+            .getInteger(R.integer.discharge_current_notify_level_min)))
     }
 
     private fun changeChargingCurrentNotifyLevel() {
@@ -404,6 +464,85 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                             R.integer.charging_current_notify_level_min) && s.toString().toInt() <=
                                 requireContext().resources.getInteger(
                                     R.integer.charging_current_notify_level_max)
+                }
+            })
+        }
+    }
+
+    private fun changeDischargeCurrentNotifyLevel() {
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+
+        val view = LayoutInflater.from(context).inflate(R.layout
+            .change_discharge_current_notify_level_dialog, null)
+
+        dialog.setView(view)
+
+        val changeDischargeCurrentLevel = view.findViewById<TextInputEditText>(R.id
+            .change_discharge_current_level_edit)
+
+        changeDischargeCurrentLevel.setText(if(pref.getInt(
+                DISCHARGE_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
+                    R.integer.discharge_current_notify_level_min)) >= requireContext().resources
+                .getInteger(R.integer.discharge_current_notify_level_min) || pref.getInt(
+                DISCHARGE_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
+                    R.integer.discharge_current_notify_level_min)) <= requireContext().resources
+                .getInteger(R.integer.discharge_current_notify_level_max))
+            pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, requireContext().resources
+                .getInteger(R.integer.discharge_current_notify_level_min)).toString()
+
+        else requireContext().resources.getInteger(R.integer.discharge_current_notify_level_min)
+            .toString())
+
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+
+            pref.edit().putInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, changeDischargeCurrentLevel.text
+                .toString().toInt()).apply()
+
+            dischargeCurrentLevelNotify?.apply {
+
+                summary = getString(R.string.ma, changeDischargeCurrentLevel.text.toString().toInt())
+
+                value = pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY,
+                    resources.getInteger(R.integer.discharge_current_notify_level_min))
+            }
+        }
+
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+
+        val dialogCreate = dialog.create()
+
+        changeDischargeCurrentNotifyLevelDialogCreateShowListener(dialogCreate,
+            changeDischargeCurrentLevel)
+
+        dialogCreate.show()
+    }
+
+    private fun changeDischargeCurrentNotifyLevelDialogCreateShowListener(dialogCreate: AlertDialog,
+                                                                         changeDischargeCurrentLevel:
+                                                                         TextInputEditText) {
+
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+
+            changeDischargeCurrentLevel.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.isNotEmpty() && s.toString() != pref.getInt(
+                            DISCHARGE_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
+                                R.integer.discharge_current_notify_level_min)).toString() &&
+                                s.toString().toInt() >= requireContext().resources.getInteger(
+                            R.integer.discharge_current_notify_level_min) && s.toString().toInt() <=
+                                requireContext().resources.getInteger(
+                                    R.integer.discharge_current_notify_level_max)
                 }
             })
         }

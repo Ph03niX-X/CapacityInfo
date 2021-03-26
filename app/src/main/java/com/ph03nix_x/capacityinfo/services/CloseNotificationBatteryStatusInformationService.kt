@@ -23,10 +23,14 @@ class CloseNotificationBatteryStatusInformationService : Service() {
     private fun close() {
 
         NotificationInterface.notificationManager?.cancel(if(!NotificationInterface
-                .isOverheatOvercool && !NotificationInterface.isChargingCurrent)
+                .isOverheatOvercool && !NotificationInterface.isChargingCurrent
+            && !NotificationInterface.isChargingCurrent)
             NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID
-        else if(!NotificationInterface.isOverheatOvercool && NotificationInterface
-                .isChargingCurrent) NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID else
+        else if(!NotificationInterface.isOverheatOvercool && !NotificationInterface.isDischargeCurrent
+            && NotificationInterface.isChargingCurrent) NotificationInterface
+            .NOTIFICATION_CHARGING_CURRENT_ID else if(!NotificationInterface.isOverheatOvercool &&
+            !NotificationInterface.isChargingCurrent && NotificationInterface.isDischargeCurrent)
+                NotificationInterface.NOTIFICATION_DISCHARGE_CURRENT_ID else
             NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
     }
 }
