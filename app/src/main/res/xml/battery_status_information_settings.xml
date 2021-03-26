@@ -93,7 +93,7 @@
         app:iconSpaceReserved="false"
         app:enabled="false"
         android:summary="@string/ma"
-        app:defaultValue="@integer/battery_level_notify_discharged"
+        app:defaultValue="@integer/charging_current_notify_level_min"
         app:min="@integer/charging_current_notify_level_min"
         android:max="@integer/charging_current_notify_level_max"
         app:updatesContinuously="true"

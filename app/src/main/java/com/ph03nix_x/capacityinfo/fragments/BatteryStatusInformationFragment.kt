@@ -290,6 +290,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 R.bool.is_notify_battery_is_discharged))
         }
 
+        notifyChargingCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources
+            .getBoolean(R.bool.is_notify_charging_current))
+
+        notifyDischargeCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources
+            .getBoolean(R.bool.is_notify_discharge_current))
+
         batteryLevelNotifyCharged?.apply {
 
             summary = getBatteryLevelNotifyChargingSummary()

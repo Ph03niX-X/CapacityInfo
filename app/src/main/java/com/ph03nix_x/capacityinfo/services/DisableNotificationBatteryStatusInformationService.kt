@@ -50,15 +50,23 @@ class DisableNotificationBatteryStatusInformationService : Service() {
             }
         }
 
-        NotificationInterface.notificationManager?.cancel(if(!NotificationInterface
-                .isOverheatOvercool && !NotificationInterface.isChargingCurrent
-            && !NotificationInterface.isChargingCurrent)
-            NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID
-        else if(!NotificationInterface.isOverheatOvercool && !NotificationInterface.isDischargeCurrent
-            && NotificationInterface.isChargingCurrent) NotificationInterface
-            .NOTIFICATION_CHARGING_CURRENT_ID else if(!NotificationInterface.isOverheatOvercool &&
-            !NotificationInterface.isChargingCurrent && NotificationInterface.isDischargeCurrent)
-            NotificationInterface.NOTIFICATION_DISCHARGE_CURRENT_ID else
-            NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+        if(NotificationInterface.isOverheatOvercool) {
+            NotificationInterface.notificationManager?.cancel(NotificationInterface
+                .NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+            return
+        }
+        if(NotificationInterface.isChargingCurrent) {
+            NotificationInterface.notificationManager?.cancel(NotificationInterface
+                .NOTIFICATION_CHARGING_CURRENT_ID)
+            return
+        }
+        if(NotificationInterface.isDischargeCurrent) {
+            NotificationInterface.notificationManager?.cancel(NotificationInterface
+                .NOTIFICATION_DISCHARGE_CURRENT_ID)
+            return
+        }
+
+        NotificationInterface.notificationManager?.cancel(NotificationInterface
+            .NOTIFICATION_BATTERY_STATUS_ID)
     }
 }

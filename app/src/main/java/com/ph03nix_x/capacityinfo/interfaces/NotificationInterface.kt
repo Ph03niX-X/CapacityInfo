@@ -694,7 +694,7 @@ interface NotificationInterface : BatteryInfoInterface {
                     "${context.packageName}/${R.raw.charging_current}"))
         }
 
-        notificationManager?.notify(NOTIFICATION_CHARGING_CURRENT_ID, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_DISCHARGE_CURRENT_ID, notificationBuilder.build())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
