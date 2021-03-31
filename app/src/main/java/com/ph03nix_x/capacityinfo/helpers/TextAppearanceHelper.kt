@@ -79,6 +79,12 @@ object TextAppearanceHelper {
 
             19 -> ResourcesCompat.getFont(context, R.font.work_sans)
 
+            20 -> ResourcesCompat.getFont(context, R.font.della_respira)
+
+            21 -> ResourcesCompat.getFont(context, R.font.mukta)
+
+            22 -> ResourcesCompat.getFont(context, R.font.pt_sans)
+
             else -> null
         }
     }
