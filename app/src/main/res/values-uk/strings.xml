@@ -49,7 +49,7 @@
     <string name="developer">Розробник</string>
     <string name="version">Версія</string>
     <string name="build">Збірка</string>
-    <string name="build_date">Дата збірки (GMT+2)</string>
+    <string name="build_date">Дата збірки (GMT+3)</string>
     <string name="rate_the_app">Оцінити додаток</string>
     <string name="license">Ліцензія: Apache 2.0</string>
     <string name="romanian_translation">Румунський переклад</string>
