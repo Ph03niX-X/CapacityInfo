@@ -11,6 +11,24 @@
                 app:icon="@drawable/ic_rate_the_app_24dp"
                 android:key="is_forcibly_show_rate_the_app"/>
 
+        <SwitchPreferenceCompat
+            android:title="@string/auto_start_boot"
+            android:defaultValue="@bool/is_auto_start_boot"
+            app:singleLineTitle="false"
+            android:key="is_auto_start_boot"/>
+
+        <SwitchPreferenceCompat
+            android:title="@string/auto_start_open_app"
+            android:defaultValue="@bool/is_auto_start_open_app"
+            app:singleLineTitle="false"
+            android:key="is_auto_start_open_app"/>
+
+        <SwitchPreferenceCompat
+            android:title="@string/auto_start_update_app"
+            android:defaultValue="@bool/is_auto_start_update_app"
+            app:singleLineTitle="false"
+            android:key="is_auto_start_update_app"/>
+
         <Preference
                 android:title="@string/add_setting"
                 app:singleLineTitle="false"

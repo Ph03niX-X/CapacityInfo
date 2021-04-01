@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_BOOT
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -28,6 +29,9 @@ class BootReceiver : BroadcastReceiver() {
             Intent.ACTION_BOOT_COMPLETED, "android.intent.action.QUICKBOOT_POWERON" -> {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+                if(!pref.getBoolean(IS_AUTO_START_BOOT, context.resources.getBoolean(R.bool
+                        .is_auto_start_boot))) return
 
                 ServiceHelper.cancelAllJobs(context)
 

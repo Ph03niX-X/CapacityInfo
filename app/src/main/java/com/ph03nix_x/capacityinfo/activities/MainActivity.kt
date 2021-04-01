@@ -36,6 +36,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FPS_OVERLAY
@@ -308,7 +309,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         BatteryManager.BATTERY_STATUS_CHARGING))
         }
 
-        if(CapacityInfoService.instance == null && !ServiceHelper.isStartedCapacityInfoService())
+        if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
+                .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
+            !ServiceHelper.isStartedCapacityInfoService())
             ServiceHelper.startService(this, CapacityInfoService::class.java)
 
         if(!pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
@@ -397,9 +400,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
 
-        if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(this)
-            && !ServiceHelper.isStartedOverlayService())
-            ServiceHelper.startService(this, OverlayService::class.java)
+        if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
+                .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
+            !ServiceHelper.isStartedCapacityInfoService())
+                ServiceHelper.startService(this, CapacityInfoService::class.java)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

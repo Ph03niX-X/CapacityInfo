@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
 
 class UpdateApplicationReceiver : BroadcastReceiver() {
 
@@ -28,6 +29,9 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+                if(!pref.getBoolean(IS_AUTO_START_UPDATE_APP, context.resources.getBoolean(
+                        R.bool.is_auto_start_update_app))) return
 
                 ServiceHelper.cancelAllJobs(context)
 
