@@ -8,14 +8,21 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
+    private var startCapacityInfoService: Preference? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -32,6 +39,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
+        startCapacityInfoService = findPreference("start_capacity_info_service")
+
         addSetting = findPreference("add_setting")
 
         changeSetting = findPreference("change_setting")
@@ -41,6 +50,23 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetSettings = findPreference("reset_settings")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
+
+        startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
+            .isStartedCapacityInfoService()
+
+        startCapacityInfoService?.setOnPreferenceClickListener {
+
+            ServiceHelper.startService(requireContext(), CapacityInfoService::class.java)
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                delay(3700L)
+                startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null
+                        && !ServiceHelper.isStartedCapacityInfoService()
+            }
+
+            true
+        }
 
         addSetting?.setOnPreferenceClickListener {
 
@@ -69,5 +95,13 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             true
         }
+    }
+
+    override fun onResume() {
+
+        super.onResume()
+
+        startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
+            .isStartedCapacityInfoService()
     }
 }
