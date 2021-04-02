@@ -271,9 +271,9 @@
     <string name="auto_start_boot">Auto Start (Boot)</string>
     <string name="auto_start_open_app">Auto Start (Open Application)</string>
     <string name="auto_start_update_app">Auto Start (Update Application)</string>
-    <string name="start_capacity_info_service">Start CapacityInfoService</string>
-    <string name="stop_capacity_info_service">Stop CapacityInfoService</string>
-    <string name="restart_capacity_info_service">Restart CapacityInfoService</string>
+    <string name="start_capacity_info_service">Start Capacity Info Service</string>
+    <string name="stop_capacity_info_service">Stop Capacity Info Service</string>
+    <string name="restart_capacity_info_service">Restart Capacity Info Service</string>
     <string name="stop_overlay_service">Stop Overlay Service</string>
     <string name="restart_overlay_service">Restart Overlay Service</string>
 </resources>

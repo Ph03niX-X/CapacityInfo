@@ -23,15 +23,15 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private lateinit var pref: SharedPreferences
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
+    private var addSetting: Preference? = null
+    private var changeSetting: Preference? = null
+    private var resetSetting: Preference? = null
+    private var resetSettings: Preference? = null
     private var startCapacityInfoService: Preference? = null
     private var stopCapacityInfoService: Preference? = null
     private var restartCapacityInfoService: Preference? = null
     private var stopOverlayService: Preference? = null
     private var restartOverlayService: Preference? = null
-    private var addSetting: Preference? = null
-    private var changeSetting: Preference? = null
-    private var resetSetting: Preference? = null
-    private var resetSettings: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -44,6 +44,14 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
+        addSetting = findPreference("add_setting")
+
+        changeSetting = findPreference("change_setting")
+
+        resetSetting = findPreference("reset_setting")
+
+        resetSettings = findPreference("reset_settings")
+
         startCapacityInfoService = findPreference("start_capacity_info_service")
 
         stopCapacityInfoService = findPreference("stop_capacity_info_service")
@@ -53,14 +61,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopOverlayService = findPreference("stop_overlay_service")
 
         restartOverlayService = findPreference("restart_overlay_service")
-
-        addSetting = findPreference("add_setting")
-
-        changeSetting = findPreference("change_setting")
-
-        resetSetting = findPreference("reset_setting")
-
-        resetSettings = findPreference("reset_settings")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
@@ -74,6 +74,33 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopOverlayService?.isEnabled = OverlayService.instance != null
 
         restartOverlayService?.isEnabled = OverlayService.instance != null
+        addSetting?.setOnPreferenceClickListener {
+
+            addSettingDialog(requireContext(), pref)
+
+            true
+        }
+
+        changeSetting?.setOnPreferenceClickListener {
+
+            changeSettingDialog(requireContext(), pref)
+
+            true
+        }
+
+        resetSetting?.setOnPreferenceClickListener {
+
+            resetSettingDialog(requireContext(), pref)
+
+            true
+        }
+
+        resetSettings?.setOnPreferenceClickListener {
+
+            resetSettingsDialog(requireContext(), pref)
+
+            true
+        }
 
         startCapacityInfoService?.setOnPreferenceClickListener {
 
@@ -177,33 +204,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
-        addSetting?.setOnPreferenceClickListener {
-
-            addSettingDialog(requireContext(), pref)
-
-            true
-        }
-
-        changeSetting?.setOnPreferenceClickListener {
-
-            changeSettingDialog(requireContext(), pref)
-
-            true
-        }
-
-        resetSetting?.setOnPreferenceClickListener {
-
-            resetSettingDialog(requireContext(), pref)
-
-            true
-        }
-
-        resetSettings?.setOnPreferenceClickListener {
-
-            resetSettingsDialog(requireContext(), pref)
-
-            true
-        }
     }
 
     override fun onResume() {

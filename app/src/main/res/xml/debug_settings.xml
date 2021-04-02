@@ -30,6 +30,30 @@
             android:key="is_auto_start_update_app"/>
 
         <Preference
+                android:title="@string/add_setting"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_add_setting_24dp"
+                android:key="add_setting"/>
+
+        <Preference
+                android:title="@string/change_setting"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_change_setting_24dp"
+                android:key="change_setting"/>
+
+        <Preference
+                android:title="@string/reset_setting"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_reset_setting_24dp"
+                android:key="reset_setting"/>
+
+        <Preference
+                android:title="@string/reset_settings"
+                app:singleLineTitle="false"
+                app:icon="@drawable/ic_reset_all_settings_24dp"
+                android:key="reset_settings"/>
+
+        <Preference
             android:title="@string/start_capacity_info_service"
             app:singleLineTitle="false"
             android:key="start_capacity_info_service"/>
@@ -53,29 +77,5 @@
             android:title="@string/restart_overlay_service"
             app:singleLineTitle="false"
             android:key="restart_overlay_service"/>
-
-        <Preference
-                android:title="@string/add_setting"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_add_setting_24dp"
-                android:key="add_setting"/>
-
-        <Preference
-                android:title="@string/change_setting"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_change_setting_24dp"
-                android:key="change_setting"/>
-
-        <Preference
-                android:title="@string/reset_setting"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_reset_setting_24dp"
-                android:key="reset_setting"/>
-
-        <Preference
-                android:title="@string/reset_settings"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_reset_all_settings_24dp"
-                android:key="reset_settings"/>
 
 </PreferenceScreen>
