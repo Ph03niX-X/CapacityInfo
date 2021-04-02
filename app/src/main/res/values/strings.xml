@@ -273,4 +273,5 @@
     <string name="auto_start_update_app">Auto Start (Update Application)</string>
     <string name="start_capacity_info_service">Start CapacityInfoService</string>
     <string name="stop_capacity_info_service">Stop CapacityInfoService</string>
+    <string name="restart_capacity_info_service">Restart CapacityInfoService</string>
 </resources>
