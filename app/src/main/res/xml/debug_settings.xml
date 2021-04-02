@@ -45,6 +45,16 @@
             android:key="restart_capacity_info_service"/>
 
         <Preference
+            android:title="@string/stop_overlay_service"
+            app:singleLineTitle="false"
+            android:key="stop_overlay_service"/>
+
+        <Preference
+            android:title="@string/restart_overlay_service"
+            app:singleLineTitle="false"
+            android:key="restart_overlay_service"/>
+
+        <Preference
                 android:title="@string/add_setting"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_add_setting_24dp"

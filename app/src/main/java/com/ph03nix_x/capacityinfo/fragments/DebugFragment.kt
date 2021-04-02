@@ -10,6 +10,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +26,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var startCapacityInfoService: Preference? = null
     private var stopCapacityInfoService: Preference? = null
     private var restartCapacityInfoService: Preference? = null
+    private var stopOverlayService: Preference? = null
+    private var restartOverlayService: Preference? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -47,6 +50,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         restartCapacityInfoService = findPreference("restart_capacity_info_service")
 
+        stopOverlayService = findPreference("stop_overlay_service")
+
+        restartOverlayService = findPreference("restart_overlay_service")
+
         addSetting = findPreference("add_setting")
 
         changeSetting = findPreference("change_setting")
@@ -63,6 +70,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
 
         restartCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
+
+        stopOverlayService?.isEnabled = OverlayService.instance != null
+
+        restartOverlayService?.isEnabled = OverlayService.instance != null
 
         startCapacityInfoService?.setOnPreferenceClickListener {
 
@@ -128,6 +139,44 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        stopOverlayService?.setOnPreferenceClickListener {
+
+            it.isEnabled = false
+
+            restartOverlayService?.isEnabled = false
+
+            ServiceHelper.stopService(requireContext(), OverlayService::class.java)
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                delay(1500L)
+                it.isEnabled = OverlayService.instance != null
+
+                restartOverlayService?.isEnabled = OverlayService.instance != null
+            }
+
+            true
+        }
+
+        restartOverlayService?.setOnPreferenceClickListener {
+
+            it.isEnabled = false
+
+            stopOverlayService?.isEnabled = false
+
+            ServiceHelper.restartService(requireContext(), OverlayService::class.java)
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                delay(4800L)
+                stopOverlayService?.isEnabled = OverlayService.instance != null
+
+                it.isEnabled = OverlayService.instance != null
+            }
+
+            true
+        }
+
         addSetting?.setOnPreferenceClickListener {
 
             addSettingDialog(requireContext(), pref)
@@ -167,5 +216,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
 
         restartCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
+
+        stopOverlayService?.isEnabled = OverlayService.instance != null
+
+        restartOverlayService?.isEnabled = OverlayService.instance != null
     }
 }
