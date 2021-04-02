@@ -23,6 +23,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var startCapacityInfoService: Preference? = null
+    private var stopCapacityInfoService: Preference? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -41,6 +42,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         startCapacityInfoService = findPreference("start_capacity_info_service")
 
+        stopCapacityInfoService = findPreference("stop_capacity_info_service")
+
         addSetting = findPreference("add_setting")
 
         changeSetting = findPreference("change_setting")
@@ -54,6 +57,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()
 
+        stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
+
         startCapacityInfoService?.setOnPreferenceClickListener {
 
             ServiceHelper.startService(requireContext(), CapacityInfoService::class.java)
@@ -61,8 +66,26 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             CoroutineScope(Dispatchers.Main).launch {
 
                 delay(3700L)
+                it.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
+                    .isStartedCapacityInfoService()
+
+                stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
+            }
+
+            true
+        }
+
+        stopCapacityInfoService?.setOnPreferenceClickListener {
+
+            ServiceHelper.stopService(requireContext(), CapacityInfoService::class.java)
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                delay(2500L)
                 startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null
                         && !ServiceHelper.isStartedCapacityInfoService()
+
+                it.isEnabled = CapacityInfoService.instance != null
             }
 
             true
@@ -103,5 +126,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()
+
+        stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
     }
 }
