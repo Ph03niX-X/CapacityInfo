@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
+import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -652,16 +653,7 @@ interface DebugOptionsInterface {
 
             val mainContext = context as? MainActivity
 
-            mainContext?.navigation?.menu?.findItem(R.id.debug_navigation)?.isVisible = false
-            mainContext?.fragment = ChargeDischargeFragment()
-            mainContext?.toolbar?.navigationIcon = null
-            MainActivity.isLoadChargeDischarge = true
-            MainActivity.isLoadWear = false
-            MainActivity.isLoadSettings = false
-            MainActivity.isLoadDebug = false
-            mainContext?.clearMenu()
-            mainContext?.inflateMenu()
-            mainContext?.loadFragment(mainContext.fragment ?: ChargeDischargeFragment())
+            mainContext?.onBackPressed()
         }
 
         else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
@@ -719,16 +711,7 @@ interface DebugOptionsInterface {
 
                 val mainContext = context as? MainActivity
 
-                mainContext?.navigation?.menu?.findItem(R.id.debug_navigation)?.isVisible = false
-                mainContext?.fragment = ChargeDischargeFragment()
-                mainContext?.toolbar?.navigationIcon = null
-                MainActivity.isLoadChargeDischarge = true
-                MainActivity.isLoadWear = false
-                MainActivity.isLoadSettings = false
-                MainActivity.isLoadDebug = false
-                mainContext?.clearMenu()
-                mainContext?.inflateMenu()
-                mainContext?.loadFragment(mainContext.fragment ?: ChargeDischargeFragment())
+                mainContext?.onBackPressed()
             }
 
             Toast.makeText(context, context.getString(R.string.key_successfully_reset, key),

@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
@@ -73,6 +74,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var overlay: Preference? = null
     private var resetToZeroTheNumberOfCharges: Preference? = null
     private var resetToZeroTheNumberOfCycles: Preference? = null
+    private var debug: Preference? = null
 
     // About & Feedback
     private var about: Preference? = null
@@ -235,6 +237,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
 
+        debug = findPreference("debug")
+
         backupSettings?.setOnPreferenceClickListener {
 
             mainActivity?.fragment = BackupSettingsFragment()
@@ -266,6 +270,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 overlay?.isVisible = true
                 resetToZeroTheNumberOfCharges?.isVisible = true
                 resetToZeroTheNumberOfCycles?.isVisible = true
+                debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
+                    resources.getBoolean(R.bool.is_enabled_debug_options))
             }
 
             else {
@@ -280,6 +286,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 overlay?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
                 resetToZeroTheNumberOfCycles?.isVisible = false
+                debug?.isVisible = false
             }
 
             true
@@ -393,6 +400,20 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
+        debug?.setOnPreferenceClickListener {
+
+            mainActivity?.fragment = DebugFragment()
+
+            mainActivity?.toolbar?.title = requireContext().getString(R.string.debug)
+
+            mainActivity?.toolbar?.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                R.drawable.ic_arrow_back_24dp)
+
+            mainActivity?.loadFragment(mainActivity?.fragment ?: DebugFragment(),
+                true)
+
+            true
+        }
 
         // About & Feedback
         about = findPreference("about")
@@ -463,5 +484,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
+
+        debug?.isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
+            PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
+                .is_enabled_debug_options))
     }
 }

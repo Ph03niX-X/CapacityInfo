@@ -205,6 +205,13 @@
             app:singleLineTitle="false"
             android:key="reset_to_zero_the_number_of_cycles"/>
 
+        <Preference
+            app:title="@string/debug"
+            app:isPreferenceVisible="false"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_debug_24dp"
+            app:key="debug"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

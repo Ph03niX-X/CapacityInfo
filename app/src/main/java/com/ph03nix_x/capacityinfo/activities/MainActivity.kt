@@ -23,7 +23,6 @@ import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -37,7 +36,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FPS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
@@ -140,7 +138,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         toolbar.navigationIcon = null
 
-        if(fragment !is SettingsFragment && fragment !is DebugFragment) inflateMenu()
+        if(fragment !is SettingsFragment) inflateMenu()
 
         toolbar.setNavigationOnClickListener {
 
@@ -154,10 +152,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat.getDrawable(
             this, getChargeDischargeNavigationIcon(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING))
-
-        navigation.menu.findItem(R.id.debug_navigation).isVisible =
-            pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
-                R.bool.is_enabled_debug_options))
 
         navigation.setOnNavigationItemSelectedListener {
 
@@ -217,7 +211,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                     when(fragment) {
 
-                        null, is ChargeDischargeFragment, is WearFragment, is DebugFragment -> {
+                        null, is ChargeDischargeFragment, is WearFragment -> {
 
                             fragment = SettingsFragment()
 
@@ -239,30 +233,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         }
                     }
                 }
-
-                R.id.debug_navigation -> {
-
-                    if(fragment !is DebugFragment) {
-
-                        fragment = DebugFragment()
-
-                        toolbar.title = getString(R.string.debug)
-
-                        toolbar.navigationIcon = null
-
-                        isLoadChargeDischarge = false
-
-                        isLoadWear = false
-
-                        isLoadSettings = false
-
-                        isLoadDebug = true
-
-                        clearMenu()
-
-                        loadFragment(fragment ?: DebugFragment())
-                    }
-                }
             }
 
             true
@@ -271,8 +241,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(!isRecreate || (isRecreate && fragment !is SettingsFragment))
             loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
                     BatteryStatusInformationFragment || fragment is BackupSettingsFragment
-                    || fragment is OverlayFragment || fragment is AboutFragment
-                    || fragment is FeedbackFragment)
+                    || fragment is OverlayFragment || fragment is DebugFragment ||
+                    fragment is AboutFragment || fragment is FeedbackFragment)
     }
 
     override fun onResume() {
@@ -314,14 +284,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             !ServiceHelper.isStartedCapacityInfoService())
             ServiceHelper.startService(this, CapacityInfoService::class.java)
 
-        if(!pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
-                R.bool.is_enabled_debug_options))
-            && fragment is DebugFragment) {
-
-            fragment = ChargeDischargeFragment()
-            loadFragment(fragment ?: ChargeDischargeFragment())
-        }
-
         toolbar.title = when(fragment) {
 
             is ChargeDischargeFragment -> getString(
@@ -338,10 +300,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             is BackupSettingsFragment -> getString(R.string.backup)
             else -> getString(R.string.app_name)
         }
-
-        navigation.menu.findItem(R.id.debug_navigation).isVisible =
-            pref.getBoolean(IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
-                R.bool.is_enabled_debug_options))
 
         if(!pref.contains(DESIGN_CAPACITY) ||
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
@@ -430,9 +388,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
                         && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
-                        && fragment !is WearFragment && fragment !is DebugFragment
-                        && fragment !is BackupSettingsFragment) || (fragment is BackupSettingsFragment
-                        && supportFragmentManager.backStackEntryCount > 0))) {
+                        && fragment !is WearFragment && fragment !is DebugFragment &&
+                        fragment !is BackupSettingsFragment) || ((fragment is BackupSettingsFragment
+                        || fragment is DebugFragment) && supportFragmentManager
+                    .backStackEntryCount > 0))) {
 
                 fragment = SettingsFragment()
 
@@ -440,7 +399,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 toolbar.navigationIcon = null
 
-                super.onBackPressed()
+                supportFragmentManager.popBackStack()
             }
 
             else if(toolbar.title != getString(R.string.settings) &&
@@ -619,22 +578,21 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         when {
 
             fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
-                    && fragment !is AboutFragment && fragment !is FeedbackFragment
-                    && fragment !is BackupSettingsFragment -> {
+                    && fragment !is AboutFragment && fragment !is DebugFragment &&
+                    fragment !is FeedbackFragment && fragment !is BackupSettingsFragment -> {
 
                 navigation.selectedItemId = when(fragment) {
 
                     is ChargeDischargeFragment -> R.id.charge_discharge_navigation
                     is WearFragment -> R.id.wear_navigation
                     is SettingsFragment -> R.id.settings_navigation
-                    is DebugFragment -> R.id.debug_navigation
                     else -> R.id.charge_discharge_navigation
                 }
             }
 
             fragment is BatteryStatusInformationFragment || fragment is OverlayFragment
-                    || fragment is AboutFragment || fragment is FeedbackFragment
-                    || fragment is BackupSettingsFragment -> {
+                    || fragment is AboutFragment || fragment is DebugFragment ||
+                    fragment is FeedbackFragment || fragment is BackupSettingsFragment -> {
 
                 navigation.selectedItemId = R.id.settings_navigation
 

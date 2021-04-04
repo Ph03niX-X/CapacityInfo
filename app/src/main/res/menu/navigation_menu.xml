@@ -19,12 +19,4 @@
             android:title="@string/settings"
             android:icon="@drawable/ic_settings_24dp"
             app:showAsAction="always"/>
-
-    <item
-            android:id="@+id/debug_navigation"
-            android:title="@string/debug"
-            android:icon="@drawable/ic_debug_navigation_24dp"
-            android:visible="false"
-            app:showAsAction="always"/>
-
 </menu>
