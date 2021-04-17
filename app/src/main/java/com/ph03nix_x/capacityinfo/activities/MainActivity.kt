@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         var tempFragment: Fragment? = null
         var isLoadChargeDischarge = false
         var isLoadWear = false
+        var isLoadHistory = false
         var isLoadSettings = false
         var isLoadDebug = false
         var isRecreate = false
@@ -117,6 +118,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
                         prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
 
+                isLoadHistory -> HistoryFragment()
+
                 isLoadDebug -> DebugFragment()
 
                 prefArrays != null -> BackupSettingsFragment()
@@ -131,6 +134,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else R.string.discharge)
 
             is WearFragment -> getString(R.string.wear)
+            is HistoryFragment -> getString(R.string.history)
             is SettingsFragment -> getString(R.string.settings)
             is DebugFragment -> getString(R.string.debug)
             else -> getString(R.string.app_name)
@@ -169,6 +173,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         isLoadWear = false
 
+                        isLoadHistory = false
+
                         isLoadSettings = false
 
                         isLoadDebug = false
@@ -195,6 +201,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                         isLoadWear = true
 
+                        isLoadHistory = false
+
                         isLoadSettings = false
 
                         isLoadDebug = false
@@ -207,11 +215,37 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     }
                 }
 
+                R.id.history_navigation -> {
+
+                    if(fragment !is HistoryFragment) {
+
+                        fragment = HistoryFragment()
+
+                        toolbar.title = getString(R.string.history)
+
+                        toolbar.navigationIcon = null
+
+                        isLoadChargeDischarge = false
+
+                        isLoadWear = false
+
+                        isLoadHistory = true
+
+                        isLoadSettings = false
+
+                        isLoadDebug = false
+
+                        clearMenu()
+
+                        loadFragment(fragment ?: HistoryFragment())
+                    }
+                }
+
                 R.id.settings_navigation -> {
 
                     when(fragment) {
 
-                        null, is ChargeDischargeFragment, is WearFragment -> {
+                        null, is ChargeDischargeFragment, is WearFragment, is HistoryFragment -> {
 
                             fragment = SettingsFragment()
 
@@ -291,6 +325,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else R.string.discharge)
 
             is WearFragment -> getString(R.string.wear)
+            is HistoryFragment -> getString(R.string.history)
             is SettingsFragment -> getString(R.string.settings)
             is BatteryStatusInformationFragment -> getString(R.string.battery_status_information)
             is OverlayFragment -> getString(R.string.overlay)
@@ -388,10 +423,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
                         && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
-                        && fragment !is WearFragment && fragment !is DebugFragment &&
-                        fragment !is BackupSettingsFragment) || ((fragment is BackupSettingsFragment
-                        || fragment is DebugFragment) && supportFragmentManager
-                    .backStackEntryCount > 0))) {
+                        && fragment !is WearFragment && fragment !is HistoryFragment &&
+                        fragment !is DebugFragment && fragment !is BackupSettingsFragment) || ((
+                        fragment is BackupSettingsFragment || fragment is DebugFragment) &&
+                        supportFragmentManager.backStackEntryCount > 0))) {
 
                 fragment = SettingsFragment()
 
@@ -585,6 +620,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                     is ChargeDischargeFragment -> R.id.charge_discharge_navigation
                     is WearFragment -> R.id.wear_navigation
+                    is HistoryFragment -> R.id.history_navigation
                     is SettingsFragment -> R.id.settings_navigation
                     else -> R.id.charge_discharge_navigation
                 }

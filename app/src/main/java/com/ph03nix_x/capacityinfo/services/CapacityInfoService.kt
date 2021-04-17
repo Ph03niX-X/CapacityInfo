@@ -18,6 +18,8 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.helpers.DateHelper
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
@@ -52,6 +54,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
+import java.util.*
 
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
 
@@ -480,6 +483,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             apply()
         }
+
+        HistoryHelper.autoClearHistory(this)
+        HistoryHelper.addHistory(this, DateHelper.getDate(DateHelper.getCurrentDay(),
+            DateHelper.getCurrentMonth(), DateHelper.getCurrentYear()), pref.getInt(
+            RESIDUAL_CAPACITY, 0))
 
         isSaveNumberOfCharges = false
 

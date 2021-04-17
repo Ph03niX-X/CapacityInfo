@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.InputFilter
@@ -15,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -54,6 +56,12 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
 import java.lang.Exception
 
 interface DebugOptionsInterface {
@@ -762,6 +770,64 @@ interface DebugOptionsInterface {
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
+        }
+    }
+
+    fun onExportHistory(context: Context, intent: Intent?) {
+
+        val dbDirectory = "${context.filesDir?.parent}/databases"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                val pickerDir = intent?.data?.let {
+                    context.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                }
+
+                context.databaseList().forEach { db ->
+
+                    if(db.contains("History")) {
+
+                        pickerDir?.findFile(db)?.delete()
+                        val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
+                            db)?.uri?.let {
+                            context.contentResolver?.openOutputStream(it)
+                        }
+
+                        val fileInputStream = FileInputStream("$dbDirectory/$db")
+                        val buffer = byteArrayOf((1024 * 8).toByte())
+                        var read: Int
+
+                        while (true) {
+
+                            read = fileInputStream.read(buffer)
+
+                            if(read != -1)
+                                outputStream?.write(buffer, 0, read)
+                            else break
+                        }
+
+                        fileInputStream.close()
+                        outputStream?.flush()
+                        outputStream?.close()
+                    }
+                }
+
+                MainActivity.isOnBackPressed = true
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 }

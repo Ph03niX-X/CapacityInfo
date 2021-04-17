@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_cardview"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_marginTop="@dimen/margin_top_history_cv"
+            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginEnd="@dimen/margin_end"
+            app:cardElevation="@dimen/card_elevation">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/history_date"
+                android:textSize="@dimen/medium_text_size"
+                tools:text="04.04.2021"
+                android:layout_marginTop="@dimen/margin_top_history_date"
+                android:layout_marginStart="@dimen/margin_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/history_residual_capacity"
+                    android:textSize="@dimen/medium_text_size"
+                    tools:text="Остаточная ёмкость: 3330,1 мАч (83,3%)"
+                    android:layout_marginTop="@dimen/margin_top_history_residual_capacity"
+                    android:layout_marginEnd="@dimen/margin_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/history_battery_wear"
+                    android:textSize="@dimen/medium_text_size"
+                    tools:text="Износ аккумулятора: 16,7% (669,9 мАч)"
+                    android:layout_marginTop="@dimen/margin_top_history_battery_wear"
+                    android:layout_marginEnd="@dimen/margin_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

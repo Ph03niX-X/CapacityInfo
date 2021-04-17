@@ -276,4 +276,10 @@
     <string name="restart_capacity_info_service">Restart Capacity Info Service</string>
     <string name="stop_overlay_service">Stop Overlay Service</string>
     <string name="restart_overlay_service">Restart Overlay Service</string>
+    <string name="history">History</string>
+    <string name="add_history">Add History</string>
+    <string name="add_ten_history">Add 10 History</string>
+    <string name="add_fifty_history">Add 50 History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="export_history">Export History</string>
 </resources>

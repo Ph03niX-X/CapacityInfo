@@ -15,6 +15,12 @@
             app:showAsAction="always"/>
 
     <item
+        android:id="@+id/history_navigation"
+        android:title="@string/history"
+        android:icon="@drawable/ic_history_navigation_24"
+        app:showAsAction="always"/>
+
+    <item
             android:id="@+id/settings_navigation"
             android:title="@string/settings"
             android:icon="@drawable/ic_settings_24dp"
