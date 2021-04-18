@@ -33,4 +33,5 @@ object Constants {
     const val AUTO_BACKUP_SETTINGS_JOB_ID = 0
     const val HISTORY_COUNT_MAX = 1000
     const val EXPORT_HISTORY_REQUEST_CODE = 0
+    const val EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE = 0
 }

@@ -1,19 +1,26 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -27,6 +34,12 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
@@ -44,6 +57,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var batteryLevelNotifyDischarged: SeekBarPreference? = null
     private var chargingCurrentLevelNotify: SeekBarPreference? = null
     private var dischargeCurrentLevelNotify: SeekBarPreference? = null
+    private var exportNotificationSounds: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -66,6 +80,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         batteryLevelNotifyDischarged = findPreference(BATTERY_LEVEL_NOTIFY_DISCHARGED)
         chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
         dischargeCurrentLevelNotify = findPreference(DISCHARGE_CURRENT_LEVEL_NOTIFY)
+        exportNotificationSounds = findPreference("export_notification_sounds")
 
         overheatDegrees?.apply {
             summary = getOverheatDegreesSummary()
@@ -248,6 +263,23 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             true
         }
+
+        exportNotificationSounds?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
+                    Constants. EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string
+                    .error_exporting_notification_sounds, e.message ?: e.toString()),
+                    Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
     }
 
     override fun onResume() {
@@ -310,6 +342,17 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getDischargeCurrentLevelNotifySummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources.getBoolean(
                 R.bool.is_notify_discharge_current))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+
+            Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) exportNotificationSounds(data)
         }
     }
 
@@ -539,6 +582,75 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                                     R.integer.discharge_current_notify_level_max)
                 }
             })
+        }
+    }
+
+    private fun exportNotificationSounds(intent: Intent?) {
+
+        val notificationSoundsList = arrayListOf(R.raw.overheat_overcool,
+            R.raw.battery_is_fully_charged, R.raw.battery_is_charged, R.raw.battery_is_discharged,
+            R.raw.charging_current)
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                val pickerDir = intent?.data?.let {
+                    context?.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                }
+
+                notificationSoundsList.forEach {
+
+                    pickerDir?.findFile("${resources.getResourceEntryName(
+                        it)}.mp3")?.delete()
+
+                    val outputStream = pickerDir?.createFile("audio/mpeg",
+                        resources.getResourceEntryName(it))?.uri?.let { it1 ->
+                        context?.contentResolver?.openOutputStream(it1)
+                    }
+
+                    val fileInputStream = resources.openRawResource(it)
+                    val buffer = byteArrayOf((1024 * 8).toByte())
+                    var read: Int
+
+                    while (true) {
+
+                        read = fileInputStream.read(buffer)
+
+                        if(read != -1)
+                            outputStream?.write(buffer, 0, read)
+                        else break
+                    }
+
+                    fileInputStream.close()
+                    outputStream?.flush()
+                    outputStream?.close()
+                }
+
+
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context?.getString(R.string
+                        .successful_export_of_notification_sounds), Toast.LENGTH_LONG).show()
+                }
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context?.getString(R.string
+                        .error_exporting_notification_sounds,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 }

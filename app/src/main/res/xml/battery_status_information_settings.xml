@@ -116,4 +116,10 @@
         app:updatesContinuously="true"
         android:key="discharge_current_level_notify"/>
 
+    <Preference
+        android:title="@string/export_notification_sounds"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="export_notification_sounds"/>
+
 </PreferenceScreen>
