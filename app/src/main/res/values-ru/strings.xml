@@ -245,4 +245,8 @@
     <string name="number_of_cycles_android_overlay">Количество циклов (Android)</string>
     <string name="discharge_current_settings_channel">Ток разрядки</string>
     <string name="discharge_current_ma">Ток разрядки: %1$d мА</string>
+    <string name="history">История</string>
+    <string name="export_notification_sounds">Экспорт звуков уведомлений</string>
+    <string name="successful_export_of_notification_sounds">Звуки уведомлений успешно экспортированы!</string>
+    <string name="error_exporting_notification_sounds">Ошибка экспортирования звуков уведомлений!\n%1$s</string>
 </resources>
