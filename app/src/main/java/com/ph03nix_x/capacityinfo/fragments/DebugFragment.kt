@@ -97,6 +97,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addHistory?.setOnPreferenceClickListener {
 
             it.isEnabled = false
+            addTenHistory?.isEnabled = false
+            addFiftyHistory?.isEnabled = false
+            clearHistory?.isEnabled = false
+            exportHistory?.isEnabled = false
 
             val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
                 R.integer.min_design_capacity))
@@ -121,13 +125,19 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             else Toast.makeText(requireContext(), "0.0.0: 0", Toast.LENGTH_LONG).show()
 
             it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+            addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+            addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
             true
         }
 
         addTenHistory?.setOnPreferenceClickListener {
 
+            addHistory?.isEnabled = false
             it.isEnabled = false
+            addFiftyHistory?.isEnabled = false
+            clearHistory?.isEnabled = false
+            exportHistory?.isEnabled = false
 
             CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
@@ -185,7 +195,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory?.setOnPreferenceClickListener {
 
+            addHistory?.isEnabled = false
+            addTenHistory?.isEnabled = false
             it.isEnabled = false
+            clearHistory?.isEnabled = false
+            exportHistory?.isEnabled = false
 
             CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 

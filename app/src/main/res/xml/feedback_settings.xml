@@ -14,7 +14,7 @@
 
     <Preference
             app:title="@string/developer"
-            app:summary="\@Ph03niX-X"
+            app:summary="\@Ph03niX_X"
             app:icon="@drawable/ic_developer_24dp"
             app:singleLineTitle="false"
             android:key="telegram_developer"/>

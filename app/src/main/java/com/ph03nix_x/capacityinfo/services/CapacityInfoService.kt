@@ -365,6 +365,26 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             capacityAdded = 0.0
         }
 
+        if(BatteryInfoInterface.residualCapacity > 0 && isFull) {
+
+            pref.edit().apply {
+
+                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
+                    == "μAh")
+                    putInt(RESIDUAL_CAPACITY,
+                        (getOnCurrentCapacity(applicationContext) * 1000.0).toInt())
+                else putInt(RESIDUAL_CAPACITY,
+                    (getOnCurrentCapacity(applicationContext) * 100.0).toInt())
+
+                apply()
+            }
+
+            HistoryHelper.autoClearHistory(this)
+            HistoryHelper.addHistory(this, DateHelper.getDate(DateHelper.getCurrentDay(),
+                DateHelper.getCurrentMonth(), DateHelper.getCurrentYear()), pref.getInt(
+                RESIDUAL_CAPACITY, 0))
+        }
+
         BatteryInfoInterface.batteryLevel = 0
 
         if(isStopService)
@@ -483,11 +503,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             apply()
         }
-
-        HistoryHelper.autoClearHistory(this)
-        HistoryHelper.addHistory(this, DateHelper.getDate(DateHelper.getCurrentDay(),
-            DateHelper.getCurrentMonth(), DateHelper.getCurrentYear()), pref.getInt(
-            RESIDUAL_CAPACITY, 0))
 
         isSaveNumberOfCharges = false
 

@@ -10,10 +10,8 @@ object HistoryHelper {
     fun addHistory(context: Context, date: String, residualCapacity: Int) {
 
         val historyDB = HistoryDB(context)
-        val historyList = historyDB.readDB()
         val history = History(date = date, residualCapacity = residualCapacity)
-        if(historyList.count() == 0 || historyList[historyList.size - 1]
-                .residualCapacity != residualCapacity) historyDB.insertData(history)
+        historyDB.insertData(history)
     }
 
     fun clearHistory(context: Context) = HistoryDB(context).clear()
