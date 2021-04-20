@@ -26,7 +26,8 @@
                 android:layout_marginTop="@dimen/margin_top_history_date"
                 android:layout_marginStart="@dimen/margin_start"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/history_residual_capacity"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/history_residual_capacity"
@@ -36,6 +37,8 @@
                     android:layout_marginEnd="@dimen/margin_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/history_date"
+                    android:textAlignment="textEnd"
                     android:layout_alignParentEnd="true"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -46,6 +49,9 @@
                     android:layout_marginEnd="@dimen/margin_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/history_date"
+                    android:layout_below="@id/history_residual_capacity"
+                    android:textAlignment="textEnd"
                     android:layout_alignParentEnd="true"/>
                 </RelativeLayout>
 

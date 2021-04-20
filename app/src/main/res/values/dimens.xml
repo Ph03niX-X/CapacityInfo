@@ -6,9 +6,9 @@
     <dimen name="margin_end">10dp</dimen>
     <dimen name="margin_bottom">10dp</dimen>
     <dimen name="margin_top_history_cv">8dp</dimen>
-    <dimen name="margin_top_history_date">28dp</dimen>
+    <dimen name="margin_top_history_date">4dp</dimen>
     <dimen name="margin_top_history_residual_capacity">8dp</dimen>
-    <dimen name="margin_top_history_battery_wear">28dp</dimen>
+    <dimen name="margin_top_history_battery_wear">4dp</dimen>
     <dimen name="toolbar_margin_start">10dp</dimen>
     <dimen name="toolbar_margin_end">10dp</dimen>
     <dimen name="toolbar_margin_bottom">5dp</dimen>
