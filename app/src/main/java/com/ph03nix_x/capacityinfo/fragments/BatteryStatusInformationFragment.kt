@@ -38,8 +38,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileInputStream
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
@@ -628,8 +626,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                     outputStream?.flush()
                     outputStream?.close()
                 }
-
-
 
                 withContext(Dispatchers.Main) {
 

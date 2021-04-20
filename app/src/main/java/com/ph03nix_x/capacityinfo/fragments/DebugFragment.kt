@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.app.Activity
 import android.content.*
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
