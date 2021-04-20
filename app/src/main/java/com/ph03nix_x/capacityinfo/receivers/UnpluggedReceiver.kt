@@ -58,18 +58,17 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                     if(residualCapacity > 0 && CapacityInfoService.instance?.isFull == true) {
 
-                        if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-                            == "μAh")
-                            putInt(RESIDUAL_CAPACITY,
-                                (((CapacityInfoService.instance?.getOnCurrentCapacity(
-                                    context) ?: 0.0) * 1000.0).toInt()))
-                        else putInt(RESIDUAL_CAPACITY, (((CapacityInfoService.instance
-                            ?.getOnCurrentCapacity(context) ?: 0.0) * 100.0).toInt()))
+                        val currentCapacity = ((CapacityInfoService.instance?.getOnCurrentCapacity(
+                            context) ?: 0.0) * if(pref.getString(
+                                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                                    1000.0 else 100.0).toInt()
+
+                        putInt(RESIDUAL_CAPACITY, currentCapacity)
 
                         HistoryHelper.autoClearHistory(context)
                         HistoryHelper.addHistory(context, DateHelper.getDate(DateHelper
                             .getCurrentDay(), DateHelper.getCurrentMonth(), DateHelper
-                            .getCurrentYear()), pref.getInt(RESIDUAL_CAPACITY, 0))
+                            .getCurrentYear()), currentCapacity)
                     }
 
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
