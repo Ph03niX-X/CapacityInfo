@@ -776,11 +776,15 @@ interface DebugOptionsInterface {
 
     fun onExportHistory(context: Context, intent: Intent?) {
 
-        val dbDirectory = "${context.filesDir?.parent}/databases"
+        val dbPath = "${context.filesDir?.parent}/databases/History.db"
+        val dbName = "History.db"
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
+
+                if(HistoryHelper.getHistoryCount(context) < 1)
+                    throw IOException ("Error Exporting History!")
 
                 MainActivity.isOnBackPressed = false
 
@@ -788,34 +792,29 @@ interface DebugOptionsInterface {
                     context.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
                 }
 
-                context.databaseList().forEach { db ->
-
-                    if(db.contains("History")) {
-
-                        pickerDir?.findFile(db)?.delete()
-                        val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
-                            db)?.uri?.let {
-                            context.contentResolver?.openOutputStream(it)
-                        }
-
-                        val fileInputStream = FileInputStream("$dbDirectory/$db")
-                        val buffer = byteArrayOf((1024 * 8).toByte())
-                        var read: Int
-
-                        while (true) {
-
-                            read = fileInputStream.read(buffer)
-
-                            if(read != -1)
-                                outputStream?.write(buffer, 0, read)
-                            else break
-                        }
-
-                        fileInputStream.close()
-                        outputStream?.flush()
-                        outputStream?.close()
+                delay(1000)
+                pickerDir?.findFile(dbName)?.delete()
+                val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
+                    dbName)?.uri?.let {
+                    context.contentResolver?.openOutputStream(it)
                     }
+
+                val fileInputStream = FileInputStream(dbPath)
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = fileInputStream.read(buffer)
+
+                    if(read != -1)
+                        outputStream?.write(buffer, 0, read)
+                    else break
                 }
+
+                fileInputStream.close()
+                outputStream?.flush()
+                outputStream?.close()
 
                 MainActivity.isOnBackPressed = true
             }
