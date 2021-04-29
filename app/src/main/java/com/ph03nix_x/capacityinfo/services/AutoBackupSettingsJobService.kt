@@ -9,11 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.microSDPath
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.lang.Exception
 
@@ -39,6 +37,11 @@ class AutoBackupSettingsJobService : JobService() {
                         "${applicationContext.packageName}_preferences.xml").copyTo(File(
                     "${backupPath}/${applicationContext.packageName}_preferences.xml"),
                     true)
+
+                delay(1000)
+                if(HistoryHelper.getHistoryCount(applicationContext) > 0)
+                    File("${applicationContext.filesDir.parent}/databases/History.db")
+                        .copyTo(File("${backupPath}/History.db"), true)
             }
 
             catch (e: Exception) {

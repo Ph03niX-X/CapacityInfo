@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.microSDPath
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
@@ -362,11 +363,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         backupSettingsToMicroSD?.isEnabled = isMicroSD()
 
-        val backupPath =
-            if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext()
-                    .resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
-                        isMicroSD()) "$microSDPath/Capacity Info/Backup"
-            else "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
+        backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext().resources
+                .getBoolean(R.bool.is_backup_settings_to_microsd)) && isMicroSD())
+                    "$microSDPath/Capacity Info/Backup"
+        else "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
 
         autoBackupSettings?.summary = backupPath
 
@@ -514,6 +514,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     "${backupPath}/${context?.packageName}_preferences.xml"),
                     true)
 
+                delay(1000)
+                if(HistoryHelper.getHistoryCount(requireContext()) > 0)
+                    File("${context?.filesDir?.parent}/databases/History.db")
+                        .copyTo(File("${backupPath}/History.db"), true)
+
                 withContext(Dispatchers.Main) {
 
                     Toast.makeText(requireContext(), getString(
@@ -583,6 +588,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                 File("${backupPath}/${context?.packageName}_preferences.xml").copyTo(File(
                     "${context?.filesDir?.parent}/shared_prefs/${context?.packageName}" +
                             "_preferences.xml"), true)
+
+                File("${backupPath}/History.db").copyTo(File(
+                    "${context?.filesDir?.parent}/databases/History.db"), true)
 
                 MainActivity.isOnBackPressed = true
 
