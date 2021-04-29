@@ -79,6 +79,11 @@
             android:key="export_history"/>
 
         <Preference
+            android:title="@string/import_history"
+            app:singleLineTitle="false"
+            android:key="import_history"/>
+
+        <Preference
             android:title="@string/start_capacity_info_service"
             app:singleLineTitle="false"
             android:key="start_capacity_info_service"/>

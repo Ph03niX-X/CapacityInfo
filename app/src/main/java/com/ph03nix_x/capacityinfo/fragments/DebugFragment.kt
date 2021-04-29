@@ -36,6 +36,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var addFiftyHistory: Preference? = null
     private var clearHistory: Preference? = null
     private var exportHistory: Preference? = null
+    private var importHistory: Preference? = null
     private var startCapacityInfoService: Preference? = null
     private var stopCapacityInfoService: Preference? = null
     private var restartCapacityInfoService: Preference? = null
@@ -70,6 +71,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         clearHistory = findPreference("clear_history")
 
         exportHistory = findPreference("export_history")
+
+        importHistory = findPreference("import_history")
 
         startCapacityInfoService = findPreference("start_capacity_info_service")
 
@@ -281,6 +284,23 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        importHistory?.setOnPreferenceClickListener {
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/octet-stream"
+                }, Constants.IMPORT_HISTORY_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            true
+        }
+
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()
 
@@ -460,6 +480,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             Constants.EXPORT_HISTORY_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) onExportHistory(requireContext(), data)
+
+            Constants.IMPORT_HISTORY_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data)
         }
     }
 }

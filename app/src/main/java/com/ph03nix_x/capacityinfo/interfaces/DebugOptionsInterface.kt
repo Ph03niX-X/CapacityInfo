@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -24,6 +25,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -56,11 +58,11 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import java.io.File
 import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 import java.lang.Exception
 
 interface DebugOptionsInterface {
@@ -816,6 +818,60 @@ interface DebugOptionsInterface {
                 }
 
                 MainActivity.isOnBackPressed = true
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    fun onImportHistory(context: Context, uri: Uri?) {
+
+        val dbPath = "${context.filesDir?.parent}/databases/History.db"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                delay(1000)
+                File(dbPath).deleteOnExit()
+                File("$dbPath-journal").deleteOnExit()
+
+                File(dbPath).createNewFile()
+
+                val fileOutputStream = FileOutputStream(dbPath)
+                val inputStream = uri?.let {
+                    context.contentResolver?.openInputStream(it) }
+
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = inputStream?.read(buffer) ?: -1
+
+                    if(read != -1)
+                        fileOutputStream.write(buffer, 0, read)
+                    else break
+                }
+
+                inputStream?.close()
+                fileOutputStream.flush()
+                fileOutputStream.close()
+
+                MainActivity.isOnBackPressed = true
+
+                if(HistoryHelper.getHistoryCount(context) <= 0)
+                    throw IOException("Error Importing History!")
             }
 
             catch(e: Exception) {
