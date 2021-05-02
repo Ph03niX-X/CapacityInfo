@@ -534,6 +534,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
                         + getString(R.string.faq_battery_wear_not_change)
                         + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
+                        + getString(R.string.faq_not_displayed_number_of_cycles_android)
                         + getString(R.string.faq_add_device_support))
                 setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                 show()
