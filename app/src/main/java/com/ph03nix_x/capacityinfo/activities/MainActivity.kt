@@ -533,6 +533,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_i_have_everything_in_zeros)
                         + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
                         + getString(R.string.faq_residual_capacity_is_higher)
+                        + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
                         + getString(R.string.faq_battery_wear_not_change)
                         + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
                         + getString(R.string.faq_not_displayed_number_of_cycles_android)
