@@ -14,4 +14,5 @@
     <color name="battery_discharged">@color/red</color>
     <color name="charging_current_notification">@color/blue</color>
     <color name="service_notification_text">@android:color/black</color>
+    <color name="icon_4pda">@color/blue</color>
 </resources>

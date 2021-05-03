@@ -11,6 +11,8 @@ object Constants {
     const val TELEGRAM_DEVELOPER_LINK = "https://t.me/Ph03niX_X"
     const val TELEGRAM_CHANNEL_LINK = "https://t.me/ci_channel"
     const val DONT_KILL_MY_APP_LINK = "https://dontkillmyapp.com"
+    const val DEVELOPER_4PDA_LINK = "https://4pda.ru/forum/index.php?showuser=3364275"
+    const val TOPIC_4PDA_LINK = "https://4pda.ru/forum/index.php?showtopic=964073"
     const val GOOGLE_PLAY_PACKAGE_NAME = "com.android.vending"
     const val SERVICE_CHANNEL_ID = "service_channel"
     const val OVERHEAT_OVERCOOL_CHANNEL_ID = "overheat_overcool"

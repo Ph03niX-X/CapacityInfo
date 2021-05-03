@@ -29,6 +29,28 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/fourpda"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_4pda"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
+
+        <Preference
+            app:title="@string/developer"
+            app:summary="Ph03niX-X"
+            app:icon="@drawable/ic_developer_24dp"
+            app:singleLineTitle="false"
+            android:key="developer_4pda"/>
+
+        <Preference
+            app:title="@string/topic"
+            app:icon="@drawable/ic_topic"
+            app:singleLineTitle="false"
+            android:key="topic_4pda"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/other"
         app:singleLineTitle="false"
         app:icon="@drawable/ic_misc_24dp"
