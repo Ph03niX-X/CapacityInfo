@@ -244,8 +244,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         debug = findPreference("debug")
 
-        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
-
         backupSettings?.setOnPreferenceClickListener {
 
             mainActivity?.fragment = BackupSettingsFragment()
@@ -286,8 +284,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     isVisible = true
                     isEnabled = pref.getFloat(NUMBER_OF_CYCLES,0f) > 0f
                 }
-                clearHistory?.isVisible = true
-                clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+                clearHistory?.apply {
+
+                    isVisible = true
+                    isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+                }
                 debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
                     resources.getBoolean(R.bool.is_enabled_debug_options))
             }
