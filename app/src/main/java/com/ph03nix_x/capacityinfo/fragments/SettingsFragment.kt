@@ -275,8 +275,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
                 overlay?.isVisible = true
-                resetToZeroTheNumberOfCharges?.isVisible = true
-                resetToZeroTheNumberOfCycles?.isVisible = true
+                resetToZeroTheNumberOfCharges?.apply {
+
+                    isVisible = true
+                    isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
+
+                }
+                resetToZeroTheNumberOfCycles?.apply {
+
+                    isVisible = true
+                    isEnabled = pref.getFloat(NUMBER_OF_CYCLES,0f) > 0f
+                }
                 clearHistory?.isVisible = true
                 clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
                 debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
@@ -366,46 +375,57 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCharges?.setOnPreferenceClickListener {
 
-            MaterialAlertDialogBuilder(requireContext()).apply {
+            if(pref.getLong(NUMBER_OF_CHARGES, 0) > 0)
+                MaterialAlertDialogBuilder(requireContext()).apply {
 
-                setMessage(getString(R.string.reset_to_zero_the_number_of_charges_dialog_message))
+                    setMessage(getString(R.string.reset_to_zero_the_number_of_charges_dialog_message))
 
-                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                    setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
-                    pref.edit().remove(NUMBER_OF_CHARGES).apply()
+                        pref.edit().remove(NUMBER_OF_CHARGES).apply()
 
-                    Toast.makeText(requireContext(),
-                        R.string.number_of_charges_was_success_reset_to_zero,
-                        Toast.LENGTH_LONG).show()
+                        it.isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
+
+                        if(!it.isEnabled)
+                            Toast.makeText(requireContext(),
+                                R.string.number_of_charges_was_success_reset_to_zero,
+                                Toast.LENGTH_LONG).show()
+                    }
+
+                    setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
+
+                    show()
                 }
 
-                setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
-
-                show()
-            }
+            else it.isEnabled = false
 
             true
         }
 
         resetToZeroTheNumberOfCycles?.setOnPreferenceClickListener {
 
-            MaterialAlertDialogBuilder(requireContext()).apply {
+            if(pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f)
+                MaterialAlertDialogBuilder(requireContext()).apply {
 
-                setMessage(getString(R.string.reset_to_zero_the_number_of_cycles_dialog_message))
+                    setMessage(getString(R.string.reset_to_zero_the_number_of_cycles_dialog_message))
 
-                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                    setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
-                    pref.edit().remove(NUMBER_OF_CYCLES).apply()
+                        pref.edit().remove(NUMBER_OF_CYCLES).apply()
 
-                    Toast.makeText(requireContext(),
-                        R.string.number_of_cycles_was_success_reset_to_zero,
-                        Toast.LENGTH_LONG).show()
+                        it.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
+
+                        if(!it.isEnabled) Toast.makeText(requireContext(),
+                            R.string.number_of_cycles_was_success_reset_to_zero,
+                            Toast.LENGTH_LONG).show()
+                    }
+
+                    setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
+
+                    show()
                 }
 
-                setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
-
-                show()
-            }
+            else it.isEnabled = false
 
             true
         }
@@ -501,6 +521,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
+
+        resetToZeroTheNumberOfCharges?.isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
+
+        resetToZeroTheNumberOfCycles?.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
 
         clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
 
