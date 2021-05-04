@@ -370,7 +370,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 setMessage(getString(R.string.reset_to_zero_the_number_of_charges_dialog_message))
 
-                setPositiveButton(getString(android.R.string.yes)) { _, _ ->
+                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
                     pref.edit().remove(NUMBER_OF_CHARGES).apply()
 
@@ -379,7 +379,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                         Toast.LENGTH_LONG).show()
                 }
 
-                setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
+                setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
 
                 show()
             }
@@ -393,7 +393,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                 setMessage(getString(R.string.reset_to_zero_the_number_of_cycles_dialog_message))
 
-                setPositiveButton(getString(android.R.string.yes)) { _, _ ->
+                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
                     pref.edit().remove(NUMBER_OF_CYCLES).apply()
 
@@ -402,7 +402,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                         Toast.LENGTH_LONG).show()
                 }
 
-                setNegativeButton(getString(android.R.string.no)) { d, _ -> d.dismiss() }
+                setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
 
                 show()
             }
