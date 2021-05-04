@@ -455,7 +455,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 if(resultCode == Activity.RESULT_OK) onExportHistory(requireContext(), data)
 
             Constants.IMPORT_HISTORY_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data)
+                if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data,
+                arrayListOf(addHistory, addTenHistory, addFiftyHistory, exportHistory))
         }
     }
 }

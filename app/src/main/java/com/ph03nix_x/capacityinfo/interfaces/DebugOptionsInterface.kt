@@ -18,6 +18,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
+import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -831,7 +832,7 @@ interface DebugOptionsInterface {
         }
     }
 
-    fun onImportHistory(context: Context, uri: Uri?) {
+    fun onImportHistory(context: Context, uri: Uri?, preferencesList: ArrayList<Preference?>) {
 
         val dbPath = "${context.filesDir?.parent}/databases/History.db"
 
@@ -869,7 +870,20 @@ interface DebugOptionsInterface {
 
                 MainActivity.isOnBackPressed = true
 
-                if(HistoryHelper.getHistoryCount(context) <= 0)
+                val isHistoryNotEmpty = HistoryHelper.getHistoryCount(context) > 0
+
+                withContext(Dispatchers.Main) {
+
+                    preferencesList.forEach {
+
+                        if(it?.key == "add_history" || it?.key == "add_ten_history"
+                            || it?.key == "add_fifty_history")
+                            it.isEnabled = isHistoryNotEmpty && !HistoryHelper.isHistoryMax(context)
+                        else it?.isEnabled = isHistoryNotEmpty
+                    }
+                }
+
+                if(!isHistoryNotEmpty)
                     throw IOException("Error Importing History!")
             }
 
