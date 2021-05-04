@@ -286,6 +286,9 @@
     <string name="add_ten_history">Add 10 History</string>
     <string name="add_fifty_history">Add 50 History</string>
     <string name="clear_history">Clear History</string>
+    <string name="history_cleared_successfully">History Cleared Successfully!</string>
+    <string name="error_clearing_history">Error Clearing History!</string>
+    <string name="clear_the_history_dialog_message">Clear the History?</string>
     <string name="export_history">Export History</string>
     <string name="export_notification_sounds">Export Notification Sounds</string>
     <string name="successful_export_of_notification_sounds">Notification Sounds have been exported successfully!</string>

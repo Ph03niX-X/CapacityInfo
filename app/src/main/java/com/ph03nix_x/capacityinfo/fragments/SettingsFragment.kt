@@ -11,6 +11,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
@@ -38,6 +39,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
+import java.lang.Exception
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
     BatteryInfoInterface {
@@ -74,6 +76,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var overlay: Preference? = null
     private var resetToZeroTheNumberOfCharges: Preference? = null
     private var resetToZeroTheNumberOfCycles: Preference? = null
+    private var clearHistory: Preference? = null
     private var debug: Preference? = null
 
     // About & Feedback
@@ -237,7 +240,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
 
+        clearHistory = findPreference("clear_history")
+
         debug = findPreference("debug")
+
+        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
 
         backupSettings?.setOnPreferenceClickListener {
 
@@ -270,6 +277,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 overlay?.isVisible = true
                 resetToZeroTheNumberOfCharges?.isVisible = true
                 resetToZeroTheNumberOfCycles?.isVisible = true
+                clearHistory?.isVisible = true
+                clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
                 debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
                     resources.getBoolean(R.bool.is_enabled_debug_options))
             }
@@ -286,6 +295,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 overlay?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
                 resetToZeroTheNumberOfCycles?.isVisible = false
+                clearHistory?.isVisible = false
                 debug?.isVisible = false
             }
 
@@ -400,6 +410,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
+        clearHistory?.setOnPreferenceClickListener {
+
+            clearHistory()
+
+            true
+        }
+
         debug?.setOnPreferenceClickListener {
 
             mainActivity?.fragment = DebugFragment()
@@ -485,8 +502,46 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
 
+        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+
         debug?.isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
             PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
                 .is_enabled_debug_options))
+    }
+
+    private fun clearHistory() {
+
+        if(HistoryHelper.getHistoryCount(requireContext()) > 0)
+            MaterialAlertDialogBuilder(requireContext()).apply {
+
+                setMessage(getString(R.string.clear_the_history_dialog_message))
+
+                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+
+                    try {
+
+                        HistoryHelper.clearHistory(requireContext())
+                        val isHistoryNotEmpty = HistoryHelper.getHistoryCount(requireContext()) > 0
+                        clearHistory?.isEnabled = isHistoryNotEmpty
+                        if(!isHistoryNotEmpty) Toast.makeText(requireContext(), getString(
+                            R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
+                        else Toast.makeText(requireContext(), getString(R.string
+                            .error_clearing_history), Toast.LENGTH_LONG).show()
+                    }
+                    catch (e: Exception) {
+
+                        Toast.makeText(requireContext(), "${getString(R.string
+                            .error_clearing_history)}\n${e.message ?: e.toString()}",
+                            Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
+
+                show()
+            }
+
+        else Toast.makeText(requireContext(), getString(R.string.error_clearing_history),
+            Toast.LENGTH_LONG).show()
     }
 }

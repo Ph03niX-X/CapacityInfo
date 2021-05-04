@@ -69,11 +69,6 @@
             android:key="add_fifty_history"/>
 
         <Preference
-            android:title="@string/clear_history"
-            app:singleLineTitle="false"
-            android:key="clear_history"/>
-
-        <Preference
             android:title="@string/export_history"
             app:singleLineTitle="false"
             android:key="export_history"/>

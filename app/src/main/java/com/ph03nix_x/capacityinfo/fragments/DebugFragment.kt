@@ -34,7 +34,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var addHistory: Preference? = null
     private var addTenHistory: Preference? = null
     private var addFiftyHistory: Preference? = null
-    private var clearHistory: Preference? = null
     private var exportHistory: Preference? = null
     private var importHistory: Preference? = null
     private var startCapacityInfoService: Preference? = null
@@ -68,8 +67,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory = findPreference("add_fifty_history")
 
-        clearHistory = findPreference("clear_history")
-
         exportHistory = findPreference("export_history")
 
         importHistory = findPreference("import_history")
@@ -92,8 +89,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
-        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
-
         exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
 
         addHistory?.setOnPreferenceClickListener {
@@ -101,7 +96,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             it.isEnabled = false
             addTenHistory?.isEnabled = false
             addFiftyHistory?.isEnabled = false
-            clearHistory?.isEnabled = false
             exportHistory?.isEnabled = false
 
             val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
@@ -116,7 +110,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     (designCapacity / 1000) * 5)) * 100).random()
 
             HistoryHelper.addHistory(requireContext(), date, residualCapacity)
-            clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
             exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
 
             val historyDB = HistoryDB(requireContext()).readDB()
@@ -138,7 +131,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             addHistory?.isEnabled = false
             it.isEnabled = false
             addFiftyHistory?.isEnabled = false
-            clearHistory?.isEnabled = false
             exportHistory?.isEnabled = false
 
             CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
@@ -162,8 +154,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(
-                            requireContext()) > 0
                         exportHistory?.isEnabled = HistoryHelper.getHistoryCount(
                             requireContext()) > 0
                     }
@@ -200,7 +190,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             addHistory?.isEnabled = false
             addTenHistory?.isEnabled = false
             it.isEnabled = false
-            clearHistory?.isEnabled = false
             exportHistory?.isEnabled = false
 
             CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
@@ -224,8 +213,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(
-                            requireContext()) > 0
                         exportHistory?.isEnabled = HistoryHelper.getHistoryCount(
                             requireContext()) > 0
                     }
@@ -254,18 +241,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 }
             }
 
-            true
-        }
-
-
-        clearHistory?.setOnPreferenceClickListener {
-
-            HistoryHelper.clearHistory(requireContext())
-            addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-            addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-            addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-            it.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
-            exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
             true
         }
 
@@ -452,8 +427,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
 
         exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
 
