@@ -28,10 +28,10 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var build: Preference? = null
     private var buildDate: Preference? = null
     private var github: Preference? = null
-    private var ukrainianTranslation: Preference? = null
+    private var spanishTranslation: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
-    private var spanishTranslation: Preference? = null
+    private var ukrainianTranslation: Preference? = null
     private var betaTester: Preference? = null
 
     lateinit var pref: SharedPreferences
@@ -55,13 +55,13 @@ class AboutFragment : PreferenceFragmentCompat() {
 
         github = findPreference("github")
 
-        ukrainianTranslation = findPreference("ukrainian_translation")
+        spanishTranslation = findPreference("spanish_translation")
 
         romanianTranslation = findPreference("romanian_translation")
 
         belarusianTranslation = findPreference("belarusian_translation")
 
-        spanishTranslation = findPreference("spanish_translation")
+        ukrainianTranslation = findPreference("ukrainian_translation")
 
         betaTester = findPreference("become_a_beta_tester")
 
@@ -112,11 +112,11 @@ class AboutFragment : PreferenceFragmentCompat() {
             true
         }
 
-        ukrainianTranslation?.setOnPreferenceClickListener {
+        spanishTranslation?.setOnPreferenceClickListener {
 
             try {
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(UKRAINIAN_TRANSLATION_LINK)))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SPANISH_TRANSLATION_LINK)))
             }
             catch(e: ActivityNotFoundException) {
 
@@ -157,11 +157,11 @@ class AboutFragment : PreferenceFragmentCompat() {
             true
         }
 
-        spanishTranslation?.setOnPreferenceClickListener {
+        ukrainianTranslation?.setOnPreferenceClickListener {
 
             try {
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SPANISH_TRANSLATION_LINK)))
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(UKRAINIAN_TRANSLATION_LINK)))
             }
             catch(e: ActivityNotFoundException) {
 

@@ -793,7 +793,7 @@ interface DebugOptionsInterface {
                     context.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
                 }
 
-                delay(1000)
+                delay(1000L)
                 pickerDir?.findFile(dbName)?.delete()
                 val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
                     dbName)?.uri?.let {
@@ -847,7 +847,7 @@ interface DebugOptionsInterface {
 
                 MainActivity.isOnBackPressed = false
 
-                delay(1000)
+                delay(1000L)
                 File(dbPath).deleteOnExit()
                 File("$dbPath-journal").deleteOnExit()
 

@@ -407,7 +407,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                         CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
-                            delay(250)
+                            delay(250L)
                             restoreSettingsFromBackup?.isEnabled = File(
                                 "$backupPath/${requireContext()
                                     .packageName}_preferences.xml").exists() && File(
@@ -514,7 +514,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     "${backupPath}/${context?.packageName}_preferences.xml"),
                     true)
 
-                delay(1000)
+                delay(1000L)
                 if(HistoryHelper.getHistoryCount(requireContext()) > 0)
                     File("${context?.filesDir?.parent}/databases/History.db")
                         .copyTo(File("${backupPath}/History.db"), true)

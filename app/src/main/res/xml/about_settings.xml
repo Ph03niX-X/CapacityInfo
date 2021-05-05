@@ -37,11 +37,11 @@
             android:key="github"/>
 
     <Preference
-        app:title="@string/ukrainian_translation"
-        app:summary="Erdar2K21"
+        app:title="@string/spanish_translation"
+        app:summary="Lockednet"
         app:singleLineTitle="false"
-        app:icon="@drawable/ic_ukrainian_translation"
-        android:key="ukrainian_translation"/>
+        app:icon="@drawable/ic_spanish"
+        android:key="spanish_translation"/>
 
     <Preference
             app:title="@string/romanian_translation"
@@ -58,11 +58,11 @@
             android:key="belarusian_translation"/>
 
     <Preference
-        app:title="@string/spanish_translation"
-        app:summary="Lockednet"
+        app:title="@string/ukrainian_translation"
+        app:summary="Erdar2K21"
         app:singleLineTitle="false"
-        app:icon="@drawable/ic_spanish"
-        android:key="spanish_translation"/>
+        app:icon="@drawable/ic_ukrainian_translation"
+        android:key="ukrainian_translation"/>
 
     <Preference
             app:title="@string/become_a_beta_tester"

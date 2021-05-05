@@ -479,7 +479,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
 
-            delay(1000)
+            delay(1000L)
             if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay)) &&
                 pref.getBoolean(IS_FPS_OVERLAY, resources.getBoolean(R.bool.is_fps_overlay)))
                 TinyDancer.create().show(this@MainActivity)

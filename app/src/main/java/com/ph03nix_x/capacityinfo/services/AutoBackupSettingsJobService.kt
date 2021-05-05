@@ -38,7 +38,7 @@ class AutoBackupSettingsJobService : JobService() {
                     "${backupPath}/${applicationContext.packageName}_preferences.xml"),
                     true)
 
-                delay(1000)
+                delay(1000L)
                 if(HistoryHelper.getHistoryCount(applicationContext) > 0)
                     File("${applicationContext.filesDir.parent}/databases/History.db")
                         .copyTo(File("${backupPath}/History.db"), true)

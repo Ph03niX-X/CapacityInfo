@@ -169,7 +169,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                                     historyDB[historyDB.size - 1].date != date)) {
                             Toast.makeText(requireContext(), "$i: 0.0.0: 0",
                                 Toast.LENGTH_LONG).show()
-                            delay(3500)
+                            delay(3500L)
                         }
                     }
                 }
@@ -228,7 +228,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                                     historyDB[historyDB.size - 1].date != date)) {
                             Toast.makeText(requireContext(), "$i: 0.0.0: 0",
                                 Toast.LENGTH_LONG).show()
-                            delay(3500)
+                            delay(3500L)
                         }
                     }
                 }
