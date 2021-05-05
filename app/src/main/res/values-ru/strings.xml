@@ -268,11 +268,17 @@
     <string name="error_clearing_history">Ошибка очистки истории!</string>
     <string name="clear_the_history_dialog_message">Очистить историю?</string>
     <string name="export_history">Экспорт истории</string>
+    <string name="history_exported_successfully">История успешно экспортирована!</string>
+    <string name="error_exporting_history">Ошибка экспортирования истории!</string>
+    <string name="history_is_empty">История пустая!</string>
     <string name="export_notification_sounds">Экспорт звуков уведомлений</string>
     <string name="successful_export_of_notification_sounds">Звуки уведомлений успешно экспортированы!</string>
     <string name="error_exporting_notification_sounds">Ошибка экспортирования звуков уведомлений!\n%1$s</string>
     <string name="import_history">Импорт истории</string>
+    <string name="error_importing_history">История успешно импортирована!</string>
+    <string name="history_imported_successfully">Ошибка импортирования истории!</string>
     <string name="topic">Тема</string>
     <string name="developer_4pda_link_copied">Ссылка на 4PDA (Разработчик) скопирована</string>
     <string name="topic_4pda_link_copied">Ссылка на 4PDA (Тема) скопирована</string>
+    <string name="ukrainian_translation">Украинский перевод</string>
 </resources>
