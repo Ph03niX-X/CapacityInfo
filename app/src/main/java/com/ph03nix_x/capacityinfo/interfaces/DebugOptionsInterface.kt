@@ -827,7 +827,7 @@ interface DebugOptionsInterface {
                     MainActivity.isOnBackPressed = true
 
                     Toast.makeText(context, "${context.getString(R.string
-                        .error_exporting_history)}${e.message ?: e.toString()}",
+                        .error_exporting_history)}\n${e.message ?: e.toString()}",
                         Toast.LENGTH_LONG).show()
                 }
             }
