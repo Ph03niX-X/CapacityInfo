@@ -450,7 +450,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                     context ?: currentCapacity.context) > 0.0) 974L
                             else 981L)
 
-                        else -> delay(3000L)
+                        else -> delay(1500L)
                     }
                 }
             }

@@ -294,7 +294,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             catch (e: java.lang.RuntimeException) {}
                         }
 
-                        delay(2994L)
+                        delay(1494L)
                     }
                 }
             }

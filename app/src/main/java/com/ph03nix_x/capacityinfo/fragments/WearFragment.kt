@@ -422,7 +422,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                 else 993L
                             )
 
-                        else -> delay(3000L)
+                        else -> delay(1500L)
                     }
                 }
             }
