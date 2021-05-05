@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LIN
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.SPANISH_TRANSLATION_LINK
+import com.ph03nix_x.capacityinfo.utilities.Constants.UKRAINIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
 class AboutFragment : PreferenceFragmentCompat() {
@@ -27,6 +28,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var build: Preference? = null
     private var buildDate: Preference? = null
     private var github: Preference? = null
+    private var ukrainianTranslation: Preference? = null
     private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
     private var spanishTranslation: Preference? = null
@@ -52,6 +54,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         buildDate = findPreference("build_date")
 
         github = findPreference("github")
+
+        ukrainianTranslation = findPreference("ukrainian_translation")
 
         romanianTranslation = findPreference("romanian_translation")
 
@@ -103,6 +107,21 @@ class AboutFragment : PreferenceFragmentCompat() {
 
                 Toast.makeText(requireContext(), e.message ?: e.toString(),
                     Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+        ukrainianTranslation?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(UKRAINIAN_TRANSLATION_LINK)))
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
             }
 
             true

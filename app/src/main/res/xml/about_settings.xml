@@ -37,6 +37,13 @@
             android:key="github"/>
 
     <Preference
+        app:title="@string/ukrainian_translation"
+        app:summary="Erdar2K21"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_ukrainian_translation"
+        android:key="ukrainian_translation"/>
+
+    <Preference
             app:title="@string/romanian_translation"
             app:summary="ygorigor"
             app:singleLineTitle="false"

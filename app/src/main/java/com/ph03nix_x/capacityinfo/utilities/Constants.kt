@@ -5,6 +5,7 @@ object Constants {
     const val IMPORT_RESTORE_SETTINGS_EXTRA = "import_settings"
     const val IS_RESTORE_SETTINGS_EXTRA = "is_restore_settings"
     const val GITHUB_LINK = "https://github.com/Ph03niX-X/CapacityInfo"
+    const val UKRAINIAN_TRANSLATION_LINK = "https://t.me/Erdar2K21"
     const val ROMANIAN_TRANSLATION_LINK = "https://github.com/ygorigor"
     const val BELARUSIAN_TRANSLATION_LINK = "https://t.me/DrCyanogen"
     const val SPANISH_TRANSLATION_LINK = "https://t.me/Lockednet"
