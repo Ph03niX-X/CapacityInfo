@@ -297,6 +297,8 @@
     <string name="successful_export_of_notification_sounds">Notification Sounds have been exported successfully!</string>
     <string name="error_exporting_notification_sounds">Error Exporting Notification Sounds!\n%1$s</string>
     <string name="import_history">Import History</string>
+    <string name="error_importing_history">Error Importing History!</string>
+    <string name="history_imported_successfully">History imported successfully!</string>
     <string name="fourpda" translatable="false">4PDA</string>
     <string name="topic">Topic</string>
     <string name="developer_4pda_link_copied">4PDA (Developer) link copied</string>

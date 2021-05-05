@@ -886,7 +886,10 @@ interface DebugOptionsInterface {
                 }
 
                 if(!isHistoryNotEmpty)
-                    throw IOException("Error Importing History!")
+                    throw IOException(context.getString(R.string.history_is_empty))
+
+                else Toast.makeText(context, context.getString(R.string
+                    .history_imported_successfully), Toast.LENGTH_LONG).show()
             }
 
             catch(e: Exception) {
@@ -895,7 +898,9 @@ interface DebugOptionsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${context.getString(R.string
+                        .error_importing_history)}\n${e.message ?: e.toString()}",
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }
