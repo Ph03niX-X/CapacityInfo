@@ -290,6 +290,9 @@
     <string name="error_clearing_history">Error Clearing History!</string>
     <string name="clear_the_history_dialog_message">Clear the History?</string>
     <string name="export_history">Export History</string>
+    <string name="history_exported_successfully">History exported successfully!</string>
+    <string name="error_exporting_history">Error Exporting History!</string>
+    <string name="history_is_empty">History is Empty!</string>
     <string name="export_notification_sounds">Export Notification Sounds</string>
     <string name="successful_export_of_notification_sounds">Notification Sounds have been exported successfully!</string>
     <string name="error_exporting_notification_sounds">Error Exporting Notification Sounds!\n%1$s</string>

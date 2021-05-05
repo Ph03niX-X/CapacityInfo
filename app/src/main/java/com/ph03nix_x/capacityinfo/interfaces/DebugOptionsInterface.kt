@@ -785,7 +785,7 @@ interface DebugOptionsInterface {
             try {
 
                 if(HistoryHelper.getHistoryCount(context) < 1)
-                    throw IOException ("Error Exporting History!")
+                    throw IOException (context.getString(R.string.history_is_empty))
 
                 MainActivity.isOnBackPressed = false
 
@@ -826,7 +826,9 @@ interface DebugOptionsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${context.getString(R.string
+                        .error_exporting_history)}${e.message ?: e.toString()}",
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }
