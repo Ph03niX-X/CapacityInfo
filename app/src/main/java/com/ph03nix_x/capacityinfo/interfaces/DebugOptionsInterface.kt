@@ -817,6 +817,9 @@ interface DebugOptionsInterface {
                 outputStream?.flush()
                 outputStream?.close()
 
+                Toast.makeText(context, context.getString(R.string.history_exported_successfully),
+                    Toast.LENGTH_LONG).show()
+
                 MainActivity.isOnBackPressed = true
             }
 
