@@ -275,8 +275,8 @@
     <string name="successful_export_of_notification_sounds">Звуки повідомлень успішно експортовані!</string>
     <string name="error_exporting_notification_sounds">Звуки повідомлень успішно експортовані!\n%1$s</string>
     <string name="import_history">Імпорт історії</string>
-    <string name="error_importing_history">Історія успішно імпортована!</string>
-    <string name="history_imported_successfully">Помилка імпортування історії!</string>
+    <string name="error_importing_history">Помилка імпортування історії!</string>
+    <string name="history_imported_successfully">Історія успішно імпортована!</string>
     <string name="topic">Тема</string>
     <string name="developer_4pda_link_copied">Посилання на 4PDA (Розробник) скопійована</string>
     <string name="topic_4pda_link_copied">Посилання на 4PDA (Тема) скопійована</string>
