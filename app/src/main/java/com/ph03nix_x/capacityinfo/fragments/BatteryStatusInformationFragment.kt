@@ -38,6 +38,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
@@ -122,16 +123,22 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         overheatDegrees?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = getString(R.string.overheat_overcool_degrees, (
-                    newValue as? Int) ?: resources.getInteger(R.integer.overheat_degrees_default))
+            val temperature = (newValue as? Int) ?: resources.getInteger(R.integer
+                .overheat_degrees_default)
+
+            preference.summary = getString(R.string.overheat_overcool_degrees, temperature,
+                DecimalFormat("#.#").format((temperature * 1.8) + 32.0))
 
             true
         }
 
         overcoolDegrees?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = getString(R.string.overheat_overcool_degrees, (
-                    newValue as? Int) ?: resources.getInteger(R.integer.overcool_degrees_default))
+            val temperature = (newValue as? Int) ?: resources.getInteger(R.integer
+                .overcool_degrees_default)
+
+            preference.summary = getString(R.string.overheat_overcool_degrees, temperature,
+                DecimalFormat("#.#").format((temperature * 1.8) + 32.0))
 
             true
         }
@@ -363,8 +370,11 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             pref.edit().putInt(OVERHEAT_DEGREES, resources.getInteger(R
                 .integer.overheat_degrees_default)).apply()
 
-        return getString(R.string.overheat_overcool_degrees, pref.getInt(OVERHEAT_DEGREES,
-            resources.getInteger(R.integer.overheat_degrees_default)))
+        val temperature = pref.getInt(OVERHEAT_DEGREES,
+            resources.getInteger(R.integer.overheat_degrees_default))
+
+        return getString(R.string.overheat_overcool_degrees, temperature, DecimalFormat(
+            "#.#").format((temperature * 1.8) + 32.0))
     }
 
     private fun getOvercoolDegreesSummary(): String {
@@ -376,8 +386,11 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             pref.edit().putInt(OVERCOOL_DEGREES, resources.getInteger(R
                 .integer.overcool_degrees_default)).apply()
 
-        return getString(R.string.overheat_overcool_degrees, pref.getInt(OVERCOOL_DEGREES,
-            resources.getInteger(R.integer.overcool_degrees_default)))
+        val temperature = pref.getInt(OVERCOOL_DEGREES,
+            resources.getInteger(R.integer.overcool_degrees_default))
+
+        return getString(R.string.overheat_overcool_degrees, temperature, DecimalFormat(
+            "#.#").format((temperature * 1.8) + 32.0))
     }
 
     private fun getBatteryLevelNotifyChargingSummary(): String {

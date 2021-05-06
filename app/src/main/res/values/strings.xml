@@ -267,7 +267,7 @@
     <string name="fps" translatable="false">FPS</string>
     <string name="overheat">Overheat</string>
     <string name="overcool">Overcool</string>
-    <string name="overheat_overcool_degrees" translatable="false">%1$d°C</string>
+    <string name="overheat_overcool_degrees" translatable="false">%1$d°C/%2$s°F</string>
     <string name="number_of_cycles_android">Number of Cycles (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Number of Cycles (Android)</string>
     <string name="number_of_cycles_android_overlay_only_values" translatable="false">%1$d</string>
