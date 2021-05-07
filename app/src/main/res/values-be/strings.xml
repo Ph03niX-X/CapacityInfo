@@ -168,9 +168,9 @@
     <string name="overlay_permission_dialog_message">Для працы авэрлэю патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="text_style_overlay">Стыль тэксту</string>
-    <string name="text_size">Памер тэксту (Зарадка/Разрадка/Знос)</string>
-    <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Знос)</string>
-    <string name="text_style">Стыль тэксту (Зарадка/Разрадка/Знос)</string>
+    <string name="text_size">Памер тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
+    <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
+    <string name="text_style">Стыль тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
     <string name="battery_status_information">Інфармацыя пра стан акумулятара</string>
     <string name="battery_is_fully_charged">Акумулятар цалкам зараджаны</string>
     <string name="battery_is_charged">Акумулятар зараджаны</string>
