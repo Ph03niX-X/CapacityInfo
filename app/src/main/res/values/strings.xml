@@ -10,9 +10,7 @@
     <string name="discharge_current">Discharge current: %1$s mA</string>
     <string name="not_supported">The application does not support your device.\n\nThe application cannot find out the remaining capacity, since the battery does not give up the current capacity</string>
     <string name="voltage">Voltage: %1$s V</string>
-    <string name="temperature_celsius">Temperature: %1$s°C</string>
-    <string name="temperature_fahrenheit">Temperature: %1$s°F</string>
-    <string name="temperature_in_fahrenheit">Temperature in \"Fahrenheit\"</string>
+    <string name="temperature">Temperature: %1$s°C/%2$s°F</string>
     <string name="settings">Settings</string>
     <string name="instruction">Instruction</string>
     <string name="change_design_capacity">Change Design Capacity</string>
@@ -198,10 +196,8 @@
     <string name="press_the_back_button_again">Press the back button again to exit</string>
     <string name="tab_on_application_launch">Tab on application launch</string>
     <string name="overheat_overcool">Overheat/Overcool</string>
-    <string name="battery_overheating_celsius">Battery overheating! Temperature: %1$s°C</string>
-    <string name="battery_overheating_fahrenheit">Battery overheating! Temperature: %1$s°F</string>
-    <string name="battery_overcooling_celsius">Battery overcooling! Temperature: %1$s°C</string>
-    <string name="battery_overcooling_fahrenheit">Battery overcooling! Temperature: %1$s°F</string>
+    <string name="battery_overheating">Battery overheating! Temperature: %1$s°C/%2$s°F</string>
+    <string name="battery_overcooling">Battery overcooling! Temperature: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Show expanded notification</string>
     <string name="service_restart_required">Service restart required</string>
     <string name="dont_kill_my_app" translatable="false">Don\'t kill my app!</string>
@@ -226,8 +222,7 @@
     <string name="max_charge_discharge_overlay_only_values">%1$d mA</string>
     <string name="average_charge_discharge_overlay_only_values">%1$d mA</string>
     <string name="min_charge_discharge_overlay_only_values">%1$d mA</string>
-    <string name="temperature_celsius_overlay_only_values" translatable="false">%1$s°C</string>
-    <string name="temperature_fahrenheit_overlay_only_values" translatable="false">%1$s°F</string>
+    <string name="temperature_overlay_only_values" translatable="false">%1$s°C/%2$s°F</string>
     <string name="voltage_overlay_only_values">%1$s V</string>
     <string name="voltage_mv_overlay_only_values">%1$s mV</string>
     <string name="last_charge_time_overlay_only_values" translatable="false">%1$s (%2$s - %3$s)</string>

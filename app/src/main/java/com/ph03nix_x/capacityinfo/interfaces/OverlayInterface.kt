@@ -50,7 +50,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
@@ -839,15 +838,12 @@ interface OverlayInterface : BatteryInfoInterface {
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_only_values_overlay)))
-                context.getString(if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT,
-                    context.resources.getBoolean(R.bool.temperature_in_fahrenheit)))
-                R.string.temperature_fahrenheit else R.string.temperature_celsius,
-                getOnTemperature(context)) else context.getString(if(pref.getBoolean(
-                    TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit)))
-                R.string.temperature_fahrenheit_overlay_only_values else
-                R.string.temperature_celsius_overlay_only_values, getOnTemperature(context))
+                    .getBoolean(R.bool.is_only_values_overlay))) context.getString(R.string
+                .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
+                DecimalFormat().format(getOnTemperatureInFahrenheit(context))) else context
+                .getString(R.string.temperature_overlay_only_values, DecimalFormat().format(
+                    getOnTemperatureInCelsius(context)), DecimalFormat().format(
+                    getOnTemperatureInFahrenheit(context)))
 
             visibility = if(pref.getBoolean(IS_TEMPERATURE_OVERLAY, this.resources.getBoolean(
                     R.bool.is_temperature_overlay))) View.VISIBLE else View.GONE

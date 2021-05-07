@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/temperature"
                         android:visibility="visible"
-                        android:text="@string/temperature_celsius"
+                        android:text="@string/temperature"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
                         android:fontFamily="@font/google_sans"/>

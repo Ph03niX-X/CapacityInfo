@@ -185,7 +185,7 @@
             android:fontFamily="@font/google_sans"
             android:textColor="@android:color/white"
             android:id="@+id/temperature_overlay"
-            android:text="@string/temperature_celsius"
+            android:text="@string/temperature"
             android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView

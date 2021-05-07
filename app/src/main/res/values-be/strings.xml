@@ -9,9 +9,7 @@
     <string name="discharge_current">Ток разрадкі: %1$s мА</string>
     <string name="not_supported">Дадатак не падтрымлівае вашу прыладу.\n\nДадатак не можа даведацца рэшткавую ёмістасць, так як акумулятар не аддае бягучую ёмістасць</string>
     <string name="voltage">Напружанне: %1$s В</string>
-    <string name="temperature_celsius">Тэмпература: %1$s°C</string>
-    <string name="temperature_fahrenheit">Тэмпература: %1$s°F</string>
-    <string name="temperature_in_fahrenheit">Тэмпература ў \"Фарэнгейт\"</string>
+    <string name="temperature">Тэмпература: %1$s°C/%2$s°F</string>
     <string name="settings">Налады</string>
     <string name="instruction">Інструкцыя</string>
     <string name="change_design_capacity">Змяніць праэктную ёмістасць</string>
@@ -193,10 +191,8 @@
     <string name="press_the_back_button_again">Націсніце яшчэ раз кнопку назад, каб выйсці</string>
     <string name="tab_on_application_launch">Укладка пры запуску дадатку</string>
     <string name="overheat_overcool">Перагрэў/Пераахаладжэнне</string>
-    <string name="battery_overheating_celsius">Перагрэў акумулятара! Тэмпература: %1$s°C</string>
-    <string name="battery_overheating_fahrenheit">Перагрэў акумулятара! Тэмпература: %1$s°F</string>
-    <string name="battery_overcooling_celsius">Пераахаладжэнне акумулятара! Тэмпература: %1$s°C</string>
-    <string name="battery_overcooling_fahrenheit">Пераахаладжэнне акумулятара! Тэмпература: %1$s°F</string>
+    <string name="battery_overheating">Перагрэў акумулятара! Тэмпература: %1$s°C/%2$s°F</string>
+    <string name="battery_overcooling">Пераахаладжэнне акумулятара! Тэмпература: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Паказваць пашыранае апавяшчэнне</string>
     <string name="service_restart_required">Патрабуецца перазапуск службы</string>
     <string name="charging_time_remaining">Пакінуты час зарадкі: %1$s</string>

@@ -9,9 +9,7 @@
     <string name="discharge_current">Descarga actual: %1$s mA</string>
     <string name="not_supported">La aplicación no es compatible con tu dispositivo.\n\nLa aplicación no puede averiguar la capacidad restante, ya que la batería no cede la capacidad actual</string>
     <string name="voltage">Voltaje: %1$s V</string>
-    <string name="temperature_celsius">Temperatura: %1$s°C</string>
-    <string name="temperature_fahrenheit">Temperatura: %1$s°F</string>
-    <string name="temperature_in_fahrenheit">Temperatura en \"Fahrenheit\"</string>
+    <string name="temperature">Temperatura: %1$s°C/%2$s°F</string>
     <string name="settings">Ajustes</string>
     <string name="instruction">Instrucción</string>
     <string name="change_design_capacity">Cambiar la capacidad de diseño</string>
@@ -187,10 +185,8 @@
     <string name="press_the_back_button_again">Pulse el botón atrás otra vez para salir</string>
     <string name="tab_on_application_launch">Pestaña al iniciar la aplicación</string>
     <string name="overheat_overcool">Calentamiento/Enfriamiento</string>
-    <string name="battery_overheating_celsius">¡Sobrecalentamiento de la batería! Temperatura: %1$s°C</string>
-    <string name="battery_overheating_fahrenheit">¡Sobrecalentamiento de la batería! Temperatura: %1$s°F</string>
-    <string name="battery_overcooling_celsius">¡Enfriamiento excesivo de la batería! Temperatura: %1$s°C</string>
-    <string name="battery_overcooling_fahrenheit">¡Enfriamiento excesivo de la batería! Temperatura: %1$s°F</string>
+    <string name="battery_overheating">¡Sobrecalentamiento de la batería! Temperatura: %1$s°C/%2$s°F</string>
+    <string name="battery_overcooling">¡Enfriamiento excesivo de la batería! Temperatura: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Mostrar notificación ampliada</string>
     <string name="service_restart_required">Se requiere reiniciar el servicio</string>
     <string name="charging_time_remaining">Tiempo de carga restante: %1$s</string>

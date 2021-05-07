@@ -232,13 +232,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     withContext(Dispatchers.Main) {
 
-                        temperature.text =
-                            if(!pref.getBoolean(PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT,
-                                    resources.getBoolean(R.bool.temperature_in_fahrenheit)))
-                                getString(R.string.temperature_celsius,
-                                getOnTemperature(context ?: temperature.context))
-                            else getString(R.string.temperature_fahrenheit,
-                                getOnTemperature(context ?: temperature.context))
+                        temperature.text = getString(R.string.temperature, DecimalFormat()
+                            .format(getOnTemperatureInCelsius(requireContext())), DecimalFormat()
+                            .format(getOnTemperatureInFahrenheit(requireContext())))
 
                         voltage.text = getString(if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV,
                                 resources.getBoolean(R.bool.voltage_in_mv)))

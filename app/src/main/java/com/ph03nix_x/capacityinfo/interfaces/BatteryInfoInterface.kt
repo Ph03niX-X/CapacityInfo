@@ -13,7 +13,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
@@ -207,35 +206,19 @@ interface BatteryInfoInterface {
         else chargingCurrentLimit
     }
 
-    fun getOnTemperature(context: Context): String {
+    fun getOnTemperatureInCelsius(context: Context): Double {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+            .ACTION_BATTERY_CHANGED))
 
-        batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val temperatureInCelsius = batteryIntent?.getIntExtra(BatteryManager
+            .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0
 
-        var temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
-            ?.toDouble() ?: 0.0
-
-        temp /= 10.0
-
-        return DecimalFormat("#.#").format(
-            if (pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                    R.bool.temperature_in_fahrenheit))) (temp * 1.8) + 32.0 else temp)
+        return temperatureInCelsius / 10.0
     }
 
-    fun getOnTemperatureInDouble(context: Context): Double {
-
-        batteryIntent = context.registerReceiver(
-            null, IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED
-            )
-        )
-
-        val temp = batteryIntent?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0)
-            ?.toDouble() ?: 0.0
-
-        return temp / 10.0
-    }
+    fun getOnTemperatureInFahrenheit(context: Context) =
+        (getOnTemperatureInCelsius(context) * 1.8) + 32.0
 
     fun getOnCurrentCapacity(context: Context): Double {
 

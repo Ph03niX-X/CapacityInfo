@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
@@ -30,6 +31,8 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+                removeOldPreferences(context, pref)
+
                 if(!pref.getBoolean(IS_AUTO_START_UPDATE_APP, context.resources.getBoolean(
                         R.bool.is_auto_start_update_app))) return
 
@@ -55,6 +58,19 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                         Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(
                             PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
                             "1")?.toLong() ?: 1L) * 60L * 60L * 1000L)
+            }
+        }
+    }
+
+    private fun removeOldPreferences(context: Context, pref: SharedPreferences) {
+        with(pref) {
+
+            edit().apply {
+
+                if(contains("temperature_in_fahrenheit"))
+                    this.remove("temperature_in_fahrenheit")
+
+                apply()
             }
         }
     }

@@ -219,8 +219,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
 
-                    val temperature = getOnTemperatureInDouble(
-                        this@CapacityInfoService)
+                    val temperature = getOnTemperatureInCelsius(this@CapacityInfoService)
 
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                             R.bool.is_notify_overheat_overcool)) &&

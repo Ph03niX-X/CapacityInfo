@@ -9,9 +9,7 @@
     <string name="discharge_current">Ток разрядки: %1$s мА</string>
     <string name="not_supported">Приложение не поддерживает ваше устройство.\n\nПриложение не может узнать остаточную ёмкость, так как аккумулятор не отдаёт текущую ёмкость</string>
     <string name="voltage">Напряжение: %1$s В</string>
-    <string name="temperature_celsius">Температура: %1$s°C</string>
-    <string name="temperature_fahrenheit">Температура: %1$s°F</string>
-    <string name="temperature_in_fahrenheit">Температура в \"Фаренгейт\"</string>
+    <string name="temperature">Температура: %1$s°C/%2$s°F</string>
     <string name="settings">Настройки</string>
     <string name="instruction">Инструкция</string>
     <string name="change_design_capacity">Изменить проектную ёмкость</string>
@@ -193,10 +191,8 @@
     <string name="press_the_back_button_again">Нажмите ещё раз кнопку назад, чтобы выйти</string>
     <string name="tab_on_application_launch">Вкладка при запуске приложения</string>
     <string name="overheat_overcool">Перегрев/Переохлаждение</string>
-    <string name="battery_overheating_celsius">Перегрев аккумулятора! Температура: %1$s°C</string>
-    <string name="battery_overheating_fahrenheit">Перегрев аккумулятора! Температура: %1$s°F</string>
-    <string name="battery_overcooling_celsius">Переохлаждение аккумулятора! Температура: %1$s°C</string>
-    <string name="battery_overcooling_fahrenheit">Переохлаждение аккумулятора! Температура: %1$s°F</string>
+    <string name="battery_overheating">Перегрев аккумулятора! Температура: %1$s°C/%2$s°F</string>
+    <string name="battery_overcooling">Переохлаждение аккумулятора! Температура: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Показывать расширенное уведомление</string>
     <string name="service_restart_required">Требуется перезапуск службы</string>
     <string name="charging_time_remaining">Оставшееся время зарядки: %1$s</string>

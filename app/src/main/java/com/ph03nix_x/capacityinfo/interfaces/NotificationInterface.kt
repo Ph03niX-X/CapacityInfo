@@ -45,7 +45,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEMPERATURE_IN_FAHRENHEIT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import java.lang.RuntimeException
 import java.text.DecimalFormat
@@ -227,9 +226,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        isNotifyOverheatOvercool = false
+        val temperatureInFahrenheit = getOnTemperatureInFahrenheit(context)
 
-        val temperatureString = getOnTemperature(context)
+        isNotifyOverheatOvercool = false
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
@@ -242,15 +241,13 @@ interface NotificationInterface : BatteryInfoInterface {
         if(temperature >= pref.getInt(OVERHEAT_DEGREES, context.resources.getInteger(
                 R.integer.overheat_degrees_default)))
             remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.battery_overheating_fahrenheit
-                else R.string.battery_overheating_celsius, temperatureString))
+                R.string.battery_overheating, DecimalFormat().format(temperature), DecimalFormat()
+                    .format(temperatureInFahrenheit)))
 
         else
             remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.battery_overcooling_fahrenheit
-                else R.string.battery_overcooling_celsius, temperatureString))
+                R.string.battery_overheating, DecimalFormat().format(temperature), DecimalFormat()
+                    .format(temperatureInFahrenheit)))
 
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
@@ -910,10 +907,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 context.getString(R.string.charge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
-            setTextViewText(R.id.temperature_service_notification, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, getOnTemperature(context)))
+            setTextViewText(R.id.temperature_service_notification, context.getString(R.string
+                .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
+                DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
@@ -974,10 +970,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
-            setTextViewText(R.id.temperature_service_notification, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, getOnTemperature(context)))
+            setTextViewText(R.id.temperature_service_notification, context.getString(R.string
+                .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
+                DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
@@ -1038,10 +1033,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
-            setTextViewText(R.id.temperature_service_notification, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, getOnTemperature(context)))
+            setTextViewText(R.id.temperature_service_notification, context.getString(R.string
+                .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
+                DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
@@ -1095,10 +1089,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
-            setTextViewText(R.id.temperature_service_notification, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, getOnTemperature(context)))
+            setTextViewText(R.id.temperature_service_notification, context.getString(R.string
+                .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
+                DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
@@ -1159,10 +1152,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 context.getString(R.string.discharge_current, getOnChargeDischargeCurrent(context)
                     .toString()))
 
-            setTextViewText(R.id.temperature_service_notification, context.getString(
-                if(pref.getBoolean(TEMPERATURE_IN_FAHRENHEIT, context.resources.getBoolean(
-                        R.bool.temperature_in_fahrenheit))) R.string.temperature_fahrenheit else
-                    R.string.temperature_celsius, getOnTemperature(context)))
+            setTextViewText(R.id.temperature_service_notification, context.getString(R.string
+                .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
+                DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
             setTextViewText(R.id.voltage_service_notification, context.getString(
                 if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(

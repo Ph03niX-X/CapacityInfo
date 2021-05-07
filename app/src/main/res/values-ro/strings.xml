@@ -9,9 +9,7 @@
     <string name="discharge_current">Curent de descărcare: %1$s mA</string>
     <string name="not_supported">Aplicația nu acceptă dispozitivul dvs.</string>
     <string name="voltage">Voltaj: %1$s V</string>
-    <string name="temperature_celsius">Temperatură: %1$s°C</string>
-    <string name="temperature_fahrenheit">Temperatură: %1$s°F</string>
-    <string name="temperature_in_fahrenheit">Temperatură în \"Fahrenheit\"</string>
+    <string name="temperature">Temperatură: %1$s°C/%2$s°F</string>
     <string name="settings">Setări</string>
     <string name="instruction">Instrucţiuni</string>
     <string name="change_design_capacity">Schimbați capacitatea de proiectare</string>
@@ -187,10 +185,8 @@
     <string name="press_the_back_button_again">Apăsați din nou butonul înapoi pentru a ieși</string>
     <string name="tab_on_application_launch">Fila la lansarea aplicației</string>
     <string name="overheat_overcool">Supraîncălzire/Suprarăcire</string>
-    <string name="battery_overheating_celsius">Supraîncălzire baterie! Temperatura: %1$s°C</string>
-    <string name="battery_overheating_fahrenheit">Supraîncălzire baterie! Temperatura: %1$s°F</string>
-    <string name="battery_overcooling_celsius">Suprarăcire baterie! Temperatura: %1$s°C</string>
-    <string name="battery_overcooling_fahrenheit">Suprarăcire baterie! Temperatura: %1$s°F</string>
+    <string name="battery_overheating">Supraîncălzire baterie! Temperatura: %1$s°C/%2$s°F</string>
+    <string name="battery_overcooling">Suprarăcire baterie! Temperatura: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Afișare notificare extinsă</string>
     <string name="service_restart_required">Reînceperea serviciului este necesară</string>
     <string name="charging_time_remaining">Timpul de încărcare rămas: %1$s</string>
