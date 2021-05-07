@@ -111,14 +111,16 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(fragment == null)
             fragment = when {
 
-                isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "1"
+                isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
+                        != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2"
                         && prefArrays == null && !isLoadSettings && !isLoadDebug) ->
                     ChargeDischargeFragment()
 
                 isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
                         prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
 
-                isLoadHistory -> HistoryFragment()
+                isLoadHistory || pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" ->
+                    HistoryFragment()
 
                 isLoadDebug -> DebugFragment()
 
@@ -142,7 +144,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         toolbar.navigationIcon = null
 
-        if(fragment !is SettingsFragment) inflateMenu()
+        if(fragment !is SettingsFragment && fragment !is HistoryFragment) inflateMenu()
 
         toolbar.setNavigationOnClickListener {
 

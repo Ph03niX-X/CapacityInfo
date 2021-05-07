@@ -57,6 +57,7 @@
     <string-array name="tab_on_application_launch_list">
         <item>Зарядка/Разрядка (По умолчанию)</item>
         <item>Износ</item>
+        <item>История</item>
     </string-array>
 
     <string-array name="frequency_of_auto_backup_settings_list">

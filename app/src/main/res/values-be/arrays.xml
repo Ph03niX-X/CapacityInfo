@@ -57,6 +57,7 @@
     <string-array name="tab_on_application_launch_list">
         <item>Зарадка/Разрадка (Па змаўчанні)</item>
         <item>Знос</item>
+        <item>Гісторыя</item>
     </string-array>
 
     <string-array name="frequency_of_auto_backup_settings_list">

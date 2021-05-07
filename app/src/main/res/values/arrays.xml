@@ -139,11 +139,13 @@
     <string-array name="tab_on_application_launch_list">
         <item>Charge/Discharge (Default)</item>
         <item>Wear</item>
+        <item>History</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_values"> // Do Not Translation
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="frequency_of_auto_backup_settings_list">

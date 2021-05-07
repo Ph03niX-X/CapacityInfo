@@ -39,7 +39,6 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
 
         recView = view.findViewById(R.id.history_recycler_view)
         historyAdapter = HistoryAdapter(historyDB.readDB())
-        historyAdapter.setHasStableIds(true)
         recView.adapter = historyAdapter
     }
 }

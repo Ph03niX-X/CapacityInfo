@@ -52,5 +52,6 @@
     <string-array name="tab_on_application_launch_list">
         <item>Încărcare/Descărcare (Implicit)</item>
         <item>Uzură</item>
+        <item>History</item>
     </string-array>
 </resources>
