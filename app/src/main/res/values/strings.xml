@@ -299,4 +299,10 @@
     <string name="developer_4pda_link_copied">4PDA (Developer) link copied</string>
     <string name="topic_4pda_link_copied">4PDA (Topic) link copied</string>
     <string name="ukrainian_translation">Ukrainian translation</string>
+    <string name="battery_is_charged_voltage">Battery is Charged (Voltage)</string>
+    <string name="battery_is_charged_notification_voltage">Battery is charged. %1$d mV</string>
+    <string name="battery_charged_voltage_seekbar_title">Voltage</string>
+    <string name="battery_charged_voltage_seekbar_summary">%1$d mV</string>
+    <string name="mv">mV</string>
+    <string name="charged_voltage">Charged (Voltage)</string>
 </resources>

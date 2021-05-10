@@ -3,6 +3,8 @@
     <integer name="min_design_capacity">1500</integer>
     <integer name="max_design_capacity">10000</integer>
     <integer name="battery_level_notify_charged">80</integer>
+    <integer name="battery_notify_charged_voltage_min">3400</integer>
+    <integer name="battery_notify_charged_voltage_max">4400</integer>
     <integer name="battery_level_notify_discharged">20</integer>
     <integer name="charging_current_notify_level_min">50</integer>
     <integer name="charging_current_notify_level_max">5000</integer>

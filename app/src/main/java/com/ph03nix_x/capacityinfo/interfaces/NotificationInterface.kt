@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.services.DisableNotificationBatteryStatusInfor
 import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_VOLTAGE_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_CURRENT_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
@@ -67,12 +68,14 @@ interface NotificationInterface : BatteryInfoInterface {
         var isNotifyOverheatOvercool = true
         var isNotifyBatteryFullyCharged = true
         var isNotifyBatteryCharged = true
+        var isNotifyBatteryChargedVoltage = true
         var isNotifyBatteryDischarged = true
         var isNotifyChargingCurrent = true
         var isNotifyDischargeCurrent = true
         var isOverheatOvercool = false
         var isBatteryFullyCharged = false
         var isBatteryCharged = false
+        var isBatteryChargedVoltage = false
         var isBatteryDischarged = false
         var isChargingCurrent = false
         var isDischargeCurrent = false
@@ -262,6 +265,7 @@ interface NotificationInterface : BatteryInfoInterface {
         isOverheatOvercool = true
         isBatteryFullyCharged = false
         isBatteryCharged = false
+        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isChargingCurrent = false
         isDischargeCurrent = false
@@ -335,6 +339,7 @@ interface NotificationInterface : BatteryInfoInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = true
         isBatteryCharged = false
+        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isChargingCurrent = false
         isDischargeCurrent = false
@@ -408,6 +413,7 @@ interface NotificationInterface : BatteryInfoInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = true
+        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isChargingCurrent = false
         isDischargeCurrent = false
@@ -437,6 +443,89 @@ interface NotificationInterface : BatteryInfoInterface {
                 in 60..79 -> R.drawable.ic_battery_is_charged_60_24dp
                 in 80..89 -> R.drawable.ic_battery_is_charged_80_24dp
                 in 90..95 -> R.drawable.ic_battery_is_charged_90_24dp
+                else -> R.drawable.ic_battery_is_fully_charged_24dp
+            })
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                color = ContextCompat.getColor(context, R.color.battery_charged)
+
+            setContentTitle(context.getString(R.string.battery_status_information))
+
+            setCustomContentView(remoteViewsContent)
+
+            setStyle(NotificationCompat.DecoratedCustomViewStyle())
+
+            setShowWhen(true)
+
+            setLights(Color.GREEN, 1500, 500)
+
+            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_charged}"))
+        }
+
+        notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
+    }
+
+    fun onNotifyBatteryChargedVoltage(context: Context, voltage: Int) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        isNotifyBatteryChargedVoltage = false
+
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+
+        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            onCreateNotificationChannel(context, CHARGED_CHANNEL_VOLTAGE_ID) else ""
+
+        val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
+
+        remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
+            R.string.battery_is_charged_notification_voltage, voltage))
+
+        val close = PendingIntent.getService(context,
+            CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
+                CloseNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val disable = PendingIntent.getService(context,
+            DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
+                DisableNotificationBatteryStatusInformationService::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        isOverheatOvercool = false
+        isBatteryFullyCharged = false
+        isBatteryCharged = false
+        isBatteryChargedVoltage = true
+        isBatteryDischarged = false
+        isChargingCurrent = false
+        isDischargeCurrent = false
+
+        val notificationBuilder = NotificationCompat.Builder(
+            context, channelId).apply {
+
+            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
+                    R.bool.is_bypass_dnd_mode)))
+                setCategory(NotificationCompat.CATEGORY_ALARM)
+
+            setAutoCancel(true)
+            setOngoing(false)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                addAction(0, context.getString(R.string.close), close)
+                addAction(0, context.getString(R.string.disable), disable)
+            }
+
+            priority = NotificationCompat.PRIORITY_MAX
+
+            setSmallIcon(when(voltage) {
+
+                in 2800..3399 -> R.drawable.ic_battery_is_charged_20_24dp
+                in 3400..3599 -> R.drawable.ic_battery_is_charged_30_24dp
+                in 3600..3799 -> R.drawable.ic_battery_is_charged_50_24dp
+                in 3800..3999 -> R.drawable.ic_battery_is_charged_60_24dp
+                in 4000..4199 -> R.drawable.ic_battery_is_charged_80_24dp
+                in 4200..4299 -> R.drawable.ic_battery_is_charged_90_24dp
                 else -> R.drawable.ic_battery_is_fully_charged_24dp
             })
 
@@ -493,6 +582,7 @@ interface NotificationInterface : BatteryInfoInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
+        isBatteryChargedVoltage = false
         isBatteryDischarged = true
         isChargingCurrent = false
         isDischargeCurrent = false
@@ -576,6 +666,7 @@ interface NotificationInterface : BatteryInfoInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
+        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isChargingCurrent = true
         isDischargeCurrent = false
@@ -650,6 +741,7 @@ interface NotificationInterface : BatteryInfoInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
+        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isChargingCurrent = false
         isDischargeCurrent = true
@@ -754,6 +846,25 @@ interface NotificationInterface : BatteryInfoInterface {
             CHARGED_CHANNEL_ID -> {
 
                 val channelName = context.getString(R.string.charged)
+
+                notificationService?.createNotificationChannel(NotificationChannel(
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
+
+                    setShowBadge(true)
+
+                    enableLights(true)
+
+                    lightColor = Color.GREEN
+
+                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                            "${context.packageName}/${R.raw.battery_is_charged}"),
+                        soundAttributes.build())
+                })
+            }
+
+            CHARGED_CHANNEL_VOLTAGE_ID -> {
+
+                val channelName = context.getString(R.string.charged_voltage)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
                     notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {

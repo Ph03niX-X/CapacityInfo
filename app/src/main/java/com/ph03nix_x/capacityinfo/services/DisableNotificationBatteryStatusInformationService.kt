@@ -39,6 +39,9 @@ class DisableNotificationBatteryStatusInformationService : Service() {
                 NotificationInterface.isBatteryCharged -> putBoolean(
                     PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED, false).apply()
 
+                NotificationInterface.isBatteryChargedVoltage -> putBoolean(
+                    PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, false).apply()
+
                 NotificationInterface.isBatteryDischarged -> putBoolean(
                     PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED, false).apply()
 

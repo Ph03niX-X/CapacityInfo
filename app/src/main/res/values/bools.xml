@@ -18,6 +18,7 @@
     <bool name="is_notify_overheat_overcool">false</bool>
     <bool name="is_notify_battery_is_fully_charged">false</bool>
     <bool name="is_notify_battery_is_charged">false</bool>
+    <bool name="is_notify_battery_is_charged_voltage">false</bool>
     <bool name="is_notify_battery_is_discharged">false</bool>
     <bool name="is_notify_charging_current">false</bool>
     <bool name="is_notify_discharge_current">false</bool>

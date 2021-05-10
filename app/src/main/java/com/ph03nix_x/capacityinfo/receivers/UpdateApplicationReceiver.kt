@@ -69,6 +69,12 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 if(contains("temperature_in_fahrenheit"))
                     this.remove("temperature_in_fahrenheit")
+                if(contains("is_notify_battery_is_charged_mv"))
+                    this.remove("is_notify_battery_is_charged_mv")
+                if(contains("battery_mv_notify_charged"))
+                    this.remove("battery_mv_notify_charged")
+                if(contains("is_battery_is_charged_voltage"))
+                    this.remove("is_battery_is_charged_voltage")
 
                 apply()
             }
