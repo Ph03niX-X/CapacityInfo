@@ -25,11 +25,13 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
@@ -57,7 +59,9 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var batteryLevelNotifyCharged: SeekBarPreference? = null
     private var batteryNotifyChargedVoltage: SeekBarPreference? = null
     private var notifyBatteryIsDischarged: SwitchPreferenceCompat? = null
+    private var notifyBatteryIsDischargedVoltage: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyDischarged: SeekBarPreference? = null
+    private var batteryNotifyDischargedVoltage: SeekBarPreference? = null
     private var chargingCurrentLevelNotify: SeekBarPreference? = null
     private var dischargeCurrentLevelNotify: SeekBarPreference? = null
     private var exportNotificationSounds: Preference? = null
@@ -82,7 +86,9 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         batteryLevelNotifyCharged = findPreference(BATTERY_LEVEL_NOTIFY_CHARGED)
         batteryNotifyChargedVoltage = findPreference(BATTERY_NOTIFY_CHARGED_VOLTAGE)
         notifyBatteryIsDischarged = findPreference(IS_NOTIFY_BATTERY_IS_DISCHARGED)
+        notifyBatteryIsDischargedVoltage = findPreference(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE)
         batteryLevelNotifyDischarged = findPreference(BATTERY_LEVEL_NOTIFY_DISCHARGED)
+        batteryNotifyDischargedVoltage = findPreference(BATTERY_NOTIFY_DISCHARGED_VOLTAGE)
         chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
         dischargeCurrentLevelNotify = findPreference(DISCHARGE_CURRENT_LEVEL_NOTIFY)
         exportNotificationSounds = findPreference("export_notification_sounds")
@@ -118,6 +124,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getBatteryLevelNotifyDischargeSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_discharged))
+        }
+
+        batteryNotifyDischargedVoltage?.apply {
+            summary = "${pref.getInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(
+                R.integer.battery_notify_discharged_voltage_min))}"
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
+                resources.getBoolean(R.bool.is_notify_battery_is_discharged_voltage))
         }
 
         notifyOverheatOvercool?.setOnPreferenceChangeListener { _, newValue ->
@@ -250,7 +263,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         notifyBatteryIsDischarged?.setOnPreferenceChangeListener { _, newValue ->
 
-            batteryLevelNotifyDischarged?.isEnabled = newValue as? Boolean == true
+            batteryNotifyDischargedVoltage?.isEnabled = newValue as? Boolean == true
 
             NotificationInterface.isNotifyBatteryDischarged = true
 
@@ -266,6 +279,39 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))}%"
 
             NotificationInterface.isNotifyBatteryDischarged = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+            true
+        }
+
+        batteryNotifyDischargedVoltage?.setOnPreferenceClickListener {
+
+            changeBatteryNotifyDischargedVoltage()
+
+            true
+        }
+
+        notifyBatteryIsDischargedVoltage?.setOnPreferenceChangeListener { _, newValue ->
+
+            batteryNotifyDischargedVoltage?.isEnabled = newValue as? Boolean == true
+
+            NotificationInterface.isNotifyBatteryDischargedVoltage = true
+
+            NotificationInterface.notificationManager?.cancel(
+                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+            true
+        }
+
+        batteryNotifyDischargedVoltage?.setOnPreferenceChangeListener { preference, newValue ->
+
+            preference.summary = "${((newValue as? Int) ?: pref.getInt(
+                BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
+                    .battery_notify_discharged_voltage_min)))}"
+
+            NotificationInterface.isNotifyBatteryChargedVoltage = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
@@ -361,6 +407,10 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyBatteryIsDischarged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED,
             resources.getBoolean(R.bool.is_notify_battery_is_discharged))
 
+        notifyBatteryIsDischargedVoltage?.isChecked = pref.getBoolean(
+            IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(R.bool
+                .is_notify_battery_is_discharged))
+
         notifyChargingCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources
             .getBoolean(R.bool.is_notify_charging_current))
 
@@ -375,7 +425,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         }
 
         batteryNotifyChargedVoltage?.apply {
-            summary = getString(R.string.battery_charged_voltage_seekbar_summary, pref.getInt(
+            summary = getString(R.string.battery_charged_discharged_voltage_seekbar_summary, pref.getInt(
                 BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
                     .battery_notify_charged_voltage_min)))
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, resources.getBoolean(
@@ -387,6 +437,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getBatteryLevelNotifyDischargeSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_discharged))
+        }
+
+        batteryNotifyDischargedVoltage?.apply {
+            summary = "${pref.getInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(
+                R.integer.battery_notify_discharged_voltage_min))}"
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
+                resources.getBoolean(R.bool.is_notify_battery_is_discharged_voltage))
         }
 
         chargingCurrentLevelNotify?.apply {
@@ -523,7 +580,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             this.batteryNotifyChargedVoltage?.apply {
 
-                summary = getString(R.string.battery_charged_voltage_seekbar_summary,
+                summary = getString(R.string.battery_charged_discharged_voltage_seekbar_summary,
                     batteryNotifyChargedVoltage.text.toString().toInt())
 
                 value = pref.getInt(BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
@@ -564,6 +621,85 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                                 && s.toString().toInt() >= resources.getInteger(R.integer
                             .battery_notify_charged_voltage_min) && s.toString().toInt() <= resources
                             .getInteger(R.integer.battery_notify_charged_voltage_max)
+                }
+            })
+        }
+    }
+
+    private fun changeBatteryNotifyDischargedVoltage() {
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+
+        val view = LayoutInflater.from(context).inflate(R.layout
+            .change_battery_is_charged_discharged_voltage_dialog, null)
+
+        dialog.setView(view)
+
+        val batteryNotifyDischargedVoltage = view.findViewById<TextInputEditText>(R.id
+            .change_battery_is_charged_discharged_mv_edit)
+
+        batteryNotifyDischargedVoltage.setText(if(pref.getInt(
+                BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
+                    .battery_notify_discharged_voltage_min)) >= resources.getInteger(R.integer
+                .battery_notify_discharged_voltage_min) || pref.getInt(
+                BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
+                    .battery_notify_discharged_voltage_min)) <= resources.getInteger(R.integer
+                .battery_notify_discharged_voltage_max)) pref.getInt(
+            BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
+                .battery_notify_discharged_voltage_min)).toString()
+
+        else resources.getInteger(R.integer.battery_notify_discharged_voltage_min).toString())
+
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+
+            pref.edit().putInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE,
+                batteryNotifyDischargedVoltage.text.toString().toInt()).apply()
+
+            this.batteryNotifyDischargedVoltage?.apply {
+
+                summary = getString(R.string.battery_charged_discharged_voltage_seekbar_summary,
+                    batteryNotifyDischargedVoltage.text.toString().toInt())
+
+                value = pref.getInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(
+                    R.integer.battery_notify_discharged_voltage_min))
+            }
+        }
+
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+
+        val dialogCreate = dialog.create()
+
+        changeBatteryNotifyDischargedVoltageDialogCreateShowListener(dialogCreate,
+            batteryNotifyDischargedVoltage)
+
+        dialogCreate.show()
+    }
+
+    private fun changeBatteryNotifyDischargedVoltageDialogCreateShowListener(dialogCreate: AlertDialog,
+                                                                          changeChargingCurrentLevel:
+                                                                          TextInputEditText) {
+
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+
+            changeChargingCurrentLevel.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                        s.isNotEmpty() && s.toString() != pref.getInt(
+                            BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
+                                .battery_notify_discharged_voltage_min)).toString()
+                                && s.toString().toInt() >= resources.getInteger(R.integer
+                            .battery_notify_discharged_voltage_min)
+                                && s.toString().toInt() <= resources.getInteger(R.integer
+                            .battery_notify_discharged_voltage_max)
                 }
             })
         }

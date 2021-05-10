@@ -27,6 +27,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.temp
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryChargedVoltage
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryDischargedVoltage
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
@@ -37,6 +38,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
@@ -44,6 +46,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
@@ -258,10 +261,27 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 onNotifyBatteryDischarged(this@CapacityInfoService)
                             }
 
+                        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
+                                resources.getBoolean(R.bool.is_notify_battery_is_charged_voltage))
+                            && isNotifyBatteryDischargedVoltage) {
+
+                            val voltage = if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV,
+                                    resources.getBoolean(R.bool.voltage_in_mv)))
+                                        getOnVoltage(this@CapacityInfoService)
+                            else getOnVoltage(this@CapacityInfoService) * 1000.0
+
+                            if(voltage <= pref.getInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources
+                                    .getInteger(R.integer.battery_notify_discharged_voltage_min)))
+                                withContext(Dispatchers.Main) {
+                                    onNotifyBatteryDischargedVoltage(
+                                        this@CapacityInfoService, voltage.toInt())
+                                }
+                        }
+
                         if(pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources.getBoolean(
                                 R.bool.is_notify_discharge_current))) {
 
-                            val dischargeCurrent =  getOnChargeDischargeCurrent(
+                            val dischargeCurrent = getOnChargeDischargeCurrent(
                                 this@CapacityInfoService)
 
                             if(dischargeCurrentTemp == null) dischargeCurrentTemp = dischargeCurrent
@@ -330,6 +350,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         NotificationInterface.isNotifyBatteryCharged = true
         NotificationInterface.isNotifyBatteryChargedVoltage = true
         NotificationInterface.isNotifyBatteryDischarged = true
+        NotificationInterface.isNotifyBatteryDischargedVoltage = true
         NotificationInterface.isChargingCurrent = true
         NotificationInterface.isDischargeCurrent = true
 

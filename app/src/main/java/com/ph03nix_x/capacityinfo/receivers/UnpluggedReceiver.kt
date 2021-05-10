@@ -137,6 +137,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
                 NotificationInterface.isBatteryCharged = true
                 NotificationInterface.isBatteryChargedVoltage = true
                 NotificationInterface.isBatteryDischarged = true
+                NotificationInterface.isBatteryDischargedVoltage = true
                 NotificationInterface.isChargingCurrent = true
                 NotificationInterface.isDischargeCurrent = true
 

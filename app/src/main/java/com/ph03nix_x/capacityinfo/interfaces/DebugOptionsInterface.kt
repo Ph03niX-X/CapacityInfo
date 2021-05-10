@@ -35,6 +35,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
@@ -342,8 +343,8 @@ interface DebugOptionsInterface {
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
                 BATTERY_NOTIFY_CHARGED_VOLTAGE, BATTERY_LEVEL_NOTIFY_DISCHARGED,
-                CHARGING_CURRENT_LEVEL_NOTIFY -> addChangeSetting(
-                    pref, key, value.toString().toInt())
+                BATTERY_NOTIFY_DISCHARGED_VOLTAGE, CHARGING_CURRENT_LEVEL_NOTIFY ->
+                    addChangeSetting(pref, key, value.toString().toInt())
 
                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(pref, key,
                     value.toString().toFloat())
@@ -397,9 +398,9 @@ interface DebugOptionsInterface {
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY,
                         BATTERY_LEVEL_NOTIFY_CHARGED, BATTERY_NOTIFY_CHARGED_VOLTAGE,
-                        BATTERY_LEVEL_NOTIFY_DISCHARGED, CHARGING_CURRENT_LEVEL_NOTIFY ->
-                            setValueType("int|long", changePrefValue, pref,
-                                prefValueInputTypeDef, prefValueKeyListenerDef)
+                        BATTERY_NOTIFY_DISCHARGED_VOLTAGE, BATTERY_LEVEL_NOTIFY_DISCHARGED,
+                        CHARGING_CURRENT_LEVEL_NOTIFY -> setValueType("int|long",
+                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         CAPACITY_ADDED, NUMBER_OF_CYCLES ->
                             setValueType("float", changePrefValue, pref,
