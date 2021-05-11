@@ -274,4 +274,13 @@
     <string name="developer_4pda_link_copied">Спасылка на 4PDA (распрацоўшчык) скапіяваная</string>
     <string name="topic_4pda_link_copied">Спасылка на 4PDA (Тэма) скапіяваная</string>
     <string name="ukrainian_translation">Ўкраінскі пераклад</string>
+    <string name="battery_is_charged_voltage">Акумулятар зараджаны (Напружанне)</string>
+    <string name="battery_is_charged_notification_voltage">Акумулятар зараджаны. %1$d мВ</string>
+    <string name="battery_charged_discharged_voltage_seekbar_title">Напружанне</string>
+    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d мВ</string>
+    <string name="mv">мВ</string>
+    <string name="charged_voltage">Зараджаны (Напружанне)</string>
+    <string name="battery_is_discharged_voltage">Акумулятар разраджаны (Напружанне)</string>
+    <string name="battery_is_discharged_notification_voltage">Акумулятар разраджаны. %1$d мВ</string>
+    <string name="discharged_voltage">Разраджаны (Напружанне)</string>
 </resources>
