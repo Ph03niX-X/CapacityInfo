@@ -26,8 +26,22 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.temp
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryChargedVoltage
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischarged
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischargedVoltage
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryFullyCharged
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isChargingCurrent
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isDischargeCurrent
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryCharged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryChargedVoltage
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryDischarged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryDischargedVoltage
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryFullyCharged
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyChargingCurrent
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyDischargeCurrent
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyOverheatOvercool
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isOverheatOvercool
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
@@ -342,14 +356,22 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         screenTimeJob = null
         jobService = null
 
-        NotificationInterface.isNotifyOverheatOvercool = true
-        NotificationInterface.isNotifyBatteryFullyCharged = true
-        NotificationInterface.isNotifyBatteryCharged = true
-        NotificationInterface.isNotifyBatteryChargedVoltage = true
-        NotificationInterface.isNotifyBatteryDischarged = true
-        NotificationInterface.isNotifyBatteryDischargedVoltage = true
-        NotificationInterface.isChargingCurrent = true
-        NotificationInterface.isDischargeCurrent = true
+        isNotifyOverheatOvercool = true
+        isNotifyBatteryFullyCharged = true
+        isNotifyBatteryCharged = true
+        isNotifyBatteryChargedVoltage = true
+        isNotifyBatteryDischarged = true
+        isNotifyBatteryDischargedVoltage = true
+        isNotifyChargingCurrent = true
+        isNotifyDischargeCurrent = true
+        isOverheatOvercool = false
+        isBatteryFullyCharged = false
+        isBatteryCharged = false
+        isBatteryChargedVoltage = false
+        isBatteryDischarged = false
+        isBatteryDischargedVoltage = false
+        isChargingCurrent = false
+        isDischargeCurrent = false
 
         val batteryLevel = getOnBatteryLevel(this) ?: 0
 
@@ -419,6 +441,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private suspend fun batteryCharging() {
 
         NotificationInterface.isNotifyBatteryDischarged = true
+        isNotifyBatteryDischargedVoltage = true
 
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
@@ -433,7 +456,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, resources.getBoolean(R.bool
-                .is_notify_battery_is_charged_voltage)) && isNotifyBatteryChargedVoltage) {
+                .is_notify_battery_is_charged_voltage)) && isNotifyBatteryChargedVoltage
+            && seconds >= 15) {
 
             val voltage = getOnVoltage(this)
 
@@ -498,6 +522,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isFull = true
 
         NotificationInterface.isNotifyBatteryDischarged = true
+        isNotifyBatteryDischargedVoltage = true
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_fully_charged)) &&

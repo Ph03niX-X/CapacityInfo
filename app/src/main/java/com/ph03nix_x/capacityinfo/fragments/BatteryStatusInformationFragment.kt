@@ -311,7 +311,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
                     .battery_notify_discharged_voltage_min)))}"
 
-            NotificationInterface.isNotifyBatteryChargedVoltage = true
+            NotificationInterface.isNotifyBatteryDischargedVoltage = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
@@ -408,8 +408,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             resources.getBoolean(R.bool.is_notify_battery_is_discharged))
 
         notifyBatteryIsDischargedVoltage?.isChecked = pref.getBoolean(
-            IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(R.bool
-                .is_notify_battery_is_discharged))
+            IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE, resources.getBoolean(R.bool
+                .is_notify_battery_is_discharged_voltage))
 
         notifyChargingCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources
             .getBoolean(R.bool.is_notify_charging_current))
