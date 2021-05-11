@@ -589,8 +589,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                     "${context?.filesDir?.parent}/shared_prefs/${context?.packageName}" +
                             "_preferences.xml"), true)
 
-                File("${backupPath}/History.db").copyTo(File(
-                    "${context?.filesDir?.parent}/databases/History.db"), true)
+                if(File("${backupPath}/History.db").exists())
+                    File("${backupPath}/History.db").copyTo(File(
+                        "${context?.filesDir?.parent}/databases/History.db"),
+                        true)
 
                 MainActivity.isOnBackPressed = true
 
