@@ -8,7 +8,7 @@
     <string name="charge_current">Ток зарадкі: %1$s мА</string>
     <string name="discharge_current">Ток разрадкі: %1$s мА</string>
     <string name="not_supported">Дадатак не падтрымлівае вашу прыладу.\n\nДадатак не можа даведацца рэшткавую ёмістасць, так як акумулятар не аддае бягучую ёмістасць</string>
-    <string name="voltage">Напружанне: %1$s В</string>
+    <string name="voltage">Напружанне: %1$s мВ</string>
     <string name="temperature">Тэмпература: %1$s°C/%2$s°F</string>
     <string name="settings">Налады</string>
     <string name="instruction">Інструкцыя</string>
@@ -38,8 +38,6 @@
     <string name="service_and_notification">Служба &amp; паведамленне</string>
     <string name="appearance">Знешні выгляд</string>
     <string name="misc">Рознае</string>
-    <string name="voltage_in_mv">Напружанне ў мВ</string>
-    <string name="voltage_mv">Напружанне: %1$s мВ</string>
     <string name="service_time">Час службы</string>
     <string name="capacity_added">Дадалося ёмістасці: %1$s мАг (%2$s)</string>
     <string name="notification_priority">Прыярытэт паведамлення і значок у радку стану</string>
@@ -207,8 +205,7 @@
     <string name="max_charge_discharge_overlay_only_values">%1$d мА</string>
     <string name="average_charge_discharge_overlay_only_values">%1$d мА</string>
     <string name="min_charge_discharge_overlay_only_values">%1$d мА</string>
-    <string name="voltage_overlay_only_values">%1$s В</string>
-    <string name="voltage_mv_overlay_only_values">%1$s мВ</string>
+    <string name="voltage_overlay_only_values">%1$s мВ</string>
     <string name="battery_wear_overlay_only_values">%1$s (%2$s мАг)</string>
     <string name="close">Зачыніць</string>
     <string name="disable">Адключыць</string>

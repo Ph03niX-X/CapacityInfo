@@ -50,7 +50,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
@@ -864,13 +863,10 @@ interface OverlayInterface : BatteryInfoInterface {
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_only_values_overlay))) context.getString(if(
-                pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
-                R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
-                getOnVoltage(context))) else context.getString(if(pref.getBoolean(VOLTAGE_IN_MV,
-                    context.resources.getBoolean(R.bool.voltage_in_mv)))
-                R.string.voltage_mv_overlay_only_values else R.string.voltage_overlay_only_values,
-                DecimalFormat("#.#").format(getOnVoltage(context)))
+                    .getBoolean(R.bool.is_only_values_overlay))) context.getString(R.string.voltage,
+                DecimalFormat("#.#").format(getOnVoltage(context))) else context.getString(
+                R.string.voltage_overlay_only_values, DecimalFormat("#.#").format(
+                    getOnVoltage(context)))
 
             visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, this.resources.getBoolean(
                     R.bool.is_voltage_overlay))) View.VISIBLE else View.GONE

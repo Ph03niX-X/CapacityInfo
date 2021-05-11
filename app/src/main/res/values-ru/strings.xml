@@ -8,7 +8,7 @@
     <string name="charge_current">Ток зарядки: %1$s мА</string>
     <string name="discharge_current">Ток разрядки: %1$s мА</string>
     <string name="not_supported">Приложение не поддерживает ваше устройство.\n\nПриложение не может узнать остаточную ёмкость, так как аккумулятор не отдаёт текущую ёмкость</string>
-    <string name="voltage">Напряжение: %1$s В</string>
+    <string name="voltage">Напряжение: %1$s мВ</string>
     <string name="temperature">Температура: %1$s°C/%2$s°F</string>
     <string name="settings">Настройки</string>
     <string name="instruction">Инструкция</string>
@@ -38,8 +38,6 @@
     <string name="service_and_notification">Служба &amp; уведомление</string>
     <string name="appearance">Внешний вид</string>
     <string name="misc">Разное</string>
-    <string name="voltage_in_mv">Напряжение в мВ</string>
-    <string name="voltage_mv">Напряжение: %1$s мВ</string>
     <string name="service_time">Время службы</string>
     <string name="capacity_added">Добавилось ёмкости: %1$s мАч (%2$s)</string>
     <string name="notification_priority">Приоритет уведомления и значок в строке состояния</string>
@@ -207,8 +205,7 @@
     <string name="max_charge_discharge_overlay_only_values">%1$d мА</string>
     <string name="average_charge_discharge_overlay_only_values">%1$d мА</string>
     <string name="min_charge_discharge_overlay_only_values">%1$d мА</string>
-    <string name="voltage_overlay_only_values">%1$s В</string>
-    <string name="voltage_mv_overlay_only_values">%1$s мВ</string>
+    <string name="voltage_overlay_only_values">%1$s мВ</string>
     <string name="battery_wear_overlay_only_values">%1$s (%2$s мАч)</string>
     <string name="close">Закрыть</string>
     <string name="disable">Отключить</string>

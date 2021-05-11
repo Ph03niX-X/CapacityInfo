@@ -9,7 +9,7 @@
     <string name="charge_current">Charging current: %1$s mA</string>
     <string name="discharge_current">Discharge current: %1$s mA</string>
     <string name="not_supported">The application does not support your device.\n\nThe application cannot find out the remaining capacity, since the battery does not give up the current capacity</string>
-    <string name="voltage">Voltage: %1$s V</string>
+    <string name="voltage">Voltage: %1$s mV</string>
     <string name="temperature">Temperature: %1$s°C/%2$s°F</string>
     <string name="settings">Settings</string>
     <string name="instruction">Instruction</string>
@@ -40,8 +40,6 @@
     <string name="service_and_notification">Service &amp; Notification</string>
     <string name="appearance">Appearance</string>
     <string name="misc">Misc</string>
-    <string name="voltage_in_mv">Voltage in mV</string>
-    <string name="voltage_mv">Voltage: %1$s mV</string>
     <string name="service_time">Service Time</string>
     <string name="capacity_added">Capacity Added: %1$s mAh (%2$s)</string>
     <string name="notification_priority">Notification Priority and Status Bar Icon</string>
@@ -223,8 +221,7 @@
     <string name="average_charge_discharge_overlay_only_values">%1$d mA</string>
     <string name="min_charge_discharge_overlay_only_values">%1$d mA</string>
     <string name="temperature_overlay_only_values" translatable="false">%1$s°C/%2$s°F</string>
-    <string name="voltage_overlay_only_values">%1$s V</string>
-    <string name="voltage_mv_overlay_only_values">%1$s mV</string>
+    <string name="voltage_overlay_only_values">%1$s mV</string>
     <string name="last_charge_time_overlay_only_values" translatable="false">%1$s (%2$s - %3$s)</string>
     <string name="battery_wear_overlay_only_values">%1$s (%2$s mAh)</string>
     <string name="close">Close</string>

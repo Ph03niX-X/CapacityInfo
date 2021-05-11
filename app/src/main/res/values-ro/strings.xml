@@ -8,7 +8,7 @@
     <string name="charge_current">Curent de încărcare: %1$s mA</string>
     <string name="discharge_current">Curent de descărcare: %1$s mA</string>
     <string name="not_supported">Aplicația nu acceptă dispozitivul dvs.</string>
-    <string name="voltage">Voltaj: %1$s V</string>
+    <string name="voltage">Voltaj: %1$s mV</string>
     <string name="temperature">Temperatură: %1$s°C/%2$s°F</string>
     <string name="settings">Setări</string>
     <string name="instruction">Instrucţiuni</string>
@@ -38,8 +38,6 @@
     <string name="service_and_notification">Serviciu și notificare</string>
     <string name="appearance">Aspect</string>
     <string name="misc">Altele</string>
-    <string name="voltage_in_mv">Tensiune în mV</string>
-    <string name="voltage_mv">Tensiune: %1$s mV</string>
     <string name="service_time">Timp serviciu</string>
     <string name="capacity_added">Capacitate adăugată: %1$s mAh (%2$s)</string>
     <string name="notification_priority">Prioritatea notificării și pictograma în bara de stare</string>
@@ -201,8 +199,7 @@
     <string name="max_charge_discharge_overlay_only_values">%1$d mA</string>
     <string name="average_charge_discharge_overlay_only_values">%1$d mA</string>
     <string name="min_charge_discharge_overlay_only_values">%1$d mA</string>
-    <string name="voltage_overlay_only_values">%1$s V</string>
-    <string name="voltage_mv_overlay_only_values">%1$s mV</string>
+    <string name="voltage_overlay_only_values">%1$s mV</string>
     <string name="battery_wear_overlay_only_values">%1$s (%2$s mAh)</string>
     <string name="close">Închidere</string>
     <string name="disable">Dezactivare</string>

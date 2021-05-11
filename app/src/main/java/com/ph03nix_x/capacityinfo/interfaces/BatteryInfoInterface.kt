@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import java.io.BufferedReader
 import java.io.File
@@ -307,14 +306,7 @@ interface BatteryInfoInterface {
         var voltage = batteryIntent?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0)
             ?.toDouble() ?: 0.0
 
-        if(!pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv))) {
-
-            if(pref.getString(VOLTAGE_UNIT, "mV") == "μV")
-                voltage /= 1000.0.pow(2.0)
-            else voltage /= 1000
-        }
-
-        else if(pref.getString(VOLTAGE_UNIT, "mV") == "μV") voltage /= 1000
+        if(pref.getString(VOLTAGE_UNIT, "mV") == "μV") voltage /= 1000.0.pow(2.0)
 
         return voltage
     }

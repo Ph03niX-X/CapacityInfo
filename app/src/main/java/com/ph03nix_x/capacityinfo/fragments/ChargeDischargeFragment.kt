@@ -236,11 +236,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             .format(getOnTemperatureInCelsius(requireContext())), DecimalFormat()
                             .format(getOnTemperatureInFahrenheit(requireContext())))
 
-                        voltage.text = getString(if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV,
-                                resources.getBoolean(R.bool.voltage_in_mv)))
-                            R.string.voltage_mv else R.string.voltage,
-                            DecimalFormat("#.#").format(getOnVoltage(
-                                context ?: voltage.context)))
+                        voltage.text = getString(R.string.voltage, DecimalFormat("#.#")
+                            .format(getOnVoltage(context ?: voltage.context)))
                     }
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, resources.getBoolean(

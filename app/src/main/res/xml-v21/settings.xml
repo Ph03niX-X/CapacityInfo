@@ -103,13 +103,6 @@
             app:allowDividerAbove="false"
             app:allowDividerBelow="false">
 
-        <SwitchPreferenceCompat
-                android:title="@string/voltage_in_mv"
-                android:defaultValue="@bool/voltage_in_mv"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_voltage"
-                android:key="voltage_in_mv"/>
-
         <Preference
             android:title="@string/backup"
             app:singleLineTitle="false"
@@ -126,44 +119,41 @@
             app:singleLineTitle="false"
             android:key="tab_on_application_launch"/>
 
+        <ListPreference
+            android:title="@string/unit_of_charge_discharge_current"
+            app:icon="@drawable/ic_unit_of_charge_discharge_current"
+            android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
+            app:defaultValue="μA"
+            android:entries="@array/unit_of_charge_discharge_current_list"
+            android:entryValues="@array/unit_of_charge_discharge_current_values"
+            app:singleLineTitle="false"
+            android:key="unit_of_charge_discharge_current"/>
+
+        <ListPreference
+            android:title="@string/unit_of_measurement_of_current_capacity"
+            app:icon="@drawable/ic_unit_of_measurement_of_cc_24dp"
+            android:dialogIcon="@drawable/ic_unit_of_measurement_of_cc_24dp"
+            app:defaultValue="μAh"
+            android:entries="@array/unit_of_measurement_of_current_capacity_list"
+            android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
+            app:singleLineTitle="false"
+            android:key="unit_of_measurement_of_current_capacity"/>
+
+        <ListPreference
+            android:title="@string/voltage_unit"
+            app:icon="@drawable/ic_voltage_unit"
+            android:dialogIcon="@drawable/ic_voltage_unit"
+            app:defaultValue="mV"
+            android:entries="@array/voltage_unit_list"
+            android:entryValues="@array/voltage_unit_values"
+            app:singleLineTitle="false"
+            android:key="voltage_unit"/>
+
         <Preference
                 android:title="@string/more"
                 app:icon="@drawable/ic_more_24dp"
                 app:singleLineTitle="false"
                 android:key="more_other"/>
-
-        <ListPreference
-                android:title="@string/unit_of_charge_discharge_current"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_unit_of_charge_discharge_current"
-                android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
-                app:defaultValue="μA"
-                android:entries="@array/unit_of_charge_discharge_current_list"
-                android:entryValues="@array/unit_of_charge_discharge_current_values"
-                app:singleLineTitle="false"
-                android:key="unit_of_charge_discharge_current"/>
-
-        <ListPreference
-                android:title="@string/unit_of_measurement_of_current_capacity"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_unit_of_measurement_of_cc_24dp"
-                android:dialogIcon="@drawable/ic_unit_of_measurement_of_cc_24dp"
-                app:defaultValue="μAh"
-                android:entries="@array/unit_of_measurement_of_current_capacity_list"
-                android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
-                app:singleLineTitle="false"
-                android:key="unit_of_measurement_of_current_capacity"/>
-
-        <ListPreference
-                android:title="@string/voltage_unit"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_voltage_unit"
-                android:dialogIcon="@drawable/ic_voltage_unit"
-                app:defaultValue="mV"
-                android:entries="@array/voltage_unit_list"
-                android:entryValues="@array/voltage_unit_values"
-                app:singleLineTitle="false"
-                android:key="voltage_unit"/>
 
         <Preference
                 android:title="@string/change_design_capacity"

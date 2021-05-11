@@ -40,7 +40,6 @@ object PreferencesKeys {
     const val LANGUAGE = "language"
 
     // Misc
-    const val VOLTAGE_IN_MV = "voltage_in_mv"
     const val TAB_ON_APPLICATION_LAUNCH = "tab_on_application_launch"
     const val UNIT_OF_CHARGE_DISCHARGE_CURRENT = "unit_of_charge_discharge_current"
     const val UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY = "unit_of_measurement_of_current_capacity"

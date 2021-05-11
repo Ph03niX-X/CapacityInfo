@@ -36,7 +36,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import java.lang.Exception
 
@@ -63,7 +62,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var selectLanguage: ListPreference? = null
 
     // Misc
-    private var voltageInMv: SwitchPreferenceCompat? = null
     private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
@@ -216,8 +214,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Misc
         moreOther = findPreference("more_other")
 
-        voltageInMv = findPreference(VOLTAGE_IN_MV)
-
         backupSettings = findPreference("backup_settings")
 
         tabOnApplicationLaunch = findPreference(TAB_ON_APPLICATION_LAUNCH)
@@ -239,6 +235,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         clearHistory = findPreference("clear_history")
 
         debug = findPreference("debug")
+
+        unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
+            resources.getBoolean(R.bool.is_supported))
 
         backupSettings?.setOnPreferenceClickListener {
 
@@ -263,17 +262,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
-                unitOfChargeDischargeCurrent?.isVisible = true
-                unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
-                    resources.getBoolean(R.bool.is_supported))
-                voltageUnit?.isVisible = true
                 changeDesignCapacity?.isVisible = true
                 overlay?.isVisible = true
                 resetToZeroTheNumberOfCharges?.apply {
 
                     isVisible = true
                     isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
-
                 }
                 resetToZeroTheNumberOfCycles?.apply {
 
@@ -294,9 +288,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                unitOfChargeDischargeCurrent?.isVisible = false
-                unitOfMeasurementOfCurrentCapacity?.isVisible = false
-                voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
                 overlay?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
@@ -507,8 +498,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary(
             requireContext())
 
-        unitOfMeasurementOfCurrentCapacity?.isVisible = moreOther?.title == getString(R.string.hide)
-                && pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
+        unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
+            resources.getBoolean(R.bool.is_supported))
 
         if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
             unitOfMeasurementOfCurrentCapacity?.summary =

@@ -47,7 +47,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_IN_MV
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 
@@ -1138,9 +1137,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
                 DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
-            setTextViewText(R.id.voltage_service_notification, context.getString(
-                if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
-                        R.bool.voltage_in_mv))) R.string.voltage_mv else R.string.voltage,
+            setTextViewText(R.id.voltage_service_notification, context.getString(R.string.voltage,
                 DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
@@ -1201,9 +1198,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
                 DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
-            setTextViewText(R.id.voltage_service_notification, context.getString(
-                if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
-                        R.bool.voltage_in_mv))) R.string.voltage_mv else R.string.voltage,
+            setTextViewText(R.id.voltage_service_notification, context.getString(R.string.voltage,
                 DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
@@ -1264,10 +1259,8 @@ interface NotificationInterface : BatteryInfoInterface {
                 .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
                 DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
-            setTextViewText(R.id.voltage_service_notification, context.getString(
-                if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
-                    R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
-                    getOnVoltage(context))))
+            setTextViewText(R.id.voltage_service_notification, context.getString(R.string.voltage,
+                DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
 
@@ -1320,10 +1313,8 @@ interface NotificationInterface : BatteryInfoInterface {
                 .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
                 DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
-            setTextViewText(R.id.voltage_service_notification, context.getString(
-                if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(R.bool.voltage_in_mv)))
-                    R.string.voltage_mv else R.string.voltage, DecimalFormat("#.#").format(
-                    getOnVoltage(context))))
+            setTextViewText(R.id.voltage_service_notification, context.getString(R.string.voltage,
+                DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }
 
@@ -1383,9 +1374,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 .temperature, DecimalFormat().format(getOnTemperatureInCelsius(context)),
                 DecimalFormat().format(getOnTemperatureInFahrenheit(context))))
 
-            setTextViewText(R.id.voltage_service_notification, context.getString(
-                if(pref.getBoolean(VOLTAGE_IN_MV, context.resources.getBoolean(
-                        R.bool.voltage_in_mv))) R.string.voltage_mv else R.string.voltage,
+            setTextViewText(R.id.voltage_service_notification, context.getString(R.string.voltage,
                 DecimalFormat("#.#").format(getOnVoltage(context))))
         }
     }

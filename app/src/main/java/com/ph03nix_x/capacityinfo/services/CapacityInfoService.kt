@@ -265,10 +265,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 resources.getBoolean(R.bool.is_notify_battery_is_charged_voltage))
                             && isNotifyBatteryDischargedVoltage) {
 
-                            val voltage = if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV,
-                                    resources.getBoolean(R.bool.voltage_in_mv)))
-                                        getOnVoltage(this@CapacityInfoService)
-                            else getOnVoltage(this@CapacityInfoService) * 1000.0
+                            val voltage = getOnVoltage(this@CapacityInfoService)
 
                             if(voltage <= pref.getInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources
                                     .getInteger(R.integer.battery_notify_discharged_voltage_min)))
@@ -438,9 +435,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, resources.getBoolean(R.bool
                 .is_notify_battery_is_charged_voltage)) && isNotifyBatteryChargedVoltage) {
 
-            val voltage = if(pref.getBoolean(PreferencesKeys.VOLTAGE_IN_MV, resources.getBoolean(
-                    R.bool.voltage_in_mv))) getOnVoltage(this)
-            else getOnVoltage(this) * 1000.0
+            val voltage = getOnVoltage(this)
 
             if(voltage >= pref.getInt(BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(
                     R.integer.battery_notify_charged_voltage_min)))
