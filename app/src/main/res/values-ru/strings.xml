@@ -274,4 +274,13 @@
     <string name="developer_4pda_link_copied">Ссылка на 4PDA (Разработчик) скопирована</string>
     <string name="topic_4pda_link_copied">Ссылка на 4PDA (Тема) скопирована</string>
     <string name="ukrainian_translation">Украинский перевод</string>
+    <string name="battery_is_charged_voltage">Аккумулятор заряжен (Напряжение)</string>
+    <string name="battery_is_charged_notification_voltage">Аккумулятор заряжен. %1$d мВ</string>
+    <string name="battery_charged_discharged_voltage_seekbar_title">Напряжение</string>
+    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d мВ</string>
+    <string name="mv">мВ</string>
+    <string name="charged_voltage">Заряжен (Напряжение)</string>
+    <string name="battery_is_discharged_voltage">Аккумулятор разряжен (Напряжение)</string>
+    <string name="battery_is_discharged_notification_voltage">Аккумулятор разряжен. %1$d мВ</string>
+    <string name="discharged_voltage">Разряжен (Напряжение)</string>
 </resources>
