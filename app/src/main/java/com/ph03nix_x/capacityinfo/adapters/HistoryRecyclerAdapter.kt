@@ -35,14 +35,14 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         holderHistory.itemView.history_date.text = historyList[historyList.size - 1 - position].date
         holderHistory.itemView.history_residual_capacity.text = getResidualCapacity(holderHistory
             .itemView.context, historyList[historyList.size - 1 - position].residualCapacity)
-        holderHistory.itemView.history_battery_wear.text = getBatteryWear(holderHistory.itemView.context,
-            historyList[historyList.size - 1 - position].residualCapacity)
+        holderHistory.itemView.history_battery_wear.text = getBatteryWear(holderHistory.itemView
+            .context, historyList[historyList.size - 1 - position].residualCapacity)
     }
 
     private fun updateTextAppearance(holderHistory: HistoryViewHolder) {
 
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory.itemView.history_date,
-            pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory
+            .itemView.history_date, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
 

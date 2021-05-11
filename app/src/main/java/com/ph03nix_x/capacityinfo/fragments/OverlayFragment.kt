@@ -520,7 +520,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
                 pref.getString(OVERLAY_TEXT_STYLE, "0")?.toInt() ?: 0]
     }
 
-    private fun getOverlayOpacitySummary(): CharSequence? {
+    private fun getOverlayOpacitySummary(): CharSequence {
 
         if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
             else 255) > 255

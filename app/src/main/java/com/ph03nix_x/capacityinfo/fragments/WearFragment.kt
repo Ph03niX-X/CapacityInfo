@@ -215,7 +215,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
 
-        var numberOfCycles = 0
+        var numberOfCycles: Int
 
         withContext(Dispatchers.IO) {
 

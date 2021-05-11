@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
@@ -31,7 +30,7 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-                removeOldPreferences(context, pref)
+                removeOldPreferences(context)
 
                 if(!pref.getBoolean(IS_AUTO_START_UPDATE_APP, context.resources.getBoolean(
                         R.bool.is_auto_start_update_app))) return
@@ -62,17 +61,20 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun removeOldPreferences(context: Context, pref: SharedPreferences) {
-        with(pref) {
+    private fun removeOldPreferences(context: Context) {
 
-            edit().apply {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-                if(contains("temperature_in_fahrenheit"))
-                    this.remove("temperature_in_fahrenheit")
-                if(contains("voltage_in_mv"))
-                    this.remove("voltage_in_mv")
+        arrayListOf("temperature_in_fahrenheit", "voltage_in_mv").forEach {
 
-                apply()
+            with(pref) {
+
+                edit().apply {
+
+                    if(contains(it)) this.remove(it)
+
+                    apply()
+                }
             }
         }
     }

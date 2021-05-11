@@ -1078,8 +1078,6 @@ interface NotificationInterface : BatteryInfoInterface {
 
     private fun getOnBatteryStatusCharging(context: Context, batteryIntent: Intent?,
                                            remoteViews: RemoteViews) {
-        
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val capacityInfoServiceContext = context as? CapacityInfoService
 

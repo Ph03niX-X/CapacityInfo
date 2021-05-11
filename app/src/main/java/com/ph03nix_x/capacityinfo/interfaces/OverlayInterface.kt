@@ -235,7 +235,9 @@ interface OverlayInterface : BatteryInfoInterface {
 
     private fun onCreateViews(context: Context) {
 
-        view = LayoutInflater.from(context).inflate(R.layout.overlay_layout, null)
+        val viewGroup: ViewGroup? = null
+
+        view = LayoutInflater.from(context).inflate(R.layout.overlay_layout, viewGroup)
 
         linearLayout = view.findViewById(R.id.overlay_linear_layout)
 
@@ -296,7 +298,7 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateCurrentCapacityOverlay()
         onUpdateCapacityAddedOverlay()
         onUpdateBatteryHealthOverlay()
-        onUpdateResidualCapacityOverlay(status)
+        onUpdateResidualCapacityOverlay()
         onUpdateStatusOverlay(status)
         onUpdateSourceOfPowerOverlay(sourceOfPower)
         onUpdateChargeDischargeCurrentOverlay(status)
@@ -604,7 +606,7 @@ interface OverlayInterface : BatteryInfoInterface {
         }
     }
 
-    private fun onUpdateResidualCapacityOverlay(status: Int) {
+    private fun onUpdateResidualCapacityOverlay() {
 
         if((pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY, residualCapacityOverlay.context.resources
                 .getBoolean(R.bool.is_residual_capacity_overlay)) && pref.getBoolean(
@@ -929,7 +931,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
 
-        var numberOfCycles = 0
+        var numberOfCycles: Int
 
         try {
 
