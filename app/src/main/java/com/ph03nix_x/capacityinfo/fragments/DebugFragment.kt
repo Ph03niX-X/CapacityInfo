@@ -2,16 +2,13 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.Activity
 import android.content.*
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
@@ -24,10 +21,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import kotlinx.coroutines.*
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import kotlin.system.exitProcess
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 

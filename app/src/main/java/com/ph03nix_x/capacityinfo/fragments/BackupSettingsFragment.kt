@@ -1,8 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.Manifest
-import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -14,7 +12,6 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
@@ -27,7 +24,6 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.AUTO_BACKUP_SETTINGS_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -36,9 +32,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTI
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 import kotlinx.coroutines.*
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import kotlin.system.exitProcess
 
 class BackupSettingsFragment : PreferenceFragmentCompat() {
 
@@ -398,20 +391,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        when(requestCode) {
-//
-//            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
-//                if(resultCode == Activity.RESULT_OK) exportSettings(data)
-//
-//            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-//                if(resultCode == Activity.RESULT_OK) importSettings(data?.data)
-//        }
-//    }
 
     private fun isMicroSD(): Boolean {
 
