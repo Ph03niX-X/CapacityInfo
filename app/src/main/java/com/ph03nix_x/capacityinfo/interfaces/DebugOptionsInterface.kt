@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -44,6 +45,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
@@ -908,6 +912,154 @@ interface DebugOptionsInterface {
                     Toast.makeText(context, "${context.getString(R.string
                         .error_importing_history)}\n${e.message ?: e.toString()}",
                         Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    fun onExportSettings(context: Context, intent: Intent?) {
+
+        val prefPath = "${context.filesDir?.parent}/shared_prefs/" +
+                "${context.packageName}_preferences.xml"
+        val prefName = File(prefPath).name
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                val pickerDir = intent?.data?.let {
+                    context.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                }
+
+                pickerDir?.findFile(prefName)?.delete()
+
+                val outputStream = pickerDir?.createFile("text/xml",
+                    prefName)?.uri?.let {
+                    context.contentResolver?.openOutputStream(it)
+                }
+
+                val fileInputStream = FileInputStream(prefPath)
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = fileInputStream.read(buffer)
+
+                    if(read != -1)
+                        outputStream?.write(buffer, 0, read)
+                    else break
+                }
+
+                fileInputStream.close()
+                outputStream?.flush()
+                outputStream?.close()
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context.getString(R.string.successful_export_of_settings,
+                        prefName), Toast.LENGTH_LONG).show()
+                }
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context.getString(R.string.error_exporting_settings,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    fun onImportSettings(context: Context, uri: Uri?) {
+
+        val prefPath = "${context.filesDir?.parent}/shared_prefs/" +
+                "${context.packageName}_preferences.xml"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(context, R.string.import_settings_3dots,
+                        Toast.LENGTH_LONG).show()
+
+                    if(CapacityInfoService.instance != null)
+                        context.let { ServiceHelper.stopService(it, CapacityInfoService::class.java)
+
+                        }
+
+                    if(OverlayService.instance != null)
+                        context.let { ServiceHelper.stopService(it, OverlayService::class.java) }
+                }
+
+                val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+                val prefArrays: HashMap<String, Any?> = hashMapOf()
+
+                pref.all.forEach {
+
+                    when(it.key) {
+
+                        BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY, CAPACITY_ADDED,
+                        LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY, IS_SUPPORTED,
+                        IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
+                            prefArrays[it.key] = it.value
+                    }
+                }
+
+                delay(2000L)
+                if(File(prefPath).exists()) File(prefPath).delete()
+
+                File(prefPath).createNewFile()
+
+                val fileOutputStream = FileOutputStream(prefPath)
+                val inputStream = uri?.let {
+                    context.contentResolver?.openInputStream(it) }
+
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = inputStream?.read(buffer) ?: -1
+
+                    if(read != -1)
+                        fileOutputStream.write(buffer, 0, read)
+                    else break
+                }
+
+                inputStream?.close()
+                fileOutputStream.flush()
+                fileOutputStream.close()
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    MainApp.restartApp(context, prefArrays)
+                }
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context.getString(R.string.error_importing_settings,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
             }
         }

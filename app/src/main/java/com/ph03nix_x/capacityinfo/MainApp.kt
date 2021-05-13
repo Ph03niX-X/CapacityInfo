@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
+import kotlin.system.exitProcess
 
 class MainApp : Application() {
 
@@ -39,6 +40,27 @@ class MainApp : Application() {
 
             else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
                 .getInstallerPackageName(context.packageName)
+
+        fun restartApp(context: Context, prefArrays: HashMap<String, Any?>,
+                       isRestore: Boolean = false) {
+
+            val packageManager = context.packageManager
+
+            val componentName = packageManager.getLaunchIntentForPackage(
+                context.packageName)?.component
+
+            val intent = Intent.makeRestartActivityTask(componentName)
+
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+            intent?.putExtra(Constants.IMPORT_RESTORE_SETTINGS_EXTRA, prefArrays)
+
+            if(isRestore) intent?.putExtra(Constants.IS_RESTORE_SETTINGS_EXTRA, true)
+
+            context.startActivity(intent)
+
+            exitProcess(0)
+        }
     }
 
     override fun onCreate() {

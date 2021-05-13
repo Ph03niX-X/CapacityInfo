@@ -36,16 +36,4 @@
         app:icon="@drawable/ic_restore_settings_from_backup"
         android:key="restore_settings_from_backup"/>
 
-    <Preference
-        android:title="@string/export_settings"
-        app:singleLineTitle="false"
-        app:icon="@drawable/ic_export_settings_24dp"
-        android:key="export_settings"/>
-
-    <Preference
-        android:title="@string/import_settings"
-        app:singleLineTitle="false"
-        app:icon="@drawable/ic_import_settings_24dp"
-        android:key="import_settings"/>
-
 </PreferenceScreen>

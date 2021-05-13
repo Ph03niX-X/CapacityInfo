@@ -79,6 +79,18 @@
             android:key="import_history"/>
 
         <Preference
+            android:title="@string/export_settings"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_export_settings_24dp"
+            android:key="export_settings"/>
+
+        <Preference
+            android:title="@string/import_settings"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_import_settings_24dp"
+            android:key="import_settings"/>
+
+        <Preference
             android:title="@string/start_capacity_info_service"
             app:singleLineTitle="false"
             android:key="start_capacity_info_service"/>

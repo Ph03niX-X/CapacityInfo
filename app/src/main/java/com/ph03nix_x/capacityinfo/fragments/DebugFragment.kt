@@ -2,13 +2,16 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.Activity
 import android.content.*
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
@@ -21,6 +24,10 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import kotlinx.coroutines.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import kotlin.system.exitProcess
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
@@ -36,6 +43,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var addFiftyHistory: Preference? = null
     private var exportHistory: Preference? = null
     private var importHistory: Preference? = null
+    private var exportSettings: Preference? = null
+    private var importSettings: Preference? = null
     private var startCapacityInfoService: Preference? = null
     private var stopCapacityInfoService: Preference? = null
     private var restartCapacityInfoService: Preference? = null
@@ -70,6 +79,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         exportHistory = findPreference("export_history")
 
         importHistory = findPreference("import_history")
+
+        exportSettings = findPreference("export_settings")
+
+        importSettings = findPreference("import_settings")
 
         startCapacityInfoService = findPreference("start_capacity_info_service")
 
@@ -276,6 +289,41 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        exportSettings?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
+                    Constants.EXPORT_SETTINGS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+        importSettings?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "text/xml"
+                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()
 
@@ -457,6 +505,12 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             Constants.IMPORT_HISTORY_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data,
                 arrayListOf(addHistory, addTenHistory, addFiftyHistory, exportHistory))
+
+            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) onExportSettings(requireContext(), data)
+
+            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) onImportSettings(requireContext(), data?.data)
         }
     }
 }

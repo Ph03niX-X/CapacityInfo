@@ -113,18 +113,19 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
                         != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2"
-                        && prefArrays == null && !isLoadSettings && !isLoadDebug) ->
-                    ChargeDischargeFragment()
+                        && prefArrays == null && !isLoadWear && !isLoadHistory && !isLoadSettings
+                        && !isLoadDebug) -> ChargeDischargeFragment()
 
                 isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
-                        prefArrays == null && !isLoadSettings && !isLoadDebug) -> WearFragment()
+                        prefArrays == null && !isLoadChargeDischarge && !isLoadHistory
+                        && !isLoadSettings && !isLoadDebug) -> WearFragment()
 
-                isLoadHistory || pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" ->
-                    HistoryFragment()
+                isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
+                        && prefArrays == null && !isLoadChargeDischarge && !isLoadHistory
+                        && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
 
-                isLoadDebug -> DebugFragment()
-
-                prefArrays != null -> BackupSettingsFragment()
+                (isLoadDebug && !isLoadChargeDischarge && !isLoadWear && !isLoadHistory
+                        && !isLoadSettings) || prefArrays != null -> DebugFragment()
 
                 else -> SettingsFragment()
             }

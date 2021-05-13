@@ -50,8 +50,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
     private var frequencyOfAutoBackupSettings: ListPreference? = null
     private var createBackupSettings: Preference? = null
     private var restoreSettingsFromBackup: Preference? = null
-    private var exportSettings: Preference? = null
-    private var importSettings: Preference? = null
 
     private var isRestoreSettingsFromBackup = false
 
@@ -79,10 +77,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         createBackupSettings = findPreference("create_backup_settings")
 
         restoreSettingsFromBackup = findPreference("restore_settings_from_backup")
-
-        exportSettings = findPreference("export_settings")
-
-        importSettings = findPreference("import_settings")
 
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
                 R.bool.is_auto_backup_settings))
@@ -310,41 +304,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        exportSettings?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants.EXPORT_SETTINGS_REQUEST_CODE)
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        importSettings?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/xml"
-                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
     }
 
     override fun onResume() {
@@ -440,19 +399,19 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode) {
-
-            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) exportSettings(data)
-
-            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) importSettings(data?.data)
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        when(requestCode) {
+//
+//            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
+//                if(resultCode == Activity.RESULT_OK) exportSettings(data)
+//
+//            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+//                if(resultCode == Activity.RESULT_OK) importSettings(data?.data)
+//        }
+//    }
 
     private fun isMicroSD(): Boolean {
 
@@ -598,7 +557,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                 withContext(Dispatchers.Main) {
 
-                    restartApp(prefArrays, true)
+                    MainApp.restartApp(requireContext(), prefArrays, true)
                 }
 
             }
@@ -613,177 +572,5 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                 }
             }
         }
-    }
-
-    @Deprecated("Will be removed early 2021")
-    private fun exportSettings(intent: Intent?) {
-
-        val prefPath = "${context?.filesDir?.parent}/shared_prefs/" +
-                "${context?.packageName}_preferences.xml"
-        val prefName = File(prefPath).name
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                MainActivity.isOnBackPressed = false
-
-                val pickerDir = intent?.data?.let {
-                    context?.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
-                }
-
-                pickerDir?.findFile(prefName)?.delete()
-
-                val outputStream = pickerDir?.createFile("text/xml",
-                    prefName)?.uri?.let {
-                    context?.contentResolver?.openOutputStream(it)
-                }
-
-                val fileInputStream = FileInputStream(prefPath)
-                val buffer = byteArrayOf((1024 * 8).toByte())
-                var read: Int
-
-                while (true) {
-
-                    read = fileInputStream.read(buffer)
-
-                    if(read != -1)
-                        outputStream?.write(buffer, 0, read)
-                    else break
-                }
-
-                fileInputStream.close()
-                outputStream?.flush()
-                outputStream?.close()
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(context, context?.getString(R.string.successful_export_of_settings,
-                        prefName), Toast.LENGTH_LONG).show()
-                }
-            }
-
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(context, context?.getString(R.string.error_exporting_settings,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    @Deprecated("Will be removed early 2021")
-    private fun importSettings(uri: Uri?) {
-
-        val prefPath = "${context?.filesDir?.parent}/shared_prefs/" +
-                "${context?.packageName}_preferences.xml"
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                MainActivity.isOnBackPressed = false
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(context, R.string.import_settings_3dots,
-                        Toast.LENGTH_LONG).show()
-
-                    if(CapacityInfoService.instance != null)
-                        context?.let { ServiceHelper.stopService(it, CapacityInfoService::class.java)
-
-                        }
-
-                    if(OverlayService.instance != null)
-                        context?.let { ServiceHelper.stopService(it, OverlayService::class.java) }
-                }
-
-                val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-                val prefArrays: HashMap<String, Any?> = hashMapOf()
-
-                pref.all.forEach {
-
-                    when(it.key) {
-
-                        PreferencesKeys.BATTERY_LEVEL_TO, PreferencesKeys.BATTERY_LEVEL_WITH,
-                        PreferencesKeys.DESIGN_CAPACITY, PreferencesKeys.CAPACITY_ADDED,
-                        PreferencesKeys.LAST_CHARGE_TIME, PreferencesKeys.PERCENT_ADDED,
-                        PreferencesKeys.RESIDUAL_CAPACITY, PreferencesKeys.IS_SUPPORTED,
-                        PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG,
-                        PreferencesKeys.IS_SHOW_INSTRUCTION -> prefArrays[it.key] = it.value
-                    }
-                }
-
-                delay(2000L)
-                if(File(prefPath).exists()) File(prefPath).delete()
-
-                File(prefPath).createNewFile()
-
-                val fileOutputStream = FileOutputStream(prefPath)
-                val inputStream = uri?.let {
-                    context?.contentResolver?.openInputStream(it) }
-
-                val buffer = byteArrayOf((1024 * 8).toByte())
-                var read: Int
-
-                while (true) {
-
-                    read = inputStream?.read(buffer) ?: -1
-
-                    if(read != -1)
-                        fileOutputStream.write(buffer, 0, read)
-                    else break
-                }
-
-                inputStream?.close()
-                fileOutputStream.flush()
-                fileOutputStream.close()
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    restartApp(prefArrays)
-                }
-            }
-
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(context, context?.getString(R.string.error_importing_settings,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun restartApp(prefArrays: HashMap<String, Any?>, isRestore: Boolean = false) {
-
-        val packageManager = requireContext().packageManager
-        
-        val componentName = packageManager.getLaunchIntentForPackage(
-            requireContext().packageName)?.component
-
-        val intent = Intent.makeRestartActivityTask(componentName)
-
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-
-        intent?.putExtra(Constants.IMPORT_RESTORE_SETTINGS_EXTRA, prefArrays)
-
-        if(isRestore) intent?.putExtra(Constants.IS_RESTORE_SETTINGS_EXTRA, true)
-
-        requireContext().startActivity(intent)
-
-        exitProcess(0)
     }
 }
