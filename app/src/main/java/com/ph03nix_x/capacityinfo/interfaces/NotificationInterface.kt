@@ -151,6 +151,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setShowWhen(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
                 R.bool.is_service_time)))
+
+            setUsesChronometer(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
+                R.bool.is_service_time)))
         }
 
         (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
@@ -219,6 +222,9 @@ interface NotificationInterface : BatteryInfoInterface {
                 setStyle(NotificationCompat.DecoratedCustomViewStyle())
 
                 setShowWhen(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
+                    R.bool.is_service_time)))
+
+                setUsesChronometer(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
                     R.bool.is_service_time)))
             }
 
