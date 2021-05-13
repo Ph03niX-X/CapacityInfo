@@ -263,7 +263,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         notifyBatteryIsDischarged?.setOnPreferenceChangeListener { _, newValue ->
 
-            batteryNotifyDischargedVoltage?.isEnabled = newValue as? Boolean == true
+            batteryLevelNotifyDischarged?.isEnabled = newValue as? Boolean == true
 
             NotificationInterface.isNotifyBatteryDischarged = true
 
