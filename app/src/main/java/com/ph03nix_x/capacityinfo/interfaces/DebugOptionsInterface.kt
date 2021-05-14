@@ -825,8 +825,11 @@ interface DebugOptionsInterface {
                 outputStream?.flush()
                 outputStream?.close()
 
-                Toast.makeText(context, context.getString(R.string.history_exported_successfully),
-                    Toast.LENGTH_LONG).show()
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string.history_exported_successfully),
+                        Toast.LENGTH_LONG).show()
+                }
 
                 MainActivity.isOnBackPressed = true
             }
@@ -899,8 +902,11 @@ interface DebugOptionsInterface {
                 if(!isHistoryNotEmpty)
                     throw IOException(context.getString(R.string.history_is_empty))
 
-                else Toast.makeText(context, context.getString(R.string
-                    .history_imported_successfully), Toast.LENGTH_LONG).show()
+                else withContext(Dispatchers.Main) {
+
+                    Toast.makeText(context, context.getString(R.string
+                        .history_imported_successfully), Toast.LENGTH_LONG).show()
+                }
             }
 
             catch(e: Exception) {
