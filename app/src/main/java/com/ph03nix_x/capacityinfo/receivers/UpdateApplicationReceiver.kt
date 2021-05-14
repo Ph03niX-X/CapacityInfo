@@ -91,6 +91,8 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+        MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(context)
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && MainApp.isInstalledGooglePlay)
             arrayListOf(IS_AUTO_BACKUP_SETTINGS, IS_BACKUP_SETTINGS_TO_MICROSD,
                 FREQUENCY_OF_AUTO_BACKUP_SETTINGS).forEach {
