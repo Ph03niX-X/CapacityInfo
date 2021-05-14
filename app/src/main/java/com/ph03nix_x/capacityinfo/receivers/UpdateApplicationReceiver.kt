@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -17,8 +18,10 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 
 class UpdateApplicationReceiver : BroadcastReceiver() {
 
@@ -30,7 +33,11 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+                MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(context)
+
                 removeOldPreferences(context)
+
+                removeBackupSettings(context)
 
                 if(!pref.getBoolean(IS_AUTO_START_UPDATE_APP, context.resources.getBoolean(
                         R.bool.is_auto_start_update_app))) return
@@ -47,7 +54,8 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, context.resources.getBoolean(
                         R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
-                        .VERSION_CODES.R && !Environment.isExternalStorageManager()) || (Build
+                        .VERSION_CODES.R && !Environment.isExternalStorageManager()
+                            && !MainApp.isInstalledGooglePlay) || (Build
                         .VERSION.SDK_INT < Build.VERSION_CODES.R && checkSelfPermission(context,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                             PackageManager.PERMISSION_GRANTED && checkSelfPermission(context,
@@ -55,7 +63,7 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                             PackageManager.PERMISSION_GRANTED)))
                     ServiceHelper.jobSchedule(context, AutoBackupSettingsJobService::class.java,
                         Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(
-                            PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
+                            FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
                             "1")?.toLong() ?: 1L) * 60L * 60L * 1000L)
             }
         }
@@ -77,5 +85,25 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                 }
             }
         }
+    }
+
+    private fun removeBackupSettings(context: Context) {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && MainApp.isInstalledGooglePlay)
+            arrayListOf(IS_AUTO_BACKUP_SETTINGS, IS_BACKUP_SETTINGS_TO_MICROSD,
+                FREQUENCY_OF_AUTO_BACKUP_SETTINGS).forEach {
+
+                with(pref) {
+
+                    edit().apply {
+
+                        if(contains(it)) this.remove(it)
+
+                        apply()
+                    }
+                }
+            }
     }
 }

@@ -1,6 +1,8 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.Manifest
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -12,6 +14,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
@@ -24,6 +27,7 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.AUTO_BACKUP_SETTINGS_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -32,6 +36,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTI
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 import kotlinx.coroutines.*
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 
 class BackupSettingsFragment : PreferenceFragmentCompat() {
 
@@ -43,6 +50,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
     private var frequencyOfAutoBackupSettings: ListPreference? = null
     private var createBackupSettings: Preference? = null
     private var restoreSettingsFromBackup: Preference? = null
+    private var exportSettings: Preference? = null
+    private var importSettings: Preference? = null
+    private var exportHistory: Preference? = null
+    private var importHistory: Preference? = null
 
     private var isRestoreSettingsFromBackup = false
 
@@ -71,6 +82,52 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
         restoreSettingsFromBackup = findPreference("restore_settings_from_backup")
 
+        exportSettings = findPreference("export_settings")
+
+        importSettings = findPreference("import_settings")
+
+        exportHistory = findPreference("export_history")
+
+        importHistory = findPreference("import_history")
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+            MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(requireContext())
+
+            autoBackupSettings?.isEnabled = !MainApp.isInstalledGooglePlay
+
+            backupSettingsToMicroSD?.isEnabled = !MainApp.isInstalledGooglePlay && isMicroSD()
+
+            frequencyOfAutoBackupSettings?.isEnabled = !MainApp.isInstalledGooglePlay
+
+            createBackupSettings?.isEnabled = !MainApp.isInstalledGooglePlay
+
+            restoreSettingsFromBackup?.isEnabled = !MainApp.isInstalledGooglePlay
+
+            exportSettings?.isVisible = MainApp.isInstalledGooglePlay
+
+            importSettings?.isVisible = MainApp.isInstalledGooglePlay
+
+            exportHistory?.apply {
+
+                isVisible = MainApp.isInstalledGooglePlay
+                isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+            }
+
+            importHistory?.isVisible = MainApp.isInstalledGooglePlay
+
+            if(MainApp.isInstalledGooglePlay)
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
+                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                    setTitle(getString(R.string.information))
+                    setMessage(getString(R.string.new_permission_is_required_dialog))
+                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                    setCancelable(false)
+                    show()
+                }
+        }
+
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
                 R.bool.is_auto_backup_settings))
             && ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
@@ -82,8 +139,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             autoBackupSettings?.isChecked = false
         }
-
-        backupSettingsToMicroSD?.isEnabled = isMicroSD()
 
         frequencyOfAutoBackupSettings?.apply {
 
@@ -297,11 +352,83 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
+        exportSettings?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
+                    Constants.EXPORT_SETTINGS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+        importSettings?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "text/xml"
+                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
+                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+        exportHistory?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
+                    Constants.EXPORT_HISTORY_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            true
+        }
+
+        importHistory?.setOnPreferenceClickListener {
+
+            try {
+
+                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/octet-stream"
+                }, Constants.IMPORT_HISTORY_REQUEST_CODE)
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            true
+        }
+
     }
 
     override fun onResume() {
 
         super.onResume()
+
+        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && MainApp.isGooglePlay(requireContext())
 
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
                 .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
@@ -313,7 +440,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
             autoBackupSettings?.isChecked = false
         }
 
-        backupSettingsToMicroSD?.isEnabled = isMicroSD()
+        backupSettingsToMicroSD?.isEnabled = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay && isMicroSD()) || Build.VERSION.SDK_INT < Build
+            .VERSION_CODES.R && isMicroSD()
 
         backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext().resources
                 .getBoolean(R.bool.is_backup_settings_to_microsd)) && isMicroSD())
@@ -328,15 +457,23 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
             isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
                 .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
-                .VERSION_CODES.R && Environment.isExternalStorageManager()) || (Build.VERSION
-                .SDK_INT < Build.VERSION_CODES.R && isExternalStoragePermission()))
+                .VERSION_CODES.R && Environment.isExternalStorageManager()
+                    && !MainApp.isInstalledGooglePlay) || (Build.VERSION.SDK_INT < Build
+                .VERSION_CODES.R && isExternalStoragePermission()))
 
             summary = getFrequencyOfAutoBackupSettingsSummary()
         }
 
-        restoreSettingsFromBackup?.isEnabled = File("$backupPath/${requireContext()
+        restoreSettingsFromBackup?.isEnabled = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay && File("$backupPath/${requireContext()
             .packageName}_preferences.xml").exists() && File(
-            "$backupPath/${requireContext().packageName}_preferences.xml").length() > 0
+            "$backupPath/${requireContext().packageName}_preferences.xml").length() > 0)
+                || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && File(
+            "$backupPath/${requireContext().packageName}_preferences.xml").exists()
+                && File("$backupPath/${requireContext().packageName}_preferences.xml")
+            .length() > 0)
+
+        exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
@@ -389,6 +526,176 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
                 }
 
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+
+            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) exportSettings(data)
+
+            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) importSettings(data?.data)
+
+            Constants.EXPORT_HISTORY_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) exportHistory(data)
+
+            Constants.IMPORT_HISTORY_REQUEST_CODE ->
+                if(resultCode == Activity.RESULT_OK) importHistory(data?.data)
+        }
+    }
+
+    private fun exportSettings(intent: Intent?) {
+
+        val prefPath = "${context?.filesDir?.parent}/shared_prefs/" +
+                "${context?.packageName}_preferences.xml"
+        val prefName = File(prefPath).name
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                val pickerDir = intent?.data?.let {
+                    context?.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                }
+
+                pickerDir?.findFile(prefName)?.delete()
+
+                val outputStream = pickerDir?.createFile("text/xml",
+                    prefName)?.uri?.let {
+                    context?.contentResolver?.openOutputStream(it)
+                }
+
+                val fileInputStream = FileInputStream(prefPath)
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = fileInputStream.read(buffer)
+
+                    if(read != -1)
+                        outputStream?.write(buffer, 0, read)
+                    else break
+                }
+
+                fileInputStream.close()
+                outputStream?.flush()
+                outputStream?.close()
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context?.getString(R.string.successful_export_of_settings,
+                        prefName), Toast.LENGTH_LONG).show()
+                }
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context?.getString(R.string.error_exporting_settings,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun importSettings(uri: Uri?) {
+
+        val prefPath = "${context?.filesDir?.parent}/shared_prefs/" +
+                "${context?.packageName}_preferences.xml"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(context, R.string.import_settings_3dots,
+                        Toast.LENGTH_LONG).show()
+
+                    if(CapacityInfoService.instance != null)
+                        context?.let { ServiceHelper.stopService(it, CapacityInfoService::class.java)
+
+                        }
+
+                    if(OverlayService.instance != null)
+                        context?.let { ServiceHelper.stopService(it, OverlayService::class.java) }
+                }
+
+                val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+                val prefArrays: HashMap<String, Any?> = hashMapOf()
+
+                pref.all.forEach {
+
+                    when(it.key) {
+
+                        PreferencesKeys.BATTERY_LEVEL_TO, PreferencesKeys.BATTERY_LEVEL_WITH,
+                        PreferencesKeys.DESIGN_CAPACITY, PreferencesKeys.CAPACITY_ADDED,
+                        PreferencesKeys.LAST_CHARGE_TIME, PreferencesKeys.PERCENT_ADDED,
+                        PreferencesKeys.RESIDUAL_CAPACITY, PreferencesKeys.IS_SUPPORTED,
+                        PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG,
+                        PreferencesKeys.IS_SHOW_INSTRUCTION -> prefArrays[it.key] = it.value
+                    }
+                }
+
+                delay(2000L)
+                if(File(prefPath).exists()) File(prefPath).delete()
+
+                File(prefPath).createNewFile()
+
+                val fileOutputStream = FileOutputStream(prefPath)
+                val inputStream = uri?.let {
+                    context?.contentResolver?.openInputStream(it) }
+
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = inputStream?.read(buffer) ?: -1
+
+                    if(read != -1)
+                        fileOutputStream.write(buffer, 0, read)
+                    else break
+                }
+
+                inputStream?.close()
+                fileOutputStream.flush()
+                fileOutputStream.close()
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    MainApp.restartApp(requireContext(), prefArrays)
+                }
+            }
+
+            catch(e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(context, context?.getString(R.string.error_importing_settings,
+                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
@@ -548,6 +855,141 @@ class BackupSettingsFragment : PreferenceFragmentCompat() {
 
                     Toast.makeText(context, getString(R.string.error_restoring_settings_from_backup,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun exportHistory(intent: Intent?) {
+
+        val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
+        val dbName = "History.db"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                if(HistoryHelper.getHistoryCount(requireContext()) < 1)
+                    throw IOException (requireContext().getString(R.string.history_is_empty))
+
+                MainActivity.isOnBackPressed = false
+
+                val pickerDir = intent?.data?.let {
+                    requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                }
+
+                delay(1000L)
+                pickerDir?.findFile(dbName)?.delete()
+                val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
+                    dbName)?.uri?.let {
+                    requireContext().contentResolver?.openOutputStream(it)
+                }
+
+                val fileInputStream = FileInputStream(dbPath)
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = fileInputStream.read(buffer)
+
+                    if(read != -1)
+                        outputStream?.write(buffer, 0, read)
+                    else break
+                }
+
+                fileInputStream.close()
+                outputStream?.flush()
+                outputStream?.close()
+
+                withContext(Dispatchers.Main) {
+
+                    Toast.makeText(requireContext(), requireContext().getString(
+                        R.string.history_exported_successfully), Toast.LENGTH_LONG).show()
+                }
+
+                MainActivity.isOnBackPressed = true
+            }
+
+            catch(e: java.lang.Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(requireContext(), "${requireContext().getString(R.string
+                        .error_exporting_history)}\n${e.message ?: e.toString()}",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun importHistory(uri: Uri?) {
+
+        val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
+
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+
+            try {
+
+                MainActivity.isOnBackPressed = false
+
+                delay(1000L)
+                File(dbPath).deleteOnExit()
+                File("$dbPath-journal").deleteOnExit()
+
+                File(dbPath).createNewFile()
+
+                val fileOutputStream = FileOutputStream(dbPath)
+                val inputStream = uri?.let {
+                    requireContext().contentResolver?.openInputStream(it) }
+
+                val buffer = byteArrayOf((1024 * 8).toByte())
+                var read: Int
+
+                while (true) {
+
+                    read = inputStream?.read(buffer) ?: -1
+
+                    if(read != -1)
+                        fileOutputStream.write(buffer, 0, read)
+                    else break
+                }
+
+                inputStream?.close()
+                fileOutputStream.flush()
+                fileOutputStream.close()
+
+                MainActivity.isOnBackPressed = true
+
+                val isHistoryNotEmpty = HistoryHelper.getHistoryCount(requireContext()) > 0
+
+                withContext(Dispatchers.Main) {
+
+                    exportHistory?.isEnabled = isHistoryNotEmpty && !HistoryHelper
+                        .isHistoryMax(requireContext())
+                }
+
+                if(!isHistoryNotEmpty)
+                    throw IOException(requireContext().getString(R.string.history_is_empty))
+
+                else withContext(Dispatchers.Main) {
+
+                    Toast.makeText(requireContext(), requireContext().getString(R.string
+                        .history_imported_successfully), Toast.LENGTH_LONG).show()
+                }
+            }
+
+            catch(e: java.lang.Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    MainActivity.isOnBackPressed = true
+
+                    Toast.makeText(requireContext(), "${requireContext().getString(R.string
+                        .error_importing_history)}\n${e.message ?: e.toString()}",
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }

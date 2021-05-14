@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.BatteryManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -93,6 +94,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
+        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && MainApp.isGooglePlay(this)
+
         fragment = tempFragment
 
         batteryIntent = registerReceiver(null, IntentFilter(
@@ -124,8 +128,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         && prefArrays == null && !isLoadChargeDischarge && !isLoadHistory
                         && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
 
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && prefArrays != null
+                        && MainApp.isInstalledGooglePlay -> BackupSettingsFragment()
+
                 (isLoadDebug && !isLoadChargeDischarge && !isLoadWear && !isLoadHistory
-                        && !isLoadSettings) || prefArrays != null -> DebugFragment()
+                        && !isLoadSettings) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+                        && prefArrays != null) || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                        && prefArrays != null && !MainApp.isInstalledGooglePlay) -> DebugFragment()
 
                 else -> SettingsFragment()
             }

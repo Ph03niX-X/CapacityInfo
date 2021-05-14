@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.Activity
 import android.content.*
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.*
@@ -53,6 +54,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addPreferencesFromResource(R.xml.debug_settings)
 
+        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && isGooglePlay(requireContext())
+
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
         addSetting = findPreference("add_setting")
@@ -95,7 +99,21 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
-        exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+        exportHistory?.apply {
+
+            isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                    && !MainApp.isInstalledGooglePlay
+            isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+        }
+
+        importHistory?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay
+
+        exportSettings?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay
+
+        importSettings?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay
 
         addHistory?.setOnPreferenceClickListener {
 
@@ -462,6 +480,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     override fun onResume() {
 
         super.onResume()
+
+        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && isGooglePlay(requireContext())
 
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
