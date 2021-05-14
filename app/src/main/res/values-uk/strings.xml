@@ -283,4 +283,5 @@
     <string name="battery_is_discharged_voltage">Акумулятор розряджений (напруга)</string>
     <string name="battery_is_discharged_notification_voltage">Акумулятор розряджений. %1$d мВ</string>
     <string name="discharged_voltage">Розряджений (Напруга)</string>
+    <string name="new_permission_is_required_dialog">На Android 11+ потрібно новий дозвіл для роботи повноцінного резервного копіювання, Google не хоче пускати цей застосунок в свій магазин з цим дозволом. Тому використовуйте \"Експорт налаштувань\" для створення резервного копіювання налаштувань (назва файлу: com.ph03nix_x.capacityinfo_preferences.xml), і так само \"Імпорт налаштувань\" для відновлення налаштувань (з xml файлу). \"Експорт історії\" створює резервну копію історії (ім\'я файлу: History.db), \"Імпорт історії\" відновлює історію (з db файлу)</string>
 </resources>
