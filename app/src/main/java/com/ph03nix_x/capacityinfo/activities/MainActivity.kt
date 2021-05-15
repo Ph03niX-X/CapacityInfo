@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
+    private var isRestoreSettingsFromBackup = false
     private var prefArrays: HashMap<*, *>? = null
 
     lateinit var toolbar: CenteredToolbar
@@ -112,29 +113,37 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
                 as? HashMap<*, *>
 
+        isRestoreSettingsFromBackup = intent.getBooleanExtra(IS_RESTORE_SETTINGS_EXTRA,
+            false)
+
         if(fragment == null)
             fragment = when {
 
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
                         != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2"
                         && prefArrays == null && !isLoadWear && !isLoadHistory && !isLoadSettings
-                        && !isLoadDebug) -> ChargeDischargeFragment()
+                        && !isRestoreSettingsFromBackup && !isLoadDebug) ->
+                    ChargeDischargeFragment()
 
                 isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
-                        prefArrays == null && !isLoadChargeDischarge && !isLoadHistory
-                        && !isLoadSettings && !isLoadDebug) -> WearFragment()
+                        prefArrays == null && !isLoadChargeDischarge && !isLoadHistory &&
+                        !isLoadSettings && !isRestoreSettingsFromBackup && !isLoadDebug) ->
+                    WearFragment()
 
                 isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
-                        && prefArrays == null && !isLoadChargeDischarge && !isLoadHistory
-                        && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
+                        && prefArrays == null && !isLoadChargeDischarge && !isLoadChargeDischarge
+                        && !isLoadHistory && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
 
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && prefArrays != null
-                        && MainApp.isInstalledGooglePlay -> BackupSettingsFragment()
+                isRestoreSettingsFromBackup && !isLoadChargeDischarge && !isLoadWear &&
+                        !isLoadHistory && !isLoadSettings && !isLoadDebug && prefArrays != null ->
+                    BackupSettingsFragment()
 
                 (isLoadDebug && !isLoadChargeDischarge && !isLoadWear && !isLoadHistory
-                        && !isLoadSettings) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-                        && prefArrays != null) || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                        && prefArrays != null && !MainApp.isInstalledGooglePlay) -> DebugFragment()
+                        && !isRestoreSettingsFromBackup && !isLoadSettings
+                        && prefArrays == null) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+                        && prefArrays != null && !isRestoreSettingsFromBackup) || (Build.VERSION
+                    .SDK_INT >= Build.VERSION_CODES.R && prefArrays != null && !MainApp
+                    .isInstalledGooglePlay && !isRestoreSettingsFromBackup) -> DebugFragment()
 
                 else -> SettingsFragment()
             }
@@ -511,6 +520,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             isLoadChargeDischarge = false
             isLoadWear = false
+            isLoadHistory = false
             isLoadSettings = false
             isLoadDebug = false
         }

@@ -101,19 +101,23 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         exportHistory?.apply {
 
-            isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                    && !MainApp.isInstalledGooglePlay
+            isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                    && !MainApp.isInstalledGooglePlay)
+                    || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
             isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
         }
 
-        importHistory?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay
+        importHistory?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay)
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
 
-        exportSettings?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay
+        exportSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay)
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
 
-        importSettings?.isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay
+        importSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                && !MainApp.isInstalledGooglePlay)
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
 
         addHistory?.setOnPreferenceClickListener {
 
