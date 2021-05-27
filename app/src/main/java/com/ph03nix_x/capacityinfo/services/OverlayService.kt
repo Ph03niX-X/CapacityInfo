@@ -6,7 +6,6 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.IBinder
 import androidx.preference.PreferenceManager
-import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -88,10 +87,6 @@ class OverlayService : Service(), OverlayInterface {
         jobService = null
 
         if(linearLayout?.windowToken != null) windowManager?.removeView(linearLayout)
-
-        try { TinyDancer.hide(this) }
-        catch (e: RuntimeException) {}
-        catch (e: NullPointerException) {}
 
         super.onDestroy()
     }

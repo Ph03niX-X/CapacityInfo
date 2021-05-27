@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
@@ -38,7 +37,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FPS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
@@ -492,20 +490,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 }
             }
         }
-    }
-
-    override fun onStop() {
-
-        super.onStop()
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
-
-            delay(1000L)
-            if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay)) &&
-                pref.getBoolean(IS_FPS_OVERLAY, resources.getBoolean(R.bool.is_fps_overlay)))
-                TinyDancer.create().show(this@MainActivity)
-        }
-
     }
 
     override fun onDestroy() {

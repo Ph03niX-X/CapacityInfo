@@ -35,7 +35,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FPS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
@@ -72,7 +71,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
     // Show/Hide
     private var overlayCategory: PreferenceCategory? = null
-    private var fpsOverlay: SwitchPreferenceCompat? = null
     private var numberOfChargesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesAndroidOverlay: SwitchPreferenceCompat? = null
@@ -191,7 +189,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         // Show/Hide
         overlayCategory = findPreference("show_hide_pref_category")
-        fpsOverlay = findPreference(IS_FPS_OVERLAY)
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
         numberOfCyclesOverlay = findPreference(IS_NUMBER_OF_CYCLES_OVERLAY)
@@ -233,14 +230,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(
             R.bool.is_enabled_overlay)))
-
-        fpsOverlay?.setOnPreferenceChangeListener { _, newValue ->
-
-            if(newValue as? Boolean == true && OverlayService.instance == null)
-                ServiceHelper.startService(requireContext(), OverlayService::class.java)
-
-            true
-        }
 
         batteryLevelOverlay?.setOnPreferenceChangeListener { _, newValue ->
 

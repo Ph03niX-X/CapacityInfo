@@ -63,7 +63,6 @@ object PreferencesKeys {
     const val OVERLAY_OPACITY = "overlay_opacity"
 
     // Show/Hide
-    const val IS_FPS_OVERLAY = "is_fps_overlay"
     const val IS_BATTERY_LEVEL_OVERLAY = "is_battery_level_overlay"
     const val IS_NUMBER_OF_CHARGES_OVERLAY = "is_number_of_charges_overlay"
     const val IS_NUMBER_OF_CYCLES_OVERLAY = "is_number_of_cycles_overlay"
