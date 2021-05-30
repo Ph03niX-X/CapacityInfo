@@ -46,6 +46,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import java.lang.RuntimeException
 import java.text.DecimalFormat
@@ -249,16 +250,22 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
-        if(temperature >= pref.getInt(OVERHEAT_DEGREES, context.resources.getInteger(
-                R.integer.overheat_degrees_default)))
-            remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
-                R.string.battery_overheating, DecimalFormat().format(temperature), DecimalFormat()
-                    .format(temperatureInFahrenheit)))
+        when {
 
-        else
-            remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
-                R.string.battery_overheating, DecimalFormat().format(temperature), DecimalFormat()
-                    .format(temperatureInFahrenheit)))
+            temperature >= pref.getInt(OVERHEAT_DEGREES, context.resources.getInteger(
+                R.integer.overheat_degrees_default)) ->
+                remoteViewsContent.setTextViewText(R.id.notification_content_text,
+                    context.getString(R.string.battery_overheating, DecimalFormat().format(
+                        temperature), DecimalFormat().format(temperatureInFahrenheit)))
+
+            temperature <= pref.getInt(OVERCOOL_DEGREES, context.resources.getInteger(
+                R.integer.overcool_degrees_default)) ->
+                remoteViewsContent.setTextViewText(R.id.notification_content_text,
+                    context.getString(R.string.battery_overcooling, DecimalFormat().format(
+                        temperature), DecimalFormat().format(temperatureInFahrenheit)))
+
+            else -> return
+        }
 
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
