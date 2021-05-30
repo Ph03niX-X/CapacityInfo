@@ -12,10 +12,8 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utilities.Constants.DEVELOPER_4PDA_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_CHANNEL_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
-import com.ph03nix_x.capacityinfo.utilities.Constants.TOPIC_4PDA_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
@@ -24,10 +22,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
     // Telegram
     private var telegramDeveloper: Preference? = null
     private var telegramChannel: Preference? = null
-
-    // 4PDA
-    private var developer4PDA: Preference? = null
-    private var topic4PDA: Preference? = null
 
     // Other
     private var email: Preference? = null
@@ -77,45 +71,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 val clipData = ClipData.newPlainText("telegram_channel", TELEGRAM_CHANNEL_LINK)
                 clipboardManager.setPrimaryClip(clipData)
                 Toast.makeText(requireContext(), R.string.telegram_link_copied,
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        // 4PDA
-        developer4PDA = findPreference("developer_4pda")
-
-        topic4PDA = findPreference("topic_4pda")
-
-        developer4PDA?.setOnPreferenceClickListener {
-
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DEVELOPER_4PDA_LINK))) }
-
-            catch(e: ActivityNotFoundException) {
-
-                val clipboardManager = requireContext()
-                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("developer_4pda", DEVELOPER_4PDA_LINK)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), R.string.developer_4pda_link_copied,
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        topic4PDA?.setOnPreferenceClickListener {
-
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TOPIC_4PDA_LINK))) }
-
-            catch(e: ActivityNotFoundException) {
-
-                val clipboardManager = requireContext()
-                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("topic_4pda", TOPIC_4PDA_LINK)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), R.string.topic_4pda_link_copied,
                     Toast.LENGTH_LONG).show()
             }
 

@@ -270,9 +270,6 @@
     <string name="import_history">Імпорт історії</string>
     <string name="error_importing_history">Помилка імпортування історії!</string>
     <string name="history_imported_successfully">Історія успішно імпортована!</string>
-    <string name="topic">Тема</string>
-    <string name="developer_4pda_link_copied">Посилання на 4PDA (Розробник) скопійована</string>
-    <string name="topic_4pda_link_copied">Посилання на 4PDA (Тема) скопійована</string>
     <string name="ukrainian_translation">Український переклад</string>
     <string name="battery_is_charged_voltage">Акумулятор заряджений (Напруга)</string>
     <string name="battery_is_charged_notification_voltage">Акумулятор заряджений. %1$d мВ</string>

@@ -270,9 +270,6 @@
     <string name="import_history">Імпарт гісторыі</string>
     <string name="error_importing_history">Памылка імпарту гісторыі!</string>
     <string name="history_imported_successfully">Гісторыя паспяхова імпартаваная!</string>
-    <string name="topic">Тэма</string>
-    <string name="developer_4pda_link_copied">Спасылка на 4PDA (распрацоўшчык) скапіяваная</string>
-    <string name="topic_4pda_link_copied">Спасылка на 4PDA (Тэма) скапіяваная</string>
     <string name="ukrainian_translation">Ўкраінскі пераклад</string>
     <string name="battery_is_charged_voltage">Акумулятар зараджаны (Напружанне)</string>
     <string name="battery_is_charged_notification_voltage">Акумулятар зараджаны. %1$d мВ</string>
