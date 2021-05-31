@@ -418,8 +418,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                 if (getOnCurrentCapacity(
                                         context ?: currentCapacity.context
                                     ) > 0.0
-                                ) 986L
-                                else 993L
+                                ) 991L
+                                else 998L
                             )
 
                         else -> delay(1500L)
