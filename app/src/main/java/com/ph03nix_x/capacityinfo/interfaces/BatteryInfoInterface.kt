@@ -247,20 +247,16 @@ interface BatteryInfoInterface {
       catch (e: RuntimeException) { 0.001 }
     }
 
-    fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false): String {
+    fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false,
+                           isOnlyValues: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        batteryIntent = context.registerReceiver(
-            null, IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED
-            )
-        )
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+            .ACTION_BATTERY_CHANGED))
 
-            return when(batteryIntent?.getIntExtra(
-                BatteryManager.EXTRA_STATUS,
-                BatteryManager.BATTERY_STATUS_UNKNOWN
-            )) {
+            return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                BatteryManager.BATTERY_STATUS_UNKNOWN)) {
 
                 BatteryManager.BATTERY_STATUS_CHARGING -> {
 
@@ -272,24 +268,15 @@ interface BatteryInfoInterface {
 
                     if (capacityAdded < 0) capacityAdded /= -1
 
-                    context.getString(
-                        if (!isOverlay) R.string.capacity_added else
-                            R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
-                            .format(capacityAdded), "$percentAdded%"
-                    )
+                    context.getString(if (!isOverlay) R.string.capacity_added else R.string
+                        .capacity_added_overlay_only_values, DecimalFormat("#.#")
+                        .format(capacityAdded), "$percentAdded%")
                 }
 
-            else -> context.getString(
-                if (!isOverlay) R.string.capacity_added
-                else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#").format(
-                    pref.getFloat(CAPACITY_ADDED, 0f).toDouble()
-                ), "${
-                    pref.getInt(
-                        PERCENT_ADDED,
-                        0
-                    )
-                }%"
-            )
+            else -> context.getString(if (!isOverlay || !isOnlyValues) R.string.capacity_added
+            else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
+                .format(pref.getFloat(CAPACITY_ADDED, 0f).toDouble()), "${pref.getInt(
+                PERCENT_ADDED, 0)}%")
         }
     }
 
@@ -297,11 +284,8 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        batteryIntent = context.registerReceiver(
-            null, IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED
-            )
-        )
+        batteryIntent = context.registerReceiver(null, IntentFilter(
+            Intent.ACTION_BATTERY_CHANGED))
 
         var voltage = batteryIntent?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0)
             ?.toDouble() ?: 0.0
@@ -340,7 +324,8 @@ interface BatteryInfoInterface {
         }
     }
 
-    fun getOnResidualCapacity(context: Context, isOverlay: Boolean = false): String {
+    fun getOnResidualCapacity(context: Context, isOverlay: Boolean = false,
+                              isOnlyValues: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -351,7 +336,7 @@ interface BatteryInfoInterface {
 
         if(residualCapacity < 0.0) residualCapacity /= -1.0
 
-        return context.getString(if(!isOverlay) R.string.residual_capacity else
+        return context.getString(if(!isOverlay || !isOnlyValues) R.string.residual_capacity else
                 R.string.residual_capacity_overlay_only_values, DecimalFormat("#.#").format(
                 residualCapacity), "${DecimalFormat("#.#").format((
                 residualCapacity / pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
@@ -396,35 +381,29 @@ interface BatteryInfoInterface {
         }
     }
     
-    fun getOnBatteryWear(context: Context, isOverlay: Boolean = false): String {
+    fun getOnBatteryWear(context: Context, isOverlay: Boolean = false,
+                         isOnlyValues: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val designCapacity = pref.getInt(
-            DESIGN_CAPACITY, context.resources.getInteger(
-                R.integer.min_design_capacity
-            )
-        ).toDouble()
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+            R.integer.min_design_capacity)).toDouble()
 
         return context.getString(
-            if (!isOverlay) R.string.battery_wear else
-                R.string.battery_wear_overlay_only_values, if (residualCapacity > 0
-                && residualCapacity < designCapacity
-            ) "${
-                DecimalFormat("#.#").format(
-                    100 - ((residualCapacity / designCapacity) * 100)
-                )
-            }%" else "0%",
+            if (!isOverlay || !isOnlyValues) R.string.battery_wear else R.string
+                .battery_wear_overlay_only_values, if (residualCapacity > 0 &&
+                residualCapacity < designCapacity) "${DecimalFormat("#.#")
+                .format(100 - ((residualCapacity / designCapacity) * 100))}%" else "0%",
             if (residualCapacity > 0 && residualCapacity < designCapacity) DecimalFormat(
-                "#.#"
-            ).format(designCapacity - residualCapacity) else "0"
+                "#.#").format(designCapacity - residualCapacity) else "0"
         )
     }
 
-    fun getOnChargingTime(context: Context, seconds: Int, isOverlay: Boolean = false): String {
+    fun getOnChargingTime(context: Context, seconds: Int, isOverlay: Boolean = false,
+                          isOnlyValues: Boolean = false): String {
 
         return context.getString(
-            if (!isOverlay) R.string.charging_time else
+            if (!isOverlay || !isOnlyValues) R.string.charging_time else
                 R.string.charging_time_overlay_only_values, TimeHelper.getTime(seconds.toLong())
         )
     }

@@ -412,7 +412,9 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-            text = getOnChargingTime(context, (CapacityInfoService.instance?.seconds ?: 0), true)
+            text = getOnChargingTime(context, (CapacityInfoService.instance?.seconds ?: 0),
+                true, pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                    R.bool.is_only_values_overlay)))
 
             visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, context.resources
                     .getBoolean(R.bool.is_charging_time_overlay)) && (
@@ -542,7 +544,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-            text = getOnCapacityAdded(context, true)
+            text = getOnCapacityAdded(context, true, pref.getBoolean(
+                IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(R.bool.is_only_values_overlay)))
 
             visibility = if(pref.getBoolean(IS_CAPACITY_ADDED_OVERLAY, context.resources
                     .getBoolean(R.bool.is_capacity_added_overlay)) && pref.getBoolean(IS_SUPPORTED,
@@ -589,7 +592,9 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-            text = getOnResidualCapacity(context,true)
+            text = getOnResidualCapacity(context,true,
+                pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                    R.bool.is_only_values_overlay)))
 
             visibility = if(pref.getBoolean(IS_RESIDUAL_CAPACITY_OVERLAY,
                     context.resources.getBoolean(R.bool.is_residual_capacity_overlay)) &&
@@ -884,7 +889,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-            text = getOnBatteryWear(context, true)
+            text = getOnBatteryWear(context, true, pref.getBoolean(
+                IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(R.bool.is_only_values_overlay)))
 
             visibility = if(pref.getBoolean(IS_BATTERY_WEAR_OVERLAY, this.resources.getBoolean(
                     R.bool.is_battery_wear_overlay)) && pref.getBoolean(IS_SUPPORTED,
