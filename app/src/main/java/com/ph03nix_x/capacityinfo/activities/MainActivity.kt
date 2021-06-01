@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         toolbar.navigationIcon = null
 
-        if(fragment !is SettingsFragment && fragment !is HistoryFragment) inflateMenu()
+        if(fragment !is SettingsFragment) inflateMenu()
 
         toolbar.setNavigationOnClickListener {
 
@@ -254,6 +255,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         isLoadDebug = false
 
                         clearMenu()
+
+                        inflateMenu()
 
                         loadFragment(fragment ?: HistoryFragment())
                     }
@@ -513,74 +516,94 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     fun inflateMenu() {
 
-        toolbar.inflateMenu(R.menu.main_menu)
+        if(fragment is HistoryFragment) {
 
-        toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
-            this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
+            toolbar.inflateMenu(R.menu.history_menu)
 
-        toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
+            toolbar.menu.findItem(R.id.clear_history).apply {
 
-            showInstruction()
+                isVisible = HistoryHelper.isHistoryNotEmpty(this@MainActivity)
 
-            true
+                setOnMenuItemClickListener {
+
+                    HistoryHelper.clearHistory(this@MainActivity, this)
+
+                    true
+                }
+            }
         }
 
-        toolbar.menu.findItem(R.id.faq).setOnMenuItemClickListener {
+        else {
 
-            MaterialAlertDialogBuilder(this).apply {
+            toolbar.inflateMenu(R.menu.main_menu)
 
-                setIcon(R.drawable.ic_faq_question_24dp)
-                setTitle(getString(R.string.faq))
-                setMessage(getString(R.string.faq_how_does_the_app_work)
-                        + getString(R.string.faq_capacity_added)
-                        + getString(R.string.faq_where_does_the_app_get_the_ccl)
-                        + getString(R.string.faq_why_is_ccl_not_displayed)
-                        + getString(R.string.faq_i_have_everything_in_zeros)
-                        + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
-                        + getString(R.string.faq_residual_capacity_is_higher)
-                        + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
-                        + getString(R.string.faq_battery_wear_not_change)
-                        + getString(R.string.faq_with_each_charge_battery_wear_changes)
-                        + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
-                        + getString(R.string.faq_not_displayed_number_of_cycles_android)
-                        + getString(R.string.faq_add_device_support))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                show()
+            toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
+                this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
+
+            toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
+
+                showInstruction()
+
+                true
             }
 
-            true
-        }
+            toolbar.menu.findItem(R.id.faq).setOnMenuItemClickListener {
 
-        toolbar.menu.findItem(R.id.tips).setOnMenuItemClickListener {
+                MaterialAlertDialogBuilder(this).apply {
 
-            MaterialAlertDialogBuilder(this).apply {
+                    setIcon(R.drawable.ic_faq_question_24dp)
+                    setTitle(getString(R.string.faq))
+                    setMessage(getString(R.string.faq_how_does_the_app_work)
+                            + getString(R.string.faq_capacity_added)
+                            + getString(R.string.faq_where_does_the_app_get_the_ccl)
+                            + getString(R.string.faq_why_is_ccl_not_displayed)
+                            + getString(R.string.faq_i_have_everything_in_zeros)
+                            + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
+                            + getString(R.string.faq_residual_capacity_is_higher)
+                            + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
+                            + getString(R.string.faq_battery_wear_not_change)
+                            + getString(R.string.faq_with_each_charge_battery_wear_changes)
+                            + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
+                            + getString(R.string.faq_not_displayed_number_of_cycles_android)
+                            + getString(R.string.faq_add_device_support))
+                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                    show()
+                }
 
-                setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
-                setTitle(getString(R.string.tips_dialog_title))
-                setMessage(getString(R.string.tip1) + getString(R.string.tip2)
-                        + getString(R.string.tip3) + getString(R.string.tip4)
-                        + getString(R.string.tip5) + getString(R.string.tip6)
-                        + getString(R.string.tip7))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                show()
+                true
             }
 
-            true
-        }
+            toolbar.menu.findItem(R.id.tips).setOnMenuItemClickListener {
 
-        toolbar.menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
+                MaterialAlertDialogBuilder(this).apply {
 
-            try {
+                    setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
+                    setTitle(getString(R.string.tips_dialog_title))
+                    setMessage(getString(R.string.tip1) + getString(R.string.tip2)
+                            + getString(R.string.tip3) + getString(R.string.tip4)
+                            + getString(R.string.tip5) + getString(R.string.tip6)
+                            + getString(R.string.tip7))
+                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                    show()
+                }
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONT_KILL_MY_APP_LINK)))
+                true
             }
-            catch(e: ActivityNotFoundException) {
 
-                Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
+            toolbar.menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
+
+                try {
+
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONT_KILL_MY_APP_LINK)))
+                }
+                catch(e: ActivityNotFoundException) {
+
+                    Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
+                        .show()
+                }
+
+                true
             }
-
-            true
         }
     }
 

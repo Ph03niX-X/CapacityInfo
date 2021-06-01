@@ -1,9 +1,15 @@
 package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
+import android.view.MenuItem
+import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import java.lang.Exception
 
 object HistoryHelper {
 
@@ -30,4 +36,40 @@ object HistoryHelper {
     fun isHistoryEmpty(context: Context) = getHistoryCount(context) < 1
 
     fun isHistoryNotEmpty(context: Context) = !isHistoryEmpty(context)
+
+    fun clearHistory(context: Context, clearHistoryToolbarMenu: MenuItem) {
+
+        if(isHistoryNotEmpty(context))
+            MaterialAlertDialogBuilder(context).apply {
+
+                setMessage(context.getString(R.string.clear_the_history_dialog_message))
+
+                setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
+
+                    try {
+
+                        clearHistory(context)
+                        val isHistoryNotEmpty = isHistoryNotEmpty(context)
+                        clearHistoryToolbarMenu.isVisible = isHistoryNotEmpty
+                        HistoryAdapter.instance?.update(context)
+                        if(!isHistoryNotEmpty) Toast.makeText(context, context.getString(
+                            R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
+                        else Toast.makeText(context, context.getString(R.string
+                            .error_clearing_history), Toast.LENGTH_LONG).show()
+                    }
+                    catch (e: Exception) {
+
+                        Toast.makeText(context, "${context.getString(R.string
+                            .error_clearing_history)}\n${e.message ?: e.toString()}",
+                            Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                setNegativeButton(context.getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
+                show()
+            }
+
+        else Toast.makeText(context, context.getString(R.string.error_clearing_history),
+            Toast.LENGTH_LONG).show()
+    }
 }

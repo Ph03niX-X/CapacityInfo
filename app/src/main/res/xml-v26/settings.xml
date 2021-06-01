@@ -229,12 +229,6 @@
                 android:key="reset_to_zero_the_number_of_cycles"/>
 
         <Preference
-            android:title="@string/clear_history"
-            app:isPreferenceVisible="false"
-            app:singleLineTitle="false"
-            android:key="clear_history"/>
-
-        <Preference
             app:title="@string/debug"
             app:isPreferenceVisible="false"
             app:singleLineTitle="false"
