@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
@@ -69,6 +70,8 @@ class UnpluggedReceiver : BroadcastReceiver() {
                         HistoryHelper.addHistory(context, DateHelper.getDate(DateHelper
                             .getCurrentDay(), DateHelper.getCurrentMonth(), DateHelper
                             .getCurrentYear()), currentCapacity)
+
+                        HistoryAdapter.instance?.update(context)
                     }
 
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {

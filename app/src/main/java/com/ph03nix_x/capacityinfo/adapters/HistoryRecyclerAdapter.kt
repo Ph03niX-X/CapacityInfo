@@ -8,6 +8,8 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.databases.History
+import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import kotlinx.android.synthetic.main.history_recycler_list_item.view.*
@@ -18,9 +20,16 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     
     private lateinit var pref: SharedPreferences
 
+    companion object {
+
+        var instance: HistoryAdapter? = null
+    }
+
     override fun getItemCount() = historyList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+
+        instance = this
 
         val itemView =  LayoutInflater.from(parent.context).inflate(R.layout
             .history_recycler_list_item, parent, false)
@@ -92,5 +101,16 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             if (newResidualCapacity > 0 && newResidualCapacity < designCapacity) DecimalFormat(
                 "#.#").format(designCapacity - newResidualCapacity) else "0"
         )
+    }
+
+    fun update(context: Context) {
+        if(HistoryHelper.getHistoryCount(context) > historyList.count()) {
+            historyList = HistoryDB(context).readDB()
+            notifyItemInserted(0)
+        }
+        else if(HistoryHelper.isHistoryEmpty(context)) {
+            historyList = HistoryDB(context).readDB()
+            notifyDataSetChanged()
+        }
     }
 }

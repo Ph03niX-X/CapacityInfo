@@ -26,4 +26,6 @@ object HistoryHelper {
     }
 
     fun isHistoryMax(context: Context) = getHistoryCount(context) >= Constants.HISTORY_COUNT_MAX
+
+    fun isHistoryEmpty(context: Context) = getHistoryCount(context) < 1
 }

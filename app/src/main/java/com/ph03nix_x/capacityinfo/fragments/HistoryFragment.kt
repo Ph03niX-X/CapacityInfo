@@ -12,6 +12,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
@@ -40,5 +41,15 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         recView = view.findViewById(R.id.history_recycler_view)
         historyAdapter = HistoryAdapter(historyDB.readDB())
         recView.adapter = historyAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        historyAdapter.update(requireContext())
+    }
+
+    override fun onDestroy() {
+        HistoryAdapter.instance = null
+        super.onDestroy()
     }
 }
