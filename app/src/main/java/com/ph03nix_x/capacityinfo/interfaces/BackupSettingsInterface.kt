@@ -249,7 +249,7 @@ interface BackupSettingsInterface {
                     true)
 
                 delay(1000L)
-                if(HistoryHelper.getHistoryCount(context) > 0)
+                if(HistoryHelper.isHistoryNotEmpty(context))
                     File("${context.filesDir?.parent}/databases/History.db")
                         .copyTo(File("${backupPath}/History.db"), true)
 
@@ -363,7 +363,7 @@ interface BackupSettingsInterface {
 
             try {
 
-                if(HistoryHelper.getHistoryCount(context) < 1)
+                if(HistoryHelper.isHistoryEmpty(context))
                     throw IOException (context.getString(R.string.history_is_empty))
 
                 MainActivity.isOnBackPressed = false
@@ -457,7 +457,7 @@ interface BackupSettingsInterface {
 
                 MainActivity.isOnBackPressed = true
 
-                val isHistoryNotEmpty = HistoryHelper.getHistoryCount(context) > 0
+                val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
 
                 withContext(Dispatchers.Main) {
 

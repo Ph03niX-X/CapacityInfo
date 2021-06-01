@@ -792,7 +792,7 @@ interface DebugOptionsInterface {
 
             try {
 
-                if(HistoryHelper.getHistoryCount(context) < 1)
+                if(HistoryHelper.isHistoryEmpty(context))
                     throw IOException (context.getString(R.string.history_is_empty))
 
                 MainActivity.isOnBackPressed = false
@@ -886,7 +886,7 @@ interface DebugOptionsInterface {
 
                 MainActivity.isOnBackPressed = true
 
-                val isHistoryNotEmpty = HistoryHelper.getHistoryCount(context) > 0
+                val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
 
                 withContext(Dispatchers.Main) {
 

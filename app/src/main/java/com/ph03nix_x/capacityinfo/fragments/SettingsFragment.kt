@@ -277,7 +277,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 clearHistory?.apply {
 
                     isVisible = true
-                    isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+                    isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
                 }
                 debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
                     resources.getBoolean(R.bool.is_enabled_debug_options))
@@ -514,7 +514,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCycles?.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
 
-        clearHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+        clearHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
 
         debug?.isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
             PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
@@ -523,7 +523,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     private fun clearHistory() {
 
-        if(HistoryHelper.getHistoryCount(requireContext()) > 0)
+        if(HistoryHelper.isHistoryNotEmpty(requireContext()))
             MaterialAlertDialogBuilder(requireContext()).apply {
 
                 setMessage(getString(R.string.clear_the_history_dialog_message))
@@ -533,7 +533,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     try {
 
                         HistoryHelper.clearHistory(requireContext())
-                        val isHistoryNotEmpty = HistoryHelper.getHistoryCount(requireContext()) > 0
+                        val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(requireContext())
                         clearHistory?.isEnabled = isHistoryNotEmpty
                         if(!isHistoryNotEmpty) Toast.makeText(requireContext(), getString(
                             R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()

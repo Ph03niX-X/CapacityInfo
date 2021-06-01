@@ -104,7 +104,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                     && !MainApp.isInstalledGooglePlay)
                     || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-            isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+            isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
         }
 
         importHistory?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
@@ -138,7 +138,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     (designCapacity / 1000) * 5)) * 100).random()
 
             HistoryHelper.addHistory(requireContext(), date, residualCapacity)
-            exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+            exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
 
             val historyDB = HistoryDB(requireContext()).readDB()
 
@@ -182,8 +182,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        exportHistory?.isEnabled = HistoryHelper.getHistoryCount(
-                            requireContext()) > 0
+                        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
                     }
 
                     val historyDB = HistoryDB(requireContext()).readDB()
@@ -241,8 +240,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        exportHistory?.isEnabled = HistoryHelper.getHistoryCount(
-                            requireContext()) > 0
+                        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
                     }
 
                     val historyDB = HistoryDB(requireContext()).readDB()
@@ -494,7 +492,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
-        exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
 
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()

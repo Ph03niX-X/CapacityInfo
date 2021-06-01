@@ -104,7 +104,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             exportHistory?.apply {
 
                 isVisible = MainApp.isInstalledGooglePlay
-                isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+                isEnabled = HistoryHelper.isHistoryNotEmpty(context)
             }
 
             importHistory?.isVisible = MainApp.isInstalledGooglePlay
@@ -467,7 +467,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                 && File("$backupPath/${requireContext().packageName}_preferences.xml")
             .length() > 0)
 
-        exportHistory?.isEnabled = HistoryHelper.getHistoryCount(requireContext()) > 0
+        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
