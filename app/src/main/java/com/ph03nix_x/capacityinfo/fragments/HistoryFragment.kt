@@ -12,9 +12,9 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
-import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import kotlinx.android.synthetic.main.history_fragment.*
 
 class HistoryFragment : Fragment(R.layout.history_fragment) {
 
@@ -41,6 +41,12 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         recView = view.findViewById(R.id.history_recycler_view)
         historyAdapter = HistoryAdapter(historyDB.readDB())
         recView.adapter = historyAdapter
+
+        refresh_history.setOnRefreshListener {
+            refresh_history.isRefreshing = true
+            historyAdapter.update(requireContext())
+            refresh_history.isRefreshing = false
+        }
     }
 
     override fun onResume() {
