@@ -268,8 +268,8 @@ interface BatteryInfoInterface {
 
                     if (capacityAdded < 0) capacityAdded /= -1
 
-                    context.getString(if (!isOverlay) R.string.capacity_added else R.string
-                        .capacity_added_overlay_only_values, DecimalFormat("#.#")
+                    context.getString(if (!isOverlay || !isOnlyValues) R.string.capacity_added
+                    else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
                         .format(capacityAdded), "$percentAdded%")
                 }
 
@@ -355,25 +355,23 @@ interface BatteryInfoInterface {
         }
     }
 
-    fun getOnSourceOfPower(
-        context: Context, extraPlugged: Int,
-        isOverlay: Boolean = false
-    ): String {
+    fun getOnSourceOfPower(context: Context, extraPlugged: Int, isOverlay: Boolean = false,
+                           isOnlyValues: Boolean = false): String {
 
         return when(extraPlugged) {
 
             BatteryManager.BATTERY_PLUGGED_AC -> context.getString(
-                if (!isOverlay)
+                if (!isOverlay || !isOnlyValues)
                     R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_ac)
             )
             BatteryManager.BATTERY_PLUGGED_USB -> context.getString(
-                if (!isOverlay)
+                if (!isOverlay || !isOnlyValues)
                     R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_usb)
             )
             BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(
-                if (!isOverlay)
+                if (!isOverlay || !isOnlyValues)
                     R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_wireless)
             )

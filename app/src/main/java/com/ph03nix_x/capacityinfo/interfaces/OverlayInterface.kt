@@ -261,7 +261,9 @@ interface OverlayInterface : BatteryInfoInterface {
         val extraPlugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
             -1) ?: -1
 
-        val sourceOfPower = getOnSourceOfPower(context, extraPlugged, true)
+        val sourceOfPower = getOnSourceOfPower(context, extraPlugged, true,
+            pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                R.bool.is_only_values_overlay)))
 
         linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout())
 
