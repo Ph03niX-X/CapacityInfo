@@ -108,7 +108,7 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
 
     fun update(context: Context) {
         pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if(HistoryHelper.getHistoryCount(context) >= historyList.count()) {
+        if(HistoryHelper.getHistoryCount(context) > historyList.count()) {
             historyList = HistoryDB(context).readDB()
             notifyItemInserted(0)
         }
