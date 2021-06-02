@@ -12,6 +12,8 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_CHANNEL_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -127,14 +129,24 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
                         val flow = manager.launchReviewFlow(requireActivity(), it.result)
 
-                        if(!flow.isSuccessful) Toast.makeText(requireContext(),
-                            requireContext().getString(R.string.unknown_error),
-                            Toast.LENGTH_LONG).show()
+                        if(!flow.isSuccessful) try {
+                            requireContext().startActivity(Intent(Intent.ACTION_VIEW,
+                                Uri.parse(GOOGLE_PLAY_APP_LINK)))
+                        }
+                        catch(e: ActivityNotFoundException) {
+                            Toast.makeText(requireContext(), requireContext().getString(
+                                R.string.unknown_error), Toast.LENGTH_LONG).show()
+                        }
                     }
 
-                    else Toast.makeText(requireContext(), requireContext().getString(
-                        R.string.unknown_error), Toast.LENGTH_LONG).show()
-
+                    else try {
+                        requireContext().startActivity(Intent(Intent.ACTION_VIEW,
+                            Uri.parse(GOOGLE_PLAY_APP_LINK)))
+                    }
+                    catch(e: ActivityNotFoundException) {
+                        Toast.makeText(requireContext(), requireContext().getString(
+                            R.string.unknown_error), Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 true
@@ -142,8 +154,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         shareTheApp?.setOnPreferenceClickListener {
 
-            val linkToGooglePlay = "https://play.google.com/store/apps/details?id=${requireContext()
-                .packageName}"
+            val linkToGooglePlay = GOOGLE_PLAY_APP_LINK
 
             startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
 
