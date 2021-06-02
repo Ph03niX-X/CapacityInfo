@@ -42,10 +42,13 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         historyAdapter = HistoryAdapter(historyDB.readDB())
         recView.adapter = historyAdapter
 
-        refresh_history.setOnRefreshListener {
-            refresh_history.isRefreshing = true
-            historyAdapter.update(requireContext())
-            refresh_history.isRefreshing = false
+        refresh_history.apply {
+            setColorSchemeColors(resources.getColor(R.color.swipe_refresh_layout))
+            setOnRefreshListener {
+                refresh_history.isRefreshing = true
+                historyAdapter.update(requireContext())
+                refresh_history.isRefreshing = false
+            }
         }
     }
 
