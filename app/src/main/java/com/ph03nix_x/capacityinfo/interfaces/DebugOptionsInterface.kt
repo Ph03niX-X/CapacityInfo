@@ -890,6 +890,9 @@ interface DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
+                    MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
+                        ?.isVisible = isHistoryNotEmpty
+
                     preferencesList.forEach {
 
                         if(it?.key == "add_history" || it?.key == "add_ten_history"

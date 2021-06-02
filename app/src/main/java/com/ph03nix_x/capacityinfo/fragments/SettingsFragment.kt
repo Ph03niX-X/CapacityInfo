@@ -11,6 +11,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
@@ -291,10 +292,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         tabOnApplicationLaunch?.setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = resources.getStringArray(R.array.tab_on_application_launch_list)[
-                    (newValue as? String)?.toInt() ?: 0]
+            val tab = if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
+                || HistoryHelper.isHistoryNotEmpty(requireContext()))
+                        (newValue as? String)?.toInt() ?: 0 else 0
 
-            true
+            preference.summary = resources.getStringArray(R.array.tab_on_application_launch_list)[tab]
+
+            pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
+                    || HistoryHelper.isHistoryNotEmpty(requireContext())
         }
 
         unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->

@@ -129,6 +129,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     WearFragment()
 
                 isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
+                        && (pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
+                    R.bool.is_supported) || HistoryHelper.isHistoryNotEmpty(this)))
                         && prefArrays == null && !isLoadChargeDischarge && !isLoadChargeDischarge
                         && !isLoadHistory && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
 
@@ -175,6 +177,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat.getDrawable(
             this, getChargeDischargeNavigationIcon(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING))
+
+        navigation.menu.findItem(R.id.history_navigation).isVisible = pref.getBoolean(IS_SUPPORTED,
+            resources.getBoolean(R.bool.is_supported)) ||
+                HistoryHelper.isHistoryNotEmpty(this)
 
         navigation.setOnNavigationItemSelectedListener {
 
@@ -332,6 +338,25 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat
                 .getDrawable(this, getChargeDischargeNavigationIcon(status ==
                         BatteryManager.BATTERY_STATUS_CHARGING))
+        }
+
+        if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))) {
+
+            navigation.menu.findItem(R.id.history_navigation).isVisible =
+                HistoryHelper.isHistoryNotEmpty(this)
+
+            if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
+                fragment = ChargeDischargeFragment()
+                isLoadHistory = false
+                isLoadChargeDischarge = true
+                clearMenu()
+                inflateMenu()
+                loadFragment(fragment ?: ChargeDischargeFragment())
+            }
+
+            if(HistoryHelper.isHistoryEmpty(this) &&
+                pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2")
+                    pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
         }
 
         if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
@@ -527,6 +552,30 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 setOnMenuItemClickListener {
 
                     HistoryHelper.clearHistory(this@MainActivity, this)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        delay(1000L)
+                        if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))) {
+
+                            navigation.menu.findItem(R.id.history_navigation).isVisible =
+                                HistoryHelper.isHistoryNotEmpty(this@MainActivity)
+
+                            if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(
+                                    this@MainActivity)) {
+                                fragment = ChargeDischargeFragment()
+                                isLoadHistory = false
+                                isLoadChargeDischarge = true
+                                clearMenu()
+                                inflateMenu()
+                                loadFragment(fragment ?: ChargeDischargeFragment())
+                            }
+
+                            if(HistoryHelper.isHistoryEmpty(this@MainActivity) &&
+                                pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2")
+                                pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
+                        }
+                    }
 
                     true
                 }

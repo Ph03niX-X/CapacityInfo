@@ -19,11 +19,13 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
@@ -121,8 +123,11 @@ interface SettingsInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         if(pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") !in
-            context.resources.getStringArray(R.array.tab_on_application_launch_values))
-            pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
+            context.resources.getStringArray(R.array.tab_on_application_launch_values)
+            || (!pref.getBoolean(IS_SUPPORTED, context.resources.getBoolean(R.bool.is_supported))
+            && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" &&
+                    HistoryHelper.isHistoryEmpty(context)))
+                        pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
 
         return context.resources.getStringArray(R.array.tab_on_application_launch_list)[
                 (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]

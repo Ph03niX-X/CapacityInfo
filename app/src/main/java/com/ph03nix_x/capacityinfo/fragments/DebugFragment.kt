@@ -10,6 +10,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
@@ -147,6 +148,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     Toast.LENGTH_LONG).show()
             else Toast.makeText(requireContext(), "0.0.0: 0", Toast.LENGTH_LONG).show()
 
+            MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)?.isVisible =
+                HistoryHelper.isHistoryNotEmpty(requireContext())
             it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -203,6 +206,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
+                    MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
+                        ?.isVisible = HistoryHelper.isHistoryNotEmpty(requireContext())
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -261,6 +266,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
+                    MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
+                        ?.isVisible = HistoryHelper.isHistoryNotEmpty(requireContext())
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
