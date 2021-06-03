@@ -45,7 +45,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_VOLTAGE_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
@@ -65,7 +64,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     // Appearance
     private var appearanceCategory: PreferenceCategory? = null
     private var overlaySize: ListPreference? = null
-    private var overlayFont: ListPreference? = null
     private var overlayTextStyle: ListPreference? = null
     private var overlayOpacity: SeekBarPreference? = null
 
@@ -140,25 +138,14 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         // Appearance
         appearanceCategory = findPreference("appearance_overlay")
         overlaySize = findPreference(OVERLAY_SIZE)
-        overlayFont = findPreference(OVERLAY_FONT)
         overlayTextStyle = findPreference(OVERLAY_TEXT_STYLE)
         overlayOpacity = findPreference("overlay_opacity")
 
         overlaySize?.summary = getOverlayTextSizeSummary()
 
-        overlayFont?.summary = getOverlayTextFontSummary()
-
         overlayTextStyle?.summary = getOverlayTextStyleSummary()
 
         overlayOpacity?.summary = getOverlayOpacitySummary()
-
-        overlayFont?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = resources.getStringArray(R.array.fonts_list)[
-                    (newValue as? String)?.toInt() ?: 6]
-
-            true
-        }
 
         overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
 
@@ -459,8 +446,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         overlaySize?.summary = getOverlayTextSizeSummary()
 
-        overlayFont?.summary = getOverlayTextFontSummary()
-
         overlayTextStyle?.summary = getOverlayTextStyleSummary()
 
         overlayOpacity?.summary = getOverlayOpacitySummary()
@@ -487,16 +472,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         return resources.getStringArray(R.array.text_size_list)[
                 pref.getString(OVERLAY_SIZE, "2")?.toInt() ?: 2]
-    }
-
-    private fun getOverlayTextFontSummary(): CharSequence? {
-
-        if(pref.getString(OVERLAY_FONT, "6") !in
-            resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(OVERLAY_FONT, "6").apply()
-
-        return resources.getStringArray(R.array.fonts_list)[
-                pref.getString(OVERLAY_FONT, "6")?.toInt() ?: 6]
     }
 
     private fun getOverlayTextStyleSummary(): CharSequence? {

@@ -27,7 +27,6 @@ import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
@@ -66,18 +65,6 @@ interface SettingsInterface {
 
         return context.resources.getStringArray(R.array.text_size_list)[
                 (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
-    }
-
-    fun getOnTextFontSummary(context: Context): String? {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        if(pref.getString(TEXT_FONT, "6") !in
-            context.resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(TEXT_FONT, "6").apply()
-
-        return context.resources.getStringArray(R.array.fonts_list)[
-                (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
     }
 
     fun getOnTextStyleSummary(context: Context): String? {

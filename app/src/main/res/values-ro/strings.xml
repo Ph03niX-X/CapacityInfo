@@ -158,10 +158,8 @@
     <string name="last_charge_time_overlay">Ultima dată de încărcare</string>
     <string name="battery_wear_overlay">Uzura bateriei</string>
     <string name="overlay_permission_dialog_message">Permisiunea este necesară pentru ca funcția de suprapunere să funcționeze. Mergeți la fereastra următoare și să acordați permisiunea</string>
-    <string name="font_overlay">Font</string>
     <string name="text_style_overlay">Stil text</string>
     <string name="text_size">Dimensiunea textului (încărcare/descărcare/uzură)</string>
-    <string name="text_font">Font (încărcare/descărcare/uzură)</string>
     <string name="text_style">Stilul textului (încărcare/descărcare/uzură)</string>
     <string name="battery_status_information">Informații despre starea bateriei</string>
     <string name="battery_is_fully_charged">Informații despre starea bateriei</string>

@@ -65,16 +65,6 @@
                 android:key="text_size"/>
 
         <ListPreference
-                android:title="@string/text_font"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_text_font"
-                app:dialogIcon="@drawable/ic_text_font"
-                android:entries="@array/fonts_list"
-                android:entryValues="@array/fonts_values"
-                app:defaultValue="6"
-                android:key="text_font"/>
-
-        <ListPreference
                 android:title="@string/text_style"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_text_style"

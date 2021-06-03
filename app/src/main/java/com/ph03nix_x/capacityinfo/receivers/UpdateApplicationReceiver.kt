@@ -73,7 +73,8 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay").forEach {
+        arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay", "text_font",
+            "overlay_font").forEach {
 
             with(pref) {
 

@@ -11,11 +11,11 @@ import com.ph03nix_x.capacityinfo.R
 object TextAppearanceHelper {
 
     fun setTextAppearance(context: Context, textView: AppCompatTextView, textStylePref: String?,
-                          textFontPref: String?, textSizePref: String?) {
+                          textSizePref: String?) {
 
         setTextSize(context, textView, textSizePref)
 
-        val fontFamily = setTextFont(textView.context, textFontPref)
+        val fontFamily = ResourcesCompat.getFont(context, R.font.google_sans)
 
         textView.typeface = setTextStyle(textView, textStylePref, fontFamily)
     }
@@ -30,60 +30,6 @@ object TextAppearanceHelper {
             1 -> TypefaceCompat.create(textView.context, fontFamily, Typeface.BOLD)
 
             2 -> TypefaceCompat.create(textView.context, fontFamily, Typeface.ITALIC)
-
-            else -> null
-        }
-    }
-
-    private fun setTextFont(context: Context, textFontPref: String?): Typeface? {
-
-        return when(textFontPref?.toInt()) {
-
-            0 -> Typeface.DEFAULT
-
-            1 -> ResourcesCompat.getFont(context, R.font.roboto)
-
-            2 -> Typeface.SERIF
-
-            3 -> Typeface.SANS_SERIF
-
-            4 -> Typeface.MONOSPACE
-
-            5 -> ResourcesCompat.getFont(context, R.font.open_sans)
-
-            6 -> ResourcesCompat.getFont(context, R.font.google_sans)
-
-            7 -> ResourcesCompat.getFont(context, R.font.san_francisco)
-
-            8 -> ResourcesCompat.getFont(context, R.font.times_new_roman)
-
-            9 -> ResourcesCompat.getFont(context, R.font.ubuntu)
-
-            10 -> ResourcesCompat.getFont(context, R.font.oxygen)
-
-            11 -> ResourcesCompat.getFont(context, R.font.indie_flower)
-
-            12 -> ResourcesCompat.getFont(context, R.font.castoro)
-
-            13 -> ResourcesCompat.getFont(context, R.font.lora)
-
-            14 -> ResourcesCompat.getFont(context, R.font.merriweather)
-
-            15 -> ResourcesCompat.getFont(context, R.font.nerko_one)
-
-            16 -> ResourcesCompat.getFont(context, R.font.nunito)
-
-            17 -> ResourcesCompat.getFont(context, R.font.oswald)
-
-            18 -> ResourcesCompat.getFont(context, R.font.poppins)
-
-            19 -> ResourcesCompat.getFont(context, R.font.work_sans)
-
-            20 -> ResourcesCompat.getFont(context, R.font.della_respira)
-
-            21 -> ResourcesCompat.getFont(context, R.font.mukta)
-
-            22 -> ResourcesCompat.getFont(context, R.font.pt_sans)
 
             else -> null
         }

@@ -39,15 +39,6 @@
                 android:key="overlay_size"/>
 
         <ListPreference
-                android:title="@string/font_overlay"
-                app:singleLineTitle="false"
-                android:entries="@array/fonts_list"
-                android:entryValues="@array/fonts_values"
-                app:defaultValue="6"
-                app:iconSpaceReserved="false"
-                android:key="overlay_font"/>
-
-        <ListPreference
                 android:title="@string/text_style_overlay"
                 app:singleLineTitle="false"
                 android:entries="@array/text_style_list"

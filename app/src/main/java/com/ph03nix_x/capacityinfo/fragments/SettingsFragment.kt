@@ -28,7 +28,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
@@ -56,7 +55,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
     private var textSize: ListPreference? = null
-    private var textFont: ListPreference? = null
     private var textStyle: ListPreference? = null
     private var selectLanguage: ListPreference? = null
 
@@ -143,8 +141,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textSize = findPreference(TEXT_SIZE)
 
-        textFont = findPreference(TEXT_FONT)
-
         textStyle = findPreference(TEXT_STYLE)
 
         selectLanguage = findPreference(LANGUAGE)
@@ -153,8 +149,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = getOnTextSizeSummary(requireContext())
-
-        textFont?.summary = getOnTextFontSummary(requireContext())
 
         textStyle?.summary = getOnTextStyleSummary(requireContext())
 
@@ -180,14 +174,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             preference.summary = resources.getStringArray(R.array.text_size_list)[
                     (newValue as? String)?.toInt() ?: 2]
-
-            true
-        }
-
-        textFont?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = resources.getStringArray(R.array.fonts_list)[
-                    (newValue as? String)?.toInt() ?: 0]
 
             true
         }
@@ -474,8 +460,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = getOnTextSizeSummary(requireContext())
-
-        textFont?.summary = getOnTextFontSummary(requireContext())
 
         textStyle?.summary = getOnTextStyleSummary(requireContext())
 
