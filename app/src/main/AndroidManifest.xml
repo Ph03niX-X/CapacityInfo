@@ -32,6 +32,7 @@
         <activity
                 android:name=".activities.MainActivity"
                 android:launchMode="singleInstance"
+                android:exported="true"
                 android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection">
 
             <intent-filter>
@@ -81,7 +82,7 @@
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round" />
 
-        <receiver android:name=".receivers.BootReceiver">
+        <receiver android:name=".receivers.BootReceiver" android:exported="true">
 
             <intent-filter>
 
@@ -91,7 +92,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.UpdateApplicationReceiver">
+        <receiver android:name=".receivers.UpdateApplicationReceiver" android:exported="true">
             <intent-filter>
 
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
@@ -99,7 +100,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.DebugOptionsReceiver">
+        <receiver android:name=".receivers.DebugOptionsReceiver" android:exported="true">
 
             <intent-filter>
 
