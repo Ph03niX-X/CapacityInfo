@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    buildToolsVersion "31.0.0-rc4"
     defaultConfig {
         applicationId "com.ph03nix_x.capacityinfo"
         minSdkVersion 21
@@ -50,26 +50,22 @@ dependencies {
     def coroutinesVersion = '1.4.3'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
-    implementation "androidx.documentfile:documentfile:1.0.1"
-
-    implementation 'com.google.android.play:core-ktx:1.8.1'
-
-    // FPS
-    implementation "com.github.brianPlummer:tinydancer:0.1.2"
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
+    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.core:core-ktx:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("com.google.android.material:material:1.3.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("androidx.recyclerview:recyclerview:1.2.0")
+    implementation("androidx.documentfile:documentfile:1.0.1")
+    implementation("com.google.android.play:core-ktx:1.8.1")
 
     // Color Picker
-    implementation 'com.jaredrummler:colorpicker:1.1.0'
+    implementation("com.jaredrummler:colorpicker:1.1.0")
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation("junit:junit:4.12")
+    androidTestImplementation("androidx.test:runner:1.3.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }
