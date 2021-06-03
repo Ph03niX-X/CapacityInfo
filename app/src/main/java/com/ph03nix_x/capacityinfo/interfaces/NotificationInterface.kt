@@ -93,9 +93,11 @@ interface NotificationInterface : BatteryInfoInterface {
             onCreateNotificationChannel(context, SERVICE_CHANNEL_ID) else ""
 
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
-            MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+            MainActivity::class.java), if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
         stopService = PendingIntent.getService(context, STOP_SERVICE_REQUEST_CODE, Intent(context,
-            StopCapacityInfoService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+            StopCapacityInfoService::class.java), if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
         batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -270,12 +272,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = true
         isBatteryFullyCharged = false
@@ -345,12 +349,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = true
@@ -420,12 +426,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -504,12 +512,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -591,12 +601,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -678,12 +690,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -763,12 +777,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -839,12 +855,14 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
