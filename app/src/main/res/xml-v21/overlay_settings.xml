@@ -94,6 +94,13 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_number_of_full_charges_overlay"
+            android:key="is_number_of_full_charges_overlay"
+            android:title="@string/number_of_full_charges_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_number_of_cycles_overlay"
                 android:key="is_number_of_cycles_overlay"
                 android:title="@string/number_of_cycles_overlay"

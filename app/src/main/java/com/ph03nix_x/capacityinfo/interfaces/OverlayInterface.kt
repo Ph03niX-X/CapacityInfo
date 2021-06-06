@@ -54,9 +54,11 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_FULL_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import java.io.*
 
@@ -69,6 +71,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var view: View
         private lateinit var batteryLevelOverlay: AppCompatTextView
         private lateinit var numberOfChargesOverlay: AppCompatTextView
+        private lateinit var numberOfFullChargesOverlay: AppCompatTextView
         private lateinit var numberOfCyclesOverlay: AppCompatTextView
         private lateinit var numberOfCyclesAndroidOverlay: AppCompatTextView
         private lateinit var chargingTimeOverlay: AppCompatTextView
@@ -106,6 +109,8 @@ interface OverlayInterface : BatteryInfoInterface {
                     context.resources.getBoolean(R.bool.is_battery_level_overlay)),
                     getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, context.resources.getBoolean(
                         R.bool.is_number_of_charges_overlay)), getBoolean(
+                        IS_NUMBER_OF_FULL_CHARGES_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_number_of_full_charges_overlay)), getBoolean(
                         IS_NUMBER_OF_CYCLES_OVERLAY, context.resources.getBoolean(
                             R.bool.is_number_of_cycles_overlay)), getBoolean(
                         IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY, context.resources.getBoolean(R.bool
@@ -221,6 +226,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         batteryLevelOverlay = view.findViewById(R.id.battery_level_overlay)
         numberOfChargesOverlay = view.findViewById(R.id.number_of_charges_overlay)
+        numberOfFullChargesOverlay = view.findViewById(R.id.number_of_full_charges_overlay)
         numberOfCyclesOverlay = view.findViewById(R.id.number_of_cycles_overlay)
         numberOfCyclesAndroidOverlay = view.findViewById(R.id.number_of_cycles_android_overlay)
         chargingTimeOverlay = view.findViewById(R.id.charging_time_overlay)
@@ -268,6 +274,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
+        onUpdateNumberOfFullChargesOverlay()
         onUpdateNumberOfCyclesOverlay()
         onUpdateNumberOfCyclesAndroidOverlay()
         onUpdateChargingTimeOverlay()
@@ -344,6 +351,31 @@ interface OverlayInterface : BatteryInfoInterface {
             visibility = if(pref.getBoolean(IS_NUMBER_OF_CHARGES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_number_of_charges_overlay))) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun onUpdateNumberOfFullChargesOverlay() {
+
+        if(pref.getBoolean(IS_NUMBER_OF_FULL_CHARGES_OVERLAY, numberOfFullChargesOverlay.context
+                .resources.getBoolean(R.bool.is_number_of_charges_overlay))
+            || numberOfFullChargesOverlay.visibility == View.VISIBLE)
+                numberOfFullChargesOverlay.apply {
+
+                    TextAppearanceHelper.setTextAppearance(context, this,
+                        pref.getString(OVERLAY_TEXT_STYLE, "0"), pref.getString(
+                            OVERLAY_SIZE, "2"))
+
+                    setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
+                    text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
+                            context.resources.getBoolean(R.bool.is_only_values_overlay)))
+                                R.string.number_of_full_charges else R.string
+                        .number_of_full_charges_overlay_only_values, pref.getLong(
+                        NUMBER_OF_FULL_CHARGES, 0))
+
+                    visibility = if(pref.getBoolean(IS_NUMBER_OF_FULL_CHARGES_OVERLAY,
+                            context.resources.getBoolean(R.bool.is_number_of_full_charges_overlay)))
+                                View.VISIBLE else View.GONE
+            }
     }
 
     private fun onUpdateNumberOfCyclesOverlay() {

@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import kotlinx.coroutines.*
@@ -33,6 +34,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
     private lateinit var designCapacity: AppCompatTextView
     private lateinit var numberOfCharges: AppCompatTextView
+    private lateinit var numberOfFullCharges: AppCompatTextView
     private lateinit var numberOfCycles: AppCompatTextView
     private lateinit var numberOfCyclesAndroid: AppCompatTextView
     private lateinit var currentCapacity: AppCompatTextView
@@ -44,17 +46,13 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     private var isJob = false
     private var job: Job? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        LocaleHelper.setLocale(
-            requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null
-            ) ?: MainApp.defLang
+        LocaleHelper.setLocale(requireContext(), pref.getString(PreferencesKeys.LANGUAGE,
+            null) ?: MainApp.defLang
         )
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -66,6 +64,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         designCapacity = view.findViewById(R.id.design_capacity)
         numberOfCharges = view.findViewById(R.id.number_of_charges)
+        numberOfFullCharges = view.findViewById(R.id.number_of_full_charges)
         numberOfCycles = view.findViewById(R.id.number_of_cycles)
         numberOfCyclesAndroid = view.findViewById(R.id.number_of_cycles_android)
         currentCapacity = view.findViewById(R.id.current_capacity_wear)
@@ -150,6 +149,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCharges,
             pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), numberOfFullCharges,
+            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCycles,
             pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCyclesAndroid,
@@ -219,10 +220,11 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                 .toString()
                         )
 
-                        numberOfCharges.text = getString(
-                            R.string.number_of_charges,
-                            pref.getLong(PreferencesKeys.NUMBER_OF_CHARGES, 0)
-                        )
+                        numberOfCharges.text = getString(R.string.number_of_charges,
+                            pref.getLong(PreferencesKeys.NUMBER_OF_CHARGES, 0))
+
+                        numberOfFullCharges.text = getString(R.string.number_of_full_charges,
+                            pref.getLong(NUMBER_OF_FULL_CHARGES, 0))
 
                         numberOfCycles.text = getString(
                             R.string.number_of_cycles,

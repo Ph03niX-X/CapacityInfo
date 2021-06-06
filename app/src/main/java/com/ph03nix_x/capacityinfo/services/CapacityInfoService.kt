@@ -69,6 +69,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
@@ -543,6 +544,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(LAST_CHARGE_TIME, seconds)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, batteryLevel)
+            putLong(NUMBER_OF_FULL_CHARGES, pref.getLong(NUMBER_OF_FULL_CHARGES, 0) + 1)
 
             if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) {
 

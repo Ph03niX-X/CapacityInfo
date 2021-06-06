@@ -36,6 +36,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_FULL_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SOURCE_OF_POWER
@@ -70,6 +71,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     // Show/Hide
     private var overlayCategory: PreferenceCategory? = null
     private var numberOfChargesOverlay: SwitchPreferenceCompat? = null
+    private var numberOfFullChargesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesOverlay: SwitchPreferenceCompat? = null
     private var numberOfCyclesAndroidOverlay: SwitchPreferenceCompat? = null
     private var chargingTimeOverlay: SwitchPreferenceCompat? = null
@@ -178,6 +180,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         overlayCategory = findPreference("show_hide_pref_category")
         batteryLevelOverlay = findPreference(IS_BATTERY_LEVEL_OVERLAY)
         numberOfChargesOverlay = findPreference(IS_NUMBER_OF_CHARGES_OVERLAY)
+        numberOfFullChargesOverlay = findPreference(IS_NUMBER_OF_FULL_CHARGES_OVERLAY)
         numberOfCyclesOverlay = findPreference(IS_NUMBER_OF_CYCLES_OVERLAY)
         numberOfCyclesAndroidOverlay = findPreference(IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY)
         chargingTimeOverlay = findPreference(IS_CHARGING_TIME_OVERLAY)
@@ -227,6 +230,14 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         }
 
         numberOfChargesOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        numberOfFullChargesOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)

@@ -63,6 +63,7 @@ object PreferencesKeys {
     // Show/Hide
     const val IS_BATTERY_LEVEL_OVERLAY = "is_battery_level_overlay"
     const val IS_NUMBER_OF_CHARGES_OVERLAY = "is_number_of_charges_overlay"
+    const val IS_NUMBER_OF_FULL_CHARGES_OVERLAY = "is_number_of_full_charges_overlay"
     const val IS_NUMBER_OF_CYCLES_OVERLAY = "is_number_of_cycles_overlay"
     const val IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY = "is_number_of_cycles_android_overlay"
     const val IS_CHARGING_TIME_OVERLAY = "is_charging_time_overlay"
@@ -102,4 +103,5 @@ object PreferencesKeys {
     const val BATTERY_LEVEL_WITH = "battery_level_with"
     const val BATTERY_LEVEL_TO = "battery_level_to"
     const val NUMBER_OF_CYCLES = "number_of_cycles"
+    const val NUMBER_OF_FULL_CHARGES = "number_of_full_charges"
 }

@@ -54,6 +54,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
@@ -351,7 +352,8 @@ interface DebugOptionsInterface {
                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(pref, key,
                     value.toString().toFloat())
 
-                NUMBER_OF_CHARGES -> addChangeSetting(pref, key, value.toString().toLong())
+                NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES -> addChangeSetting(pref, key,
+                    value.toString().toLong())
 
                 else -> addChangeSetting(context, pref, key, value = value == "1")
             }
@@ -397,11 +399,12 @@ interface DebugOptionsInterface {
                             changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
-                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, OVERLAY_OPACITY,
-                        BATTERY_LEVEL_NOTIFY_CHARGED, BATTERY_NOTIFY_CHARGED_VOLTAGE,
-                        BATTERY_NOTIFY_DISCHARGED_VOLTAGE, BATTERY_LEVEL_NOTIFY_DISCHARGED,
-                        CHARGING_CURRENT_LEVEL_NOTIFY -> setValueType("int|long",
-                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+                        RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
+                        OVERLAY_OPACITY, BATTERY_LEVEL_NOTIFY_CHARGED,
+                        BATTERY_NOTIFY_CHARGED_VOLTAGE, BATTERY_NOTIFY_DISCHARGED_VOLTAGE,
+                        BATTERY_LEVEL_NOTIFY_DISCHARGED, CHARGING_CURRENT_LEVEL_NOTIFY ->
+                            setValueType("int|long", changePrefValue, pref,
+                                prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         CAPACITY_ADDED, NUMBER_OF_CYCLES ->
                             setValueType("float", changePrefValue, pref,
@@ -579,7 +582,7 @@ interface DebugOptionsInterface {
 
                     "int|long" -> {
 
-                        if(key != NUMBER_OF_CHARGES)
+                        if(key != NUMBER_OF_CHARGES && key != NUMBER_OF_FULL_CHARGES)
                             s.toString().toInt() != pref.getInt(key, 0)
                         else s.toString().toLong() != pref.getLong(key, 0)
                     }
