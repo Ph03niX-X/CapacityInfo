@@ -67,17 +67,13 @@ interface BatteryInfoInterface {
     fun getOnBatteryLevel(context: Context) = try {
 
         (context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager)?.getIntProperty(
-            BatteryManager.BATTERY_PROPERTY_CAPACITY
-        )
+            BatteryManager.BATTERY_PROPERTY_CAPACITY)
     }
 
     catch (e: RuntimeException) {
 
-        val batteryIntent = context.registerReceiver(
-            null, IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED
-            )
-        )
+        val batteryIntent = try { context.registerReceiver(null, IntentFilter(
+            Intent.ACTION_BATTERY_CHANGED)) } catch (e: RuntimeException) { null }
 
         batteryIntent?.getStringExtra(BatteryManager.EXTRA_LEVEL)?.toInt() ?: 0
     }
