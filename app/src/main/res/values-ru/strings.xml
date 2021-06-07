@@ -279,4 +279,7 @@
     <string name="battery_is_discharged_notification_voltage">Аккумулятор разряжен. %1$d мВ</string>
     <string name="discharged_voltage">Разряжен (Напряжение)</string>
     <string name="new_permission_is_required_dialog">На Android 11+ требуется новое разрешение для работы полноценного резервного копирования, Google не хочет пускать это приложение в свой магазин с этим разрешением. Поэтому используйте \"Экспорт настроек\" для создания резервного копирования настроек (имя файла:  com.ph03nix_x.capacityinfo_preferences.xml), а так же \"Импорт настроек\" для восстановления настроек (из xml файла). \"Экспорт истории\" создаёт резервную копию истории (имя файла: History.db), \"Импорт истории\" восстанавливает историю (из db файла)</string>
+    <string name="donate">Пожертвовать</string>
+    <string name="number_of_full_charges">Количество полных зарядок: %1$d</string>
+    <string name="number_of_full_charges_overlay">Количество полных зарядок</string>
 </resources>
