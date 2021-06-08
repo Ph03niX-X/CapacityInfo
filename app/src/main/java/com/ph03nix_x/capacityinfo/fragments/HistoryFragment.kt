@@ -43,7 +43,9 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         recView.adapter = historyAdapter
 
         refresh_history.apply {
-            setColorSchemeColors(resources.getColor(R.color.swipe_refresh_layout))
+            setColorSchemeColors(resources.getColor(R.color.swipe_refresh_layout_progress))
+            setProgressBackgroundColorSchemeColor(resources.getColor(R.color
+                .swipe_refresh_layout_progress_background))
             setOnRefreshListener {
                 refresh_history.isRefreshing = true
                 historyAdapter.update(requireContext())

@@ -16,5 +16,6 @@
     <color name="service_notification_text">@android:color/black</color>
     <color name="icon_telegram">#039be5</color>
     <color name="icon_telegram_center">@android:color/white</color>
-    <color name="swipe_refresh_layout">@color/blue</color>
+    <color name="swipe_refresh_layout_progress">@color/blue</color>
+    <color name="swipe_refresh_layout_progress_background">@android:color/white</color>
 </resources>
