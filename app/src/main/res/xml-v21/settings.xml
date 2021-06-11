@@ -172,6 +172,12 @@
                 android:key="reset_to_zero_the_number_of_cycles"/>
 
         <Preference
+            android:title="@string/reset_the_number_of_full_charges_to_zero"
+            app:isPreferenceVisible="false"
+            app:singleLineTitle="false"
+            android:key="reset_the_number_of_full_charges_to_zero"/>
+
+        <Preference
             app:title="@string/debug"
             app:isPreferenceVisible="false"
             app:singleLineTitle="false"

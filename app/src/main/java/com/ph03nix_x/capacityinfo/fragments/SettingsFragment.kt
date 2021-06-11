@@ -32,6 +32,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -69,6 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var overlay: Preference? = null
     private var resetToZeroTheNumberOfCharges: Preference? = null
     private var resetToZeroTheNumberOfCycles: Preference? = null
+    private var resetTheNumberOfFullChargesToZero: Preference? = null
     private var debug: Preference? = null
 
     // About & Feedback
@@ -216,6 +218,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
 
+        resetTheNumberOfFullChargesToZero = findPreference("reset_the_number_of_full_charges_to_zero")
+
         debug = findPreference("debug")
 
         unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
@@ -255,6 +259,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                     isVisible = true
                     isEnabled = pref.getFloat(NUMBER_OF_CYCLES,0f) > 0f
+                }
+                resetTheNumberOfFullChargesToZero?.apply {
+
+                    isVisible = true
+                    isEnabled = pref.getLong(NUMBER_OF_FULL_CHARGES, 0) > 0
                 }
 
                 debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
@@ -386,6 +395,35 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                         if(!it.isEnabled) Toast.makeText(requireContext(),
                             R.string.number_of_cycles_was_success_reset_to_zero,
+                            Toast.LENGTH_LONG).show()
+                    }
+
+                    setNegativeButton(getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
+
+                    show()
+                }
+
+            else it.isEnabled = false
+
+            true
+        }
+
+        resetTheNumberOfFullChargesToZero?.setOnPreferenceClickListener {
+
+            if(pref.getLong(NUMBER_OF_FULL_CHARGES, 0) > 0)
+                MaterialAlertDialogBuilder(requireContext()).apply {
+
+                    setMessage(getString(R.string
+                        .reset_the_number_of_full_charges_to_zero_dialog_message))
+
+                    setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+
+                        pref.edit().remove(NUMBER_OF_FULL_CHARGES).apply()
+
+                        it.isEnabled = pref.getLong(NUMBER_OF_FULL_CHARGES, 0) > 0
+
+                        if(!it.isEnabled) Toast.makeText(requireContext(),
+                            R.string.number_of_full_charges_was_success_reset_to_zero,
                             Toast.LENGTH_LONG).show()
                     }
 
