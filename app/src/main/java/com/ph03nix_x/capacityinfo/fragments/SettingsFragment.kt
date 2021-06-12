@@ -279,6 +279,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 overlay?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
                 resetToZeroTheNumberOfCycles?.isVisible = false
+                resetTheNumberOfFullChargesToZero?.isVisible = false
                 debug?.isVisible = false
             }
 
