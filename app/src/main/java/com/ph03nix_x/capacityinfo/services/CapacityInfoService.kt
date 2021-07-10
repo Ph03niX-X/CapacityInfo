@@ -94,6 +94,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var isSaveNumberOfCharges = true
     var batteryLevelWith = -1
     var seconds = 0
+    var secondsTemperature = 0
     var screenTime = 0L
 
     companion object {
@@ -250,9 +251,15 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 temperature <= pref.getInt(OVERCOOL_DEGREES, resources.getInteger(
                             R.integer.overcool_degrees_default))))
                         withContext(Dispatchers.Main) {
-
+                            secondsTemperature = 0
                             onNotifyOverheatOvercool(this@CapacityInfoService, temperature)
                         }
+
+                    else if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                            R.bool.is_notify_overheat_overcool)) && !isNotifyOverheatOvercool) {
+                        if(secondsTemperature >= 600) isNotifyOverheatOvercool = true
+                        else secondsTemperature++
+                    }
 
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING
                         && !isStopService) batteryCharging()
