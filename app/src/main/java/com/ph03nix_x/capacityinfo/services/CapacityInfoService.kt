@@ -231,7 +231,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
 
                     if(!wakeLock.isHeld && !isFull && isPowerConnected) wakeLock.acquire(
-                        45 * 1000)
+                        45L * 1000L)
 
                     if((getOnBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getOnBatteryLevel(this@CapacityInfoService) ?: 0
