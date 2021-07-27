@@ -5,12 +5,10 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
@@ -36,7 +34,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 
 interface SettingsInterface {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun onOpenNotificationCategorySettings(context: Context, notificationId: String) {
 
         val notificationManager =

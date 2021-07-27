@@ -9,7 +9,6 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.BatteryManager
-import android.os.Build
 import android.provider.Settings
 import android.view.*
 import android.widget.Toast
@@ -154,18 +153,9 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 overlayArray.forEach {
 
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                        if(Settings.canDrawOverlays(context)
-                            && (getBoolean(IS_ENABLED_OVERLAY, context.resources.getBoolean(
-                                R.bool.is_enabled_overlay)) || isEnabledOverlay) && it) return true
-                    }
-
-                    else {
-
-                        if((getBoolean(IS_ENABLED_OVERLAY, context.resources.getBoolean(
-                                R.bool.is_enabled_overlay)) || isEnabledOverlay) && it) return true
-                    }
+                    if(Settings.canDrawOverlays(context) && (getBoolean(IS_ENABLED_OVERLAY,
+                            context.resources.getBoolean(R.bool.is_enabled_overlay))
+                                || isEnabledOverlay) && it) return true
                 }
             }
 
@@ -183,10 +173,9 @@ interface OverlayInterface : BatteryInfoInterface {
             windowManager = context.getSystemService(WINDOW_SERVICE) as? WindowManager
 
             val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT, if(Build.VERSION.SDK_INT >=
-                    Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                else WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT)
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams
+                    .TYPE_APPLICATION_OVERLAY, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT)
 
             parameters.gravity = Gravity.TOP
             parameters.x = 0
@@ -299,13 +288,8 @@ interface OverlayInterface : BatteryInfoInterface {
     }
 
     private fun onSetBackgroundLinearLayout() =
-        Color.argb(if(pref.getInt(OVERLAY_OPACITY,
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255) > 255
-            || pref.getInt(OVERLAY_OPACITY,
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127 else 255) < 0) 127
-        else pref.getInt(OVERLAY_OPACITY,
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255), 0, 0, 0)
+        Color.argb(if(pref.getInt(OVERLAY_OPACITY, 127) > 255 || pref.getInt(OVERLAY_OPACITY,
+                127) < 0) 127 else pref.getInt(OVERLAY_OPACITY, 127), 0, 0, 0)
 
     private fun onUpdateBatteryLevelOverlay() {
 

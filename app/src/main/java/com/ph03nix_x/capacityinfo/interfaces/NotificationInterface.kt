@@ -13,10 +13,8 @@ import android.graphics.Color
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.BatteryManager
-import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
@@ -89,15 +87,12 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, SERVICE_CHANNEL_ID) else ""
+        channelId = onCreateNotificationChannel(context, SERVICE_CHANNEL_ID)
 
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
-            MainActivity::class.java), if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
+            MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
         stopService = PendingIntent.getService(context, STOP_SERVICE_REQUEST_CODE, Intent(context,
-            StopCapacityInfoService::class.java), if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
+            StopCapacityInfoService::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
         batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -111,16 +106,14 @@ interface NotificationInterface : BatteryInfoInterface {
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.ic_service_small_icon)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, if(isSystemDarkMode(
+            color = ContextCompat.getColor(context, if(isSystemDarkMode(
                         context.resources.configuration)) R.color.red else R.color.blue)
 
             setContentIntent(openApp)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                     R.bool.is_show_stop_service)) && mActions.isEmpty())
-                addAction(0, context.getString(R.string.stop_service), stopService)
+                        addAction(0, context.getString(R.string.stop_service), stopService)
 
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
@@ -181,17 +174,14 @@ interface NotificationInterface : BatteryInfoInterface {
 
             notificationBuilder?.apply {
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    color = ContextCompat.getColor(context.applicationContext, if(
+                color = ContextCompat.getColor(context.applicationContext, if(
                         isSystemDarkMode(context.resources.configuration)) R.color.red
-                    else R.color.blue)
+                else R.color.blue)
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                    pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())
-                    addAction(0, context.getString(R.string.stop_service), stopService)
-                else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                    !pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                            addAction(0, context.getString(R.string.stop_service), stopService)
+                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
 
                 val remoteViewsServiceContent = RemoteViews(context.packageName,
@@ -247,8 +237,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, OVERHEAT_OVERCOOL_CHANNEL_ID) else ""
+        val channelId = onCreateNotificationChannel(context, OVERHEAT_OVERCOOL_CHANNEL_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -272,14 +261,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = true
         isBatteryFullyCharged = false
@@ -300,18 +287,14 @@ interface NotificationInterface : BatteryInfoInterface {
             setAutoCancel(true)
             setOngoing(false)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_overheat_overcool_24)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.overheat_overcool)
+            color = ContextCompat.getColor(context, R.color.overheat_overcool)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -338,8 +321,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, FULLY_CHARGED_CHANNEL_ID) else ""
+        val channelId = onCreateNotificationChannel(context, FULLY_CHARGED_CHANNEL_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -349,14 +331,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
             DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = true
@@ -376,18 +356,15 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_battery_is_fully_charged_24dp)
             
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.battery_charged)
+            color = ContextCompat.getColor(context, R.color.battery_charged)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -415,8 +392,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, CHARGED_CHANNEL_ID) else ""
+        val channelId = onCreateNotificationChannel(context, CHARGED_CHANNEL_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -426,14 +402,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -453,11 +427,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
@@ -472,8 +444,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> R.drawable.ic_battery_is_fully_charged_24dp
             })
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.battery_charged)
+            color = ContextCompat.getColor(context, R.color.battery_charged)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -501,8 +472,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, CHARGED_CHANNEL_VOLTAGE_ID) else ""
+        val channelId = onCreateNotificationChannel(context, CHARGED_CHANNEL_VOLTAGE_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -512,14 +482,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -539,11 +507,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
@@ -558,8 +524,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> R.drawable.ic_battery_is_fully_charged_24dp
             })
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.battery_charged)
+            color = ContextCompat.getColor(context, R.color.battery_charged)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -589,8 +554,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, DISCHARGED_CHANNEL_ID) else ""
+        val channelId = onCreateNotificationChannel(context, DISCHARGED_CHANNEL_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -601,14 +565,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -628,11 +590,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
@@ -648,8 +608,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> R.drawable.ic_battery_discharged_9_24dp
             })
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.battery_discharged)
+            color = ContextCompat.getColor(context, R.color.battery_discharged)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -679,8 +638,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, DISCHARGED_VOLTAGE_CHANNEL_ID) else ""
+        val channelId = onCreateNotificationChannel(context, DISCHARGED_VOLTAGE_CHANNEL_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -690,14 +648,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -717,11 +673,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
             setAutoCancel(true)
             setOngoing(false)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
@@ -737,8 +691,7 @@ interface NotificationInterface : BatteryInfoInterface {
                 else -> R.drawable.ic_battery_discharged_9_24dp
             })
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.battery_discharged)
+            color = ContextCompat.getColor(context, R.color.battery_discharged)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -766,8 +719,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, CHARGING_CURRENT_ID) else ""
+        val channelId = onCreateNotificationChannel(context, CHARGING_CURRENT_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -777,14 +729,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -805,18 +755,14 @@ interface NotificationInterface : BatteryInfoInterface {
             setAutoCancel(true)
             setOngoing(false)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_charging_current_notification_24)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.charging_current_notification)
+            color = ContextCompat.getColor(context, R.color.charging_current_notification)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -844,8 +790,7 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as? NotificationManager
 
-        val channelId = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            onCreateNotificationChannel(context, CHARGING_CURRENT_ID) else ""
+        val channelId = onCreateNotificationChannel(context, CHARGING_CURRENT_ID)
 
         val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
 
@@ -855,14 +800,12 @@ interface NotificationInterface : BatteryInfoInterface {
         val close = PendingIntent.getService(context,
             CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 CloseNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         val disable = PendingIntent.getService(context,
             DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
                 DisableNotificationBatteryStatusInformationService::class.java),
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT)
 
         isOverheatOvercool = false
         isBatteryFullyCharged = false
@@ -883,18 +826,14 @@ interface NotificationInterface : BatteryInfoInterface {
             setAutoCancel(true)
             setOngoing(false)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                addAction(0, context.getString(R.string.close), close)
-                addAction(0, context.getString(R.string.disable), disable)
-            }
+            addAction(0, context.getString(R.string.close), close)
+            addAction(0, context.getString(R.string.disable), disable)
 
             priority = NotificationCompat.PRIORITY_MAX
 
             setSmallIcon(R.drawable.ic_charging_current_notification_24)
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                color = ContextCompat.getColor(context, R.color.charging_current_notification)
+            color = ContextCompat.getColor(context, R.color.charging_current_notification)
 
             setContentTitle(context.getString(R.string.battery_status_information))
 
@@ -913,7 +852,6 @@ interface NotificationInterface : BatteryInfoInterface {
         notificationManager?.notify(NOTIFICATION_DISCHARGE_CURRENT_ID, notificationBuilder.build())
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun onCreateNotificationChannel(context: Context, notificationChannelId: String):
             String {
 

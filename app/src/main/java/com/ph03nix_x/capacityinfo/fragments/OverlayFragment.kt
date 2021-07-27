@@ -3,10 +3,8 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.annotation.RequiresApi
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
@@ -108,8 +106,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         overlayScreen = findPreference("overlay_screen")
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
+        overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
 
         enableOverlay = findPreference(IS_ENABLED_OVERLAY)
 
@@ -464,15 +461,12 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(
             R.bool.is_enabled_overlay)))
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val canDrawOverlays = Settings.canDrawOverlays(requireContext())
 
-            val canDrawOverlays = Settings.canDrawOverlays(requireContext())
+        overlayScreen?.isEnabled = canDrawOverlays
 
-            overlayScreen?.isEnabled = canDrawOverlays
-
-            if(dialogRequestOverlayPermission == null && !canDrawOverlays)
-                requestOverlayPermission()
-        }
+        if(dialogRequestOverlayPermission == null && !canDrawOverlays)
+            requestOverlayPermission()
     }
 
     private fun getOverlayTextSizeSummary(): CharSequence? {
@@ -481,8 +475,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
             resources.getStringArray(R.array.text_size_values))
             pref.edit().putString(OVERLAY_SIZE, "2").apply()
 
-        return resources.getStringArray(R.array.text_size_list)[
-                pref.getString(OVERLAY_SIZE, "2")?.toInt() ?: 2]
+        return resources.getStringArray(R.array.text_size_list)[pref.getString(OVERLAY_SIZE,
+            "2")?.toInt() ?: 2]
     }
 
     private fun getOverlayTextStyleSummary(): CharSequence? {
@@ -497,19 +491,13 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
     private fun getOverlayOpacitySummary(): CharSequence {
 
-        if(pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255) > 255
-            || pref.getInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                127 else 255).apply()
+        if(pref.getInt(OVERLAY_OPACITY, 127) > 255 || pref.getInt(OVERLAY_OPACITY, 127) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, 127).apply()
 
         return "${DecimalFormat("#").format((pref.getInt(OVERLAY_OPACITY,
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) 127
-            else 255).toFloat() / 255f) * 100f)}%"
+            127).toFloat() / 255f) * 100f)}%"
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun requestOverlayPermission() {
 
         dialogRequestOverlayPermission = MaterialAlertDialogBuilder(requireContext()).apply {

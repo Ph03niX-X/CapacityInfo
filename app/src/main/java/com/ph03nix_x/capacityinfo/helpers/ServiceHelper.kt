@@ -29,9 +29,7 @@ object ServiceHelper {
                     isStartedCapacityInfoService = true
 
                     delay(2500L)
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                        context.startForegroundService(Intent(context, serviceName))
-                    else context.startService(Intent(context, serviceName))
+                    context.startForegroundService(Intent(context, serviceName))
 
                     delay(1000L)
                     isStartedCapacityInfoService = false

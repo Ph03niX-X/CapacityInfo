@@ -95,9 +95,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            openNotificationCategorySettingsService =
-                findPreference("open_notification_category_settings_service")
+       openNotificationCategorySettingsService =
+           findPreference("open_notification_category_settings_service")
 
         isShowExtendedNotification?.setOnPreferenceChangeListener { preference, _ ->
 
@@ -113,8 +112,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         openNotificationCategorySettingsService?.setOnPreferenceClickListener {
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                onOpenNotificationCategorySettings(requireContext(), SERVICE_CHANNEL_ID)
+            onOpenNotificationCategorySettings(requireContext(), SERVICE_CHANNEL_ID)
 
             true
         }
