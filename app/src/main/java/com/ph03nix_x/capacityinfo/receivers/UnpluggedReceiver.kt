@@ -28,6 +28,7 @@ import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.residualCapacity
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 
@@ -103,7 +104,10 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                 CapacityInfoService.instance?.seconds = 0
 
-                if(batteryLevel >= 90) CapacityInfoService.instance?.screenTime = 0L
+                if(batteryLevel >= 90 || pref.getBoolean(IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
+                        context.resources.getBoolean(R.bool
+                            .is_reset_screen_time_at_any_charge_level)))
+                                CapacityInfoService.instance?.screenTime = 0L
 
                 BatteryInfoInterface.batteryLevel = 0
 

@@ -39,6 +39,7 @@ object PreferencesKeys {
     const val LANGUAGE = "language"
 
     // Misc
+    const val IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL = "is_reset_screen_time_at_any_charge_level"
     const val TAB_ON_APPLICATION_LAUNCH = "tab_on_application_launch"
     const val UNIT_OF_CHARGE_DISCHARGE_CURRENT = "unit_of_charge_discharge_current"
     const val UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY = "unit_of_measurement_of_current_capacity"
