@@ -491,11 +491,16 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
     private fun getOverlayOpacitySummary(): CharSequence {
 
-        if(pref.getInt(OVERLAY_OPACITY, 127) > 255 || pref.getInt(OVERLAY_OPACITY, 127) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, 127).apply()
+        if(pref.getInt(OVERLAY_OPACITY, resources.getInteger(
+                R.integer.overlay_opacity_default)) > resources.getInteger(
+                R.integer.overlay_opacity_max) || pref.getInt(OVERLAY_OPACITY,
+                resources.getInteger(R.integer.overlay_opacity_default)) < 0)
+            pref.edit().putInt(OVERLAY_OPACITY, resources.getInteger(
+                R.integer.overlay_opacity_default)).apply()
 
         return "${DecimalFormat("#").format((pref.getInt(OVERLAY_OPACITY,
-            127).toFloat() / 255f) * 100f)}%"
+            resources.getInteger(R.integer.overlay_opacity_default)).toFloat() / resources
+            .getInteger(R.integer.overlay_opacity_max).toFloat()) * 100f)}%"
     }
 
     private fun requestOverlayPermission() {

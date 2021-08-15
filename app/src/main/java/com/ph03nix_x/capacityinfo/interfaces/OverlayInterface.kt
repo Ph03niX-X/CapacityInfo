@@ -259,7 +259,7 @@ interface OverlayInterface : BatteryInfoInterface {
             pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
                 R.bool.is_only_values_overlay)))
 
-        linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout())
+        linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout(context))
 
         onUpdateBatteryLevelOverlay()
         onUpdateNumberOfChargesOverlay()
@@ -287,9 +287,14 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateBatteryWearOverlay()
     }
 
-    private fun onSetBackgroundLinearLayout() =
-        Color.argb(if(pref.getInt(OVERLAY_OPACITY, 127) > 255 || pref.getInt(OVERLAY_OPACITY,
-                127) < 0) 127 else pref.getInt(OVERLAY_OPACITY, 127), 0, 0, 0)
+    private fun onSetBackgroundLinearLayout(context: Context) =
+        Color.argb(if(pref.getInt(OVERLAY_OPACITY, context.resources.getInteger(
+                R.integer.overlay_opacity_default)) > context.resources.getInteger(
+                R.integer.overlay_opacity_max) || pref.getInt(OVERLAY_OPACITY,
+                context.resources.getInteger(R.integer.overlay_opacity_default)) < 0)
+                    context.resources.getInteger(R.integer.overlay_opacity_default)
+        else pref.getInt(OVERLAY_OPACITY, context.resources.getInteger(
+            R.integer.overlay_opacity_default)), 0, 0, 0)
 
     private fun onUpdateBatteryLevelOverlay() {
 

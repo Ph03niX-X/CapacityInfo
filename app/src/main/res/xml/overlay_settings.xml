@@ -62,11 +62,11 @@
                 android:title="@string/opacity"
                 app:iconSpaceReserved="false"
                 android:summary="50%"
-                app:defaultValue="127"
+                app:defaultValue="@integer/overlay_opacity_default"
                 app:singleLineTitle="false"
                 android:key="overlay_opacity"
                 app:updatesContinuously="true"
-                android:max="255"/>
+                android:max="@integer/overlay_opacity_max"/>
 
     </PreferenceCategory>
 
