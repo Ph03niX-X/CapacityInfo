@@ -54,6 +54,12 @@
                 android:key="reset_settings"/>
 
         <Preference
+            android:title="@string/reset_screen_time"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_reset_screen_time_at_any_charge_level"
+            android:key="reset_screen_time"/>
+
+        <Preference
             android:title="@string/add_history"
             app:singleLineTitle="false"
             android:key="add_history"/>

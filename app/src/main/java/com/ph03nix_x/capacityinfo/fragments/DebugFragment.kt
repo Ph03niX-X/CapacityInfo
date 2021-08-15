@@ -33,6 +33,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
+    private var resetScreenTime: Preference? = null
     private var addHistory: Preference? = null
     private var addTenHistory: Preference? = null
     private var addFiftyHistory: Preference? = null
@@ -68,6 +69,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         resetSettings = findPreference("reset_settings")
 
+        resetScreenTime = findPreference("reset_screen_time")
+
         addHistory = findPreference("add_history")
 
         addTenHistory = findPreference("add_ten_history")
@@ -94,6 +97,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
+        resetScreenTime?.isEnabled = CapacityInfoService.instance?.screenTime ?: 0 > 0L
+
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -119,6 +124,26 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         importSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && !MainApp.isInstalledGooglePlay)
                 || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+
+        resetScreenTime?.setOnPreferenceClickListener {
+
+            if((CapacityInfoService.instance?.screenTime ?: 0L) > 0L) {
+
+                try {
+                    CapacityInfoService.instance!!.screenTime = 0L
+                    Toast.makeText(requireContext(), getString(R.string.success),
+                        Toast.LENGTH_LONG).show()
+                }
+                catch (e: KotlinNullPointerException) {
+                    Toast.makeText(requireContext(), getString(R.string.error),
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+            else Toast.makeText(requireContext(), getString(R.string.error),
+                Toast.LENGTH_LONG).show()
+
+            true
+        }
 
         addHistory?.setOnPreferenceClickListener {
 
@@ -492,6 +517,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && isGooglePlay(requireContext())
+
+        resetScreenTime?.isEnabled = CapacityInfoService.instance?.screenTime ?: 0 > 0L
 
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
