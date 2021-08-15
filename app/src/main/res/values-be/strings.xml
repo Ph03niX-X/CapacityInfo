@@ -285,4 +285,8 @@
     <string name="reset_the_number_of_full_charges_to_zero">Абнуліць колькасць поўных зарадак</string>
     <string name="reset_the_number_of_full_charges_to_zero_dialog_message">Абнуліць колькасць поўных зарадак?</string>
     <string name="number_of_full_charges_was_success_reset_to_zero">Колькасць поўных зарадак было паспяхова абнулена</string>
+    <string name="reset_screen_time_at_any_charge_level">Абнуляць час экрана пры любым узроўні зарада</string>
+    <string name="reset_screen_time">Абнуліць час экрана</string>
+    <string name="success">Поспех!</string>
+    <string name="error">Памылка!</string>
 </resources>
