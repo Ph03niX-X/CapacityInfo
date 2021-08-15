@@ -115,6 +115,13 @@
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
+        <SwitchPreferenceCompat
+            android:title="@string/reset_screen_time_at_any_charge_level"
+            app:singleLineTitle="false"
+            app:defaultValue="@bool/is_reset_screen_time_at_any_charge_level"
+            app:icon="@drawable/ic_reset_screen_time_at_any_charge_level"
+            android:key="is_reset_screen_time_at_any_charge_level"/>
+
         <Preference
             android:title="@string/backup"
             app:singleLineTitle="false"
