@@ -136,8 +136,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
 
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(
-                        NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
+                    pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                     if(MainActivity.instance?.fragment != null) {
 

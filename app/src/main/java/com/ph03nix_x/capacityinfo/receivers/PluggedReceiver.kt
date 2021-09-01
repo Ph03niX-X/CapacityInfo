@@ -40,8 +40,7 @@ class PluggedReceiver : BroadcastReceiver() {
                 val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                     BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
-                if(status == BatteryManager.BATTERY_STATUS_CHARGING) pref.edit().putLong(
-                    NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
+                pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                 CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance
                     ?.getOnBatteryLevel(context) ?: 0
