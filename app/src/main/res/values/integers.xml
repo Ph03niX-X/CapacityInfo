@@ -20,4 +20,7 @@
     <integer name="discharge_current_notify_level_max">3000</integer>
     <integer name="overlay_opacity_default">127</integer>
     <integer name="overlay_opacity_max">255</integer>
+    <integer name="fake_battery_wear_min">0</integer>
+    <integer name="fake_battery_wear_default">20</integer>
+    <integer name="fake_battery_wear_max">99</integer>
 </resources>

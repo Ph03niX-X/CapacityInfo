@@ -695,8 +695,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         when {
 
             fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
-                    && fragment !is AboutFragment && fragment !is DebugFragment &&
-                    fragment !is FeedbackFragment && fragment !is BackupSettingsFragment -> {
+                    && fragment !is AboutFragment && fragment !is DebugFragment
+                    && fragment !is FakeBatteryWearFragment && fragment !is FeedbackFragment
+                    && fragment !is BackupSettingsFragment -> {
 
                 navigation.selectedItemId = when(fragment) {
 
@@ -710,7 +711,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             fragment is BatteryStatusInformationFragment || fragment is OverlayFragment
                     || fragment is AboutFragment || fragment is DebugFragment ||
-                    fragment is FeedbackFragment || fragment is BackupSettingsFragment -> {
+                    fragment is FakeBatteryWearFragment || fragment is FeedbackFragment ||
+                    fragment is BackupSettingsFragment -> {
 
                 navigation.selectedItemId = R.id.settings_navigation
 

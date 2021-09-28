@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
@@ -256,7 +257,9 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             ) >= resources.getInteger(
                                 R.integer.min_design_capacity
                             )
-                            && pref.getInt(PreferencesKeys.RESIDUAL_CAPACITY, 0) > 0) {
+                            && pref.getInt(PreferencesKeys.RESIDUAL_CAPACITY, 0) > 0 ||
+                            pref.getBoolean(IS_ENABLE_FAKE_BATTERY_WEAR, resources.getBoolean(
+                                R.bool.is_enable_fake_battery_wear))) {
 
                             withContext(Dispatchers.Main) {
 

@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.os.BatteryManager
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
@@ -10,6 +11,8 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
@@ -22,6 +25,7 @@ import java.io.FileReader
 import java.io.IOException
 import java.text.DecimalFormat
 import kotlin.math.pow
+import kotlin.random.Random
 
 @SuppressWarnings("PrivateApi")
 interface BatteryInfoInterface {
@@ -33,6 +37,7 @@ interface BatteryInfoInterface {
         var tempBatteryLevelWith = 0
         var percentAdded = 0
         var residualCapacity = 0.0
+        var fakeResidualCapacity = 0.0
         var batteryLevel = 0
         var maxChargeCurrent = 0
         var averageChargeCurrent = 0
@@ -325,7 +330,10 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
+        residualCapacity = if(pref.getBoolean(IS_ENABLE_FAKE_BATTERY_WEAR,
+                context.resources.getBoolean(R.bool.is_enable_fake_battery_wear)))
+                    getOnFakeResidualCapacity(context, pref) else pref.getInt(
+            RESIDUAL_CAPACITY, 0).toDouble()
 
         residualCapacity /= if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                 "μAh") == "μAh") 1000.0 else 100.0
@@ -337,6 +345,25 @@ interface BatteryInfoInterface {
                 residualCapacity), "${DecimalFormat("#.#").format((
                 residualCapacity / pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
                     R.integer.min_design_capacity)).toDouble()) * 100.0)}%")
+    }
+
+    private fun getOnFakeResidualCapacity(context: Context, pref: SharedPreferences): Double {
+
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+            R.integer.min_design_capacity)).toDouble()
+
+        val fakeBatteryWearValue = pref.getInt(FAKE_BATTERY_WEAR,
+            context.resources.getInteger(R.integer.fake_battery_wear_default))
+
+        if(fakeResidualCapacity == 0.0)
+            fakeResidualCapacity = if(fakeBatteryWearValue > 0)
+                Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue - 0.01)),
+                    designCapacity * (100.0 - fakeBatteryWearValue + 0.01)) else
+                        Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue)),
+                            designCapacity * (100.0 - fakeBatteryWearValue + 0.01))
+
+        return if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+            fakeResidualCapacity * 10.0 else fakeResidualCapacity
     }
 
     fun getOnStatus(context: Context, extraStatus: Int): String {

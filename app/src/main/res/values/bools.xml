@@ -71,4 +71,8 @@
     <bool name="is_auto_start_boot">true</bool>
     <bool name="is_auto_start_open_app">true</bool>
     <bool name="is_auto_start_update_app">true</bool>
+
+    <!--Fake Battery Wear-->
+    <bool name="is_enable_fake_battery_wear">false</bool>
+    <bool name="is_enable_fake_battery_wear_value">false</bool>
 </resources>

@@ -5,6 +5,7 @@ import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
@@ -29,6 +30,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private lateinit var pref: SharedPreferences
     
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
+    private var fakeBatteryWear: Preference? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -60,6 +62,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 && isGooglePlay(requireContext())
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
+
+        fakeBatteryWear = findPreference("fake_battery_wear")
 
         addSetting = findPreference("add_setting")
 
@@ -379,6 +383,24 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopOverlayService?.isEnabled = OverlayService.instance != null
 
         restartOverlayService?.isEnabled = OverlayService.instance != null
+
+        fakeBatteryWear?.setOnPreferenceClickListener {
+
+            val mainActivity = MainActivity.instance
+
+            mainActivity?.fragment = FakeBatteryWearFragment()
+
+            mainActivity?.toolbar?.title = requireContext().getString(R.string.fake_battery_wear)
+
+            mainActivity?.toolbar?.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                R.drawable.ic_arrow_back_24dp)
+
+            mainActivity?.loadFragment(mainActivity.fragment ?: FakeBatteryWearFragment(),
+                true)
+
+            true
+        }
+
         addSetting?.setOnPreferenceClickListener {
 
             addSettingDialog(requireContext(), pref)

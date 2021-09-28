@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:title="@string/enable_fake_battery_wear"
+        android:defaultValue="@bool/is_enable_fake_battery_wear"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="false"
+        android:key="is_enable_fake_battery_wear"/>
+
+    <SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:defaultValue="@integer/fake_battery_wear_default"
+        android:enabled="@bool/is_enable_fake_battery_wear_value"
+        app:singleLineTitle="false"
+        android:key="fake_battery_wear_value"
+        app:updatesContinuously="true"
+        app:showSeekBarValue="true"
+        app:min="@integer/fake_battery_wear_min"
+        android:max="@integer/fake_battery_wear_max"/>
+</PreferenceScreen>

@@ -310,4 +310,6 @@
     <string name="reset_screen_time">Reset Screen Time</string>
     <string name="success">Success!</string>
     <string name="error">Error!</string>
+    <string name="fake_battery_wear">Fake Battery Wear</string>
+    <string name="enable_fake_battery_wear">Enable Fake Battery Wear</string>
 </resources>
