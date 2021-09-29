@@ -11,7 +11,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR_VALUE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
@@ -226,13 +226,16 @@ interface BatteryInfoInterface {
 
           val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+          val isEnableFakeBatteryWear = pref.getBoolean(IS_ENABLE_FAKE_BATTERY_WEAR,
+              context.resources.getBoolean(R.bool.is_enable_fake_battery_wear))
+
           val batteryManager = context.getSystemService(Context.BATTERY_SERVICE)
                   as BatteryManager
 
-          val currentCapacity = batteryManager.getIntProperty(
-              BatteryManager
-                  .BATTERY_PROPERTY_CHARGE_COUNTER
-          ).toDouble()
+          val currentCapacity = if(isEnableFakeBatteryWear)
+              getOnFakeCurrentCapacity(context)
+          else batteryManager.getIntProperty(
+              BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
 
           when {
 
@@ -247,6 +250,9 @@ interface BatteryInfoInterface {
 
       catch (e: RuntimeException) { 0.001 }
     }
+
+    fun getOnFakeCurrentCapacity(context: Context) =
+        fakeResidualCapacity * ((getOnBatteryLevel(context) ?: 0) / 100.0) * 10.0
 
     fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false,
                            isOnlyValues: Boolean = false): String {
@@ -352,15 +358,15 @@ interface BatteryInfoInterface {
         val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
             R.integer.min_design_capacity)).toDouble()
 
-        val fakeBatteryWearValue = pref.getInt(FAKE_BATTERY_WEAR,
+        val fakeBatteryWearValue = pref.getInt(FAKE_BATTERY_WEAR_VALUE,
             context.resources.getInteger(R.integer.fake_battery_wear_default))
 
         if(fakeResidualCapacity == 0.0)
             fakeResidualCapacity = if(fakeBatteryWearValue > 0)
-                Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue - 0.01)),
-                    designCapacity * (100.0 - fakeBatteryWearValue + 0.01)) else
+                Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue - 1.0)),
+                    designCapacity * (100.0 - fakeBatteryWearValue + 1.0)) else
                         Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue)),
-                            designCapacity * (100.0 - fakeBatteryWearValue + 0.01))
+                            designCapacity * (100.0 - fakeBatteryWearValue + 1.0))
 
         return if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
             fakeResidualCapacity * 10.0 else fakeResidualCapacity

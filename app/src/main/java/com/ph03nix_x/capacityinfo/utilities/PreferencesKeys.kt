@@ -108,5 +108,5 @@ object PreferencesKeys {
 
     // Fake Battery Wear
     const val IS_ENABLE_FAKE_BATTERY_WEAR = "is_enable_fake_battery_wear"
-    const val FAKE_BATTERY_WEAR = "fake_battery_wear_value"
+    const val FAKE_BATTERY_WEAR_VALUE = "fake_battery_wear_value"
 }
