@@ -38,11 +38,15 @@ class FakeBatteryWearFragment : PreferenceFragmentCompat() {
         enableFakeBatteryWear?.setOnPreferenceChangeListener { _, newValue ->
             fakeBatteryWearValue?.isEnabled = newValue as? Boolean == true
             BatteryInfoInterface.fakeResidualCapacity = 0.0
+            BatteryInfoInterface.fakeCurrentCapacity = 0.0
+            BatteryInfoInterface.tempBatteryLevel = 0
             true
         }
 
         fakeBatteryWearValue?.setOnPreferenceChangeListener { _, _ ->
             BatteryInfoInterface.fakeResidualCapacity = 0.0
+            BatteryInfoInterface.fakeCurrentCapacity = 0.0
+            BatteryInfoInterface.tempBatteryLevel = 0
             true
         }
     }

@@ -38,7 +38,9 @@ interface BatteryInfoInterface {
         var percentAdded = 0
         var residualCapacity = 0.0
         var fakeResidualCapacity = 0.0
+        var fakeCurrentCapacity = 0.0
         var batteryLevel = 0
+        var tempBatteryLevel = 0
         var maxChargeCurrent = 0
         var averageChargeCurrent = 0
         var minChargeCurrent = 0
@@ -251,8 +253,17 @@ interface BatteryInfoInterface {
       catch (e: RuntimeException) { 0.001 }
     }
 
-    fun getOnFakeCurrentCapacity(context: Context) =
-        fakeResidualCapacity * ((getOnBatteryLevel(context) ?: 0) / 100.0) * 10.0
+    fun getOnFakeCurrentCapacity(context: Context): Double {
+
+        val batteryLevel = getOnBatteryLevel(context) ?: 0
+        if(fakeCurrentCapacity == 0.0 || batteryLevel != tempBatteryLevel) {
+            fakeCurrentCapacity = fakeResidualCapacity * if(batteryLevel <= 90)
+                Random.nextDouble(((batteryLevel / 100.0) - 0.05),
+                    (batteryLevel / 100.0) + 0.05) * 10.0 else (batteryLevel / 100.0) * 10.0
+            tempBatteryLevel = batteryLevel
+        }
+        return fakeCurrentCapacity
+    }
 
     fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false,
                            isOnlyValues: Boolean = false): String {
@@ -363,10 +374,10 @@ interface BatteryInfoInterface {
 
         if(fakeResidualCapacity == 0.0)
             fakeResidualCapacity = if(fakeBatteryWearValue > 0)
-                Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue - 1.0)),
-                    designCapacity * (100.0 - fakeBatteryWearValue + 1.0)) else
+                Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue - 2.0)),
+                    designCapacity * (100.0 - fakeBatteryWearValue + 2.0)) else
                         Random.nextDouble((designCapacity * (100.0 - fakeBatteryWearValue)),
-                            designCapacity * (100.0 - fakeBatteryWearValue + 1.0))
+                            designCapacity * (100.0 - fakeBatteryWearValue + 2.0))
 
         return if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
             fakeResidualCapacity * 10.0 else fakeResidualCapacity
