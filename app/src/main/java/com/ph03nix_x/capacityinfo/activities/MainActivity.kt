@@ -36,7 +36,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR_VALUE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
@@ -51,6 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface {
 
@@ -421,6 +424,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
+        showBatteryWearDialog()
+
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
                 this) > 0.0
@@ -682,6 +687,38 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             setCancelable(false)
 
             show()
+        }
+    }
+
+    private fun showBatteryWearDialog() {
+
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
+            R.integer.min_design_capacity)).toDouble()
+        val batteryWear = if (BatteryInfoInterface.residualCapacity > 0.0 && BatteryInfoInterface
+                .residualCapacity < designCapacity) (100.0 - (BatteryInfoInterface
+            .residualCapacity / designCapacity) * 100.0).toInt() else 0
+
+        when (batteryWear) {
+            in 25..100 -> {
+                MaterialAlertDialogBuilder(this).apply {
+
+                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                    setTitle(getString(R.string.information))
+
+                    setMessage(getString(when (batteryWear) {
+                        in 25..39 -> R.string.battery_wear_dialog
+                        in 40..59 -> R.string.high_battery_wear_dialog
+                        in 60..74 -> R.string.very_high_battery_wear_dialog
+                        else -> R.string.critical_battery_wear_dialog
+                    }, "$batteryWear%"))
+
+                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+
+                    setCancelable(false)
+
+                    show()
+                }
+            }
         }
     }
 
