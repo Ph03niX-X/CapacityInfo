@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Backup-->
+    <bool name="is_auto_backup_settings">false</bool>
+    <bool name="is_auto_backup_settings_enabled">false</bool>
+    <bool name="is_backup_settings_to_microsd">false</bool>
+    <bool name="is_backup_settings_to_microsd_enabled">false</bool>
+    <bool name="create_backup_settings_enabled">false</bool>
+    <bool name="restore_settings_from_backup_enabled">false</bool>
+    <bool name="frequency_of_auto_backup_settings_enabled">false</bool>
+    <bool name="export_settings_visible">false</bool>
+    <bool name="import_settings_visible">false</bool>
+    <bool name="export_history_visible">false</bool>
+    <bool name="import_history_visible">false</bool>
+</resources>

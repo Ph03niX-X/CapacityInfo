@@ -15,6 +15,7 @@
     <SwitchPreferenceCompat
         android:title="@string/backup_settings_to_microsd"
         app:singleLineTitle="false"
+        app:isPreferenceVisible="@bool/is_backup_settings_to_microsd_visible"
         android:enabled="@bool/is_backup_settings_to_microsd_enabled"
         app:icon="@drawable/ic_backup_settings_to_microsd"
         android:key="is_backup_settings_to_microsd"/>
