@@ -289,4 +289,10 @@
     <string name="reset_screen_time">Абнуліць час экрана</string>
     <string name="success">Поспех!</string>
     <string name="error">Памылка!</string>
+    <string name="fake_battery_wear">Фэйкавы знос акумулятара</string>
+    <string name="enable_fake_battery_wear">Уключыць фэйкавы знос акумулятара</string>
+    <string name="battery_wear_dialog">Знос акумулятара %1$s. Раім памяняць акумулятар або смартфон/планшэт</string>
+    <string name="high_battery_wear_dialog">Высокі знос акумулятара (%1$s). Раім памяняць акумулятар або смартфон/планшэт</string>
+    <string name="very_high_battery_wear_dialog">Вельмі высокі знос акумулятара (%1$s). Раім памяняць акумулятар або смартфон/планшэт</string>
+    <string name="critical_battery_wear_dialog">Крытычны знос акумулятара (%1$s). Раім памяняць акумулятар або смартфон/планшэт</string>
 </resources>
