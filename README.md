@@ -14,7 +14,7 @@ alt="Get it on Google Play" width="323" height="125" border="10"/></a>
  <b>Download Latest Stable Version from Google Drive:</b>
 </p>
 
-<a href="https://drive.google.com/file/d/182JkWE5CLhuJerda77wmsc4Qzrs5TEVV">
+<a href="https://drive.google.com/file/d/1x-JpWZLfZynG2irOZtLuoSXWmxKwm0zl">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
@@ -25,7 +25,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
  <b>Download Latest Beta Version from Google Drive:</b>
 </p>
 
-<a href="https://drive.google.com/file/d/182JkWE5CLhuJerda77wmsc4Qzrs5TEVV">
+<a href="https://drive.google.com/file/d/1x-JpWZLfZynG2irOZtLuoSXWmxKwm0zl">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
