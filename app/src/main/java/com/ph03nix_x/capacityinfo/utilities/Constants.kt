@@ -9,7 +9,7 @@ object Constants {
     const val GITHUB_LINK = "https://github.com/Ph03niX-X/CapacityInfo"
     const val UKRAINIAN_TRANSLATION_LINK = "https://t.me/Erdar2K21"
     const val ROMANIAN_TRANSLATION_LINK = "https://github.com/ygorigor"
-    const val BELARUSIAN_TRANSLATION_LINK = "https://t.me/DrCyanogen"
+//    const val BELARUSIAN_TRANSLATION_LINK = "https://t.me/DrCyanogen"
     const val SPANISH_TRANSLATION_LINK = "https://t.me/Lockednet"
     const val TELEGRAM_DEVELOPER_LINK = "https://t.me/Ph03niX_X"
     const val TELEGRAM_CHANNEL_LINK = "https://t.me/ci_channel"

@@ -14,7 +14,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.ROMANIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LINK
+//import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.SPANISH_TRANSLATION_LINK
@@ -142,20 +142,20 @@ class AboutFragment : PreferenceFragmentCompat() {
             true
         }
 
-        belarusianTranslation?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
-            }
-
-            true
-        }
+//        belarusianTranslation?.setOnPreferenceClickListener {
+//
+//            try {
+//
+//                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
+//            }
+//            catch(e: ActivityNotFoundException) {
+//
+//                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
+//                    .show()
+//            }
+//
+//            true
+//        }
 
         ukrainianTranslation?.setOnPreferenceClickListener {
 
