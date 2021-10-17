@@ -64,7 +64,8 @@ interface BatteryInfoInterface {
         return when {
 
             designCapacity == 0 || designCapacity < context.resources.getInteger(
-                R.integer.min_design_capacity) -> context.resources.getInteger(
+                R.integer.min_design_capacity) || designCapacity > context.resources.getInteger(
+                R.integer.max_design_capacity) -> context.resources.getInteger(
                 R.integer.min_design_capacity)
             designCapacity < 0 -> designCapacity / -1
             else -> designCapacity
