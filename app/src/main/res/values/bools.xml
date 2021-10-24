@@ -25,6 +25,7 @@
     <bool name="is_notify_discharge_current">false</bool>
 
     <!--Backup-->
+    <bool name="is_show_backup_information">false</bool>
     <bool name="is_auto_backup_settings">true</bool>
     <bool name="is_auto_backup_settings_enabled">true</bool>
     <bool name="is_backup_settings_to_microsd">false</bool>

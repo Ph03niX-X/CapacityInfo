@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Backup-->
+    <bool name="is_show_backup_information">true</bool>
     <bool name="is_auto_backup_settings">false</bool>
     <bool name="is_auto_backup_settings_enabled">false</bool>
     <bool name="is_backup_settings_to_microsd">false</bool>

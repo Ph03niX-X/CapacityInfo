@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -48,6 +49,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
     private var importHistory: Preference? = null
 
     private var isRestoreSettingsFromBackup = false
+    private var isEnabledBackupInformationTimer = false
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -109,16 +111,21 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
             importHistory?.isVisible = MainApp.isInstalledGooglePlay
 
-            if(MainApp.isInstalledGooglePlay)
-                MaterialAlertDialogBuilder(requireContext()).apply {
-
-                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                    setTitle(getString(R.string.information))
-                    setMessage(getString(R.string.new_permission_is_required_dialog))
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                    setCancelable(false)
-                    show()
-                }
+            if(MainApp.isInstalledGooglePlay && pref.getBoolean(IS_SHOW_BACKUP_INFORMATION,
+                    resources.getBoolean(R.bool.is_show_backup_information)))
+                        MaterialAlertDialogBuilder(requireContext()).apply {
+                            isEnabledBackupInformationTimer = true
+                            enabledBackupInformationTimer()
+                            setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                            setTitle(getString(R.string.information))
+                            setMessage(getString(R.string.new_permission_is_required_dialog))
+                            setPositiveButton(android.R.string.ok) { d, _ ->
+                                if(!isEnabledBackupInformationTimer)
+                                    pref.edit().putBoolean(IS_SHOW_BACKUP_INFORMATION, false).apply()
+                                d.dismiss() }
+                            setCancelable(false)
+                            show()
+                        }
         }
 
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources.getBoolean(
@@ -542,6 +549,17 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             Constants.IMPORT_HISTORY_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data,
                     exportHistory)
+        }
+    }
+
+    fun enabledBackupInformationTimer() {
+        var timer = 0
+        CoroutineScope(Dispatchers.Main).launch {
+            while(timer < 15) {
+                delay(1000L)
+                timer++
+            }
+            if(timer == 15) isEnabledBackupInformationTimer = false
         }
     }
 }
