@@ -38,10 +38,15 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR_VALUE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CRITICAL_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_VERY_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
@@ -62,6 +67,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
     private var prefArrays: HashMap<*, *>? = null
+    private var batteryWearDialog: MaterialAlertDialogBuilder? = null
 
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
@@ -423,8 +429,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         else if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
             && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
-
-        showBatteryWearDialog()
+        if(batteryWearDialog == null) showBatteryWearDialog()
 
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
@@ -696,27 +701,56 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             R.integer.min_design_capacity)).toDouble()
         val batteryWear = if (BatteryInfoInterface.residualCapacity > 0.0 && BatteryInfoInterface
                 .residualCapacity < designCapacity) (100.0 - (BatteryInfoInterface
-            .residualCapacity / designCapacity) * 100.0).toInt() else 0
+            .residualCapacity / designCapacity) * 100.0) else 0.0
 
         when (batteryWear) {
-            in 25..100 -> {
-                MaterialAlertDialogBuilder(this).apply {
-
-                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                    setTitle(getString(R.string.information))
-
-                    setMessage(getString(when (batteryWear) {
-                        in 25..39 -> R.string.battery_wear_dialog
-                        in 40..59 -> R.string.high_battery_wear_dialog
-                        in 60..74 -> R.string.very_high_battery_wear_dialog
-                        else -> R.string.critical_battery_wear_dialog
-                    }, "$batteryWear%"))
-
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-
-                    setCancelable(false)
-
-                    show()
+            in 25.0..100.0 -> {
+                with(pref) {
+                    if(!getBoolean(IS_BATTERY_WEAR, resources.getBoolean(R.bool.is_battery_wear))
+                        || !getBoolean(IS_HIGH_BATTERY_WEAR, resources.getBoolean(
+                            R.bool.is_high_battery_wear)) || !getBoolean(IS_VERY_HIGH_BATTERY_WEAR,
+                            resources.getBoolean(R.bool.is_very_high_battery_wear)) ||
+                        !getBoolean(IS_CRITICAL_BATTERY_WEAR, resources.getBoolean(
+                            R.bool.is_critical_battery_wear)))
+                                batteryWearDialog =
+                                    MaterialAlertDialogBuilder(this@MainActivity).apply {
+                                        setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                                        setTitle(getString(R.string.information))
+                                        setMessage(getString(when (batteryWear) {
+                                            in 25.0..39.9 -> {
+                                                edit().putBoolean(IS_BATTERY_WEAR, true).apply()
+                                                R.string.battery_wear_dialog
+                                            }
+                                            in 40.0..59.9 -> {
+                                                edit().putBoolean(IS_HIGH_BATTERY_WEAR, true).apply()
+                                                R.string.high_battery_wear_dialog
+                                            }
+                                            in 60.0..74.9 -> {
+                                                edit().putBoolean(IS_VERY_HIGH_BATTERY_WEAR, true).apply()
+                                                R.string.very_high_battery_wear_dialog
+                                            }
+                                            else -> {
+                                                edit().putBoolean(IS_CRITICAL_BATTERY_WEAR, true).apply()
+                                                R.string.critical_battery_wear_dialog
+                                            } }, "${DecimalFormat("#.#").format(
+                                            batteryWear)}%"))
+                                        setPositiveButton(android.R.string.ok) { d, _ ->
+                                            batteryWearDialog = null
+                                            d.dismiss()
+                                        }
+                                        setCancelable(false)
+                                        show()
+                                    }
+                }
+            }
+            else -> {
+                val batteryWearList = arrayListOf(IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
+                    IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR)
+                with(pref.edit()) {
+                    batteryWearList.forEach {
+                        remove(it)
+                    }
+                    apply()
                 }
             }
         }
@@ -798,7 +832,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION)
+            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION,
+            IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
+            IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR)
 
         if(prefArrays != null)
         prefsTempList.forEach {
@@ -826,7 +862,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                                     pref.edit().putFloat(it.key as String,
                                         it.value as Float).apply()
 
-                                IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION ->
+                                IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION,
+                                IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
+                                IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR ->
                                     pref.edit().putBoolean(it.key as String,
                                         it.value as Boolean).apply()
                             }

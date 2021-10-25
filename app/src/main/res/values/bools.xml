@@ -3,6 +3,10 @@
     <bool name="is_supported">true</bool>
     <bool name="is_show_not_supported_dialog">true</bool>
     <bool name="is_show_instruction">true</bool>
+    <bool name="is_battery_wear">false</bool>
+    <bool name="is_high_battery_wear">false</bool>
+    <bool name="is_very_high_battery_wear">false</bool>
+    <bool name="is_critical_battery_wear">false</bool>
 
     <!--Settings-->
     <bool name="is_show_stop_service">false</bool>
