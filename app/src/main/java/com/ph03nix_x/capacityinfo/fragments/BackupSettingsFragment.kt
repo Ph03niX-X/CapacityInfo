@@ -552,14 +552,14 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         }
     }
 
-    fun enabledBackupInformationTimer() {
+    private fun enabledBackupInformationTimer() {
         var timer = 0
         CoroutineScope(Dispatchers.Main).launch {
-            while(timer < 15) {
+            while(timer < 8) {
                 delay(1000L)
                 timer++
             }
-            if(timer == 15) isEnabledBackupInformationTimer = false
+            if(timer == 8) isEnabledBackupInformationTimer = false
         }
     }
 }
