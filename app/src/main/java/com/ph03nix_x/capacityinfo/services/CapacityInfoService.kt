@@ -96,6 +96,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var seconds = 0
     var secondsTemperature = 0
     var screenTime = 0L
+    var currentDate: String? = null
 
     companion object {
 
@@ -363,6 +364,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         screenTimeJob = null
         jobService = null
         notificationBuilder = null
+        currentDate = null
 
         isNotifyOverheatOvercool = true
         isNotifyBatteryFullyCharged = true
@@ -533,6 +535,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isNotifyBatteryDischarged = true
         isNotifyBatteryDischargedVoltage = true
+        currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
+            DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_fully_charged)) && isNotifyBatteryFullyCharged)

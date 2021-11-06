@@ -64,13 +64,13 @@ class UnpluggedReceiver : BroadcastReceiver() {
                             context) ?: 0.0) * if(pref.getString(
                                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                                     1000.0 else 100.0).toInt()
+                        val currentDate = CapacityInfoService.instance?.currentDate ?: DateHelper
+                            .getDate(0, 0, 0)
 
                         putInt(RESIDUAL_CAPACITY, currentCapacity)
 
                         HistoryHelper.autoClearHistory(context)
-                        HistoryHelper.addHistory(context, DateHelper.getDate(DateHelper
-                            .getCurrentDay(), DateHelper.getCurrentMonth(), DateHelper
-                            .getCurrentYear()), currentCapacity)
+                        HistoryHelper.addHistory(context, currentDate, currentCapacity)
 
                         HistoryAdapter.instance?.update(context)
                     }
