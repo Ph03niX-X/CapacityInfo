@@ -280,6 +280,8 @@
     <string name="discharged_voltage">Розряджений (Напруга)</string>
     <string name="new_permission_is_required_dialog">На Android 11+ потрібно новий дозвіл для роботи повноцінного резервного копіювання, Google не хоче пускати цей застосунок в свій магазин з цим дозволом. Тому використовуйте \"Експорт налаштувань\" для створення резервного копіювання налаштувань (назва файлу: com.ph03nix_x.capacityinfo_preferences.xml), і так само \"Імпорт налаштувань\" для відновлення налаштувань (з xml файлу). \"Експорт історії\" створює резервну копію історії (ім\'я файлу: History.db), \"Імпорт історії\" відновлює історію (з db файлу)</string>
     <string name="donate">Пожертвувати</string>
+    <string name="donation_message_title">Пожертвування</string>
+    <string name="donate_message">Якщо вам подобається застосунок, ви можете пожертвувати розробнику на його розвиток</string>
     <string name="number_of_full_charges">Кількість повних зарядок: %1$d</string>
     <string name="number_of_full_charges_overlay">Кількість повних зарядок</string>
     <string name="reset_the_number_of_full_charges_to_zero">Обнулити кількість повних зарядок</string>
