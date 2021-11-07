@@ -22,9 +22,9 @@ object HistoryHelper {
                 .residualCapacity != residualCapacity) historyDB.insertData(history)
     }
 
-    fun clearHistory(context: Context) = HistoryDB(context).clear()
+    private fun clearHistory(context: Context) = HistoryDB(context).clear()
 
-    fun getHistoryCount(context: Context) = HistoryDB(context).readDB().count()
+    fun getHistoryCount(context: Context) = HistoryDB(context).getCount()
 
     fun autoClearHistory(context: Context) {
 
