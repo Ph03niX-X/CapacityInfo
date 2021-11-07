@@ -280,6 +280,8 @@
     <string name="discharged_voltage">Разраджаны (Напружанне)</string>
     <string name="new_permission_is_required_dialog">На Android 11+ патрабуецца новы дазвол для працы паўнавартаснага рэзервовага капіявання, Google не хоча пускаць гэты дадатак у свой магазін з гэтым дазволам. Таму выкарыстоўвайце \"Экспарт налад\" для стварэння рэзервовага капіявання налад (імя файла: com.ph03nix_x.capacityinfo_preferences.xml), а так жа \"Імпарт налад\" для аднаўлення налад (из xml файла). \"Экспарт гісторыі\" стварае рэзервовую копію гісторыі (імя файла: History.db), \"Імпарт гісторыі\" аднаўляе гісторыю (з db файла)</string>
     <string name="donate">Ахвяраваць</string>
+    <string name="donation_message_title">Ахвяраванне</string>
+    <string name="donate_message">Калі вам падабаецца дадатак, вы можаце ахвяраваць распрацоўшчыкам на яго развіццё</string>
     <string name="number_of_full_charges">Колькасць поўных зарадак: %1$d</string>
     <string name="number_of_full_charges_overlay">Колькасць поўных зарадак</string>
     <string name="reset_the_number_of_full_charges_to_zero">Абнуліць колькасць поўных зарадак</string>
