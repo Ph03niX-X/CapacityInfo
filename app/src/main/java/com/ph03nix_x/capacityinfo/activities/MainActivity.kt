@@ -43,6 +43,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CRITICAL_BATTERY_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_DONATE_MESSAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
@@ -431,6 +432,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 R.bool.is_show_instruction))) showInstruction()
         if(batteryWearDialog == null) showBatteryWearDialog()
 
+        if(HistoryHelper.getHistoryCount(this) >= 3 && pref.getBoolean(
+                IS_SHOW_DONATE_MESSAGE, resources.getBoolean(R.bool.is_show_donate_message)))
+                    showDonateMessage()
+
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
                 this) > 0.0
@@ -669,13 +674,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
 
             toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
-                try {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_LINK)))
-                }
-                catch (e: ActivityNotFoundException) {
-                    Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
-                        .show()
-                }
+                openDonate()
                 true
             }
         }
@@ -699,6 +698,30 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     + getString(R.string.instruction_message_huawei_honor))
 
             setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+
+            setCancelable(false)
+
+            show()
+        }
+    }
+
+    private fun showDonateMessage() {
+        MaterialAlertDialogBuilder(this).apply {
+
+            setIcon(R.drawable.ic_donate_24)
+            setTitle(getString(R.string.donation_message_title))
+            setMessage(getString(R.string.donate_message))
+
+            setPositiveButton(R.string.donate) { d, _ ->
+                openDonate()
+                pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+                d.dismiss()
+            }
+
+            setNegativeButton(android.R.string.cancel) { d, _ ->
+                pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+                d.dismiss()
+            }
 
             setCancelable(false)
 
@@ -836,6 +859,16 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             in 80..89 -> R.drawable.ic_discharge_navigation_80_24dp
             in 90..95 -> R.drawable.ic_discharge_navigation_90_24dp
             else -> R.drawable.ic_discharge_navigation_full_24dp
+        }
+    }
+
+    private fun openDonate() {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_LINK)))
+        }
+        catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
+                .show()
         }
     }
 

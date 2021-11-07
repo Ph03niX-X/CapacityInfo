@@ -9,6 +9,7 @@ object PreferencesKeys {
     const val IS_HIGH_BATTERY_WEAR = "is_high_battery_wear"
     const val IS_VERY_HIGH_BATTERY_WEAR = "is_very_high_battery_wear"
     const val IS_CRITICAL_BATTERY_WEAR = "is_critical_battery_wear"
+    const val IS_SHOW_DONATE_MESSAGE = "is_show_donate_message"
 
     // Service & Notification
     const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"

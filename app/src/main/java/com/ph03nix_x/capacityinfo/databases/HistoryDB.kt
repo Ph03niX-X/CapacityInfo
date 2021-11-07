@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.databases
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -56,5 +57,12 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, dbName, null, 
         val db = this.writableDatabase
         db.delete(dbTitle, null, null)
         db.close()
+    }
+
+    fun getCount(): Long {
+        val db = this.readableDatabase
+        val count = DatabaseUtils.queryNumEntries(db, dbTitle)
+        db.close()
+        return count
     }
 }

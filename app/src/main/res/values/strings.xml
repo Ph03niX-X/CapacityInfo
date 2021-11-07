@@ -300,6 +300,8 @@
     <string name="discharged_voltage">Discharged (Voltage)</string>
     <string name="new_permission_is_required_dialog">On Android 11+, a new permission is required for a full-fledged backup to work, Google does not want to let this application into its store with this permission. Therefore, use \"Export Settings\" to create a backup of settings (file name: com.ph03nix_x.capacityinfo_preferences.xml), as well as \"Import Settings\" to restore settings (from an xml file). \"Export History\" creates a backup copy of history (file name: History.db), \"Import History\" restores history (from db file)</string>
     <string name="donate">Donate</string>
+    <string name="donation_message_title">Donation</string>
+    <string name="donate_message">If you like the app, you can donate to the developer to develop the app</string>
     <string name="number_of_full_charges">Number of Full Charges: %1$d</string>
     <string name="number_of_full_charges_overlay">Number of Full Charges</string>
     <string name="number_of_full_charges_overlay_only_values" translatable="false">%1$d</string>
