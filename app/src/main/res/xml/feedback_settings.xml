@@ -54,12 +54,6 @@
             app:icon="@drawable/ic_share_24dp"
             android:key="share_the_app"/>
 
-        <Preference
-            app:title="@string/donate"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_donate_24"
-            android:key="donate"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>

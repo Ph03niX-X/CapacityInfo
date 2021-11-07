@@ -36,6 +36,12 @@
                     android:title="@string/dont_kill_my_app"
                     android:icon="@drawable/ic_dont_kill_my_app"
                     app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/donate"
+                android:title="@string/donate"
+                android:icon="@drawable/ic_donate_24"
+                app:showAsAction="never"/>
         </menu>
 
     </item>

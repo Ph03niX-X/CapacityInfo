@@ -667,6 +667,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 true
             }
+
+            toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_LINK)))
+                }
+                catch (e: ActivityNotFoundException) {
+                    Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
+                        .show()
+                }
+                true
+            }
         }
     }
 
