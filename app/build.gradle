@@ -11,8 +11,8 @@ android {
         applicationId "com.ph03nix_x.capacityinfo"
         minSdkVersion 26
         targetSdkVersion 31
-        versionCode 875
-        versionName "5.2.1.1"
+        versionCode 884
+        versionName "5.3.0.1"
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
