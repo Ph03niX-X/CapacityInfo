@@ -81,8 +81,6 @@ import java.util.*
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
-    private var powerManager: PowerManager? = null
-    private var wakeLock: PowerManager.WakeLock? = null
     private var screenTimeJob: Job? = null
     private var jobService: Job? = null
     private var chargingCurrentTemp: Int? = null
@@ -222,18 +220,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 while (isJob && !isStopService) {
 
-                    if(wakeLock == null) {
-
-                        if(powerManager == null) powerManager = getSystemService(Context
-                            .POWER_SERVICE) as PowerManager
-
-                        wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                            "${packageName}:service_wakelock")
-                    }
-
-                    if(wakeLock?.isHeld != true && !isFull && isPowerConnected) wakeLock?.acquire(
-                        45L * 1000L)
-
                     if((getOnBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getOnBatteryLevel(this@CapacityInfoService) ?: 0
 
@@ -327,19 +313,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                             onUpdateServiceNotification(this@CapacityInfoService)
 
-                        if(wakeLock?.isHeld == true) {
-
-                            wakeLock?.release()
-
-//                            try {
-//
-//
-//                            }
-//
-//                            catch (e: java.lang.RuntimeException) {}
-                        }
-
-                        delay(1494L)
+                        delay(1495L)
                     }
                 }
             }
@@ -348,17 +322,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     override fun onDestroy() {
-
-        if(wakeLock?.isHeld == true) {
-
-            wakeLock?.release()
-//            try {
-//
-//
-//            }
-//
-//            catch (e: java.lang.RuntimeException) {}
-        }
 
         instance = null
         isScreenTimeJob = false
@@ -512,9 +475,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(displayManager != null)
         for(display in displayManager.displays)
             if(display.state == Display.STATE_ON)
-                delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 948L
+                delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
                 else 955L)
-            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 934L
+            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 935L
             else 932L)
 
         seconds++
