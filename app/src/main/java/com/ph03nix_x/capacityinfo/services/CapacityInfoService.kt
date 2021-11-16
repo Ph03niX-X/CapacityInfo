@@ -399,7 +399,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 apply()
             }
 
-            HistoryHelper.autoClearHistory(this)
+            HistoryHelper.removeFirstRow(this)
             HistoryHelper.addHistory(this, DateHelper.getDate(DateHelper.getCurrentDay(),
                 DateHelper.getCurrentMonth(), DateHelper.getCurrentYear()), pref.getInt(
                 RESIDUAL_CAPACITY, 0))

@@ -22,16 +22,15 @@ object HistoryHelper {
                 .residualCapacity != residualCapacity) historyDB.insertData(history)
     }
 
+    fun removeFirstRow(context: Context) {
+        if(isHistoryMax(context)) HistoryDB(context).removeFirstRow()
+    }
+
     private fun clearHistory(context: Context) = HistoryDB(context).clear()
 
     fun getHistoryCount(context: Context) = HistoryDB(context).getCount()
 
-    fun autoClearHistory(context: Context) {
-
-        if(isHistoryMax(context)) clearHistory(context)
-    }
-
-    fun isHistoryMax(context: Context) = getHistoryCount(context) >= Constants.HISTORY_COUNT_MAX
+    fun isHistoryMax(context: Context) = getHistoryCount(context).toInt() == Constants.HISTORY_COUNT_MAX
 
     fun isHistoryEmpty(context: Context) = getHistoryCount(context) < 1
 

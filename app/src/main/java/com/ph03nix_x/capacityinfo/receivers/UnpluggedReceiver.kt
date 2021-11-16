@@ -69,7 +69,7 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                         putInt(RESIDUAL_CAPACITY, currentCapacity)
 
-                        HistoryHelper.autoClearHistory(context)
+                        HistoryHelper.removeFirstRow(context)
                         HistoryHelper.addHistory(context, currentDate, currentCapacity)
 
                         HistoryAdapter.instance?.update(context)

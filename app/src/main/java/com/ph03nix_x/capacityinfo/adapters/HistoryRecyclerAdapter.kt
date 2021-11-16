@@ -109,7 +109,8 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             historyList = HistoryDB(context).readDB()
             notifyItemInserted(0)
         }
-        else if(HistoryHelper.isHistoryEmpty(context)) {
+        else if(HistoryHelper.isHistoryEmpty(context) ||
+            HistoryHelper.getHistoryCount(context) < historyList.count()) {
             historyList = HistoryDB(context).readDB()
             notifyDataSetChanged()
         }
