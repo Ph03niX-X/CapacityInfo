@@ -176,20 +176,25 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
 
-        var numberOfCycles: Int
+        var numberOfCycles = 0
 
         withContext(Dispatchers.IO) {
 
             try {
+                var br: BufferedReader? = null
 
-                val br = try {
-                    BufferedReader(FileReader(cycleCount))
+                kotlin.runCatching {
+                    br = try {
+
+                        BufferedReader(FileReader(cycleCount))
+                    }
+                    catch (e: FileNotFoundException) { null }
                 }
-                catch (e: FileNotFoundException) { null }
 
-                numberOfCycles = br?.readLine()?.toInt() ?: 0
+                kotlin.runCatching { numberOfCycles = br?.readLine()?.toInt() ?: 0 }
 
-                br?.close()
+                kotlin.runCatching { br?.close() }
+
 
             } catch (e: IOException) { numberOfCycles = 0 }
         }

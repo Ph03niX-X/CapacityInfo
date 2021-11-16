@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
 class OverlayService : Service(), OverlayInterface {
 
     private var jobService: Job? = null
-    var isJob = false
+    private var isJob = false
 
     companion object {
 

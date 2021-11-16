@@ -4,6 +4,7 @@ import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -12,7 +13,6 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONATE_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_CHANNEL_LINK
@@ -100,8 +100,9 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
                 val version = requireContext().packageManager?.getPackageInfo(
                     requireContext().packageName, 0)?.versionName
-                val build = requireContext().packageManager?.getPackageInfo(requireContext()
-                    .packageName, 0)?.versionCode?.toString()
+                val build = requireContext().packageManager?.getPackageInfo(
+                    requireContext().packageName, 0)?.let { PackageInfoCompat
+                    .getLongVersionCode(it).toString() }
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email
                     ?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}")))

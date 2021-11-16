@@ -5,10 +5,6 @@ import android.content.Context
 import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.google.android.play.core.assetpacks.db
-
-
-
 
 const val dbName = "History.db"
 const val dbTitle = "History"
@@ -45,9 +41,9 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, dbName, null, 
         if (cursor.moveToFirst()) {
             do {
                 val history = History()
-                history.id = cursor.getString(cursor.getColumnIndex(id)).toInt()
-                history.date = cursor.getString(cursor.getColumnIndex(date))
-                history.residualCapacity = cursor.getInt(cursor.getColumnIndex(residualCapacity))
+                history.id = cursor.getString(cursor.getColumnIndexOrThrow(id)).toInt()
+                history.date = cursor.getString(cursor.getColumnIndexOrThrow(date))
+                history.residualCapacity = cursor.getInt(cursor.getColumnIndexOrThrow(residualCapacity))
                 historyList.add(history)
             } while (cursor.moveToNext())
         }
@@ -69,7 +65,7 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, dbName, null, 
             null, null)
 
         if (cursor.moveToFirst()) {
-            val rowId: String = cursor.getString(cursor.getColumnIndex(id))
+            val rowId: String = cursor.getString(cursor.getColumnIndexOrThrow(id))
             db.delete(dbTitle, "$id=?", arrayOf(rowId))
         }
 

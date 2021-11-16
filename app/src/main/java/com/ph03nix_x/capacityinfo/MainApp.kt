@@ -32,6 +32,7 @@ class MainApp : Application() {
 
         var currentTheme = -1
 
+        @Suppress("DEPRECATION")
         fun isGooglePlay(context: Context) =
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)

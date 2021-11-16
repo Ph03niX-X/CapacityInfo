@@ -36,11 +36,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR_VALUE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CRITICAL_BATTERY_WEAR
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_DONATE_MESSAGE
@@ -193,7 +191,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             resources.getBoolean(R.bool.is_supported)) ||
                 HistoryHelper.isHistoryNotEmpty(this)
 
-        navigation.setOnNavigationItemSelectedListener {
+        navigation.setOnItemSelectedListener {
 
             when(it.itemId) {
 

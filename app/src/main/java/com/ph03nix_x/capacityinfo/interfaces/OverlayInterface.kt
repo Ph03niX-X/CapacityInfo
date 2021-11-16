@@ -63,6 +63,7 @@ import java.io.*
 
 import java.text.DecimalFormat
 
+@SuppressLint("StaticFieldLeak")
 interface OverlayInterface : BatteryInfoInterface {
 
     companion object {
@@ -96,7 +97,6 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var pref: SharedPreferences
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
-        var isTinyDancerEnabled = false
 
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
 

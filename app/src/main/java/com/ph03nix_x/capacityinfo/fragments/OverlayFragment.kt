@@ -127,6 +127,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
                 false -> if(OverlayService.instance != null)
                     ServiceHelper.stopService(requireContext(), OverlayService::class.java)
+                null -> {}
             }
 
             enableAllOverlay(newValue as? Boolean)

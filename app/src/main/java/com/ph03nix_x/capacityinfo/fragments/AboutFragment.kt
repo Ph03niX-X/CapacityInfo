@@ -4,8 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -14,7 +16,6 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.ROMANIAN_TRANSLATION_LINK
-//import com.ph03nix_x.capacityinfo.utilities.Constants.BELARUSIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.SPANISH_TRANSLATION_LINK
@@ -70,8 +71,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         version?.summary = requireContext().packageManager?.getPackageInfo(
             requireContext().packageName, 0)?.versionName
 
-        build?.summary = requireContext().packageManager?.getPackageInfo(
-            requireContext().packageName, 0)?.versionCode?.toString()
+        build?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+            0)?.let { PackageInfoCompat.getLongVersionCode(it).toString() }
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 
@@ -141,21 +142,6 @@ class AboutFragment : PreferenceFragmentCompat() {
 
             true
         }
-
-//        belarusianTranslation?.setOnPreferenceClickListener {
-//
-//            try {
-//
-//                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BELARUSIAN_TRANSLATION_LINK)))
-//            }
-//            catch(e: ActivityNotFoundException) {
-//
-//                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
-//                    .show()
-//            }
-//
-//            true
-//        }
 
         ukrainianTranslation?.setOnPreferenceClickListener {
 

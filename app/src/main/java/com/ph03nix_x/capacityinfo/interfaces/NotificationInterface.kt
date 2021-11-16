@@ -49,6 +49,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 
+@SuppressLint("StaticFieldLeak")
 interface NotificationInterface : BatteryInfoInterface {
 
     companion object {
