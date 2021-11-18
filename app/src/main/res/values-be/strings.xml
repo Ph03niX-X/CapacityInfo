@@ -282,6 +282,7 @@
     <string name="donate">Ахвяраваць</string>
     <string name="donation_message_title">Ахвяраванне</string>
     <string name="donate_message">Калі вам падабаецца дадатак, вы можаце ахвяраваць распрацоўшчыкам на яго развіццё</string>
+    <string name="thanks_for_the_donation">Дзякуй за ахвяраванне распрацоўніку на распрацоўку дадатку!</string>
     <string name="number_of_full_charges">Колькасць поўных зарадак: %1$d</string>
     <string name="number_of_full_charges_overlay">Колькасць поўных зарадак</string>
     <string name="reset_the_number_of_full_charges_to_zero">Абнуліць колькасць поўных зарадак</string>
