@@ -46,6 +46,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
+import java.lang.Exception
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 
@@ -167,7 +168,7 @@ interface NotificationInterface : BatteryInfoInterface {
             notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                     as NotificationManager
 
-            batteryIntent = context.registerReceiver(null, IntentFilter(
+            batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED))
 
             val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
@@ -224,7 +225,9 @@ interface NotificationInterface : BatteryInfoInterface {
 
             notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
         }
-        catch(e: RuntimeException) { }
+        catch (e: Exception) {
+            onUpdateServiceNotification(context)
+        }
     }
 
     fun onNotifyOverheatOvercool(context: Context, temperature: Double) {
