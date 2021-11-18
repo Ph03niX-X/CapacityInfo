@@ -25,7 +25,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
  <b>Download Latest Beta Version from Google Drive:</b>
 </p>
 
-<a href="https://drive.google.com/file/d/1MzcwGDhJ8iaa3q5uzVXWAU9bA9GdWvG4">
+<a href="https://drive.google.com/file/d/1OjN3ZPa1tH6chtDGRf-5-3zHMFclKOOx">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></a>
