@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.anjlab.android.iab.v3.BillingProcessor
@@ -737,27 +736,28 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun showDonateMessage() {
-        MaterialAlertDialogBuilder(this).apply {
 
-            setIcon(R.drawable.ic_donate_24)
-            setTitle(getString(R.string.donation_message_title))
-            setMessage(getString(R.string.donate_message))
+        if(!isDonated())
+            MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_donate_24)
+                setTitle(getString(R.string.donation_message_title))
+                setMessage(getString(R.string.donate_message))
+                setPositiveButton(R.string.donate) { d, _ ->
+                    openDonate()
+                    pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+                    d.dismiss()
+                }
 
-            setPositiveButton(R.string.donate) { d, _ ->
-                openDonate()
-                pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
-                d.dismiss()
+                setNegativeButton(android.R.string.cancel) { d, _ ->
+                    pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+                    d.dismiss()
+                }
+
+                setCancelable(false)
+
+                show()
             }
-
-            setNegativeButton(android.R.string.cancel) { d, _ ->
-                pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
-                d.dismiss()
-            }
-
-            setCancelable(false)
-
-            show()
-        }
+        else pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
     }
 
     private fun showBatteryWearDialog() {
