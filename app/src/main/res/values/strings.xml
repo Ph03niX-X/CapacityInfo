@@ -302,6 +302,7 @@
     <string name="donate">Donate</string>
     <string name="donation_message_title">Donation</string>
     <string name="donate_message">If you like the app, you can donate to the developer to develop the app</string>
+    <string name="thanks_for_the_donation">Thanks for the donation to the developer to develop the app!</string>
     <string name="number_of_full_charges">Number of Full Charges: %1$d</string>
     <string name="number_of_full_charges_overlay">Number of Full Charges</string>
     <string name="number_of_full_charges_overlay_only_values" translatable="false">%1$d</string>

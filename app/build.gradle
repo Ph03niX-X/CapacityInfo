@@ -63,6 +63,9 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.google.android.play:core-ktx:1.8.1")
 
+    // Donate
+    implementation("com.anjlab.android.iab.v3:library:2.0.0")
+
     // Color Picker
     implementation("com.jaredrummler:colorpicker:1.1.0")
 
