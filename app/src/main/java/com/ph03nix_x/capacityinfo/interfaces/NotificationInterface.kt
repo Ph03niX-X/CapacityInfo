@@ -46,7 +46,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
-import java.lang.Exception
 import java.lang.RuntimeException
 import java.text.DecimalFormat
 
@@ -225,9 +224,7 @@ interface NotificationInterface : BatteryInfoInterface {
 
             notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
         }
-        catch (e: Exception) {
-            onUpdateServiceNotification(context)
-        }
+        catch (e: RuntimeException) { return }
     }
 
     fun onNotifyOverheatOvercool(context: Context, temperature: Double) {

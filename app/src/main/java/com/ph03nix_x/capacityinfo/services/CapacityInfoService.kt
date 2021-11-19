@@ -311,7 +311,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 }
                         }
 
-                            onUpdateServiceNotification(this@CapacityInfoService)
+                        onUpdateServiceNotification(this@CapacityInfoService)
 
                         delay(1495L)
                     }
@@ -486,14 +486,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             onUpdateServiceNotification(this@CapacityInfoService)
         }
-        catch(e: RuntimeException) {
 
-            withContext(Dispatchers.Main) {
-
-                Toast.makeText(this@CapacityInfoService, e.message ?: e.toString(),
-                    Toast.LENGTH_LONG).show()
-            }
-        }
+        catch(e: RuntimeException) { return }
     }
 
     private suspend fun batteryCharged() {
