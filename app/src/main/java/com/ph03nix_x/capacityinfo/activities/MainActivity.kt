@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
+    private var isDonate = false
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var billingProcessor: BillingProcessor? = null
@@ -330,8 +331,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 null) ?: defLang)
         }
 
-        toolbar.menu?.findItem(R.id.donate)?.isVisible = !isDonated()
-
         tempFragment = null
 
         if(isRecreate) isRecreate = false
@@ -548,7 +547,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         fragment = null
 
-        billingProcessor?.release()
+        if(billingProcessor?.isConnected == true)  billingProcessor?.release()
 
         if(!isRecreate) {
 
@@ -565,24 +564,26 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
+        isDonate = false
         Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
+        toolbar.menu?.findItem(R.id.donate)?.isVisible = false
         billingProcessor?.release()
-        toolbar.menu?.findItem(R.id.donate)?.isVisible = !isDonated()
     }
 
     override fun onPurchaseHistoryRestored() {
-        billingProcessor?.release()
-        toolbar.menu?.findItem(R.id.donate)?.isVisible = !isDonated()
+        isDonate = false
+        Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
+        toolbar.menu?.findItem(R.id.donate)?.isVisible = false
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
+        isDonate = false
         Toast.makeText(this, error?.message, Toast.LENGTH_LONG).show()
-        billingProcessor?.release()
         toolbar.menu?.findItem(R.id.donate)?.isVisible = !isDonated()
     }
 
     override fun onBillingInitialized() {
-        if(BillingProcessor.isIabServiceAvailable(this) &&
+        if(isDonate && BillingProcessor.isIabServiceAvailable(this) &&
             billingProcessor?.isInitialized == true) {
             billingProcessor?.purchase(this, donationId)
         }
@@ -703,10 +704,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            if(!isDonated()) toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
-                openDonate()
-                true
-            }
+            toolbar.menu.findItem(R.id.donate).isVisible = !isDonated()
+
+            if(toolbar.menu.findItem((R.id.donate)).isVisible)
+                toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
+                    openDonate()
+                    true
+                }
         }
     }
 
@@ -894,6 +898,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun openDonate() {
+        isDonate = true
         if(BillingProcessor.isIabServiceAvailable(this))
             billingProcessor = BillingProcessor(this, googlePlayLicenseKey, this)
         if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
@@ -901,8 +906,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun isDonated(): Boolean {
         if(BillingProcessor.isIabServiceAvailable(this))
-            billingProcessor = BillingProcessor.newBillingProcessor(this,
-                googlePlayLicenseKey, this)
+            billingProcessor = BillingProcessor(this, googlePlayLicenseKey, this)
+        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
         val isDonated = billingProcessor?.isPurchased(donationId) ?: false
         billingProcessor?.release()
         return isDonated
