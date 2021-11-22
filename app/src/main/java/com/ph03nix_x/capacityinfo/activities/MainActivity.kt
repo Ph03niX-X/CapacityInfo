@@ -68,7 +68,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
-    private var isDonate = false
+    private var isDonation = false
+    private var isDonated = false
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var billingProcessor: BillingProcessor? = null
@@ -564,26 +565,36 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
-        isDonate = false
-        Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
-        toolbar.menu?.findItem(R.id.donate)?.isVisible = false
+        isDonation = false
+        isDonated = BillingProcessor.isIabServiceAvailable(this) &&
+                billingProcessor?.isInitialized == true &&
+                billingProcessor?.isPurchased(donationId) == true
+        if(isDonated) {
+            Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
+            toolbar.menu.findItem(R.id.donate).isVisible = false
+        }
         billingProcessor?.release()
     }
 
     override fun onPurchaseHistoryRestored() {
-        isDonate = false
-        Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
-        toolbar.menu?.findItem(R.id.donate)?.isVisible = false
+        isDonation = false
+        if(BillingProcessor.isIabServiceAvailable(this) &&
+            billingProcessor?.isInitialized == true &&
+            billingProcessor?.isPurchased(donationId) == true) {
+                Toast.makeText(this, R.string.thanks_for_the_donation,
+                    Toast.LENGTH_LONG).show()
+            toolbar.menu.findItem(R.id.donate).isVisible = false
+        }
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
-        isDonate = false
+        isDonation = false
         Toast.makeText(this, error?.message, Toast.LENGTH_LONG).show()
-        toolbar.menu?.findItem(R.id.donate)?.isVisible = !isDonated()
+        toolbar.menu.findItem(R.id.donate).isVisible = !isDonated()
     }
 
     override fun onBillingInitialized() {
-        if(isDonate && BillingProcessor.isIabServiceAvailable(this) &&
+        if(isDonation && BillingProcessor.isIabServiceAvailable(this) &&
             billingProcessor?.isInitialized == true) {
             billingProcessor?.purchase(this, donationId)
         }
@@ -704,9 +715,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            toolbar.menu.findItem(R.id.donate).isVisible = !isDonated()
+            isDonated = isDonated()
 
-            if(toolbar.menu.findItem((R.id.donate)).isVisible)
+            toolbar.menu.findItem(R.id.donate).isVisible = !isDonated
+
+            if(!isDonated)
                 toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
                     openDonate()
                     true
@@ -741,7 +754,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun showDonateMessage() {
 
-        if(!isDonated())
+        if(isDonated)
             MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_donate_24)
                 setTitle(getString(R.string.donation_message_title))
@@ -898,7 +911,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun openDonate() {
-        isDonate = true
+        isDonation = true
         if(BillingProcessor.isIabServiceAvailable(this))
             billingProcessor = BillingProcessor(this, googlePlayLicenseKey, this)
         if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
