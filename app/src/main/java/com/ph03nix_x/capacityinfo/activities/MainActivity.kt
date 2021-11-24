@@ -105,6 +105,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
+        isDonated = isDonated()
+
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
         MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
@@ -319,8 +321,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     BatteryStatusInformationFragment || fragment is BackupSettingsFragment
                     || fragment is OverlayFragment || fragment is DebugFragment ||
                     fragment is AboutFragment || fragment is FeedbackFragment)
-
-        isDonated = isDonated()
     }
 
     override fun onResume() {
