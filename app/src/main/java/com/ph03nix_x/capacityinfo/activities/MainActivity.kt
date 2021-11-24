@@ -319,6 +319,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     BatteryStatusInformationFragment || fragment is BackupSettingsFragment
                     || fragment is OverlayFragment || fragment is DebugFragment ||
                     fragment is AboutFragment || fragment is FeedbackFragment)
+
+        isDonated = isDonated()
     }
 
     override fun onResume() {
@@ -566,9 +568,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
         isDonation = false
-        isDonated = BillingProcessor.isIabServiceAvailable(this) &&
-                billingProcessor?.isInitialized == true &&
-                billingProcessor?.isPurchased(donationId) == true
+        isDonated = billingProcessor?.isPurchased(donationId) == true
         if(isDonated) {
             Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
             toolbar.menu.findItem(R.id.donate).isVisible = false
@@ -578,11 +578,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onPurchaseHistoryRestored() {
         isDonation = false
-        if(BillingProcessor.isIabServiceAvailable(this) &&
-            billingProcessor?.isInitialized == true &&
-            billingProcessor?.isPurchased(donationId) == true) {
-                Toast.makeText(this, R.string.thanks_for_the_donation,
-                    Toast.LENGTH_LONG).show()
+        if(billingProcessor?.isPurchased(donationId) == true) {
+            Toast.makeText(this, R.string.thanks_for_the_donation,
+                Toast.LENGTH_LONG).show()
             toolbar.menu.findItem(R.id.donate).isVisible = false
         }
     }
@@ -715,8 +713,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            isDonated = isDonated()
-
             toolbar.menu.findItem(R.id.donate).isVisible = !isDonated
 
             if(!isDonated)
@@ -754,7 +750,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun showDonateMessage() {
 
-        if(isDonated)
+        if(!isDonated)
             MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_donate_24)
                 setTitle(getString(R.string.donation_message_title))
