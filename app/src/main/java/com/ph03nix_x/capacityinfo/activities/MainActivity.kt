@@ -13,8 +13,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.anjlab.android.iab.v3.BillingProcessor
-import com.anjlab.android.iab.v3.PurchaseInfo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
@@ -28,6 +26,9 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.billingProcessor
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
@@ -61,18 +62,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
-class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface,
-    BillingProcessor.IBillingHandler {
+class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, DonateInterface {
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
-    private var isDonation = false
-    private var isDonated = false
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
-    private var billingProcessor: BillingProcessor? = null
     private var donateMessageDialog: MaterialAlertDialogBuilder? = null
 
     lateinit var toolbar: CenteredToolbar
@@ -106,7 +103,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
-        isDonated = isDonated()
+        donateContext = this
+
+        DonateInterface.isDonated = isDonated()
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
@@ -552,6 +551,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         fragment = null
 
         billingProcessor?.release()
+        billingProcessor = null
+        donateContext = null
+        DonateInterface.isDonation = false
 
         if(!isRecreate) {
 
@@ -565,37 +567,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         super.onDestroy()
-    }
-
-    override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
-        isDonation = false
-        isDonated = billingProcessor?.isPurchased(donationId) == true
-        if(isDonated) {
-            Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
-            toolbar.menu.findItem(R.id.donate).isVisible = false
-        }
-    }
-
-    override fun onPurchaseHistoryRestored() {
-        isDonation = false
-        if(billingProcessor?.isPurchased(donationId) == true) {
-            Toast.makeText(this, R.string.thanks_for_the_donation,
-                Toast.LENGTH_LONG).show()
-            toolbar.menu.findItem(R.id.donate).isVisible = false
-        }
-    }
-
-    override fun onBillingError(errorCode: Int, error: Throwable?) {
-        isDonation = false
-        Toast.makeText(this, error?.message ?: getString(R.string.unknown_error),
-            Toast.LENGTH_LONG).show()
-    }
-
-    override fun onBillingInitialized() {
-        if(isDonation && BillingProcessor.isIabServiceAvailable(this) &&
-            billingProcessor?.isInitialized == true) {
-            billingProcessor?.purchase(this, donationId)
-        }
     }
 
     fun inflateMenu() {
@@ -713,9 +684,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            toolbar.menu.findItem(R.id.donate).isVisible = !isDonated
+            toolbar.menu.findItem(R.id.donate).isVisible = !DonateInterface.isDonated
 
-            if(!isDonated)
+            if(!DonateInterface.isDonated)
                 toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
                     openDonate()
                     true
@@ -750,7 +721,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun showDonateMessage() {
 
-        if(!isDonated && donateMessageDialog == null)
+        if(!DonateInterface.isDonated && donateMessageDialog == null)
             donateMessageDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_donate_24)
                 setTitle(getString(R.string.donation_message_title))
@@ -772,7 +743,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 show()
             }
-        else if(isDonated) pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+        else if(DonateInterface.isDonated)
+            pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
     }
 
     private fun showBatteryWearDialog() {
@@ -906,20 +878,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             in 90..95 -> R.drawable.ic_discharge_navigation_90_24dp
             else -> R.drawable.ic_discharge_navigation_full_24dp
         }
-    }
-
-    private fun openDonate() {
-        isDonation = true
-        if(BillingProcessor.isIabServiceAvailable(this))
-            billingProcessor = BillingProcessor(this, googlePlayLicenseKey, this)
-        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-    }
-
-    private fun isDonated(): Boolean {
-        if (BillingProcessor.isIabServiceAvailable(this))
-            billingProcessor = BillingProcessor(this, googlePlayLicenseKey, this)
-        if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        return billingProcessor?.isPurchased(donationId) ?: false
     }
 
     private fun importSettings(prefArrays: HashMap<*, *>?) {
