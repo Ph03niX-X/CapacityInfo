@@ -550,7 +550,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         fragment = null
 
-        if(billingProcessor?.isConnected == true)  billingProcessor?.release()
+        billingProcessor?.release()
 
         if(!isRecreate) {
 
@@ -573,7 +573,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             Toast.makeText(this, R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
             toolbar.menu.findItem(R.id.donate).isVisible = false
         }
-        billingProcessor?.release()
     }
 
     override fun onPurchaseHistoryRestored() {
@@ -587,8 +586,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
         isDonation = false
-        Toast.makeText(this, error?.message, Toast.LENGTH_LONG).show()
-        toolbar.menu.findItem(R.id.donate).isVisible = !isDonated()
+        Toast.makeText(this, error?.message ?: getString(R.string.unknown_error),
+            Toast.LENGTH_LONG).show()
     }
 
     override fun onBillingInitialized() {
@@ -914,12 +913,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun isDonated(): Boolean {
-        if(BillingProcessor.isIabServiceAvailable(this))
+        if (BillingProcessor.isIabServiceAvailable(this))
             billingProcessor = BillingProcessor(this, googlePlayLicenseKey, this)
-        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        val isDonated = billingProcessor?.isPurchased(donationId) ?: false
-        billingProcessor?.release()
-        return isDonated
+        if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
+        return billingProcessor?.isPurchased(donationId) ?: false
     }
 
     private fun importSettings(prefArrays: HashMap<*, *>?) {
