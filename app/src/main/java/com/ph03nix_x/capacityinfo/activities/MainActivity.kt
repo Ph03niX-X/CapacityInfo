@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var billingProcessor: BillingProcessor? = null
+    private var donateMessageDialog: MaterialAlertDialogBuilder? = null
 
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
@@ -749,18 +750,20 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun showDonateMessage() {
 
-        if(!isDonated)
-            MaterialAlertDialogBuilder(this).apply {
+        if(!isDonated && donateMessageDialog == null)
+            donateMessageDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_donate_24)
                 setTitle(getString(R.string.donation_message_title))
                 setMessage(getString(R.string.donate_message))
                 setPositiveButton(R.string.donate) { d, _ ->
                     openDonate()
+                    donateMessageDialog = null
                     pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
                     d.dismiss()
                 }
 
                 setNegativeButton(android.R.string.cancel) { d, _ ->
+                    donateMessageDialog = null
                     pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
                     d.dismiss()
                 }
@@ -769,7 +772,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 show()
             }
-        else pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+        else if(isDonated) pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
     }
 
     private fun showBatteryWearDialog() {
