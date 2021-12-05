@@ -37,7 +37,9 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
 
     override fun onPurchaseHistoryRestored() {
         isDonation = false
-        if(billingProcessor?.isPurchased(donationId) == true) {
+        isDonated = billingProcessor?.isPurchased(donationId) == true
+        if(isDonated) {
+            isDonated = true
             if(donateContext != null) Toast.makeText(donateContext!!,
                 R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.donate)?.isVisible = false
