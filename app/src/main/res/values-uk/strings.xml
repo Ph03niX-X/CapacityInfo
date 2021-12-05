@@ -298,4 +298,5 @@
     <string name="high_battery_wear_dialog">Високий знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
     <string name="very_high_battery_wear_dialog">Дуже високий знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
     <string name="critical_battery_wear_dialog">Критичний знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
+    <string name="order_id_copied">ID замовлення скопійовано в буфер обміну</string>
 </resources>
