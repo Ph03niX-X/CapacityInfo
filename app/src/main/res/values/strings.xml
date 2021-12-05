@@ -319,4 +319,6 @@
     <string name="high_battery_wear_dialog">High Battery Wear (%1$s). We advise you to change the battery or smartphone/tablet</string>
     <string name="very_high_battery_wear_dialog">Very High Battery Wear (%1$s). We advise you to change the battery or smartphone/tablet</string>
     <string name="critical_battery_wear_dialog">Critical Battery Wear (%1$s). We advise you to change the battery or smartphone/tablet</string>
+    <string name="order_id" translatable="false">Order ID</string>
+    <string name="order_id_copied">Order ID copied to the clipboard</string>
 </resources>

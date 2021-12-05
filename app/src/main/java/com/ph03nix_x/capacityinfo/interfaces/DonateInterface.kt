@@ -71,4 +71,12 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
         if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
         return billingProcessor?.isPurchased(donationId) ?: false
     }
+
+    fun getOrderId(): String? {
+        if(donateContext != null && BillingProcessor.isIabServiceAvailable(donateContext!!))
+            billingProcessor = BillingProcessor(donateContext, googlePlayLicenseKey, this)
+        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
+        if(isDonated()) return billingProcessor?.getPurchaseInfo(donationId)?.purchaseData?.orderId
+        return null
+    }
 }

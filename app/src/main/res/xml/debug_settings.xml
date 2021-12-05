@@ -126,4 +126,8 @@
             app:singleLineTitle="false"
             android:key="restart_overlay_service"/>
 
+        <Preference
+            android:title="@string/order_id"
+            app:singleLineTitle="false"
+            android:key="order_id"/>
 </PreferenceScreen>

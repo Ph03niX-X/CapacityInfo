@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -25,7 +26,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import kotlinx.coroutines.*
 
-class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
+class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateInterface {
 
     private lateinit var pref: SharedPreferences
     
@@ -48,6 +49,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var restartCapacityInfoService: Preference? = null
     private var stopOverlayService: Preference? = null
     private var restartOverlayService: Preference? = null
+    private var orderId: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -98,6 +100,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopOverlayService = findPreference("stop_overlay_service")
 
         restartOverlayService = findPreference("restart_overlay_service")
+
+        orderId = findPreference("order_id")
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
@@ -387,6 +391,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         restartOverlayService?.isEnabled = OverlayService.instance != null
 
+        orderId?.apply {
+            isVisible = getOrderId() != null
+            summary = getOrderId()
+        }
+
         fakeBatteryWear?.setOnPreferenceClickListener {
 
             val mainActivity = MainActivity.instance
@@ -531,6 +540,15 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 it.isEnabled = OverlayService.instance != null
             }
 
+            true
+        }
+
+        orderId?.setOnPreferenceClickListener {
+            val clipboardManager = requireContext()
+                .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("order_id", orderId?.summary)
+            clipboardManager.setPrimaryClip(clipData)
+            Toast.makeText(requireContext(), R.string.order_id_copied, Toast.LENGTH_LONG).show()
             true
         }
 
