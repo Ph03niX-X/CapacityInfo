@@ -42,6 +42,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CRITICAL_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_DONATE_MESSAGE
@@ -381,6 +382,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             !ServiceHelper.isStartedCapacityInfoService())
             ServiceHelper.startService(this, CapacityInfoService::class.java)
 
+        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
+            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
+                ServiceHelper.startService(this, OverlayService::class.java)
+
         toolbar.title = when(fragment) {
 
             is ChargeDischargeFragment -> getString(
@@ -466,6 +471,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
             !ServiceHelper.isStartedCapacityInfoService())
                 ServiceHelper.startService(this, CapacityInfoService::class.java)
+
+        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
+            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
+            ServiceHelper.startService(this, OverlayService::class.java)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

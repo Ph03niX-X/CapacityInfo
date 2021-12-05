@@ -159,72 +159,67 @@ interface NotificationInterface : BatteryInfoInterface {
 
     @SuppressLint("RestrictedApi")
     fun onUpdateServiceNotification(context: Context) {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        try {
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as NotificationManager
 
-            val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(
+            Intent.ACTION_BATTERY_CHANGED))
 
-            notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
-                    as NotificationManager
+        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
-            batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED))
+        notificationBuilder?.apply {
 
-            val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+            color = ContextCompat.getColor(context.applicationContext, if(
+                isSystemDarkMode(context.resources.configuration)) R.color.red
+            else R.color.blue)
 
-            notificationBuilder?.apply {
+            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                    R.bool.is_show_stop_service)) && mActions.isEmpty())
+                addAction(0, context.getString(R.string.stop_service), stopService)
+            else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                    R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
 
-                color = ContextCompat.getColor(context.applicationContext, if(
-                        isSystemDarkMode(context.resources.configuration)) R.color.red
-                else R.color.blue)
+            val remoteViewsServiceContent = RemoteViews(context.packageName,
+                R.layout.notification_content)
 
-                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) && mActions.isEmpty())
-                            addAction(0, context.getString(R.string.stop_service), stopService)
-                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
+            remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                if(getOnCurrentCapacity(context) > 0.0) context.getString(
+                    R.string.current_capacity, DecimalFormat("#.#").format(
+                        getOnCurrentCapacity(context))) else "${context.getString(
+                    R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
 
-                val remoteViewsServiceContent = RemoteViews(context.packageName,
-                    R.layout.notification_content)
+            setCustomContentView(remoteViewsServiceContent)
 
-                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                    if(getOnCurrentCapacity(context) > 0.0) context.getString(
-                        R.string.current_capacity, DecimalFormat("#.#").format(
-                            getOnCurrentCapacity(context))) else "${context.getString(
-                        R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
+            val isShowBigContent = pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION,
+                context.resources.getBoolean(R.bool.is_show_expanded_notification))
 
-                setCustomContentView(remoteViewsServiceContent)
+            if(isShowBigContent) {
 
-                val isShowBigContent = pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION,
-                    context.resources.getBoolean(R.bool.is_show_expanded_notification))
+                val remoteViewsServiceBigContent = RemoteViews(context.packageName,
+                    R.layout.service_notification_big_content)
 
-                if(isShowBigContent) {
+                remoteViewsServiceBigContent.setViewVisibility(R.id
+                    .voltage_service_notification, if(getOnCurrentCapacity(context) == 0.0
+                    || mActions.isNullOrEmpty()) View.VISIBLE else View.GONE)
 
-                    val remoteViewsServiceBigContent = RemoteViews(context.packageName,
-                        R.layout.service_notification_big_content)
+                getOnNotificationMessage(context, status, remoteViewsServiceBigContent)
 
-                    remoteViewsServiceBigContent.setViewVisibility(R.id
-                            .voltage_service_notification, if(getOnCurrentCapacity(context) == 0.0
-                        || mActions.isNullOrEmpty()) View.VISIBLE else View.GONE)
-
-                    getOnNotificationMessage(context, status, remoteViewsServiceBigContent)
-
-                    setCustomBigContentView(remoteViewsServiceBigContent)
-                }
-
-                setStyle(NotificationCompat.DecoratedCustomViewStyle())
-
-                setShowWhen(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
-                    R.bool.is_service_time)))
-
-                setUsesChronometer(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
-                    R.bool.is_service_time)))
+                setCustomBigContentView(remoteViewsServiceBigContent)
             }
 
-            notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
+            setStyle(NotificationCompat.DecoratedCustomViewStyle())
+
+            setShowWhen(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
+                R.bool.is_service_time)))
+
+            setUsesChronometer(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
+                R.bool.is_service_time)))
         }
-        catch (e: RuntimeException) { return }
+
+        notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
     }
 
     fun onNotifyOverheatOvercool(context: Context, temperature: Double) {

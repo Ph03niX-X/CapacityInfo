@@ -438,6 +438,10 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
 
+        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
+            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
+            ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
         remainingBatteryTimeOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources
             .getBoolean(R.bool.is_supported))
         currentCapacityOverlay?.isVisible = pref.getBoolean(IS_SUPPORTED, resources.getBoolean(

@@ -60,7 +60,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import java.io.*
-
+import java.lang.Exception
 import java.text.DecimalFormat
 
 @SuppressLint("StaticFieldLeak")
@@ -245,46 +245,48 @@ interface OverlayInterface : BatteryInfoInterface {
     }
 
     fun onUpdateOverlay(context: Context) {
+        try {
+            batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+                .ACTION_BATTERY_CHANGED))
 
-        batteryIntent = context.registerReceiver(null, IntentFilter(Intent
-            .ACTION_BATTERY_CHANGED))
+            val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
-        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+            val extraPlugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
+                -1) ?: -1
 
-        val extraPlugged = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
-            -1) ?: -1
+            val sourceOfPower = getOnSourceOfPower(context, extraPlugged, true,
+                pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                    R.bool.is_only_values_overlay)))
 
-        val sourceOfPower = getOnSourceOfPower(context, extraPlugged, true,
-            pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
-                R.bool.is_only_values_overlay)))
+            linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout(context))
 
-        linearLayout?.setBackgroundColor(onSetBackgroundLinearLayout(context))
-
-        onUpdateBatteryLevelOverlay()
-        onUpdateNumberOfChargesOverlay()
-        onUpdateNumberOfFullChargesOverlay()
-        onUpdateNumberOfCyclesOverlay()
-        onUpdateNumberOfCyclesAndroidOverlay()
-        onUpdateChargingTimeOverlay()
-        onUpdateChargingTimeRemainingOverlay(status)
-        onUpdateRemainingBatteryTimeOverlay(status)
-        onUpdateScreenTimeOverlay()
-        onUpdateCurrentCapacityOverlay()
-        onUpdateCapacityAddedOverlay()
-        onUpdateBatteryHealthOverlay()
-        onUpdateResidualCapacityOverlay()
-        onUpdateStatusOverlay(status)
-        onUpdateSourceOfPowerOverlay(sourceOfPower)
-        onUpdateChargeDischargeCurrentOverlay(status)
-        onUpdateMaxChargeDischargeCurrentOverlay(status)
-        onUpdateAverageChargeDischargeCurrentOverlay(status)
-        onUpdateMinChargeDischargeCurrentOverlay(status)
-        onUpdateChargingCurrentLimitOverlay()
-        onUpdateTemperatureOverlay()
-        onUpdateVoltageOverlay()
-        onUpdateLastChargeTimeOverlay()
-        onUpdateBatteryWearOverlay()
+            onUpdateBatteryLevelOverlay()
+            onUpdateNumberOfChargesOverlay()
+            onUpdateNumberOfFullChargesOverlay()
+            onUpdateNumberOfCyclesOverlay()
+            onUpdateNumberOfCyclesAndroidOverlay()
+            onUpdateChargingTimeOverlay()
+            onUpdateChargingTimeRemainingOverlay(status)
+            onUpdateRemainingBatteryTimeOverlay(status)
+            onUpdateScreenTimeOverlay()
+            onUpdateCurrentCapacityOverlay()
+            onUpdateCapacityAddedOverlay()
+            onUpdateBatteryHealthOverlay()
+            onUpdateResidualCapacityOverlay()
+            onUpdateStatusOverlay(status)
+            onUpdateSourceOfPowerOverlay(sourceOfPower)
+            onUpdateChargeDischargeCurrentOverlay(status)
+            onUpdateMaxChargeDischargeCurrentOverlay(status)
+            onUpdateAverageChargeDischargeCurrentOverlay(status)
+            onUpdateMinChargeDischargeCurrentOverlay(status)
+            onUpdateChargingCurrentLimitOverlay()
+            onUpdateTemperatureOverlay()
+            onUpdateVoltageOverlay()
+            onUpdateLastChargeTimeOverlay()
+            onUpdateBatteryWearOverlay()
+        }
+        catch(e: Exception) { return }
     }
 
     private fun onSetBackgroundLinearLayout(context: Context) =
