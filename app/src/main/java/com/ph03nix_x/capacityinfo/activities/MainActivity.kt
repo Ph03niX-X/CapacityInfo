@@ -377,15 +377,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
         }
 
-        if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
-                .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
-            !ServiceHelper.isStartedCapacityInfoService())
-            ServiceHelper.startService(this, CapacityInfoService::class.java)
-
-        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
-            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
-                ServiceHelper.startService(this, OverlayService::class.java)
-
         toolbar.title = when(fragment) {
 
             is ChargeDischargeFragment -> getString(
