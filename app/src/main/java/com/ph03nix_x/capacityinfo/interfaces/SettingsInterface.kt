@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
@@ -31,6 +32,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
+import java.lang.NumberFormatException
 
 interface SettingsInterface {
 
@@ -247,12 +249,19 @@ interface SettingsInterface {
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
                         s.isNotEmpty() && s.toString() != pref.getInt(DESIGN_CAPACITY,
                             context.resources.getInteger(R.integer.min_design_capacity)).toString()
                                 && s.toString().toInt() >= context.resources.getInteger(
                             R.integer.min_design_capacity) && s.toString().toInt() <=
                                 context.resources.getInteger(R.integer.max_design_capacity)
+                    }
+                    catch (e: NumberFormatException) {
+                        Toast.makeText(context, e.message ?: e.toString(),
+                            Toast.LENGTH_LONG).show()
+                        false
+                    }
+
                 }
             })
         }
