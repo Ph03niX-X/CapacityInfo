@@ -311,7 +311,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 }
                         }
 
-                        onUpdateServiceNotification(this@CapacityInfoService)
+                        withContext(Dispatchers.Main) {
+                            onUpdateServiceNotification(this@CapacityInfoService)
+                        }
 
                         delay(1495L)
                     }
@@ -484,7 +486,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         try {
 
-            onUpdateServiceNotification(this@CapacityInfoService)
+            withContext(Dispatchers.Main) {
+                onUpdateServiceNotification(this@CapacityInfoService)
+            }
         }
 
         catch(e: RuntimeException) { return }
@@ -542,6 +546,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         notificationManager?.cancel(NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
-        onUpdateServiceNotification(this@CapacityInfoService)
+        withContext(Dispatchers.Main) {
+            onUpdateServiceNotification(this@CapacityInfoService)
+        }
     }
 }
