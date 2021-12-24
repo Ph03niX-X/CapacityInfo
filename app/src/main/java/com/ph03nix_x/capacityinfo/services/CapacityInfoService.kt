@@ -18,6 +18,7 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -95,7 +96,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var batteryLevelWith = -1
     var seconds = 0
     var screenTime = 0L
-    var currentDate: String? = null
 
     companion object {
 
@@ -333,7 +333,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         screenTimeJob = null
         jobService = null
         notificationBuilder = null
-        currentDate = null
 
         isNotifyOverheatOvercool = true
         isNotifyBatteryFullyCharged = true
@@ -418,7 +417,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         super.onDestroy()
     }
-    
+
     private suspend fun batteryCharging() {
 
         isNotifyBatteryDischarged = true
@@ -479,8 +478,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             if(display.state == Display.STATE_ON)
                 delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
                 else 955L)
-            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 935L
-            else 932L)
+            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 938L
+            else 935L)
 
         seconds++
 
@@ -491,7 +490,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
         }
 
-        catch(e: RuntimeException) { return }
+        catch(e: RuntimeException) {}
     }
 
     private suspend fun batteryCharged() {
@@ -500,7 +499,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isNotifyBatteryDischarged = true
         isNotifyBatteryDischargedVoltage = true
-        currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
+        val residualCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
+                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                    1000.0 else 100.0).toInt()
+        val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
@@ -520,6 +522,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         pref.edit().apply {
 
             putInt(LAST_CHARGE_TIME, seconds)
+            putInt(RESIDUAL_CAPACITY, residualCapacity)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, batteryLevel)
             putLong(NUMBER_OF_FULL_CHARGES, pref.getLong(NUMBER_OF_FULL_CHARGES, 0) + 1)
@@ -540,6 +543,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
             apply()
+        }
+
+        if(seconds >= 10) {
+            HistoryHelper.removeFirstRow(this)
+            HistoryHelper.addHistory(this, currentDate, residualCapacity)
+            HistoryAdapter.instance?.update(this)
         }
 
         isSaveNumberOfCharges = false
