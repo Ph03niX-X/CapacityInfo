@@ -89,6 +89,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var isScreenTimeJob = false
     private var isJob = false
     private var secondsTemperature = 0
+    private var currentCapacity = 0.0
 
     var isFull = false
     var isStopService = false
@@ -423,6 +424,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isNotifyBatteryDischarged = true
         isNotifyBatteryDischargedVoltage = true
 
+        val batteryLevel = getOnBatteryLevel(this@CapacityInfoService) ?: 0
+
+        if(batteryLevel == 100)
+            currentCapacity = getOnCurrentCapacity(this@CapacityInfoService)
+
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
 
@@ -529,11 +535,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) {
 
+                if(batteryLevel < 100)
+                    currentCapacity = getOnCurrentCapacity(this@CapacityInfoService)
+
                 if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                    putInt(RESIDUAL_CAPACITY, (getOnCurrentCapacity(
-                        this@CapacityInfoService) * 1000.0).toInt())
-                else putInt(RESIDUAL_CAPACITY, (getOnCurrentCapacity(
-                    this@CapacityInfoService) * 100.0).toInt())
+                    putInt(RESIDUAL_CAPACITY, (currentCapacity * 1000.0).toInt())
+                else putInt(RESIDUAL_CAPACITY, (currentCapacity * 100.0).toInt())
 
                 putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
 
