@@ -89,7 +89,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var isScreenTimeJob = false
     private var isJob = false
     private var secondsTemperature = 0
-    private var currentCapacity = 0.0
+    private var currentCapacity = 0
 
     var isFull = false
     var isStopService = false
@@ -427,7 +427,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         val batteryLevel = getOnBatteryLevel(this@CapacityInfoService) ?: 0
 
         if(batteryLevel == 100)
-            currentCapacity = getOnCurrentCapacity(this@CapacityInfoService)
+            currentCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
+                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                1000.0 else 100.0).toInt()
 
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
@@ -505,9 +507,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isNotifyBatteryDischarged = true
         isNotifyBatteryDischargedVoltage = true
-        val residualCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
-                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                    1000.0 else 100.0).toInt()
+        val residualCapacity = currentCapacity
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
 
@@ -532,27 +532,15 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
             putInt(BATTERY_LEVEL_TO, batteryLevel)
             putLong(NUMBER_OF_FULL_CHARGES, pref.getLong(NUMBER_OF_FULL_CHARGES, 0) + 1)
-
-            if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) {
-
-                if(batteryLevel < 100)
-                    currentCapacity = getOnCurrentCapacity(this@CapacityInfoService)
-
-                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                    putInt(RESIDUAL_CAPACITY, (currentCapacity * 1000.0).toInt())
-                else putInt(RESIDUAL_CAPACITY, (currentCapacity * 100.0).toInt())
-
-                putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
-
-                putInt(PERCENT_ADDED, percentAdded)
-            }
+            putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
+            putInt(PERCENT_ADDED, percentAdded)
 
             if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
 
             apply()
         }
 
-        if(seconds >= 10) {
+        if(residualCapacity > 0 && seconds >= 10) {
             HistoryHelper.removeFirstRow(this)
             HistoryHelper.addHistory(this, currentDate, residualCapacity)
             HistoryAdapter.instance?.update(this)
