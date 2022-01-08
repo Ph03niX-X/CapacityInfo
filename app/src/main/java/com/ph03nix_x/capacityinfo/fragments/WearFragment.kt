@@ -253,28 +253,22 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                         )
                     }
 
-                    if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, true)) {
+                    if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED,
+                            requireContext().resources.getBoolean(R.bool.is_supported))
+                        || getOnCurrentCapacity(requireContext()) >= 0.0) {
 
-                        if(pref.getInt(
-                                DESIGN_CAPACITY, resources.getInteger(
-                                    R.integer.min_design_capacity
-                                )
-                            ) >= resources.getInteger(
-                                R.integer.min_design_capacity
-                            )
+                        if(pref.getInt(DESIGN_CAPACITY, resources.getInteger(
+                                R.integer.min_design_capacity)) >= resources.getInteger(
+                                R.integer.min_design_capacity)
                             && pref.getInt(PreferencesKeys.RESIDUAL_CAPACITY, 0) > 0 ||
                             pref.getBoolean(IS_ENABLE_FAKE_BATTERY_WEAR, resources.getBoolean(
                                 R.bool.is_enable_fake_battery_wear))) {
 
                             withContext(Dispatchers.Main) {
 
-                                residualCapacity.text = getOnResidualCapacity(
-                                    context ?: residualCapacity.context
-                                )
+                                residualCapacity.text = getOnResidualCapacity(requireContext())
 
-                                batteryWear.text = getOnBatteryWear(
-                                    context ?: batteryWear.context
-                                )
+                                batteryWear.text = getOnBatteryWear(requireContext())
 
                             }
                         }
