@@ -443,7 +443,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(batteryWearDialog == null) showBatteryWearDialog()
 
-        if(HistoryHelper.getHistoryCount(this) >= 3 && pref.getBoolean(
+        if(HistoryHelper.getHistoryCount(this) >= 1 && pref.getBoolean(
                 IS_SHOW_DONATE_MESSAGE, resources.getBoolean(R.bool.is_show_donate_message)))
                     showDonateMessage()
 

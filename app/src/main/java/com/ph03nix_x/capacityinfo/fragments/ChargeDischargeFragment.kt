@@ -159,21 +159,19 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         }
 
                         batteryLevel.text = getString(R.string.battery_level,
-                            "${getOnBatteryLevel(
-                                context ?: batteryLevel.context)}%")
+                            "${getOnBatteryLevel(requireContext())}%")
                         if((CapacityInfoService.instance?.seconds ?: 0) > 1) {
 
                             chargingTime.visibility = View.VISIBLE
 
-                            chargingTime.text = getOnChargingTime(
-                                context ?: chargingTime.context,
+                            chargingTime.text = getOnChargingTime(requireContext(),
                                 CapacityInfoService.instance?.seconds ?: 0)
                         }
                         else if(chargingTime.visibility == View.VISIBLE)
                             chargingTime.visibility = View.GONE
 
                         lastChargeTime.text = getString(R.string.last_charge_time,
-                            getOnLastChargeTime(context ?: lastChargeTime.context),
+                            getOnLastChargeTime(requireContext()),
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH, 0)}%",
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO, 0)}%")
 
@@ -210,20 +208,15 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     withContext(Dispatchers.Main) {
 
                         this@ChargeDischargeFragment.status.text = getString(R.string.status,
-                            getOnStatus(
-                                context ?: this@ChargeDischargeFragment.status.context,
-                                status))
+                            getOnStatus(requireContext(), status))
 
-                        if(getOnSourceOfPower(
-                                context ?: this@ChargeDischargeFragment.sourceOfPower
-                                    .context, sourceOfPower) != "N/A") {
+                        if(getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A") {
 
                             if(this@ChargeDischargeFragment.sourceOfPower.visibility == View.GONE)
                                 this@ChargeDischargeFragment.sourceOfPower.visibility = View.VISIBLE
 
-                            this@ChargeDischargeFragment.sourceOfPower.text = getOnSourceOfPower(
-                                context ?: this@ChargeDischargeFragment
-                                    .sourceOfPower.context, sourceOfPower)
+                            this@ChargeDischargeFragment.sourceOfPower.text =
+                                getOnSourceOfPower(requireContext(), sourceOfPower)
                         }
 
                         else this@ChargeDischargeFragment.sourceOfPower.visibility = View.GONE
@@ -236,13 +229,13 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             .format(getOnTemperatureInFahrenheit(requireContext())))
 
                         voltage.text = getString(R.string.voltage, DecimalFormat("#.#")
-                            .format(getOnVoltage(context ?: voltage.context)))
+                            .format(getOnVoltage(requireContext())))
                     }
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, resources.getBoolean(
                             R.bool.is_supported))) {
 
-                        if(getOnCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
+                        if(getOnCurrentCapacity(requireContext()) > 0.0) {
 
                             if(currentCapacity.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -252,28 +245,22 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                                 currentCapacity.text = getString(R.string.current_capacity,
                                     DecimalFormat("#.#").format(getOnCurrentCapacity(
-                                        context ?: currentCapacity.context)))
+                                        requireContext())))
 
                                 when {
-                                    getOnSourceOfPower(
-                                        context ?: this@ChargeDischargeFragment
-                                            .sourceOfPower.context, sourceOfPower) != "N/A" -> {
+                                    getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = getOnCapacityAdded(
-                                            context ?: capacityAdded.context)
+                                        capacityAdded.text = getOnCapacityAdded(requireContext())
                                     }
-                                    getOnSourceOfPower(
-                                        context ?: this@ChargeDischargeFragment
-                                            .sourceOfPower.context, sourceOfPower) == "N/A" -> {
+                                    getOnSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = getOnCapacityAdded(
-                                            context ?: currentCapacity.context)
+                                        capacityAdded.text = getOnCapacityAdded(requireContext())
                                     }
                                 }
                             }
@@ -318,8 +305,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             withContext(Dispatchers.Main) {
 
                                 chargeCurrent.text = getString(R.string.charge_current,
-                                    getOnChargeDischargeCurrent(
-                                        context ?: chargeCurrent.context).toString())
+                                    getOnChargeDischargeCurrent(requireContext()).toString())
                             }
                         }
 
@@ -333,8 +319,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             withContext(Dispatchers.Main) {
 
                                 chargeCurrent.text = getString(R.string.discharge_current,
-                                    getOnChargeDischargeCurrent(
-                                        context ?: chargeCurrent.context).toString())
+                                    getOnChargeDischargeCurrent(requireContext()).toString())
                             }
                         }
 
@@ -438,9 +423,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(getOnCurrentCapacity(
-                                    context ?: currentCapacity.context) > 0.0) 974L
-                            else 981L)
+                            delay(if(getOnCurrentCapacity(requireContext()) > 0.0) 974L else 981L)
 
                         else -> delay(1500L)
                     }

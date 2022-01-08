@@ -106,11 +106,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         numberOfCyclesAndroid.visibility = if(File(NUMBER_OF_CYCLES_PATH).exists()) View.VISIBLE
         else View.GONE
 
-        batteryHealth.text = getString(
-            R.string.battery_health, getOnBatteryHealth(
-                context ?: batteryHealth.context
-            )
-        )
+        batteryHealth.text = getString(R.string.battery_health, getOnBatteryHealth(requireContext()))
 
         residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
@@ -247,10 +243,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                     withContext(Dispatchers.Main) {
 
-                        batteryHealth.text = getString(
-                            R.string.battery_health,
-                            getOnBatteryHealth(context ?: batteryHealth.context)
-                        )
+                        batteryHealth.text = getString(R.string.battery_health,
+                            getOnBatteryHealth(requireContext()))
                     }
 
                     if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED,
@@ -273,7 +267,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             }
                         }
 
-                        if(getOnCurrentCapacity(context ?: currentCapacity.context) > 0.0) {
+                        if(getOnCurrentCapacity(requireContext()) > 0.0) {
 
                             if(currentCapacity.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -281,39 +275,24 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                             withContext(Dispatchers.Main) {
 
-                                currentCapacity.text = getString(
-                                    R.string.current_capacity,
+                                currentCapacity.text = getString(R.string.current_capacity,
                                     DecimalFormat("#.#").format(
-                                        getOnCurrentCapacity(
-                                            context ?: currentCapacity.context
-                                        )
-                                    )
-                                )
+                                        getOnCurrentCapacity(requireContext())))
 
                                 when {
-                                    getOnSourceOfPower(
-                                        context ?: capacityAdded.context,
-                                        sourceOfPower
-                                    ) != "N/A" -> {
+                                    getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = getOnCapacityAdded(
-                                            context ?: capacityAdded.context
-                                        )
+                                        capacityAdded.text = getOnCapacityAdded(requireContext())
                                     }
-                                    getOnSourceOfPower(
-                                        context ?: capacityAdded.context,
-                                        sourceOfPower
-                                    ) == "N/A" -> {
+                                    getOnSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
 
                                         if(capacityAdded.visibility == View.GONE)
                                             capacityAdded.visibility = View.VISIBLE
 
-                                        capacityAdded.text = getOnCapacityAdded(
-                                            context ?: capacityAdded.context
-                                        )
+                                        capacityAdded.text = getOnCapacityAdded(requireContext())
                                     }
                                     capacityAdded.visibility == View.VISIBLE ->
                                         capacityAdded.visibility = View.GONE
@@ -377,13 +356,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(
-                                if (getOnCurrentCapacity(
-                                        context ?: currentCapacity.context
-                                    ) > 0.0
-                                ) 991L
-                                else 998L
-                            )
+                            delay(if (getOnCurrentCapacity(requireContext()) > 0.0) 991L
+                            else 998L)
 
                         else -> delay(1500L)
                     }
