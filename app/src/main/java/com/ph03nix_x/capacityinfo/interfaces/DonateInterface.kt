@@ -43,9 +43,6 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
         isDonation = false
-        if(donateContext != null) Toast.makeText(donateContext!!,
-            error?.message ?: donateContext!!.getString(R.string.unknown_error),
-            Toast.LENGTH_LONG).show()
     }
 
     override fun onBillingInitialized() {
