@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
-    private var isEnabledShowFaqTimer = false
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var donateMessageDialog: MaterialAlertDialogBuilder? = null
@@ -439,8 +438,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
-        if(pref.getBoolean(IS_SHOW_FAQ, resources.getBoolean(R.bool.is_show_faq))) showFaq()
-
         if(batteryWearDialog == null) showBatteryWearDialog()
 
         if(HistoryHelper.getHistoryCount(this) >= 1 && pref.getBoolean(
@@ -639,26 +636,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.menu.findItem(R.id.faq).setOnMenuItemClickListener {
 
-                MaterialAlertDialogBuilder(this).apply {
-
-                    setIcon(R.drawable.ic_faq_question_24dp)
-                    setTitle(getString(R.string.faq))
-                    setMessage(getString(R.string.faq_how_does_the_app_work)
-                            + getString(R.string.faq_capacity_added)
-                            + getString(R.string.faq_where_does_the_app_get_the_ccl)
-                            + getString(R.string.faq_why_is_ccl_not_displayed)
-                            + getString(R.string.faq_i_have_everything_in_zeros)
-                            + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
-                            + getString(R.string.faq_residual_capacity_is_higher)
-                            + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
-                            + getString(R.string.faq_battery_wear_not_change)
-                            + getString(R.string.faq_with_each_charge_battery_wear_changes)
-                            + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
-                            + getString(R.string.faq_not_displayed_number_of_cycles_android)
-                            + getString(R.string.faq_add_device_support))
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                    show()
-                }
+                showFaq()
 
                 true
             }
@@ -731,9 +709,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun showFaq() {
         if(showFaqDialog == null) {
-            showFaqDialog =  MaterialAlertDialogBuilder(this).apply {
-                isEnabledShowFaqTimer = true
-                enabledShowFaqTimer()
+            showFaqDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_faq_question_24dp)
                 setTitle(getString(R.string.faq))
                 setMessage(getString(R.string.faq_how_does_the_app_work)
@@ -750,37 +726,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_not_displayed_number_of_cycles_android)
                         + getString(R.string.faq_add_device_support))
                 setPositiveButton(android.R.string.ok) { _, _ ->
-                    if(!isEnabledShowFaqTimer)
-                        pref.edit().putBoolean(IS_SHOW_FAQ, false).apply()
                     showFaqDialog = null
                     showFaqDialogCreate = null
                 }
                 setCancelable(false)
             }
 
-            showFaqDialogCreate = showFaqDialog?.create()
-
-            showFaqDialogCreate?.setOnShowListener {
-                showFaqDialogCreate?.getButton(DialogInterface.BUTTON_POSITIVE)?.isEnabled = false
-            }
-
             showFaqDialogCreate?.show()
-        }
-    }
-
-    private fun enabledShowFaqTimer() {
-        var timer = 0
-        CoroutineScope(Dispatchers.Main).launch {
-            while(timer < 60) {
-                showFaqDialogCreate?.getButton(DialogInterface.BUTTON_POSITIVE)?.text = "${getString(android.R.string.ok)}(${60 - timer})"
-                delay(1000L)
-                timer++
-            }
-            if(timer == 60) {
-                isEnabledShowFaqTimer = false
-                showFaqDialogCreate?.getButton(DialogInterface.BUTTON_POSITIVE)?.isEnabled = true
-                showFaqDialogCreate?.getButton(DialogInterface.BUTTON_POSITIVE)?.text = getString(android.R.string.ok)
-            }
         }
     }
 
