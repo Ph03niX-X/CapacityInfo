@@ -42,6 +42,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
     private var addFiftyHistory: Preference? = null
     private var exportHistory: Preference? = null
     private var importHistory: Preference? = null
+    private var historyCount: Preference? = null
     private var exportSettings: Preference? = null
     private var importSettings: Preference? = null
     private var startCapacityInfoService: Preference? = null
@@ -87,6 +88,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
 
         importHistory = findPreference("import_history")
 
+        historyCount = findPreference("history_count")
+
         exportSettings = findPreference("export_settings")
 
         importSettings = findPreference("import_settings")
@@ -124,6 +127,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
         importHistory?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && !MainApp.isInstalledGooglePlay)
                 || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+
+        historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
 
         exportSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && !MainApp.isInstalledGooglePlay)

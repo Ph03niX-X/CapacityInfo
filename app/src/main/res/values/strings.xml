@@ -321,4 +321,5 @@
     <string name="critical_battery_wear_dialog">Critical Battery Wear (%1$s). We advise you to change the battery or smartphone/tablet</string>
     <string name="order_id" translatable="false">Order ID</string>
     <string name="order_id_copied">Order ID copied to the clipboard</string>
+    <string name="history_count">History Count</string>
 </resources>

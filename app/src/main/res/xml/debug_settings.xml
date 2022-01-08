@@ -90,6 +90,11 @@
             android:key="import_history"/>
 
         <Preference
+            android:title="@string/history_count"
+            app:singleLineTitle="false"
+            android:key="history_count"/>
+
+        <Preference
             android:title="@string/export_settings"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_export_settings_24dp"
