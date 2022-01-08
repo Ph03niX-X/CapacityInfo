@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
 import androidx.appcompat.app.AlertDialog
-import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -48,7 +47,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_DONATE_MESSAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_FAQ
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
