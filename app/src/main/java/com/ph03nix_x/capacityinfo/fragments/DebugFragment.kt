@@ -128,8 +128,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
                 && !MainApp.isInstalledGooglePlay)
                 || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
 
-        historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
-
         exportSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && !MainApp.isInstalledGooglePlay)
                 || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
@@ -191,6 +189,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
             it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+            historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
 
             true
         }
@@ -249,6 +248,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                    historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
                 }
             }
 
@@ -309,6 +309,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                    historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
                 }
             }
 
@@ -578,6 +579,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface, DonateI
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
+
+        historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
 
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()
