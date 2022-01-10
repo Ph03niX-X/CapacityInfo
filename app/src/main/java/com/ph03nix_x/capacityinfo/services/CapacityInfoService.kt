@@ -507,6 +507,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isNotifyBatteryDischarged = true
         isNotifyBatteryDischargedVoltage = true
+        if(currentCapacity == 0)
+            currentCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
+                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0).toInt()
         val residualCapacity = currentCapacity
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
