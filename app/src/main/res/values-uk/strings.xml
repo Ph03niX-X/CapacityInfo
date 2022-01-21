@@ -48,7 +48,6 @@
     <string name="build_date">Дата збірки (GMT+2)</string>
     <string name="rate_the_app">Оцінити додаток</string>
     <string name="license">Ліцензія: Apache 2.0</string>
-    <string name="romanian_translation">Румунський переклад</string>
     <string name="belarusian_translation">Білоруський переклад</string>
     <string name="feedback">Зворотній зв\'язок</string>
     <string name="telegram_link_copied">Посилання на Telegram скопійовано</string>
@@ -226,7 +225,6 @@
     <string name="charging_current_limit_overlay_only_values">%1$s мА</string>
     <string name="backup_settings_to_microsd">Резервне копіювання налаштувань на MicroSD</string>
     <string name="access_memory_card">Для резервного копіювання, потрібен доступ до карти пам\'яті. Надайте дозвіл в наступному вікні</string>
-    <string name="spanish_translation">Іспанський переклад</string>
     <string name="screen_time">Час роботи екрана: %1$s</string>
     <string name="screen_time_overlay">Час роботи екрана</string>
     <string name="telegram_developer">Розробник</string>

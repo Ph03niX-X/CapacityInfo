@@ -37,13 +37,6 @@
             android:key="github"/>
 
     <Preference
-        app:title="@string/spanish_translation"
-        app:summary="Lockednet"
-        app:singleLineTitle="false"
-        app:icon="@drawable/ic_spanish"
-        android:key="spanish_translation"/>
-
-    <Preference
             app:title="@string/belarusian_translation"
             app:summary="Dr.Cyanogen"
             app:singleLineTitle="false"

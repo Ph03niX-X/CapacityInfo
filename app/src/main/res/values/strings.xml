@@ -50,7 +50,6 @@
     <string name="build_date">Build Date (GMT+2)</string>
     <string name="rate_the_app">Rate the app</string>
     <string name="license">License: Apache 2.0</string>
-    <string name="romanian_translation">Romanian translation</string>
     <string name="belarusian_translation">Belarusian translation</string>
     <string name="feedback">Feedback</string>
     <string name="telegram" translatable="false">Telegram</string>
@@ -243,7 +242,6 @@
     <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
     <string name="backup_settings_to_microsd">Backup Settings to MicroSD</string>
     <string name="access_memory_card">For backup, access to the memory card is required. Grant permission in the next window</string>
-    <string name="spanish_translation">Spanish translation</string>
     <string name="screen_time">Screen Time: %1$s</string>
     <string name="screen_time_overlay">Screen Time</string>
     <string name="screen_time_overlay_only_values" translatable="false">%1$s</string>

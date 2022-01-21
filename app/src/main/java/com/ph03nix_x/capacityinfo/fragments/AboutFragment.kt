@@ -16,7 +16,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utilities.Constants.SPANISH_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.UKRAINIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
@@ -27,7 +26,6 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var build: Preference? = null
     private var buildDate: Preference? = null
     private var github: Preference? = null
-    private var spanishTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
     private var ukrainianTranslation: Preference? = null
     private var betaTester: Preference? = null
@@ -52,8 +50,6 @@ class AboutFragment : PreferenceFragmentCompat() {
         buildDate = findPreference("build_date")
 
         github = findPreference("github")
-
-        spanishTranslation = findPreference("spanish_translation")
 
         belarusianTranslation = findPreference("belarusian_translation")
 
@@ -103,21 +99,6 @@ class AboutFragment : PreferenceFragmentCompat() {
 
                 Toast.makeText(requireContext(), e.message ?: e.toString(),
                     Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        spanishTranslation?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SPANISH_TRANSLATION_LINK)))
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
             }
 
             true

@@ -48,7 +48,6 @@
     <string name="build_date">Dată Build (GMT+2)</string>
     <string name="rate_the_app">Evaluați aplicația</string>
     <string name="license">Licență: Apache 2.0</string>
-    <string name="romanian_translation">Traducere în română</string>
     <string name="belarusian_translation">Traducere în belorusă</string>
     <string name="feedback">Opinii</string>
     <string name="telegram_link_copied">Link Telegram copiat</string>
@@ -226,7 +225,6 @@
     <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
     <string name="backup_settings_to_microsd">Backup setări pe MicroSD</string>
     <string name="access_memory_card">Pentru backup este necesar accesul la cardul de memorie. Acordați permisiunea în următoarea fereastră</string>
-    <string name="spanish_translation">Traducere în spaniolă</string>
     <string name="screen_time">Timp de ecran: %1$s</string>
     <string name="screen_time_overlay">Timp de ecran</string>
     <string name="telegram_developer">Dezvoltator</string>
