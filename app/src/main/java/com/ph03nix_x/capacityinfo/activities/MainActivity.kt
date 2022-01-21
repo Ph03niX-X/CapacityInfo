@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
-import androidx.appcompat.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -74,8 +73,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var donateMessageDialog: MaterialAlertDialogBuilder? = null
     private var showFaqDialog: MaterialAlertDialogBuilder? = null
-    private var showFaqDialogCreate: AlertDialog? = null
-
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
@@ -558,7 +555,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         billingProcessor = null
         donateContext = null
         showFaqDialog = null
-        showFaqDialogCreate = null
         DonateInterface.isDonation = false
 
         if(!isRecreate) {
@@ -725,12 +721,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_add_device_support))
                 setPositiveButton(android.R.string.ok) { _, _ ->
                     showFaqDialog = null
-                    showFaqDialogCreate = null
                 }
                 setCancelable(false)
+                show()
             }
-
-            showFaqDialogCreate?.show()
         }
     }
 
