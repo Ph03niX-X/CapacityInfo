@@ -543,10 +543,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             apply()
         }
 
-        if(residualCapacity > 0 && seconds >= 10) {
-            HistoryHelper.removeFirstRow(this)
-            HistoryHelper.addHistory(this, currentDate, residualCapacity)
-            HistoryAdapter.instance?.update(this)
+        withContext(Dispatchers.Main) {
+            if(residualCapacity > 0 && seconds >= 10) {
+                HistoryHelper.removeFirstRow(this@CapacityInfoService)
+                HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
+                    residualCapacity)
+                HistoryAdapter.instance?.update(this@CapacityInfoService)
+            }
         }
 
         isSaveNumberOfCharges = false
