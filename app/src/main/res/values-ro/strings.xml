@@ -232,7 +232,10 @@
     <string name="other">Altele</string>
     <string name="charging_current">Curent de încărcare</string>
     <string name="charging_current_ma">Curent de încărcare: %1$d mA</string>
+    <string name="ma">%1$d mA</string>
+    <string name="ma_hint">mA</string>
     <string name="overheat">Supraîncălzi</string>
+    <string name="overcool">Overcool</string>
     <string name="number_of_cycles_android">Număr de cicluri (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Număr de cicluri (Android)</string>
     <string name="discharge_current_settings_channel">Descărcare curent</string>
@@ -267,6 +270,8 @@
     <string name="battery_is_charged_voltage">Bateria este încărcată (tensiune)</string>
     <string name="battery_is_charged_notification_voltage">ateria este încărcată. %1$d mV</string>
     <string name="battery_charged_discharged_voltage_seekbar_title">tensiune</string>
+    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
+    <string name="mv">mV</string>
     <string name="charged_voltage">Încărcat (tensiune)</string>
     <string name="battery_is_discharged_voltage">Bateria este descărcată (tensiune)</string>
     <string name="battery_is_discharged_notification_voltage">Bateria este descărcată. %1$d mV</string>
