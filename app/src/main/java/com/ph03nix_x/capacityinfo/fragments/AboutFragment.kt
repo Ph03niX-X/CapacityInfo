@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
@@ -15,7 +14,6 @@ import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
-import com.ph03nix_x.capacityinfo.utilities.Constants.ROMANIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.SPANISH_TRANSLATION_LINK
@@ -30,7 +28,6 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var buildDate: Preference? = null
     private var github: Preference? = null
     private var spanishTranslation: Preference? = null
-    private var romanianTranslation: Preference? = null
     private var belarusianTranslation: Preference? = null
     private var ukrainianTranslation: Preference? = null
     private var betaTester: Preference? = null
@@ -57,8 +54,6 @@ class AboutFragment : PreferenceFragmentCompat() {
         github = findPreference("github")
 
         spanishTranslation = findPreference("spanish_translation")
-
-        romanianTranslation = findPreference("romanian_translation")
 
         belarusianTranslation = findPreference("belarusian_translation")
 
@@ -118,21 +113,6 @@ class AboutFragment : PreferenceFragmentCompat() {
             try {
 
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SPANISH_TRANSLATION_LINK)))
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
-            }
-
-            true
-        }
-
-        romanianTranslation?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ROMANIAN_TRANSLATION_LINK)))
             }
             catch(e: ActivityNotFoundException) {
 

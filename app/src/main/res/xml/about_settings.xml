@@ -44,13 +44,6 @@
         android:key="spanish_translation"/>
 
     <Preference
-            app:title="@string/romanian_translation"
-            app:summary="ygorigor"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_romania"
-            android:key="romanian_translation"/>
-
-    <Preference
             app:title="@string/belarusian_translation"
             app:summary="Dr.Cyanogen"
             app:singleLineTitle="false"
