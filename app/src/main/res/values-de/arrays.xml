@@ -1,0 +1,51 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Standard)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Standard)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Standard)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Sehr klein</item>
+        <item>Klein</item>
+        <item>Mittel (Standard)</item>
+        <item>Groß</item>
+        <item>Sehr groß</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normale (Standard)</item>
+        <item>Kühn</item>
+        <item>Kursivschrift</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Aufladen/Entladen (Standard)</item>
+        <item>Tragen</item>
+        <item>Abschreibung</item>
+    </string-array>
+
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Stunde</item>
+        <item>2 Stunden</item>
+        <item>3 Stunden</item>
+        <item>4 Stunden</item>
+        <item>5 Stunden</item>
+        <item>6 Stunden</item>
+        <item>7 Stunden</item>
+        <item>8 Stunden</item>
+        <item>9 Stunden</item>
+        <item>10 Stunden</item>
+        <item>11 Stunden</item>
+        <item>12 Stunden</item>
+    </string-array>
+</resources>
