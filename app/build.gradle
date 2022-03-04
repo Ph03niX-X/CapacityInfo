@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 32
-    buildToolsVersion "32.0.0"
+    buildToolsVersion "32.1.0-rc1"
     defaultConfig {
         applicationId "com.ph03nix_x.capacityinfo"
         minSdkVersion 26
