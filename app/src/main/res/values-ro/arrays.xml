@@ -34,4 +34,19 @@
         <item>Uzură</item>
         <item>History</item>
     </string-array>
+
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Oră</item>
+        <item>2 Ore</item>
+        <item>3 Ore</item>
+        <item>4 Ore</item>
+        <item>5 Ore</item>
+        <item>6 Ore</item>
+        <item>7 Ore</item>
+        <item>8 Ore</item>
+        <item>9 Ore</item>
+        <item>10 Ore</item>
+        <item>11 Ore</item>
+        <item>12 Ore</item>
+    </string-array>
 </resources>
