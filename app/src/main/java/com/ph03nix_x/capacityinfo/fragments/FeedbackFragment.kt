@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONATE_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
-import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_CHANNEL_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
@@ -24,7 +23,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
     // Telegram
     private var telegramDeveloper: Preference? = null
-    private var telegramChannel: Preference? = null
 
     // Other
     private var email: Preference? = null
@@ -44,8 +42,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         // Telegram
         telegramDeveloper = findPreference("telegram_developer")
 
-        telegramChannel = findPreference("telegram_channel")
-
         telegramDeveloper?.setOnPreferenceClickListener {
 
             try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_DEVELOPER_LINK))) }
@@ -56,23 +52,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("telegram_developer",
                     TELEGRAM_DEVELOPER_LINK)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), R.string.telegram_link_copied,
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        telegramChannel?.setOnPreferenceClickListener {
-
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_CHANNEL_LINK))) }
-
-            catch(e: ActivityNotFoundException) {
-
-                val clipboardManager = requireContext()
-                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("telegram_channel", TELEGRAM_CHANNEL_LINK)
                 clipboardManager.setPrimaryClip(clipData)
                 Toast.makeText(requireContext(), R.string.telegram_link_copied,
                     Toast.LENGTH_LONG).show()

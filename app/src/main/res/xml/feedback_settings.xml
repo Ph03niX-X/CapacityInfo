@@ -19,13 +19,6 @@
             app:singleLineTitle="false"
             android:key="telegram_developer"/>
 
-    <Preference
-        app:title="@string/telegram_channel"
-        app:summary="\@ci_channel"
-        app:icon="@drawable/ic_telegram_channel"
-        app:singleLineTitle="false"
-        android:key="telegram_channel"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
