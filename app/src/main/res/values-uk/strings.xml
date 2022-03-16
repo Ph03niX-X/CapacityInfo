@@ -228,7 +228,6 @@
     <string name="screen_time">Час роботи екрана: %1$s</string>
     <string name="screen_time_overlay">Час роботи екрана</string>
     <string name="telegram_developer">Розробник</string>
-    <string name="telegram_channel">Канал</string>
     <string name="other">Інше</string>
     <string name="charging_current">Струм зарядки</string>
     <string name="charging_current_ma">Струм зарядки: %1$d мА</string>

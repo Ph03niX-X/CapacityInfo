@@ -246,7 +246,6 @@
     <string name="screen_time_overlay">Screen Time</string>
     <string name="screen_time_overlay_only_values" translatable="false">%1$s</string>
     <string name="telegram_developer">Developer</string>
-    <string name="telegram_channel">Channel</string>
     <string name="other">Other</string>
     <string name="charging_current">Charging Current</string>
     <string name="charging_current_ma">Charging Current: %1$d mA</string>
