@@ -10,7 +10,6 @@
     <bool name="is_show_donate_message">true</bool>
 
     <!--Settings-->
-    <bool name="is_show_stop_service">false</bool>
     <bool name="is_service_time">false</bool>
     <bool name="is_stop_the_service_when_the_cd">false</bool>
     <bool name="is_show_expanded_notification">true</bool>

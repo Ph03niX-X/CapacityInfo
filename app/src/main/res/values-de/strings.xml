@@ -107,9 +107,7 @@
     <string name="max_discharge_current">Maximaler Entladestrom %1$d mA</string>
     <string name="average_discharge_current">Durchschnittlicher Entladestrom %1$d mA</string>
     <string name="min_discharge_current">Minimaler Entladestrom %1$d mA</string>
-    <string name="stop_service">Dienst anhalten</string>
     <string name="stopping_service">Anhaltender Dienst&#8230;</string>
-    <string name="service_stopped_successfully">Dienst erfolgreich gestoppt!</string>
     <string name="battery_health">Batteriezustand (Android): %1$s</string>
     <string name="battery_health_good">Gut</string>
     <string name="battery_health_dead">Tot</string>

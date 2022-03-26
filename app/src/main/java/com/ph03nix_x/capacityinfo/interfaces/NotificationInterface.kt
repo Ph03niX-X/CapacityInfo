@@ -25,7 +25,6 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CloseNotificationBatteryStatusInformationService
 import com.ph03nix_x.capacityinfo.services.DisableNotificationBatteryStatusInformationService
-import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_VOLTAGE_ID
@@ -38,11 +37,9 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.DISCHARGE_CURRENT_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.OPEN_APP_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.OVERHEAT_OVERCOOL_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.STOP_SERVICE_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
@@ -61,7 +58,6 @@ interface NotificationInterface : BatteryInfoInterface {
         const val NOTIFICATION_DISCHARGE_CURRENT_ID = 105
 
         private lateinit var channelId: String
-        private lateinit var stopService: PendingIntent
 
         var notificationBuilder: NotificationCompat.Builder? = null
         var notificationManager: NotificationManager? = null
@@ -92,8 +88,6 @@ interface NotificationInterface : BatteryInfoInterface {
 
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
             MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
-        stopService = PendingIntent.getService(context, STOP_SERVICE_REQUEST_CODE, Intent(context,
-            StopCapacityInfoService::class.java), PendingIntent.FLAG_IMMUTABLE)
 
         batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -111,10 +105,6 @@ interface NotificationInterface : BatteryInfoInterface {
                         context.resources.configuration)) R.color.red else R.color.blue)
 
             setContentIntent(openApp)
-
-            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                    R.bool.is_show_stop_service)) && mActions.isEmpty())
-                        addAction(0, context.getString(R.string.stop_service), stopService)
 
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
@@ -175,12 +165,6 @@ interface NotificationInterface : BatteryInfoInterface {
             color = ContextCompat.getColor(context.applicationContext, if(
                 isSystemDarkMode(context.resources.configuration)) R.color.red
             else R.color.blue)
-
-            if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                    R.bool.is_show_stop_service)) && mActions.isEmpty())
-                addAction(0, context.getString(R.string.stop_service), stopService)
-            else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                    R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
 
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)

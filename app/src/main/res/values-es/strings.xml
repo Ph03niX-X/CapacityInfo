@@ -108,9 +108,7 @@
     <string name="max_discharge_current">Máximo de descarga actual %1$d mA</string>
     <string name="average_discharge_current">Promedio de descarga actual %1$d mA</string>
     <string name="min_discharge_current">Descarga mínima actual %1$d mA</string>
-    <string name="stop_service">Detener servicio</string>
     <string name="stopping_service">Deteniendo servicio&#8230;</string>
-    <string name="service_stopped_successfully">Servicio detenido con éxito!</string>
     <string name="battery_health">Salud de la batería (Android): %1$s</string>
     <string name="battery_health_good">Buena</string>
     <string name="battery_health_dead">Muerta</string>

@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
@@ -77,7 +76,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
-import java.util.*
 
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
 
@@ -92,7 +90,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var currentCapacity = 0
 
     var isFull = false
-    var isStopService = false
     var isSaveNumberOfCharges = true
     var batteryLevelWith = -1
     var seconds = 0
@@ -193,7 +190,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 isScreenTimeJob = !isScreenTimeJob
 
-                while(isScreenTimeJob && !isStopService) {
+                while(isScreenTimeJob) {
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
@@ -219,7 +216,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 isJob = !isJob
 
-                while (isJob && !isStopService) {
+                while (isJob) {
 
                     if((getOnBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getOnBatteryLevel(this@CapacityInfoService) ?: 0
@@ -249,13 +246,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         else secondsTemperature++
                     }
 
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING
-                        && !isStopService) batteryCharging()
+                    if(status == BatteryManager.BATTERY_STATUS_CHARGING) batteryCharging()
                     
                     else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected &&
-                        !isFull && !isStopService) batteryCharged()
+                        !isFull) batteryCharged()
 
-                    else if(!isStopService) {
+                    else {
 
                         isNotifyBatteryFullyCharged = true
                         isNotifyBatteryCharged = true
@@ -316,7 +312,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             onUpdateServiceNotification(this@CapacityInfoService)
                         }
 
-                        delay(1495L)
+                        delay(1496L)
                     }
                 }
             }
@@ -411,10 +407,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         BatteryInfoInterface.fakeResidualCapacity = 0.0
         BatteryInfoInterface.fakeCurrentCapacity = 0.0
         BatteryInfoInterface.tempBatteryLevel = 0
-
-        if(isStopService)
-            Toast.makeText(this, R.string.service_stopped_successfully,
-                Toast.LENGTH_LONG).show()
 
         super.onDestroy()
     }

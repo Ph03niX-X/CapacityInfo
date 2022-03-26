@@ -12,7 +12,6 @@ object PreferencesKeys {
     const val IS_SHOW_DONATE_MESSAGE = "is_show_donate_message"
 
     // Service & Notification
-    const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
     const val IS_SERVICE_TIME = "is_service_time"
     const val IS_STOP_THE_SERVICE_WHEN_THE_CD = "is_stop_the_service_when_the_cd"
     const val IS_SHOW_EXPANDED_NOTIFICATION = "is_show_expanded_notification"

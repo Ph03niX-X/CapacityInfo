@@ -108,9 +108,7 @@
     <string name="max_discharge_current">Curent maxim de descărcare: %1$d mA</string>
     <string name="average_discharge_current">Curent mediu de descărcare: %1$d mA</string>
     <string name="min_discharge_current">Curent minim de descărcare: %1$d mA</string>
-    <string name="stop_service">Oprire serviciu</string>
     <string name="stopping_service">Se oprește serviciul&#8230;</string>
-    <string name="service_stopped_successfully">Serviciu oprit cu succes!</string>
     <string name="battery_health">Sănătatea bateriei (Android): %1$s</string>
     <string name="battery_health_good">Bună</string>
     <string name="battery_health_dead">Rea</string>

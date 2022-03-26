@@ -108,9 +108,7 @@
     <string name="max_discharge_current">Максімальны ток разрадкі %1$d мА</string>
     <string name="average_discharge_current">Сярэдні ток разрадкі %1$d мА</string>
     <string name="min_discharge_current">Мінімальны ток разрадкі %1$d мА</string>
-    <string name="stop_service">Спыніць службу</string>
     <string name="stopping_service">Прыпынак службы&#8230;</string>
-    <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
     <string name="battery_health">Стан акумулятара (Android): %1$s</string>
     <string name="battery_health_good">Добры</string>
     <string name="battery_health_dead">Мёртвы</string>
