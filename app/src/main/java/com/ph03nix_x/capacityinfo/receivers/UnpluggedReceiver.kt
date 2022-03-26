@@ -17,7 +17,6 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
@@ -96,15 +95,6 @@ class UnpluggedReceiver : BroadcastReceiver() {
                 BatteryInfoInterface.minDischargeCurrent = 0
 
                 CapacityInfoService.instance?.isFull = false
-
-                if(pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD,
-                        context.resources.getBoolean(R.bool.is_stop_the_service_when_the_cd))) {
-
-                    NotificationInterface.notificationManager?.cancel(NotificationInterface
-                        .NOTIFICATION_SERVICE_ID)
-
-                    ServiceHelper.stopService(context, CapacityInfoService::class.java)
-                }
 
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)

@@ -130,7 +130,6 @@
     <string name="add">Дадаць</string>
     <string name="setting_added_successfully">Налада \"%1$s\" паспяхова дададзена!</string>
     <string name="error_adding_settings">Памылка дадання налады \"%1$s\"!\n%2$s</string>
-    <string name="stop_the_service_when_the_cd">Спыняць службу пры адключэнні зараднай прылады</string>
     <string name="reset_to_zero_the_number_of_charges">Абнуліць колькасць зарадак</string>
     <string name="reset_to_zero_the_number_of_charges_dialog_message">Абнуліць колькасць зарадак?</string>
     <string name="number_of_charges_was_success_reset_to_zero">Колькасць зарадак было паспяхова скінута да нуля</string>

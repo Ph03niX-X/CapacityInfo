@@ -135,7 +135,6 @@
     <string name="add">Add</string>
     <string name="setting_added_successfully">Setting \"%1$s\" added successfully!</string>
     <string name="error_adding_settings">Error adding settings \"%1$s\"!\n%2$s</string>
-    <string name="stop_the_service_when_the_cd">Stop the service when the charger is disconnected</string>
     <string name="reset_to_zero_the_number_of_charges">Reset to zero the number of charges</string>
     <string name="reset_to_zero_the_number_of_charges_dialog_message">Reset to zero the number of charges?</string>
     <string name="number_of_charges_was_success_reset_to_zero">The number of charges was successfully reset to zero</string>

@@ -130,7 +130,6 @@
     <string name="add">Añadir</string>
     <string name="setting_added_successfully">Ajuste \"%1$s\" añadido con éxito!</string>
     <string name="error_adding_settings">Error al añadir los ajustes \"%1$s\"!\n%2$s</string>
-    <string name="stop_the_service_when_the_cd">Detener el servicio cuando el cargador está desconectado</string>
     <string name="reset_to_zero_the_number_of_charges">Restablecer a cero el número de cargas</string>
     <string name="reset_to_zero_the_number_of_charges_dialog_message">Restablecer a cero el número de cargas?</string>
     <string name="number_of_charges_was_success_reset_to_zero">El número de cargas se ha restablecido correctamente a cero</string>

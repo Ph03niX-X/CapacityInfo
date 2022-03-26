@@ -25,7 +25,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
@@ -47,7 +46,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Service & Notification
     private var serviceTime: SwitchPreferenceCompat? = null
-    private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettingsService: Preference? = null
     private var batteryStatusInformation: Preference? = null
@@ -90,8 +88,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         // Service & Notification
         serviceTime = findPreference(IS_SERVICE_TIME)
-
-        isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
 
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
