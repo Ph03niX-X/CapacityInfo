@@ -45,7 +45,7 @@
 
     <Preference
         app:title="@string/ukrainian_translation"
-        app:summary="Erdar2K21"
+        app:summary="Erdar2K22"
         app:singleLineTitle="false"
         app:icon="@drawable/ic_ukrainian_translation"
         android:key="ukrainian_translation"/>
