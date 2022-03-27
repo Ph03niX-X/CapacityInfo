@@ -44,7 +44,7 @@
     <string name="developer">Entwickler</string>
     <string name="version">Version</string>
     <string name="build">Bauen Sie</string>
-    <string name="build_date">Datum der Erstellung (GMT+2)</string>
+    <string name="build_date">Datum der Erstellung (GMT+3)</string>
     <string name="rate_the_app">Bewerten Sie die App</string>
     <string name="license">Lizenz: Apache 2.0</string>
     <string name="belarusian_translation">Weißrussische Übersetzung</string>
