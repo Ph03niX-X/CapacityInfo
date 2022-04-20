@@ -7,7 +7,6 @@
     <bool name="is_high_battery_wear">false</bool>
     <bool name="is_very_high_battery_wear">false</bool>
     <bool name="is_critical_battery_wear">false</bool>
-    <bool name="is_show_donate_message">true</bool>
 
     <!--Settings-->
     <bool name="is_service_time">false</bool>
