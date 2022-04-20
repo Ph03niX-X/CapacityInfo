@@ -45,7 +45,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CRITICAL_BATTERY_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_DONATE_MESSAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
@@ -435,9 +434,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(batteryWearDialog == null) showBatteryWearDialog()
 
-        if(HistoryHelper.getHistoryCount(this) >= 1 && pref.getBoolean(
-                IS_SHOW_DONATE_MESSAGE, resources.getBoolean(R.bool.is_show_donate_message)))
-                    showDonateMessage()
+        CapacityInfoService.instance?.isShowDonateMessage = !DonateInterface.isDonated
+        val historyCount = HistoryHelper.getHistoryCount(this)
+
+        if((historyCount == 1L || historyCount % 5L == 0L) &&
+            CapacityInfoService.instance?.isShowDonateMessage == true) showDonateMessage()
 
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
@@ -738,13 +739,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 setPositiveButton(R.string.donate) { d, _ ->
                     openDonate()
                     donateMessageDialog = null
-                    pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+                    CapacityInfoService.instance?.isShowDonateMessage = false
                     d.dismiss()
                 }
 
                 setNegativeButton(android.R.string.cancel) { d, _ ->
                     donateMessageDialog = null
-                    pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+                    CapacityInfoService.instance?.isShowDonateMessage = false
                     d.dismiss()
                 }
 
@@ -753,7 +754,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 show()
             }
         else if(DonateInterface.isDonated)
-            pref.edit().putBoolean(IS_SHOW_DONATE_MESSAGE, false).apply()
+            CapacityInfoService.instance?.isShowDonateMessage = false
     }
 
     private fun showBatteryWearDialog() {

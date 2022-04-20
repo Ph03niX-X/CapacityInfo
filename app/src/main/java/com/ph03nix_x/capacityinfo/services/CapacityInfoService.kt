@@ -89,6 +89,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var secondsTemperature = 0
     private var currentCapacity = 0
 
+    var isShowDonateMessage = true
     var isFull = false
     var isSaveNumberOfCharges = true
     var batteryLevelWith = -1
