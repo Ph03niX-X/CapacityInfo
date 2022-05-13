@@ -23,15 +23,15 @@
     </string-array>
 
     <string-array name="text_style_list">
-        <item>Normale (Standard)</item>
-        <item>Kühn</item>
-        <item>Kursivschrift</item>
+        <item>Normal (Standard)</item>
+        <item>Fett</item>
+        <item>Kursiv</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
         <item>Aufladen/Entladen (Standard)</item>
-        <item>Tragen</item>
-        <item>Abschreibung</item>
+        <item>Verschleiß</item>
+        <item>Verlauf</item>
     </string-array>
 
     <string-array name="frequency_of_auto_backup_settings_list">
