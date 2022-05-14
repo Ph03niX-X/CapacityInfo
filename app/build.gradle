@@ -9,6 +9,7 @@ android {
     buildToolsVersion "32.1.0-rc1"
     defaultConfig {
         applicationId "com.ph03nix_x.capacityinfo"
+        namespace applicationId
         minSdkVersion 26
         targetSdkVersion 32
         versionCode 964
