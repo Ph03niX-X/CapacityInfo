@@ -1,0 +1,53 @@
+<resources>
+
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Domyślnie)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Domyślnie)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Domyślnie)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Bardzo mały</item>
+        <item>Mała</item>
+        <item>Średnia (Domyślnie)</item>
+        <item>Duża</item>
+        <item>Bardzo duże</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normalna (Domyślnie)</item>
+        <item>Pogrubiona</item>
+        <item>Kursywa</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Ładowanie/Rozładowywanie (Domyślnie)</item>
+        <item>Zużycie</item>
+        <item>Historia</item>
+    </string-array>
+
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Godzina</item>
+        <item>2 Godziny</item>
+        <item>3 Godziny</item>
+        <item>4 Godziny</item>
+        <item>5 Godziny</item>
+        <item>6 Godziny</item>
+        <item>7 Godziny</item>
+        <item>8 Godziny</item>
+        <item>9 Godziny</item>
+        <item>10 Godziny</item>
+        <item>11 Godziny</item>
+        <item>12 Godziny</item>
+    </string-array>
+
+</resources>

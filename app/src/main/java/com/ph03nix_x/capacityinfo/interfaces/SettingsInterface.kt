@@ -94,13 +94,15 @@ interface SettingsInterface {
 
             "es" -> context.resources.getStringArray(R.array.languages_list)[2]
 
-            "ro" -> context.resources.getStringArray(R.array.languages_list)[3]
+            "pl" -> context.resources.getStringArray(R.array.languages_list)[3]
 
-            "be" -> context.resources.getStringArray(R.array.languages_list)[4]
+            "ro" -> context.resources.getStringArray(R.array.languages_list)[4]
 
-            "ru" -> context.resources.getStringArray(R.array.languages_list)[5]
+            "be" -> context.resources.getStringArray(R.array.languages_list)[5]
 
-            "uk" -> context.resources.getStringArray(R.array.languages_list)[6]
+            "ru" -> context.resources.getStringArray(R.array.languages_list)[6]
+
+            "uk" -> context.resources.getStringArray(R.array.languages_list)[7]
 
             else -> defLang
         }
