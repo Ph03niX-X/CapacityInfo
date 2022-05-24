@@ -38,8 +38,8 @@
                     app:showAsAction="never"/>
 
             <item
-                android:id="@+id/donate"
-                android:title="@string/donate"
+                android:id="@+id/premium"
+                android:title="@string/premium"
                 android:icon="@drawable/ic_donate_24"
                 app:showAsAction="never"/>
         </menu>

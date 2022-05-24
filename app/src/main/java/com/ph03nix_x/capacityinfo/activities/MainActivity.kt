@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.billingProcessor
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateContext
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isRestoreSettingsFromBackup = false
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
-    private var donateMessageDialog: MaterialAlertDialogBuilder? = null
     private var showFaqDialog: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
@@ -105,7 +105,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         donateContext = this
 
+        premiumContext = this
+
         DonateInterface.isDonated = isDonated()
+
+        DonateInterface.isPremium = isPremium()
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
@@ -434,12 +438,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(batteryWearDialog == null) showBatteryWearDialog()
 
-        CapacityInfoService.instance?.isShowDonateMessage = !DonateInterface.isDonated
-        val historyCount = HistoryHelper.getHistoryCount(this)
-
-        if((historyCount == 1L || historyCount % 5L == 0L) &&
-            CapacityInfoService.instance?.isShowDonateMessage == true) showDonateMessage()
-
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
                 this) > 0.0
@@ -555,6 +553,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         billingProcessor?.release()
         billingProcessor = null
         donateContext = null
+        premiumContext = null
         showFaqDialog = null
         DonateInterface.isDonation = false
 
@@ -580,7 +579,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.menu.findItem(R.id.clear_history).apply {
 
-                isVisible = HistoryHelper.isHistoryNotEmpty(this@MainActivity)
+                isVisible = (isDonated() || isPremium()) &&
+                        HistoryHelper.isHistoryNotEmpty(this@MainActivity)
 
                 setOnMenuItemClickListener {
 
@@ -668,11 +668,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            toolbar.menu.findItem(R.id.donate).isVisible = !DonateInterface.isDonated
+            toolbar.menu.findItem(R.id.premium).isVisible = !DonateInterface.isDonated ||
+                    !DonateInterface.isPremium
 
-            if(!DonateInterface.isDonated)
-                toolbar.menu.findItem(R.id.donate).setOnMenuItemClickListener {
-                    openDonate()
+            if(!DonateInterface.isDonated || !DonateInterface.isPremium)
+                toolbar.menu.findItem(R.id.premium).setOnMenuItemClickListener {
+                    showPremiumDialog()
                     true
                 }
         }
@@ -729,32 +730,21 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    private fun showDonateMessage() {
-
-        if(!DonateInterface.isDonated && donateMessageDialog == null)
-            donateMessageDialog = MaterialAlertDialogBuilder(this).apply {
-                setIcon(R.drawable.ic_donate_24)
-                setTitle(getString(R.string.donation_message_title))
-                setMessage(getString(R.string.donate_message))
-                setPositiveButton(R.string.donate) { d, _ ->
-                    openDonate()
-                    donateMessageDialog = null
-                    CapacityInfoService.instance?.isShowDonateMessage = false
-                    d.dismiss()
-                }
-
-                setNegativeButton(android.R.string.cancel) { d, _ ->
-                    donateMessageDialog = null
-                    CapacityInfoService.instance?.isShowDonateMessage = false
-                    d.dismiss()
-                }
-
-                setCancelable(false)
-
-                show()
+    private fun showPremiumDialog() {
+        MaterialAlertDialogBuilder(this).apply {
+            setIcon(R.drawable.ic_donate_24)
+            setTitle(getString(R.string.premium))
+            setMessage(getString(R.string.premium_dialog))
+            setPositiveButton(R.string.purchase_premium) { d, _ ->
+                purchasePremium()
+                d.dismiss()
             }
-        else if(DonateInterface.isDonated)
-            CapacityInfoService.instance?.isShowDonateMessage = false
+            setNegativeButton(android.R.string.cancel) { d, _ ->
+                d.dismiss()
+            }
+            setCancelable(false)
+            show()
+        }
     }
 
     private fun showBatteryWearDialog() {

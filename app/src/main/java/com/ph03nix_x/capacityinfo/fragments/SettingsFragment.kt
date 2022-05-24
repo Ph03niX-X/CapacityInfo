@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
@@ -38,7 +39,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
-    BatteryInfoInterface {
+    BatteryInfoInterface, DonateInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -58,6 +59,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var selectLanguage: ListPreference? = null
 
     // Misc
+    private var resetScreenTime: SwitchPreferenceCompat? = null
     private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
@@ -113,21 +115,27 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
-        batteryStatusInformation?.setOnPreferenceClickListener {
+        batteryStatusInformation?.apply {
 
-            mainActivity?.fragment = BatteryStatusInformationFragment()
+            isEnabled = isDonated() || isPremium()
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
-            mainActivity?.toolbar?.title = requireContext().getString(
-                R.string.battery_status_information)
+            if(isEnabled)
+                setOnPreferenceClickListener {
+                    mainActivity?.fragment = BatteryStatusInformationFragment()
 
-            mainActivity?.toolbar?.navigationIcon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
+                    mainActivity?.toolbar?.title = requireContext().getString(
+                        R.string.battery_status_information)
 
-            mainActivity?.loadFragment(
-                mainActivity?.fragment ?: BatteryStatusInformationFragment(),
-                true)
+                    mainActivity?.toolbar?.navigationIcon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
-            true
+                    mainActivity?.loadFragment(
+                        mainActivity?.fragment ?: BatteryStatusInformationFragment(),
+                        true)
+
+                    true
+                }
         }
 
         // Appearance
@@ -192,6 +200,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         // Misc
+        resetScreenTime = findPreference("is_reset_screen_time_at_any_charge_level")
+
         moreOther = findPreference("more_other")
 
         backupSettings = findPreference("backup_settings")
@@ -219,20 +229,38 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
             resources.getBoolean(R.bool.is_supported))
 
-        backupSettings?.setOnPreferenceClickListener {
+        resetScreenTime?.apply {
 
-            mainActivity?.fragment = BackupSettingsFragment()
+            isEnabled = isDonated() || isPremium()
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
 
-            mainActivity?.toolbar?.title = requireContext().getString(
-                R.string.backup)
+        tabOnApplicationLaunch?.apply {
 
-            mainActivity?.toolbar?.navigationIcon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
+            isEnabled = isDonated() || isPremium()
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
 
-            mainActivity?.loadFragment(
-                mainActivity?.fragment ?: BackupSettingsFragment(), true)
+        backupSettings?.apply {
 
-            true
+            isEnabled = isDonated() || isPremium()
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+
+            if(isEnabled)
+                setOnPreferenceClickListener {
+                    mainActivity?.fragment = BackupSettingsFragment()
+
+                    mainActivity?.toolbar?.title = requireContext().getString(
+                        R.string.backup)
+
+                    mainActivity?.toolbar?.navigationIcon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
+
+                    mainActivity?.loadFragment(
+                        mainActivity?.fragment ?: BackupSettingsFragment(), true)
+
+                    true
+                }
         }
 
         moreOther?.setOnPreferenceClickListener {
@@ -330,20 +358,26 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
-        overlay?.setOnPreferenceClickListener {
+        overlay?.apply {
 
-            mainActivity?.fragment = OverlayFragment()
+            isEnabled = isDonated() || isPremium()
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
-            mainActivity?.toolbar?.title = requireContext().getString(
-                R.string.overlay)
+            if(isEnabled)
+                setOnPreferenceClickListener {
+                    mainActivity?.fragment = OverlayFragment()
 
-            mainActivity?.toolbar?.navigationIcon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
+                    mainActivity?.toolbar?.title = requireContext().getString(
+                        R.string.overlay)
 
-            mainActivity?.loadFragment(
-                mainActivity?.fragment ?: OverlayFragment(), true)
+                    mainActivity?.toolbar?.navigationIcon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
 
-            true
+                    mainActivity?.loadFragment(
+                        mainActivity?.fragment ?: OverlayFragment(), true)
+
+                    true
+                }
         }
 
         resetToZeroTheNumberOfCharges?.setOnPreferenceClickListener {

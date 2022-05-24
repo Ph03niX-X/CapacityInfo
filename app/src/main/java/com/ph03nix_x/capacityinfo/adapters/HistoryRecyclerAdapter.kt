@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.adapters
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,18 +15,21 @@ import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import kotlinx.android.synthetic.main.history_recycler_list_item.view.*
 import java.text.DecimalFormat
 
 class HistoryAdapter (private var historyList: MutableList<History>) :
-    RecyclerView.Adapter<HistoryViewHolder>() {
+    RecyclerView.Adapter<HistoryViewHolder>(), DonateInterface {
     
     private lateinit var pref: SharedPreferences
 
     companion object {
 
         var instance: HistoryAdapter? = null
+        private var isDonated = false
+        private var isPremium = false
     }
 
     override fun getItemCount() = historyList.size
@@ -33,6 +37,9 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
 
         instance = this
+
+        isDonated = isDonated()
+        isPremium = isPremium()
 
         val itemView =  LayoutInflater.from(parent.context).inflate(R.layout
             .history_recycler_list_item, parent, false)
@@ -44,11 +51,15 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
 
     override fun onBindViewHolder(holderHistory: HistoryViewHolder, position: Int) {
         updateTextAppearance(holderHistory)
-        holderHistory.itemView.history_date.text = historyList[historyList.size - 1 - position].date
-        holderHistory.itemView.history_residual_capacity.text = getResidualCapacity(holderHistory
-            .itemView.context, historyList[historyList.size - 1 - position].residualCapacity)
-        holderHistory.itemView.history_battery_wear.text = getBatteryWear(holderHistory.itemView
-            .context, historyList[historyList.size - 1 - position].residualCapacity)
+
+        if(((!isDonated || !isPremium) && position < 3) || (isDonated || isPremium)) {
+            holderHistory.itemView.history_date.text = historyList[historyList.size - 1 - position].date
+            holderHistory.itemView.history_residual_capacity.text = getResidualCapacity(holderHistory
+                .itemView.context, historyList[historyList.size - 1 - position].residualCapacity)
+            holderHistory.itemView.history_battery_wear.text = getBatteryWear(holderHistory.itemView
+                .context, historyList[historyList.size - 1 - position].residualCapacity)
+        }
+        else holderHistory.itemView.visibility = View.GONE
     }
 
     private fun updateTextAppearance(holderHistory: HistoryViewHolder) {

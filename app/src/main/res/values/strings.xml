@@ -316,4 +316,9 @@
     <string name="order_id" translatable="false">Order ID</string>
     <string name="order_id_copied">Order ID copied to the clipboard</string>
     <string name="history_count">History Count</string>
+    <string name="premium" translatable="false">Premium</string>
+    <string name="premium_dialog">By purchasing Premium, you will get additional features of the application:\n\• History > 3;\n\• Clear History\n\• Battery Status Information;\n\• Backup;\n\• Tab on application launch\n\• Overlay</string>
+    <string name="premium_feature">Premium feature</string>
+    <string name="purchase_premium">Purchase</string>
+    <string name="premium_features_unlocked">Premium features unlocked!</string>
 </resources>
