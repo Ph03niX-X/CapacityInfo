@@ -1,8 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -16,10 +14,11 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.UKRAINIAN_TRANSLATION_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
-class AboutFragment : PreferenceFragmentCompat() {
+class AboutFragment : PreferenceFragmentCompat(), DonateInterface {
 
     private var developer: Preference? = null
     private var version: Preference? = null
@@ -29,6 +28,7 @@ class AboutFragment : PreferenceFragmentCompat() {
     private var belarusianTranslation: Preference? = null
     private var ukrainianTranslation: Preference? = null
     private var betaTester: Preference? = null
+    private var orderId: Preference? = null
 
     lateinit var pref: SharedPreferences
 
@@ -56,6 +56,8 @@ class AboutFragment : PreferenceFragmentCompat() {
         ukrainianTranslation = findPreference("ukrainian_translation")
 
         betaTester = findPreference("become_a_beta_tester")
+
+        orderId = findPreference("order_id")
 
         betaTester?.isVisible = isInstalledGooglePlay
 
@@ -135,6 +137,22 @@ class AboutFragment : PreferenceFragmentCompat() {
 
             true
         }
+
+        orderId?.apply {
+
+            isVisible = getOrderId() != null
+            summary = getOrderId()
+
+            setOnPreferenceClickListener {
+                val clipboardManager = requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("order_id", orderId?.summary)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(requireContext(), R.string.order_id_copied, Toast.LENGTH_LONG).show()
+                true
+            }
+        }
+
     }
 
     override fun onResume() {

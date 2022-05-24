@@ -57,4 +57,9 @@
             app:icon="@drawable/ic_beta"
             app:key="become_a_beta_tester"/>
 
+    <Preference
+        android:title="@string/order_id"
+        app:singleLineTitle="false"
+        android:key="order_id"/>
+
 </PreferenceScreen>
