@@ -293,4 +293,8 @@
     <string name="very_high_battery_wear_dialog">Desgaste de la batería muy alto (%1$s). Te aconsejamos que cambies la batería o el smartphone/tableta</string>
     <string name="critical_battery_wear_dialog">Desgaste crítico de la batería (%1$s). Te aconsejamos que cambies la batería o el smartphone/tableta</string>
     <string name="order_id_copied">ID del pedido copiado en el portapapeles</string>
+    <string name="premium_dialog">Al comprar Premium, obtendrá funciones adicionales de la aplicación:\n\• Historial > 3;\n\• Historia clara;\n\• Información del estado de la batería;\n\• Restablecer el tiempo de pantalla en cualquier nivel de carga;\n\• Guardar;\n\• Pestaña al iniciar la aplicación;\n\• Overlay</string>
+    <string name="premium_feature">Función Premium</string>
+    <string name="purchase_premium">Comprar</string>
+    <string name="premium_features_unlocked">Funciones premium desbloqueadas!</string>
 </resources>
