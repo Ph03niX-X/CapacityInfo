@@ -293,4 +293,8 @@
     <string name="very_high_battery_wear_dialog">Bardzo wysokie zużycie baterii (%1$s). Zalecamy wymianę baterii lub smartfona/tabletu</string>
     <string name="critical_battery_wear_dialog">Krytyczne zużycie baterii (%1$s). Zalecamy wymianę baterii lub smartfona/tabletu</string>
     <string name="order_id_copied">Identyfikator zamówienia skopiowany do schowka</string>
+    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia > 3;\n\• Czysta historia;\n\• Informacje o stanie baterii;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay</string>
+    <string name="premium_feature">Funkcja Premium</string>
+    <string name="purchase_premium">Zakup</string>
+    <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
 </resources>
