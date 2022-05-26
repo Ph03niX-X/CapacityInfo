@@ -83,7 +83,6 @@ P.S This application consumes <b>very little</b> energy in the background. The w
 
 <b>Explanations of required permissions:</b><br/>
 • Access to device memory - needed to back up settings;<br/>
-• Wakelock - needed to ensure that the OS does not "lull" the application during charging, for the correct charging time;<br/>
 • On top of all windows - needed for overlay;<br/>
 • Launch after boot - needed so that the application starts itself after loading the OS.
 
@@ -110,7 +109,7 @@ P.S This application consumes <b>very little</b> energy in the background. The w
 </p>
 
 Question: How does the app work?<br/>
-Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged". The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the core itself.
+Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged". The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the kernel itself.
 
 Question: What is considered to be "Capacity Added"?<br/>
 Answer: "Capacity Added" is considered very simple: the current capacity - capacity, which was before you connected the charging.
@@ -122,7 +121,7 @@ Question: Why is "Charging Current Limit" not displayed?<br/>
 Answer: The display "Charging Current Limit" depends on whether the file "constant_charge_current_max" is readable or not. Not all kernels allow "reading" this file, and also not all kernels have this file.
 
 Question: I have everything (or almost everything) in zeros. Why?<br/>
-Answer: Because the manufacturer of your device has saved on various sensors.  And since the kernel cannot get the value, it returns 0.
+Answer: Because the manufacturer of your device has saved on various sensors. And since the kernel cannot get the value, it returns 0.
 
 Question: Very large or small numbers are shown in the current capacity, charge/discharge current, voltage.<br/>
 Answer: Go to the settings, in the "Misc" section, expand all the settings and change the unit of measurement.
@@ -130,5 +129,42 @@ Answer: Go to the settings, in the "Misc" section, expand all the settings and c
 Question: The current capacity has ceased to be displayed, although it was previously displayed (or is displayed, but not always).<br/>
 Answer: This means that the battery is coming or has already come to an end. If everything is in order with the battery, then the firmware kernel or the controller, which gives the current capacity, may be buggy.
 
+Question: Residual capacity is higher than the design capacity<br/>
+Answer: If the battery is new, this is normal. The capacity of a battery, especially a new one, is never equal to the design capacity, it is either 2–3% less, or higher, but most often lower. If the capacity of the new battery is higher than the design one, then consider yourself lucky with the battery. If the battery is not new, you can try to calibrate the kernel by discharging the battery to 10% or lower and charging it to full 100%. If this does not help, then unfortunately either the kernel developers made a mistake somewhere that incorrectly reads the current capacity from the battery, or the matter is in the battery itself.
+
+Question: Battery wear changes when the charger is disconnected<br/>
+Answer: The fact is that when the charger is disconnected, sometimes the current capacity differs from what it was when fully charged, thus, when the charger is disconnected, the battery wear is more true than before the charger was disconnected.
+
+Question: Battery wear does not change even after several months<br/>
+Answer: Sometimes the current capacity may not be displayed correctly and due to this the battery wear will be incorrect. In order to avoid this, calibrate the current capacity once a month or two. In order to calibrate the current capacity, you need to discharge the battery to 10% or lower and charge to 100% (status: "Fully Charged")
+
+Question: With each charge, the battery wear changes, then increases, then decreases<br/>
+Answer: This is normal, since chemical processes occur in the battery.
+
+Question: Where does the application get the "Number of Cycles (Android)"?<br/>
+Answer: The application gets data from the "cycles_count" kernel file at the path: /sys/class/power_supply/battery.
+
+Question: Not Displayed "Number of Cycles (Android)"<br/>
+Answer: If "Number of Cycles (Android)" is not displayed, then it is not possible to read the file in which the number of charging cycles is recorded due to the fact that read access is closed.
+
 Question: The device is not supported. Add device support.<br/>
-Answer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or core does not give up the current capacity?
+Answer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or kernel does not give up the current capacity?
+
+---
+<p align="center">
+<b>Tips:</b>
+</p>
+
+Tip #1: Try not to discharge the battery below 10%
+
+Tip #2: Try not to charge the battery to 100%. The higher the voltage, the faster the battery degrades. According to Battery University research, not charging 0.1 V increases the battery life by 2 times.
+
+Tip #3: Do not overcool (0°C/32°F and below) and do not overheat the battery (45+°C/113+°F). Overcooling and overheating negatively affect battery life.
+
+Tip #4: Try not to use fast charging. The higher the charging current, the higher the heating, and the higher the heating, the faster the battery degrades.
+
+Tip #5: Calibrate the battery every ~3 months. This will allow the controller to give the correct charge.
+
+Tip #6: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.
+
+Tip #7: Try not to use the device when fully charged while the charger is connected. If you use the device with a fully charged battery when the charger is connected, then 2 things happen - heating, which negatively affects the battery life and frequent recharging, which reduces the number of cycles
