@@ -39,14 +39,10 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
         isPurchasePremium = false
         isDonated = billingProcessor?.isPurchased(donationId) == true
         isPremium = billingProcessor?.isPurchased(premiumId) == true
-        if(isDonated) {
-            if(donateContext != null) Toast.makeText(donateContext!!,
-                R.string.thanks_for_the_donation, Toast.LENGTH_LONG).show()
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-        }
-        else if(isPremium) {
-            if(premiumContext != null) Toast.makeText(premiumContext!!,
-                R.string.premium_features_unlocked, Toast.LENGTH_LONG).show()
+        if(isDonated || isPremium) {
+            if(donateContext != null || premiumContext != null)
+                Toast.makeText(donateContext ?: premiumContext!!,
+                    R.string.premium_features_unlocked, Toast.LENGTH_LONG).show()
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
         }
     }
