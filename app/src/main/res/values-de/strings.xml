@@ -286,7 +286,9 @@
     <string name="high_battery_wear_dialog">Hoher Akkuverschleiß (%1$s). Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
     <string name="very_high_battery_wear_dialog">Sehr hoher Akkuverschleiß (%1$s). Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
     <string name="critical_battery_wear_dialog">Kritischer Akkuverschleiß (%1$s).  Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
+    <string name="order_id">Auftrags-ID</string>
     <string name="order_id_copied">Auftrags-ID in die Zwischenablage kopiert</string>
+    <string name="history_count">Verlauf zählen</string>
     <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Verlauf > 3;\n\• Verlauf löschen;\n\• Informationen zum Akkustatus;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
