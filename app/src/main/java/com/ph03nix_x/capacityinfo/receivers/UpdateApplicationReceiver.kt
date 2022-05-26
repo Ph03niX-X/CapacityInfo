@@ -47,6 +47,9 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
 
                 MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(context)
 
+                DonateInterface.donateContext = context
+                DonateInterface.premiumContext = context
+
                 if(!isDonated() || !isPremium()) resetPremiumFeatures(context)
 
                 removeOldPreferences(context)

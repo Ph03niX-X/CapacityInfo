@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.widget.Toast
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
@@ -22,8 +23,11 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
     companion object {
 
         @Deprecated("Premium")
-        var donateContext: Activity? = null
-        var premiumContext: Activity? = null
+        var donateContext: Context? = null
+        @Deprecated("Premium")
+        var donateActivity: Activity? = null
+        var premiumContext: Context? = null
+        var premiumActivity: Activity? = null
         var billingProcessor: BillingProcessor? = null
 
         @Deprecated("Premium")
@@ -62,14 +66,15 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
     }
 
     override fun onBillingInitialized() {
-        if(donateContext != null && isDonation && BillingProcessor.isIabServiceAvailable(
+        if(donateContext != null && donateActivity != null && isDonation &&
+            BillingProcessor.isIabServiceAvailable(
                 donateContext) && billingProcessor?.isInitialized == true) {
-                    billingProcessor?.purchase(donateContext!!, donationId)
+                    billingProcessor?.purchase(donateActivity!!, donationId)
         }
-        else if(premiumContext != null && isPurchasePremium &&
+        else if(premiumContext != null && premiumActivity != null && isPurchasePremium &&
             BillingProcessor.isIabServiceAvailable(premiumContext)
             && billingProcessor?.isInitialized == true){
-            billingProcessor?.purchase(premiumContext, premiumId)
+            billingProcessor?.purchase(premiumActivity, premiumId)
         }
     }
 

@@ -28,7 +28,9 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.billingProcessor
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateActivity
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateContext
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -104,8 +106,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         setContentView(R.layout.activity_main)
 
         donateContext = this
+        donateActivity = this
 
         premiumContext = this
+        premiumActivity = this
 
         DonateInterface.isDonated = isDonated()
 
@@ -553,7 +557,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         billingProcessor?.release()
         billingProcessor = null
         donateContext = null
+        donateActivity = null
         premiumContext = null
+        premiumActivity = null
         showFaqDialog = null
         DonateInterface.isDonation = false
 
