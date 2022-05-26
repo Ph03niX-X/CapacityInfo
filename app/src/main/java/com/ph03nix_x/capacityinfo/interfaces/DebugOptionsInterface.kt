@@ -691,10 +691,7 @@ interface DebugOptionsInterface {
 
             pref.edit().remove(key).apply()
 
-            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE) {
-
-                ThemeHelper.setTheme(context)
-            }
+            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE) ThemeHelper.setTheme(context)
 
             else if(key == LANGUAGE) {
 

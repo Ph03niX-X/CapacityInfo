@@ -289,7 +289,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                             if(dischargeCurrentTemp == null) dischargeCurrentTemp = dischargeCurrent
 
-                            if(dischargeCurrent < dischargeCurrentTemp ?: -1) {
+                            if(dischargeCurrent < (dischargeCurrentTemp ?: -1)) {
 
                                 notificationManager?.cancel(NotificationInterface
                                     .NOTIFICATION_DISCHARGE_CURRENT_ID)
@@ -456,7 +456,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             if(chargingCurrentTemp == null) chargingCurrentTemp = chargingCurrent
 
-            if(chargingCurrent > chargingCurrentTemp ?: -1) {
+            if(chargingCurrent > (chargingCurrentTemp ?: -1)) {
 
                 notificationManager?.cancel(NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 

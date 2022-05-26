@@ -105,7 +105,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
-        resetScreenTime?.isEnabled = CapacityInfoService.instance?.screenTime ?: 0 > 0L
+        resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
 
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
@@ -549,7 +549,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && isGooglePlay(requireContext())
 
-        resetScreenTime?.isEnabled = CapacityInfoService.instance?.screenTime ?: 0 > 0L
+        resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
 
         fakeBatteryWear?.isVisible = pref.getBoolean(
             PreferencesKeys.IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
