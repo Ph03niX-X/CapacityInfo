@@ -287,7 +287,9 @@
     <string name="high_battery_wear_dialog">Високий знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
     <string name="very_high_battery_wear_dialog">Дуже високий знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
     <string name="critical_battery_wear_dialog">Критичний знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
+    <string name="order_id">ID замовлення</string>
     <string name="order_id_copied">ID замовлення скопійовано в буфер обміну</string>
+    <string name="history_count">Кількість історії</string>
     <string name="premium_dialog">Придбаючи Premium, ви отримуєте додаткові функції програми:\n\• Історія > 3;\n\• Очистити історію;\n\• Інформація про стан акумулятора;\n\• Обнуляти час екрану при будь-якому рівні заряду;\n\• Резервне копіювання;\n\• Вкладка при запуску додатка;\n\• Оверлей</string>
     <string name="premium_feature">Premium функція</string>
     <string name="purchase_premium">Придбати</string>
