@@ -287,7 +287,9 @@
     <string name="high_battery_wear_dialog">Высокий износ аккумулятора (%1$s). Советуем поменять аккумулятор или смартфон/планшет</string>
     <string name="very_high_battery_wear_dialog">Очень высокий износ аккумулятора (%1$s). Советуем поменять аккумулятор или смартфон/планшет</string>
     <string name="critical_battery_wear_dialog">Критический износ аккумулятора (%1$s). Советуем поменять аккумулятор или смартфон/планшет</string>
+    <string name="order_id">ID заказа</string>
     <string name="order_id_copied">ID заказа скопирован в буфер обмена</string>
+    <string name="history_count">Количество истории</string>
     <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• История > 3;\n\• Очистка истории;\n\• Информация о состоянии аккумулятора;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Оверлей</string>
     <string name="premium_feature">Premium функция</string>
     <string name="purchase_premium">Приобрести</string>
