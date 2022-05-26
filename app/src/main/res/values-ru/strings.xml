@@ -108,7 +108,6 @@
     <string name="max_discharge_current">Максимальный ток разрядки %1$d мА</string>
     <string name="average_discharge_current">Средний ток разрядки %1$d мА</string>
     <string name="min_discharge_current">Минимальный ток разрядки %1$d мА</string>
-    <string name="stopping_service">Остановка службы&#8230;</string>
     <string name="battery_health">Состояние аккумулятора (Android): %1$s</string>
     <string name="battery_health_good">Хорошее</string>
     <string name="battery_health_dead">Мёртв</string>
@@ -273,10 +272,6 @@
     <string name="battery_is_discharged_notification_voltage">Аккумулятор разряжен. %1$d мВ</string>
     <string name="discharged_voltage">Разряжен (Напряжение)</string>
     <string name="new_permission_is_required_dialog">На Android 11+ требуется новое разрешение для работы полноценного резервного копирования, Google не хочет пускать это приложение в свой магазин с этим разрешением. Поэтому используйте \"Экспорт настроек\" для создания резервного копирования настроек (имя файла:  com.ph03nix_x.capacityinfo_preferences.xml), а так же \"Импорт настроек\" для восстановления настроек (из xml файла). \"Экспорт истории\" создаёт резервную копию истории (имя файла: History.db), \"Импорт истории\" восстанавливает историю (из db файла)</string>
-    <string name="donate">Пожертвовать</string>
-    <string name="donation_message_title">Пожертвование</string>
-    <string name="donate_message">Если вам нравится приложение, вы можете пожертвовать разработчику на его развитие</string>
-    <string name="thanks_for_the_donation">Спасибо за пожертвование разработчику на разработку приложения!</string>
     <string name="number_of_full_charges">Количество полных зарядок: %1$d</string>
     <string name="number_of_full_charges_overlay">Количество полных зарядок</string>
     <string name="reset_the_number_of_full_charges_to_zero">Обнулить количество полных зарядок</string>

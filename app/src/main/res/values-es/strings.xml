@@ -108,7 +108,6 @@
     <string name="max_discharge_current">Máximo de descarga actual %1$d mA</string>
     <string name="average_discharge_current">Promedio de descarga actual %1$d mA</string>
     <string name="min_discharge_current">Descarga mínima actual %1$d mA</string>
-    <string name="stopping_service">Deteniendo servicio&#8230;</string>
     <string name="battery_health">Salud de la batería (Android): %1$s</string>
     <string name="battery_health_good">Buena</string>
     <string name="battery_health_dead">Muerta</string>
@@ -273,10 +272,6 @@
     <string name="battery_is_discharged_notification_voltage">La batería está descargada. %1$d mV</string>
     <string name="discharged_voltage">Descargada (Tensión)</string>
     <string name="new_permission_is_required_dialog">En Android 11+, se requiere un nuevo permiso para que funcione una copia de seguridad completa, Google no quiere dejar que esta aplicación entre en su tienda con este permiso. Por lo tanto, utilice \"Exportar ajustes\" para crear una copia de seguridad de los ajustes (nombre del archivo: com.ph03nix_x.capacityinfo_preferences.xml), así como \"Importar ajustes\" para restaurar los ajustes (desde un archivo xml). \"Exportar historial\" crea una copia de seguridad del historial (nombre del archivo: History.db), \"Importar historial\" restaura el historial (desde un archivo db)</string>
-    <string name="donate">Donar</string>
-    <string name="donation_message_title">Donación</string>
-    <string name="donate_message">Si te gusta la aplicación, puedes donar al desarrollador para que la desarrolle</string>
-    <string name="thanks_for_the_donation">Gracias por la donación al desarrollador para desarrollar la aplicación!</string>
     <string name="number_of_full_charges">Número de cargos completos: %1$d</string>
     <string name="number_of_full_charges_overlay">Número de cargos completos</string>
     <string name="reset_the_number_of_full_charges_to_zero">Poner a cero el número de cargas completas</string>
