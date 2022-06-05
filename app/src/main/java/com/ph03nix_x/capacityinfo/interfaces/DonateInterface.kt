@@ -48,6 +48,8 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
                 Toast.makeText(donateContext ?: premiumContext!!,
                     R.string.premium_features_unlocked, Toast.LENGTH_LONG).show()
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
         }
     }
 
@@ -56,8 +58,11 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
         isPurchasePremium = false
         isDonated = billingProcessor?.isPurchased(donationId) == true
         isPremium = billingProcessor?.isPurchased(premiumId) == true
-        if(isDonated || isPremium)
+        if(isDonated || isPremium) {
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+        }
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {

@@ -4,6 +4,12 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Preference
+        android:title="@string/premium"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_donate_24"
+        android:key="premium"/>
+
     <PreferenceCategory
                 android:title="@string/service_and_notification"
                 app:singleLineTitle="false"

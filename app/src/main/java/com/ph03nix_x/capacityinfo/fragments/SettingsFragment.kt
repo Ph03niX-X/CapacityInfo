@@ -45,6 +45,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     private var mainActivity: MainActivity? = null
 
+    private var premium: Preference? = null
+
     // Service & Notification
     private var serviceTime: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
@@ -88,6 +90,20 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         mainActivity = activity as? MainActivity
 
+        premium = findPreference("premium")
+
+        premium?.apply {
+            isVisible = !isDonated() || !isPremium()
+
+            if(isVisible)
+                setOnPreferenceClickListener {
+
+                    MainActivity.instance?.showPremiumDialog()
+
+                    true
+                }
+        }
+
         // Service & Notification
         serviceTime = findPreference(IS_SERVICE_TIME)
 
@@ -117,10 +133,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         batteryStatusInformation?.apply {
 
-            isEnabled = isDonated() || isPremium()
+            isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
-            if(isEnabled)
+            if(!isEnabled)
                 setOnPreferenceClickListener {
                     mainActivity?.fragment = BatteryStatusInformationFragment()
 
@@ -231,19 +247,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetScreenTime?.apply {
 
-            isEnabled = isDonated() || isPremium()
+            isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
         tabOnApplicationLaunch?.apply {
 
-            isEnabled = isDonated() || isPremium()
+            isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
         backupSettings?.apply {
 
-            isEnabled = isDonated() || isPremium()
+            isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
             if(isEnabled)
@@ -360,7 +376,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         overlay?.apply {
 
-            isEnabled = isDonated() || isPremium()
+            isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
             if(isEnabled)
@@ -522,6 +538,33 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     override fun onResume() {
 
         super.onResume()
+
+        if(premium?.isVisible == true) premium?.isVisible = !isDonated() || !isPremium()
+
+        batteryStatusInformation?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        resetScreenTime?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        tabOnApplicationLaunch?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        backupSettings?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        overlay?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))

@@ -619,6 +619,16 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     true
                 }
             }
+
+            toolbar.menu.findItem(R.id.history_premium).apply {
+                isVisible = !toolbar.menu.findItem(R.id.clear_history).isVisible
+
+                setOnMenuItemClickListener {
+                    showPremiumDialog()
+
+                    true
+                }
+            }
         }
 
         else {
@@ -736,7 +746,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    private fun showPremiumDialog() {
+    fun showPremiumDialog() {
         MaterialAlertDialogBuilder(this).apply {
             setIcon(R.drawable.ic_donate_24)
             setTitle(getString(R.string.premium))
