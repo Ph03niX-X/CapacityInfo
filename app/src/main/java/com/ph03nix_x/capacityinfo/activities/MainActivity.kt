@@ -30,6 +30,8 @@ import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.billingProcessor
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateActivity
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateContext
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isDonated
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -111,9 +113,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         premiumContext = this
         premiumActivity = this
 
-        DonateInterface.isDonated = isDonated()
+        isDonated = isDonated()
 
-        DonateInterface.isPremium = isPremium()
+        isPremium = isPremium()
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
@@ -585,7 +587,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.menu.findItem(R.id.clear_history).apply {
 
-                isVisible = (isDonated() || isPremium()) &&
+                isVisible = (isDonated || isPremium) &&
                         HistoryHelper.isHistoryNotEmpty(this@MainActivity)
 
                 setOnMenuItemClickListener {
@@ -621,7 +623,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
 
             toolbar.menu.findItem(R.id.history_premium).apply {
-                isVisible = !toolbar.menu.findItem(R.id.clear_history).isVisible
+                isVisible = !isDonated && !isPremium
 
                 setOnMenuItemClickListener {
                     showPremiumDialog()
@@ -684,10 +686,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            toolbar.menu.findItem(R.id.premium).isVisible = !DonateInterface.isDonated ||
-                    !DonateInterface.isPremium
+            toolbar.menu.findItem(R.id.premium).isVisible = !isDonated && !isPremium
 
-            if(!DonateInterface.isDonated || !DonateInterface.isPremium)
+            if(!isDonated && !isPremium)
                 toolbar.menu.findItem(R.id.premium).setOnMenuItemClickListener {
                     showPremiumDialog()
                     true

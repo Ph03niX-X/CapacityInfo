@@ -9,6 +9,8 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isDonated
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
@@ -28,8 +30,6 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     companion object {
 
         var instance: HistoryAdapter? = null
-        private var isDonated = false
-        private var isPremium = false
     }
 
     override fun getItemCount() = historyList.size
@@ -37,9 +37,6 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
 
         instance = this
-
-        isDonated = isDonated()
-        isPremium = isPremium()
 
         val itemView =  LayoutInflater.from(parent.context).inflate(R.layout
             .history_recycler_list_item, parent, false)

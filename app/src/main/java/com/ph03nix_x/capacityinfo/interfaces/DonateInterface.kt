@@ -81,6 +81,8 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
             && billingProcessor?.isInitialized == true){
             billingProcessor?.purchase(premiumActivity, premiumId)
         }
+        isDonation = false
+        isPurchasePremium = false
     }
 
     @Deprecated("Premium")

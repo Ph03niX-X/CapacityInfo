@@ -17,6 +17,8 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isDonated
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
@@ -93,7 +95,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         premium = findPreference("premium")
 
         premium?.apply {
-            isVisible = !isDonated() || !isPremium()
+            isVisible = !isDonated && !isPremium
 
             if(isVisible)
                 setOnPreferenceClickListener {
@@ -539,7 +541,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         super.onResume()
 
-        if(premium?.isVisible == true) premium?.isVisible = !isDonated() || !isPremium()
+        if(premium?.isVisible == true) premium?.isVisible = !isDonated && !isPremium
 
         batteryStatusInformation?.apply {
             isEnabled = premium?.isVisible == false
