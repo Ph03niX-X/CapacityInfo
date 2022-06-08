@@ -138,7 +138,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
-            if(!isEnabled)
+            if(isEnabled)
                 setOnPreferenceClickListener {
                     mainActivity?.fragment = BatteryStatusInformationFragment()
 
