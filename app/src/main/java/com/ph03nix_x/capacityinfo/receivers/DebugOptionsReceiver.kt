@@ -7,17 +7,21 @@ import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISABLED_DEBUG_OPTIONS_HOST
 import com.ph03nix_x.capacityinfo.utilities.Constants.ENABLED_DEBUG_OPTIONS_HOST
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 
-class DebugOptionsReceiver : BroadcastReceiver() {
+class DebugOptionsReceiver : BroadcastReceiver(), DonateInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
         val action = intent.action
         val scheme = intent.data?.scheme
         val host = intent.data?.host
+
+        DonateInterface.donateContext = context
+        DonateInterface.premiumContext = context
 
         when {
 
@@ -32,8 +36,8 @@ class DebugOptionsReceiver : BroadcastReceiver() {
 
                 when(host) {
 
-                    ENABLED_DEBUG_OPTIONS_HOST -> if(!isEnabledDebugOptions) enabledDebugOptions(
-                        context, pref)
+                    ENABLED_DEBUG_OPTIONS_HOST -> if(!isEnabledDebugOptions &&
+                        (isDonated() || isPremium())) enabledDebugOptions(context, pref)
 
                     DISABLED_DEBUG_OPTIONS_HOST -> if(isEnabledDebugOptions) disabledDebugOptions(
                         context, pref)

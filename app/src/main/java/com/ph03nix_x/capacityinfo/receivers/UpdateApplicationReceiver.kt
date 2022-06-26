@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTI
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
@@ -95,7 +96,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
             IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE, IS_NOTIFY_CHARGING_CURRENT,
             IS_NOTIFY_DISCHARGE_CURRENT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
             IS_AUTO_BACKUP_SETTINGS, IS_BACKUP_SETTINGS_TO_MICROSD,
-            FREQUENCY_OF_AUTO_BACKUP_SETTINGS, TAB_ON_APPLICATION_LAUNCH).forEach {
+            FREQUENCY_OF_AUTO_BACKUP_SETTINGS, TAB_ON_APPLICATION_LAUNCH,
+            IS_ENABLED_DEBUG_OPTIONS).forEach {
 
             with(pref) {
 
