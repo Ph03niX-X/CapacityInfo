@@ -477,6 +477,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
 
@@ -531,6 +532,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         super.onActivityResult(requestCode, resultCode, data)
