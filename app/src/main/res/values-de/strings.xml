@@ -49,7 +49,6 @@
     <string name="license">Lizenz: Apache 2.0</string>
     <string name="belarusian_translation">Belarussische Übersetzung</string>
     <string name="feedback">Feedback</string>
-    <string name="telegram_link_copied">Telegram-Link kopiert</string>
     <string name="email_copied">E-Mail kopiert</string>
     <string name="auto_dark_mode">Automatischer Dunkelmodus</string>
     <string name="auto_dark_mode_summary">Einschalten des Dunkelmodus je nach System</string>
@@ -222,7 +221,6 @@
     <string name="access_memory_card">Für die Sicherung ist der Zugriff auf die Speicherkarte erforderlich. Erteilen Sie die Erlaubnis im nächsten Fenster</string>
     <string name="screen_time">Bildschirmzeit: %1$s</string>
     <string name="screen_time_overlay">Bildschirmzeit</string>
-    <string name="telegram_developer">Entwickler</string>
     <string name="other">Andere</string>
     <string name="charging_current">Ladestrom</string>
     <string name="charging_current_ma">Ladestrom: %1$d mA</string>

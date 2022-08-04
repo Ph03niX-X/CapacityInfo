@@ -50,7 +50,6 @@
     <string name="license">Licencia: Apache 2.0</string>
     <string name="belarusian_translation">Traducción al Bielorruso</string>
     <string name="feedback">Comentarios</string>
-    <string name="telegram_link_copied">Enlace de Telegram copiado</string>
     <string name="email_copied">Email copiado</string>
     <string name="auto_dark_mode">Modo Oscuro Automático</string>
     <string name="auto_dark_mode_summary">Activar el modo oscuro dependiendo del sistema</string>
@@ -223,7 +222,6 @@
     <string name="access_memory_card">Para la copia de seguridad, se requiere acceso a la tarjeta de memoria. Conceder permisos en la siguiente ventana</string>
     <string name="screen_time">Tiempo de Pantalla: %1$s</string>
     <string name="screen_time_overlay">Tiempo de Pantalla</string>
-    <string name="telegram_developer">Desarrollador</string>
     <string name="other">Otros</string>
     <string name="charging_current">Corriente de carga</string>
     <string name="charging_current_ma">Corriente de carga: %1$d mA</string>

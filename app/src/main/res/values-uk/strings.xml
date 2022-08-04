@@ -50,7 +50,6 @@
     <string name="license">Ліцензія: Apache 2.0</string>
     <string name="belarusian_translation">Білоруський переклад</string>
     <string name="feedback">Зворотній зв\'язок</string>
-    <string name="telegram_link_copied">Посилання на Telegram скопійовано</string>
     <string name="email_copied">E-mail скопійований</string>
     <string name="auto_dark_mode">Автоматична темна тема</string>
     <string name="auto_dark_mode_summary">Включати темну тему в залежності від системи</string>
@@ -223,7 +222,6 @@
     <string name="access_memory_card">Для резервного копіювання, потрібен доступ до карти пам\'яті. Надайте дозвіл в наступному вікні</string>
     <string name="screen_time">Час роботи екрана: %1$s</string>
     <string name="screen_time_overlay">Час роботи екрана</string>
-    <string name="telegram_developer">Розробник</string>
     <string name="other">Інше</string>
     <string name="charging_current">Струм зарядки</string>
     <string name="charging_current_ma">Струм зарядки: %1$d мА</string>

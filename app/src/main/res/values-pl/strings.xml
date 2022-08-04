@@ -50,7 +50,6 @@
     <string name="license">Licencja: Apache 2.0</string>
     <string name="belarusian_translation">Tłumaczenie z języka białoruskiego</string>
     <string name="feedback">Informacje zwrotne</string>
-    <string name="telegram_link_copied">Skopiowano łącze do telegramu</string>
     <string name="email_copied">E-mail skopiowany</string>
     <string name="auto_dark_mode">Automatyczny tryb przyciemniania</string>
     <string name="auto_dark_mode_summary">Włączanie trybu ciemnego w zależności od systemu</string>
@@ -223,7 +222,6 @@
     <string name="access_memory_card">W celu utworzenia kopii zapasowej wymagany jest dostęp do karty pamięci. W następnym oknie należy przyznać uprawnienia</string>
     <string name="screen_time">Czas ekranowy: %1$s</string>
     <string name="screen_time_overlay">Czas ekranowy</string>
-    <string name="telegram_developer">Deweloper</string>
     <string name="other">Inne</string>
     <string name="charging_current">Prąd ładowania</string>
     <string name="charging_current_ma">Prąd ładowania: %1$d mA</string>

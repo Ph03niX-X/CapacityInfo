@@ -52,9 +52,7 @@
     <string name="license">License: Apache 2.0</string>
     <string name="belarusian_translation">Belarusian translation</string>
     <string name="feedback">Feedback</string>
-    <string name="telegram" translatable="false">Telegram</string>
     <string name="email" translatable="false">E-mail</string>
-    <string name="telegram_link_copied">Telegram link copied</string>
     <string name="email_copied">E-mail copied</string>
     <string name="auto_dark_mode">Auto Dark Mode</string>
     <string name="auto_dark_mode_summary">Turn on dark mode depending on the system</string>
@@ -241,7 +239,6 @@
     <string name="screen_time">Screen Time: %1$s</string>
     <string name="screen_time_overlay">Screen Time</string>
     <string name="screen_time_overlay_only_values" translatable="false">%1$s</string>
-    <string name="telegram_developer">Developer</string>
     <string name="other">Other</string>
     <string name="charging_current">Charging Current</string>
     <string name="charging_current_ma">Charging Current: %1$d mA</string>

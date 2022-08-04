@@ -50,7 +50,6 @@
     <string name="license">Licență: Apache 2.0</string>
     <string name="belarusian_translation">Traducere în belorusă</string>
     <string name="feedback">Opinii</string>
-    <string name="telegram_link_copied">Link Telegram copiat</string>
     <string name="email_copied">E-mail copiat</string>
     <string name="auto_dark_mode">Modul întunecat automat</string>
     <string name="auto_dark_mode_summary">Se activează modul întunecat în funcție de sistem</string>
@@ -223,7 +222,6 @@
     <string name="access_memory_card">Pentru backup este necesar accesul la cardul de memorie. Acordați permisiunea în următoarea fereastră</string>
     <string name="screen_time">Timp de ecran: %1$s</string>
     <string name="screen_time_overlay">Timp de ecran</string>
-    <string name="telegram_developer">Dezvoltator</string>
     <string name="other">Altele</string>
     <string name="charging_current">Curent de încărcare</string>
     <string name="charging_current_ma">Curent de încărcare: %1$d mA</string>

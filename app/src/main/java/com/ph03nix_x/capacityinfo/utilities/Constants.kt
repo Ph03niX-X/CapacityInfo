@@ -8,7 +8,6 @@ object Constants {
     const val DONATE_LINK = "https://www.donationalerts.com/c/ph03nix_x"
     const val GITHUB_LINK = "https://github.com/Ph03niX-X/CapacityInfo"
     const val UKRAINIAN_TRANSLATION_LINK = "https://t.me/Erdar2K22"
-    const val TELEGRAM_DEVELOPER_LINK = "https://t.me/Ph03niX_X"
     const val DONT_KILL_MY_APP_LINK = "https://dontkillmyapp.com"
     const val GOOGLE_PLAY_PACKAGE_NAME = "com.android.vending"
     const val SERVICE_CHANNEL_ID = "service_channel"
