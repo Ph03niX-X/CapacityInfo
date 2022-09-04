@@ -34,6 +34,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_C
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 
 class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
@@ -97,13 +98,17 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
             IS_NOTIFY_DISCHARGE_CURRENT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
             IS_AUTO_BACKUP_SETTINGS, IS_BACKUP_SETTINGS_TO_MICROSD,
             FREQUENCY_OF_AUTO_BACKUP_SETTINGS, TAB_ON_APPLICATION_LAUNCH,
-            IS_ENABLED_DEBUG_OPTIONS).forEach {
+            IS_ENABLED_DEBUG_OPTIONS, LANGUAGE).forEach {
 
             with(pref) {
 
                 edit().apply {
 
-                    if(contains(it)) this.remove(it)
+                    if(contains(it)) {
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && it == LANGUAGE)
+                            this.remove(it)
+                        else if(it != LANGUAGE) this.remove(it)
+                    }
 
                     apply()
                 }
