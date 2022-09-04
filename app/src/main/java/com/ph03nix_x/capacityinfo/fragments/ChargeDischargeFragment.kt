@@ -11,8 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.google.android.material.button.MaterialButton
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -25,6 +27,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
@@ -49,6 +52,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private lateinit var temperature: AppCompatTextView
     private lateinit var voltage: AppCompatTextView
     private lateinit var lastChargeTime: AppCompatTextView
+    private lateinit var premiumButton: MaterialButton
 
     private var mainContext: MainActivity? = null
     private var job: Job? = null
@@ -89,6 +93,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         temperature = view.findViewById(R.id.temperature)
         voltage = view.findViewById(R.id.voltage)
         lastChargeTime = view.findViewById(R.id.last_charge_time)
+        premiumButton = view.findViewById(R.id.premium_button)
+
+        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
+
+        if(premiumButton.isVisible)
+            premiumButton.setOnClickListener {
+                MainActivity.instance?.showPremiumDialog()
+            }
 
         updateTextAppearance()
     }
@@ -96,6 +108,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     override fun onResume() {
 
         super.onResume()
+
+        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
 
         batteryIntent = requireContext().registerReceiver(null,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED))

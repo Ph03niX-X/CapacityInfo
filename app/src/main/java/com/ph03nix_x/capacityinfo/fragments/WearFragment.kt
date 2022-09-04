@@ -10,14 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.google.android.material.button.MaterialButton
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -45,6 +49,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     private lateinit var capacityAdded: AppCompatTextView
     private lateinit var technology: AppCompatTextView
     private lateinit var batteryWear: AppCompatTextView
+    private lateinit var premiumButton: MaterialButton
     private var isJob = false
     private var job: Job? = null
 
@@ -75,6 +80,14 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         batteryHealth = view.findViewById(R.id.battery_health)
         residualCapacity = view.findViewById(R.id.residual_capacity)
         batteryWear = view.findViewById(R.id.battery_wear)
+        premiumButton = view.findViewById(R.id.premium_button)
+
+        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
+
+        if(premiumButton.isVisible)
+            premiumButton.setOnClickListener {
+                MainActivity.instance?.showPremiumDialog()
+            }
 
         updateTextAppearance()
 
@@ -96,6 +109,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     override fun onResume() {
 
         super.onResume()
+
+        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
 
         designCapacity.text = getString(
             R.string.design_capacity, pref.getInt(

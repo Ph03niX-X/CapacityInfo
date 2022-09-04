@@ -5,6 +5,7 @@
     <dimen name="margin_start">10dp</dimen>
     <dimen name="margin_end">10dp</dimen>
     <dimen name="margin_bottom">10dp</dimen>
+    <dimen name="margin_top">36dp</dimen>
     <dimen name="margin_top_history_cv">8dp</dimen>
     <dimen name="margin_top_history_date">4dp</dimen>
     <dimen name="margin_top_history_residual_capacity">8dp</dimen>
