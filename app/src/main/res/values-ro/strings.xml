@@ -292,4 +292,6 @@
     <string name="premium_feature">Caracteristica Premium</string>
     <string name="purchase_premium">Cumpărare</string>
     <string name="premium_features_unlocked">Caracteristici premium deblocate!</string>
+    <string name="change_app_language">Schimbați limba aplicației</string>
+    <string name="change_app_language_dialog">Poate fi necesar să reporniți aplicația pentru a schimba limba</string>
 </resources>
