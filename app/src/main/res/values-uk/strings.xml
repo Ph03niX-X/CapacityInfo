@@ -292,4 +292,6 @@
     <string name="premium_feature">Premium функція</string>
     <string name="purchase_premium">Придбати</string>
     <string name="premium_features_unlocked">Premium функції розблоковані!</string>
+    <string name="change_app_language">Змінити мову застосунку</string>
+    <string name="change_app_language_dialog">Для зміни мови програми може знадобитися перезапуск застосунку</string>
 </resources>
