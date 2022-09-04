@@ -291,4 +291,6 @@
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
+    <string name="change_app_language">App-Sprache ändern</string>
+    <string name="change_app_language_dialog">Möglicherweise müssen Sie die Anwendung neu starten, um die Sprache zu ändern</string>
 </resources>
