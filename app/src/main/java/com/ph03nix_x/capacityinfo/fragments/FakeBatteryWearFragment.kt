@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
@@ -24,8 +25,9 @@ class FakeBatteryWearFragment : PreferenceFragmentCompat() {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        LocaleHelper.setLocale(requireContext(), pref.getString(
-            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(requireContext(), pref.getString(
+                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.fake_battery_wear_settings)
 

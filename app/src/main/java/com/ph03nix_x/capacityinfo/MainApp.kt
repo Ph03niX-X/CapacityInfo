@@ -78,8 +78,9 @@ class MainApp : Application() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
-            null) ?: defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(this, pref.getString(
+                LANGUAGE, null) ?: defLang)
 
         if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
                 R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(

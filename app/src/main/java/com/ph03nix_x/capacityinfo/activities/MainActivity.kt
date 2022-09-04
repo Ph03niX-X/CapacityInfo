@@ -102,7 +102,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         ThemeHelper.setTheme(this)
 
-        LocaleHelper.setLocale(this, pref.getString(
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(this, pref.getString(
             LANGUAGE, null) ?: defLang)
 
         setContentView(R.layout.activity_main)
@@ -337,7 +338,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
-        if(LocaleHelper.getSystemLocale(resources.configuration) != pref.getString(LANGUAGE,
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+            LocaleHelper.getSystemLocale(resources.configuration) != pref.getString(LANGUAGE,
                 null)) {
 
             LocaleHelper.setLocale(this, pref.getString(LANGUAGE,

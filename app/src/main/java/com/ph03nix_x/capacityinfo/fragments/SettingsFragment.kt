@@ -1,8 +1,10 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.*
@@ -23,6 +25,7 @@ import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHANGE_APP_LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
@@ -61,6 +64,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var textSize: ListPreference? = null
     private var textStyle: ListPreference? = null
     private var selectLanguage: ListPreference? = null
+    private var changeAppLanguage: Preference? = null
 
     // Misc
     private var resetScreenTime: SwitchPreferenceCompat? = null
@@ -85,8 +89,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        LocaleHelper.setLocale(requireContext(), pref.getString(
-            LANGUAGE, null) ?: MainApp.defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(requireContext(), pref.getString(
+                LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.settings)
 
@@ -165,7 +170,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle = findPreference(TEXT_STYLE)
 
-        selectLanguage = findPreference(LANGUAGE)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            selectLanguage = findPreference(LANGUAGE)
+
+        changeAppLanguage = findPreference(CHANGE_APP_LANGUAGE)
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
@@ -174,7 +182,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle?.summary = getOnTextStyleSummary(requireContext())
 
-        selectLanguage?.summary = getOnLanguageSummary(requireContext())
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            selectLanguage?.summary = getOnLanguageSummary(requireContext())
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -208,14 +217,32 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
-        selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
+                MainActivity.isRecreate = true
+                onChangeLanguage(requireContext(), ((newValue as? String) ?: MainApp.defLang))
+                true
+            }
 
-            MainActivity.isRecreate = true
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            changeAppLanguage?.setOnPreferenceClickListener {
 
-            onChangeLanguage(requireContext(), ((newValue as? String) ?: MainApp.defLang))
+                MaterialAlertDialogBuilder(requireContext()).apply {
 
-            true
-        }
+                    setIcon(R.drawable.ic_language_24dp)
+                    setTitle(getString(R.string.information))
+                    setMessage(getString(R.string.change_app_language_dialog))
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+
+                        startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
+                            Uri.parse("package:${requireContext().packageName}")))
+                    }
+                    setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+                    show()
+                }
+
+                true
+            }
 
         // Misc
         resetScreenTime = findPreference("is_reset_screen_time_at_any_charge_level")
@@ -575,7 +602,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle?.summary = getOnTextStyleSummary(requireContext())
 
-        selectLanguage?.summary = getOnLanguageSummary(requireContext())
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            selectLanguage?.summary = getOnLanguageSummary(requireContext())
 
         tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch(requireContext())
 

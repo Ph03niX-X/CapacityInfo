@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,8 +59,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        LocaleHelper.setLocale(requireContext(), pref.getString(
-            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(requireContext(), pref.getString(
+                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

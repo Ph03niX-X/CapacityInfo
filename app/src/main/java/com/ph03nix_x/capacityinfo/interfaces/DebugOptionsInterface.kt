@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -615,7 +616,8 @@ interface DebugOptionsInterface {
 
             MainActivity.tempFragment = MainActivity.instance?.fragment
 
-            LocaleHelper.setLocale(context, value)
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                LocaleHelper.setLocale(context, value)
 
             (context as? MainActivity)?.recreate()
         }
@@ -699,7 +701,8 @@ interface DebugOptionsInterface {
 
                 MainActivity.tempFragment = MainActivity.instance?.fragment
 
-                LocaleHelper.setLocale(context, MainApp.defLang)
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                    LocaleHelper.setLocale(context, MainApp.defLang)
 
                 (context as? MainActivity)?.recreate()
             }

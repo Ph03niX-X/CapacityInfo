@@ -54,8 +54,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        LocaleHelper.setLocale(requireContext(), pref.getString(
-            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(requireContext(), pref.getString(
+                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.debug_settings)
 

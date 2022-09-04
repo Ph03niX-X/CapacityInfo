@@ -39,6 +39,7 @@ object PreferencesKeys {
     const val TEXT_SIZE = "text_size"
     const val TEXT_STYLE = "text_style"
     const val LANGUAGE = "language"
+    const val CHANGE_APP_LANGUAGE = "change_app_language" // Android 13+
 
     // Misc
     const val IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL = "is_reset_screen_time_at_any_charge_level"

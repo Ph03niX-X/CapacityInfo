@@ -164,8 +164,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(
                 Intent.ACTION_POWER_DISCONNECTED))
 
-            LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
-                null) ?: defLang)
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
+                    null) ?: defLang)
 
             onCreateServiceNotification(this@CapacityInfoService)
         }

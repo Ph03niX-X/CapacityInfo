@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.os.Build
 import android.os.IBinder
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
@@ -37,8 +38,9 @@ class OverlayService : Service(), OverlayInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        LocaleHelper.setLocale(this, pref.getString(PreferencesKeys.LANGUAGE,
-            null) ?: MainApp.defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(this, pref.getString(PreferencesKeys.LANGUAGE,
+                null) ?: MainApp.defLang)
 
         onCreateOverlay(this)
 

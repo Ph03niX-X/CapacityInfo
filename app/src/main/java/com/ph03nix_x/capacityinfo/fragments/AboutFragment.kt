@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
@@ -36,8 +37,9 @@ class AboutFragment : PreferenceFragmentCompat(), DonateInterface {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        LocaleHelper.setLocale(requireContext(), pref.getString(
-            PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(requireContext(), pref.getString(
+                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.about_settings)
 

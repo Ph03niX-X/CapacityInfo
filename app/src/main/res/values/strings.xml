@@ -313,4 +313,6 @@
     <string name="premium_feature">Premium feature</string>
     <string name="purchase_premium">Purchase</string>
     <string name="premium_features_unlocked">Premium features unlocked!</string>
+    <string name="change_app_language">Change App Language</string>
+    <string name="change_app_language_dialog">You may need to restart the application to change the language</string>
 </resources>

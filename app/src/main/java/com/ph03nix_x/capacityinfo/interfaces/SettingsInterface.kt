@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -191,7 +192,8 @@ interface SettingsInterface {
         if(OverlayService.instance != null)
             ServiceHelper.stopService(context, OverlayService::class.java)
 
-        LocaleHelper.setLocale(context, language)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            LocaleHelper.setLocale(context, language)
 
         (context as? MainActivity)?.recreate()
     }
