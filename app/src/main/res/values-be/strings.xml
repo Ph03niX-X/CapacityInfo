@@ -292,4 +292,6 @@
     <string name="premium_feature">Premium функцыя</string>
     <string name="purchase_premium">Набыць</string>
     <string name="premium_features_unlocked">Premium функцыі разблакаваны!</string>
+    <string name="change_app_language"> Змяніць мову дадатка </string>
+    <string name="change_app_language_dialog"> Для змены мовы дадатка можа спатрэбіцца перазапуск дадатка </string>
 </resources>
