@@ -255,6 +255,9 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             if(visibility == View.VISIBLE) text = getString(R.string
                                 .number_of_cycles_android, getNumberOfCyclesAndroid())
                         }
+
+                        premiumButton.isVisible = !DonateInterface.isPremium &&
+                                !DonateInterface.isDonated
                     }
 
                     withContext(Dispatchers.Main) {

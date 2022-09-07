@@ -219,6 +219,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                         requireContext()))
                             }
                         }
+
+                        premiumButton.isVisible = !DonateInterface.isPremium &&
+                                !DonateInterface.isDonated
                     }
 
                     withContext(Dispatchers.Main) {
