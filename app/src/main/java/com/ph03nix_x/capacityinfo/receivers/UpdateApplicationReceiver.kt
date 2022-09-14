@@ -98,17 +98,13 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
             IS_NOTIFY_DISCHARGE_CURRENT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
             IS_AUTO_BACKUP_SETTINGS, IS_BACKUP_SETTINGS_TO_MICROSD,
             FREQUENCY_OF_AUTO_BACKUP_SETTINGS, TAB_ON_APPLICATION_LAUNCH,
-            IS_ENABLED_DEBUG_OPTIONS, LANGUAGE).forEach {
+            IS_ENABLED_DEBUG_OPTIONS).forEach {
 
             with(pref) {
 
                 edit().apply {
 
-                    if(contains(it)) {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && it == LANGUAGE)
-                            this.remove(it)
-                        else if(it != LANGUAGE) this.remove(it)
-                    }
+                    if(contains(it)) this.remove(it)
 
                     apply()
                 }
@@ -122,13 +118,17 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
 
         arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay", "text_font",
             "overlay_font", "is_show_faq", "is_show_stop_service",
-            "is_stop_the_service_when_the_cd", "is_show_donate_message").forEach {
+            "is_stop_the_service_when_the_cd", "is_show_donate_message", LANGUAGE).forEach {
 
             with(pref) {
 
                 edit().apply {
 
-                    if(contains(it)) this.remove(it)
+                    if(contains(it)) {
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && it == LANGUAGE)
+                            this.remove(it)
+                        else if(it != LANGUAGE) this.remove(it)
+                    }
 
                     apply()
                 }
