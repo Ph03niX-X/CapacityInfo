@@ -22,17 +22,17 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
 
     companion object {
 
-        @Deprecated("Premium")
+        @Deprecated("Remove at the end of December")
         var donateContext: Context? = null
-        @Deprecated("Premium")
+        @Deprecated("Remove at the end of December")
         var donateActivity: Activity? = null
         var premiumContext: Context? = null
         var premiumActivity: Activity? = null
         var billingProcessor: BillingProcessor? = null
 
-        @Deprecated("Premium")
+        @Deprecated("Remove at the end of December")
         var isDonation = false
-        @Deprecated("Premium")
+        @Deprecated("Remove at the end of December")
         var isDonated = false
         var isPurchasePremium = false
         var isPremium = false
@@ -85,7 +85,7 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
         isPurchasePremium = false
     }
 
-    @Deprecated("Premium")
+    @Deprecated("Remove at the end of December")
     fun openDonate() {
         isDonation = true
         if(donateContext != null && BillingProcessor.isIabServiceAvailable(donateContext!!))
@@ -93,7 +93,7 @@ interface DonateInterface: BillingProcessor.IBillingHandler {
         if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
     }
 
-    @Deprecated("Premium")
+    @Deprecated("Remove at the end of December")
     fun isDonated(): Boolean {
         if (donateContext != null && BillingProcessor.isIabServiceAvailable(donateContext))
             billingProcessor = BillingProcessor(donateContext, googlePlayLicenseKey, this)

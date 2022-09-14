@@ -462,6 +462,19 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
 
+        if(isDonated && pref.getBoolean("is_show_premium_info_dialog", true))
+            MaterialAlertDialogBuilder(this).apply {
+
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(getString(R.string.information))
+                setMessage(getString(R.string.premium_info_dialog))
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    pref.edit().putBoolean("is_show_premium_info_dialog", false).apply()
+                }
+                setCancelable(false)
+                show()
+            }
+
         val prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
                 as? HashMap<*, *>
         if(prefArrays != null) importSettings(prefArrays)
