@@ -544,13 +544,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
                     residualCapacity)
                 if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
-                    HistoryFragment.instance?.emptyHistoryText?.visibility = View.GONE
+                    HistoryFragment.instance?.emptyHistoryLayout?.visibility = View.GONE
                     HistoryFragment.instance?.recView?.visibility = View.VISIBLE
                     HistoryAdapter.instance?.update(this@CapacityInfoService)
                 }
                 else {
                     HistoryFragment.instance?.recView?.visibility = View.GONE
-                    HistoryFragment.instance?.emptyHistoryText?.visibility = View.VISIBLE
+                    HistoryFragment.instance?.emptyHistoryLayout?.visibility = View.VISIBLE
                 }
             }
         }
