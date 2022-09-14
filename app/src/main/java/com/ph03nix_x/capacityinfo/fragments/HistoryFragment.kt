@@ -3,11 +3,10 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
+import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -26,7 +25,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
     private lateinit var pref: SharedPreferences
     private lateinit var historyAdapter: HistoryAdapter
     lateinit var recView: RecyclerView
-    lateinit var emptyHistoryText: AppCompatTextView
+    lateinit var emptyHistoryLayout: RelativeLayout
 
     companion object {
 
@@ -51,12 +50,12 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         instance = this
 
         recView = view.findViewById(R.id.history_recycler_view)
-        emptyHistoryText = view.findViewById(R.id.empty_history_text)
+        emptyHistoryLayout = view.findViewById(R.id.empty_history_layout)
 
         val historyDB = HistoryDB(requireContext())
 
         if(historyDB.getCount() > 0) {
-            emptyHistoryText.visibility = View.GONE
+            emptyHistoryLayout.visibility = View.GONE
             recView.visibility = View.VISIBLE
             historyAdapter = HistoryAdapter(historyDB.readDB())
             recView.adapter = historyAdapter
@@ -64,7 +63,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         }
         else {
             recView.visibility = View.GONE
-            emptyHistoryText.visibility = View.VISIBLE
+            emptyHistoryLayout.visibility = View.VISIBLE
         }
 
         refresh_history.apply {
@@ -76,15 +75,14 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
                 refresh_history.isRefreshing = true
                 if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
                     historyAdapter.update(requireContext())
-                    emptyHistoryText.visibility = View.GONE
+                    emptyHistoryLayout.visibility = View.GONE
                     recView.visibility = View.VISIBLE
                 }
                 else {
                     recView.visibility = View.GONE
-                    emptyHistoryText.visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.VISIBLE
                 }
-                Log.println(Log.DEBUG, "recycler:", recView.visibility.toString())
-                Log.println(Log.DEBUG, "history text:", emptyHistoryText.visibility.toString())
+
                 refresh_history.isRefreshing = false
             }
         }
@@ -94,16 +92,17 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         super.onResume()
         if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
             historyAdapter.update(requireContext())
-            emptyHistoryText.visibility = View.GONE
+            emptyHistoryLayout.visibility = View.GONE
             recView.visibility = View.VISIBLE
         }
         else {
             recView.visibility = View.GONE
-            emptyHistoryText.visibility = View.VISIBLE
+            emptyHistoryLayout.visibility = View.VISIBLE
         }
     }
 
     override fun onDestroy() {
+        instance = null
         HistoryAdapter.instance = null
         super.onDestroy()
     }

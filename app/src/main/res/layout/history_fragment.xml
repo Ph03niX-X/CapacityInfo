@@ -7,26 +7,23 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_history"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
+        android:layout_height="match_parent"
+        android:id="@+id/empty_history_layout">
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/empty_history_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="@dimen/large_text_size"
             android:text="@string/empty_history_text"/>
+    </RelativeLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/history_recycler_view"
@@ -37,8 +34,6 @@
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:fadeScrollbars="false"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

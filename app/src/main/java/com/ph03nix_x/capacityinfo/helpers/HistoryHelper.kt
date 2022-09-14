@@ -52,12 +52,12 @@ object HistoryHelper {
                         clearHistoryToolbarMenu.isVisible = isHistoryNotEmpty
                         if(!isHistoryNotEmpty) {
                             HistoryFragment.instance?.recView?.visibility = View.GONE
-                            HistoryFragment.instance?.emptyHistoryText?.visibility = View.VISIBLE
+                            HistoryFragment.instance?.emptyHistoryLayout?.visibility = View.VISIBLE
                             Toast.makeText(context, context.getString(
                                 R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
                         }
                         else {
-                            HistoryFragment.instance?.emptyHistoryText?.visibility = View.GONE
+                            HistoryFragment.instance?.emptyHistoryLayout?.visibility = View.GONE
                             HistoryFragment.instance?.recView?.visibility = View.VISIBLE
                             HistoryAdapter.instance?.update(context)
                             Toast.makeText(context, context.getString(R.string
