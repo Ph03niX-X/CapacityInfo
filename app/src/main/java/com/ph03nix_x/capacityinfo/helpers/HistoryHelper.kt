@@ -2,12 +2,14 @@ package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import java.lang.Exception
 
@@ -48,14 +50,21 @@ object HistoryHelper {
                         clearHistory(context)
                         val isHistoryNotEmpty = isHistoryNotEmpty(context)
                         clearHistoryToolbarMenu.isVisible = isHistoryNotEmpty
-                        HistoryAdapter.instance?.update(context)
-                        if(!isHistoryNotEmpty) Toast.makeText(context, context.getString(
-                            R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
-                        else Toast.makeText(context, context.getString(R.string
-                            .error_clearing_history), Toast.LENGTH_LONG).show()
+                        if(!isHistoryNotEmpty) {
+                            HistoryFragment.instance?.recView?.visibility = View.GONE
+                            HistoryFragment.instance?.emptyHistoryText?.visibility = View.VISIBLE
+                            Toast.makeText(context, context.getString(
+                                R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
+                        }
+                        else {
+                            HistoryFragment.instance?.emptyHistoryText?.visibility = View.GONE
+                            HistoryFragment.instance?.recView?.visibility = View.VISIBLE
+                            HistoryAdapter.instance?.update(context)
+                            Toast.makeText(context, context.getString(R.string
+                                .error_clearing_history), Toast.LENGTH_LONG).show()
+                        }
                     }
                     catch (e: Exception) {
-
                         Toast.makeText(context, "${context.getString(R.string
                             .error_clearing_history)}\n${e.message ?: e.toString()}",
                             Toast.LENGTH_LONG).show()

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
@@ -18,6 +19,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
+import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -541,7 +543,15 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 HistoryHelper.removeFirstRow(this@CapacityInfoService)
                 HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
                     residualCapacity)
-                HistoryAdapter.instance?.update(this@CapacityInfoService)
+                if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
+                    HistoryFragment.instance?.emptyHistoryText?.visibility = View.GONE
+                    HistoryFragment.instance?.recView?.visibility = View.VISIBLE
+                    HistoryAdapter.instance?.update(this@CapacityInfoService)
+                }
+                else {
+                    HistoryFragment.instance?.recView?.visibility = View.GONE
+                    HistoryFragment.instance?.emptyHistoryText?.visibility = View.VISIBLE
+                }
             }
         }
 

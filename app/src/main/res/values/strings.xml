@@ -316,4 +316,5 @@
     <string name="change_app_language">Change App Language</string>
     <string name="change_app_language_dialog">You may need to restart the application to change the language</string>
     <string name="premium_info_dialog">At the end of December, you will need to purchase a Premium. If you want to get a free Premium, you need to send the Order ID (Settings->About->Tap by Order ID) to the E-mail: Ph03niX-X@outlook.com</string>
+    <string name="empty_history_text">History of charges is empty! Please, charge the battery to full 100% (Status: Fully Charged)</string>
 </resources>
