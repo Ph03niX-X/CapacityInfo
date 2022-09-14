@@ -287,10 +287,12 @@
     <string name="order_id">Auftrags-ID</string>
     <string name="order_id_copied">Auftrags-ID in die Zwischenablage kopiert</string>
     <string name="history_count">Verlauf zählen</string>
-    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Verlauf > 3;\n\• Verlauf löschen;\n\• Informationen zum Akkustatus;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay</string>
+    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Verlauf > 3;\n\• Verlauf löschen;\n\• Informationen zum Akkustatus;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay\n\nMit dem Khufu von Premium understate Sie auth die Welterweight der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
     <string name="change_app_language">App-Sprache ändern</string>
     <string name="change_app_language_dialog">Möglicherweise müssen Sie die Anwendung neu starten, um die Sprache zu ändern</string>
+    <string name="premium_info_dialog">Ende Dezember müssen Sie ein Premium kaufen. Wenn Sie ein kostenloses Premium erhalten möchten, müssen Sie die Auftrags-ID (Einstellungen->Über->Auftrags-ID tippen) an die E-Mail-Adresse: Ph03niX-X@outlook.com</string>
+    <string name="empty_history_text">Aufladungsverlauf ist leer! Bitte laden Sie den Akku zu 100% auf (Status: Geladen)</string>
 </resources>
