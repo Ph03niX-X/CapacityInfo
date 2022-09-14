@@ -288,10 +288,12 @@
     <string name="order_id">ID замовы</string>
     <string name="order_id_copied">ID замовы скапіяваны ў буфер абмену</string>
     <string name="history_count">Колькасць гісторыі</string>
-    <string name="premium_dialog">Набывая Premium, вы атрымліваеце дадатковыя функцыі дадатка:\n\• Гісторыя > 3;\n\• Ачыстка гісторыі;\n\• Інфармацыя аб стане акумулятара;\n\• Абнуленне часу экрана пры любым узроўні зарада;\n\• Рэзервовае капіраванне;\n\• Ўкладка пры запуску дадатка;\n\• Аверлэй</string>
+    <string name="premium_dialog">Набывая Premium, вы атрымліваеце дадатковыя функцыі дадатка:\n\• Гісторыя > 3;\n\• Ачыстка гісторыі;\n\• Інфармацыя аб стане акумулятара;\n\• Абнуленне часу экрана пры любым узроўні зарада;\n\• Рэзервовае капіраванне;\n\• Ўкладка пры запуску дадатка;\n\• Аверлэй\n\nНабываючы Premium вы так жа падтрымліваеце далейшую распрацоўку дадатка</string>
     <string name="premium_feature">Premium функцыя</string>
     <string name="purchase_premium">Набыць</string>
     <string name="premium_features_unlocked">Premium функцыі разблакаваны!</string>
     <string name="change_app_language"> Змяніць мову дадатка </string>
     <string name="change_app_language_dialog"> Для змены мовы дадатка можа спатрэбіцца перазапуск дадатка </string>
+    <string name="premium_info_dialog"> У канцы снежня вам трэба будзе набываць Premium. Калі вы хочаце бясплатна атрымаць Premium, вам трэба адправіць ID замовы (Налады->Аб дадатку->Тап па ID замовы) на электронную пошту: Ph03niX-X@outlook.com</string>
+    <string name="empty_history_text"> Гісторыя зарадкі пустая! Калі ласка, зарадзіце акумулятар да поўных 100% (Статус: зараджана)</string>
 </resources>
