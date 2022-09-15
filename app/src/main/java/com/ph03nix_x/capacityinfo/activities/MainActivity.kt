@@ -39,6 +39,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_RESTORE_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_RESTORE_SETTINGS_EXTRA
+import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
@@ -482,7 +483,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
                 .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
             !ServiceHelper.isStartedCapacityInfoService())
-                ServiceHelper.startService(this, CapacityInfoService::class.java)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
+                    .checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_DENIED)
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
+            else ServiceHelper.startService(this, CapacityInfoService::class.java)
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
@@ -562,6 +568,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     }
                 }
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+
+        when (requestCode) {
+            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    ServiceHelper.startService(this, CapacityInfoService::class.java)
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 

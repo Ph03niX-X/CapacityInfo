@@ -1,10 +1,12 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +14,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,7 +23,9 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -49,6 +54,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
 
+    private var batteryStatusInformationSettingsPrefScreen: PreferenceScreen? = null
     private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
     private var overheatDegrees: SeekBarPreference? = null
     private var overcoolDegrees: SeekBarPreference? = null
@@ -77,6 +83,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.battery_status_information_settings)
 
+        batteryStatusInformationSettingsPrefScreen =
+            findPreference("battery_status_information_settings_pref_screen")
         notifyOverheatOvercool = findPreference(IS_NOTIFY_OVERHEAT_OVERCOOL)
         overheatDegrees = findPreference(OVERHEAT_DEGREES)
         overcoolDegrees = findPreference(OVERCOOL_DEGREES)
@@ -94,6 +102,17 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
         dischargeCurrentLevelNotify = findPreference(DISCHARGE_CURRENT_LEVEL_NOTIFY)
         exportNotificationSounds = findPreference("export_notification_sounds")
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if(ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
+            }
+            batteryStatusInformationSettingsPrefScreen?.isEnabled = ContextCompat
+                .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED
+        }
 
         overheatDegrees?.apply {
             summary = getOverheatDegreesSummary()
@@ -385,6 +404,11 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            batteryStatusInformationSettingsPrefScreen?.isEnabled = ContextCompat
+                .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED
+
         overheatDegrees?.apply {
             summary = getOverheatDegreesSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
@@ -472,6 +496,18 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE ->
                 if(resultCode == Activity.RESULT_OK) exportNotificationSounds(data)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+
+        when (requestCode) {
+            Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
+                if(grantResults.isNotEmpty())
+                    batteryStatusInformationSettingsPrefScreen?.isEnabled =
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 
