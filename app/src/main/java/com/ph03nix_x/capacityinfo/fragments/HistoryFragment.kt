@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
@@ -25,6 +26,8 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
     private lateinit var pref: SharedPreferences
     private lateinit var historyAdapter: HistoryAdapter
     lateinit var recView: RecyclerView
+    lateinit var refreshEmptyHistory: SwipeRefreshLayout
+    lateinit var refreshHistory: SwipeRefreshLayout
     lateinit var emptyHistoryLayout: RelativeLayout
 
     companion object {
@@ -50,12 +53,15 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         instance = this
 
         recView = view.findViewById(R.id.history_recycler_view)
+        refreshEmptyHistory = view.findViewById(R.id.refresh_empty_history)
+        refreshHistory = view.findViewById(R.id.refresh_history)
         emptyHistoryLayout = view.findViewById(R.id.empty_history_layout)
 
         val historyDB = HistoryDB(requireContext())
 
         if(historyDB.getCount() > 0) {
             emptyHistoryLayout.visibility = View.GONE
+            refresh_empty_history.visibility = View.GONE
             recView.visibility = View.VISIBLE
             historyAdapter = HistoryAdapter(historyDB.readDB())
             recView.adapter = historyAdapter
@@ -63,40 +69,26 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         }
         else {
             recView.visibility = View.GONE
+            refresh_empty_history.visibility = View.VISIBLE
             emptyHistoryLayout.visibility = View.VISIBLE
         }
 
-        refresh_history.apply {
-            setColorSchemeColors(ContextCompat.getColor(requireContext(),
-                R.color.swipe_refresh_layout_progress))
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
-                R.color.swipe_refresh_layout_progress_background))
-            setOnRefreshListener {
-                refresh_history.isRefreshing = true
-                if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
-                    historyAdapter.update(requireContext())
-                    emptyHistoryLayout.visibility = View.GONE
-                    recView.visibility = View.VISIBLE
-                }
-                else {
-                    recView.visibility = View.GONE
-                    emptyHistoryLayout.visibility = View.VISIBLE
-                }
+        refreshEmptyHistory()
 
-                refresh_history.isRefreshing = false
-            }
-        }
+        refreshHistory()
     }
 
     override fun onResume() {
         super.onResume()
         if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
             historyAdapter.update(requireContext())
+            refresh_empty_history.visibility = View.GONE
             emptyHistoryLayout.visibility = View.GONE
             recView.visibility = View.VISIBLE
         }
         else {
             recView.visibility = View.GONE
+            refresh_empty_history.visibility = View.VISIBLE
             emptyHistoryLayout.visibility = View.VISIBLE
         }
     }
@@ -105,5 +97,57 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         instance = null
         HistoryAdapter.instance = null
         super.onDestroy()
+    }
+
+    private fun refreshEmptyHistory() {
+        refreshEmptyHistory.apply {
+            setColorSchemeColors(ContextCompat.getColor(requireContext(),
+                R.color.swipe_refresh_layout_progress))
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
+                R.color.swipe_refresh_layout_progress_background))
+            setOnRefreshListener {
+                isRefreshing = true
+                if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
+                    historyAdapter.update(requireContext())
+                    visibility = View.GONE
+                    refresh_history.visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.GONE
+                    recView.visibility = View.VISIBLE
+                }
+                else {
+                    recView.visibility = View.GONE
+                    refresh_history.visibility = View.GONE
+                    visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.VISIBLE
+                }
+                isRefreshing = false
+            }
+        }
+    }
+
+    private fun refreshHistory() {
+        refreshHistory.apply {
+            setColorSchemeColors(ContextCompat.getColor(requireContext(),
+                R.color.swipe_refresh_layout_progress))
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
+                R.color.swipe_refresh_layout_progress_background))
+            setOnRefreshListener {
+                isRefreshing = true
+                if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
+                    historyAdapter.update(requireContext())
+                    refresh_empty_history.visibility = View.GONE
+                    visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.GONE
+                    recView.visibility = View.VISIBLE
+                }
+                else {
+                    recView.visibility = View.GONE
+                    visibility = View.GONE
+                    refresh_empty_history.visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.VISIBLE
+                }
+                isRefreshing = false
+            }
+        }
     }
 }

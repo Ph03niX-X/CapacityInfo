@@ -56,7 +56,10 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             holderHistory.itemView.history_battery_wear.text = getBatteryWear(holderHistory.itemView
                 .context, historyList[historyList.size - 1 - position].residualCapacity)
         }
-        else holderHistory.itemView.visibility = View.GONE
+        else {
+            holderHistory.itemView.visibility = View.GONE
+            holderHistory.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+        }
     }
 
     private fun updateTextAppearance(holderHistory: HistoryViewHolder) {
