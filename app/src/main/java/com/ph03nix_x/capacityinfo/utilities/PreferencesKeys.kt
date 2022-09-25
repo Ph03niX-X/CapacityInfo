@@ -12,6 +12,7 @@ object PreferencesKeys {
 
     // Service & Notification
     const val IS_SERVICE_TIME = "is_service_time"
+    const val IS_SHOW_BATTERY_INFORMATION = "is_show_battery_information"
     const val IS_SHOW_EXPANDED_NOTIFICATION = "is_show_expanded_notification"
 
     // Battery Status Information

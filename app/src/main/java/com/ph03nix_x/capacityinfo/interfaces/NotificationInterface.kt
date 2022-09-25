@@ -39,6 +39,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.OVERHEAT_OVERCOOL_CHANNEL_
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
@@ -47,7 +48,7 @@ import java.lang.RuntimeException
 import java.text.DecimalFormat
 
 @SuppressLint("StaticFieldLeak")
-interface NotificationInterface : BatteryInfoInterface {
+interface NotificationInterface : BatteryInfoInterface, DonateInterface {
 
     companion object {
 
@@ -109,16 +110,26 @@ interface NotificationInterface : BatteryInfoInterface {
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
 
-            remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                if(getOnCurrentCapacity(context) > 0.0) context.getString(
-                    R.string.current_capacity, DecimalFormat("#.#").format(
-                        getOnCurrentCapacity(context))) else "${context.getString(
-                    R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
+            val isShowBatteryInformation = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION, context.resources.getBoolean(
+                R.bool.is_show_battery_information))
+            val isShowExpandedNotification =  pref.getBoolean(
+                IS_SHOW_EXPANDED_NOTIFICATION, context.resources.getBoolean(
+                    R.bool.is_show_expanded_notification))
+            if(isShowBatteryInformation && isShowExpandedNotification) {
+                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                    if(getOnCurrentCapacity(context) > 0.0) context.getString(
+                        R.string.current_capacity, DecimalFormat("#.#").format(
+                            getOnCurrentCapacity(context))) else "${context.getString(
+                        R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
+            }
+            else if(!isShowBatteryInformation && (isDonated() ||isPremium())) {
+                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                    context.getString(R.string.service_is_running))
+            }
 
             setCustomContentView(remoteViewsServiceContent)
 
-            val isShowBigContent = pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION, context
-                .resources.getBoolean(R.bool.is_show_expanded_notification))
+            val isShowBigContent = isShowBatteryInformation && isShowExpandedNotification
 
             if(isShowBigContent) {
 
@@ -169,16 +180,26 @@ interface NotificationInterface : BatteryInfoInterface {
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
 
-            remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                if(getOnCurrentCapacity(context) > 0.0) context.getString(
-                    R.string.current_capacity, DecimalFormat("#.#").format(
-                        getOnCurrentCapacity(context))) else "${context.getString(
-                    R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
+            val isShowBatteryInformation = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION, context.resources.getBoolean(
+                R.bool.is_show_battery_information))
+            val isShowExpandedNotification =  pref.getBoolean(
+                IS_SHOW_EXPANDED_NOTIFICATION, context.resources.getBoolean(
+                    R.bool.is_show_expanded_notification))
+            if(isShowBatteryInformation && isShowExpandedNotification) {
+                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                    if(getOnCurrentCapacity(context) > 0.0) context.getString(
+                        R.string.current_capacity, DecimalFormat("#.#").format(
+                            getOnCurrentCapacity(context))) else "${context.getString(
+                        R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
+            }
+            else if(!isShowBatteryInformation && (isDonated() ||isPremium())) {
+                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                context.getString(R.string.service_is_running))
+            }
 
             setCustomContentView(remoteViewsServiceContent)
 
-            val isShowBigContent = pref.getBoolean(IS_SHOW_EXPANDED_NOTIFICATION,
-                context.resources.getBoolean(R.bool.is_show_expanded_notification))
+            val isShowBigContent = isShowBatteryInformation && isShowExpandedNotification
 
             if(isShowBigContent) {
 

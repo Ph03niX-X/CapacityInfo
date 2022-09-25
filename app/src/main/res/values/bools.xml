@@ -10,6 +10,7 @@
 
     <!--Settings-->
     <bool name="is_service_time">false</bool>
+    <bool name="is_show_battery_information">true</bool>
     <bool name="is_show_expanded_notification">true</bool>
     <bool name="is_auto_dark_mode">true</bool>
     <bool name="is_dark_mode">false</bool>

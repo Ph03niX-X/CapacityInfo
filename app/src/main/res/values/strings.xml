@@ -309,7 +309,7 @@
     <string name="order_id_copied">Order ID copied to the clipboard</string>
     <string name="history_count">History Count</string>
     <string name="premium" translatable="false">Premium</string>
-    <string name="premium_dialog">By purchasing Premium, you will get additional features of the app:\n\• History > 3;\n\• Clear History;\n\• Battery Status Information;\n\• Reset Screen Time at any charge level;\n\• Backup;\n\• Tab on application launch;\n\• Overlay\n\nBy purchasing Premium you also support the further development of the app</string>
+    <string name="premium_dialog">By purchasing Premium, you will get additional features of the app:\n\• History > 3;\n\• Clear History;\n\•Show Battery Information;\n\n• Battery Status Information;\n\• Reset Screen Time at any charge level;\n\• Backup;\n\• Tab on application launch;\n\• Overlay\n\nBy purchasing Premium you also support the further development of the app</string>
     <string name="premium_feature">Premium feature</string>
     <string name="purchase_premium">Purchase</string>
     <string name="premium_features_unlocked">Premium features unlocked!</string>
@@ -317,4 +317,6 @@
     <string name="change_app_language_dialog">You may need to restart the application to change the language</string>
     <string name="premium_info_dialog">At the end of December, you will need to purchase a Premium. If you want to get a free Premium, you need to send the Order ID (Settings->About->Tap by Order ID) to the E-mail: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">History of charges is empty! Please, charge the battery to full 100% (Status: Charged)</string>
+    <string name="show_battery_information">Show Battery Information</string>
+    <string name="service_is_running">Service is running</string>
 </resources>

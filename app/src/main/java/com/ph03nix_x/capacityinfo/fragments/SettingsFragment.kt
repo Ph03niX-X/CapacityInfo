@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
@@ -42,6 +43,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
+import kotlinx.coroutines.*
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
     BatteryInfoInterface, DonateInterface {
@@ -54,6 +56,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Service & Notification
     private var serviceTime: SwitchPreferenceCompat? = null
+    private var isShowBatteryInformation: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettingsService: Preference? = null
     private var batteryStatusInformation: Preference? = null
@@ -95,6 +98,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         addPreferencesFromResource(R.xml.settings)
 
+        val isPremium = isDonated() || isPremium()
+
         mainActivity = activity as? MainActivity
 
         premium = findPreference("premium")
@@ -114,19 +119,56 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Service & Notification
         serviceTime = findPreference(IS_SERVICE_TIME)
 
+        isShowBatteryInformation = findPreference(IS_SHOW_BATTERY_INFORMATION)
+
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
        openNotificationCategorySettingsService =
            findPreference("open_notification_category_settings_service")
 
-        isShowExtendedNotification?.setOnPreferenceChangeListener { preference, _ ->
+        isShowBatteryInformation?.apply {
+            isEnabled = isPremium
 
-            preference.isEnabled = false
+            summary = getString(if(!isPremium) R.string.premium_feature
+            else R.string.service_restart_required)
 
-            ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
-                preference)
+            setOnPreferenceChangeListener { preference, value ->
 
-            true
+                preference.isEnabled = false
+                isShowExtendedNotification?.isEnabled = false
+
+                ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                    preference)
+
+                CoroutineScope(Dispatchers.Default).launch {
+
+                    withContext(Dispatchers.Main) {
+
+                        delay(3500L)
+                        isShowExtendedNotification?.isEnabled = (value as? Boolean) == true
+                    }
+                }
+
+                true
+            }
+        }
+
+        isShowExtendedNotification?.apply {
+
+            isEnabled = if(!isPremium) true
+            else pref.getBoolean(
+                IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
+                    R.bool.is_show_battery_information))
+
+            setOnPreferenceChangeListener { preference, _ ->
+
+                preference.isEnabled = false
+
+                ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                    preference)
+
+                true
+            }
         }
 
         batteryStatusInformation = findPreference("battery_status_information")
@@ -569,6 +611,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         super.onResume()
 
         if(premium?.isVisible == true) premium?.isVisible = !isDonated && !isPremium
+
+        isShowBatteryInformation?.apply {
+            isEnabled = isPremium
+            summary = getString(if(!isPremium) R.string.premium_feature
+            else R.string.service_restart_required)
+        }
+
+        isShowExtendedNotification?.apply {
+            isEnabled = if(!isPremium) true
+            else pref.getBoolean(IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
+                    R.bool.is_show_battery_information))
+        }
 
         batteryStatusInformation?.apply {
             isEnabled = premium?.isVisible == false
