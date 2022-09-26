@@ -493,7 +493,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
         }
 
-        catch(e: RuntimeException) {}
+        catch(_: RuntimeException) {}
     }
 
     private suspend fun batteryCharged() {

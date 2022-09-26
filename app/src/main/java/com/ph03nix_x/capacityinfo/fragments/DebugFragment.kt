@@ -176,7 +176,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             val historyDB = HistoryDB(requireContext()).readDB()
 
-            if(historyDB.count() > 0 && historyDB[historyDB.size - 1].date == date)
+            if(historyDB.isNotEmpty() && historyDB[historyDB.size - 1].date == date)
                 Toast.makeText(requireContext(), "$date: $residualCapacity",
                     Toast.LENGTH_LONG).show()
             else Toast.makeText(requireContext(), "0.0.0: 0", Toast.LENGTH_LONG).show()
@@ -225,12 +225,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     val historyDB = HistoryDB(requireContext()).readDB()
 
                     withContext(Dispatchers.Main) {
-                        if(i == 10 && historyDB.count() > 0 && historyDB[historyDB.size - 1]
+                        if(i == 10 && historyDB.isNotEmpty() && historyDB[historyDB.size - 1]
                                 .date == date)
                             Toast.makeText(requireContext(), "$date: $residualCapacity",
                                 Toast.LENGTH_LONG).show()
-                        else if(historyDB.count() == 0 || (historyDB.count() > 0 &&
-                                    historyDB[historyDB.size - 1].date != date)) {
+                        else if(historyDB.isEmpty() || historyDB[historyDB.size - 1].date != date) {
                             Toast.makeText(requireContext(), "$i: 0.0.0: 0",
                                 Toast.LENGTH_LONG).show()
                             delay(3500L)
@@ -286,12 +285,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     val historyDB = HistoryDB(requireContext()).readDB()
 
                     withContext(Dispatchers.Main) {
-                        if(i == 10 && historyDB.count() > 0 && historyDB[historyDB.size - 1]
+                        if(i == 10 && historyDB.isNotEmpty() && historyDB[historyDB.size - 1]
                                 .date == date)
                             Toast.makeText(requireContext(), "$date: $residualCapacity",
                                 Toast.LENGTH_LONG).show()
-                        else if(historyDB.count() == 0 || (historyDB.count() > 0 &&
-                                    historyDB[historyDB.size - 1].date != date)) {
+                        else if(historyDB.isEmpty() || historyDB[historyDB.size - 1].date != date) {
                             Toast.makeText(requireContext(), "$i: 0.0.0: 0",
                                 Toast.LENGTH_LONG).show()
                             delay(3500L)

@@ -70,7 +70,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
-import java.util.*
 import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, DonateInterface {
@@ -165,8 +164,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
                         && (pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
                     R.bool.is_supported) || HistoryHelper.isHistoryNotEmpty(this)))
-                        && prefArrays == null && !isLoadChargeDischarge && !isLoadChargeDischarge
-                        && !isLoadHistory && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
+                        && prefArrays == null && !isLoadChargeDischarge &&
+                        !isLoadHistory && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
 
                 isRestoreSettingsFromBackup && !isLoadChargeDischarge && !isLoadWear &&
                         !isLoadHistory && !isLoadSettings && !isLoadDebug && prefArrays != null ->
@@ -334,7 +333,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             true
         }
 
-        if(!isRecreate || (isRecreate && fragment !is SettingsFragment))
+        if(!isRecreate || fragment !is SettingsFragment)
             loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
                     BatteryStatusInformationFragment || fragment is BackupSettingsFragment
                     || fragment is OverlayFragment || fragment is DebugFragment ||
@@ -567,7 +566,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                 if(isDoubleBackToExitPressedOnce) finish()
 
-                else if(!isDoubleBackToExitPressedOnce) {
+                else {
 
                     isDoubleBackToExitPressedOnce = true
 
@@ -898,10 +897,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 }
             }
 
-            fragment is BatteryStatusInformationFragment || fragment is OverlayFragment
-                    || fragment is AboutFragment || fragment is DebugFragment ||
-                    fragment is FakeBatteryWearFragment || fragment is FeedbackFragment ||
-                    fragment is BackupSettingsFragment -> {
+            else -> {
 
                 navigation.selectedItemId = R.id.settings_navigation
 
@@ -951,7 +947,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR)
 
         if(prefArrays != null)
-        prefsTempList.forEach {
+            prefsTempList.forEach {
 
             with(prefArrays) {
 

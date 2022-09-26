@@ -658,8 +658,6 @@ interface DebugOptionsInterface {
             (context as? MainActivity)?.recreate()
         }
 
-        else if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) (context as? MainActivity)?.recreate()
-
         else if(key == IS_ENABLED_DEBUG_OPTIONS && !value) {
 
             val mainContext = context as? MainActivity
@@ -693,34 +691,36 @@ interface DebugOptionsInterface {
 
             pref.edit().remove(key).apply()
 
-            if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE) ThemeHelper.setTheme(context)
+            when (key) {
 
-            else if(key == LANGUAGE) {
+                IS_AUTO_DARK_MODE, IS_DARK_MODE -> ThemeHelper.setTheme(context)
+                LANGUAGE -> {
 
-                MainActivity.isRecreate = !MainActivity.isRecreate
+                    MainActivity.isRecreate = !MainActivity.isRecreate
 
-                MainActivity.tempFragment = MainActivity.instance?.fragment
+                    MainActivity.tempFragment = MainActivity.instance?.fragment
 
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                    LocaleHelper.setLocale(context, MainApp.defLang)
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                        LocaleHelper.setLocale(context, MainApp.defLang)
 
-                (context as? MainActivity)?.recreate()
-            }
+                    (context as? MainActivity)?.recreate()
+                }
 
-            else if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
+                IS_FORCIBLY_SHOW_RATE_THE_APP -> {
 
-                MainActivity.tempFragment = MainActivity.instance?.fragment
+                    MainActivity.tempFragment = MainActivity.instance?.fragment
 
-                MainActivity.isRecreate = !MainActivity.isRecreate
+                    MainActivity.isRecreate = !MainActivity.isRecreate
 
-                (context as? MainActivity)?.recreate()
-            }
+                    (context as? MainActivity)?.recreate()
+                }
 
-            else if(key == IS_ENABLED_DEBUG_OPTIONS) {
+                IS_ENABLED_DEBUG_OPTIONS -> {
 
-                val mainContext = context as? MainActivity
+                    val mainContext = context as? MainActivity
 
-                mainContext?.onBackPressed()
+                    mainContext?.onBackPressed()
+                }
             }
 
             Toast.makeText(context, context.getString(R.string.key_successfully_reset, key),

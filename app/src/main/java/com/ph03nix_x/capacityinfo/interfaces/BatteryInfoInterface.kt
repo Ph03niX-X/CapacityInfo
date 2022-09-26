@@ -206,7 +206,7 @@ interface BatteryInfoInterface {
             catch (e: IOException) { chargingCurrentLimit }
         }
 
-        else chargingCurrentLimit
+        else null
     }
 
     fun getOnTemperatureInCelsius(context: Context): Double {
@@ -273,24 +273,22 @@ interface BatteryInfoInterface {
 
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent
             .ACTION_BATTERY_CHANGED))
+        return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN)) {
 
-            return when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                BatteryManager.BATTERY_STATUS_UNKNOWN)) {
+            BatteryManager.BATTERY_STATUS_CHARGING -> {
+                percentAdded = (getOnBatteryLevel(context) ?: 0) - tempBatteryLevelWith
 
-                BatteryManager.BATTERY_STATUS_CHARGING -> {
+                if (percentAdded < 0) percentAdded = 0
 
-                    percentAdded = (getOnBatteryLevel(context) ?: 0) - tempBatteryLevelWith
+                capacityAdded = getOnCurrentCapacity(context) - tempCurrentCapacity
 
-                    if (percentAdded < 0) percentAdded = 0
+                if (capacityAdded < 0) capacityAdded /= -1
 
-                    capacityAdded = getOnCurrentCapacity(context) - tempCurrentCapacity
-
-                    if (capacityAdded < 0) capacityAdded /= -1
-
-                    context.getString(if (!isOverlay || !isOnlyValues) R.string.capacity_added
-                    else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
-                        .format(capacityAdded), "$percentAdded%")
-                }
+                context.getString(if (!isOverlay || !isOnlyValues) R.string.capacity_added
+                else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
+                    .format(capacityAdded), "$percentAdded%")
+            }
 
             else -> context.getString(if (!isOverlay || !isOnlyValues) R.string.capacity_added
             else R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
@@ -465,8 +463,7 @@ interface BatteryInfoInterface {
 
         val chargeDischargeCurrent = getOnChargeDischargeCurrent(context).toDouble()
 
-        return if(currentCapacity > 0.0 && currentCapacity < residualCapacity
-            && residualCapacity > 0.0) {
+        return if(currentCapacity > 0.0 && currentCapacity < residualCapacity) {
 
             val capacity = residualCapacity - currentCapacity
 
