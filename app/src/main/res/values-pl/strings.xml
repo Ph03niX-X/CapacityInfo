@@ -293,7 +293,6 @@
     <string name="purchase_premium">Zakup</string>
     <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
     <string name="change_app_language">Zmień język aplikacji</string>
-    <string name="change_app_language_dialog">Może być konieczne ponowne uruchomienie aplikacji, aby zmienić język</string>
     <string name="premium_info_dialog">Pod koniec grudnia trzeba będzie zakupić Premium. Jeśli chcesz otrzymać darmowe Premium, musisz wysłać ID zamówienia (Ustawienia->Informacje o->Dotknij przez Identyfikator zamówienia) na E-mail: Ph03niX-X@outlook.com</string>.
     <string name="empty_history_text">Historia ładowań jest pusta! Proszę naładować baterię do pełna w 100% (Stan: Naładowany)</string>
 </resources>

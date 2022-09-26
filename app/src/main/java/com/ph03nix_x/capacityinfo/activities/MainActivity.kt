@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
+import android.app.LocaleManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -9,6 +10,7 @@ import android.os.BatteryManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.LocaleList
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import com.ph03nix_x.capacityinfo.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.currentLanguage
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
@@ -67,6 +70,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, DonateInterface {
 
@@ -125,6 +130,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 && MainApp.isGooglePlay(this)
 
         fragment = tempFragment
+
 
         batteryIntent = registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -510,6 +516,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             isRecreate = true
 
             recreate()
+        }
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            newConfig.locale != currentLanguage) {
+            val localeManager = getSystemService(Context.LOCALE_SERVICE) as LocaleManager
+            localeManager.applicationLocales = LocaleList.forLanguageTags(newConfig.locale?.language)
+            currentLanguage = newConfig.locale
         }
     }
 

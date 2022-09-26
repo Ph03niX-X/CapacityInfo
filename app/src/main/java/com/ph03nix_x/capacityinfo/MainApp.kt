@@ -17,6 +17,8 @@ import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
+import java.util.Locale
+import kotlin.collections.HashMap
 import kotlin.system.exitProcess
 
 class MainApp : Application() {
@@ -29,6 +31,7 @@ class MainApp : Application() {
         var isInstalledGooglePlay = true
 
         var microSDPath: String? = null
+        var currentLanguage: Locale? = null
 
         var currentTheme = -1
 
@@ -68,7 +71,9 @@ class MainApp : Application() {
 
         super.onCreate()
 
-        defLang()
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) defLang()
+
+        currentLanguage = resources.configuration.locale
 
         isInstalledGooglePlay = isInstalledGooglePlay()
 
@@ -112,7 +117,7 @@ class MainApp : Application() {
             MainActivity.instance?.recreate()
         }
 
-        if(LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
     }
 
     private fun defLang() {

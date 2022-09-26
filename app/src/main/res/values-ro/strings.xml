@@ -293,7 +293,6 @@
     <string name="purchase_premium">Cumpărare</string>
     <string name="premium_features_unlocked">Caracteristici premium deblocate!</string>
     <string name="change_app_language">Schimbați limba aplicației</string>
-    <string name="change_app_language_dialog">Poate fi necesar să reporniți aplicația pentru a schimba limba</string>
     <string name="premium_info_dialog">La sfârșitul lunii decembrie, va trebui să achiziționați un Premium. Dacă doriți să obțineți un Premium gratuit, trebuie să trimiteți ID-ul comenzii (Setări->Despre->Atingeți după ID-ul comenzii) la e-mail: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">Historia taxelor este goală! Vă rugăm să încărcați bateria până la 100% (Stare: Încărcată)</string>
 </resources>

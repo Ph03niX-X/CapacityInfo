@@ -268,21 +268,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             changeAppLanguage?.setOnPreferenceClickListener {
-
-                MaterialAlertDialogBuilder(requireContext()).apply {
-
-                    setIcon(R.drawable.ic_language_24dp)
-                    setTitle(getString(R.string.information))
-                    setMessage(getString(R.string.change_app_language_dialog))
-                    setPositiveButton(android.R.string.ok) { _, _ ->
-
-                        startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
-                            Uri.parse("package:${requireContext().packageName}")))
-                    }
-                    setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
-                    show()
-                }
-
+                startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
+                    Uri.parse("package:${requireContext().packageName}")))
                 true
             }
 

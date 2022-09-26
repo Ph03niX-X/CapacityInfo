@@ -293,7 +293,6 @@
     <string name="purchase_premium">Приобрести</string>
     <string name="premium_features_unlocked">Premium функции разблокированы!</string>
     <string name="change_app_language">Изменить язык приложения</string>
-    <string name="change_app_language_dialog">Для изменения языка приложения может потребоваться перезапуск приложения</string>
     <string name="premium_info_dialog">В конце декабря вам нужно будет приобретать Premium. Если вы хотите бесплатно получить Premium, вам нужно отправить ID заказа (Настройки->О приложении->Тап по ID заказа) на электронную почту: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">История зарядки пустая! Пожалуйста, зарядите аккумулятор до полных 100% (Статус: Заряжено)</string>
 </resources>
