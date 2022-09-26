@@ -127,9 +127,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
            findPreference("open_notification_category_settings_service")
 
         isShowBatteryInformation?.apply {
-            isEnabled = isPremium
+            isEnabled = premium?.isVisible == false
 
-            summary = getString(if(!isPremium) R.string.premium_feature
+            summary = getString(if(!isEnabled) R.string.premium_feature
             else R.string.service_restart_required)
 
             setOnPreferenceChangeListener { preference, value ->
@@ -323,7 +323,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         tabOnApplicationLaunch?.apply {
-
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
@@ -375,8 +374,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     isEnabled = pref.getLong(NUMBER_OF_FULL_CHARGES, 0) > 0
                 }
 
-                debug?.isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
-                    resources.getBoolean(R.bool.is_enabled_debug_options))
+                debug?.apply {
+                    isVisible = pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS,
+                        resources.getBoolean(R.bool.is_enabled_debug_options))
+                    isEnabled = premium?.isVisible == false
+                    summary = if(!isEnabled) getString(R.string.premium_feature) else null
+                }
             }
 
             else {
@@ -613,13 +616,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(premium?.isVisible == true) premium?.isVisible = !isDonated && !isPremium
 
         isShowBatteryInformation?.apply {
-            isEnabled = isPremium
-            summary = getString(if(!isPremium) R.string.premium_feature
+            isEnabled = premium?.isVisible == false
+            summary = getString(if(!isEnabled) R.string.premium_feature
             else R.string.service_restart_required)
         }
 
         isShowExtendedNotification?.apply {
-            isEnabled = if(!isPremium) true
+            isEnabled = if(premium?.isVisible == false) true
             else pref.getBoolean(IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
                     R.bool.is_show_battery_information))
         }
@@ -659,7 +662,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
             selectLanguage?.summary = getOnLanguageSummary(requireContext())
 
-        tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch(requireContext())
+        if(isDonated || isPremium)
+            tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch(requireContext())
 
         unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary(
             requireContext())
@@ -680,8 +684,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetToZeroTheNumberOfCycles?.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
 
-        debug?.isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
-            PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
-                .is_enabled_debug_options))
+        debug?.apply {
+            isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
+                PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
+                    R.bool.is_enabled_debug_options))
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
     }
 }

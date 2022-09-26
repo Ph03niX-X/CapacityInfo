@@ -22,9 +22,10 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 
-class UnpluggedReceiver : BroadcastReceiver() {
+class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -79,10 +80,10 @@ class UnpluggedReceiver : BroadcastReceiver() {
 
                 CapacityInfoService.instance?.seconds = 0
 
-                if(batteryLevel >= 90 || pref.getBoolean(IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
-                        context.resources.getBoolean(R.bool
-                            .is_reset_screen_time_at_any_charge_level)))
-                                CapacityInfoService.instance?.screenTime = 0L
+                if((isDonated() || isPremium()) && (batteryLevel >= 90 || pref.getBoolean(
+                        IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL, context.resources.getBoolean(
+                            R.bool.is_reset_screen_time_at_any_charge_level))))
+                    CapacityInfoService.instance?.screenTime = 0L
 
                 BatteryInfoInterface.batteryLevel = 0
 
