@@ -33,6 +33,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
@@ -57,6 +58,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Service & Notification
     private var serviceTime: SwitchPreferenceCompat? = null
+    private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var isShowBatteryInformation: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var openNotificationCategorySettingsService: Preference? = null
@@ -120,12 +122,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Service & Notification
         serviceTime = findPreference(IS_SERVICE_TIME)
 
+        isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
+
         isShowBatteryInformation = findPreference(IS_SHOW_BATTERY_INFORMATION)
 
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
        openNotificationCategorySettingsService =
            findPreference("open_notification_category_settings_service")
+
+        isStopTheServiceWhenTheCD?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
 
         isShowBatteryInformation?.apply {
             isEnabled = premium?.isVisible == false

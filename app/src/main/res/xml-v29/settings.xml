@@ -25,6 +25,13 @@
                 android:key="is_service_time"/>
 
         <SwitchPreferenceCompat
+            android:title="@string/stop_the_service_when_the_cd"
+            android:defaultValue="@bool/is_stop_the_service_when_the_cd"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_stop_the_service_when_the_cd_24dp"
+            android:key="is_stop_the_service_when_the_cd"/>
+
+        <SwitchPreferenceCompat
             android:title="@string/show_battery_information"
             android:defaultValue="@bool/is_show_battery_information"
             app:singleLineTitle="false"

@@ -21,15 +21,19 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 
 class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val isPremium = isDonated() || isPremium()
 
         if(CapacityInfoService.instance != null && isPowerConnected)
             when(intent.action) {
@@ -80,7 +84,7 @@ class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
 
                 CapacityInfoService.instance?.seconds = 0
 
-                if((isDonated() || isPremium()) && (batteryLevel >= 90 || pref.getBoolean(
+                if(isPremium && (batteryLevel >= 90 || pref.getBoolean(
                         IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL, context.resources.getBoolean(
                             R.bool.is_reset_screen_time_at_any_charge_level))))
                     CapacityInfoService.instance?.screenTime = 0L
@@ -95,6 +99,15 @@ class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
                 BatteryInfoInterface.minDischargeCurrent = 0
 
                 CapacityInfoService.instance?.isFull = false
+
+                if(isPremium && pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD,
+                        context.resources.getBoolean(R.bool.is_stop_the_service_when_the_cd))) {
+
+                    NotificationInterface.notificationManager?.cancel(NotificationInterface
+                        .NOTIFICATION_SERVICE_ID)
+
+                    ServiceHelper.stopService(context, CapacityInfoService::class.java)
+                }
 
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
