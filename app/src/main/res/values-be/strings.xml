@@ -296,6 +296,7 @@
     <string name="premium_info_dialog"> У канцы снежня вам трэба будзе набываць Premium. Калі вы хочаце бясплатна атрымаць Premium, вам трэба адправіць ID замовы (Налады->Аб дадатку->Тап па ID замовы) на электронную пошту: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text"> Гісторыя зарадкі пустая! Калі ласка, зарадзіце акумулятар да поўных 100% (Статус: зараджана)</string>
     <string name="show_battery_information">Паказваць інфармацыю аб акумулятары</string>
+    <string name="service_is_running">Служба запушчана</string>
     <string name="stop_the_service_when_the_cd">Спыняць службу пры адключэнні зараднай прылады</string>
     <string name="stop_service">Спыніць службу</string>
     <string name="stopping_service">Прыпынак службы&#8230;</string>
