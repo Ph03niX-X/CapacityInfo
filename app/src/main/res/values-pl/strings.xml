@@ -288,11 +288,17 @@
     <string name="order_id">Identyfikator zamówienia</string>
     <string name="order_id_copied">Identyfikator zamówienia skopiowany do schowka</string>
     <string name="history_count">Historia Liczenie</string>
-    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia > 3;\n\• Czysta historia;\n\• Informacje o stanie baterii;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay\n\nKupując Premium wspierasz również dalszy rozwój aplikacji</string>
+    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia > 3;\n\• Czysta historia;\n\• Pokaż informacje o baterii;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay\n\nKupując Premium wspierasz również dalszy rozwój aplikacji</string>
     <string name="premium_feature">Funkcja Premium</string>
     <string name="purchase_premium">Zakup</string>
     <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
     <string name="change_app_language">Zmień język aplikacji</string>
     <string name="premium_info_dialog">Pod koniec grudnia trzeba będzie zakupić Premium. Jeśli chcesz otrzymać darmowe Premium, musisz wysłać ID zamówienia (Ustawienia->Informacje o->Dotknij przez Identyfikator zamówienia) na E-mail: Ph03niX-X@outlook.com</string>.
     <string name="empty_history_text">Historia ładowań jest pusta! Proszę naładować baterię do pełna w 100% (Stan: Naładowany)</string>
+    <string name="show_battery_information">Pokaż informacje o baterii</string>
+    <string name="service_is_running">Serwis jest uruchomiona</string>
+    <string name="stop_the_service_when_the_cd">Zatrzymaj Serwis po odłączeniu ładowarki</string>
+    <string name="stop_service">Zatrzymaj Serwis</string>
+    <string name="stopping_service">Zatrzymywanie Serwis&#8230;</string>
+    <string name="service_stopped_successfully">Serwis zatrzymana pomyślnie!</string>
 </resources>
