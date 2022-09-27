@@ -288,11 +288,17 @@
     <string name="order_id">ID del pedido</string>
     <string name="order_id_copied">ID del pedido copiado en el portapapeles</string>
     <string name="history_count">Recuento de la historia</string>
-    <string name="premium_dialog">Al comprar Premium, obtendrá funciones adicionales de la aplicación:\n\• Historial > 3;\n\• Historia clara;\n\• Información del estado de la batería;\n\• Restablecer el tiempo de pantalla en cualquier nivel de carga;\n\• Guardar;\n\• Pestaña al iniciar la aplicación;\n\• Overlay\n\nAl comprar Premium también apoyas el desarrollo de la aplicación</string>
+    <string name="premium_dialog">Al comprar Premium, obtendrá funciones adicionales de la aplicación:\n\• Historial > 3;\n\• Historia clara;\n\• Mostrar información de la batería;\n\• Detener servicio;\n\• Detener el servicio cuando el cargador está desconectado;\n\• Información del estado de la batería;\n\• Restablecer el tiempo de pantalla en cualquier nivel de carga;\n\• Guardar;\n\• Pestaña al iniciar la aplicación;\n\• Overlay\n\nAl comprar Premium también apoyas el desarrollo de la aplicación</string>
     <string name="premium_feature">Función Premium</string>
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Funciones premium desbloqueadas!</string>
     <string name="change_app_language">Cambiar el idioma de la aplicación</string>
     <string name="premium_info_dialog">A finales de diciembre, tendrás que comprar un Premium. Si quieres conseguir un Premium gratis, tienes que enviar el ID del pedido (Ajustes->Acerca de->Tap por el ID del pedido) al correo electrónico: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">¡El historial de cargas está vacío! Por favor, cargue la batería al 100% (Estado: Cargado)</string>
+    <string name="show_battery_information">Mostrar información de la batería</string>
+    <string name="service_is_running">El servicio se está ejecutando</string>
+    <string name="stop_the_service_when_the_cd">Detener el servicio cuando el cargador está desconectado</string>
+    <string name="stop_service">Detener servicio</string>
+    <string name="stopping_service">Deteniendo servicio&#8230;</string>
+    <string name="service_stopped_successfully">Servicio detenido con éxito!</string>
 </resources>
