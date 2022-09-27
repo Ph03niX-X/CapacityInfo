@@ -288,11 +288,16 @@
     <string name="order_id">ID замовлення</string>
     <string name="order_id_copied">ID замовлення скопійовано в буфер обміну</string>
     <string name="history_count">Кількість історії</string>
-    <string name="premium_dialog">Придбаючи Premium, ви отримуєте додаткові функції програми:\n\• Історія > 3;\n\• Очистити історію;\n\• Інформація про стан акумулятора;\n\• Обнуляти час екрану при будь-якому рівні заряду;\n\• Резервне копіювання;\n\• Вкладка при запуску додатка;\n\• Оверлей\n\nКупуючи Premium ви так само підтримуєте подальшу розробку додатка</string>
+    <string name="premium_dialog">Придбаючи Premium, ви отримуєте додаткові функції програми:\n\• Історія > 3;\n\• Очистити історію;\n\• Показувати інформацію про акумулятор;\n\• Зупинити службу;\n\• Зупиняти службу при відключенні зарядного пристрою;\n\• Інформація про стан акумулятора;\n\• Обнуляти час екрану при будь-якому рівні заряду;\n\• Резервне копіювання;\n\• Вкладка при запуску додатка;\n\• Оверлей\n\nКупуючи Premium ви так само підтримуєте подальшу розробку додатка</string>
     <string name="premium_feature">Premium функція</string>
     <string name="purchase_premium">Придбати</string>
     <string name="premium_features_unlocked">Premium функції розблоковані!</string>
     <string name="change_app_language">Змінити мову застосунку</string>
     <string name="premium_info_dialog">Наприкінці грудня вам потрібно буде купувати Premium. Якщо ви хочете безкоштовно отримати Premium, вам потрібно надіслати ID замовлення (Налаштування->Про додаток->Тап по ID замовлення) на електронну пошту: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">Історія заряджання порожня! Будь ласка, зарядіть акумулятор до повних 100% (Статус: Заряджено)</string>
+    <string name="show_battery_information">Показувати інформацію про акумулятор</string>
+    <string name="stop_the_service_when_the_cd">Зупиняти службу при відключенні зарядного пристрою</string>
+    <string name="stop_service">Зупинити службу</string>
+    <string name="stopping_service">Зупинка служби&#8230;</string>
+    <string name="service_stopped_successfully">Служба успішно зупинена!</string>
 </resources>
