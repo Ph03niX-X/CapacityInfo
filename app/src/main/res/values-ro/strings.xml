@@ -288,11 +288,17 @@
     <string name="order_id">ID-ul comenzii</string>
     <string name="order_id_copied">ID-ul comenzii copiat în clipboard</string>
     <string name="history_count">Numărătoarea Istorie</string>
-    <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Istorie > 3;\n\• Ștergeți istoricul;\n\• Informații despre starea bateriei;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere\n\nAchiziționând Premium, sprijiniți și dezvoltarea ulterioară a aplicației</string>
+    <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Istorie > 3;\n\• Ștergeți istoricul;\n\• Afișați informații despre baterie;\n\• Oprire serviciu;\n\• Se oprește serviciul atunci când încărcătorul este deconectat;\n\• Afișați informații despre baterie;\n\• Oprire serviciu;\n\• Se oprește serviciul atunci când încărcătorul este deconectat;\n\• Informații despre starea bateriei;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere\n\nAchiziționând Premium, sprijiniți și dezvoltarea ulterioară a aplicației</string>
     <string name="premium_feature">Caracteristica Premium</string>
     <string name="purchase_premium">Cumpărare</string>
     <string name="premium_features_unlocked">Caracteristici premium deblocate!</string>
     <string name="change_app_language">Schimbați limba aplicației</string>
     <string name="premium_info_dialog">La sfârșitul lunii decembrie, va trebui să achiziționați un Premium. Dacă doriți să obțineți un Premium gratuit, trebuie să trimiteți ID-ul comenzii (Setări->Despre->Atingeți după ID-ul comenzii) la e-mail: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">Historia taxelor este goală! Vă rugăm să încărcați bateria până la 100% (Stare: Încărcată)</string>
+    <string name="show_battery_information">Afișați informații despre baterie</string>
+    <string name="service_is_running">Serviciul rulează</string>
+    <string name="stop_the_service_when_the_cd">Se oprește serviciul atunci când încărcătorul este deconectat</string>
+    <string name="stop_service">Oprire serviciu</string>
+    <string name="stopping_service">Se oprește serviciul&#8230;</string>
+    <string name="service_stopped_successfully">Serviciu oprit cu succes!</string>
 </resources>
