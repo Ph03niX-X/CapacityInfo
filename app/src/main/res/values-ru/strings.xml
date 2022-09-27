@@ -296,6 +296,7 @@
     <string name="premium_info_dialog">В конце декабря вам нужно будет приобретать Premium. Если вы хотите бесплатно получить Premium, вам нужно отправить ID заказа (Настройки->О приложении->Тап по ID заказа) на электронную почту: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">История зарядки пустая! Пожалуйста, зарядите аккумулятор до полных 100% (Статус: Заряжено)</string>
     <string name="show_battery_information">Показывать информацию об аккумуляторе</string>
+    <string name="service_is_running">Служба запущена</string>
     <string name="stop_the_service_when_the_cd">Останавливать службу при отключении зарядного устройства</string>
     <string name="stop_service">Остановить службу</string>
     <string name="stopping_service">Остановка службы&#8230;</string>
