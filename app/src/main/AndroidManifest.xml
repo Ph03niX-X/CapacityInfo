@@ -53,6 +53,12 @@
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
         <service
+            android:name=".services.StopCapacityInfoService"
+            android:exported="false"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"/>
+
+        <service
                 android:name=".services.OverlayService"
                 android:exported="false"
                 android:icon="@mipmap/ic_launcher"

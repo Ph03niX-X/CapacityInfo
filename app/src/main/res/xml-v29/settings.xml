@@ -18,6 +18,13 @@
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
+            android:title="@string/stop_service"
+            android:defaultValue="@bool/is_show_stop_service"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_stop_service_24dp"
+            android:key="is_show_stop_service"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/service_time"
                 android:defaultValue="@bool/is_service_time"
                 app:singleLineTitle="false"

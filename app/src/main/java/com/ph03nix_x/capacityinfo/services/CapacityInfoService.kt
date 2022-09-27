@@ -8,6 +8,7 @@ import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
@@ -92,6 +93,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var currentCapacity = 0
 
     var isFull = false
+    var isStopService = false
     var isSaveNumberOfCharges = true
     var batteryLevelWith = -1
     var seconds = 0
@@ -193,7 +195,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 isScreenTimeJob = !isScreenTimeJob
 
-                while(isScreenTimeJob) {
+                while(isScreenTimeJob && !isStopService) {
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
@@ -219,7 +221,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 isJob = !isJob
 
-                while (isJob) {
+                while (isJob && !isStopService) {
 
                     if((getOnBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getOnBatteryLevel(this@CapacityInfoService) ?: 0
@@ -235,7 +237,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                             R.bool.is_notify_overheat_overcool)) && isNotifyOverheatOvercool
                         && (temperature >= pref.getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer
-                                .overheat_degrees_default)) ||
+                            .overheat_degrees_default)) ||
                                 temperature <= pref.getInt(OVERCOOL_DEGREES, resources.getInteger(
                             R.integer.overcool_degrees_default))))
                         withContext(Dispatchers.Main) {
@@ -249,13 +251,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         else secondsTemperature++
                     }
 
+                    if(status == BatteryManager.BATTERY_STATUS_CHARGING
+                        && !isStopService) batteryCharging()
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING) batteryCharging()
-                    
+
                     else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected &&
-                        !isFull) batteryCharged()
+                        !isFull && !isStopService) batteryCharged()
 
-                    else {
-
+                    else if(!isStopService) {
                         isNotifyBatteryFullyCharged = true
                         isNotifyBatteryCharged = true
                         isNotifyBatteryChargedVoltage = true
@@ -410,6 +413,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         BatteryInfoInterface.fakeResidualCapacity = 0.0
         BatteryInfoInterface.fakeCurrentCapacity = 0.0
         BatteryInfoInterface.tempBatteryLevel = 0
+
+        if(isStopService)
+            Toast.makeText(this, R.string.service_stopped_successfully,
+                Toast.LENGTH_LONG).show()
 
         super.onDestroy()
     }
