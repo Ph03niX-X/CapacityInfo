@@ -190,6 +190,14 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
                 isSystemDarkMode(context.resources.configuration)) R.color.red
             else R.color.blue)
 
+            if(isDonated() ||isPremium()) {
+                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                        R.bool.is_show_stop_service)) && mActions.isEmpty())
+                    addAction(0, context.getString(R.string.stop_service), stopService)
+                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
+                        R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
+            }
+
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
 
