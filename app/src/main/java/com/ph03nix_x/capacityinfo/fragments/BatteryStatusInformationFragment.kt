@@ -71,6 +71,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var chargingCurrentLevelNotify: SeekBarPreference? = null
     private var dischargeCurrentLevelNotify: SeekBarPreference? = null
     private var exportNotificationSounds: Preference? = null
+
     private var requestCode = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

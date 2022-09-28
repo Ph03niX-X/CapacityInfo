@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,6 +14,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.fragments.BackupSettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -33,10 +33,10 @@ import java.io.IOException
 
 interface BackupSettingsInterface {
 
-    fun onExportSettings(context: Context, intent: Intent?) {
+    fun BackupSettingsFragment.onExportSettings(intent: Intent?) {
 
-        val prefPath = "${context.filesDir?.parent}/shared_prefs/" +
-                "${context.packageName}_preferences.xml"
+        val prefPath = "${requireContext().filesDir?.parent}/shared_prefs/" +
+                "${requireContext().packageName}_preferences.xml"
         val prefName = File(prefPath).name
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
@@ -46,14 +46,14 @@ interface BackupSettingsInterface {
                 MainActivity.isOnBackPressed = false
 
                 val pickerDir = intent?.data?.let {
-                    context.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                    requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
                 }
 
                 pickerDir?.findFile(prefName)?.delete()
 
                 val outputStream = pickerDir?.createFile("text/xml",
                     prefName)?.uri?.let {
-                    context.contentResolver?.openOutputStream(it)
+                    requireContext().contentResolver?.openOutputStream(it)
                 }
 
                 val fileInputStream = FileInputStream(prefPath)
@@ -77,8 +77,9 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, context.getString(R.string.successful_export_of_settings,
-                        prefName), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.successful_export_of_settings, prefName),
+                        Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -88,17 +89,17 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, context.getString(R.string.error_exporting_settings, 
+                    Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun onImportSettings(context: Context, uri: Uri?) {
+    fun BackupSettingsFragment.onImportSettings(uri: Uri?) {
 
-        val prefPath = "${context.filesDir?.parent}/shared_prefs/" +
-                "${context.packageName}_preferences.xml"
+        val prefPath = "${requireContext().filesDir?.parent}/shared_prefs/" +
+                "${requireContext().packageName}_preferences.xml"
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
@@ -108,19 +109,21 @@ interface BackupSettingsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, R.string.import_settings_3dots,
+                    Toast.makeText(requireContext(), R.string.import_settings_3dots,
                         Toast.LENGTH_LONG).show()
 
                     if(CapacityInfoService.instance != null)
-                        context.let {
+                        requireContext().let {
                             ServiceHelper.stopService(it, CapacityInfoService::class.java)
                         }
 
                     if(OverlayService.instance != null)
-                        context.let { ServiceHelper.stopService(it, OverlayService::class.java) }
+                        requireContext().let {
+                            ServiceHelper.stopService(it, OverlayService::class.java)
+                        }
                 }
 
-                val pref = PreferenceManager.getDefaultSharedPreferences(context)
+                val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                 val prefArrays: HashMap<String, Any?> = hashMapOf()
 
@@ -144,7 +147,7 @@ interface BackupSettingsInterface {
 
                 val fileOutputStream = FileOutputStream(prefPath)
                 val inputStream = uri?.let {
-                    context.contentResolver?.openInputStream(it) }
+                    requireContext().contentResolver?.openInputStream(it) }
 
                 val buffer = byteArrayOf((1024 * 8).toByte())
                 var read: Int
@@ -166,7 +169,7 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    MainApp.restartApp(context, prefArrays)
+                    MainApp.restartApp(requireContext(), prefArrays)
                 }
             }
 
@@ -176,18 +179,19 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, context.getString(R.string.error_importing_settings,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(
+                        R.string.error_importing_settings, e.message ?: e.toString()),
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-   fun isMicroSD(context: Context): Boolean {
+   fun BackupSettingsFragment.isMicroSD(): Boolean {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 
-            val files = ContextCompat.getExternalFilesDirs(context, null)
+            val files = ContextCompat.getExternalFilesDirs(requireContext(), null)
 
             for (m: File? in files) {
 
@@ -207,27 +211,28 @@ interface BackupSettingsInterface {
         return false
     }
 
-    fun isExternalStoragePermission(context: Context) =
-        ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context,
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    fun BackupSettingsFragment.isExternalStoragePermission() =
+        ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
-    fun onGetFrequencyOfAutoBackupSettingsSummary(context: Context): CharSequence {
+    fun BackupSettingsFragment.onGetFrequencyOfAutoBackupSettingsSummary(): CharSequence {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1") !in
-            context.resources.getStringArray(R.array.frequency_of_auto_backup_settings_values))
+            requireContext().resources.getStringArray(R.array.frequency_of_auto_backup_settings_values))
             pref.edit().putString(PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1").apply()
 
-        return context.resources.getStringArray(R.array.frequency_of_auto_backup_settings_list)[
+        return requireContext().resources.getStringArray(R.array.frequency_of_auto_backup_settings_list)[
                 (pref.getString(PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
                     "1")?.toInt() ?: 1) - 1]
     }
 
-    fun onBackupSettings(context: Context, restoreSettingsFromBackupPref: Preference?) {
+    fun BackupSettingsFragment.onBackupSettings(restoreSettingsFromBackupPref: Preference?) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         var backupPath = ""
 
@@ -236,26 +241,26 @@ interface BackupSettingsInterface {
             try {
 
                 backupPath = if(pref.getBoolean(PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD,
-                        context.resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
-                    isMicroSD(context)) "${MainApp.microSDPath}/Capacity Info/Backup"
+                        requireContext().resources.getBoolean(R.bool.is_backup_settings_to_microsd))
+                    && isMicroSD()) "${MainApp.microSDPath}/Capacity Info/Backup"
                 else "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
 
                 if(!File(backupPath).exists()) File(backupPath).mkdirs()
 
-                File("${context.filesDir?.parent}/shared_prefs/" +
-                        "${context.packageName}_preferences.xml").copyTo(
+                File("${requireContext().filesDir?.parent}/shared_prefs/" +
+                        "${requireContext().packageName}_preferences.xml").copyTo(
                     File(
-                    "${backupPath}/${context.packageName}_preferences.xml"),
+                    "${backupPath}/${requireContext().packageName}_preferences.xml"),
                     true)
 
                 delay(1000L)
-                if(HistoryHelper.isHistoryNotEmpty(context))
-                    File("${context.filesDir?.parent}/databases/History.db")
+                if(HistoryHelper.isHistoryNotEmpty(requireContext()))
+                    File("${requireContext().filesDir?.parent}/databases/History.db")
                         .copyTo(File("${backupPath}/History.db"), true)
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string
+                    Toast.makeText(requireContext(), getString(R.string
                         .settings_backup_successfully_created), Toast.LENGTH_LONG).show()
                 }
             }
@@ -263,7 +268,7 @@ interface BackupSettingsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string.error_backup_settings,
+                    Toast.makeText(requireContext(), getString(R.string.error_backup_settings,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
             }
@@ -273,17 +278,18 @@ interface BackupSettingsInterface {
                 withContext(Dispatchers.Main) {
 
                     restoreSettingsFromBackupPref?.isEnabled = File(
-                        "$backupPath/${context.packageName}_preferences.xml")
-                        .exists() && File("$backupPath/${context
-                        .packageName}_preferences.xml").length() > 0
+                        "$backupPath/${requireContext().packageName}_preferences.xml")
+                        .exists() && File(
+                        "$backupPath/${requireContext().packageName}_preferences.xml")
+                        .length() > 0
                 }
             }
         }
     }
 
-    fun onRestoreSettingsFromBackup(context: Context, backupPath: String) {
+    fun BackupSettingsFragment.onRestoreSettingsFromBackup(backupPath: String) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val prefArrays: HashMap<String, Any?> = hashMapOf()
 
@@ -295,16 +301,19 @@ interface BackupSettingsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, R.string.restore_settings_from_backup_3dots,
+                    Toast.makeText(requireContext(), R.string.restore_settings_from_backup_3dots,
                         Toast.LENGTH_LONG).show()
 
                     if(CapacityInfoService.instance != null)
-                        context.let { ServiceHelper.stopService(it, CapacityInfoService::class.java)
+                        requireContext().let {
+                            ServiceHelper.stopService(it, CapacityInfoService::class.java)
 
                         }
 
                     if(OverlayService.instance != null)
-                        context.let { ServiceHelper.stopService(it, OverlayService::class.java) }
+                        requireContext().let {
+                            ServiceHelper.stopService(it, OverlayService::class.java)
+                        }
                 }
 
                 pref.all.forEach {
@@ -321,22 +330,21 @@ interface BackupSettingsInterface {
                 }
 
                 delay(2000L)
-                File("${backupPath}/${context.packageName}_preferences.xml").copyTo(
-                    File(
-                    "${context.filesDir?.parent}/shared_prefs/${context.packageName}" +
-                            "_preferences.xml"), true)
+                File("${backupPath}/${requireContext().packageName}_preferences.xml")
+                    .copyTo(File(
+                        "${requireContext().filesDir?.parent}/shared_prefs/${
+                            requireContext().packageName}_preferences.xml"), true)
 
                 if(File("${backupPath}/History.db").exists())
-                    File("${backupPath}/History.db").copyTo(
-                        File(
-                        "${context.filesDir?.parent}/databases/History.db"),
+                    File("${backupPath}/History.db").copyTo(File(
+                        "${requireContext().filesDir?.parent}/databases/History.db"),
                         true)
 
                 MainActivity.isOnBackPressed = true
 
                 withContext(Dispatchers.Main) {
 
-                    MainApp.restartApp(context, prefArrays, true)
+                    MainApp.restartApp(requireContext(), prefArrays, true)
                 }
 
             }
@@ -346,7 +354,7 @@ interface BackupSettingsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(
+                    Toast.makeText(requireContext(), getString(
                         R.string.error_restoring_settings_from_backup,
                         e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
@@ -354,29 +362,29 @@ interface BackupSettingsInterface {
         }
     }
 
-    fun onExportHistory(context: Context, intent: Intent?) {
+    fun BackupSettingsFragment.onExportHistory(intent: Intent?) {
 
-        val dbPath = "${context.filesDir?.parent}/databases/History.db"
+        val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
         val dbName = "History.db"
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
 
-                if(HistoryHelper.isHistoryEmpty(context))
-                    throw IOException (context.getString(R.string.history_is_empty))
+                if(HistoryHelper.isHistoryEmpty(requireContext()))
+                    throw IOException (getString(R.string.history_is_empty))
 
                 MainActivity.isOnBackPressed = false
 
                 val pickerDir = intent?.data?.let {
-                    context.let { it1 -> DocumentFile.fromTreeUri(it1, it) }
+                    requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
                 }
 
                 delay(1000L)
                 pickerDir?.findFile(dbName)?.delete()
                 val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
                     dbName)?.uri?.let {
-                    context.contentResolver?.openOutputStream(it)
+                    requireContext().contentResolver?.openOutputStream(it)
                 }
 
                 val fileInputStream = FileInputStream(dbPath)
@@ -398,7 +406,7 @@ interface BackupSettingsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(
+                    Toast.makeText(requireContext(), getString(
                         R.string.history_exported_successfully), Toast.LENGTH_LONG).show()
                 }
 
@@ -411,7 +419,7 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, "${context.getString(R.string
+                    Toast.makeText(requireContext(), "${getString(R.string
                         .error_exporting_history)}\n${e.message ?: e.toString()}",
                         Toast.LENGTH_LONG).show()
                 }
@@ -419,9 +427,9 @@ interface BackupSettingsInterface {
         }
     }
 
-    fun onImportHistory(context: Context, uri: Uri?, exportHistoryPref: Preference?) {
+    fun BackupSettingsFragment.onImportHistory(uri: Uri?, exportHistoryPref: Preference?) {
 
-        val dbPath = "${context.filesDir?.parent}/databases/History.db"
+        val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
@@ -437,7 +445,7 @@ interface BackupSettingsInterface {
 
                 val fileOutputStream = FileOutputStream(dbPath)
                 val inputStream = uri?.let {
-                    context.contentResolver?.openInputStream(it) }
+                    requireContext().contentResolver?.openInputStream(it) }
 
                 val buffer = byteArrayOf((1024 * 8).toByte())
                 var read: Int
@@ -457,22 +465,22 @@ interface BackupSettingsInterface {
 
                 MainActivity.isOnBackPressed = true
 
-                val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
+                val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(requireContext())
 
                 withContext(Dispatchers.Main) {
 
                     MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
                         ?.isVisible = isHistoryNotEmpty
                     exportHistoryPref?.isEnabled = isHistoryNotEmpty && !HistoryHelper
-                        .isHistoryMax(context)
+                        .isHistoryMax(requireContext())
                 }
 
                 if(!isHistoryNotEmpty)
-                    throw IOException(context.getString(R.string.history_is_empty))
+                    throw IOException(getString(R.string.history_is_empty))
 
                 else withContext(Dispatchers.Main) {
 
-                    Toast.makeText(context, context.getString(R.string
+                    Toast.makeText(requireContext(), getString(R.string
                         .history_imported_successfully), Toast.LENGTH_LONG).show()
                 }
             }
@@ -483,7 +491,7 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    Toast.makeText(context, "${context.getString(R.string
+                    Toast.makeText(requireContext(), "${getString(R.string
                         .error_importing_history)}\n${e.message ?: e.toString()}",
                         Toast.LENGTH_LONG).show()
                 }

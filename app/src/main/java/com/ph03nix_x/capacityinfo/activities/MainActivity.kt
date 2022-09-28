@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(fragment !is SettingsFragment) inflateMenu()
 
         toolbar.setNavigationOnClickListener {
-            backPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(

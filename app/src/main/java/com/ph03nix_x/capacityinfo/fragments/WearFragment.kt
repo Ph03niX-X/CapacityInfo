@@ -86,7 +86,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         designCapacity.setOnClickListener {
 
-            onChangeDesignCapacity(it.context)
+            onChangeDesignCapacity()
 
             (it as? AppCompatTextView)?.text = it.context.getString(
                 R.string.design_capacity,
@@ -121,10 +121,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         batteryWear.text = getString(R.string.battery_wear, "0%", "0")
 
-        batteryIntent = requireContext().registerReceiver(
-            null,
-            IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        )
+        batteryIntent = requireContext().registerReceiver(null,
+            IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         isJob = true
 

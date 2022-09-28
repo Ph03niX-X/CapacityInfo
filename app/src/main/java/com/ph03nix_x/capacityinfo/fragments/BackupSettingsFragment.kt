@@ -50,7 +50,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
     private var isRestoreSettingsFromBackup = false
     private var isEnabledBackupInformationTimer = false
-    private var requestCode: Int = 0
+
+    private var requestCode = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -85,10 +86,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                                 }
                             }
                             else if(autoBackupSettings?.isChecked != true && !isRestoreSettingsFromBackup) {
-                                 onBackupSettings(requireContext(), restoreSettingsFromBackup)
+                                 onBackupSettings(restoreSettingsFromBackup)
                             }
                             else if(isRestoreSettingsFromBackup)
-                                onRestoreSettingsFromBackup(requireContext(), backupPath)
+                                onRestoreSettingsFromBackup(backupPath)
                             else {
 
                                 pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
@@ -105,26 +106,23 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             when(requestCode) {
 
                 Constants.EXPORT_SETTINGS_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onExportSettings(requireContext(),
-                        it.data)
+                    if(it.resultCode == Activity.RESULT_OK) onExportSettings(it.data)
 
                 Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onImportSettings(requireContext(),
-                        it.data?.data)
+                    if(it.resultCode == Activity.RESULT_OK) onImportSettings(it.data?.data)
 
                 Constants.EXPORT_HISTORY_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onExportHistory(requireContext(),
-                        it.data)
+                    if(it.resultCode == Activity.RESULT_OK) onExportHistory(it.data)
 
                 Constants.IMPORT_HISTORY_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onImportHistory(requireContext(),
-                        it.data?.data, exportHistory)
+                    if(it.resultCode == Activity.RESULT_OK) onImportHistory(it.data?.data,
+                        exportHistory)
             }
         }
 
         backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext()
                 .resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
-            isMicroSD(requireContext())) "$microSDPath/Capacity Info/Backup"
+            isMicroSD()) "$microSDPath/Capacity Info/Backup"
         else "${Environment.getExternalStorageDirectory()
             .absolutePath}/Capacity Info/Backup"
 
@@ -152,8 +150,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
             autoBackupSettings?.isEnabled = !MainApp.isInstalledGooglePlay
 
-            backupSettingsToMicroSD?.isEnabled = !MainApp.isInstalledGooglePlay && isMicroSD(
-                requireContext())
+            backupSettingsToMicroSD?.isEnabled = !MainApp.isInstalledGooglePlay && isMicroSD()
 
             frequencyOfAutoBackupSettings?.isEnabled = !MainApp.isInstalledGooglePlay
 
@@ -195,7 +192,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             && ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
                     !Environment.isExternalStorageManager()) ||
                     (Build.VERSION.SDK_INT < Build.VERSION_CODES.R &&
-                            !isExternalStoragePermission(requireContext())))) {
+                            !isExternalStoragePermission()))) {
 
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
@@ -207,9 +204,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             isEnabled = pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
                 .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
                 .VERSION_CODES.R && Environment.isExternalStorageManager()) || (Build.VERSION
-                .SDK_INT < Build.VERSION_CODES.R && isExternalStoragePermission(requireContext())))
+                .SDK_INT < Build.VERSION_CODES.R && isExternalStoragePermission()))
 
-            summary = onGetFrequencyOfAutoBackupSettingsSummary(requireContext())
+            summary = onGetFrequencyOfAutoBackupSettingsSummary()
         }
 
         restoreSettingsFromBackup?.isEnabled = File("$backupPath/${requireContext()
@@ -247,7 +244,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             }
 
             else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isAutoBackup == true &&
-                !isExternalStoragePermission(requireContext())) {
+                !isExternalStoragePermission()) {
                 requestCode = EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
                 requestPermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE))
@@ -256,7 +253,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             else if((newValue as? Boolean == true) &&
                 ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
                         Environment.isExternalStorageManager()) || (Build.VERSION.SDK_INT < Build
-                    .VERSION_CODES.R && isExternalStoragePermission(requireContext())))) {
+                    .VERSION_CODES.R && isExternalStoragePermission()))) {
 
                 ServiceHelper.jobSchedule(requireContext(),
                     AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
@@ -312,7 +309,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             else if((newValue as? Boolean == true) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && Environment.isExternalStorageManager()) {
 
-                if(microSDPath == null) isMicroSD(requireContext())
+                if(microSDPath == null) isMicroSD()
 
                 backupPath = "$microSDPath/Capacity Info/Backup"
 
@@ -367,13 +364,13 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                     show()
                 }
             }
-            else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && !isExternalStoragePermission(
-                    requireContext())) {
+            else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R &&
+                !isExternalStoragePermission()) {
                 requestCode = EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
                 requestPermissionLauncher.launch(arrayOf(Manifest.permission
                     .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE))
             }
-            else onBackupSettings(requireContext(), restoreSettingsFromBackup)
+            else onBackupSettings(restoreSettingsFromBackup)
             true
         }
 
@@ -400,7 +397,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             }
 
             else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R &&
-                !isExternalStoragePermission(requireContext())) {
+                !isExternalStoragePermission()) {
 
                 isRestoreSettingsFromBackup = !isRestoreSettingsFromBackup
                 requestCode =  EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
@@ -408,7 +405,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                     Manifest.permission.READ_EXTERNAL_STORAGE))
             }
 
-            else onRestoreSettingsFromBackup(requireContext(), backupPath)
+            else onRestoreSettingsFromBackup(backupPath)
 
             true
         }
@@ -488,8 +485,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         if(pref.getBoolean(IS_AUTO_BACKUP_SETTINGS, requireContext().resources
                 .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
                 .VERSION_CODES.R && !Environment.isExternalStorageManager()) || (Build.VERSION
-                .SDK_INT < Build.VERSION_CODES.R && !isExternalStoragePermission(
-                requireContext())))) {
+                .SDK_INT < Build.VERSION_CODES.R && !isExternalStoragePermission()))) {
 
             pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
 
@@ -497,11 +493,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         }
 
         backupSettingsToMicroSD?.isEnabled = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay && isMicroSD(requireContext()))
-                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isMicroSD(requireContext())
+                && !MainApp.isInstalledGooglePlay && isMicroSD()
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isMicroSD())
 
         backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext().resources
-                .getBoolean(R.bool.is_backup_settings_to_microsd)) && isMicroSD(requireContext()))
+                .getBoolean(R.bool.is_backup_settings_to_microsd)) && isMicroSD())
                     "$microSDPath/Capacity Info/Backup"
         else "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
 
@@ -515,9 +511,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                 .getBoolean(R.bool.is_auto_backup_settings)) && ((Build.VERSION.SDK_INT >= Build
                 .VERSION_CODES.R && Environment.isExternalStorageManager()
                     && !MainApp.isInstalledGooglePlay) || (Build.VERSION.SDK_INT < Build
-                .VERSION_CODES.R && isExternalStoragePermission(requireContext())))
+                .VERSION_CODES.R && isExternalStoragePermission()))
 
-            summary = onGetFrequencyOfAutoBackupSettingsSummary(requireContext())
+            summary = onGetFrequencyOfAutoBackupSettingsSummary()
         }
 
         restoreSettingsFromBackup?.isEnabled = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
@@ -531,61 +527,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
         exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
     }
-
-//    @Deprecated("Deprecated in Java")
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-//                                            grantResults: IntArray) {
-//
-//        when(requestCode) {
-//
-//            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
-//                if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked == true
-//                    && !isRestoreSettingsFromBackup) {
-//
-//                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                        ServiceHelper.jobSchedule(requireContext(),
-//                            AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
-//                            (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
-//                                ?.toLong() ?: 1L) * 60L * 60L * 1000L)
-//
-//                        frequencyOfAutoBackupSettings?.isEnabled = true
-//
-//                        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
-//
-//                            delay(250L)
-//                            restoreSettingsFromBackup?.isEnabled = File(
-//                                "$backupPath/${requireContext()
-//                                    .packageName}_preferences.xml").exists() && File(
-//                                "$backupPath/${requireContext()
-//                                    .packageName}_preferences.xml").length() > 0
-//                        }
-//                    }
-//                }
-//
-//                else if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked != true
-//                    && !isRestoreSettingsFromBackup) {
-//
-//                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                        onBackupSettings(requireContext(), restoreSettingsFromBackup)
-//                }
-//
-//                else if(grantResults.isNotEmpty() && isRestoreSettingsFromBackup)
-//                        if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                            onRestoreSettingsFromBackup(requireContext(), backupPath)
-//
-//                else {
-//
-//                    pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
-//
-//                    autoBackupSettings?.isChecked = false
-//
-//                    ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
-//                }
-//
-//            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        }
-//    }
 
     private fun enabledBackupInformationTimer() {
         var timer = 0

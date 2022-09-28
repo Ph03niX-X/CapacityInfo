@@ -5,6 +5,8 @@ import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
@@ -27,7 +29,8 @@ import kotlinx.coroutines.*
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
-    
+    private lateinit var getResult: ActivityResultLauncher<Intent>
+
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var fakeBatteryWear: Preference? = null
     private var addSetting: Preference? = null
@@ -49,11 +52,31 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var stopOverlayService: Preference? = null
     private var restartOverlayService: Preference? = null
 
+    private var requestCode = 0
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         addPreferencesFromResource(R.xml.debug_settings)
+
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            when(requestCode) {
+
+                Constants.EXPORT_HISTORY_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onExportHistory(it.data)
+
+                Constants.IMPORT_HISTORY_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onImportHistory(it.data?.data,
+                        arrayListOf(addHistory, addTenHistory, addFiftyHistory, exportHistory))
+
+                Constants.EXPORT_SETTINGS_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onExportSettings(it.data)
+
+                Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onImportSettings(it.data?.data)
+            }
+        }
 
         MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && isGooglePlay(requireContext())
@@ -309,8 +332,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         exportHistory?.setOnPreferenceClickListener {
             try {
 
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants.EXPORT_HISTORY_REQUEST_CODE)
+                requestCode = Constants.EXPORT_HISTORY_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
             }
             catch(e: ActivityNotFoundException) {
 
@@ -323,14 +346,13 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         importHistory?.setOnPreferenceClickListener {
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                Constants.IMPORT_HISTORY_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "application/octet-stream"
-                }, Constants.IMPORT_HISTORY_REQUEST_CODE)
+                })
             }
             catch(e: ActivityNotFoundException) {
-
                 Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
                     .show()
             }
@@ -341,12 +363,10 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         exportSettings?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants.EXPORT_SETTINGS_REQUEST_CODE)
+                requestCode = Constants.EXPORT_SETTINGS_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
             }
             catch(e: ActivityNotFoundException) {
-
                 Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
                     e.message ?: e.toString()), Toast.LENGTH_LONG).show()
             }
@@ -357,12 +377,12 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         importSettings?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                requestCode = Constants.IMPORT_SETTINGS_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
 
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/xml"
-                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+                })
             }
             catch(e: ActivityNotFoundException) {
 
@@ -406,28 +426,28 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addSetting?.setOnPreferenceClickListener {
 
-            addSettingDialog(requireContext(), pref)
+            addSettingDialog(pref)
 
             true
         }
 
         changeSetting?.setOnPreferenceClickListener {
 
-            changeSettingDialog(requireContext(), pref)
+            changeSettingDialog(pref)
 
             true
         }
 
         resetSetting?.setOnPreferenceClickListener {
 
-            resetSettingDialog(requireContext(), pref)
+            resetSettingDialog(pref)
 
             true
         }
 
         resetSettings?.setOnPreferenceClickListener {
 
-            resetSettingsDialog(requireContext(), pref)
+            resetSettingsDialog(pref)
 
             true
         }
@@ -569,28 +589,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         restartOverlayService?.isEnabled = OverlayService.instance != null
 
         if(!pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
-                .is_enabled_debug_options))) requireActivity().onBackPressed()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode) {
-
-            Constants.EXPORT_HISTORY_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onExportHistory(requireContext(), data)
-
-            Constants.IMPORT_HISTORY_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data,
-                arrayListOf(addHistory, addTenHistory, addFiftyHistory, exportHistory))
-
-            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onExportSettings(requireContext(), data)
-
-            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onImportSettings(requireContext(), data?.data)
-        }
+                .is_enabled_debug_options)))
+            requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 }

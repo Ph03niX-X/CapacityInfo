@@ -191,7 +191,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         openNotificationCategorySettingsService?.setOnPreferenceClickListener {
 
-            onOpenNotificationCategorySettings(requireContext(), SERVICE_CHANNEL_ID)
+            onOpenNotificationCategorySettings(SERVICE_CHANNEL_ID)
 
             true
         }
@@ -238,7 +238,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
-        textSize?.summary = getOnTextSizeSummary(requireContext())
+        textSize?.summary = getOnTextSizeSummary()
 
         textFont?.apply {
             isEnabled = premium?.isVisible == false
@@ -253,10 +253,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             }
         }
 
-        textStyle?.summary = getOnTextStyleSummary(requireContext())
+        textStyle?.summary = getOnTextStyleSummary()
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            selectLanguage?.summary = getOnLanguageSummary(requireContext())
+            selectLanguage?.summary = getOnLanguageSummary()
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -293,7 +293,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
             selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
                 MainActivity.isRecreate = true
-                onChangeLanguage(requireContext(), ((newValue as? String) ?: MainApp.defLang))
+                onChangeLanguage(((newValue as? String) ?: MainApp.defLang))
                 true
             }
 
@@ -461,7 +461,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 
-            onChangeDesignCapacity(requireContext())
+            onChangeDesignCapacity()
 
             true
         }
@@ -683,32 +683,31 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
-        textSize?.summary = getOnTextSizeSummary(requireContext())
+        textSize?.summary = getOnTextSizeSummary()
 
         textFont?.apply {
             isEnabled = premium?.isVisible == false
             summary = if(isEnabled) getOnTextFontSummary() else getString(R.string.premium_feature)
         }
 
-        textStyle?.summary = getOnTextStyleSummary(requireContext())
+        textStyle?.summary = getOnTextStyleSummary()
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            selectLanguage?.summary = getOnLanguageSummary(requireContext())
+            selectLanguage?.summary = getOnLanguageSummary()
 
         if(isDonated || isPremium)
-            tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch(requireContext())
+            tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch()
 
-        unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary(
-            requireContext())
+        unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary()
 
         unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
             resources.getBoolean(R.bool.is_supported))
 
         if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
             unitOfMeasurementOfCurrentCapacity?.summary =
-                getOnUnitOfMeasurementOfCurrentCapacitySummary(requireContext())
+                getOnUnitOfMeasurementOfCurrentCapacitySummary()
 
-        voltageUnit?.summary = getOnVoltageUnitSummary(requireContext())
+        voltageUnit?.summary = getOnVoltageUnitSummary()
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))

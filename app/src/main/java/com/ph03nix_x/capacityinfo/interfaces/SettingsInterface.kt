@@ -12,6 +12,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,6 +21,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
+import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -39,10 +41,10 @@ import java.lang.NumberFormatException
 
 interface SettingsInterface {
 
-    fun onOpenNotificationCategorySettings(context: Context, notificationId: String) {
+    fun SettingsFragment.onOpenNotificationCategorySettings(notificationId: String) {
 
         val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationChannel = notificationManager
             .getNotificationChannel(notificationId)
@@ -51,21 +53,21 @@ interface SettingsInterface {
 
             putExtra(Settings.EXTRA_CHANNEL_ID, notificationChannel.id)
 
-            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
         }
 
-        context.startActivity(intent)
+        requireContext().startActivity(intent)
     }
 
-    fun getOnTextSizeSummary(context: Context): String? {
+    fun SettingsFragment.getOnTextSizeSummary(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(TEXT_SIZE, "2") !in
-            context.resources.getStringArray(R.array.text_size_values))
+            resources.getStringArray(R.array.text_size_values))
             pref.edit().putString(TEXT_SIZE, "2").apply()
 
-        return context.resources.getStringArray(R.array.text_size_list)[
+        return resources.getStringArray(R.array.text_size_list)[
                 (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
     }
 
@@ -81,157 +83,170 @@ interface SettingsInterface {
                 (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
     }
 
-    fun getOnTextStyleSummary(context: Context): String? {
+    fun SettingsFragment.getOnTextStyleSummary(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(TEXT_STYLE, "0") !in
-            context.resources.getStringArray(R.array.text_style_values))
+            resources.getStringArray(R.array.text_style_values))
             pref.edit().putString(TEXT_STYLE, "0").apply()
 
-        return context.resources.getStringArray(R.array.text_style_list)[
+        return resources.getStringArray(R.array.text_style_list)[
                 (pref.getString(TEXT_STYLE, "0") ?: "0").toInt()]
     }
 
-    fun getOnLanguageSummary(context: Context): String? {
+    fun SettingsFragment.getOnLanguageSummary(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(LANGUAGE, null) !in
-            context.resources.getStringArray(R.array.languages_codes))
+            resources.getStringArray(R.array.languages_codes))
             pref.edit().putString(LANGUAGE, null).apply()
 
         return when(pref.getString(LANGUAGE, null)) {
 
-            "en" -> context.resources.getStringArray(R.array.languages_list)[0]
+            "en" -> resources.getStringArray(R.array.languages_list)[0]
 
-            "de" -> context.resources.getStringArray(R.array.languages_list)[1]
+            "de" -> resources.getStringArray(R.array.languages_list)[1]
 
-            "es" -> context.resources.getStringArray(R.array.languages_list)[2]
+            "es" -> resources.getStringArray(R.array.languages_list)[2]
 
-            "pl" -> context.resources.getStringArray(R.array.languages_list)[3]
+            "pl" -> resources.getStringArray(R.array.languages_list)[3]
 
-            "ro" -> context.resources.getStringArray(R.array.languages_list)[4]
+            "ro" -> resources.getStringArray(R.array.languages_list)[4]
 
-            "be" -> context.resources.getStringArray(R.array.languages_list)[5]
+            "be" -> resources.getStringArray(R.array.languages_list)[5]
 
-            "ru" -> context.resources.getStringArray(R.array.languages_list)[6]
+            "ru" -> resources.getStringArray(R.array.languages_list)[6]
 
-            "uk" -> context.resources.getStringArray(R.array.languages_list)[7]
+            "uk" -> resources.getStringArray(R.array.languages_list)[7]
 
             else -> defLang
         }
     }
 
-    fun getOnTabOnApplicationLaunch(context: Context): String? {
+    fun SettingsFragment.getOnTabOnApplicationLaunch(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") !in
-            context.resources.getStringArray(R.array.tab_on_application_launch_values)
-            || (!pref.getBoolean(IS_SUPPORTED, context.resources.getBoolean(R.bool.is_supported))
+            resources.getStringArray(R.array.tab_on_application_launch_values)
+            || (!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
             && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" &&
-                    HistoryHelper.isHistoryEmpty(context)))
+                    HistoryHelper.isHistoryEmpty(requireContext())))
                         pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
 
-        return context.resources.getStringArray(R.array.tab_on_application_launch_list)[
+        return resources.getStringArray(R.array.tab_on_application_launch_list)[
                 (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]
     }
 
-    fun getOnUnitOfChargeDischargeCurrentSummary(context: Context): String? {
+    fun SettingsFragment.getOnUnitOfChargeDischargeCurrentSummary(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
-            !in context.resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
+            !in resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
             pref.edit().putString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA").apply()
 
         return when(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")) {
 
-            "μA" -> context.resources.getStringArray(
+            "μA" -> resources.getStringArray(
                 R.array.unit_of_charge_discharge_current_list)[0]
 
-            "mA" -> context.resources.getStringArray(
+            "mA" -> resources.getStringArray(
                 R.array.unit_of_charge_discharge_current_list)[1]
 
             else -> pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
         }
     }
 
-    fun getOnUnitOfMeasurementOfCurrentCapacitySummary(context: Context): String? {
+    fun SettingsFragment.getOnUnitOfMeasurementOfCurrentCapacitySummary(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-            !in context.resources.getStringArray(
+            !in resources.getStringArray(
                 R.array.unit_of_measurement_of_current_capacity_values))
             pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
 
         return when(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")) {
 
-            "μAh" -> context.resources.getStringArray(
+            "μAh" -> resources.getStringArray(
                 R.array.unit_of_measurement_of_current_capacity_list)[0]
 
-            "mAh" -> context.resources.getStringArray(
+            "mAh" -> resources.getStringArray(
                 R.array.unit_of_measurement_of_current_capacity_list)[1]
 
             else -> pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
         }
     }
 
-    fun getOnVoltageUnitSummary(context: Context): String? {
+    fun SettingsFragment.getOnVoltageUnitSummary(): String? {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(VOLTAGE_UNIT, "mV")
-            !in context.resources.getStringArray(
+            !in resources.getStringArray(
                 R.array.voltage_unit_values))
             pref.edit().putString(VOLTAGE_UNIT, "mV").apply()
 
         return when(pref.getString(VOLTAGE_UNIT, "mV")) {
 
-            "μV" -> context.resources.getStringArray(R.array.voltage_unit_list)[0]
+            "μV" -> resources.getStringArray(R.array.voltage_unit_list)[0]
 
-            "mV" -> context.resources.getStringArray(R.array.voltage_unit_list)[1]
+            "mV" -> resources.getStringArray(R.array.voltage_unit_list)[1]
 
             else -> pref.getString(VOLTAGE_UNIT, "mV")
         }
     }
 
-    fun onChangeLanguage(context: Context, language: String) {
+    fun SettingsFragment.onChangeLanguage(language: String) {
 
         if(CapacityInfoService.instance != null)
-            ServiceHelper.stopService(context, CapacityInfoService::class.java)
+            ServiceHelper.stopService(requireContext(), CapacityInfoService::class.java)
 
         if(OverlayService.instance != null)
-            ServiceHelper.stopService(context, OverlayService::class.java)
+            ServiceHelper.stopService(requireContext(), OverlayService::class.java)
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            context.setLocale(language)
+            requireContext().setLocale(language)
 
         (context as? MainActivity)?.recreate()
     }
 
-    fun onChangeDesignCapacity(context: Context, designCapacity: Preference? = null) {
+    fun SettingsFragment.onChangeDesignCapacity(designCapacity: Preference? = null) {
+
+        onChangeDesignCapacity(requireContext(), designCapacity)
+    }
+
+    fun WearFragment.onChangeDesignCapacity(designCapacity: Preference? = null) {
+        
+        onChangeDesignCapacity(requireContext(), designCapacity)
+    }
+    
+    private fun onChangeDesignCapacity(context: Context, designCapacity: Preference? = null) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.change_design_capacity_dialog,
-            null)
+        val view = LayoutInflater.from(context).inflate(
+            R.layout.change_design_capacity_dialog, null
+        )
 
         dialog.setView(view)
 
-        val changeDesignCapacity = view.findViewById<TextInputEditText>(R.id
-            .change_design_capacity_edit)
+        val changeDesignCapacity = view.findViewById<TextInputEditText>(
+            R.id
+                .change_design_capacity_edit
+        )
 
-        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
-                R.integer.min_design_capacity)) >= context.resources.getInteger(
-                R.integer.min_design_capacity)) pref.getInt(DESIGN_CAPACITY,
-            context.resources.getInteger(R.integer.min_design_capacity)).toString()
-
-        else context.resources.getInteger(R.integer.min_design_capacity).toString())
+        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY,
+                context.resources.getInteger(R.integer.min_design_capacity)) >=
+            context.resources.getInteger(R.integer.min_design_capacity))
+            pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                R.integer.min_design_capacity)).toString() else
+                    context.resources.getInteger(R.integer.min_design_capacity).toString())
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
