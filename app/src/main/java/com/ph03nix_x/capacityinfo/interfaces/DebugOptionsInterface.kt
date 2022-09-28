@@ -52,17 +52,19 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
@@ -71,7 +73,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Exception
 
 interface DebugOptionsInterface {
 
@@ -341,8 +342,9 @@ interface DebugOptionsInterface {
             when(key) {
 
                 LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
-                VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_TEXT_STYLE, TEXT_STYLE,
-                TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> addChangeSetting(
+                VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
+                OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
+                FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> addChangeSetting(
                     context, pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
@@ -438,9 +440,8 @@ interface DebugOptionsInterface {
 
                 when(key) {
 
-                    OVERLAY_SIZE, OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE,
-                    TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> {
-
+                    OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
+                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> {
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
                         changePrefValue.keyListener = DigitsKeyListener.getInstance(
@@ -448,7 +449,6 @@ interface DebugOptionsInterface {
                     }
 
                     else -> {
-
                         changePrefValue.inputType = prefValueInputTypeDef
 
                         changePrefValue.keyListener = prefValueKeyListenerDef
@@ -557,6 +557,10 @@ interface DebugOptionsInterface {
                                     s.toString() in context.resources.getStringArray(R.array
                                 .text_size_values)
 
+                            OVERLAY_FONT -> s.toString() != pref.getString(key, "6")
+                                    && s.toString() in context.resources.getStringArray(R.array
+                                .fonts_values)
+
                             OVERLAY_TEXT_STYLE -> s.toString() != pref.getString(key, "0")
                                     && s.toString() in context.resources.getStringArray(R.array
                                 .text_style_values)
@@ -565,9 +569,13 @@ interface DebugOptionsInterface {
                                 key, "2") && s.toString() in context.resources
                                 .getStringArray(R.array.text_size_values)
 
+                            TEXT_FONT -> s.toString() != pref.getString(
+                                key, "6") && s.toString() in context.resources
+                                .getStringArray(R.array.fonts_values)
+
                             TEXT_STYLE -> s.toString() != pref.getString(
                                 key, "0") && s.toString() in context.resources
-                                .getStringArray(R.array.text_style_values)
+                                .getStringArray(R.array.fonts_values)
 
                             TAB_ON_APPLICATION_LAUNCH -> s.toString() != pref.getString(
                                 key, "0") && s.toString() in context.resources

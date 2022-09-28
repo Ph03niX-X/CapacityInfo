@@ -42,6 +42,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
@@ -69,6 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
     private var textSize: ListPreference? = null
+    private var textFont: ListPreference? = null
     private var textStyle: ListPreference? = null
     private var selectLanguage: ListPreference? = null
     private var changeAppLanguage: Preference? = null
@@ -224,6 +226,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textSize = findPreference(TEXT_SIZE)
 
+        textFont = findPreference(TEXT_FONT)
+
         textStyle = findPreference(TEXT_STYLE)
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
@@ -235,6 +239,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = getOnTextSizeSummary(requireContext())
+
+        textFont?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(isEnabled) getOnTextFontSummary() else getString(R.string.premium_feature)
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                preference.summary = resources.getStringArray(R.array.fonts_list)[
+                        (newValue as? String)?.toInt() ?: 0]
+
+                true
+            }
+        }
 
         textStyle?.summary = getOnTextStyleSummary(requireContext())
 
@@ -667,6 +684,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = getOnTextSizeSummary(requireContext())
+
+        textFont?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(isEnabled) getOnTextFontSummary() else getString(R.string.premium_feature)
+        }
 
         textStyle?.summary = getOnTextStyleSummary(requireContext())
 

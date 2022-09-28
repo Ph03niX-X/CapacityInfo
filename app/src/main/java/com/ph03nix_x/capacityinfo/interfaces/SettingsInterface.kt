@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -30,6 +31,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
@@ -65,6 +67,18 @@ interface SettingsInterface {
 
         return context.resources.getStringArray(R.array.text_size_list)[
                 (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
+    }
+
+    fun SettingsFragment.getOnTextFontSummary(): String? {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        if(pref.getString(TEXT_FONT, "6") !in
+            resources.getStringArray(R.array.fonts_values))
+            pref.edit().putString(TEXT_FONT, "6").apply()
+
+        return resources.getStringArray(R.array.fonts_list)[
+                (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
     }
 
     fun getOnTextStyleSummary(context: Context): String? {

@@ -40,6 +40,7 @@ object PreferencesKeys {
     const val IS_AUTO_DARK_MODE = "is_auto_dark_mode" // Android 10+
     const val IS_DARK_MODE = "is_dark_mode"
     const val TEXT_SIZE = "text_size"
+    const val TEXT_FONT = "text_font"
     const val TEXT_STYLE = "text_style"
     const val LANGUAGE = "language"
     const val CHANGE_APP_LANGUAGE = "change_app_language" // Android 13+
@@ -64,6 +65,7 @@ object PreferencesKeys {
 
     // Overlay Appearance
     const val OVERLAY_SIZE = "overlay_size"
+    const val OVERLAY_FONT = "overlay_font"
     const val OVERLAY_TEXT_STYLE = "overlay_text_style"
     const val OVERLAY_TEXT_COLOR = "overlay_text_color"
     const val OVERLAY_OPACITY = "overlay_opacity"

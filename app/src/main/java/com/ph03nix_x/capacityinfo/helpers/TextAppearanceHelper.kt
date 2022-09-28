@@ -7,18 +7,54 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.TypefaceCompat
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 
-object TextAppearanceHelper {
+object TextAppearanceHelper : DonateInterface {
 
     fun setTextAppearance(context: Context, textView: AppCompatTextView, textStylePref: String?,
-                          textSizePref: String?) {
+                          textFontPref: String?, textSizePref: String?) {
 
         setTextSize(context, textView, textSizePref)
 
-        val fontFamily = ResourcesCompat.getFont(context, R.font.google_sans)
+        val isPremium = isDonated() || isPremium()
+
+        val fontFamily = setTextFont(textView.context, if(isPremium) textFontPref else "6")
 
         textView.typeface = setTextStyle(textView, textStylePref, fontFamily)
     }
+
+    private fun setTextFont(context: Context, textFontPref: String?): Typeface? {
+
+        return when(textFontPref?.toInt()) {
+
+            0 -> Typeface.DEFAULT
+
+            1 -> ResourcesCompat.getFont(context, R.font.roboto)
+
+            2 -> Typeface.SERIF
+
+            3 -> Typeface.SANS_SERIF
+
+            4 -> Typeface.MONOSPACE
+
+            5 -> ResourcesCompat.getFont(context, R.font.inter)
+
+            6 -> ResourcesCompat.getFont(context, R.font.google_sans)
+
+            7 -> ResourcesCompat.getFont(context, R.font.times_new_roman)
+
+            8 -> ResourcesCompat.getFont(context, R.font.ubuntu)
+
+            9 -> ResourcesCompat.getFont(context, R.font.lora)
+
+            10 -> ResourcesCompat.getFont(context, R.font.oswald)
+
+            11 -> ResourcesCompat.getFont(context, R.font.pt_sans)
+
+            else -> null
+        }
+    }
+
 
     private fun setTextStyle(textView: AppCompatTextView, textStylePref: String?,
                              fontFamily: Typeface?): Typeface? {

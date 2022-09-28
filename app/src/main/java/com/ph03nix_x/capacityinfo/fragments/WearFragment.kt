@@ -152,27 +152,49 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     private fun updateTextAppearance() {
 
         TextAppearanceHelper.setTextAppearance(requireContext(), designCapacity,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCharges,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfFullCharges,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCycles,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), numberOfCyclesAndroid,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), currentCapacity,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), capacityAdded,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), technology,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), batteryHealth,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), residualCapacity,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), batteryWear,
-            pref.getString(TEXT_STYLE, "0"), pref.getString(TEXT_SIZE, "2"))
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
     }
 
     private suspend fun getNumberOfCyclesAndroid(): Int {

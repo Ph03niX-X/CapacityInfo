@@ -66,14 +66,17 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
 
         TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory
             .itemView.history_date, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
 
         TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory.itemView
             .history_residual_capacity, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
 
         TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory.itemView
             .history_battery_wear, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
     }
 

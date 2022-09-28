@@ -116,8 +116,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay", "text_font",
-            "overlay_font", "is_show_faq", "is_show_donate_message", LANGUAGE).forEach {
+        arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay",
+            "is_show_faq", "is_show_donate_message", LANGUAGE).forEach {
 
             with(pref) {
 
