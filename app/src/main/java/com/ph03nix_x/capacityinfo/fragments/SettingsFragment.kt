@@ -297,12 +297,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 true
             }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            changeAppLanguage?.setOnPreferenceClickListener {
-                startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
-                    Uri.parse("package:${requireContext().packageName}")))
-                true
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            changeAppLanguage?.apply {
+                summary = getOnChangeAppLanguageSummary()
+
+                changeAppLanguage?.setOnPreferenceClickListener {
+                    startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
+                        Uri.parse("package:${requireContext().packageName}")))
+                    true
+                }
             }
+        }
 
         // Misc
         resetScreenTime = findPreference(IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL)
@@ -461,7 +466,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         changeDesignCapacity?.setOnPreferenceClickListener {
 
-            onChangeDesignCapacity()
+            onChangeDesignCapacity(it)
 
             true
         }
@@ -691,6 +696,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         textStyle?.summary = getOnTextStyleSummary()
+
+        changeAppLanguage?.summary = getOnChangeAppLanguageSummary()
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
             selectLanguage?.summary = getOnLanguageSummary()

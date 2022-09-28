@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.getSystemLocale
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -104,6 +105,30 @@ interface SettingsInterface {
             pref.edit().putString(LANGUAGE, null).apply()
 
         return when(pref.getString(LANGUAGE, null)) {
+
+            "en" -> resources.getStringArray(R.array.languages_list)[0]
+
+            "de" -> resources.getStringArray(R.array.languages_list)[1]
+
+            "es" -> resources.getStringArray(R.array.languages_list)[2]
+
+            "pl" -> resources.getStringArray(R.array.languages_list)[3]
+
+            "ro" -> resources.getStringArray(R.array.languages_list)[4]
+
+            "be" -> resources.getStringArray(R.array.languages_list)[5]
+
+            "ru" -> resources.getStringArray(R.array.languages_list)[6]
+
+            "uk" -> resources.getStringArray(R.array.languages_list)[7]
+
+            else -> defLang
+        }
+    }
+
+    fun SettingsFragment.getOnChangeAppLanguageSummary(): String? {
+
+        return when(requireContext().resources.configuration.getSystemLocale()) {
 
             "en" -> resources.getStringArray(R.array.languages_list)[0]
 
