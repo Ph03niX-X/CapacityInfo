@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.LocaleList
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -25,7 +26,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.currentLanguage
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
@@ -107,10 +108,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         ThemeHelper.setTheme(this)
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(this, pref.getString(
-            LANGUAGE, null) ?: defLang)
-
         setContentView(R.layout.activity_main)
 
         donateContext = this
@@ -141,8 +138,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         navigation = findViewById(R.id.navigation)
 
-        prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
-                as? HashMap<*, *>
+        prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
+            HashMap::class.java)
 
         isRestoreSettingsFromBackup = intent.getBooleanExtra(IS_RESTORE_SETTINGS_EXTRA,
             false)
@@ -200,8 +197,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(fragment !is SettingsFragment) inflateMenu()
 
         toolbar.setNavigationOnClickListener {
-
-            onBackPressed()
+            backPressed()
         }
 
         navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(
@@ -338,19 +334,25 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     BatteryStatusInformationFragment || fragment is BackupSettingsFragment
                     || fragment is OverlayFragment || fragment is DebugFragment ||
                     fragment is AboutFragment || fragment is FeedbackFragment)
+
+        onBackPressedDispatcher.addCallback(this, object:OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backPressed()
+            }
+        })
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        pref = PreferenceManager.getDefaultSharedPreferences(newBase)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+        super.attachBaseContext(ContextWrapper(newBase.setLocale(
+            pref.getString(LANGUAGE, null) ?: defLang)))
+        else super.attachBaseContext(newBase)
     }
 
     override fun onResume() {
 
         super.onResume()
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
-            LocaleHelper.getSystemLocale(resources.configuration) != pref.getString(LANGUAGE,
-                null)) {
-
-            LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
-                null) ?: defLang)
-        }
 
         tempFragment = null
 
@@ -481,8 +483,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 show()
             }
 
-        val prefArrays = intent.getSerializableExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
-                as? HashMap<*, *>
+        val prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
+            HashMap::class.java)
+
         if(prefArrays != null) importSettings(prefArrays)
 
         if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
@@ -518,68 +521,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            newConfig.locale != currentLanguage) {
+            newConfig.locales[0] != currentLanguage) {
             val localeManager = getSystemService(Context.LOCALE_SERVICE) as LocaleManager
-            localeManager.applicationLocales = LocaleList.forLanguageTags(newConfig.locale?.language)
-            currentLanguage = newConfig.locale
-        }
-    }
-
-    override fun onBackPressed() {
-
-        if(isOnBackPressed) {
-
-            if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
-                        && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
-                        && fragment !is WearFragment && fragment !is HistoryFragment &&
-                        fragment !is DebugFragment && fragment !is BackupSettingsFragment) || ((
-                        fragment is BackupSettingsFragment || fragment is DebugFragment) &&
-                        supportFragmentManager.backStackEntryCount > 0))) {
-
-                fragment = if(fragment !is FakeBatteryWearFragment) SettingsFragment()
-                else DebugFragment()
-
-                toolbar.title = getString(if(fragment !is DebugFragment) R.string.settings
-                else R.string.debug)
-
-                if(fragment is SettingsFragment) toolbar.navigationIcon = null
-
-                supportFragmentManager.popBackStack()
-            }
-
-            else if(toolbar.title != getString(R.string.settings) &&
-                (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
-                || isRestoreImportSettings) {
-
-                fragment = SettingsFragment()
-
-                toolbar.title = getString(R.string.settings)
-
-                toolbar.navigationIcon = null
-
-                isRestoreImportSettings = false
-
-                loadFragment(fragment ?: SettingsFragment())
-            }
-
-            else {
-
-                if(isDoubleBackToExitPressedOnce) finish()
-
-                else {
-
-                    isDoubleBackToExitPressedOnce = true
-
-                    Toast.makeText(this, R.string.press_the_back_button_again,
-                        Toast.LENGTH_LONG).show()
-
-                    CoroutineScope(Dispatchers.Main).launch {
-
-                        delay(3000L)
-                        isDoubleBackToExitPressedOnce = false
-                    }
-                }
-            }
+            localeManager.applicationLocales = LocaleList.forLanguageTags(newConfig.locales[0].language)
+            currentLanguage = newConfig.locales[0]
         }
     }
 
@@ -997,5 +942,61 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         intent.removeExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
 
         intent.removeExtra(IS_RESTORE_SETTINGS_EXTRA)
+    }
+
+    fun backPressed() {
+        if(isOnBackPressed) {
+            if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
+                        && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
+                        && fragment !is WearFragment && fragment !is HistoryFragment &&
+                        fragment !is DebugFragment && fragment !is BackupSettingsFragment) || ((
+                        fragment is BackupSettingsFragment || fragment is DebugFragment) &&
+                        supportFragmentManager.backStackEntryCount > 0))) {
+
+                fragment = if(fragment !is FakeBatteryWearFragment) SettingsFragment()
+                else DebugFragment()
+
+                toolbar.title = getString(if(fragment !is DebugFragment) R.string.settings
+                else R.string.debug)
+
+                if(fragment is SettingsFragment) toolbar.navigationIcon = null
+
+                supportFragmentManager.popBackStack()
+            }
+
+            else if(toolbar.title != getString(R.string.settings) &&
+                (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
+                || isRestoreImportSettings) {
+
+                fragment = SettingsFragment()
+
+                toolbar.title = getString(R.string.settings)
+
+                toolbar.navigationIcon = null
+
+                isRestoreImportSettings = false
+
+                loadFragment(fragment ?: SettingsFragment())
+            }
+
+            else {
+
+                if(isDoubleBackToExitPressedOnce) finish()
+
+                else {
+
+                    isDoubleBackToExitPressedOnce = true
+
+                    Toast.makeText(this@MainActivity, R.string.press_the_back_button_again,
+                        Toast.LENGTH_LONG).show()
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        delay(3000L)
+                        isDoubleBackToExitPressedOnce = false
+                    }
+                }
+            }
+        }
     }
 }

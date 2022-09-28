@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
@@ -23,6 +22,7 @@ import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
@@ -168,12 +168,16 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(
                 Intent.ACTION_POWER_DISCONNECTED))
 
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                LocaleHelper.setLocale(this, pref.getString(LANGUAGE,
-                    null) ?: defLang)
-
             onCreateServiceNotification(this@CapacityInfoService)
         }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        pref = PreferenceManager.getDefaultSharedPreferences(newBase)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            super.attachBaseContext(ContextWrapper(newBase.setLocale(
+                pref.getString(LANGUAGE, null) ?: defLang)))
+        else super.attachBaseContext(newBase)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -484,12 +488,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         if(displayManager != null)
-        for(display in displayManager.displays)
-            if(display.state == Display.STATE_ON)
-                delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
-                else 955L)
-            else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 938L
-            else 935L)
+            for(display in displayManager.displays)
+                if(display.state == Display.STATE_ON)
+                    delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
+                    else 955L)
+                else delay(if(getOnCurrentCapacity(this@CapacityInfoService) > 0.0) 938L
+                else 935L)
 
         seconds++
 

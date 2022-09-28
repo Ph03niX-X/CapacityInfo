@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo
 
 import android.Manifest
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -10,13 +11,14 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.getSystemLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
+import java.io.Serializable
 import java.util.Locale
 import kotlin.collections.HashMap
 import kotlin.system.exitProcess
@@ -65,6 +67,16 @@ class MainApp : Application() {
 
             exitProcess(0)
         }
+
+        fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
+        {
+            return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                activity.intent.getSerializableExtra(name, clazz)
+            else {
+                @Suppress("DEPRECATION")
+                activity.intent.getSerializableExtra(name) as T
+            }
+        }
     }
 
     override fun onCreate() {
@@ -73,7 +85,7 @@ class MainApp : Application() {
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) defLang()
 
-        currentLanguage = resources.configuration.locale
+        currentLanguage = resources.configuration.locales[0]
 
         isInstalledGooglePlay = isInstalledGooglePlay()
 
@@ -82,10 +94,6 @@ class MainApp : Application() {
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(this, pref.getString(
-                LANGUAGE, null) ?: defLang)
 
         if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
                 R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(
@@ -117,14 +125,15 @@ class MainApp : Application() {
             MainActivity.instance?.recreate()
         }
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && LocaleHelper.getSystemLocale(newConfig) != defLang) defLang()
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+            newConfig.getSystemLocale() != defLang) defLang()
     }
 
     private fun defLang() {
 
         defLang = "en"
 
-        val systemLanguage = LocaleHelper.getSystemLocale(resources.configuration)
+        val systemLanguage = resources.configuration.getSystemLocale()
 
         if(systemLanguage in resources.getStringArray(R.array.languages_codes)) defLang =
             systemLanguage
@@ -140,7 +149,13 @@ class MainApp : Application() {
 
         return try {
 
-            packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME, 0)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME,
+                    PackageManager.PackageInfoFlags.of(0))
+            else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME, 0)
+            }
 
             true
         }

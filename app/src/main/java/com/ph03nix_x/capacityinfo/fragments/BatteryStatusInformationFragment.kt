@@ -13,19 +13,19 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
-import com.ph03nix_x.capacityinfo.utilities.Constants
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE
+import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
@@ -51,6 +51,7 @@ import java.text.DecimalFormat
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private lateinit var pref: SharedPreferences
+    private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private var batteryStatusInformationSettingsPrefScreen: PreferenceScreen? = null
     private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
@@ -70,16 +71,35 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var chargingCurrentLevelNotify: SeekBarPreference? = null
     private var dischargeCurrentLevelNotify: SeekBarPreference? = null
     private var exportNotificationSounds: Preference? = null
+    private var requestCode = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
-
         addPreferencesFromResource(R.xml.battery_status_information_settings)
+
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            permissions.entries.forEach {
+                if (it.value) {
+                    when (requestCode) {
+
+                        POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE -> {
+                            batteryStatusInformationSettingsPrefScreen?.isEnabled = it.value
+                        }
+                    }
+                }
+            }
+        }
+
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            when(requestCode) {
+                EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE -> if(it.resultCode == Activity.RESULT_OK)
+                    exportNotificationSounds(it.data)
+            }
+        }
 
         batteryStatusInformationSettingsPrefScreen =
             findPreference("battery_status_information_settings_pref_screen")
@@ -104,8 +124,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if(ContextCompat.checkSelfPermission(requireContext(),
                     Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
-                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
+                requestCode = POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
             }
             batteryStatusInformationSettingsPrefScreen?.isEnabled = ContextCompat
                 .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
@@ -383,12 +403,10 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         exportNotificationSounds?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants. EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE)
+                requestCode = EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
             }
             catch(e: ActivityNotFoundException) {
-
                 Toast.makeText(requireContext(), getString(R.string
                     .error_exporting_notification_sounds, e.message ?: e.toString()),
                     Toast.LENGTH_LONG).show()
@@ -482,30 +500,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getDischargeCurrentLevelNotifySummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources.getBoolean(
                 R.bool.is_notify_discharge_current))
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode) {
-
-            Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) exportNotificationSounds(data)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
-
-        when (requestCode) {
-            Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
-                if(grantResults.isNotEmpty())
-                    batteryStatusInformationSettingsPrefScreen?.isEnabled =
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 

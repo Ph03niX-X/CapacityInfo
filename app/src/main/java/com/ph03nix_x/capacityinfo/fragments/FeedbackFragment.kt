@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,13 +11,10 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONATE_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
 class FeedbackFragment : PreferenceFragmentCompat() {
@@ -29,10 +27,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.feedback_settings)
 
@@ -52,12 +46,24 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             try {
 
-                val version = requireContext().packageManager?.getPackageInfo(
-                    requireContext().packageName, 0)?.versionName
-                val build = requireContext().packageManager?.getPackageInfo(
-                    requireContext().packageName, 0)?.let { PackageInfoCompat
-                    .getLongVersionCode(it).toString() }
-
+                val version = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                        PackageManager.PackageInfoFlags.of(0))?.versionName
+                else {
+                    @Suppress("DEPRECATION")
+                    requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                        0)?.versionName
+                }
+                val build = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                        PackageManager.PackageInfoFlags.of(0))?.let {
+                        PackageInfoCompat.getLongVersionCode(it).toString()
+                    }
+                else {
+                    @Suppress("DEPRECATION")
+                    requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                        0)?.let { PackageInfoCompat.getLongVersionCode(it).toString() }
+                }
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email
                     ?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}")))
             }

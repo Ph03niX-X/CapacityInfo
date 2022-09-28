@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,14 +11,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.UKRAINIAN_TRANSLATION_LINK
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
 class AboutFragment : PreferenceFragmentCompat(), DonateInterface {
 
@@ -36,10 +34,6 @@ class AboutFragment : PreferenceFragmentCompat(), DonateInterface {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.about_settings)
 
@@ -63,11 +57,25 @@ class AboutFragment : PreferenceFragmentCompat(), DonateInterface {
 
         betaTester?.isVisible = isInstalledGooglePlay
 
-        version?.summary = requireContext().packageManager?.getPackageInfo(
-            requireContext().packageName, 0)?.versionName
+        version?.summary = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                PackageManager.PackageInfoFlags.of(0))?.versionName
+        else{
+            @Suppress("DEPRECATION")
+            requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                0)?.versionName
+        }
 
-        build?.summary = requireContext().packageManager?.getPackageInfo(requireContext().packageName,
-            0)?.let { PackageInfoCompat.getLongVersionCode(it).toString() }
+        build?.summary = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+            PackageManager.PackageInfoFlags.of(0))?.let {
+                PackageInfoCompat.getLongVersionCode(it).toString()
+            }
+        else {
+            @Suppress("DEPRECATION")
+            requireContext().packageManager?.getPackageInfo(requireContext().packageName,
+                0)?.let { PackageInfoCompat.getLongVersionCode(it).toString() }
+        }
 
         buildDate?.summary = BuildConfig.BUILD_DATE
 

@@ -4,17 +4,12 @@ import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
-import android.os.Build
 import android.os.IBinder
-import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.MainApp
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.linearLayout
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.windowManager
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
 
@@ -35,12 +30,6 @@ class OverlayService : Service(), OverlayInterface {
         super.onCreate()
 
         instance = this
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(this, pref.getString(PreferencesKeys.LANGUAGE,
-                null) ?: MainApp.defLang)
 
         onCreateOverlay(this)
 

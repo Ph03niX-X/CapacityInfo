@@ -24,10 +24,10 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -617,7 +617,7 @@ interface DebugOptionsInterface {
             MainActivity.tempFragment = MainActivity.instance?.fragment
 
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                LocaleHelper.setLocale(context, value)
+                context.setLocale(value)
 
             (context as? MainActivity)?.recreate()
         }
@@ -662,7 +662,7 @@ interface DebugOptionsInterface {
 
             val mainContext = context as? MainActivity
 
-            mainContext?.onBackPressed()
+            mainContext?.backPressed()
         }
 
         else if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context))
@@ -701,7 +701,7 @@ interface DebugOptionsInterface {
                     MainActivity.tempFragment = MainActivity.instance?.fragment
 
                     if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                        LocaleHelper.setLocale(context, MainApp.defLang)
+                        context.setLocale(MainApp.defLang)
 
                     (context as? MainActivity)?.recreate()
                 }
@@ -719,7 +719,7 @@ interface DebugOptionsInterface {
 
                     val mainContext = context as? MainActivity
 
-                    mainContext?.onBackPressed()
+                    mainContext?.backPressed()
                 }
             }
 

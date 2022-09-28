@@ -5,27 +5,26 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.microSDPath
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BackupSettingsInterface
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.AUTO_BACKUP_SETTINGS_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
@@ -37,6 +36,7 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
     private lateinit var backupPath: String
     private lateinit var pref: SharedPreferences
+    private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private var autoBackupSettings: SwitchPreferenceCompat? = null
     private var backupSettingsToMicroSD: SwitchPreferenceCompat? = null
@@ -50,16 +50,77 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
     private var isRestoreSettingsFromBackup = false
     private var isEnabledBackupInformationTimer = false
+    private var requestCode: Int = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
-
         addPreferencesFromResource(R.xml.backup_settings)
+
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            permissions.entries.forEach {
+                if(it.value) {
+                    when(requestCode) {
+                        EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
+                            if(autoBackupSettings?.isChecked == true && !isRestoreSettingsFromBackup) {
+
+                                ServiceHelper.jobSchedule(requireContext(),
+                                    AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
+                                    (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
+                                        ?.toLong() ?: 1L) * 60L * 60L * 1000L)
+
+                                frequencyOfAutoBackupSettings?.isEnabled = true
+
+                                CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
+
+                                    delay(250L)
+                                    restoreSettingsFromBackup?.isEnabled = File(
+                                        "$backupPath/${requireContext()
+                                            .packageName}_preferences.xml").exists() && File(
+                                        "$backupPath/${requireContext()
+                                            .packageName}_preferences.xml").length() > 0
+                                }
+                            }
+                            else if(autoBackupSettings?.isChecked != true && !isRestoreSettingsFromBackup) {
+                                 onBackupSettings(requireContext(), restoreSettingsFromBackup)
+                            }
+                            else if(isRestoreSettingsFromBackup)
+                                onRestoreSettingsFromBackup(requireContext(), backupPath)
+                            else {
+
+                                pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+                                 autoBackupSettings?.isChecked = false
+
+                                ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+                            }
+                    }
+                }
+            }
+        }
+
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            when(requestCode) {
+
+                Constants.EXPORT_SETTINGS_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onExportSettings(requireContext(),
+                        it.data)
+
+                Constants.IMPORT_SETTINGS_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onImportSettings(requireContext(),
+                        it.data?.data)
+
+                Constants.EXPORT_HISTORY_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onExportHistory(requireContext(),
+                        it.data)
+
+                Constants.IMPORT_HISTORY_REQUEST_CODE ->
+                    if(it.resultCode == Activity.RESULT_OK) onImportHistory(requireContext(),
+                        it.data?.data, exportHistory)
+            }
+        }
 
         backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD, requireContext()
                 .resources.getBoolean(R.bool.is_backup_settings_to_microsd)) &&
@@ -100,9 +161,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
             restoreSettingsFromBackup?.isEnabled = !MainApp.isInstalledGooglePlay
 
-            exportSettings?.isVisible = MainApp.isInstalledGooglePlay
+            exportSettings?.isVisible = true
 
-            importSettings?.isVisible = MainApp.isInstalledGooglePlay
+            importSettings?.isVisible = true
 
             exportHistory?.apply {
 
@@ -186,10 +247,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             }
 
             else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && isAutoBackup == true &&
-                !isExternalStoragePermission(requireContext()))
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE),
-                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+                !isExternalStoragePermission(requireContext())) {
+                requestCode = EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE))
+            }
 
             else if((newValue as? Boolean == true) &&
                 ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
@@ -305,14 +367,13 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                     show()
                 }
             }
-
             else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R && !isExternalStoragePermission(
-                    requireContext())) requestPermissions(arrayOf(Manifest.permission
-                .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
-                EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
-
+                    requireContext())) {
+                requestCode = EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission
+                    .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE))
+            }
             else onBackupSettings(requireContext(), restoreSettingsFromBackup)
-
             true
         }
 
@@ -342,10 +403,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                 !isExternalStoragePermission(requireContext())) {
 
                 isRestoreSettingsFromBackup = !isRestoreSettingsFromBackup
-
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE),
-                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+                requestCode =  EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE))
             }
 
             else onRestoreSettingsFromBackup(requireContext(), backupPath)
@@ -356,12 +416,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         exportSettings?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants.EXPORT_SETTINGS_REQUEST_CODE)
+                requestCode = Constants.EXPORT_SETTINGS_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
             }
             catch(e: ActivityNotFoundException) {
-
                 Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
                     e.message ?: e.toString()), Toast.LENGTH_LONG).show()
             }
@@ -372,15 +430,13 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         importSettings?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-
+                requestCode = Constants.IMPORT_SETTINGS_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "text/xml"
-                }, Constants.IMPORT_SETTINGS_REQUEST_CODE)
+                })
             }
             catch(e: ActivityNotFoundException) {
-
                 Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
                     e.message ?: e.toString()), Toast.LENGTH_LONG).show()
             }
@@ -391,12 +447,10 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         exportHistory?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),
-                    Constants.EXPORT_HISTORY_REQUEST_CODE)
+                requestCode = Constants.EXPORT_HISTORY_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
             }
             catch(e: ActivityNotFoundException) {
-
                 Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
                     .show()
             }
@@ -407,11 +461,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         importHistory?.setOnPreferenceClickListener {
 
             try {
-
-                startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                requestCode = Constants.IMPORT_HISTORY_REQUEST_CODE
+                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "application/octet-stream"
-                }, Constants.IMPORT_HISTORY_REQUEST_CODE)
+                })
             }
             catch(e: ActivityNotFoundException) {
 
@@ -478,82 +532,60 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
-
-        when(requestCode) {
-
-            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
-                if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked == true
-                    && !isRestoreSettingsFromBackup) {
-
-                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                        ServiceHelper.jobSchedule(requireContext(),
-                            AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
-                            (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
-                                ?.toLong() ?: 1L) * 60L * 60L * 1000L)
-
-                        frequencyOfAutoBackupSettings?.isEnabled = true
-
-                        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
-
-                            delay(250L)
-                            restoreSettingsFromBackup?.isEnabled = File(
-                                "$backupPath/${requireContext()
-                                    .packageName}_preferences.xml").exists() && File(
-                                "$backupPath/${requireContext()
-                                    .packageName}_preferences.xml").length() > 0
-                        }
-                    }
-                }
-
-                else if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked != true
-                    && !isRestoreSettingsFromBackup) {
-
-                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                        onBackupSettings(requireContext(), restoreSettingsFromBackup)
-                }
-
-                else if(grantResults.isNotEmpty() && isRestoreSettingsFromBackup)
-                        if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                            onRestoreSettingsFromBackup(requireContext(), backupPath)
-
-                else {
-
-                    pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
-
-                    autoBackupSettings?.isChecked = false
-
-                    ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
-                }
-
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode) {
-
-            Constants.EXPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onExportSettings(requireContext(), data)
-
-            Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onImportSettings(requireContext(), data?.data)
-
-            Constants.EXPORT_HISTORY_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onExportHistory(requireContext(), data)
-
-            Constants.IMPORT_HISTORY_REQUEST_CODE ->
-                if(resultCode == Activity.RESULT_OK) onImportHistory(requireContext(), data?.data,
-                    exportHistory)
-        }
-    }
+//    @Deprecated("Deprecated in Java")
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+//                                            grantResults: IntArray) {
+//
+//        when(requestCode) {
+//
+//            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE ->
+//                if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked == true
+//                    && !isRestoreSettingsFromBackup) {
+//
+//                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                        ServiceHelper.jobSchedule(requireContext(),
+//                            AutoBackupSettingsJobService::class.java, AUTO_BACKUP_SETTINGS_JOB_ID,
+//                            (pref.getString(FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
+//                                ?.toLong() ?: 1L) * 60L * 60L * 1000L)
+//
+//                        frequencyOfAutoBackupSettings?.isEnabled = true
+//
+//                        CoroutineScope(Dispatchers.Default).launch(Dispatchers.Main) {
+//
+//                            delay(250L)
+//                            restoreSettingsFromBackup?.isEnabled = File(
+//                                "$backupPath/${requireContext()
+//                                    .packageName}_preferences.xml").exists() && File(
+//                                "$backupPath/${requireContext()
+//                                    .packageName}_preferences.xml").length() > 0
+//                        }
+//                    }
+//                }
+//
+//                else if(grantResults.isNotEmpty() && autoBackupSettings?.isChecked != true
+//                    && !isRestoreSettingsFromBackup) {
+//
+//                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                        onBackupSettings(requireContext(), restoreSettingsFromBackup)
+//                }
+//
+//                else if(grantResults.isNotEmpty() && isRestoreSettingsFromBackup)
+//                        if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                            onRestoreSettingsFromBackup(requireContext(), backupPath)
+//
+//                else {
+//
+//                    pref.edit().remove(IS_AUTO_BACKUP_SETTINGS).apply()
+//
+//                    autoBackupSettings?.isChecked = false
+//
+//                    ServiceHelper.cancelJob(requireContext(), AUTO_BACKUP_SETTINGS_JOB_ID)
+//                }
+//
+//            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        }
+//    }
 
     private fun enabledBackupInformationTimer() {
         var timer = 0

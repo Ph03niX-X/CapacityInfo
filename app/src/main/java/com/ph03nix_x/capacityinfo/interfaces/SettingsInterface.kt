@@ -20,7 +20,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
+import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -193,7 +193,7 @@ interface SettingsInterface {
             ServiceHelper.stopService(context, OverlayService::class.java)
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(context, language)
+            context.setLocale(language)
 
         (context as? MainActivity)?.recreate()
     }

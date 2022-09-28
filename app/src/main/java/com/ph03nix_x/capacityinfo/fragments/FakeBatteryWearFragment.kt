@@ -1,14 +1,10 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import androidx.preference.*
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 
 /**
  * Created by Ph03niX-X on 27.09.2021
@@ -24,10 +20,6 @@ class FakeBatteryWearFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
 
         addPreferencesFromResource(R.xml.fake_battery_wear_settings)
 

@@ -856,23 +856,19 @@ interface OverlayInterface : BatteryInfoInterface {
         if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, lastChargeTimeOverlay.context.resources
                 .getBoolean(R.bool.is_last_charge_time_overlay))
             || lastChargeTimeOverlay.visibility == View.VISIBLE)
-        lastChargeTimeOverlay.apply {
-            
-            TextAppearanceHelper.setTextAppearance(context, this,
-                pref.getString(OVERLAY_TEXT_STYLE, "0"), pref.getString(
-                    OVERLAY_SIZE, "2"))
-
-            setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
-
-            text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+            lastChargeTimeOverlay.apply {
+                TextAppearanceHelper.setTextAppearance(context, this,
+                    pref.getString(OVERLAY_TEXT_STYLE, "0"), pref.getString(
+                        OVERLAY_SIZE, "2"))
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                     .getBoolean(R.bool.is_only_values_overlay))) R.string.last_charge_time else
                 R.string.last_charge_time_overlay_only_values, getOnLastChargeTime(context),
-                "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 
+                    "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 
                     0)}%")
-
-            visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, context
+                visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, context
                     .resources.getBoolean(R.bool.is_last_charge_time_overlay))) View.VISIBLE else
-                View.GONE
+                        View.GONE
         }
     }
 

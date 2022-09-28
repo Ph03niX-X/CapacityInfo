@@ -3,21 +3,18 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utilities.Constants.ACTION_MANAGE_OVERLAY_PERMISSION
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
@@ -54,6 +51,7 @@ import java.text.DecimalFormat
 class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
     private lateinit var pref: SharedPreferences
+    private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private var dialogRequestOverlayPermission: MaterialAlertDialogBuilder? = null
 
@@ -100,11 +98,9 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(
-                PreferencesKeys.LANGUAGE, null) ?: MainApp.defLang)
-
         addPreferencesFromResource(R.xml.overlay_settings)
+
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
         overlayScreen = findPreference("overlay_screen")
 
@@ -520,7 +516,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
                 val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:${requireContext().packageName}"))
 
-                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION)
+                getResult.launch(intent)
 
                 dialogRequestOverlayPermission = null
             }

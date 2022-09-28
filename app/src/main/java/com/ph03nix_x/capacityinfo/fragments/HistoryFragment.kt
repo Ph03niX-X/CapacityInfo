@@ -1,7 +1,7 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import kotlinx.android.synthetic.main.history_fragment.*
 
 class HistoryFragment : Fragment(R.layout.history_fragment) {
@@ -31,7 +28,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
     lateinit var emptyHistoryLayout: RelativeLayout
 
     companion object {
-
+        @SuppressLint("StaticFieldLeak")
         var instance: HistoryFragment? = null
     }
 
@@ -39,10 +36,6 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
                               savedInstanceState: Bundle?): View? {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            LocaleHelper.setLocale(requireContext(), pref.getString(PreferencesKeys.LANGUAGE,
-                null) ?: MainApp.defLang)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
