@@ -171,7 +171,7 @@
     <string name="discharged">Rozładowany</string>
     <string name="battery_is_charged_notification">Bateria jest naładowana. Poziom baterii: %1$d</string>
     <string name="battery_is_discharged_notification">Bateria jest rozładowana. Poziom baterii: %1$d</string>
-    <string name="charge">Opłata</string>
+    <string name="charge">Ładowarka</string>
     <string name="discharge">Rozładunek</string>
     <string name="wear">Zużycie</string>
     <string name="debug_successfully_enabled">Debugowanie pomyślnie włączone!</string>
@@ -288,7 +288,7 @@
     <string name="order_id">Identyfikator zamówienia</string>
     <string name="order_id_copied">Identyfikator zamówienia skopiowany do schowka</string>
     <string name="history_count">Historia Liczenie</string>
-    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia > 3;\n\• Czysta historia;\n\• Pokaż informacje o baterii;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay\n\nKupując Premium wspierasz również dalszy rozwój aplikacji</string>
+    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia > 3;\n\• Czysta historia;\n\• Pokaż informacje o baterii;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay\n\nKupując Premium wspierasz również dalszy rozwój aplikacji</string>
     <string name="premium_feature">Funkcja Premium</string>
     <string name="purchase_premium">Zakup</string>
     <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
@@ -301,4 +301,6 @@
     <string name="stop_service">Zatrzymaj Serwis</string>
     <string name="stopping_service">Zatrzymywanie Serwis&#8230;</string>
     <string name="service_stopped_successfully">Serwis zatrzymana pomyślnie!</string>
+    <string name="text_font">Czcionka tekstu (Ładowarka/Rozładunek/Zużycie/Historia)</string>
+    <string name="font_overlay">Czcionka</string>
 </resources>
