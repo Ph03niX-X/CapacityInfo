@@ -28,6 +28,36 @@
         <item>Курсив</item>
     </string-array>
 
+    <string-array name="fonts_list">
+        <item>Системний</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (За замовчуванням)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+    </string-array>
+
+    <string-array name="fonts_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+
     <string-array name="tab_on_application_launch_list">
         <item>Зарядка/Розрядка (За замовчуванням)</item>
         <item>Знос</item>
