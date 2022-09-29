@@ -287,7 +287,7 @@
     <string name="order_id">Auftrags-ID</string>
     <string name="order_id_copied">Auftrags-ID in die Zwischenablage kopiert</string>
     <string name="history_count">Verlauf zählen</string>
-    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Verlauf > 3;\n\• Verlauf löschen;\n\• Batterieinformationen anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay\n\nMit dem Khufu von Premium understate Sie auth die Welterweight der App</string>
+    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Verlauf > 3;\n\• Verlauf löschen;\n\• Batterieinformationen anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\•Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay\n\nMit dem Khufu von Premium understate Sie auth die Welterweight der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
@@ -300,4 +300,6 @@
     <string name="stop_service">Dienst anhalten</string>
     <string name="stopping_service">Anhaltender Dienst&#8230;</string>
     <string name="service_stopped_successfully">Dienst erfolgreich gestoppt!</string>
+    <string name="text_font">Schriftart (Aufladen/Discharge/Verschleiß/Verlauf)</string>
+    <string name="font_overlay">Schriftart</string>
 </resources>
