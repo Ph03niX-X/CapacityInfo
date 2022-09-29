@@ -300,6 +300,6 @@
     <string name="stop_service">Dienst anhalten</string>
     <string name="stopping_service">Anhaltender Dienst&#8230;</string>
     <string name="service_stopped_successfully">Dienst erfolgreich gestoppt!</string>
-    <string name="text_font">Schriftart (Aufladen/Discharge/Verschleiß/Verlauf)</string>
+    <string name="text_font">Schriftart (Aufladen/Entladen/Verschleiß/Verlauf)</string>
     <string name="font_overlay">Schriftart</string>
 </resources>
