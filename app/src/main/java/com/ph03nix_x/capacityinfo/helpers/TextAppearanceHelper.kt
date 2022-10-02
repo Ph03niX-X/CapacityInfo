@@ -16,7 +16,7 @@ object TextAppearanceHelper : DonateInterface {
 
         setTextSize(context, textView, textSizePref)
 
-        val isPremium = isDonated() || isPremium()
+        val isPremium = DonateInterface.isDonated || DonateInterface.isPremium
 
         val fontFamily = setTextFont(textView.context, if(isPremium) textFontPref else "6")
 
