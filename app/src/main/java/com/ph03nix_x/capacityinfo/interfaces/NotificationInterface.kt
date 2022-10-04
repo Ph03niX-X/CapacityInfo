@@ -113,7 +113,10 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
 
             setContentIntent(openApp)
 
-            if(isDonated() ||isPremium()) {
+            DonateInterface.isDonated = isDonated()
+            DonateInterface.isPremium = isPremium()
+
+            if(DonateInterface.isDonated || DonateInterface.isPremium) {
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
@@ -190,7 +193,7 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
                 isSystemDarkMode(context.resources.configuration)) R.color.red
             else R.color.blue)
 
-            if(isDonated() ||isPremium()) {
+            if(DonateInterface.isDonated || DonateInterface.isPremium) {
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
