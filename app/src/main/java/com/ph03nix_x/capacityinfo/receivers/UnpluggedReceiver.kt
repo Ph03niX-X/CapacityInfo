@@ -33,14 +33,19 @@ class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val isPremium = isDonated() || isPremium()
-
         if(CapacityInfoService.instance != null && isPowerConnected)
             when(intent.action) {
 
             Intent.ACTION_POWER_DISCONNECTED -> {
 
                 isPowerConnected = false
+
+                DonateInterface.donateContext = context
+                DonateInterface.premiumContext = context
+                DonateInterface.isDonated = isDonated()
+                DonateInterface.isPremium = isPremium()
+
+                val isPremium = DonateInterface.isDonated || DonateInterface.isPremium
 
                 val seconds = CapacityInfoService.instance?.seconds ?: 0
 

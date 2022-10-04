@@ -18,8 +18,9 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempCurrentCapacity
+import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
 
-class PluggedReceiver : BroadcastReceiver() {
+class PluggedReceiver : BroadcastReceiver(), DonateInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -29,6 +30,11 @@ class PluggedReceiver : BroadcastReceiver() {
             Intent.ACTION_POWER_CONNECTED -> {
 
                 isPowerConnected = true
+
+                DonateInterface.donateContext = context
+                DonateInterface.premiumContext = context
+                DonateInterface.isDonated = isDonated()
+                DonateInterface.isPremium = isPremium()
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 

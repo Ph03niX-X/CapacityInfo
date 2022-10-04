@@ -113,6 +113,8 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
 
             setContentIntent(openApp)
 
+            DonateInterface.donateContext = CapacityInfoService.instance
+            DonateInterface.premiumContext = CapacityInfoService.instance
             DonateInterface.isDonated = isDonated()
             DonateInterface.isPremium = isPremium()
 
