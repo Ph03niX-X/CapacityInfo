@@ -303,4 +303,6 @@
     <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
     <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
     <string name="font_overlay">Шрыфт</string>
+    <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>
+    <string name="telegram_developer">Распрацоўшчык</string>
 </resources>
