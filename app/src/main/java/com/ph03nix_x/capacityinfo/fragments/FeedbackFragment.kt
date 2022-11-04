@@ -15,10 +15,16 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONATE_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
+import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 
 class FeedbackFragment : PreferenceFragmentCompat() {
 
+
+    // Telegram
+    private var telegramDeveloper: Preference? = null
+
+    // Other
     private var email: Preference? = null
     private var rateTheApp: Preference? = null
     private var shareTheApp: Preference? = null
@@ -30,6 +36,29 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         addPreferencesFromResource(R.xml.feedback_settings)
 
+
+        // Telegram
+        telegramDeveloper = findPreference("telegram_developer")
+
+        telegramDeveloper?.setOnPreferenceClickListener {
+
+            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_DEVELOPER_LINK))) }
+
+            catch(e: ActivityNotFoundException) {
+
+                val clipboardManager = requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("telegram_developer",
+                    TELEGRAM_DEVELOPER_LINK)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(requireContext(), R.string.telegram_link_copied,
+                    Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
+
+        // Other
         email = findPreference("email")
 
         rateTheApp = findPreference("rate_the_app")
