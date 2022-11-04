@@ -303,4 +303,6 @@
     <string name="service_stopped_successfully">Serviciu oprit cu succes!</string>
     <string name="text_font">Font (încărcare/descărcare/uzură/Istorie)</string>
     <string name="font_overlay">Font</string>
+    <string name="telegram_link_copied">Link Telegram copiat</string>
+    <string name="telegram_developer">Dezvoltator</string>
 </resources>
