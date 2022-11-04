@@ -45,7 +45,7 @@
     <string name="developer">Распрацоўшчык</string>
     <string name="version">Версія</string>
     <string name="build">Зборка</string>
-    <string name="build_date">Дата зборкі (GMT+3)</string>
+    <string name="build_date">Дата зборкі (GMT+2)</string>
     <string name="rate_the_app">Ацаніць дадатак</string>
     <string name="license">Ліцэнзія: Apache 2.0</string>
     <string name="belarusian_translation">Беларускі пераклад</string>
