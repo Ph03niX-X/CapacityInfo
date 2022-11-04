@@ -303,4 +303,6 @@
     <string name="service_stopped_successfully">Serwis zatrzymana pomyślnie!</string>
     <string name="text_font">Czcionka tekstu (Ładowarka/Rozładunek/Zużycie/Historia)</string>
     <string name="font_overlay">Czcionka</string>
+    <string name="telegram_link_copied">Skopiowano łącze do telegramu</string>
+    <string name="telegram_developer">Deweloper</string>
 </resources>
