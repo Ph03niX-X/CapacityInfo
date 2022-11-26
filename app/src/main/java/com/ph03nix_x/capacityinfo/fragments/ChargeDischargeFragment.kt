@@ -244,66 +244,50 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             .format(getOnVoltage(requireContext())))
                     }
 
-                    if(pref.getBoolean(PreferencesKeys.IS_SUPPORTED, resources.getBoolean(
-                            R.bool.is_supported))) {
+                    if(getOnCurrentCapacity(requireContext()) > 0.0) {
 
-                        if(getOnCurrentCapacity(requireContext()) > 0.0) {
-
-                            if(currentCapacity.visibility == View.GONE)
-                                withContext(Dispatchers.Main) {
-                                    currentCapacity.visibility = View.VISIBLE }
-
+                        if(currentCapacity.visibility == View.GONE)
                             withContext(Dispatchers.Main) {
+                                currentCapacity.visibility = View.VISIBLE }
 
-                                currentCapacity.text = getString(R.string.current_capacity,
-                                    DecimalFormat("#.#").format(getOnCurrentCapacity(
-                                        requireContext())))
+                        withContext(Dispatchers.Main) {
 
-                                when {
-                                    getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {
+                            currentCapacity.text = getString(R.string.current_capacity,
+                                DecimalFormat("#.#").format(getOnCurrentCapacity(
+                                    requireContext())))
 
-                                        if(capacityAdded.visibility == View.GONE)
-                                            capacityAdded.visibility = View.VISIBLE
+                            when {
+                                getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {
 
-                                        capacityAdded.text = getOnCapacityAdded(requireContext())
-                                    }
-                                    getOnSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
+                                    if(capacityAdded.visibility == View.GONE)
+                                        capacityAdded.visibility = View.VISIBLE
 
-                                        if(capacityAdded.visibility == View.GONE)
-                                            capacityAdded.visibility = View.VISIBLE
+                                    capacityAdded.text = getOnCapacityAdded(requireContext())
+                                }
+                                getOnSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
 
-                                        capacityAdded.text = getOnCapacityAdded(requireContext())
-                                    }
+                                    if(capacityAdded.visibility == View.GONE)
+                                        capacityAdded.visibility = View.VISIBLE
+
+                                    capacityAdded.text = getOnCapacityAdded(requireContext())
                                 }
                             }
-                        }
-
-                        else {
-
-                            if(currentCapacity.visibility == View.VISIBLE)
-                                withContext(Dispatchers.Main) {
-                                    currentCapacity.visibility = View.GONE }
-
-                            if(capacityAdded.visibility == View.GONE
-                                && pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
-                                withContext(Dispatchers.Main) {
-                                    capacityAdded.visibility = View.VISIBLE }
-
-                            else withContext(Dispatchers.Main) {
-                                capacityAdded.visibility = View.GONE }
                         }
                     }
 
                     else {
 
-                        if(capacityAdded.visibility == View.VISIBLE)
-                            withContext(Dispatchers.Main) { capacityAdded.visibility = View.GONE }
+                        if(currentCapacity.visibility == View.VISIBLE)
+                            withContext(Dispatchers.Main) {
+                                currentCapacity.visibility = View.GONE }
 
-                        if(pref.contains(PreferencesKeys.CAPACITY_ADDED)) pref.edit().remove(
-                            PreferencesKeys.CAPACITY_ADDED).apply()
+                        if(capacityAdded.visibility == View.GONE
+                            && pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
+                            withContext(Dispatchers.Main) {
+                                capacityAdded.visibility = View.VISIBLE }
 
-                        if(pref.contains(PreferencesKeys.PERCENT_ADDED)) pref.edit().remove(
-                            PreferencesKeys.PERCENT_ADDED).apply()
+                        else withContext(Dispatchers.Main) {
+                            capacityAdded.visibility = View.GONE }
                     }
 
                     when(status) {

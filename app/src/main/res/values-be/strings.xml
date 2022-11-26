@@ -7,7 +7,6 @@
     <string name="dark_mode">Цёмная тэма</string>
     <string name="charge_current">Ток зарадкі: %1$s мА</string>
     <string name="discharge_current">Ток разрадкі: %1$s мА</string>
-    <string name="not_supported">Дадатак не падтрымлівае вашу прыладу.\n\nДадатак не можа даведацца рэшткавую ёмістасць, так як акумулятар не аддае бягучую ёмістасць</string>
     <string name="voltage">Напружанне: %1$s мВ</string>
     <string name="temperature">Тэмпература: %1$s°C/%2$s°F</string>
     <string name="settings">Налады</string>
@@ -54,8 +53,6 @@
     <string name="auto_dark_mode">Аўтаматычная цёмная тэма</string>
     <string name="auto_dark_mode_summary">Уключаць цёмную тэму ў залежнасці ад сістэмы</string>
     <string name="number_of_charges">Колькасць зарадак: %1$d</string>
-    <string name="residual_capacity_not_supported">Рэшткавая ёмістасць: Не падтрымліваецца</string>
-    <string name="battery_wear_not_supported">Знос акумулятара: Не падтрымліваецца</string>
     <string name="debug">Адладка</string>
     <string name="change_setting">Змяніць наладу</string>
     <string name="pref_key">Ключ</string>
@@ -97,7 +94,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Пытанне: З кожнай зарадкай знос акумулятара змяняецца, то павялічваецца, то памяншаецца\nАдказ: Гэта нармальна, так як у акумулятары адбываюцца хімічныя працэсы\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Пытанне: Адкуль дадатак бярэ \"Колькасць цыклаў (Android)\"?\nАдказ: Дадатак атрымлівае дадзеныя з файла ядра \"cycles_count\" па шляху: /sys/class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android">Пытанне: Не адлюстроўваецца \"Колькасць цыклаў (Android)\"\nАдказ: Калі не адлюстроўваецца \"Колькасць цыклаў (Android)\", значыць няма магчымасці прачытаць файл у якім запісваецца колькасць цыклаў зарадкі па прычыне таго, што зачынены доступ для чытання\n\n</string>
-    <string name="faq_add_device_support">Пытанне: Прылада не падтрымліваецца. Дадайце падтрымку прылады.\nАдказ: На жаль, але гэта немагчыма, бо гэта залежыць у першую чаргу ад акумулятара і ў другую чаргу ад ядра АС. Таму ставіць 1 і пісаць пра тое, што не падтрымліваецца, а так жа прасіць дадаць падтрымку той, ці іншай прылады - бессэнсоўна. Можаце ставіць 1, але падумайце пра гэта тройчы: ці варта псаваць сярэднюю ацэнку дадатку з-за таго, што ваш акумулятар або ядро не аддае бягучую ёмістасць?</string>
     <string name="import_settings_3dots">Імпартаванне налад&#8230;</string>
     <string name="become_a_beta_tester">Стаць бэта-тэстарам</string>
     <string name="become_a_beta_tester_summary">Атрымлівайце абнаўлення аднымі з першых</string>

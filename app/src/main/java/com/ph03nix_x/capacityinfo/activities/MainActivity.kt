@@ -53,8 +53,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_VERY_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -151,10 +149,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     WearFragment()
 
                 isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
-                        && (pref.getBoolean(IS_SUPPORTED, resources.getBoolean(
-                    R.bool.is_supported) || HistoryHelper.isHistoryNotEmpty(this)))
-                        && prefArrays == null && !isLoadChargeDischarge &&
-                        !isLoadHistory && !isLoadSettings && !isLoadDebug) -> HistoryFragment()
+                        && HistoryHelper.isHistoryNotEmpty(this))
+                        && prefArrays == null && !isLoadChargeDischarge && !isLoadHistory &&
+                        !isLoadSettings && !isLoadDebug -> HistoryFragment()
 
                 isRestoreSettingsFromBackup && !isLoadChargeDischarge && !isLoadWear &&
                         !isLoadHistory && !isLoadSettings && !isLoadDebug && prefArrays != null ->
@@ -200,9 +197,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             this, getChargeDischargeNavigationIcon(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING))
 
-        navigation.menu.findItem(R.id.history_navigation).isVisible = pref.getBoolean(IS_SUPPORTED,
-            resources.getBoolean(R.bool.is_supported)) ||
-                HistoryHelper.isHistoryNotEmpty(this)
+        navigation.menu.findItem(R.id.history_navigation).isVisible =
+            HistoryHelper.isHistoryNotEmpty(this)
 
         navigation.setOnItemSelectedListener {
 
@@ -369,24 +365,21 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         BatteryManager.BATTERY_STATUS_CHARGING))
         }
 
-        if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))) {
+        navigation.menu.findItem(R.id.history_navigation).isVisible =
+            HistoryHelper.isHistoryNotEmpty(this)
 
-            navigation.menu.findItem(R.id.history_navigation).isVisible =
-                HistoryHelper.isHistoryNotEmpty(this)
-
-            if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
-                fragment = ChargeDischargeFragment()
-                isLoadHistory = false
-                isLoadChargeDischarge = true
-                clearMenu()
-                inflateMenu()
-                loadFragment(fragment ?: ChargeDischargeFragment())
-            }
-
-            if(HistoryHelper.isHistoryEmpty(this) &&
-                pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2")
-                    pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
+        if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
+            fragment = ChargeDischargeFragment()
+            isLoadHistory = false
+            isLoadChargeDischarge = true
+            clearMenu()
+            inflateMenu()
+            loadFragment(fragment ?: ChargeDischargeFragment())
         }
+        if(HistoryHelper.isHistoryEmpty(this) &&
+            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2")
+            pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
+
 
         toolbar.title = when(fragment) {
 
@@ -421,27 +414,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-        if(getOnCurrentCapacity(this) == 0.0
-            && pref.getBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, resources.getBoolean(
-                R.bool.is_show_not_supported_dialog))) {
-
-            pref.edit().putBoolean(IS_SHOW_NOT_SUPPORTED_DIALOG, false).apply()
-
-            pref.edit().putBoolean(IS_SUPPORTED, false).apply()
-
-            MaterialAlertDialogBuilder(this).apply {
-
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.information))
-                setMessage(getString(R.string.not_supported))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                setCancelable(false)
-                show()
-            }
-        }
-
-        else if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
-            && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
+        if(pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
         if(batteryWearDialog == null) showBatteryWearDialog()
@@ -552,36 +525,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.menu.findItem(R.id.clear_history).apply {
 
-                isVisible = (isPremium) &&
-                        HistoryHelper.isHistoryNotEmpty(this@MainActivity)
+                isVisible = isPremium && HistoryHelper.isHistoryNotEmpty(this@MainActivity)
 
                 setOnMenuItemClickListener {
 
                     HistoryHelper.clearHistory(this@MainActivity, this)
-
-                    CoroutineScope(Dispatchers.Main).launch {
-
-                        delay(1000L)
-                        if(!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))) {
-
-                            navigation.menu.findItem(R.id.history_navigation).isVisible =
-                                HistoryHelper.isHistoryNotEmpty(this@MainActivity)
-
-                            if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(
-                                    this@MainActivity)) {
-                                fragment = ChargeDischargeFragment()
-                                isLoadHistory = false
-                                isLoadChargeDischarge = true
-                                clearMenu()
-                                inflateMenu()
-                                loadFragment(fragment ?: ChargeDischargeFragment())
-                            }
-
-                            if(HistoryHelper.isHistoryEmpty(this@MainActivity) &&
-                                pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2")
-                                pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
-                        }
-                    }
 
                     true
                 }
@@ -701,8 +649,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_battery_wear_not_change)
                         + getString(R.string.faq_with_each_charge_battery_wear_changes)
                         + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
-                        + getString(R.string.faq_not_displayed_number_of_cycles_android)
-                        + getString(R.string.faq_add_device_support))
+                        + getString(R.string.faq_not_displayed_number_of_cycles_android))
                 setPositiveButton(android.R.string.ok) { _, _ ->
                     showFaqDialog = null
                 }
@@ -863,8 +810,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION,
-            IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
+            IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
             IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR)
 
         if(prefArrays != null)
@@ -893,11 +839,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                                     pref.edit().putFloat(it.key as String,
                                         it.value as Float).apply()
 
-                                IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION,
-                                IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
-                                IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR ->
-                                    pref.edit().putBoolean(it.key as String,
-                                        it.value as Boolean).apply()
+                                IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR,
+                                IS_HIGH_BATTERY_WEAR, IS_VERY_HIGH_BATTERY_WEAR,
+                                IS_CRITICAL_BATTERY_WEAR -> pref.edit().putBoolean(it.key as String,
+                                    it.value as Boolean).apply()
                             }
                         }
                     }

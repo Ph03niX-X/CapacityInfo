@@ -12,7 +12,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -22,14 +21,12 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
-import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.getSystemLocale
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
@@ -155,11 +152,8 @@ interface SettingsInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         if(pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") !in
-            resources.getStringArray(R.array.tab_on_application_launch_values)
-            || (!pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
-            && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" &&
-                    HistoryHelper.isHistoryEmpty(requireContext())))
-                        pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
+            resources.getStringArray(R.array.tab_on_application_launch_values))
+            pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
 
         return resources.getStringArray(R.array.tab_on_application_launch_list)[
                 (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]

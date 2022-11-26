@@ -6,7 +6,6 @@
     <string name="dark_mode">Dunkler Modus</string>
     <string name="charge_current">Ladestrom: %1$s mA</string>
     <string name="discharge_current">Entladestrom: %1$s mA</string>
-    <string name="not_supported">Die Anwendung unterstützt Ihr Gerät nicht.\n\nDie Anwendung kann die verbleibende Kapazität nicht herausfinden, da der Akku die aktuelle Kapazität nicht angibt.</string>
     <string name="voltage">Spannung: %1$s mV</string>
     <string name="temperature">Temperatur: %1$s°C/%2$s°F</string>
     <string name="settings">Einstellungen</string>
@@ -53,8 +52,6 @@
     <string name="auto_dark_mode">Automatischer Dunkelmodus</string>
     <string name="auto_dark_mode_summary">Einschalten des Dunkelmodus je nach System</string>
     <string name="number_of_charges">Anzahl der Ladungen: %1$d</string>
-    <string name="residual_capacity_not_supported">Verbleibende Kapazität: Nicht unterstützt</string>
-    <string name="battery_wear_not_supported">Akkuverschleiß: Nicht unterstützt</string>
     <string name="debug">Debuggen</string>
     <string name="change_setting">Einstellung ändern</string>
     <string name="pref_key">Schlüssel</string>
@@ -96,7 +93,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Frage: Mit jeder Ladung ändert sich der Verschleiß des Akkus, nimmt zu und nimmt dann wieder ab\nAntwort: Das ist normal, da im Akku chemische Prozesse ablaufen.\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Frage: Woher erhält die Anwendung die \"Anzahl der Zyklen (Android)\"?\nAntwort: Die Anwendung bezieht die Daten aus der Kernel-Datei \"cycles_count\" unter dem Pfad: /sys/class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android">Frage: Nicht angezeigte \"Anzahl der Zyklen (Android)\"\nAntwort: Wenn \"Anzahl der Zyklen (Android)\" nicht angezeigt wird, ist es nicht möglich, die Datei zu lesen, in der die Anzahl der Ladezyklen aufgezeichnet ist, da der Lesezugriff gesperrt ist\n\n</string>
-    <string name="faq_add_device_support">Frage: Das Gerät wird nicht unterstützt. Fügen Sie Geräteunterstützung hinzu\nAntwort: Leider ist dies unmöglich, da es in erster Linie vom Akku und in zweiter Linie vom Betriebssystemkern abhängt. Daher ist es sinnlos, 1 zu setzen und darüber zu schreiben, was nicht unterstützt wird, sowie darum zu bitten, Unterstützung für ein Gerät hinzuzufügen. Sie können 1 setzen, aber denken Sie dreimal darüber nach: Ist es das wert, die durchschnittliche Bewertung für die Anwendung zu verderben, nur weil Ihr Akku oder Kernel die aktuelle Kapazität nicht hergibt?</string>
     <string name="import_settings_3dots">Einstellungen importieren&#8230;</string>
     <string name="become_a_beta_tester">Beta-Tester werden</string>
     <string name="become_a_beta_tester_summary">Seien Sie der Erste, der Updates erhält</string>

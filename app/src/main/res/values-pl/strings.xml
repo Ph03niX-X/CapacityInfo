@@ -7,7 +7,6 @@
     <string name="dark_mode">Tryb ciemny</string>
     <string name="charge_current">Prąd ładowania: %1$s mA</string>
     <string name="discharge_current">Prąd rozładowania: %1$s mA</string>
-    <string name="not_supported">Aplikacja nie obsługuje Twojego urządzenia.\n\nAplikacja nie może sprawdzić pozostałej pojemności, ponieważ bateria nie podaje aktualnej pojemności</string>
     <string name="voltage">Napięcie: %1$s mV</string>
     <string name="temperature">Temperatura: %1$s°C/%2$s°F</string>
     <string name="settings">Ustawienia</string>
@@ -54,8 +53,6 @@
     <string name="auto_dark_mode">Automatyczny tryb przyciemniania</string>
     <string name="auto_dark_mode_summary">Włączanie trybu ciemnego w zależności od systemu</string>
     <string name="number_of_charges">Liczba opłat: %1$d</string>
-    <string name="residual_capacity_not_supported">Pojemność resztkowa: Nieobsługiwana</string>
-    <string name="battery_wear_not_supported">Zużycie baterii: Nieobsługiwana</string>
     <string name="debug">Debug</string>
     <string name="change_setting">Zmień ustawienia</string>
     <string name="pref_key">Kluczowe</string>
@@ -97,7 +94,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Pytanie: Przy każdym ładowaniu zużycie akumulatora zmienia się, następnie wzrasta, a potem maleje\nOdpowiedź: Jest to normalne, ponieważ w akumulatorze zachodzą procesy chemiczne\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Pytanie: Skąd aplikacja bierze informację o \"liczbie cykli (Android)\"?\nOdpowiedź: Aplikacja pobiera dane z pliku jądra \"cycles_count\" znajdującego się pod ścieżkąh: /sys/class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android">Pytanie: Nie wyświetlono \"Liczba cykli (Android) \"\nOdpowiedź: Jeśli opcja \"Liczba cykli (Android)\" nie jest wyświetlana, to nie jest możliwe odczytanie pliku, w którym zapisana jest liczba cykli ładowania, ze względu na to, że dostęp do odczytu jest zamknięty\n\n</string>
-    <string name="faq_add_device_support">Pytanie: Urządzenie nie jest obsługiwane. Dodaj obsługę urządzenia.\nOdpowiedź: Niestety, jest to niemożliwe, ponieważ zależy to przede wszystkim od baterii, a w drugiej kolejności od jądra systemu operacyjnego. Dlatego ustawianie 1 i pisanie o tym, co nie jest obsługiwane, a także proszenie o dodanie obsługi urządzenia, jest bezcelowe. Możesz postawić 1, ale zastanów się trzy razy: czy warto psuć średnią ocenę aplikacji z powodu tego, że Twoja bateria lub jądro nie oddaje aktualnej pojemności?</string>
     <string name="import_settings_3dots">Ustawienia importu&#8230;</string>
     <string name="become_a_beta_tester">Zostań beta testerem</string>
     <string name="become_a_beta_tester_summary">Bądź pierwszy, aby otrzymywać aktualizacje</string>

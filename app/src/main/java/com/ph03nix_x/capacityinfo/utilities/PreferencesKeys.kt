@@ -2,8 +2,6 @@ package com.ph03nix_x.capacityinfo.utilities
 
 object PreferencesKeys {
 
-    const val IS_SUPPORTED = "is_supported"
-    const val IS_SHOW_NOT_SUPPORTED_DIALOG = "is_show_not_supported_dialog"
     const val IS_SHOW_INSTRUCTION = "is_show_instruction"
     const val IS_BATTERY_WEAR = "is_battery_wear"
     const val IS_HIGH_BATTERY_WEAR = "is_high_battery_wear"

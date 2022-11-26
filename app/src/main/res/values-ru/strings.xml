@@ -7,7 +7,6 @@
     <string name="dark_mode">Тёмная тема</string>
     <string name="charge_current">Ток зарядки: %1$s мА</string>
     <string name="discharge_current">Ток разрядки: %1$s мА</string>
-    <string name="not_supported">Приложение не поддерживает ваше устройство.\n\nПриложение не может узнать остаточную ёмкость, так как аккумулятор не отдаёт текущую ёмкость</string>
     <string name="voltage">Напряжение: %1$s мВ</string>
     <string name="temperature">Температура: %1$s°C/%2$s°F</string>
     <string name="settings">Настройки</string>
@@ -54,8 +53,6 @@
     <string name="auto_dark_mode">Автоматическая тёмная тема</string>
     <string name="auto_dark_mode_summary">Включать тёмную тему в зависимости от системы</string>
     <string name="number_of_charges">Количество зарядок: %1$d</string>
-    <string name="residual_capacity_not_supported">Остаточная ёмкость: Не поддерживается</string>
-    <string name="battery_wear_not_supported">Износ аккумулятора: Не поддерживается</string>
     <string name="debug">Отладка</string>
     <string name="change_setting">Изменить настройку</string>
     <string name="pref_key">Ключ</string>
@@ -97,7 +94,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Вопрос: С каждой зарядкой износ аккумулятора меняется, то увеличивается, то уменьшается\nОтвет: Это нормально, так как в аккумуляторе происходят химические процессы\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Вопрос: Откуда приложение берёт \"Количество циклов (Android)\"?\nОтвет: Приложение получает данные из файла ядра \"cycles_count\" по пути: /sys/class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android">Вопрос: Не отображается \"Количество циклов (Android)\"\nОтвет: Если не отображается \"Количество циклов (Android)\", значит нет возможности прочитать файл в котором записывается количество циклов зарядки по причине того, что закрыт доступ для чтения\n\n</string>    
-    <string name="faq_add_device_support">Вопрос: Устройство не поддерживается. Добавьте поддержку устройства.\nОтвет: Увы, но это невозможно, так как это зависит в первую очередь от аккумулятора и во вторую очередь от ядра ОС. Поэтому ставить 1 и писать о том, что не поддерживается, а так же просить добавить поддержку того или иного устройства - бессмысленно. Можете ставить 1, но подумайте об этом трижды: стоит ли портить среднюю оценку приложению из-за того, что ваш аккумулятор или ядро не отдаёт текущую ёмкость?</string>
     <string name="import_settings_3dots">Импортирование настроек&#8230;</string>
     <string name="become_a_beta_tester">Стать бета-тестером</string>
     <string name="become_a_beta_tester_summary">Получайте обновления одними из первых</string>

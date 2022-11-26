@@ -8,12 +8,9 @@ import android.view.ViewGroup
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
-import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
-import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
@@ -126,29 +123,6 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             HistoryHelper.getHistoryCount(context) < historyList.count()) {
             historyList = HistoryDB(context).readDB()
             notifyDataSetChanged()
-        }
-
-        val mainActivity = context as? MainActivity
-
-        if(mainActivity != null && !pref.getBoolean(PreferencesKeys.IS_SUPPORTED,
-                mainActivity.resources.getBoolean(R.bool.is_supported))) {
-
-            mainActivity.navigation.menu.findItem(R.id.history_navigation).isVisible =
-                HistoryHelper.isHistoryNotEmpty(context)
-
-            if(mainActivity.fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(
-                    context)) {
-                mainActivity.fragment = ChargeDischargeFragment()
-                MainActivity.isLoadHistory = false
-                MainActivity.isLoadChargeDischarge = true
-                mainActivity.clearMenu()
-                mainActivity.inflateMenu()
-                mainActivity.loadFragment(mainActivity.fragment ?: ChargeDischargeFragment())
-            }
-
-            if(HistoryHelper.isHistoryEmpty(context) &&
-                pref.getString(PreferencesKeys.TAB_ON_APPLICATION_LAUNCH, "0") == "2")
-                pref.edit().remove(PreferencesKeys.TAB_ON_APPLICATION_LAUNCH).apply()
         }
     }
 }

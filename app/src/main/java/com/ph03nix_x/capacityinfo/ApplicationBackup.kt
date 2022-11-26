@@ -15,8 +15,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CRITICAL_BATTERY_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NOT_SUPPORTED_DIALOG
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_VERY_HIGH_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
@@ -50,8 +48,7 @@ class ApplicationBackup : BackupAgent() {
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-            IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG, IS_SHOW_INSTRUCTION,
-            IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
+            IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR, IS_HIGH_BATTERY_WEAR,
             IS_VERY_HIGH_BATTERY_WEAR, IS_CRITICAL_BATTERY_WEAR)
 
         prefsTempList.forEach {
@@ -76,11 +73,10 @@ class ApplicationBackup : BackupAgent() {
                                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> pref?.edit()?.putFloat(it.key,
                                     it.value as Float)?.apply()
 
-                                IS_SUPPORTED, IS_SHOW_NOT_SUPPORTED_DIALOG,
-                                IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR,
-                                IS_HIGH_BATTERY_WEAR, IS_VERY_HIGH_BATTERY_WEAR,
-                                IS_CRITICAL_BATTERY_WEAR -> pref?.edit()?.putBoolean(it.key,
-                                    it.value as Boolean)?.apply()
+                               IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION, IS_BATTERY_WEAR,
+                               IS_HIGH_BATTERY_WEAR, IS_VERY_HIGH_BATTERY_WEAR,
+                               IS_CRITICAL_BATTERY_WEAR -> pref?.edit()?.putBoolean(it.key,
+                                   it.value as Boolean)?.apply()
                             }
                         }
                     }

@@ -33,7 +33,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SUPPORTED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
@@ -335,9 +334,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         debug = findPreference("debug")
 
-        unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
-            resources.getBoolean(R.bool.is_supported))
-
         resetScreenTime?.apply {
 
             isEnabled = premium?.isVisible == false
@@ -422,14 +418,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         tabOnApplicationLaunch?.setOnPreferenceChangeListener { preference, newValue ->
 
-            val tab = if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
-                || HistoryHelper.isHistoryNotEmpty(requireContext()))
+            val tab = if(HistoryHelper.isHistoryNotEmpty(requireContext()))
                         (newValue as? String)?.toInt() ?: 0 else 0
 
             preference.summary = resources.getStringArray(R.array.tab_on_application_launch_list)[tab]
 
-            pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
-                    || HistoryHelper.isHistoryNotEmpty(requireContext())
+           HistoryHelper.isHistoryNotEmpty(requireContext())
         }
 
         unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->
@@ -705,12 +699,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary()
 
-        unitOfMeasurementOfCurrentCapacity?.isVisible = pref.getBoolean(IS_SUPPORTED,
-            resources.getBoolean(R.bool.is_supported))
-
-        if(pref.getBoolean(IS_SUPPORTED, resources.getBoolean(R.bool.is_supported)))
-            unitOfMeasurementOfCurrentCapacity?.summary =
-                getOnUnitOfMeasurementOfCurrentCapacitySummary()
+        unitOfMeasurementOfCurrentCapacity?.summary =
+            getOnUnitOfMeasurementOfCurrentCapacitySummary()
 
         voltageUnit?.summary = getOnVoltageUnitSummary()
 

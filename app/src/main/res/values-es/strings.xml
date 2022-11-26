@@ -7,7 +7,6 @@
     <string name="dark_mode">Modo Oscuro</string>
     <string name="charge_current">Carga actual: %1$s mA</string>
     <string name="discharge_current">Descarga actual: %1$s mA</string>
-    <string name="not_supported">La aplicación no es compatible con tu dispositivo.\n\nLa aplicación no puede averiguar la capacidad restante, ya que la batería no cede la capacidad actual</string>
     <string name="voltage">Voltaje: %1$s mV</string>
     <string name="temperature">Temperatura: %1$s°C/%2$s°F</string>
     <string name="settings">Ajustes</string>
@@ -54,8 +53,6 @@
     <string name="auto_dark_mode">Modo Oscuro Automático</string>
     <string name="auto_dark_mode_summary">Activar el modo oscuro dependiendo del sistema</string>
     <string name="number_of_charges">Número de cargas: %1$d</string>
-    <string name="residual_capacity_not_supported">Capacidad Residual: No Soportada</string>
-    <string name="battery_wear_not_supported">Uso de batería: No compatible</string>
     <string name="debug">Debug</string>
     <string name="change_setting">Cambiar ajustes</string>
     <string name="pref_key">Clave</string>
@@ -97,7 +94,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Question: With each charge, the battery wear changes, then increases, then decreases\nAnswer: This is normal, since chemical processes occur in the battery\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Pregunta: ¿De dónde obtiene la aplicación el \n"Número de Ciclos (Android)\"?\nRespuesta: La aplicación obtiene los datos del archivo del kernel \ "cycles_count\" en la ruta: /sys/class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android">Pregunta: No se muestra el \"Número de ciclos (Android)\"\nRespuesta: Si no se muestra \"Número de ciclos (Android)\", es que no es posible leer el archivo en el que se registra el número de ciclos de carga debido a que el acceso de lectura está cerrado\n\n</string>
-    <string name="faq_add_device_support">Pregunta: El dispositivo no es compatible. Añada soporte para dispositivos.\nRespuesta: Por desgracia, esto es imposible, ya que depende principalmente de la batería y en segundo lugar del núcleo del sistema operativo. Por lo tanto, establecer 1 y escribir sobre lo que no es soportado, así como pedir que se añada soporte para un dispositivo, no tiene sentido. Puedes apostar 1, pero piensen en ello tres veces: ¿vale la pena echar a perder la calificación media de la aplicación debido al hecho de que su batería o núcleo no renuncia a la capacidad actual?</string>
     <string name="import_settings_3dots">Importar Ajustes&#8230;</string>
     <string name="become_a_beta_tester">Conviértete en beta tester</string>
     <string name="become_a_beta_tester_summary">Sé el primero en recibir actualizaciones</string>

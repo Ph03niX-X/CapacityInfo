@@ -121,8 +121,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay",
-            "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog",
-            LANGUAGE).forEach {
+            "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog", "is_supported",
+            "is_show_not_supported_dialog", LANGUAGE).forEach {
 
             with(pref) {
 

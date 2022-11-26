@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="is_supported">true</bool>
-    <bool name="is_show_not_supported_dialog">true</bool>
     <bool name="is_show_instruction">true</bool>
     <bool name="is_battery_wear">false</bool>
     <bool name="is_high_battery_wear">false</bool>

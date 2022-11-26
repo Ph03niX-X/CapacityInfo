@@ -7,7 +7,6 @@
     <string name="dark_mode">Темна тема</string>
     <string name="charge_current">Струм зарядки: %1$s мА</string>
     <string name="discharge_current">Струм розрядки: %1$s мА</string>
-    <string name="not_supported">Додаток не підтримує ваш пристрій.\n\nДодаток не може дізнатися залишкову ємність, так як акумулятор не дає поточну ємність</string>
     <string name="voltage">Напруга: %1$s мВ</string>
     <string name="temperature">Температура: %1$s°C/%2$s°F</string>
     <string name="settings">Налаштування</string>
@@ -54,8 +53,6 @@
     <string name="auto_dark_mode">Автоматична темна тема</string>
     <string name="auto_dark_mode_summary">Включати темну тему в залежності від системи</string>
     <string name="number_of_charges">Кількість зарядок: %1$d</string>
-    <string name="residual_capacity_not_supported">Залишкова ємність: Не підтримується</string>
-    <string name="battery_wear_not_supported">Знос акумулятора: Не підтримується</string>
     <string name="debug">Налагодження</string>
     <string name="change_setting">Змінити налаштування</string>
     <string name="pref_key">Ключ</string>
@@ -97,7 +94,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Питання: З кожною зарядкою знос акумулятора змінюється: то збільшується, то зменшується\nОтвет: Це нормально, так як в акумуляторі відбуваються хімічні процеси\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android"> Питання: Звідки застосунок бере \"Кількість циклів (Android)\"?\nВІдповідь: Застосунок отримує дані з файлу ядра \"cycles_count\" шляхом: /sys/ class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android"> Питання: Не відображається \"Кількість циклів (Android)\"\nВідповідь: Якщо не відображається \"Кількість циклів (Android)\", значить немає можливості прочитати файл в якому записується кількість циклів зарядки через те, що закритий доступ для читання\n\n</string>
-    <string name="faq_add_device_support">Питання: Пристрій не підтримується. Додайте підтримку пристрою.\nВідповідь: На жаль, але це неможливо, так як це залежить в першу чергу від акумулятора і в другу чергу від ядра ОС. Тому ставити 1 і писати про те, що не підтримується, а так само просити додати підтримку того чи іншого пристрою - безглуздо. Можете ставити 1, але подумайте про це тричі: чи варто псувати середню оцінку з додатком через те, що ваш акумулятор або ядро не дає поточну ємність?</string>
     <string name="import_settings_3dots">Імпортування налаштувань&#8230;</string>
     <string name="become_a_beta_tester">Стати бета-тестером</string>
     <string name="become_a_beta_tester_summary">Отримуйте оновлення одними з перших</string>

@@ -393,9 +393,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
-        fakeBatteryWear?.isVisible = pref.getBoolean(
-            PreferencesKeys.IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
-
         startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
             .isStartedCapacityInfoService()
 
@@ -563,9 +560,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 && isGooglePlay(requireContext())
 
         resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
-
-        fakeBatteryWear?.isVisible = pref.getBoolean(
-            PreferencesKeys.IS_SUPPORTED, resources.getBoolean(R.bool.is_supported))
 
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 

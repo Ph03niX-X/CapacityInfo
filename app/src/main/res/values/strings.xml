@@ -8,7 +8,6 @@
     <string name="github" translatable="false">GitHub</string>
     <string name="charge_current">Charging current: %1$s mA</string>
     <string name="discharge_current">Discharge current: %1$s mA</string>
-    <string name="not_supported">The application does not support your device.\n\nThe application cannot find out the remaining capacity, since the battery does not give up the current capacity</string>
     <string name="voltage">Voltage: %1$s mV</string>
     <string name="temperature">Temperature: %1$s°C/%2$s°F</string>
     <string name="settings">Settings</string>
@@ -57,8 +56,6 @@
     <string name="auto_dark_mode">Auto Dark Mode</string>
     <string name="auto_dark_mode_summary">Turn on dark mode depending on the system</string>
     <string name="number_of_charges">Number of Charges: %1$d</string>
-    <string name="residual_capacity_not_supported">Residual Capacity: Not Supported</string>
-    <string name="battery_wear_not_supported">Battery Wear: Not Supported</string>
     <string name="debug">Debug</string>
     <string name="change_setting">Change Setting</string>
     <string name="pref_key">Key</string>
@@ -101,7 +98,6 @@
     <string name="faq_with_each_charge_battery_wear_changes">Question: With each charge, the battery wear changes, then increases, then decreases\nAnswer: This is normal, since chemical processes occur in the battery\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Question: Where does the application get the \"Number of Cycles (Android)\"?\nAnswer: The application gets data from the \"cycles_count\" kernel file at the path: /sys/class/power_supply/battery\n\n</string>
     <string name="faq_not_displayed_number_of_cycles_android">Question: Not Displayed \"Number of Cycles (Android)\"\nAnswer: If \"Number of Cycles (Android)\" is not displayed, then it is not possible to read the file in which the number of charging cycles is recorded due to the fact that read access is closed\n\n</string>
-    <string name="faq_add_device_support">Question: The device is not supported. Add device support.\nAnswer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or kernel does not give up the current capacity?</string>
     <string name="import_settings_3dots">Import Settings&#8230;</string>
     <string name="become_a_beta_tester">Become a beta tester</string>
     <string name="become_a_beta_tester_summary">Be the first to receive updates</string>
