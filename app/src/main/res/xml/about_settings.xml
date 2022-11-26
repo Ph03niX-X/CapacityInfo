@@ -60,7 +60,7 @@
     <Preference
         android:title="@string/order_id"
         app:singleLineTitle="false"
-        app:icon="@drawable/ic_donate_24"
+        app:icon="@drawable/ic_premium_24"
         android:key="order_id"/>
 
 </PreferenceScreen>

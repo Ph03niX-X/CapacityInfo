@@ -7,7 +7,7 @@
     <Preference
         android:title="@string/premium"
         app:singleLineTitle="false"
-        app:icon="@drawable/ic_donate_24"
+        app:icon="@drawable/ic_premium_24"
         android:key="premium"/>
 
     <PreferenceCategory

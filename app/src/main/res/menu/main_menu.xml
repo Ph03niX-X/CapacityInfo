@@ -40,7 +40,7 @@
             <item
                 android:id="@+id/premium"
                 android:title="@string/premium"
-                android:icon="@drawable/ic_donate_24"
+                android:icon="@drawable/ic_premium_24"
                 app:showAsAction="never"/>
         </menu>
 

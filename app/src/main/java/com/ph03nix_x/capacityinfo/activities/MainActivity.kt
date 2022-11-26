@@ -714,7 +714,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     fun showPremiumDialog() {
         MaterialAlertDialogBuilder(this).apply {
-            setIcon(R.drawable.ic_donate_24)
+            setIcon(R.drawable.ic_premium_24)
             setTitle(getString(R.string.premium))
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
