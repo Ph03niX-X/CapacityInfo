@@ -23,11 +23,11 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 
-class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
+class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -40,12 +40,10 @@ class UnpluggedReceiver : BroadcastReceiver(), DonateInterface {
 
                 isPowerConnected = false
 
-                DonateInterface.donateContext = context
-                DonateInterface.premiumContext = context
-                DonateInterface.isDonated = isDonated()
-                DonateInterface.isPremium = isPremium()
+                PremiumInterface.premiumContext = context
+                PremiumInterface.isPremium = isPremium()
 
-                val isPremium = DonateInterface.isDonated || DonateInterface.isPremium
+                val isPremium = PremiumInterface.isPremium
 
                 val seconds = CapacityInfoService.instance?.seconds ?: 0
 

@@ -18,7 +18,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -75,7 +75,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         batteryWear = view.findViewById(R.id.battery_wear)
         premiumButton = view.findViewById(R.id.premium_button)
 
-        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
+        premiumButton.isVisible = !PremiumInterface.isPremium
 
         if(premiumButton.isVisible)
             premiumButton.setOnClickListener {
@@ -103,7 +103,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         super.onResume()
 
-        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
+        premiumButton.isVisible = !PremiumInterface.isPremium
 
         designCapacity.text = getString(
             R.string.design_capacity, pref.getInt(
@@ -269,8 +269,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                 .number_of_cycles_android, getNumberOfCyclesAndroid())
                         }
 
-                        premiumButton.isVisible = !DonateInterface.isPremium &&
-                                !DonateInterface.isDonated
+                        premiumButton.isVisible = !PremiumInterface.isPremium
                     }
 
                     withContext(Dispatchers.Main) {

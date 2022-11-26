@@ -14,10 +14,10 @@ import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.UKRAINIAN_TRANSLATION_LINK
 
-class AboutFragment : PreferenceFragmentCompat(), DonateInterface {
+class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
 
     private var developer: Preference? = null
     private var version: Preference? = null

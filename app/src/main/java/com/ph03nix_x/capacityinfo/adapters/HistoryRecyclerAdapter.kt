@@ -9,21 +9,20 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isDonated
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isPremium
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import kotlinx.android.synthetic.main.history_recycler_list_item.view.*
 import java.text.DecimalFormat
 
 class HistoryAdapter (private var historyList: MutableList<History>) :
-    RecyclerView.Adapter<HistoryViewHolder>(), DonateInterface {
+    RecyclerView.Adapter<HistoryViewHolder>(), PremiumInterface {
     
     private lateinit var pref: SharedPreferences
 
@@ -49,7 +48,7 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     override fun onBindViewHolder(holderHistory: HistoryViewHolder, position: Int) {
         updateTextAppearance(holderHistory)
 
-        if(((!isDonated || !isPremium) && position < 3) || (isDonated || isPremium)) {
+        if((!isPremium && position < 3) || isPremium) {
             holderHistory.itemView.history_date.text = historyList[historyList.size - 1 - position].date
             holderHistory.itemView.history_residual_capacity.text = getResidualCapacity(holderHistory
                 .itemView.context, historyList[historyList.size - 1 - position].residualCapacity)

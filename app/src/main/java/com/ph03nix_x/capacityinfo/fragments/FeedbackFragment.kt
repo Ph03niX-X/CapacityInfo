@@ -13,7 +13,6 @@ import androidx.preference.PreferenceManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utilities.Constants.DONATE_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
@@ -28,7 +27,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
     private var email: Preference? = null
     private var rateTheApp: Preference? = null
     private var shareTheApp: Preference? = null
-    private var donate: Preference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -64,8 +62,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         rateTheApp = findPreference("rate_the_app")
 
         shareTheApp = findPreference("share_the_app")
-
-        donate = findPreference("donate")
 
         rateTheApp?.isVisible = isGooglePlay(requireContext()) || pref.getBoolean(
             IS_FORCIBLY_SHOW_RATE_THE_APP, resources.getBoolean(
@@ -156,19 +152,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                 putExtra(Intent.EXTRA_TEXT, linkToGooglePlay)
 
             }, getString(R.string.share_the_app)))
-
-            true
-        }
-
-        donate?.setOnPreferenceClickListener {
-
-            try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONATE_LINK)))
-            }
-            catch (e: ActivityNotFoundException) {
-                Toast.makeText(requireContext(), e.message ?: e.toString(),
-                    Toast.LENGTH_LONG).show()
-            }
 
             true
         }

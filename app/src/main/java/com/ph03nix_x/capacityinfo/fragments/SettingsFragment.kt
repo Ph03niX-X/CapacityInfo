@@ -17,9 +17,8 @@ import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isDonated
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isPremium
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
@@ -49,7 +48,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
-    BatteryInfoInterface, DonateInterface {
+    BatteryInfoInterface, PremiumInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -100,14 +99,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         addPreferencesFromResource(R.xml.settings)
 
-        val isPremium = isDonated() || isPremium()
+        val isPremium = isPremium()
 
         mainActivity = activity as? MainActivity
 
         premium = findPreference("premium")
 
         premium?.apply {
-            isVisible = !isDonated && !isPremium
+            isVisible = !isPremium
 
             if(isVisible)
                 setOnPreferenceClickListener {
@@ -636,7 +635,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         super.onResume()
 
-        if(premium?.isVisible == true) premium?.isVisible = !isDonated && !isPremium
+        if(premium?.isVisible == true) premium?.isVisible = !isPremium
 
         stopService?.apply {
             isEnabled = premium?.isVisible == false
@@ -702,8 +701,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
             selectLanguage?.summary = getOnLanguageSummary()
 
-        if(isDonated || isPremium)
-            tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch()
+        if(isPremium) tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch()
 
         unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary()
 

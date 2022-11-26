@@ -13,7 +13,7 @@ import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -41,7 +41,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 
-class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
+class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -53,10 +53,9 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
 
                 MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(context)
 
-                DonateInterface.donateContext = context
-                DonateInterface.premiumContext = context
+                PremiumInterface.premiumContext = context
 
-                if(!isDonated() && !isPremium()) resetPremiumFeatures(context)
+                if(!isPremium()) resetPremiumFeatures(context)
 
                 removeOldPreferences(context)
 
@@ -122,7 +121,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), DonateInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay",
-            "is_show_faq", "is_show_donate_message", LANGUAGE).forEach {
+            "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog",
+            LANGUAGE).forEach {
 
             with(pref) {
 

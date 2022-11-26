@@ -7,16 +7,16 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.TypefaceCompat
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 
-object TextAppearanceHelper : DonateInterface {
+object TextAppearanceHelper : PremiumInterface {
 
     fun setTextAppearance(context: Context, textView: AppCompatTextView, textStylePref: String?,
                           textFontPref: String?, textSizePref: String?) {
 
         setTextSize(context, textView, textSizePref)
 
-        val isPremium = DonateInterface.isDonated || DonateInterface.isPremium
+        val isPremium = PremiumInterface.isPremium
 
         val fontFamily = setTextFont(textView.context, if(isPremium) textFontPref else "6")
 

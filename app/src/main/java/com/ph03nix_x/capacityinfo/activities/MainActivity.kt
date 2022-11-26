@@ -30,14 +30,11 @@ import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.billingProcessor
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateActivity
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.donateContext
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isDonated
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.isPremium
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumActivity
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface.Companion.premiumContext
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingProcessor
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
@@ -73,7 +70,7 @@ import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import kotlin.collections.HashMap
 
-class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, DonateInterface {
+class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface {
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
@@ -110,13 +107,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
-        donateContext = this
-        donateActivity = this
-
         premiumContext = this
         premiumActivity = this
-
-        isDonated = isDonated()
 
         isPremium = isPremium()
 
@@ -470,19 +462,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
 
-        if(isDonated && pref.getBoolean("is_show_premium_info_dialog", true))
-            MaterialAlertDialogBuilder(this).apply {
-
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.information))
-                setMessage(getString(R.string.premium_info_dialog))
-                setPositiveButton(android.R.string.ok) { _, _ ->
-                    pref.edit().putBoolean("is_show_premium_info_dialog", false).apply()
-                }
-                setCancelable(false)
-                show()
-            }
-
         val prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
             HashMap::class.java)
 
@@ -547,12 +526,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         billingProcessor?.release()
         billingProcessor = null
-        donateContext = null
-        donateActivity = null
         premiumContext = null
         premiumActivity = null
         showFaqDialog = null
-        DonateInterface.isDonation = false
 
         if(!isRecreate) {
 
@@ -576,7 +552,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.menu.findItem(R.id.clear_history).apply {
 
-                isVisible = (isDonated || isPremium) &&
+                isVisible = (isPremium) &&
                         HistoryHelper.isHistoryNotEmpty(this@MainActivity)
 
                 setOnMenuItemClickListener {
@@ -612,7 +588,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
 
             toolbar.menu.findItem(R.id.history_premium).apply {
-                isVisible = !isDonated && !isPremium
+                isVisible = !isPremium
 
                 setOnMenuItemClickListener {
                     showPremiumDialog()
@@ -675,9 +651,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 true
             }
 
-            toolbar.menu.findItem(R.id.premium).isVisible = !isDonated && !isPremium
+            toolbar.menu.findItem(R.id.premium).isVisible = !isPremium
 
-            if(!isDonated && !isPremium)
+            if(!isPremium)
                 toolbar.menu.findItem(R.id.premium).setOnMenuItemClickListener {
                     showPremiumDialog()
                     true

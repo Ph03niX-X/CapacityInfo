@@ -24,7 +24,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
-import com.ph03nix_x.capacityinfo.interfaces.DonateInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
@@ -89,7 +89,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         lastChargeTime = view.findViewById(R.id.last_charge_time)
         premiumButton = view.findViewById(R.id.premium_button)
 
-        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
+        premiumButton.isVisible = !PremiumInterface.isPremium
 
         if(premiumButton.isVisible)
             premiumButton.setOnClickListener {
@@ -103,7 +103,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
         super.onResume()
 
-        premiumButton.isVisible = !DonateInterface.isPremium && !DonateInterface.isDonated
+        premiumButton.isVisible = !PremiumInterface.isPremium
 
         batteryIntent = requireContext().registerReceiver(null,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -214,8 +214,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             }
                         }
 
-                        premiumButton.isVisible = !DonateInterface.isPremium &&
-                                !DonateInterface.isDonated
+                        premiumButton.isVisible = !PremiumInterface.isPremium
                     }
 
                     withContext(Dispatchers.Main) {

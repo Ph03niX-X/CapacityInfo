@@ -51,7 +51,7 @@ import java.lang.RuntimeException
 import java.text.DecimalFormat
 
 @SuppressLint("StaticFieldLeak")
-interface NotificationInterface : BatteryInfoInterface, DonateInterface {
+interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     companion object {
 
@@ -113,12 +113,10 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
 
             setContentIntent(openApp)
 
-            DonateInterface.donateContext = CapacityInfoService.instance
-            DonateInterface.premiumContext = CapacityInfoService.instance
-            DonateInterface.isDonated = isDonated()
-            DonateInterface.isPremium = isPremium()
+            PremiumInterface.premiumContext = CapacityInfoService.instance
+            PremiumInterface.isPremium = isPremium()
 
-            if(DonateInterface.isDonated || DonateInterface.isPremium) {
+            if(PremiumInterface.isPremium) {
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
@@ -140,7 +138,7 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
                             getOnCurrentCapacity(context))) else "${context.getString(
                         R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
             }
-            else if(!isShowBatteryInformation && (isDonated() ||isPremium())) {
+            else if(!isShowBatteryInformation && (isPremium())) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                     context.getString(R.string.service_is_running))
             }
@@ -195,7 +193,7 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
                 isSystemDarkMode(context.resources.configuration)) R.color.red
             else R.color.blue)
 
-            if(DonateInterface.isDonated || DonateInterface.isPremium) {
+            if(PremiumInterface.isPremium) {
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())
                     addAction(0, context.getString(R.string.stop_service), stopService)
@@ -218,7 +216,7 @@ interface NotificationInterface : BatteryInfoInterface, DonateInterface {
                             getOnCurrentCapacity(context))) else "${context.getString(
                         R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
             }
-            else if(!isShowBatteryInformation && (isDonated() ||isPremium())) {
+            else if(!isShowBatteryInformation && (isPremium())) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                 context.getString(R.string.service_is_running))
             }
