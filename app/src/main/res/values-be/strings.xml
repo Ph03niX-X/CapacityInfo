@@ -293,7 +293,6 @@
     <string name="purchase_premium">Набыць</string>
     <string name="premium_features_unlocked">Premium функцыі разблакаваны!</string>
     <string name="change_app_language"> Змяніць мову дадатка </string>
-    <string name="premium_info_dialog"> У канцы снежня вам трэба будзе набываць Premium. Калі вы хочаце бясплатна атрымаць Premium, вам трэба адправіць ID замовы (Налады->Аб дадатку->Тап па ID замовы) на электронную пошту: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text"> Гісторыя зарадкі пустая! Калі ласка, зарадзіце акумулятар да поўных 100% (Статус: зараджана)</string>
     <string name="show_battery_information">Паказваць інфармацыю аб акумулятары</string>
     <string name="service_is_running">Служба запушчана</string>

@@ -293,7 +293,6 @@
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Funciones premium desbloqueadas!</string>
     <string name="change_app_language">Cambiar el idioma de la aplicación</string>
-    <string name="premium_info_dialog">A finales de diciembre, tendrás que comprar un Premium. Si quieres conseguir un Premium gratis, tienes que enviar el ID del pedido (Ajustes->Acerca de->Tap por el ID del pedido) al correo electrónico: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">¡El historial de cargas está vacío! Por favor, cargue la batería al 100% (Estado: Cargado)</string>
     <string name="show_battery_information">Mostrar información de la batería</string>
     <string name="service_is_running">El servicio se está ejecutando</string>

@@ -292,7 +292,6 @@
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
     <string name="change_app_language">App-Sprache ändern</string>
-    <string name="premium_info_dialog">Ende Dezember müssen Sie ein Premium kaufen. Wenn Sie ein kostenloses Premium erhalten möchten, müssen Sie die Auftrags-ID (Einstellungen->Über->Auftrags-ID tippen) an die E-Mail-Adresse: Ph03niX-X@outlook.com</string>
     <string name="empty_history_text">Aufladungsverlauf ist leer! Bitte laden Sie den Akku zu 100% auf (Status: Geladen)</string>
     <string name="show_battery_information">Batterieinformationen anzeigen</string>
     <string name="service_is_running">Dienst läuft</string>
