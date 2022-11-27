@@ -51,6 +51,22 @@ object TextAppearanceHelper : PremiumInterface {
 
             11 -> ResourcesCompat.getFont(context, R.font.pt_sans)
 
+            12 -> ResourcesCompat.getFont(context, R.font.pt_serif)
+
+            13 -> ResourcesCompat.getFont(context, R.font.open_sans)
+
+            14 -> ResourcesCompat.getFont(context, R.font.noto_sans)
+
+            15 -> ResourcesCompat.getFont(context, R.font.nunito_sans)
+
+            16 -> ResourcesCompat.getFont(context, R.font.work_sans)
+
+            17 -> ResourcesCompat.getFont(context, R.font.merriweather_sans)
+
+            18 -> ResourcesCompat.getFont(context, R.font.sf_pro)
+
+            19 -> ResourcesCompat.getFont(context, R.font.lobster)
+
             else -> null
         }
     }
