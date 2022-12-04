@@ -50,7 +50,7 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants
-import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_WATT
+import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -537,7 +537,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
             else 100.0
             residualCapacity =
-                (residualCapacity + ((FAST_CHARGE_WATT / 1000.0) * designCapacity)).toInt()
+                (residualCapacity + ((FAST_CHARGE_VOLTAGE / 100.0) * designCapacity)).toInt()
         }
 
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
