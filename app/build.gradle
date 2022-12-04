@@ -12,7 +12,7 @@ android {
         namespace applicationId
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 1079
+        versionCode 1080
         versionName "6.3.0.1"
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
