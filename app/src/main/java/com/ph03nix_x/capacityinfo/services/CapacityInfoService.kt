@@ -91,6 +91,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var isJob = false
     private var secondsTemperature = 0
     private var currentCapacity = 0
+    private var currentCapacityCharge = 0
 
     var isFull = false
     var isStopService = false
@@ -437,6 +438,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                 1000.0 else 100.0).toInt()
 
+        currentCapacityCharge = currentCapacity
+
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
 
@@ -515,8 +518,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isNotifyBatteryDischargedVoltage = true
         if(currentCapacity == 0)
             currentCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0).toInt()
-        val residualCapacity = currentCapacity
+                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
+            else 100.0).toInt()
+
+        val residualCapacity =
+            if(currentCapacityCharge > currentCapacity) currentCapacityCharge else currentCapacity
+
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
 
