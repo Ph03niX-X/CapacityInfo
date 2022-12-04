@@ -29,6 +29,13 @@
             app:singleLineTitle="false"
             android:key="is_auto_start_update_app"/>
 
+        <SwitchPreferenceCompat
+            android:title="@string/fast_charge_debug"
+            android:summary="@string/fast_charge_summary_debug"
+            android:defaultValue="@bool/is_fast_charge_debug"
+            app:singleLineTitle="false"
+            android:key="is_fast_charge_debug"/>
+
         <Preference
             android:title="@string/fake_battery_wear"
             app:singleLineTitle="false"

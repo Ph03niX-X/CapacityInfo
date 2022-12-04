@@ -101,6 +101,7 @@ object PreferencesKeys {
     const val IS_AUTO_START_BOOT = "is_auto_start_boot"
     const val IS_AUTO_START_OPEN_APP = "is_auto_start_open_app"
     const val IS_AUTO_START_UPDATE_APP = "is_auto_start_update_app"
+    const val IS_FAST_CHARGE_DEBUG = "is_fast_charge_debug"
 
     // Battery Information
     const val NUMBER_OF_CHARGES = "number_of_charges"
