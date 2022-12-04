@@ -533,7 +533,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(R.bool.is_fast_charge_debug))) {
             val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
-                R.integer.min_design_capacity)).toDouble()
+                R.integer.min_design_capacity)).toDouble() * if(pref.getString(
+                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
+            else 100.0
             residualCapacity =
                 (residualCapacity + ((FAST_CHARGE_WATT / 1000.0) * designCapacity)).toInt()
         }
