@@ -50,6 +50,7 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_MIN_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -62,7 +63,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_DEBUG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
@@ -521,16 +521,15 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
             else 100.0).toInt()
 
-        var residualCapacity = currentCapacity
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
+            R.integer.min_design_capacity)).toDouble() * if(pref.getString(
+                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
+        else 100.0
 
-        if(pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(R.bool.is_fast_charge_debug))) {
-            val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
-                R.integer.min_design_capacity)).toDouble() * if(pref.getString(
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
-            else 100.0
-            residualCapacity =
-                (residualCapacity + ((FAST_CHARGE_VOLTAGE / 100.0) * designCapacity)).toInt()
-        }
+        val residualCapacity =
+            if(BatteryInfoInterface.maxChargeCurrent >= FAST_CHARGE_MIN_CURRENT)
+                    (currentCapacity + ((FAST_CHARGE_VOLTAGE / 100.0) * designCapacity)).toInt()
+            else currentCapacity
 
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
