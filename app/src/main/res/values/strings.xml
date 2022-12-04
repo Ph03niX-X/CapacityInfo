@@ -323,5 +323,5 @@
     <string name="telegram_link_copied">Telegram link copied</string>
     <string name="telegram_developer">Developer</string>
     <string name="fast_charge_debug">Fast Charge</string>
-    <string name="fast_charge_summary_debug">Calculate the residual capacity during Fast Charging</string>
+    <string name="fast_charge_summary_debug">Consider Fast Charging when calculating Battery Wear</string>
 </resources>
