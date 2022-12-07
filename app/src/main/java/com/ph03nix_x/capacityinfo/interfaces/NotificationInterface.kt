@@ -138,7 +138,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                             getOnCurrentCapacity(context))) else "${context.getString(
                         R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
             }
-            else if(!isShowBatteryInformation && (isPremium())) {
+            else if(!isShowBatteryInformation && (PremiumInterface.isPremium)) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                     context.getString(R.string.service_is_running))
             }
@@ -216,7 +216,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                             getOnCurrentCapacity(context))) else "${context.getString(
                         R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
             }
-            else if(!isShowBatteryInformation && (isPremium())) {
+            else if(!isShowBatteryInformation && (PremiumInterface.isPremium)) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                 context.getString(R.string.service_is_running))
             }
