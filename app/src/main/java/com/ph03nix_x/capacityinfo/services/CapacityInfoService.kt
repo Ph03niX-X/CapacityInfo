@@ -100,6 +100,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var batteryLevelWith = -1
     var seconds = 0
     var screenTime = 0L
+    var secondsFullCharge = 0
 
     companion object {
 
@@ -258,8 +259,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
 
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING
-                        && !isStopService) batteryCharging()
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING) batteryCharging()
+                        && !isStopService && secondsFullCharge < 3600) batteryCharging()
 
                     else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected &&
                         !isFull && !isStopService) batteryCharged()
@@ -434,10 +434,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val batteryLevel = getOnBatteryLevel(this@CapacityInfoService) ?: 0
 
-        if(batteryLevel == 100)
+        if(batteryLevel == 100) {
+            if(secondsFullCharge >= 3600) batteryCharged()
             currentCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                 1000.0 else 100.0).toInt()
+            secondsFullCharge++
+        }
 
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
@@ -515,6 +518,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isNotifyBatteryDischarged = true
         isNotifyBatteryDischargedVoltage = true
+        if(currentCapacity == 0)
             currentCapacity = (getOnCurrentCapacity(this) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
             else 100.0).toInt()
@@ -526,7 +530,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val residualCapacity =
             if(BatteryInfoInterface.maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
-                    resources.getInteger(R.integer.min_design_capacity) - 250))
+                    resources.getInteger(R.integer.min_design_capacity) - 250) || BatteryInfoInterface.minChargeCurrent >= 450)
                     (currentCapacity + ((FAST_CHARGE_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
 

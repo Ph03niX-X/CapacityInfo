@@ -101,6 +101,7 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
                 BatteryInfoInterface.averageDischargeCurrent = 0
                 BatteryInfoInterface.minDischargeCurrent = 0
 
+                CapacityInfoService.instance?.secondsFullCharge = 0
                 CapacityInfoService.instance?.isFull = false
 
                 if(isPremium && pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD,
