@@ -322,4 +322,5 @@
     <string name="telegram" translatable="false">Telegram</string>
     <string name="telegram_link_copied">Telegram link copied</string>
     <string name="telegram_developer">Developer</string>
+    <string name="fast_charge_debug">Fast Charge</string>
 </resources>
