@@ -300,4 +300,7 @@
     <string name="font_overlay">Fuente</string>
     <string name="telegram_link_copied">Enlace de Telegram copiado</string>
     <string name="telegram_developer">Desarrollador</string>
+    <string name="fast_charge_debug">Carga rápida</string>
+    <string name="fast_charge_yes">Carga rápida: Sí (%1$sW)</string>
+    <string name="fast_charge_no">Carga rápida: No</string>
 </resources>
