@@ -126,6 +126,20 @@ interface BatteryInfoInterface {
             0
         }
     }
+
+    fun getOnFastCharge(context: Context): String {
+        return if(isFastCharge(context))
+            context.resources.getString(R.string.fast_charge_yes, getOnFastChargeWatt())
+        else context.resources.getString(R.string.fast_charge_no)
+    }
+
+    private fun isFastCharge(context: Context): Boolean {
+        return maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
+    }
+
+    private fun getOnFastChargeWatt(): String {
+        return DecimalFormat("#.#").format((maxChargeCurrent.toDouble() * 5.0) / 1000.0)
+    }
     
     fun getOnMaxAverageMinChargeDischargeCurrent(status: Int?, chargeCurrent: Int) {
         

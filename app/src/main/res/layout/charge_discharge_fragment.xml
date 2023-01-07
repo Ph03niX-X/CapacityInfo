@@ -149,13 +149,24 @@
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fast_charge"
+                    android:visibility="visible"
+                    android:text="@string/fast_charge_no"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/charge_current"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/max_charge_discharge_current"
                         android:text="@string/max_charge_current"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
-                        android:layout_below="@id/charge_current"
+                        android:layout_below="@id/fast_charge"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView

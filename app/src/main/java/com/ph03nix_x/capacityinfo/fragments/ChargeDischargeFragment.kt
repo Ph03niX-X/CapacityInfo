@@ -43,6 +43,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private lateinit var status: AppCompatTextView
     private lateinit var sourceOfPower: AppCompatTextView
     private lateinit var chargeCurrent: AppCompatTextView
+    private lateinit var fastCharge: AppCompatTextView
     private lateinit var maxChargeDischargeCurrent: AppCompatTextView
     private lateinit var averageChargeDischargeCurrent: AppCompatTextView
     private lateinit var minChargeDischargeCurrent: AppCompatTextView
@@ -80,6 +81,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         status = view.findViewById(R.id.status)
         sourceOfPower = view.findViewById(R.id.source_of_power)
         chargeCurrent = view.findViewById(R.id.charge_current)
+        fastCharge = view.findViewById(R.id.fast_charge)
         maxChargeDischargeCurrent = view.findViewById(R.id.max_charge_discharge_current)
         averageChargeDischargeCurrent = view.findViewById(R.id.average_charge_discharge_current)
         minChargeDischargeCurrent = view.findViewById(R.id.min_charge_discharge_current)
@@ -329,7 +331,16 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL ->
+                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL -> {
+
+                            if(fastCharge.visibility == View.GONE) {
+                                withContext(Dispatchers.Main) {
+                                    fastCharge.visibility = View.VISIBLE }
+                            }
+
+                            withContext(Dispatchers.Main) {
+                                fastCharge.text = getOnFastCharge(requireContext())
+                            }
 
                             withContext(Dispatchers.Main) {
 
@@ -351,9 +362,13 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                 minChargeDischargeCurrent.text = getString(R.string
                                     .min_charge_current, BatteryInfoInterface.minChargeCurrent)
                             }
+                        }
 
                         BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
                             .BATTERY_STATUS_NOT_CHARGING -> withContext(Dispatchers.Main) {
+
+                            if(fastCharge.visibility == View.VISIBLE)
+                                fastCharge.visibility = View.GONE
 
                             if(maxChargeDischargeCurrent.visibility == View.GONE)
                                 maxChargeDischargeCurrent.visibility = View.VISIBLE

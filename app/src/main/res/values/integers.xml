@@ -23,4 +23,5 @@
     <integer name="fake_battery_wear_min">0</integer>
     <integer name="fake_battery_wear_default">20</integer>
     <integer name="fake_battery_wear_max">99</integer>
+    <integer name="fast_charge_min">2500</integer>
 </resources>
