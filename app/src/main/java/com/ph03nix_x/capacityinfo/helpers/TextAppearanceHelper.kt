@@ -67,6 +67,16 @@ object TextAppearanceHelper : PremiumInterface {
 
             19 -> ResourcesCompat.getFont(context, R.font.lobster)
 
+            20 -> ResourcesCompat.getFont(context, R.font.moon_dance)
+
+            21 -> ResourcesCompat.getFont(context, R.font.rubik)
+
+            22 -> ResourcesCompat.getFont(context, R.font.playfair_display)
+
+            23 -> ResourcesCompat.getFont(context, R.font.rowdies)
+
+            24 -> ResourcesCompat.getFont(context, R.font.raleway)
+
             else -> null
         }
     }

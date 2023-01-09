@@ -50,6 +50,11 @@
         <item>Merriweather Sans</item>
         <item>SF Pro</item>
         <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -73,6 +78,11 @@
         <item>17</item>
         <item>18</item>
         <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
