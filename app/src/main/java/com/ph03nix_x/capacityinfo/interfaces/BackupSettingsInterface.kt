@@ -467,8 +467,6 @@ interface BackupSettingsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
-                        ?.isVisible = isHistoryNotEmpty
                     exportHistoryPref?.isEnabled = isHistoryNotEmpty && !HistoryHelper
                         .isHistoryMax(requireContext())
                 }

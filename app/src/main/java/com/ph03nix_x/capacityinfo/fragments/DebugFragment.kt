@@ -199,8 +199,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     Toast.LENGTH_LONG).show()
             else Toast.makeText(requireContext(), "0.0.0: 0", Toast.LENGTH_LONG).show()
 
-            MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)?.isVisible =
-                HistoryHelper.isHistoryNotEmpty(requireContext())
             it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -257,8 +255,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
-                        ?.isVisible = HistoryHelper.isHistoryNotEmpty(requireContext())
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -317,8 +313,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
-                    MainActivity.instance?.navigation?.menu?.findItem(R.id.history_navigation)
-                        ?.isVisible = HistoryHelper.isHistoryNotEmpty(requireContext())
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())

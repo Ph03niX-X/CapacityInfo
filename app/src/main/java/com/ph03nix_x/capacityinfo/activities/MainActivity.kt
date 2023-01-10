@@ -197,9 +197,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             this, getChargeDischargeNavigationIcon(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING))
 
-        navigation.menu.findItem(R.id.history_navigation).isVisible =
-            HistoryHelper.isHistoryNotEmpty(this)
-
         navigation.setOnItemSelectedListener {
 
             when(it.itemId) {
@@ -364,9 +361,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 .getDrawable(this, getChargeDischargeNavigationIcon(status ==
                         BatteryManager.BATTERY_STATUS_CHARGING))
         }
-
-        navigation.menu.findItem(R.id.history_navigation).isVisible =
-            HistoryHelper.isHistoryNotEmpty(this)
 
         if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
             fragment = ChargeDischargeFragment()
