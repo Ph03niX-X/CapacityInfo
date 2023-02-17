@@ -28,6 +28,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.perc
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.maxChargeCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryChargedVoltage
@@ -529,9 +530,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
         else 100.0
 
+        val residualCapacityCurrent = pref.getInt(RESIDUAL_CAPACITY, 0) / 1000
+
         val residualCapacity =
-            if(BatteryInfoInterface.maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
-                    resources.getInteger(R.integer.min_design_capacity) - 250) || pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(
+            if(residualCapacityCurrent in 1..maxChargeCurrent ||
+                maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
+                    resources.getInteger(R.integer.min_design_capacity) - 250) ||
+                pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(
                     R.bool.is_fast_charge_debug)))
                     (currentCapacity + ((FAST_CHARGE_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
