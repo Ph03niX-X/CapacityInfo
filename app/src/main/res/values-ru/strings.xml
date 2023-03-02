@@ -301,6 +301,9 @@
     <string name="telegram_link_copied">Ссылка на Telegram скопирована</string>
     <string name="telegram_developer">Разработчик</string>
     <string name="fast_charge_debug">Быстрая зарядка</string>
+    <string name="fast_charge_overlay">Быстрая зарядка</string>
     <string name="fast_charge_yes">Быстрая зарядка: Да (%1$s Вт)</string>
     <string name="fast_charge_no">Быстрая зарядка: Нет</string>
+    <string name="fast_charge_yes_overlay_only_values">Да (%1$s Вт)</string>
+    <string name="fast_charge_no_overlay_only_values">Нет</string>
 </resources>
