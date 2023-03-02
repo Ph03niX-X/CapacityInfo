@@ -323,6 +323,9 @@
     <string name="telegram_link_copied">Telegram link copied</string>
     <string name="telegram_developer">Developer</string>
     <string name="fast_charge_debug">Fast Charge</string>
+    <string name="fast_charge_overlay">Fast Charge</string>
     <string name="fast_charge_yes">Fast Charge: Yes (%1$sW)</string>
     <string name="fast_charge_no">Fast Charge: No</string>
+    <string name="fast_charge_yes_overlay_only_values">Yes (%1$sW)</string>
+    <string name="fast_charge_no_overlay_only_values">No</string>
 </resources>

@@ -201,6 +201,13 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_fast_charge_overlay"
+            android:key="is_fast_charge_overlay"
+            android:title="@string/fast_charge_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_max_charge_discharge_current_overlay"
                 android:key="is_max_charge_discharge_current_overlay"
                 android:title="@string/max_charge_discharge_current_overlay"

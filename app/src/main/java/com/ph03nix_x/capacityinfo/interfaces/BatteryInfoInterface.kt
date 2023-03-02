@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAKE_BATTERY_WEAR_VALUE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_FAKE_BATTERY_WEAR
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
@@ -131,6 +132,15 @@ interface BatteryInfoInterface {
         return if(isFastCharge(context))
             context.resources.getString(R.string.fast_charge_yes, getOnFastChargeWatt())
         else context.resources.getString(R.string.fast_charge_no)
+    }
+
+    fun getOnFastChargeOverlay(context: Context): String {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                R.bool.is_only_values_overlay))) getOnFastCharge(context)
+        else if (isFastCharge(context))
+            context.getString(R.string.fast_charge_yes_overlay_only_values)
+        else context.resources.getString(R.string.fast_charge_no_overlay_only_values)
     }
 
     private fun isFastCharge(context: Context): Boolean {

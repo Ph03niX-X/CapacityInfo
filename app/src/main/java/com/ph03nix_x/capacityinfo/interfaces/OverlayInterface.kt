@@ -51,6 +51,7 @@ import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_FULL_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
@@ -85,6 +86,7 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var statusOverlay: AppCompatTextView
         private lateinit var sourceOfPowerOverlay: AppCompatTextView
         private lateinit var chargeDischargeCurrentOverlay: AppCompatTextView
+        private lateinit var fastChargeOverlay: AppCompatTextView
         private lateinit var maxChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var averageChargeDischargeCurrentOverlay: AppCompatTextView
         private lateinit var minChargeDischargeCurrentOverlay: AppCompatTextView
@@ -135,6 +137,8 @@ interface OverlayInterface : BatteryInfoInterface {
                             R.bool.is_source_of_power_overlay)), getBoolean(
                         IS_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
                             R.bool.is_charge_discharge_current_overlay)), getBoolean(
+                        IS_FAST_CHARGE_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_fast_charge_overlay)), getBoolean(
                         IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
                             R.bool.is_max_charge_discharge_current_overlay)), getBoolean(
                         IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY, context.resources.getBoolean(
@@ -277,6 +281,7 @@ interface OverlayInterface : BatteryInfoInterface {
             onUpdateStatusOverlay(status)
             onUpdateSourceOfPowerOverlay(sourceOfPower)
             onUpdateChargeDischargeCurrentOverlay(status)
+            onUpdateFastChargeOverlay(status)
             onUpdateMaxChargeDischargeCurrentOverlay(status)
             onUpdateAverageChargeDischargeCurrentOverlay(status)
             onUpdateMinChargeDischargeCurrentOverlay(status)
@@ -689,6 +694,28 @@ interface OverlayInterface : BatteryInfoInterface {
                     .resources.getBoolean(R.bool.is_charge_discharge_current_overlay)))
                 View.VISIBLE else View.GONE
         }
+    }
+
+    private fun onUpdateFastChargeOverlay(status: Int) {
+
+        if(pref.getBoolean(IS_FAST_CHARGE_OVERLAY, fastChargeOverlay.context.resources
+                .getBoolean(R.bool.is_fast_charge_overlay)) ||
+            fastChargeOverlay.visibility == View.VISIBLE)
+            fastChargeOverlay.apply {
+
+                TextAppearanceHelper.setTextAppearance(context, this,
+                    pref.getString(OVERLAY_TEXT_STYLE, "0"),
+                    pref.getString(OVERLAY_FONT, "6"),
+                    pref.getString(OVERLAY_SIZE, "2"))
+
+                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
+
+                text = getOnFastChargeOverlay(context)
+
+                visibility = if(pref.getBoolean(IS_FAST_CHARGE_OVERLAY, context.resources
+                        .getBoolean(R.bool.is_fast_charge_overlay)) &&
+                    status == BatteryManager.BATTERY_STATUS_CHARGING) View.VISIBLE else View.GONE
+            }
     }
 
     private fun onUpdateMaxChargeDischargeCurrentOverlay(status: Int) {

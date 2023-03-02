@@ -85,6 +85,7 @@ object PreferencesKeys {
     const val IS_STATUS_OVERLAY = "is_status_overlay"
     const val IS_SOURCE_OF_POWER = "is_source_of_power_overlay"
     const val IS_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_charge_discharge_current_overlay"
+    const val IS_FAST_CHARGE_OVERLAY = "is_fast_charge_overlay"
     const val IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY = "is_max_charge_discharge_current_overlay"
     const val IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY =
         "is_average_charge_discharge_current_overlay"

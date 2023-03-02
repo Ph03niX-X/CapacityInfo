@@ -31,6 +31,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_FULL_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
@@ -84,6 +85,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private var statusOverlay: SwitchPreferenceCompat? = null
     private var sourceOfPowerOverlay: SwitchPreferenceCompat? = null
     private var chargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
+    private var fastChargeOverlay: SwitchPreferenceCompat? = null
     private var maxChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var averageChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var minChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
@@ -202,6 +204,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
         sourceOfPowerOverlay = findPreference(IS_SOURCE_OF_POWER)
         chargeDischargeCurrentOverlay = findPreference(IS_CHARGE_DISCHARGE_CURRENT_OVERLAY)
+        fastChargeOverlay = findPreference(IS_FAST_CHARGE_OVERLAY)
         maxChargeDischargeCurrentOverlay = findPreference(IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         averageChargeDischargeCurrentOverlay =
             findPreference(IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY)
@@ -340,6 +343,14 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         }
 
         chargeDischargeCurrentOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        fastChargeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)
