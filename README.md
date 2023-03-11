@@ -5,8 +5,7 @@
 <a href="https://play.google.com/store/apps/details?id=com.ph03nix_x.capacityinfo">
 <p align="center">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-alt="Get it on Google Play" width="323" height="125" border="10"/></a>
-</p>
+alt="Get it on Google Play" width="323" height="125" border="10"/></p></a>
 
 
 ---
@@ -17,8 +16,7 @@ alt="Get it on Google Play" width="323" height="125" border="10"/></a>
 <a href="https://drive.google.com/file/d/1hhDKi8eWdiIAMinoC4PR6L-glPi3Ph33">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
-alt="Get it on Google Drive" width="300" border="10"/></a>
-</p>
+alt="Get it on Google Drive" width="300" border="10"/></p></a>
 
 ---
 <p align="center">
@@ -28,19 +26,7 @@ alt="Get it on Google Drive" width="300" border="10"/></a>
 <a href="https://drive.google.com/file/d/1hhDKi8eWdiIAMinoC4PR6L-glPi3Ph33">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
-alt="Get it on Google Drive" width="300" border="10"/></a>
-</p>
-
----
-<p align="center">
- <b>Telegram Channel:</b>
-</p>
-
-<a href="https://t.me/ci_channel">
-<p align="center">
-<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/telegram.png"
-alt="Telegram Channel" width="200" border="10"/></a>
-</p>
+alt="Get it on Google Drive" width="300" border="10"/></p></a>
 
 ---
 <p align="center">
@@ -66,6 +52,7 @@ P.S This application consumes <b>very little</b> energy in the background. The w
 • Battery Level (%);<br/>
 • Charging status;<br/>
 • Charging/discharging current;<br/>
+• Fast Charge Information;<br/>
 • Maximum, average and minimum charging/discharging current;<br/>
 • Battery temperature;<br/>
 • Battery voltage;<br/>
