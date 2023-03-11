@@ -275,8 +275,6 @@
     <string name="reset_screen_time">Resetuj czas ekranowy</string>
     <string name="success">Sukces!</string>
     <string name="error">Błąd!</string>
-    <string name="fake_battery_wear">Fałszywe zużycie baterii</string>
-    <string name="enable_fake_battery_wear">Włącz fałszywe zużycie baterii</string>
     <string name="battery_wear_dialog">Zużycie baterii %1$s. Zalecamy wymianę baterii lub smartfona/tabletu</string>
     <string name="high_battery_wear_dialog">Wysokie zużycie baterii (%1$s). Zalecamy wymianę baterii lub smartfona/tabletu</string>
     <string name="very_high_battery_wear_dialog">Bardzo wysokie zużycie baterii (%1$s). Zalecamy wymianę baterii lub smartfona/tabletu</string>

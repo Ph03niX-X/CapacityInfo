@@ -274,8 +274,6 @@
     <string name="reset_screen_time">Bildschirmzeit zurücksetzen</string>
     <string name="success">Erfolg!</string>
     <string name="error">Fehler!</string>
-    <string name="fake_battery_wear">Fake-Akkuverschleiß</string>
-    <string name="enable_fake_battery_wear">Fake-Akkuverschleiß aktivieren</string>
     <string name="battery_wear_dialog">Akkuverschleiß %1$s. Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
     <string name="high_battery_wear_dialog">Hoher Akkuverschleiß (%1$s). Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
     <string name="very_high_battery_wear_dialog">Sehr hoher Akkuverschleiß (%1$s). Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>

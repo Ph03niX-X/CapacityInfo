@@ -275,8 +275,6 @@
     <string name="reset_screen_time">Обнулить время экрана</string>
     <string name="success">Успех!</string>
     <string name="error">Ошибка!</string>
-    <string name="fake_battery_wear">Фейковый износ аккумулятора</string>
-    <string name="enable_fake_battery_wear">Включить фейковый износ аккумулятора</string>
     <string name="battery_wear_dialog">Износ аккумулятора %1$s. Советуем поменять аккумулятор или смартфон/планшет</string>
     <string name="high_battery_wear_dialog">Высокий износ аккумулятора (%1$s). Советуем поменять аккумулятор или смартфон/планшет</string>
     <string name="very_high_battery_wear_dialog">Очень высокий износ аккумулятора (%1$s). Советуем поменять аккумулятор или смартфон/планшет</string>

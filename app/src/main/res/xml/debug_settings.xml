@@ -36,11 +36,6 @@
             android:key="is_fast_charge_debug"/>
 
         <Preference
-            android:title="@string/fake_battery_wear"
-            app:singleLineTitle="false"
-            android:key="fake_battery_wear"/>
-
-        <Preference
                 android:title="@string/add_setting"
                 app:singleLineTitle="false"
                 app:icon="@drawable/ic_add_setting_24dp"

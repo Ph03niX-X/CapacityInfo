@@ -177,7 +177,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             is HistoryFragment -> getString(R.string.history)
             is SettingsFragment -> getString(R.string.settings)
             is DebugFragment -> getString(R.string.debug)
-            is FakeBatteryWearFragment -> getString(R.string.fake_battery_wear)
             else -> getString(R.string.app_name)
         }
 
@@ -389,7 +388,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             is AboutFragment -> getString(R.string.about)
             is FeedbackFragment -> getString(R.string.feedback)
             is DebugFragment -> getString(R.string.debug)
-            is FakeBatteryWearFragment -> getString(R.string.fake_battery_wear)
             is BackupSettingsFragment -> getString(R.string.backup)
             else -> getString(R.string.app_name)
         }
@@ -746,8 +744,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
                     && fragment !is AboutFragment && fragment !is DebugFragment
-                    && fragment !is FakeBatteryWearFragment && fragment !is FeedbackFragment
-                    && fragment !is BackupSettingsFragment -> {
+                    && fragment !is FeedbackFragment && fragment !is BackupSettingsFragment -> {
 
                 navigation.selectedItemId = when(fragment) {
 
@@ -868,8 +865,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         fragment is BackupSettingsFragment || fragment is DebugFragment) &&
                         supportFragmentManager.backStackEntryCount > 0))) {
 
-                fragment = if(fragment !is FakeBatteryWearFragment) SettingsFragment()
-                else DebugFragment()
+                fragment = SettingsFragment()
 
                 toolbar.title = getString(if(fragment !is DebugFragment) R.string.settings
                 else R.string.debug)

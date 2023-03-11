@@ -275,8 +275,6 @@
     <string name="reset_screen_time">Обнулити час экрану</string>
     <string name="success">Успіх!</string>
     <string name="error">Помилка!</string>
-    <string name="fake_battery_wear">Підроблений знос аккумулятора</string>
-    <string name="enable_fake_battery_wear">Увімкнути підроблення зносу акумулятора</string>
     <string name="battery_wear_dialog">Знос акумулятора %1$s. Радимо замінити акумулятор або смартфон/планшет</string>
     <string name="high_battery_wear_dialog">Високий знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>
     <string name="very_high_battery_wear_dialog">Дуже високий знос акумулятора (%1$s). Радимо замінити акумулятор або смартфон/планшет</string>

@@ -122,7 +122,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
         arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay",
             "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog", "is_supported",
-            "is_show_not_supported_dialog", LANGUAGE).forEach {
+            "is_show_not_supported_dialog", LANGUAGE, "is_enable_fake_battery_wear",
+            "fake_battery_wear_value").forEach {
 
             with(pref) {
 

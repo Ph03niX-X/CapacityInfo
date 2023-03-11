@@ -275,8 +275,6 @@
     <string name="reset_screen_time">Resetarea timpului de ecran</string>
     <string name="success">Succes!</string>
     <string name="error">Eroare!</string>
-    <string name="fake_battery_wear">Uzură falsă a bateriei</string>
-    <string name="enable_fake_battery_wear">Activare baterie falsă Wear</string>
     <string name="battery_wear_dialog">Uzura bateriei %1$s. Vă sfătuim să schimbați bateria sau smartphone-ul/tableta</string>
     <string name="high_battery_wear_dialog">Uzură mare a bateriei (%1$s). Vă sfătuim să schimbați bateria sau smartphone-ul/tableta</string>
     <string name="very_high_battery_wear_dialog">Uzură foarte mare a bateriei (%1$s). Vă sfătuim să schimbați bateria sau smartphone-ul/tableta</string>

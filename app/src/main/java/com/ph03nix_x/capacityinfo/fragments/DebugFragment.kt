@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
@@ -32,7 +30,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
-    private var fakeBatteryWear: Preference? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
     private var resetSetting: Preference? = null
@@ -82,8 +79,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 && isGooglePlay(requireContext())
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
-
-        fakeBatteryWear = findPreference("fake_battery_wear")
 
         addSetting = findPreference("add_setting")
 
@@ -397,23 +392,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopOverlayService?.isEnabled = OverlayService.instance != null
 
         restartOverlayService?.isEnabled = OverlayService.instance != null
-
-        fakeBatteryWear?.setOnPreferenceClickListener {
-
-            val mainActivity = MainActivity.instance
-
-            mainActivity?.fragment = FakeBatteryWearFragment()
-
-            mainActivity?.toolbar?.title = requireContext().getString(R.string.fake_battery_wear)
-
-            mainActivity?.toolbar?.navigationIcon = ContextCompat.getDrawable(requireContext(),
-                R.drawable.ic_arrow_back_24dp)
-
-            mainActivity?.loadFragment(mainActivity.fragment ?: FakeBatteryWearFragment(),
-                true)
-
-            true
-        }
 
         addSetting?.setOnPreferenceClickListener {
 

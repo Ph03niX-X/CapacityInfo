@@ -114,8 +114,4 @@ object PreferencesKeys {
     const val BATTERY_LEVEL_TO = "battery_level_to"
     const val NUMBER_OF_CYCLES = "number_of_cycles"
     const val NUMBER_OF_FULL_CHARGES = "number_of_full_charges"
-
-    // Fake Battery Wear
-    const val IS_ENABLE_FAKE_BATTERY_WEAR = "is_enable_fake_battery_wear"
-    const val FAKE_BATTERY_WEAR_VALUE = "fake_battery_wear_value"
 }

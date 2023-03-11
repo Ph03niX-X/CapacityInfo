@@ -295,8 +295,6 @@
     <string name="reset_screen_time">Reset Screen Time</string>
     <string name="success">Success!</string>
     <string name="error">Error!</string>
-    <string name="fake_battery_wear">Fake Battery Wear</string>
-    <string name="enable_fake_battery_wear">Enable Fake Battery Wear</string>
     <string name="battery_wear_dialog">Battery Wear %1$s. We advise you to change the battery or smartphone/tablet</string>
     <string name="high_battery_wear_dialog">High Battery Wear (%1$s). We advise you to change the battery or smartphone/tablet</string>
     <string name="very_high_battery_wear_dialog">Very High Battery Wear (%1$s). We advise you to change the battery or smartphone/tablet</string>
