@@ -11,16 +11,18 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.databinding.HistoryRecyclerListItemBinding
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
-import kotlinx.android.synthetic.main.history_recycler_list_item.view.*
 import java.text.DecimalFormat
 
 class HistoryAdapter (private var historyList: MutableList<History>) :
     RecyclerView.Adapter<HistoryViewHolder>(), PremiumInterface {
-    
+
+    private lateinit var binding: HistoryRecyclerListItemBinding
+
     private lateinit var pref: SharedPreferences
 
     companion object {
@@ -34,22 +36,23 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
 
         instance = this
 
-        val itemView =  LayoutInflater.from(parent.context).inflate(R.layout
-            .history_recycler_list_item, parent, false)
+        binding = HistoryRecyclerListItemBinding.inflate(LayoutInflater.from(parent.context),
+            parent, false)
+
 
         pref = PreferenceManager.getDefaultSharedPreferences(parent.context)
 
-        return HistoryViewHolder(itemView)
+        return HistoryViewHolder(binding.root.rootView)
     }
 
     override fun onBindViewHolder(holderHistory: HistoryViewHolder, position: Int) {
         updateTextAppearance(holderHistory)
 
         if((!isPremium && position < 3) || isPremium) {
-            holderHistory.itemView.history_date.text = historyList[historyList.size - 1 - position].date
-            holderHistory.itemView.history_residual_capacity.text = getResidualCapacity(holderHistory
+            binding.historyDate.text = historyList[historyList.size - 1 - position].date
+            binding.historyResidualCapacity.text = getResidualCapacity(holderHistory
                 .itemView.context, historyList[historyList.size - 1 - position].residualCapacity)
-            holderHistory.itemView.history_battery_wear.text = getBatteryWear(holderHistory.itemView
+            binding.historyBatteryWear.text = getBatteryWear(holderHistory.itemView
                 .context, historyList[historyList.size - 1 - position].residualCapacity)
         }
         else {
@@ -60,18 +63,18 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
 
     private fun updateTextAppearance(holderHistory: HistoryViewHolder) {
 
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory
-            .itemView.history_date, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, binding.historyDate,
+            pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
 
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory.itemView
-            .history_residual_capacity, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context,
+            binding.historyResidualCapacity, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
 
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, holderHistory.itemView
-            .history_battery_wear, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
+        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context,
+            binding.historyBatteryWear, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
     }

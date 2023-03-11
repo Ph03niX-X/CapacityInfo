@@ -15,10 +15,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.databinding.HistoryFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
-import kotlinx.android.synthetic.main.history_fragment.*
 
 class HistoryFragment : Fragment(R.layout.history_fragment) {
+
+    private lateinit var binding: HistoryFragmentBinding
 
     private lateinit var pref: SharedPreferences
     private lateinit var historyAdapter: HistoryAdapter
@@ -35,12 +37,15 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        binding = HistoryFragmentBinding.inflate(inflater, container, false)
+
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root.rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         instance = this
@@ -54,7 +59,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
 
         if(historyDB.getCount() > 0) {
             emptyHistoryLayout.visibility = View.GONE
-            refresh_empty_history.visibility = View.GONE
+            binding.refreshEmptyHistory.visibility = View.GONE
             recView.visibility = View.VISIBLE
             historyAdapter = HistoryAdapter(historyDB.readDB())
             recView.adapter = historyAdapter
@@ -62,7 +67,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         }
         else {
             recView.visibility = View.GONE
-            refresh_empty_history.visibility = View.VISIBLE
+            binding.refreshEmptyHistory.visibility = View.VISIBLE
             emptyHistoryLayout.visibility = View.VISIBLE
         }
 
@@ -75,13 +80,13 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
         super.onResume()
         if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
             historyAdapter.update(requireContext())
-            refresh_empty_history.visibility = View.GONE
+            binding.refreshEmptyHistory.visibility = View.GONE
             emptyHistoryLayout.visibility = View.GONE
             recView.visibility = View.VISIBLE
         }
         else {
             recView.visibility = View.GONE
-            refresh_empty_history.visibility = View.VISIBLE
+            binding.refreshEmptyHistory.visibility = View.VISIBLE
             emptyHistoryLayout.visibility = View.VISIBLE
         }
     }
@@ -103,13 +108,13 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
                 if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
                     historyAdapter.update(requireContext())
                     visibility = View.GONE
-                    refresh_history.visibility = View.VISIBLE
+                    binding.refreshEmptyHistory.visibility = View.VISIBLE
                     emptyHistoryLayout.visibility = View.GONE
                     recView.visibility = View.VISIBLE
                 }
                 else {
                     recView.visibility = View.GONE
-                    refresh_history.visibility = View.GONE
+                    binding.refreshEmptyHistory.visibility = View.GONE
                     visibility = View.VISIBLE
                     emptyHistoryLayout.visibility = View.VISIBLE
                 }
@@ -128,7 +133,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
                 isRefreshing = true
                 if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
                     historyAdapter.update(requireContext())
-                    refresh_empty_history.visibility = View.GONE
+                    binding.refreshEmptyHistory.visibility = View.GONE
                     visibility = View.VISIBLE
                     emptyHistoryLayout.visibility = View.GONE
                     recView.visibility = View.VISIBLE
@@ -136,7 +141,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
                 else {
                     recView.visibility = View.GONE
                     visibility = View.GONE
-                    refresh_empty_history.visibility = View.VISIBLE
+                    binding.refreshEmptyHistory.visibility = View.VISIBLE
                     emptyHistoryLayout.visibility = View.VISIBLE
                 }
                 isRefreshing = false
