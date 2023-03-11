@@ -132,10 +132,7 @@ Question: Where does the application get the "Number of Cycles (Android)"?<br/>
 Answer: The application gets data from the "cycles_count" kernel file at the path: /sys/class/power_supply/battery.
 
 Question: Not Displayed "Number of Cycles (Android)"<br/>
-Answer: If "Number of Cycles (Android)" is not displayed, then it is not possible to read the file in which the number of charging cycles is recorded due to the fact that read access is closed.
-
-Question: The device is not supported. Add device support.<br/>
-Answer: Alas, this is impossible, since it depends primarily on the battery and secondarily on the OS kernel. Therefore, setting 1 and writing about what is not supported, as well as asking to add support for a device, is pointless. You can bet 1, but think about it three times: is it worth spoiling the average rating for the application due to the fact that your battery or kernel does not give up the current capacity?
+Answer: If "Number of Cycles (Android)" is not displayed, then it is not possible to read the file in which the number of charging cycles is recorded due to the fact that read access is closed
 
 ---
 <p align="center">
