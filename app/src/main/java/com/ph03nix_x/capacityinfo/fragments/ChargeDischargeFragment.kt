@@ -49,6 +49,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private lateinit var minChargeDischargeCurrent: AppCompatTextView
     private lateinit var chargingCurrentLimit: AppCompatTextView
     private lateinit var temperature: AppCompatTextView
+    private lateinit var maximumTemperature: AppCompatTextView
+    private lateinit var averageTemperature: AppCompatTextView
+    private lateinit var minimumTemperature: AppCompatTextView
     private lateinit var voltage: AppCompatTextView
     private lateinit var lastChargeTime: AppCompatTextView
     private lateinit var premiumButton: MaterialButton
@@ -87,6 +90,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         minChargeDischargeCurrent = view.findViewById(R.id.min_charge_discharge_current)
         chargingCurrentLimit = view.findViewById(R.id.charging_current_limit)
         temperature = view.findViewById(R.id.temperature)
+        maximumTemperature = view.findViewById(R.id.maximum_temperature)
+        averageTemperature = view.findViewById(R.id.average_temperature)
+        minimumTemperature = view.findViewById(R.id.minimum_temperature)
         voltage = view.findViewById(R.id.voltage)
         lastChargeTime = view.findViewById(R.id.last_charge_time)
         premiumButton = view.findViewById(R.id.premium_button)
@@ -241,6 +247,21 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         temperature.text = getString(R.string.temperature, DecimalFormat()
                             .format(getOnTemperatureInCelsius(requireContext())), DecimalFormat()
                             .format(getOnTemperatureInFahrenheit(requireContext())))
+                        
+                        maximumTemperature.text =  getString(R.string.maximum_temperature,
+                            DecimalFormat().format(BatteryInfoInterface.maximumTemperature),
+                            DecimalFormat().format(getOnTemperatureInFahrenheit(
+                                BatteryInfoInterface.maximumTemperature)))
+
+                        averageTemperature.text =  getString(R.string.average_temperature,
+                            DecimalFormat().format(BatteryInfoInterface.averageTemperature),
+                            DecimalFormat().format(getOnTemperatureInFahrenheit(
+                                BatteryInfoInterface.averageTemperature)))
+
+                        minimumTemperature.text =  getString(R.string.minimum_temperature,
+                            DecimalFormat().format(BatteryInfoInterface.minimumTemperature),
+                            DecimalFormat().format(getOnTemperatureInFahrenheit(
+                                BatteryInfoInterface.minimumTemperature)))
 
                         voltage.text = getString(R.string.voltage, DecimalFormat("#.#")
                             .format(getOnVoltage(requireContext())))

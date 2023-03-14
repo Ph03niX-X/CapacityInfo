@@ -99,6 +99,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var isFull = false
     var isStopService = false
     var isSaveNumberOfCharges = true
+    var isPluggedOrUnplugged = false
     var batteryLevelWith = -1
     var seconds = 0
     var screenTime = 0L
@@ -242,6 +243,19 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
 
                     val temperature = getOnTemperatureInCelsius(this@CapacityInfoService)
+
+                    if(!isPluggedOrUnplugged) {
+
+                        BatteryInfoInterface.maximumTemperature =
+                            getOnMaximumTemperature(this@CapacityInfoService, temperature)
+
+                        BatteryInfoInterface.minimumTemperature =
+                            getOnMinimumTemperature(this@CapacityInfoService, temperature)
+
+                        BatteryInfoInterface.averageTemperature = getOnAverageTemperature(
+                            this@CapacityInfoService, BatteryInfoInterface.maximumTemperature,
+                            BatteryInfoInterface.minimumTemperature)
+                    }
 
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                             R.bool.is_notify_overheat_overcool)) && isNotifyOverheatOvercool

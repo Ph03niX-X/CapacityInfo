@@ -40,6 +40,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
 
                 isPowerConnected = false
 
+                CapacityInfoService.instance?.isPluggedOrUnplugged = true
+
                 PremiumInterface.premiumContext = context
                 PremiumInterface.isPremium = isPremium()
 
@@ -100,6 +102,9 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
                 BatteryInfoInterface.maxDischargeCurrent = 0
                 BatteryInfoInterface.averageDischargeCurrent = 0
                 BatteryInfoInterface.minDischargeCurrent = 0
+                BatteryInfoInterface.maximumTemperature = 0.0
+                BatteryInfoInterface.averageTemperature = 0.0
+                BatteryInfoInterface.minimumTemperature = 0.0
 
                 CapacityInfoService.instance?.secondsFullCharge = 0
                 CapacityInfoService.instance?.isFull = false
@@ -150,6 +155,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
                             ContextCompat.getDrawable(context, it)
                         }
                 }
+
+                CapacityInfoService.instance?.isPluggedOrUnplugged = false
             }
         }
     }

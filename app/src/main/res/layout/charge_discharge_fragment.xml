@@ -226,6 +226,39 @@
                     android:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/maximum_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:layout_below="@id/temperature"
+                    android:text="@string/maximum_temperature"
+                    android:textSize="@dimen/medium_text_size"
+                    android:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/average_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:layout_below="@id/maximum_temperature"
+                    android:text="@string/average_temperature"
+                    android:textSize="@dimen/medium_text_size"
+                    android:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/minimum_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:layout_below="@id/average_temperature"
+                    android:text="@string/minimum_temperature"
+                    android:textSize="@dimen/medium_text_size"
+                    android:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/voltage"
@@ -233,7 +266,7 @@
                         android:text="@string/voltage"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
-                        android:layout_below="@id/temperature"
+                        android:layout_below="@id/minimum_temperature"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView

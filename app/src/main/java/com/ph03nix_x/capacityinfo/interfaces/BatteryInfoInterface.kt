@@ -45,6 +45,9 @@ interface BatteryInfoInterface {
         var maxDischargeCurrent = 0
         var averageDischargeCurrent = 0
         var minDischargeCurrent = 0
+        var maximumTemperature = 0.0
+        var averageTemperature = 0.0
+        var minimumTemperature = 0.0
     }
 
     fun getOnDesignCapacity(context: Context): Int {
@@ -243,6 +246,34 @@ interface BatteryInfoInterface {
 
     fun getOnTemperatureInFahrenheit(context: Context) =
         (getOnTemperatureInCelsius(context) * 1.8) + 32.0
+
+    fun getOnTemperatureInFahrenheit(temperatureInCelsius: Double) =
+        (temperatureInCelsius * 1.8) + 32.0
+
+    fun getOnMaximumTemperature(context: Context, temperature: Double): Double {
+
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+            .ACTION_BATTERY_CHANGED))
+
+        val temperatureInCelsius = (batteryIntent?.getIntExtra(BatteryManager
+            .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0) / 10.0
+
+        return if(temperatureInCelsius >= temperature) temperatureInCelsius else temperature
+    }
+
+    fun getOnAverageTemperature(context: Context, temperatureMax: Double, temperatureMin: Double) =
+        (temperatureMax + temperatureMin) / 2.0
+
+    fun getOnMinimumTemperature(context: Context, temperature: Double): Double {
+
+        batteryIntent = context.registerReceiver(null, IntentFilter(Intent
+            .ACTION_BATTERY_CHANGED))
+
+        val temperatureInCelsius = (batteryIntent?.getIntExtra(BatteryManager
+            .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0) / 10.0
+
+        return if(temperatureInCelsius <= temperature) temperatureInCelsius else temperature
+    }
 
     fun getOnCurrentCapacity(context: Context): Double {
 
