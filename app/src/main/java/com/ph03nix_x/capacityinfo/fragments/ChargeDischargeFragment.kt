@@ -510,6 +510,15 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         TextAppearanceHelper.setTextAppearance(requireContext(), temperature,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), maximumTemperature,
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), averageTemperature,
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), minimumTemperature,
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), voltage,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
