@@ -207,6 +207,33 @@
             android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/google_sans"
+        android:textColor="@android:color/white"
+        android:id="@+id/maximum_temperature_overlay"
+        android:text="@string/maximum_temperature"
+        android:textSize="@dimen/medium_text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/google_sans"
+        android:textColor="@android:color/white"
+        android:id="@+id/average_temperature_overlay"
+        android:text="@string/average_temperature"
+        android:textSize="@dimen/medium_text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/google_sans"
+        android:textColor="@android:color/white"
+        android:id="@+id/minimum_temperature_overlay"
+        android:text="@string/minimum_temperature"
+        android:textSize="@dimen/medium_text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/google_sans"

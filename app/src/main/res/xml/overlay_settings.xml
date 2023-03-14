@@ -243,6 +243,27 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_maximum_temperature_overlay"
+            android:key="is_maximum_temperature_overlay"
+            android:title="@string/maximum_temperature_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_average_temperature_overlay"
+            android:key="is_average_temperature_overlay"
+            android:title="@string/average_temperature_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_minimum_temperature_overlay"
+            android:key="is_minimum_temperature_overlay"
+            android:title="@string/minimum_temperature_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_voltage_overlay"
                 android:key="is_voltage_overlay"
                 android:title="@string/voltage_overlay"

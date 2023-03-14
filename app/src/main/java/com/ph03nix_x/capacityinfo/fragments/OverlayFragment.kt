@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
@@ -32,6 +33,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MAXIMUM_TEMPERATURE_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MINIMUM_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_FULL_CHARGES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
@@ -91,6 +94,9 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private var minChargeDischargeCurrentOverlay: SwitchPreferenceCompat? = null
     private var chargingCurrentLimitOverlay: SwitchPreferenceCompat? = null
     private var temperatureOverlay: SwitchPreferenceCompat? = null
+    private var maximumTemperatureOverlay: SwitchPreferenceCompat? = null
+    private var averageTemperatureOverlay: SwitchPreferenceCompat? = null
+    private var minimumTemperatureOverlay: SwitchPreferenceCompat? = null
     private var voltageOverlay: SwitchPreferenceCompat? = null
     private var lastChargeTimeOverlay: SwitchPreferenceCompat? = null
     private var batteryWearOverlay: SwitchPreferenceCompat? = null
@@ -211,6 +217,9 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         minChargeDischargeCurrentOverlay = findPreference(IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY)
         chargingCurrentLimitOverlay = findPreference(IS_CHARGING_CURRENT_LIMIT_OVERLAY)
         temperatureOverlay = findPreference(IS_TEMPERATURE_OVERLAY)
+        maximumTemperatureOverlay = findPreference(IS_MAXIMUM_TEMPERATURE_OVERLAY)
+        averageTemperatureOverlay = findPreference(IS_AVERAGE_TEMPERATURE_OVERLAY)
+        minimumTemperatureOverlay = findPreference(IS_MINIMUM_TEMPERATURE_OVERLAY)
         voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
         lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
         batteryWearOverlay = findPreference(IS_BATTERY_WEAR_OVERLAY)
@@ -391,6 +400,30 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         }
 
         temperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        maximumTemperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        averageTemperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
+
+            if(newValue as? Boolean == true && OverlayService.instance == null)
+                ServiceHelper.startService(requireContext(), OverlayService::class.java)
+
+            true
+        }
+
+        minimumTemperatureOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)

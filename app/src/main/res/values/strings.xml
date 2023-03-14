@@ -329,4 +329,7 @@
     <string name="maximum_temperature">Maximum Temperature: %1$s°C/%2$s°F</string>
     <string name="average_temperature">Average Temperature: %1$s°C/%2$s°F</string>
     <string name="minimum_temperature">Minimum Temperature: %1$s°C/%2$s°F</string>
+    <string name="maximum_temperature_overlay">Maximum Temperature</string>
+    <string name="average_temperature_overlay">Average Temperature</string>
+    <string name="minimum_temperature_overlay">Minimum Temperature</string>
 </resources>
