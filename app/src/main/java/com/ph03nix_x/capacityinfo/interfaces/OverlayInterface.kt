@@ -251,6 +251,7 @@ interface OverlayInterface : BatteryInfoInterface {
             .average_charge_discharge_current_overlay)
         minChargeDischargeCurrentOverlay = view.findViewById(R.id
             .min_charge_discharge_current_overlay)
+        fastChargeOverlay = view.findViewById(R.id.fast_charge_overlay)
         chargingCurrentLimitOverlay = view.findViewById(R.id.charging_current_limit_overlay)
         temperatureOverlay = view.findViewById(R.id.temperature_overlay)
         maximumTemperatureOverlay = view.findViewById(R.id.maximum_temperature_overlay)
