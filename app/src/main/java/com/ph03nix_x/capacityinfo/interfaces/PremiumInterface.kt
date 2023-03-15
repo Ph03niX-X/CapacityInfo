@@ -83,6 +83,6 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
         if (premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
             billingProcessor = BillingProcessor(premiumContext, googlePlayLicenseKey, this)
         if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        return true
+        return billingProcessor?.isPurchased(premiumId) ?: false
     }
 }
