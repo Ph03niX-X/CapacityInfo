@@ -247,10 +247,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(!isPluggedOrUnplugged) {
 
                         BatteryInfoInterface.maximumTemperature =
-                            getOnMaximumTemperature(this@CapacityInfoService, temperature)
+                            getOnMaximumTemperature(this@CapacityInfoService,
+                                BatteryInfoInterface.maximumTemperature)
 
                         BatteryInfoInterface.minimumTemperature =
-                            getOnMinimumTemperature(this@CapacityInfoService, temperature)
+                            getOnMinimumTemperature(this@CapacityInfoService,
+                                BatteryInfoInterface.minimumTemperature)
 
                         BatteryInfoInterface.averageTemperature = getOnAverageTemperature(
                             this@CapacityInfoService, BatteryInfoInterface.maximumTemperature,

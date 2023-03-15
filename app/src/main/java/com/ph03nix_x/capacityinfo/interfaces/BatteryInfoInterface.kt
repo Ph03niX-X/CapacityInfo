@@ -256,7 +256,8 @@ interface BatteryInfoInterface {
         val temperatureInCelsius = (batteryIntent?.getIntExtra(BatteryManager
             .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0) / 10.0
 
-        return if(temperatureInCelsius >= temperature) temperatureInCelsius else temperature
+        return if(temperatureInCelsius >= temperature || temperature == 0.0) temperatureInCelsius
+        else temperature
     }
 
     fun getOnAverageTemperature(context: Context, temperatureMax: Double, temperatureMin: Double) =
@@ -270,7 +271,8 @@ interface BatteryInfoInterface {
         val temperatureInCelsius = (batteryIntent?.getIntExtra(BatteryManager
             .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0) / 10.0
 
-        return if(temperatureInCelsius <= temperature) temperatureInCelsius else temperature
+        return if(temperatureInCelsius <= temperature || temperature == 0.0) temperatureInCelsius
+        else temperature
     }
 
     fun getOnCurrentCapacity(context: Context): Double {
