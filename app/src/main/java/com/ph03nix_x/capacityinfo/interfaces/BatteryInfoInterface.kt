@@ -23,7 +23,6 @@ import java.io.FileReader
 import java.io.IOException
 import java.text.DecimalFormat
 import kotlin.math.pow
-import kotlin.random.Random
 
 @SuppressWarnings("PrivateApi")
 interface BatteryInfoInterface {
