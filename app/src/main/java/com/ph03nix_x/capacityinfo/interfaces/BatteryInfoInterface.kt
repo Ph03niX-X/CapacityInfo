@@ -167,7 +167,8 @@ interface BatteryInfoInterface {
                     minChargeCurrent = chargeCurrent
 
                 if (maxChargeCurrent > 0 && minChargeCurrent > 0)
-                    averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
+                    averageChargeCurrent =
+                        (chargeCurrent + maxChargeCurrent + minChargeCurrent) / 3
             }
 
             BatteryManager.BATTERY_STATUS_DISCHARGING -> {
@@ -184,7 +185,8 @@ interface BatteryInfoInterface {
                     minDischargeCurrent = chargeCurrent
 
                 if (maxDischargeCurrent > 0 && minDischargeCurrent > 0)
-                    averageDischargeCurrent = (maxDischargeCurrent + minDischargeCurrent) / 2
+                    averageDischargeCurrent =
+                        (chargeCurrent + maxDischargeCurrent + minDischargeCurrent) / 3
             }
 
             BatteryManager.BATTERY_STATUS_UNKNOWN -> {
