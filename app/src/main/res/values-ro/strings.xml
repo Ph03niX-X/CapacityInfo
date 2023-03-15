@@ -304,4 +304,10 @@
     <string name="fast_charge_no">Încărcare rapidă: Nu</string>
     <string name="fast_charge_yes_overlay_only_values">Da (%1$sW)</string>
     <string name="fast_charge_no_overlay_only_values">Nu</string>
+    <string name="maximum_temperature">Temperatură maximă: %1$s°C/%2$s°F</string>
+    <string name="average_temperature">Temperatură medie: %1$s°C/%2$s°F</string>
+    <string name="minimum_temperature">Temperatură minimă: %1$s°C/%2$s°F</string>
+    <string name="maximum_temperature_overlay">Temperatură maximă</string>
+    <string name="average_temperature_overlay">Temperatură medie</string>
+    <string name="minimum_temperature_overlay">Temperatură minimă</string>
 </resources>
