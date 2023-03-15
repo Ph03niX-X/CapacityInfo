@@ -262,8 +262,9 @@ interface BatteryInfoInterface {
         else temperature
     }
 
-    fun getOnAverageTemperature(context: Context, temperatureMax: Double, temperatureMin: Double) =
-        (temperatureMax + temperatureMin) / 2.0
+    fun getOnAverageTemperature(context: Context, currentTemperature: Double,
+                                temperatureMax: Double, temperatureMin: Double) =
+        (currentTemperature + temperatureMax + temperatureMin) / 3.0
 
     fun getOnMinimumTemperature(context: Context, temperature: Double): Double {
 

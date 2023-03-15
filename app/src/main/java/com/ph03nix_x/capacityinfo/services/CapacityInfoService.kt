@@ -255,7 +255,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 BatteryInfoInterface.minimumTemperature)
 
                         BatteryInfoInterface.averageTemperature = getOnAverageTemperature(
-                            this@CapacityInfoService, BatteryInfoInterface.maximumTemperature,
+                            this@CapacityInfoService, temperature,
+                            BatteryInfoInterface.maximumTemperature,
                             BatteryInfoInterface.minimumTemperature)
                     }
 
