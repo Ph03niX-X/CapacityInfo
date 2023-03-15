@@ -77,6 +77,12 @@ object TextAppearanceHelper : PremiumInterface {
 
             24 -> ResourcesCompat.getFont(context, R.font.raleway)
 
+            25 -> ResourcesCompat.getFont(context, R.font.montserrat)
+
+            26 -> ResourcesCompat.getFont(context, R.font.sono)
+
+            27 -> ResourcesCompat.getFont(context, R.font.rubik_iso)
+
             else -> null
         }
     }
