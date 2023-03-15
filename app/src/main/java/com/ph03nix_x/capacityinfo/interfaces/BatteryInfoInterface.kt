@@ -166,8 +166,7 @@ interface BatteryInfoInterface {
                     minChargeCurrent = chargeCurrent
 
                 if (maxChargeCurrent > 0 && minChargeCurrent > 0)
-                    averageChargeCurrent =
-                        (chargeCurrent + maxChargeCurrent + minChargeCurrent) / 3
+                    averageChargeCurrent = (maxChargeCurrent + minChargeCurrent) / 2
             }
 
             BatteryManager.BATTERY_STATUS_DISCHARGING -> {
@@ -184,8 +183,7 @@ interface BatteryInfoInterface {
                     minDischargeCurrent = chargeCurrent
 
                 if (maxDischargeCurrent > 0 && minDischargeCurrent > 0)
-                    averageDischargeCurrent =
-                        (chargeCurrent + maxDischargeCurrent + minDischargeCurrent) / 3
+                    averageDischargeCurrent = (maxDischargeCurrent + minDischargeCurrent) / 2
             }
 
             BatteryManager.BATTERY_STATUS_UNKNOWN -> {
@@ -261,9 +259,8 @@ interface BatteryInfoInterface {
         else temperature
     }
 
-    fun getOnAverageTemperature(context: Context, currentTemperature: Double,
-                                temperatureMax: Double, temperatureMin: Double) =
-        (currentTemperature + temperatureMax + temperatureMin) / 3.0
+    fun getOnAverageTemperature(context: Context, temperatureMax: Double, temperatureMin: Double) =
+        (temperatureMax + temperatureMin) / 2.0
 
     fun getOnMinimumTemperature(context: Context, temperature: Double): Double {
 
