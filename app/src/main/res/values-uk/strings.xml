@@ -304,4 +304,10 @@
     <string name="fast_charge_no">Швидка зарядка: Ні</string>
     <string name="fast_charge_yes_overlay_only_values">Так (%1$s Вт)</string>
     <string name="fast_charge_no_overlay_only_values">Ні</string>
+    <string name="maximum_temperature">Максимальна температура: %1$s°C/%2$s°F</string>
+    <string name="average_temperature">Середня температура: %1$s°C/%2$s°F</string>
+    <string name="minimum_temperature">Мінімальна температура: %1$s°C/%2$s°F</string>
+    <string name="maximum_temperature_overlay">Максимальна температура</string>
+    <string name="average_temperature_overlay">Середня температура</string>
+    <string name="minimum_temperature_overlay">Мінімальна температура</string>
 </resources>
