@@ -304,4 +304,10 @@
     <string name="fast_charge_no">Хуткая зарадка: Не</string>
     <string name="fast_charge_yes_overlay_only_values">Так (%1$s Вт)</string>
     <string name="fast_charge_no_overlay_only_values">Не</string>
+    <string name="maximum_temperature">Максімальная тэмпература: %1$s°C/%2$s°F</string>
+    <string name="average_temperature">Сярэдняя тэмпература: %1$s°C/%2$s°F</string>
+    <string name="minimum_temperature">Мінімальная тэмпература: %1$s°C/%2$s°F</string>
+    <string name="maximum_temperature_overlay">Максімальная тэмпература</string>
+    <string name="average_temperature_overlay">Сярэдняя тэмпература</string>
+    <string name="minimum_temperature_overlay">Мінімальная тэмпература</string>
 </resources>
