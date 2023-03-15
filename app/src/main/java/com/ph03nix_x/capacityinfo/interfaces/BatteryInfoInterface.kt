@@ -35,8 +35,6 @@ interface BatteryInfoInterface {
         var tempBatteryLevelWith = 0
         var percentAdded = 0
         var residualCapacity = 0.0
-        var fakeResidualCapacity = 0.0
-        var fakeCurrentCapacity = 0.0
         var batteryLevel = 0
         var tempBatteryLevel = 0
         var maxChargeCurrent = 0
@@ -299,18 +297,6 @@ interface BatteryInfoInterface {
       }
 
       catch (e: RuntimeException) { 0.001 }
-    }
-
-    fun getOnFakeCurrentCapacity(context: Context): Double {
-
-        val batteryLevel = getOnBatteryLevel(context) ?: 0
-        if(fakeCurrentCapacity == 0.0 || batteryLevel != tempBatteryLevel) {
-            fakeCurrentCapacity = fakeResidualCapacity * if(batteryLevel <= 90)
-                Random.nextDouble(((batteryLevel / 100.0) - 0.05),
-                    (batteryLevel / 100.0) + 0.05) * 10.0 else (batteryLevel / 100.0) * 10.0
-            tempBatteryLevel = batteryLevel
-        }
-        return fakeCurrentCapacity
     }
 
     fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false,

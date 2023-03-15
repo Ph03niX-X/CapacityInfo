@@ -432,8 +432,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         BatteryInfoInterface.batteryLevel = 0
-        BatteryInfoInterface.fakeResidualCapacity = 0.0
-        BatteryInfoInterface.fakeCurrentCapacity = 0.0
         BatteryInfoInterface.tempBatteryLevel = 0
 
         if(isStopService)
