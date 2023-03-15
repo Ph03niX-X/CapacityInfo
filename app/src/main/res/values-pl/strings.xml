@@ -304,4 +304,10 @@
     <string name="fast_charge_no">Szybkie ładowanie: Nie</string>
     <string name="fast_charge_yes_overlay_only_values">Tak (%1$sW)</string>
     <string name="fast_charge_no_overlay_only_values">Nie</string>
+    <string name="maximum_temperature">Maksymalna temperatura: %1$s°C/%2$s°F</string>
+    <string name="average_temperature">Średnia temperatura: %1$s°C/%2$s°F</string>
+    <string name="minimum_temperature">Minimalna temperatura: %1$s°C/%2$s°F</string>
+    <string name="maximum_temperature_overlay">Maksymalna temperatura</string>
+    <string name="average_temperature_overlay">AŚrednia temperatura</string>
+    <string name="minimum_temperature_overlay">Minimalna temperatura</string>
 </resources>
