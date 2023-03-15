@@ -24,7 +24,6 @@ object Constants {
     const val NUMBER_OF_CYCLES_PATH = "/sys/class/power_supply/battery/cycle_count"
     const val EXPORT_SETTINGS_REQUEST_CODE = 2
     const val IMPORT_SETTINGS_REQUEST_CODE = 3
-    const val ACTION_MANAGE_OVERLAY_PERMISSION = 2
     const val OPEN_APP_REQUEST_CODE = 0
     const val CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE = 2
     const val DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE = 3

@@ -23,6 +23,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.databinding.ChangeBatteryIsChargedDischargedVoltageDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.ChangeChargingCurrentNotifyLevelDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.ChangeDischargeCurrentNotifyLevelDialogBinding
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
@@ -586,15 +589,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
-        val view = LayoutInflater.from(context).inflate(R.layout
-            .change_battery_is_charged_discharged_voltage_dialog, null)
+        val binding = ChangeBatteryIsChargedDischargedVoltageDialogBinding.inflate(
+            LayoutInflater.from(context), null, false)
 
-        dialog.setView(view)
+        dialog.setView(binding.root.rootView)
 
-        val batteryNotifyChargedVoltage = view.findViewById<TextInputEditText>(R.id
-            .change_battery_is_charged_discharged_mv_edit)
-
-        batteryNotifyChargedVoltage.setText(if(pref.getInt(
+        binding.changeBatteryIsChargedDischargedMvEdit.setText(if(pref.getInt(
                 BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
                     .battery_notify_charged_voltage_min)) >= resources.getInteger(R.integer
                 .battery_notify_charged_voltage_min) || pref.getInt(BATTERY_NOTIFY_CHARGED_VOLTAGE,
@@ -607,13 +607,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(BATTERY_NOTIFY_CHARGED_VOLTAGE, batteryNotifyChargedVoltage.text.toString()
-                .toInt()).apply()
+            pref.edit().putInt(BATTERY_NOTIFY_CHARGED_VOLTAGE, binding
+                .changeBatteryIsChargedDischargedMvEdit.text.toString().toInt()).apply()
 
             this.batteryNotifyChargedVoltage?.apply {
 
                 summary = getString(R.string.battery_charged_discharged_voltage_seekbar_summary,
-                    batteryNotifyChargedVoltage.text.toString().toInt())
+                    binding.changeBatteryIsChargedDischargedMvEdit.text.toString().toInt())
 
                 value = pref.getInt(BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
                     .battery_notify_charged_voltage_min))
@@ -625,7 +625,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         val dialogCreate = dialog.create()
 
         changeBatteryNotifyChargedVoltageDialogCreateShowListener(dialogCreate,
-            batteryNotifyChargedVoltage)
+            binding.changeBatteryIsChargedDischargedMvEdit)
 
         dialogCreate.show()
     }
@@ -662,15 +662,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
-        val view = LayoutInflater.from(context).inflate(R.layout
-            .change_battery_is_charged_discharged_voltage_dialog, null)
+        val binding = ChangeBatteryIsChargedDischargedVoltageDialogBinding.inflate(
+            LayoutInflater.from(context), null, false)
 
-        dialog.setView(view)
+        dialog.setView(binding.root.rootView)
 
-        val batteryNotifyDischargedVoltage = view.findViewById<TextInputEditText>(R.id
-            .change_battery_is_charged_discharged_mv_edit)
-
-        batteryNotifyDischargedVoltage.setText(if(pref.getInt(
+        binding.changeBatteryIsChargedDischargedMvEdit.setText(if(pref.getInt(
                 BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
                     .battery_notify_discharged_voltage_min)) >= resources.getInteger(R.integer
                 .battery_notify_discharged_voltage_min) || pref.getInt(
@@ -685,12 +682,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
 
             pref.edit().putInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE,
-                batteryNotifyDischargedVoltage.text.toString().toInt()).apply()
+                binding.changeBatteryIsChargedDischargedMvEdit.text.toString().toInt()).apply()
 
             this.batteryNotifyDischargedVoltage?.apply {
 
                 summary = getString(R.string.battery_charged_discharged_voltage_seekbar_summary,
-                    batteryNotifyDischargedVoltage.text.toString().toInt())
+                    binding.changeBatteryIsChargedDischargedMvEdit.text.toString().toInt())
 
                 value = pref.getInt(BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(
                     R.integer.battery_notify_discharged_voltage_min))
@@ -702,7 +699,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         val dialogCreate = dialog.create()
 
         changeBatteryNotifyDischargedVoltageDialogCreateShowListener(dialogCreate,
-            batteryNotifyDischargedVoltage)
+            binding.changeBatteryIsChargedDischargedMvEdit)
 
         dialogCreate.show()
     }
@@ -741,15 +738,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
-        val view = LayoutInflater.from(context).inflate(R.layout
-            .change_charging_current_notify_level_dialog, null)
+        val  binding = ChangeChargingCurrentNotifyLevelDialogBinding.inflate(
+            LayoutInflater.from(context), null, false)
 
-        dialog.setView(view)
+        dialog.setView(binding.root.rootView)
 
-        val changeChargingCurrentLevel = view.findViewById<TextInputEditText>(R.id
-            .change_charging_current_level_edit)
-
-        changeChargingCurrentLevel.setText(if(pref.getInt(
+        binding.changeChargingCurrentLevelEdit.setText(if(pref.getInt(
                 CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
                 R.integer.charging_current_notify_level_min)) >= requireContext().resources
                 .getInteger(R.integer.charging_current_notify_level_min) || pref.getInt(
@@ -763,12 +757,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(CHARGING_CURRENT_LEVEL_NOTIFY, changeChargingCurrentLevel.text
-                .toString().toInt()).apply()
+            pref.edit().putInt(CHARGING_CURRENT_LEVEL_NOTIFY, binding
+                .changeChargingCurrentLevelEdit.text.toString().toInt()).apply()
 
             chargingCurrentLevelNotify?.apply {
 
-                summary = getString(R.string.ma, changeChargingCurrentLevel.text.toString().toInt())
+                summary = getString(R.string.ma, binding.changeChargingCurrentLevelEdit.text
+                    .toString().toInt())
 
                 value = pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
                     resources.getInteger(R.integer.charging_current_notify_level_min))
@@ -780,7 +775,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         val dialogCreate = dialog.create()
 
         changeChargingCurrentNotifyLevelDialogCreateShowListener(dialogCreate,
-            changeChargingCurrentLevel)
+            binding.changeChargingCurrentLevelEdit)
 
         dialogCreate.show()
     }
@@ -819,15 +814,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
-        val view = LayoutInflater.from(context).inflate(R.layout
-            .change_discharge_current_notify_level_dialog, null)
+        val binding = ChangeDischargeCurrentNotifyLevelDialogBinding.inflate(
+            LayoutInflater.from(context), null, false)
 
-        dialog.setView(view)
+        dialog.setView(binding.root.rootView)
 
-        val changeDischargeCurrentLevel = view.findViewById<TextInputEditText>(R.id
-            .change_discharge_current_level_edit)
-
-        changeDischargeCurrentLevel.setText(if(pref.getInt(
+        binding.changeDischargeCurrentLevelEdit.setText(if(pref.getInt(
                 DISCHARGE_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
                     R.integer.discharge_current_notify_level_min)) >= requireContext().resources
                 .getInteger(R.integer.discharge_current_notify_level_min) || pref.getInt(
@@ -842,12 +834,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, changeDischargeCurrentLevel.text
-                .toString().toInt()).apply()
+            pref.edit().putInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, binding
+                .changeDischargeCurrentLevelEdit.text.toString().toInt()).apply()
 
             dischargeCurrentLevelNotify?.apply {
 
-                summary = getString(R.string.ma, changeDischargeCurrentLevel.text.toString().toInt())
+                summary = getString(R.string.ma, binding.changeDischargeCurrentLevelEdit.text
+                    .toString().toInt())
 
                 value = pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY,
                     resources.getInteger(R.integer.discharge_current_notify_level_min))
@@ -859,7 +852,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         val dialogCreate = dialog.create()
 
         changeDischargeCurrentNotifyLevelDialogCreateShowListener(dialogCreate,
-            changeDischargeCurrentLevel)
+            binding.changeDischargeCurrentLevelEdit)
 
         dialogCreate.show()
     }

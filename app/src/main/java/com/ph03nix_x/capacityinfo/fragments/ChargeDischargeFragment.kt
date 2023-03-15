@@ -8,12 +8,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.google.android.material.button.MaterialButton
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
@@ -23,6 +21,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.databinding.ChargeDischargeFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
@@ -32,29 +31,9 @@ import java.text.DecimalFormat
 class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     BatteryInfoInterface {
 
+    private lateinit var binding: ChargeDischargeFragmentBinding
+
     private lateinit var pref: SharedPreferences
-    private lateinit var batteryLevel: AppCompatTextView
-    private lateinit var chargingTime: AppCompatTextView
-    private lateinit var chargingTimeRemaining: AppCompatTextView
-    private lateinit var remainingBatteryTime: AppCompatTextView
-    private lateinit var screenTime: AppCompatTextView
-    private lateinit var currentCapacity: AppCompatTextView
-    private lateinit var capacityAdded: AppCompatTextView
-    private lateinit var status: AppCompatTextView
-    private lateinit var sourceOfPower: AppCompatTextView
-    private lateinit var chargeCurrent: AppCompatTextView
-    private lateinit var fastCharge: AppCompatTextView
-    private lateinit var maxChargeDischargeCurrent: AppCompatTextView
-    private lateinit var averageChargeDischargeCurrent: AppCompatTextView
-    private lateinit var minChargeDischargeCurrent: AppCompatTextView
-    private lateinit var chargingCurrentLimit: AppCompatTextView
-    private lateinit var temperature: AppCompatTextView
-    private lateinit var maximumTemperature: AppCompatTextView
-    private lateinit var averageTemperature: AppCompatTextView
-    private lateinit var minimumTemperature: AppCompatTextView
-    private lateinit var voltage: AppCompatTextView
-    private lateinit var lastChargeTime: AppCompatTextView
-    private lateinit var premiumButton: MaterialButton
 
     private var mainContext: MainActivity? = null
     private var job: Job? = null
@@ -63,44 +42,23 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        binding = ChargeDischargeFragmentBinding.inflate(inflater, container, false)
+
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root.rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        
         super.onViewCreated(view, savedInstanceState)
 
         mainContext = context as? MainActivity
 
-        batteryLevel = view.findViewById(R.id.battery_level)
-        chargingTime = view.findViewById(R.id.charging_time)
-        chargingTimeRemaining = view.findViewById(R.id.charging_time_remaining)
-        remainingBatteryTime = view.findViewById(R.id.remaining_battery_time)
-        screenTime = view.findViewById(R.id.screen_time)
-        currentCapacity = view.findViewById(R.id.current_capacity_charge_discharge)
-        capacityAdded = view.findViewById(R.id.capacity_added_charge_discharge)
-        status = view.findViewById(R.id.status)
-        sourceOfPower = view.findViewById(R.id.source_of_power)
-        chargeCurrent = view.findViewById(R.id.charge_current)
-        fastCharge = view.findViewById(R.id.fast_charge)
-        maxChargeDischargeCurrent = view.findViewById(R.id.max_charge_discharge_current)
-        averageChargeDischargeCurrent = view.findViewById(R.id.average_charge_discharge_current)
-        minChargeDischargeCurrent = view.findViewById(R.id.min_charge_discharge_current)
-        chargingCurrentLimit = view.findViewById(R.id.charging_current_limit)
-        temperature = view.findViewById(R.id.temperature)
-        maximumTemperature = view.findViewById(R.id.maximum_temperature)
-        averageTemperature = view.findViewById(R.id.average_temperature)
-        minimumTemperature = view.findViewById(R.id.minimum_temperature)
-        voltage = view.findViewById(R.id.voltage)
-        lastChargeTime = view.findViewById(R.id.last_charge_time)
-        premiumButton = view.findViewById(R.id.premium_button)
+        binding.premiumButton.isVisible = !PremiumInterface.isPremium
 
-        premiumButton.isVisible = !PremiumInterface.isPremium
-
-        if(premiumButton.isVisible)
-            premiumButton.setOnClickListener {
+        if(binding.premiumButton.isVisible)
+            binding.premiumButton.setOnClickListener {
                 MainActivity.instance?.showPremiumDialog()
             }
 
@@ -111,7 +69,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
         super.onResume()
 
-        premiumButton.isVisible = !PremiumInterface.isPremium
+        binding.premiumButton.isVisible = !PremiumInterface.isPremium
 
         batteryIntent = requireContext().registerReceiver(null,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -176,19 +134,19 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                 ContextCompat.getDrawable(requireContext(), it)
                         }
 
-                        batteryLevel.text = getString(R.string.battery_level,
+                        binding.batteryLevel.text = getString(R.string.battery_level,
                             "${getOnBatteryLevel(requireContext())}%")
                         if((CapacityInfoService.instance?.seconds ?: 0) > 1) {
 
-                            chargingTime.visibility = View.VISIBLE
+                            binding.chargingTime.visibility = View.VISIBLE
 
-                            chargingTime.text = getOnChargingTime(requireContext(),
+                            binding.chargingTime.text = getOnChargingTime(requireContext(),
                                 CapacityInfoService.instance?.seconds ?: 0)
                         }
-                        else if(chargingTime.visibility == View.VISIBLE)
-                            chargingTime.visibility = View.GONE
+                        else if(binding.chargingTime.visibility == View.VISIBLE)
+                            binding.chargingTime.visibility = View.GONE
 
-                        lastChargeTime.text = getString(R.string.last_charge_time,
+                        binding.lastChargeTime.text = getString(R.string.last_charge_time,
                             getOnLastChargeTime(requireContext()),
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH, 0)}%",
                             "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO, 0)}%")
@@ -196,103 +154,108 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         if(sourceOfPower == BatteryManager.BATTERY_PLUGGED_AC
                             && status == BatteryManager.BATTERY_STATUS_CHARGING) {
 
-                            if(chargingTimeRemaining.visibility == View.GONE)
-                                chargingTimeRemaining.visibility = View.VISIBLE
+                            if(binding.chargingTimeRemaining.visibility == View.GONE)
+                                binding.chargingTimeRemaining.visibility = View.VISIBLE
 
-                            if(remainingBatteryTime.visibility == View.VISIBLE)
-                                remainingBatteryTime.visibility = View.GONE
+                            if(binding.remainingBatteryTime.visibility == View.VISIBLE)
+                                binding.remainingBatteryTime.visibility = View.GONE
 
-                            chargingTimeRemaining.text = getString(R.string.charging_time_remaining,
+                            binding.chargingTimeRemaining.text = getString(R.string.charging_time_remaining,
                                 getOnChargingTimeRemaining(requireContext()))
                         }
 
                         else {
 
-                            if(chargingTimeRemaining.visibility == View.VISIBLE)
-                                chargingTimeRemaining.visibility = View.GONE
+                            if(binding.chargingTimeRemaining.visibility == View.VISIBLE)
+                                binding.chargingTimeRemaining.visibility = View.GONE
 
                             if(getOnCurrentCapacity(requireContext()) > 0.0) {
 
-                                if(remainingBatteryTime.visibility == View.GONE)
-                                    remainingBatteryTime.visibility = View.VISIBLE
+                                if(binding.remainingBatteryTime.visibility == View.GONE)
+                                    binding.remainingBatteryTime.visibility = View.VISIBLE
 
-                                remainingBatteryTime.text = getString(
+                                binding.remainingBatteryTime.text = getString(
                                     R.string.remaining_battery_time, getOnRemainingBatteryTime(
                                         requireContext()))
                             }
                         }
 
-                        premiumButton.isVisible = !PremiumInterface.isPremium
+                        binding.premiumButton.isVisible = !PremiumInterface.isPremium
                     }
 
                     withContext(Dispatchers.Main) {
 
-                        this@ChargeDischargeFragment.status.text = getString(R.string.status,
+                        this@ChargeDischargeFragment.binding.status.text = getString(R.string.status,
                             getOnStatus(requireContext(), status))
 
                         if(getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A") {
 
-                            if(this@ChargeDischargeFragment.sourceOfPower.visibility == View.GONE)
-                                this@ChargeDischargeFragment.sourceOfPower.visibility = View.VISIBLE
+                            if(this@ChargeDischargeFragment.binding.sourceOfPower.visibility == View.GONE)
+                                this@ChargeDischargeFragment.binding.sourceOfPower.visibility = View.VISIBLE
 
-                            this@ChargeDischargeFragment.sourceOfPower.text =
+                            this@ChargeDischargeFragment.binding.sourceOfPower.text =
                                 getOnSourceOfPower(requireContext(), sourceOfPower)
                         }
 
-                        else this@ChargeDischargeFragment.sourceOfPower.visibility = View.GONE
+                        else this@ChargeDischargeFragment.binding.sourceOfPower.visibility = View.GONE
                     }
 
                     withContext(Dispatchers.Main) {
 
-                        temperature.text = getString(R.string.temperature, DecimalFormat()
+                        binding.temperature.text = getString(R.string.temperature, DecimalFormat()
                             .format(getOnTemperatureInCelsius(requireContext())), DecimalFormat()
                             .format(getOnTemperatureInFahrenheit(requireContext())))
-                        
-                        maximumTemperature.text =  getString(R.string.maximum_temperature,
+
+                        binding.maximumTemperature.text =  getString(R.string.maximum_temperature,
                             DecimalFormat().format(BatteryInfoInterface.maximumTemperature),
                             DecimalFormat().format(getOnTemperatureInFahrenheit(
                                 BatteryInfoInterface.maximumTemperature)))
 
-                        averageTemperature.text =  getString(R.string.average_temperature,
+                        binding.averageTemperature.text =  getString(R.string.average_temperature,
                             DecimalFormat().format(BatteryInfoInterface.averageTemperature),
                             DecimalFormat().format(getOnTemperatureInFahrenheit(
                                 BatteryInfoInterface.averageTemperature)))
 
-                        minimumTemperature.text =  getString(R.string.minimum_temperature,
+                        binding.minimumTemperature.text =  getString(R.string.minimum_temperature,
                             DecimalFormat().format(BatteryInfoInterface.minimumTemperature),
                             DecimalFormat().format(getOnTemperatureInFahrenheit(
                                 BatteryInfoInterface.minimumTemperature)))
 
-                        voltage.text = getString(R.string.voltage, DecimalFormat("#.#")
+                        binding.voltage.text = getString(R.string.voltage, DecimalFormat("#.#")
                             .format(getOnVoltage(requireContext())))
                     }
 
                     if(getOnCurrentCapacity(requireContext()) > 0.0) {
 
-                        if(currentCapacity.visibility == View.GONE)
+                        if(binding.currentCapacityChargeDischarge.visibility == View.GONE)
                             withContext(Dispatchers.Main) {
-                                currentCapacity.visibility = View.VISIBLE }
+                                binding.currentCapacityChargeDischarge.visibility = View.VISIBLE }
 
                         withContext(Dispatchers.Main) {
 
-                            currentCapacity.text = getString(R.string.current_capacity,
-                                DecimalFormat("#.#").format(getOnCurrentCapacity(
-                                    requireContext())))
+                            binding.currentCapacityChargeDischarge.text =
+                                getString(R.string.current_capacity,
+                                    DecimalFormat("#.#").format(getOnCurrentCapacity(
+                                        requireContext())))
 
                             when {
                                 getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {
 
-                                    if(capacityAdded.visibility == View.GONE)
-                                        capacityAdded.visibility = View.VISIBLE
+                                    if(binding.capacityAddedChargeDischarge.visibility == View.GONE)
+                                        binding.capacityAddedChargeDischarge.visibility =
+                                            View.VISIBLE
 
-                                    capacityAdded.text = getOnCapacityAdded(requireContext())
+                                    binding.capacityAddedChargeDischarge.text =
+                                        getOnCapacityAdded(requireContext())
                                 }
                                 getOnSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
 
-                                    if(capacityAdded.visibility == View.GONE)
-                                        capacityAdded.visibility = View.VISIBLE
+                                    if(binding.capacityAddedChargeDischarge.visibility == View.GONE)
+                                        binding.capacityAddedChargeDischarge.visibility =
+                                            View.VISIBLE
 
-                                    capacityAdded.text = getOnCapacityAdded(requireContext())
+                                    binding.capacityAddedChargeDischarge.text =
+                                        getOnCapacityAdded(requireContext())
                                 }
                             }
                         }
@@ -300,30 +263,30 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     else {
 
-                        if(currentCapacity.visibility == View.VISIBLE)
+                        if(binding.currentCapacityChargeDischarge.visibility == View.VISIBLE)
                             withContext(Dispatchers.Main) {
-                                currentCapacity.visibility = View.GONE }
+                                binding.currentCapacityChargeDischarge.visibility = View.GONE }
 
-                        if(capacityAdded.visibility == View.GONE
+                        if(binding.capacityAddedChargeDischarge.visibility == View.GONE
                             && pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
                             withContext(Dispatchers.Main) {
-                                capacityAdded.visibility = View.VISIBLE }
+                                binding.capacityAddedChargeDischarge.visibility = View.VISIBLE }
 
                         else withContext(Dispatchers.Main) {
-                            capacityAdded.visibility = View.GONE }
+                            binding.capacityAddedChargeDischarge.visibility = View.GONE }
                     }
 
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING -> {
 
-                            if(chargeCurrent.visibility == View.GONE)
+                            if(binding.chargeCurrent.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
-                                    chargeCurrent.visibility = View.VISIBLE }
+                                    binding.chargeCurrent.visibility = View.VISIBLE }
 
                             withContext(Dispatchers.Main) {
 
-                                chargeCurrent.text = getString(R.string.charge_current,
+                                binding.chargeCurrent.text = getString(R.string.charge_current,
                                     getOnChargeDischargeCurrent(requireContext()).toString())
                             }
                         }
@@ -331,56 +294,58 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
                             .BATTERY_STATUS_FULL, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
 
-                            if(chargeCurrent.visibility == View.GONE)
+                            if(binding.chargeCurrent.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
-                                    chargeCurrent.visibility = View.VISIBLE }
+                                    binding.chargeCurrent.visibility = View.VISIBLE }
 
                             withContext(Dispatchers.Main) {
 
-                                chargeCurrent.text = getString(R.string.discharge_current,
+                                binding.chargeCurrent.text = getString(R.string.discharge_current,
                                     getOnChargeDischargeCurrent(requireContext()).toString())
                             }
                         }
 
                         else -> {
 
-                            if(chargeCurrent.visibility == View.VISIBLE)
+                            if(binding.chargeCurrent.visibility == View.VISIBLE)
                                 withContext(Dispatchers.Main) {
-                                    chargeCurrent.visibility = View.GONE }
+                                    binding.chargeCurrent.visibility = View.GONE }
                         }
                     }
 
                     when(status) {
 
-                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL -> {
+                        BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL
+                        -> {
 
-                            if(fastCharge.visibility == View.GONE) {
+                            if(binding.fastCharge.visibility == View.GONE) {
                                 withContext(Dispatchers.Main) {
-                                    fastCharge.visibility = View.VISIBLE }
+                                    binding.fastCharge.visibility = View.VISIBLE }
                             }
 
                             withContext(Dispatchers.Main) {
-                                fastCharge.text = getOnFastCharge(requireContext())
+                                binding.fastCharge.text = getOnFastCharge(requireContext())
                             }
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility == View.GONE)
-                                    maxChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(binding.maxChargeDischargeCurrent.visibility == View.GONE)
+                                    binding.maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                if(averageChargeDischargeCurrent.visibility == View.GONE)
-                                    averageChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(binding.averageChargeDischargeCurrent.visibility == View.GONE)
+                                    binding.averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                if(minChargeDischargeCurrent.visibility == View.GONE)
-                                    minChargeDischargeCurrent.visibility = View.VISIBLE
+                                if(binding.minChargeDischargeCurrent.visibility == View.GONE)
+                                    binding.minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                maxChargeDischargeCurrent.text = getString(R.string
+                                binding.maxChargeDischargeCurrent.text = getString(R.string
                                     .max_charge_current, BatteryInfoInterface.maxChargeCurrent)
 
-                                averageChargeDischargeCurrent.text = getString(R.string
-                                    .average_charge_current, BatteryInfoInterface.averageChargeCurrent)
+                                binding.averageChargeDischargeCurrent.text = getString(R.string
+                                    .average_charge_current,
+                                    BatteryInfoInterface.averageChargeCurrent)
 
-                                minChargeDischargeCurrent.text = getString(R.string
+                                binding.minChargeDischargeCurrent.text = getString(R.string
                                     .min_charge_current, BatteryInfoInterface.minChargeCurrent)
                             }
                         }
@@ -388,26 +353,27 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
                             .BATTERY_STATUS_NOT_CHARGING -> withContext(Dispatchers.Main) {
 
-                            if(fastCharge.visibility == View.VISIBLE)
-                                fastCharge.visibility = View.GONE
+                            if(binding.fastCharge.visibility == View.VISIBLE)
+                                binding.fastCharge.visibility = View.GONE
 
-                            if(maxChargeDischargeCurrent.visibility == View.GONE)
-                                maxChargeDischargeCurrent.visibility = View.VISIBLE
+                            if(binding.maxChargeDischargeCurrent.visibility == View.GONE)
+                                binding.maxChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(averageChargeDischargeCurrent.visibility == View.GONE)
-                                averageChargeDischargeCurrent.visibility = View.VISIBLE
+                            if(binding.averageChargeDischargeCurrent.visibility == View.GONE)
+                                binding.averageChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            if(minChargeDischargeCurrent.visibility == View.GONE)
-                                minChargeDischargeCurrent.visibility = View.VISIBLE
+                            if(binding.minChargeDischargeCurrent.visibility == View.GONE)
+                                binding.minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            maxChargeDischargeCurrent.text = getString(R.string.max_discharge_current,
+                            binding.maxChargeDischargeCurrent.text = getString(
+                                R.string.max_discharge_current,
                                 BatteryInfoInterface.maxDischargeCurrent)
 
-                            averageChargeDischargeCurrent.text = getString(
+                            binding.averageChargeDischargeCurrent.text = getString(
                                 R.string.average_discharge_current,
                                 BatteryInfoInterface.averageDischargeCurrent)
 
-                            minChargeDischargeCurrent.text = getString(
+                            binding.minChargeDischargeCurrent.text = getString(
                                 R.string.min_discharge_current,
                                 BatteryInfoInterface.minDischargeCurrent)
                         }
@@ -416,14 +382,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                             withContext(Dispatchers.Main) {
 
-                                if(maxChargeDischargeCurrent.visibility == View.VISIBLE)
-                                    maxChargeDischargeCurrent.visibility = View.GONE
+                                if(binding.maxChargeDischargeCurrent.visibility == View.VISIBLE)
+                                    binding.maxChargeDischargeCurrent.visibility = View.GONE
 
-                                if(averageChargeDischargeCurrent.visibility == View.VISIBLE)
-                                    averageChargeDischargeCurrent.visibility = View.GONE
+                                if(binding.averageChargeDischargeCurrent.visibility == View.VISIBLE)
+                                    binding.averageChargeDischargeCurrent.visibility = View.GONE
 
-                                if(minChargeDischargeCurrent.visibility == View.VISIBLE)
-                                    minChargeDischargeCurrent.visibility = View.GONE
+                                if(binding.minChargeDischargeCurrent.visibility == View.VISIBLE)
+                                    binding.minChargeDischargeCurrent.visibility = View.GONE
                             }
                         }
                     }
@@ -434,20 +400,20 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         if(chargingCurrentLimit != null && chargingCurrentLimit.toInt() > 0) {
 
-                            if(this@ChargeDischargeFragment.chargingCurrentLimit.visibility ==
-                                View.GONE) this@ChargeDischargeFragment.chargingCurrentLimit
-                                .visibility = View.VISIBLE
+                            if(this@ChargeDischargeFragment.binding.chargingCurrentLimit
+                                    .visibility == View.GONE) this@ChargeDischargeFragment
+                                .binding.chargingCurrentLimit.visibility = View.VISIBLE
 
                             this@ChargeDischargeFragment
-                                .chargingCurrentLimit.text = requireContext().getString(R.string
+                                .binding.chargingCurrentLimit.text = requireContext().getString(R.string
                                 .charging_current_limit, chargingCurrentLimit)
                         }
 
-                        else if(this@ChargeDischargeFragment.chargingCurrentLimit.visibility ==
-                            View.VISIBLE) this@ChargeDischargeFragment.chargingCurrentLimit
-                            .visibility = View.GONE
+                        else if(this@ChargeDischargeFragment.binding.chargingCurrentLimit
+                                .visibility == View.VISIBLE) this@ChargeDischargeFragment
+                            .binding.chargingCurrentLimit.visibility = View.GONE
 
-                        screenTime.text = getString(R.string.screen_time, TimeHelper
+                        binding.screenTime.text = getString(R.string.screen_time, TimeHelper
                             .getTime(CapacityInfoService.instance
                                 ?.screenTime ?: 0L))
                     }
@@ -465,64 +431,64 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
     private fun updateTextAppearance() {
 
-        TextAppearanceHelper.setTextAppearance(requireContext(), batteryLevel,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryLevel,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), chargingTime,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.chargingTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), chargingTimeRemaining,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.chargingTimeRemaining,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), remainingBatteryTime,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.remainingBatteryTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), screenTime,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.screenTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), currentCapacity,
+        TextAppearanceHelper.setTextAppearance(requireContext(),
+            binding.currentCapacityChargeDischarge, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(),
+            binding.capacityAddedChargeDischarge, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.status,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), capacityAdded,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.sourceOfPower,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), status,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.chargeCurrent,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), sourceOfPower,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.maxChargeDischargeCurrent,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), chargeCurrent,
+        TextAppearanceHelper.setTextAppearance(requireContext(),
+            binding.averageChargeDischargeCurrent, pref.getString(TEXT_STYLE, "0"),
+            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.minChargeDischargeCurrent,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), maxChargeDischargeCurrent,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.chargingCurrentLimit,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), averageChargeDischargeCurrent,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.temperature,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), minChargeDischargeCurrent,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.maximumTemperature,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), chargingCurrentLimit,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.averageTemperature,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), temperature,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.minimumTemperature,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), maximumTemperature,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.voltage,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), averageTemperature,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), minimumTemperature,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), voltage,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), lastChargeTime,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.lastChargeTime,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))
     }

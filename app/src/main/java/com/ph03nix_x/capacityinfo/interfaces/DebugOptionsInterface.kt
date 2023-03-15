@@ -26,6 +26,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.ChangePrefKeyDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
@@ -91,23 +94,16 @@ interface DebugOptionsInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.add_pref_key_dialog,
-            null)
+        val binding = AddPrefKeyDialogBinding.inflate(LayoutInflater.from(context),
+            null, false)
 
-        dialog.setView(view)
-
-        val addPrefKey = view.findViewById<TextInputEditText>(R.id.add_pref_key_edit)
-
-        val addPrefType = view.findViewById<Spinner>(R.id.add_pref_spinner)
-
-        val addPrefValue = view.findViewById<TextInputEditText>(
-            R.id.add_pref_value_edit)
+        dialog.setView(binding.root.rootView)
 
         dialog.apply {
 
             setPositiveButton(context.getString(R.string.add)) { _, _ ->
-                addSettingCreateDialogPositiveButton(context, pref, addPrefKey, addPrefType,
-                    addPrefValue) }
+                addSettingCreateDialogPositiveButton(context, pref, binding.addPrefKeyEdit,
+                    binding.addPrefSpinner, binding.addPrefValueEdit) }
 
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         }
@@ -118,13 +114,14 @@ interface DebugOptionsInterface {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
 
-            addPrefKey.addTextChangedListener(addPrefKeyTextChangedListener(addPrefKey,
-                addPrefValue, pref))
+            binding.addPrefKeyEdit.addTextChangedListener(addPrefKeyTextChangedListener(
+                binding.addPrefKeyEdit, binding.addPrefValueEdit, pref))
 
-            addPrefType.onItemSelectedListener = addPrefTypeOnItemSelectedListener(addPrefValue)
+            binding.addPrefSpinner.onItemSelectedListener = addPrefTypeOnItemSelectedListener(
+                binding.addPrefValueEdit)
 
-            addPrefValue.addTextChangedListener(addPrefValueTextChangedListener(addPrefValue,
-                addPrefType, dialogCreate))
+            binding.addPrefValueEdit.addTextChangedListener(addPrefValueTextChangedListener(
+                binding.addPrefValueEdit, binding.addPrefSpinner, dialogCreate))
         }
 
         dialogCreate.show()
@@ -293,16 +290,10 @@ interface DebugOptionsInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.change_pref_key_dialog,
-            null)
+        val binding = ChangePrefKeyDialogBinding.inflate(LayoutInflater.from(context), null,
+            false)
 
-        dialog.setView(view)
-
-        val changePrefKey = view.
-        findViewById<TextInputEditText>(R.id.change_pref_key_edit)
-
-        val changePrefValue = view.
-        findViewById<TextInputEditText>(R.id.change_pref_value_edit)
+        dialog.setView(binding.root.rootView)
 
         key = ""
         value = ""
@@ -321,11 +312,12 @@ interface DebugOptionsInterface {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
 
-            changePrefKey.addTextChangedListener(changePrefKeyTextChangedListener(changePrefValue,
-                pref, prefKeysArray))
+            binding.changePrefKeyEdit.addTextChangedListener(changePrefKeyTextChangedListener(
+                binding.changePrefValueEdit, pref, prefKeysArray))
 
-            changePrefValue.addTextChangedListener(changePrefValueTextChangedListener(context,
-                dialogCreate, changePrefKey, changePrefValue, pref))
+            binding.changePrefValueEdit.addTextChangedListener(changePrefValueTextChangedListener(
+                context, dialogCreate, binding.changePrefKeyEdit, binding.changePrefValueEdit,
+                pref))
         }
 
         dialogCreate.show()
@@ -684,15 +676,12 @@ interface DebugOptionsInterface {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.reset_pref_key_dialog,
-            null)
+        val binding = ResetPrefKeyDialogBinding.inflate(LayoutInflater.from(context), null,
+            false)
 
         var key = ""
 
-        dialog.setView(view)
-
-        val resetPrefKey = view.findViewById<TextInputEditText>(
-            R.id.reset_pref_key_edit)
+        dialog.setView(binding.root.rootView)
 
         dialog.setPositiveButton(getString(R.string.reset)) { _, _ ->
 
@@ -742,7 +731,7 @@ interface DebugOptionsInterface {
 
             dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
 
-            resetPrefKey.addTextChangedListener(object : TextWatcher {
+            binding.resetPrefKeyEdit.addTextChangedListener(object : TextWatcher {
 
                 override fun afterTextChanged(s: Editable) { }
 

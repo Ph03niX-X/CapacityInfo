@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.databinding.ChangeDesignCapacityDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.getSystemLocale
@@ -249,18 +250,12 @@ interface SettingsInterface {
 
         val dialog = MaterialAlertDialogBuilder(context)
 
-        val view = LayoutInflater.from(context).inflate(
-            R.layout.change_design_capacity_dialog, null
-        )
+        val binding = ChangeDesignCapacityDialogBinding.inflate(LayoutInflater.from(context),
+            null, false)
 
-        dialog.setView(view)
+        dialog.setView(binding.root.rootView)
 
-        val changeDesignCapacity = view.findViewById<TextInputEditText>(
-            R.id
-                .change_design_capacity_edit
-        )
-
-        changeDesignCapacity.setText(if(pref.getInt(DESIGN_CAPACITY,
+        binding.changeDesignCapacityEdit.setText(if(pref.getInt(DESIGN_CAPACITY,
                 context.resources.getInteger(R.integer.min_design_capacity)) >=
             context.resources.getInteger(R.integer.min_design_capacity))
             pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
@@ -269,18 +264,18 @@ interface SettingsInterface {
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(DESIGN_CAPACITY, changeDesignCapacity.text.toString().toInt())
-                .apply()
+            pref.edit().putInt(DESIGN_CAPACITY, binding.changeDesignCapacityEdit.text.toString()
+                .toInt()).apply()
 
-            designCapacity?.summary = changeDesignCapacity.text.toString()
+            designCapacity?.summary = binding.changeDesignCapacityEdit.text.toString()
         }
 
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
 
         val dialogCreate = dialog.create()
 
-        changeDesignCapacityDialogCreateShowListener(context, dialogCreate, changeDesignCapacity,
-            pref)
+        changeDesignCapacityDialogCreateShowListener(context, dialogCreate,
+            binding.changeDesignCapacityEdit, pref)
 
         dialogCreate.show()
     }
