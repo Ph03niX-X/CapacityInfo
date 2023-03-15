@@ -114,6 +114,9 @@
         <item>Playfair Display</item>
         <item>Rowdies</item>
         <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -142,6 +145,9 @@
         <item>22</item>
         <item>23</item>
         <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
