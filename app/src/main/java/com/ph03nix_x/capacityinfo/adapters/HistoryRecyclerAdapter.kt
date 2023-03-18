@@ -12,6 +12,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremiu
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.databinding.HistoryRecyclerListItemBinding
+import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
@@ -49,17 +50,19 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         updateTextAppearance(holderHistory)
 
         if((!isPremium && position < 3) || isPremium) {
-            binding.historyDate.text = historyList[historyList.size - 1 - position].date
+            binding.historyDate.text = historyList[itemCount - 1 - position].date
             binding.historyResidualCapacity.text = getResidualCapacity(holderHistory
-                .itemView.context, historyList[historyList.size - 1 - position].residualCapacity)
+                .itemView.context, historyList[itemCount - 1 - position].residualCapacity)
             binding.historyBatteryWear.text = getBatteryWear(holderHistory.itemView
-                .context, historyList[historyList.size - 1 - position].residualCapacity)
+                .context, historyList[itemCount - 1 - position].residualCapacity)
         }
         else {
             holderHistory.itemView.visibility = View.GONE
             holderHistory.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
         }
     }
+
+    fun getHistoryList() = historyList
 
     private fun updateTextAppearance(holderHistory: HistoryViewHolder) {
 
@@ -117,7 +120,9 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     }
 
     fun update(context: Context) {
+
         pref = PreferenceManager.getDefaultSharedPreferences(context)
+
         if(HistoryHelper.getHistoryCount(context) > historyList.count()) {
             historyList = HistoryDB(context).readDB()
             notifyItemInserted(0)
@@ -125,7 +130,24 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         else if(HistoryHelper.isHistoryEmpty(context) ||
             HistoryHelper.getHistoryCount(context) < historyList.count()) {
             historyList = HistoryDB(context).readDB()
-            notifyDataSetChanged()
+            notifyItemRangeChanged(0, itemCount - 1)
+        }
+    }
+
+    fun update(context: Context, position: Int) {
+        if(position >= 0) {
+            historyList.removeAt(itemCount - 1 - position)
+            notifyItemRemoved(position)
+            if(HistoryHelper.isHistoryEmpty(context)) {
+                HistoryFragment.instance?.emptyHistory()
+            }
+        }
+    }
+
+    fun undoRemoving(context: Context, position: Int) {
+        if(position >= 0) {
+            historyList = HistoryDB(context).readDB()
+            notifyItemInserted(position)
         }
     }
 }

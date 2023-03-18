@@ -25,6 +25,7 @@ object HistoryHelper {
     fun removeFirstRow(context: Context) {
         if(isHistoryMax(context)) HistoryDB(context).removeFirstRow()
     }
+    fun remove(context: Context, residualCapacity: Int) = HistoryDB(context).remove(residualCapacity)
 
     private fun clearHistory(context: Context) = HistoryDB(context).clear()
 
@@ -38,7 +39,10 @@ object HistoryHelper {
 
     fun clearHistory(context: Context, clearHistoryToolbarMenu: MenuItem) {
 
-        if(isHistoryNotEmpty(context))
+        if(HistoryAdapter.instance?.getHistoryList().isNullOrEmpty())
+            Toast.makeText(context, context.getString(R.string.error_clearing_history),
+                Toast.LENGTH_LONG).show()
+        else if(isHistoryNotEmpty(context))
             MaterialAlertDialogBuilder(context).apply {
 
                 setMessage(context.getString(R.string.clear_the_history_dialog_message))

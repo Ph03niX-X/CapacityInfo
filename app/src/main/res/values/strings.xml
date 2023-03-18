@@ -332,4 +332,6 @@
     <string name="maximum_temperature_overlay">Maximum Temperature</string>
     <string name="average_temperature_overlay">Average Temperature</string>
     <string name="minimum_temperature_overlay">Minimum Temperature</string>
+    <string name="history_removed">History Removed</string>
+    <string name="undo">Undo</string>
 </resources>
