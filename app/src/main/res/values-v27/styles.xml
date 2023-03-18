@@ -12,6 +12,7 @@
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="android:itemTextAppearance">@style/MenuText</item>
         <item name="textColorAlertDialogListItem">@color/text_dialog_list_item</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
