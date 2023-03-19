@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.content.res.Configuration
-import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import java.util.*
 
 object LocaleHelper {

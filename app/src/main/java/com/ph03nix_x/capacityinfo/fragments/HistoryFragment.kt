@@ -104,11 +104,11 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                var isRemoved = true
+                var isRemoving = true
 
                 val position = viewHolder.bindingAdapterPosition
 
-                historyAdapter.update(requireContext(), position)
+                historyAdapter.remove(requireContext(), position)
 
                 binding?.historyRecyclerView?.setItemViewCacheSize(historyAdapter.itemCount)
 
@@ -119,7 +119,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
 
                     setAction(getString(R.string.undo)) {
 
-                        isRemoved = false
+                        isRemoving = false
 
                         historyAdapter.undoRemoving(requireContext(), position)
 
@@ -133,7 +133,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment) {
                 CoroutineScope(Dispatchers.Main).launch(Dispatchers.Main) {
 
                     delay(3000)
-                    if(isRemoved) {
+                    if(isRemoving) {
                         val historyList = HistoryDB(requireContext()).readDB()
 
                         try {

@@ -509,7 +509,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         super.onDestroy()
     }
 
-    fun inflateMenu() {
+    private fun inflateMenu() {
 
         if(fragment is HistoryFragment) {
 

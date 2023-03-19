@@ -8,8 +8,8 @@ import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.PurchaseInfo
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.googlePlayLicenseKey
-import com.ph03nix_x.capacityinfo.premiumId
+import com.ph03nix_x.capacityinfo.GOOGLE_PLAY_LICENSE_KEY
+import com.ph03nix_x.capacityinfo.PREMIUM_ID
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -31,7 +31,7 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
 
     override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
         isPurchasePremium = false
-        isPremium = billingProcessor?.isPurchased(premiumId) == true
+        isPremium = billingProcessor?.isPurchased(PREMIUM_ID) == true
         if(isPremium && premiumContext != null) {
             Toast.makeText(premiumContext, R.string.premium_features_unlocked,
                 Toast.LENGTH_LONG).show()
@@ -43,7 +43,7 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
 
     override fun onPurchaseHistoryRestored() {
         isPurchasePremium = false
-        isPremium = billingProcessor?.isPurchased(premiumId) == true
+        isPremium = billingProcessor?.isPurchased(PREMIUM_ID) == true
         if(isPremium) {
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
@@ -59,30 +59,30 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
         if(premiumContext != null && premiumActivity != null && isPurchasePremium &&
             BillingProcessor.isIabServiceAvailable(premiumContext)
             && billingProcessor?.isInitialized == true){
-            billingProcessor?.purchase(premiumActivity, premiumId)
+            billingProcessor?.purchase(premiumActivity, PREMIUM_ID)
         }
         isPurchasePremium = false
     }
 
     fun getOrderId(): String? {
         if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-            billingProcessor = BillingProcessor(premiumContext, googlePlayLicenseKey, this)
+            billingProcessor = BillingProcessor(premiumContext, GOOGLE_PLAY_LICENSE_KEY, this)
         if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        if(isPremium()) return billingProcessor?.getPurchaseInfo(premiumId)?.purchaseData?.orderId
+        if(isPremium()) return billingProcessor?.getPurchaseInfo(PREMIUM_ID)?.purchaseData?.orderId
         return null
     }
 
     fun purchasePremium() {
         isPurchasePremium = true
         if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext!!))
-            billingProcessor = BillingProcessor(premiumContext, googlePlayLicenseKey, this)
+            billingProcessor = BillingProcessor(premiumContext, GOOGLE_PLAY_LICENSE_KEY, this)
         if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
     }
 
     fun isPremium(): Boolean {
         if (premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-            billingProcessor = BillingProcessor(premiumContext, googlePlayLicenseKey, this)
+            billingProcessor = BillingProcessor(premiumContext, GOOGLE_PLAY_LICENSE_KEY, this)
         if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        return billingProcessor?.isPurchased(premiumId) ?: false
+        return billingProcessor?.isPurchased(PREMIUM_ID) ?: false
     }
 }

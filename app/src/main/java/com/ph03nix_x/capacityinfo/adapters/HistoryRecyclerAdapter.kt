@@ -134,7 +134,7 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         }
     }
 
-    fun update(context: Context, position: Int) {
+    fun remove(context: Context, position: Int) {
         if(position >= 0) {
             historyList.removeAt(itemCount - 1 - position)
             notifyItemRemoved(position)
