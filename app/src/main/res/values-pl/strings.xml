@@ -310,4 +310,6 @@
     <string name="maximum_temperature_overlay">Maksymalna temperatura</string>
     <string name="average_temperature_overlay">AŚrednia temperatura</string>
     <string name="minimum_temperature_overlay">Minimalna temperatura</string>
+    <string name="history_removed">Historia usunięta</string>
+    <string name="undo">Cofnij</string>
 </resources>
