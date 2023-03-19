@@ -117,12 +117,9 @@
     <string name="tips_menu">Tips</string>
     <string name="tips_dialog_title">Tips for extending battery life</string>
     <string name="tip1">Tip #1: Try not to discharge the battery below 10%.\n\n</string>
-    <string name="tip2">Tip #2: Try not to charge the battery to 100%. The higher the voltage, the faster the battery degrades. According to Battery University research, not charging 0.1 V increases the battery life by 2 times.\n\n</string>
-    <string name="tip3">Tip #3: Do not overcool (0°C/32°F and below) and do not overheat the battery (45+°C/113+°F). Overcooling and overheating negatively affect battery life.\n\n</string>
-    <string name="tip4">Tip #4: Try not to use fast charging. The higher the charging current, the higher the heating, and the higher the heating, the faster the battery degrades.\n\n</string>
-    <string name="tip5">Tip #5: Calibrate the battery every ~3 months. This will allow the controller to give the correct charge.\n\n</string>
-    <string name="tip6">Tip #6: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.\n\n</string>
-    <string name="tip7">Tip #7: Try not to use the device when fully charged while the charger is connected. If you use the device with a fully charged battery when the charger is connected, then 2 things happen - heating, which negatively affects the battery life and frequent recharging, which reduces the number of cycles.</string>
+    <string name="tip2">Tip #2: Do not overcool (0°C/32°F and below) and do not overheat the battery (40+°C/104+°F). Overcooling and overheating negatively affect battery life.\n\n</string>
+    <string name="tip3">Tip #3: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.\n\n</string>
+    <string name="tip4">Tip #4: Try not to use the device when fully charged while the charger is connected. If you use the device with a fully charged battery when the charger is connected, then 2 things happen - heating, which negatively affects the battery life and frequent recharging, which reduces the number of cycles.</string>
     <string name="number_of_cycles">Number of Cycles: %1$s</string>
     <string name="add_setting">Add Setting</string>
     <string name="add">Add</string>

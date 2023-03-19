@@ -113,12 +113,9 @@
     <string name="tips_menu">Sfaturi</string>
     <string name="tips_dialog_title">Sfaturi pentru prelungirea duratei de viață a bateriei</string>
     <string name="tip1">Sfatul #1: Încercați să nu descărcați bateria sub 10%.\n\n</string>
-    <string name="tip2">Sfatul #2: Încercați să nu încărcați bateria la 100%. Cu cât tensiunea este mai mare, cu atât bateria degradează mai rapid. Conform cercetărilor Battery University, neîncărcarea cu 0,1 V crește durata de viață a bateriei de 2 ori.\n\n</string>
-    <string name="tip3">Sfatul #3: Nu suprarăciți (0° C/32°F și mai jos) și nu supraîncălziți bateria (45+°C/113+°F). Suprarăcirea și supraîncălzirea afectează negativ durata de viață a bateriei.\n\n</string>
-    <string name="tip4">Sfatul #4: Încercați să nu utilizați încărcare rapidă. Cu cât este mai mare curentul de încărcare, cu atât este mai mare temperatura și cu cât este mai mare temperatura, cu atât bateria degradează mai rapid.\n\n</string>
-    <string name="tip5">Sfatul #5: Calibrați bateria la fiecare ~3 luni. Acest lucru va permite controlorului să ofere încărcarea corectă.\n\n</string>
-    <string name="tip6">Sfatul #6: Evitați să țineți bateria complet încărcată mult timp. Cu cât mențineți conectată la încărcător bateria complet încărcată, cu atât mai des se reîncarcă bateria și fiecare reîncărcare reduce numărul de cicluri.\n\n</string>
-    <string name="tip7">Sfatul #7: Încercați să nu utilizați dispozitivul când bateria este complet încărcată în timp ce încărcătorul este conectat. Dacă utilizați dispozitivul cu o baterie complet încărcată atunci când încărcătorul este conectat, se întâmplă 2 lucruri: încălzirea, care afectează negativ durata de viață a bateriei și reîncărcarea frecventă, ceea ce reduce numărul de cicluri.</string>
+    <string name="tip2">Sfatul #2: Nu suprarăciți (0°C/32°F și mai jos) și nu supraîncălziți bateria (40+°C/104+°F). Suprarăcirea și supraîncălzirea afectează negativ durata de viață a bateriei.\n\n</string>
+    <string name="tip3">Sfatul #3: Evitați să țineți bateria complet încărcată mult timp. Cu cât mențineți conectată la încărcător bateria complet încărcată, cu atât mai des se reîncarcă bateria și fiecare reîncărcare reduce numărul de cicluri.\n\n</string>
+    <string name="tip4">Sfatul #4: Încercați să nu utilizați dispozitivul când bateria este complet încărcată în timp ce încărcătorul este conectat. Dacă utilizați dispozitivul cu o baterie complet încărcată atunci când încărcătorul este conectat, se întâmplă 2 lucruri: încălzirea, care afectează negativ durata de viață a bateriei și reîncărcarea frecventă, ceea ce reduce numărul de cicluri.</string>
     <string name="number_of_cycles">Numărul de cicluri: %1$s</string>
     <string name="add_setting">Adăugare setări</string>
     <string name="add">Adăugare</string>

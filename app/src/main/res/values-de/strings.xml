@@ -112,12 +112,9 @@
     <string name="tips_menu">Tipps</string>
     <string name="tips_dialog_title">Tipps zur Verlängerung der Akkulebensdauer</string>
     <string name="tip1">Tipp #1: Versuchen Sie, den Akku nicht unter 10% zu entladen.\n\n</string>
-    <string name="tip2">Tipp #2: Versuchen Sie, den Akku nicht zu 100 % aufzuladen. Je höher die Spannung ist, desto schneller verschlechtert sich der Akku. Nach Untersuchungen der Battery University verlängert sich die Lebensdauer des Akkus um das Zweifache, wenn sie nicht mit 0.1 V aufgeladen wird.\n\n</string>
-    <string name="tip3">Tipp #3: Kühlen Sie nicht zu stark ab (0°C/32°F und darunter) und überhitzen Sie den Akku nicht (45+°C/113+°F). Unterkühlung und Überhitzung wirken sich negativ auf die Lebensdauer des Akkus aus.\n\n</string>
-    <string name="tip4">Tipp #4: Versuchen Sie, keine Schnellladung zu verwenden. Je höher der Ladestrom, desto höher die Erwärmung, und je höher die Erwärmung, desto schneller verschlechtert sich der Akku.\n\n</string>
-    <string name="tip5">Tipp #5: Kalibrieren Sie den Akku alle ~3 Monate. Dadurch kann der Regler die korrekte Ladung abgeben.\n\n</string>
-    <string name="tip6">Tipp #6: Vermeiden Sie es, einen voll geladenen Akku über einen längeren Zeitraum geladen zu halten. Je länger Sie einen voll geladenen Akku aufladen, desto häufiger muss er nachgeladen werden, und jedes Nachladen verringert die Anzahl der Zyklen.\n\n</string>
-    <string name="tip7">Tipp #7: Versuchen Sie, das Gerät nicht zu benutzen, wenn es voll geladen ist, während das Ladegerät angeschlossen ist. Wenn Sie das Gerät mit einem voll aufgeladenen Akku verwenden, während das Ladegerät angeschlossen ist, passieren 2 Dinge - Erhitzung, die sich negativ auf die Lebensdauer des Akkus auswirkt, und häufiges Aufladen, das die Anzahl der Zyklen verringert.</string>
+    <string name="tip2">Tipp #2: Kühlen Sie nicht zu stark ab (0°C/32°F und darunter) und überhitzen Sie den Akku nicht (40+°C/104+°F). Unterkühlung und Überhitzung wirken sich negativ auf die Lebensdauer des Akkus aus.\n\n</string>
+    <string name="tip3">Tipp #3: Vermeiden Sie es, einen voll geladenen Akku über einen längeren Zeitraum geladen zu halten. Je länger Sie einen voll geladenen Akku aufladen, desto häufiger muss er nachgeladen werden, und jedes Nachladen verringert die Anzahl der Zyklen.\n\n</string>
+    <string name="tip4">Tipp #4: Versuchen Sie, das Gerät nicht zu benutzen, wenn es voll geladen ist, während das Ladegerät angeschlossen ist. Wenn Sie das Gerät mit einem voll aufgeladenen Akku verwenden, während das Ladegerät angeschlossen ist, passieren 2 Dinge - Erhitzung, die sich negativ auf die Lebensdauer des Akkus auswirkt, und häufiges Aufladen, das die Anzahl der Zyklen verringert.</string>
     <string name="number_of_cycles">Anzahl der Zyklen: %1$s</string>
     <string name="add_setting">Einstellung hinzufügen</string>
     <string name="add">hinzufügen</string>
