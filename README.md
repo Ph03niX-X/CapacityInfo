@@ -80,7 +80,7 @@ P.S This application consumes <b>very little</b> energy in the background. The w
 <b>Instruction:</b>
 </p>
 
-1.In order for the application to show the remaining capacity, put the device on charge, while the service must be turned on.<br/>
+1.In order for the application to show the residual capacity, discharge the battery to 10% or lower and put the device on charge, while the service must be turned on.<br/>
 2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed. <br/>
 3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%. <br/>
 4.If the design capacity is incorrect, change it in the application settings.<br/>
@@ -141,14 +141,8 @@ Answer: If "Number of Cycles (Android)" is not displayed, then it is not possibl
 
 Tip #1: Try not to discharge the battery below 10%
 
-Tip #2: Try not to charge the battery to 100%. The higher the voltage, the faster the battery degrades. According to Battery University research, not charging 0.1 V increases the battery life by 2 times.
+Tip #2: Do not overcool (0°C/32°F and below) and do not overheat the battery (40+°C/104+°F). Overcooling and overheating negatively affect battery life.
 
-Tip #3: Do not overcool (0°C/32°F and below) and do not overheat the battery (45+°C/113+°F). Overcooling and overheating negatively affect battery life.
+Tip #3: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.
 
-Tip #4: Try not to use fast charging. The higher the charging current, the higher the heating, and the higher the heating, the faster the battery degrades.
-
-Tip #5: Calibrate the battery every ~3 months. This will allow the controller to give the correct charge.
-
-Tip #6: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.
-
-Tip #7: Try not to use the device when fully charged while the charger is connected. If you use the device with a fully charged battery when the charger is connected, then 2 things happen - heating, which negatively affects the battery life and frequent recharging, which reduces the number of cycles
+Tip #4: Try not to use the device when fully charged while the charger is connected. If you use the device with a fully charged battery when the charger is connected, then 2 things happen - heating, which negatively affects the battery life and frequent recharging, which reduces the number of cycles
