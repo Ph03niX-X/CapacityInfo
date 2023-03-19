@@ -310,4 +310,6 @@
     <string name="maximum_temperature_overlay">Temperatură maximă</string>
     <string name="average_temperature_overlay">Temperatură medie</string>
     <string name="minimum_temperature_overlay">Temperatură minimă</string>
+    <string name="history_removed">Istoric Eliminați</string>
+    <string name="undo">Anula</string>
 </resources>
