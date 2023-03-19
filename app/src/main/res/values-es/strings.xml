@@ -310,4 +310,6 @@
     <string name="maximum_temperature_overlay">Temperatura máxima</string>
     <string name="average_temperature_overlay">Temperatura media</string>
     <string name="minimum_temperature_overlay">Temperatura mínima</string>
+    <string name="history_removed">Historia eliminada</string>
+    <string name="undo">Deshacer</string>
 </resources>
