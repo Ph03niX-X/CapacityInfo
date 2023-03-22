@@ -52,6 +52,7 @@ import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
@@ -546,6 +547,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         else 100.0
 
         val residualCapacityCurrent = pref.getInt(RESIDUAL_CAPACITY, 0) / 1000
+
+        val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
+            resources.getBoolean(R.bool.is_capacity_in_wh))
+
+        if(isCapacityInWh)
+            currentCapacity =
+                ((currentCapacity.toDouble() * 1000.0) / NOMINAL_BATTERY_VOLTAGE).toInt()
 
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||
