@@ -551,9 +551,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
             resources.getBoolean(R.bool.is_capacity_in_wh))
 
-        if(isCapacityInWh)
+        if(isCapacityInWh) {
             currentCapacity =
                 ((currentCapacity.toDouble() * 1000.0) / NOMINAL_BATTERY_VOLTAGE).toInt()
+            capacityAdded = (capacityAdded * 1000.0) / NOMINAL_BATTERY_VOLTAGE
+        }
 
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||

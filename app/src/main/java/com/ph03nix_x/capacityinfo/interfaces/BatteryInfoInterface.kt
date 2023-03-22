@@ -300,7 +300,7 @@ interface BatteryInfoInterface {
               pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh" ->
                   if(isCapacityInWh) currentCapacity else currentCapacity / 1000.0
 
-              else -> if(isCapacityInWh) currentCapacity * 10_000 else currentCapacity / 100.0
+              else -> if(isCapacityInWh) currentCapacity * 1000 else currentCapacity / 100.0
           }
       }
 
@@ -424,7 +424,7 @@ interface BatteryInfoInterface {
 
         residualCapacity = if(isCapacityInWh) residualCapacity / if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1_000_000.0
-        else 10_000.0 else residualCapacity / if(pref.getString(
+        else 100_000.0 else residualCapacity / if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0
 
         if(isCapacityInWh) residualCapacity *= NOMINAL_BATTERY_VOLTAGE
@@ -536,7 +536,7 @@ interface BatteryInfoInterface {
         var currentCapacity = getOnCurrentCapacity(context)
 
         if(isCapacityInWh) currentCapacity = (currentCapacity / NOMINAL_BATTERY_VOLTAGE) *
-                if(unitOfMeasurementOfCurrentCapacity == "μAh") 1000.0 else 10_000.0
+                if(unitOfMeasurementOfCurrentCapacity == "μAh") 1000.0 else 100.0
 
         val residualCapacity = if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
@@ -631,7 +631,7 @@ interface BatteryInfoInterface {
         return if(averageDischargeCurrent > 0.0) {
             if(isCapacityInWh)
 
-             currentCapacity *= if(unitOfMeasurementOfCurrentCapacity == "μAh") 1000.0 else 10_000.0
+             currentCapacity *= if(unitOfMeasurementOfCurrentCapacity == "μAh") 1000.0 else 100.0
 
             val remainingBatteryTime = if(isCapacityInWh) (((currentCapacity /
                     NOMINAL_BATTERY_VOLTAGE) / averageDischargeCurrent) * 3600.0).toLong()
