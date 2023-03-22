@@ -139,6 +139,12 @@
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
+            android:title="@string/capacity_in_wh"
+            app:singleLineTitle="false"
+            app:defaultValue="@bool/is_reset_screen_time_at_any_charge_level"
+            android:key="is_capacity_in_wh"/>
+
+        <SwitchPreferenceCompat
             android:title="@string/reset_screen_time_at_any_charge_level"
             app:singleLineTitle="false"
             app:defaultValue="@bool/is_reset_screen_time_at_any_charge_level"

@@ -20,9 +20,11 @@ import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
@@ -64,14 +66,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
             onChangeDesignCapacity()
 
-            (it as? AppCompatTextView)?.text = it.context.getString(
-                R.string.design_capacity,
-                pref.getInt(
-                    DESIGN_CAPACITY, resources.getInteger(
-                        R.integer.min_design_capacity
-                    )
-                ).toString()
-            )
+            (it as? AppCompatTextView)?.text = getDesignCapacity()
         }
     }
 
@@ -81,12 +76,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         binding.premiumButton.isVisible = !PremiumInterface.isPremium
 
-        binding.designCapacity.text = getString(
-            R.string.design_capacity, pref.getInt(
-                DESIGN_CAPACITY,
-                resources.getInteger(R.integer.min_design_capacity)
-            ).toString()
-        )
+        binding.designCapacity.text = getDesignCapacity()
 
         binding.numberOfCyclesAndroid.visibility = if(File(NUMBER_OF_CYCLES_PATH).exists())
             View.VISIBLE else View.GONE
@@ -172,6 +162,20 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             pref.getString(TEXT_SIZE, "2"))
     }
 
+    private fun getDesignCapacity(): String {
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
+            R.integer.min_design_capacity))
+
+        val designCapacityWh = (designCapacity.toDouble() * NOMINAL_BATTERY_VOLTAGE) / 1000.0
+
+        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, resources.getBoolean(
+            R.bool.is_capacity_in_wh))
+
+        return if(isCapacityInWh) getString(
+            R.string.design_capacity_wh, DecimalFormat("#.#").format(designCapacityWh))
+        else getString(R.string.design_capacity, "$designCapacity")
+    }
+
     private suspend fun getNumberOfCyclesAndroid(): Int {
 
         if(!File(NUMBER_OF_CYCLES_PATH).exists()) return 0
@@ -221,12 +225,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                     withContext(Dispatchers.Main) {
 
-                        binding.designCapacity.text = getString(
-                            R.string.design_capacity, pref.getInt(
-                                DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)
-                            )
-                                .toString()
-                        )
+                        binding.designCapacity.text = getDesignCapacity()
 
                         binding.numberOfCharges.text = getString(R.string.number_of_charges,
                             pref.getLong(PreferencesKeys.NUMBER_OF_CHARGES, 0))
@@ -277,8 +276,10 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                             withContext(Dispatchers.Main) {
 
-                                binding.currentCapacityWear.text = getString(
-                                    R.string.current_capacity, DecimalFormat("#.#").format(
+                                binding.currentCapacityWear.text = getString(if(pref.getBoolean(
+                                        IS_CAPACITY_IN_WH, resources.getBoolean(
+                                            R.bool.is_capacity_in_wh))) R.string.current_capacity_wh
+                                else R.string.current_capacity, DecimalFormat("#.#").format(
                                         getOnCurrentCapacity(requireContext())))
 
                                 when {
@@ -350,8 +351,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if (getOnCurrentCapacity(requireContext()) > 0.0) 991L
-                            else 998L)
+                            delay(if (getOnCurrentCapacity(requireContext()) > 0.0) 989L
+                            else 996L)
 
                         else -> delay(1500L)
                     }

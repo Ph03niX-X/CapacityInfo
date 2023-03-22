@@ -49,6 +49,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.databinding.OverlayLayoutBinding
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
@@ -503,10 +504,19 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context
+                val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
+                    context.resources.getBoolean(R.bool.is_capacity_in_wh))
+
+                text = if(isCapacityInWh) context.getString(if(!pref.getBoolean(
+                        IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_only_values_overlay))) R.string.current_capacity_wh
+                else R.string.current_capacity_wh_overlay_only_values,
+                DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
+
+                else context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context
                         .resources.getBoolean(R.bool.is_only_values_overlay)))
                     R.string.current_capacity else R.string.current_capacity_overlay_only_values,
-                    DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
+                DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
 
                 visibility = if(pref.getBoolean(IS_CURRENT_CAPACITY_OVERLAY,
                         context.resources.getBoolean(R.bool.is_current_capacity_overlay)))

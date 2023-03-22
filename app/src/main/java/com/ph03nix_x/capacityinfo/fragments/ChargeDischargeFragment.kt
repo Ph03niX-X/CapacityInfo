@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.databinding.ChargeDischargeFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
@@ -238,7 +239,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         withContext(Dispatchers.Main) {
 
                             binding.currentCapacityChargeDischarge.text =
-                                getString(R.string.current_capacity,
+                                getString(if(pref.getBoolean(IS_CAPACITY_IN_WH,
+                                        resources.getBoolean(R.bool.is_capacity_in_wh)))
+                                    R.string.current_capacity_wh else R.string.current_capacity,
                                     DecimalFormat("#.#").format(getOnCurrentCapacity(
                                         requireContext())))
 
@@ -425,7 +428,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(getOnCurrentCapacity(requireContext()) > 0.0) 974L else 981L)
+                            delay(if(getOnCurrentCapacity(requireContext()) > 0.0) 972L else 979L)
 
                         else -> delay(1500L)
                     }

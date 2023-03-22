@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHANGE_APP_LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
@@ -74,6 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var changeAppLanguage: Preference? = null
 
     // Misc
+    private var capacityInWh: SwitchPreferenceCompat? = null
     private var resetScreenTime: SwitchPreferenceCompat? = null
     private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
@@ -308,6 +310,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         // Misc
+        capacityInWh = findPreference(IS_CAPACITY_IN_WH)
+
         resetScreenTime = findPreference(IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL)
 
         moreOther = findPreference("more_other")
@@ -333,6 +337,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         resetTheNumberOfFullChargesToZero = findPreference("reset_the_number_of_full_charges_to_zero")
 
         debug = findPreference("debug")
+
+        capacityInWh?.apply {
+
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
 
         resetScreenTime?.apply {
 
@@ -654,6 +664,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         batteryStatusInformation?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        capacityInWh?.apply {
+
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }

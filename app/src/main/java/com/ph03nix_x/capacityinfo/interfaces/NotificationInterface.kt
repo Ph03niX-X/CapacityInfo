@@ -40,6 +40,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.OVERHEAT_OVERCOOL_CHANNEL_
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.STOP_SERVICE_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
@@ -133,9 +134,16 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     R.bool.is_show_expanded_notification))
             if(isShowBatteryInformation && isShowExpandedNotification) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                    if(getOnCurrentCapacity(context) > 0.0) context.getString(
-                        R.string.current_capacity, DecimalFormat("#.#").format(
-                            getOnCurrentCapacity(context))) else "${context.getString(
+                    if(getOnCurrentCapacity(context) > 0.0) {
+
+                        if(pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
+                                R.bool.is_capacity_in_wh)))
+                        context.getString(
+                            R.string.current_capacity_wh, DecimalFormat("#.#").format(
+                                getOnCurrentCapacity(context)))
+                        else context.getString(R.string.current_capacity,
+                            DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
+                    } else "${context.getString(
                         R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
             }
             else if(!isShowBatteryInformation && (PremiumInterface.isPremium)) {
@@ -211,14 +219,21 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     R.bool.is_show_expanded_notification))
             if(isShowBatteryInformation && isShowExpandedNotification) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                    if(getOnCurrentCapacity(context) > 0.0) context.getString(
-                        R.string.current_capacity, DecimalFormat("#.#").format(
-                            getOnCurrentCapacity(context))) else "${context.getString(
+                    if(getOnCurrentCapacity(context) > 0.0) {
+
+                        if(pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
+                                R.bool.is_capacity_in_wh)))
+                            context.getString(
+                                R.string.current_capacity_wh, DecimalFormat("#.#").format(
+                                    getOnCurrentCapacity(context)))
+                        else context.getString(R.string.current_capacity,
+                            DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
+                    } else "${context.getString(
                         R.string.battery_level, (getOnBatteryLevel(context) ?: 0).toString())}%")
             }
             else if(!isShowBatteryInformation && (PremiumInterface.isPremium)) {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                context.getString(R.string.service_is_running))
+                    context.getString(R.string.service_is_running))
             }
 
             setCustomContentView(remoteViewsServiceContent)
@@ -1075,6 +1090,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         val capacityInfoServiceContext = context as? CapacityInfoService
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
+            R.bool.is_capacity_in_wh))
+
         remoteViews.apply {
 
             setViewVisibility(R.id.number_of_cycles_service_notification, View.GONE)
@@ -1109,8 +1129,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     -1) ?: -1))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
-                    context))))
+                if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
+                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
@@ -1139,6 +1159,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         
         val capacityInfoServiceContext = context as? CapacityInfoService
+
+        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
+            R.bool.is_capacity_in_wh))
 
         remoteViews.apply {
 
@@ -1170,8 +1193,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     capacityInfoServiceContext?.seconds ?: 0))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
-                    context))))
+                if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
+                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
@@ -1200,6 +1223,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val capacityInfoServiceContext = context as? CapacityInfoService
+
+        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
+            R.bool.is_capacity_in_wh))
 
         remoteViews.apply {
 
@@ -1231,8 +1257,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     capacityInfoServiceContext?.seconds ?: 0))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
-                    context))))
+                if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
+                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
@@ -1259,6 +1285,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     private fun getOnBatteryStatusDischarging(context: Context, remoteViews: RemoteViews) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
+            R.bool.is_capacity_in_wh))
         
         remoteViews.apply {
 
@@ -1285,8 +1314,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     NUMBER_OF_CYCLES, 0f))))
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
-                R.string.current_capacity, DecimalFormat("#.#").format(getOnCurrentCapacity(
-                    context))))
+                if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
+                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
