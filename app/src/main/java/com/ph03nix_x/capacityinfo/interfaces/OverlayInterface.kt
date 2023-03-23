@@ -511,7 +511,8 @@ interface OverlayInterface : BatteryInfoInterface {
                         IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
                             R.bool.is_only_values_overlay))) R.string.current_capacity_wh
                 else R.string.current_capacity_wh_overlay_only_values,
-                DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
+                DecimalFormat("#.#").format(
+                    getOnCapacityInWh(getOnCurrentCapacity(context))))
 
                 else context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context
                         .resources.getBoolean(R.bool.is_only_values_overlay)))

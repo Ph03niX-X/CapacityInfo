@@ -15,13 +15,13 @@ import com.ph03nix_x.capacityinfo.databinding.HistoryRecyclerListItemBinding
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import java.text.DecimalFormat
 
 class HistoryAdapter (private var historyList: MutableList<History>) :
-    RecyclerView.Adapter<HistoryViewHolder>(), PremiumInterface {
+    RecyclerView.Adapter<HistoryViewHolder>(), PremiumInterface, BatteryInfoInterface {
 
     private lateinit var binding: HistoryRecyclerListItemBinding
 
@@ -90,27 +90,23 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
             context.resources.getBoolean(R.bool.is_capacity_in_wh))
 
-        val designCapacity = pref.getInt(PreferencesKeys.DESIGN_CAPACITY, context.resources
-            .getInteger(R.integer.min_design_capacity)).toDouble()
+        val designCapacity = pref.getInt(PreferencesKeys.DESIGN_CAPACITY,
+            context.resources.getInteger(R.integer.min_design_capacity))
 
-        val designCapacityWh = designCapacity * Constants.NOMINAL_BATTERY_VOLTAGE /
-                if(pref.getString(PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        "μAh") == "μAh") 1000.0 else 100.0
-
-        var newResidualCapacity = if(isCapacityInWh) residualCapacity / if(pref.getString(PreferencesKeys
-                .UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1_000_000.0
-        else 100_000.0 else residualCapacity / if(pref.getString(PreferencesKeys
+        var newResidualCapacity = residualCapacity / if(pref.getString(PreferencesKeys
                 .UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
         else 100.0
 
-        if(isCapacityInWh) newResidualCapacity *= Constants.NOMINAL_BATTERY_VOLTAGE
-
         if(newResidualCapacity < 0.0) newResidualCapacity /= -1.0
 
-        return context.getString(if(isCapacityInWh) R.string.residual_capacity_wh
-        else R.string.residual_capacity, DecimalFormat("#.#").format(
+        return if(isCapacityInWh) context.getString(R.string.residual_capacity_wh,
+            DecimalFormat("#.#").format(getOnCapacityInWh(newResidualCapacity)),
+            "${DecimalFormat("#.#").format(
+                ((newResidualCapacity / designCapacity)) * 100.0)}%")
+
+        else context.getString(R.string.residual_capacity, DecimalFormat("#.#").format(
             newResidualCapacity), "${DecimalFormat("#.#").format((
-                (newResidualCapacity / designCapacityWh)) * 100.0)}%")
+                (newResidualCapacity / designCapacity)) * 100.0)}%")
     }
 
     private fun getBatteryWear(context: Context, residualCapacity: Int): String {
@@ -123,26 +119,19 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
             context.resources.getBoolean(R.bool.is_capacity_in_wh))
 
-        val designCapacityWh = designCapacity * Constants.NOMINAL_BATTERY_VOLTAGE /
-                if(pref.getString(PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        "μAh") == "μAh") 1000.0 else 100.0
-
-        var newResidualCapacity =
-            if(isCapacityInWh) (residualCapacity * Constants.NOMINAL_BATTERY_VOLTAGE) / if(
-                pref.getString(PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-            == "μAh") 1_000_000.0 else 100_000.0 else residualCapacity / if(pref.getString(
-                PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-            == "μAh") 1000.0 else 100.0
+        var newResidualCapacity = residualCapacity / if(pref.getString(PreferencesKeys
+                .UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
+        else 100.0
 
         if(newResidualCapacity < 0.0) newResidualCapacity /= -1.0
 
         return if(isCapacityInWh) context.getString(R.string.battery_wear_wh,
-            if(newResidualCapacity > 0 && newResidualCapacity < designCapacityWh)
+            if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
                 "${DecimalFormat("#.#").format(
-                    100 - ((newResidualCapacity / designCapacityWh) * 100))}%" else "0%",
-            if(newResidualCapacity > 0 && newResidualCapacity < designCapacityWh)
-                DecimalFormat("#.#").format(designCapacityWh - newResidualCapacity)
-            else "0")
+                    100 - (newResidualCapacity / designCapacity) * 100)}%" else "0%",
+            if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
+                DecimalFormat("#.#").format(
+                    getOnCapacityInWh(designCapacity - newResidualCapacity)) else "0")
 
         else context.getString(R.string.battery_wear, if (newResidualCapacity > 0 &&
             newResidualCapacity < designCapacity) "${DecimalFormat("#.#").format(

@@ -35,7 +35,6 @@ object Constants {
     const val IMPORT_HISTORY_REQUEST_CODE = 1
     const val EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE = 0
     const val STOP_SERVICE_REQUEST_CODE = 1
-    const val FAST_CHARGE_VOLTAGE = 3.87
     const val NOMINAL_BATTERY_VOLTAGE = 3.87
     const val CHARGING_VOLTAGE_WATT = 5.0
 }

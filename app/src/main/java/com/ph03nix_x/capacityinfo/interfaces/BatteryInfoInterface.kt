@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -151,9 +150,8 @@ interface BatteryInfoInterface {
         return maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
     }
 
-    private fun getOnFastChargeWatt(): String {
-        return DecimalFormat("#.#").format((maxChargeCurrent.toDouble() * 5.0) / 1000.0)
-    }
+    private fun getOnFastChargeWatt() = DecimalFormat("#.#").format(
+        (maxChargeCurrent.toDouble() * CHARGING_VOLTAGE_WATT) / 1000.0)
     
     fun getOnMaxAverageMinChargeDischargeCurrent(status: Int?, chargeCurrent: Int) {
         
@@ -281,52 +279,43 @@ interface BatteryInfoInterface {
         else temperature
     }
 
-    fun getOnCurrentCapacity(context: Context): Double {
+    fun getOnCurrentCapacity(context: Context) =
 
-      return try {
+        try {
 
           val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-          val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
-              R.bool.is_capacity_in_wh))
 
           val batteryManager = context.getSystemService(Context.BATTERY_SERVICE)
                   as BatteryManager
 
-          var currentCapacity = batteryManager.getIntProperty(
+          val currentCapacity = batteryManager.getIntProperty(
               BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
-
-          if(isCapacityInWh) currentCapacity = getOnCapacityInWh(currentCapacity) / 1_000_000.0
 
           when {
 
               currentCapacity < 0 -> 0.001
 
               pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh" ->
-                  if(isCapacityInWh) currentCapacity else currentCapacity / 1000.0
+                  currentCapacity / 1000.0
 
-              else -> if(isCapacityInWh) currentCapacity * 1000 else currentCapacity / 100.0
+              else -> currentCapacity
           }
       }
 
       catch (e: RuntimeException) { 0.001 }
-    }
 
-    private fun getOnCapacityInWh(capacity: Double) = capacity * NOMINAL_BATTERY_VOLTAGE
+    fun getOnCapacityInWh(capacity: Double) =
+        (capacity * NOMINAL_BATTERY_VOLTAGE) / 1000.0
 
     fun getOnCapacityAdded(context: Context, isOverlay: Boolean = false,
                            isOnlyValues: Boolean = false): String {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.
-        getBoolean(R.bool.is_capacity_in_wh))
+        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
+            context.resources.getBoolean(R.bool.is_capacity_in_wh))
 
         val capacityAddedPref = pref.getFloat(CAPACITY_ADDED, 0f).toDouble()
-
-        val capacityAddedWh = capacityAddedPref * NOMINAL_BATTERY_VOLTAGE / if(pref.getString(
-                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
-        else 100.0
 
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent
             .ACTION_BATTERY_CHANGED))
@@ -340,29 +329,30 @@ interface BatteryInfoInterface {
 
                 capacityAdded = getOnCurrentCapacity(context) - tempCurrentCapacity
 
-                if(pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
-                        R.bool.is_capacity_in_wh))) capacityAdded * NOMINAL_BATTERY_VOLTAGE
-
                 if (capacityAdded < 0) capacityAdded /= -1
 
-                context.getString(if(isCapacityInWh && (!isOverlay || !isOnlyValues))
-                    R.string.capacity_added_wh else if(!isCapacityInWh && (!isOverlay || !isOnlyValues))
-                    R.string.capacity_added else if(isCapacityInWh)
-                    R.string.capacity_added_wh_overlay_only_values else
-                    R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
+                if(isCapacityInWh)
+                context.getString(if(!isOverlay || !isOnlyValues)
+                    R.string.capacity_added_wh else
+                        R.string.capacity_added_wh_overlay_only_values, DecimalFormat("#.#")
+                    .format(getOnCapacityInWh(capacityAdded)), "$percentAdded%")
+
+                else context.getString(if(!isOverlay || !isOnlyValues)
+                    R.string.capacity_added else
+                        R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
                     .format(capacityAdded), "$percentAdded%")
             }
 
             else -> if(isCapacityInWh)
                 context.getString(if(!isOverlay || !isOnlyValues)
                     R.string.capacity_added_wh else
-                    R.string.capacity_added_wh_overlay_only_values,
-                    DecimalFormat("#.#").format(capacityAddedWh), "${pref.getInt(
-                        PERCENT_ADDED, 0)}%") else
-                            context.getString(if(!isOverlay || !isOnlyValues) R.string.capacity_added
-                            else R.string.capacity_added_overlay_only_values,
-                                DecimalFormat("#.#").format(
-                                    capacityAddedPref), "${pref.getInt(PERCENT_ADDED, 0)}%")
+                    R.string.capacity_added_wh_overlay_only_values, DecimalFormat("#.#")
+                    .format(getOnCapacityInWh(capacityAddedPref)), "$percentAdded%")
+
+            else context.getString(if(!isOverlay || !isOnlyValues)
+                R.string.capacity_added else
+                R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
+                .format(capacityAddedPref), "$percentAdded%")
         }
     }
 
@@ -421,25 +411,18 @@ interface BatteryInfoInterface {
         val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources
             .getInteger(R.integer.min_design_capacity)).toDouble()
 
-        val designCapacityWh = designCapacity * NOMINAL_BATTERY_VOLTAGE /
-                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        "μAh") == "μAh") 1000.0 else 100.0
-
         residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
 
-        residualCapacity = if(isCapacityInWh) residualCapacity / if(pref.getString(
-                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1_000_000.0
-        else 100_000.0 else residualCapacity / if(pref.getString(
+        residualCapacity /= if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0
-
-        if(isCapacityInWh) residualCapacity *= NOMINAL_BATTERY_VOLTAGE
 
         if(residualCapacity < 0.0) residualCapacity /= -1.0
 
         return if(isCapacityInWh) context.getString(if(!isOverlay || !isOnlyValues)
             R.string.residual_capacity_wh else R.string.residual_capacity_wh_overlay_only_values,
-            DecimalFormat("#.#").format(residualCapacity), "${DecimalFormat("#.#")
-                .format((residualCapacity / designCapacityWh) * 100.0)}%")
+            DecimalFormat("#.#").format(getOnCapacityInWh(residualCapacity)),
+            "${DecimalFormat("#.#").format(
+                (residualCapacity / designCapacity) * 100.0)}%")
 
         else context.getString(if(!isOverlay || !isOnlyValues) R.string.residual_capacity else
             R.string.residual_capacity_overlay_only_values, DecimalFormat("#.#").format(
@@ -494,19 +477,15 @@ interface BatteryInfoInterface {
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
             context.resources.getBoolean(R.bool.is_capacity_in_wh))
 
-        val designCapacityWh = designCapacity * NOMINAL_BATTERY_VOLTAGE /
-                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        "μAh") == "μAh") 1000.0 else 100.0
-
         return if(isCapacityInWh)
             context.getString(
                 if(!isOverlay || !isOnlyValues) R.string.battery_wear_wh else R.string
                     .battery_wear_wh_overlay_only_values, if (residualCapacity > 0 &&
-                    residualCapacity < designCapacityWh) "${DecimalFormat("#.#")
-                    .format(100 - ((residualCapacity / designCapacityWh) * 100))}%"
-                else "0%", if(residualCapacity > 0 && residualCapacity < designCapacityWh)
+                    residualCapacity < designCapacity) "${DecimalFormat("#.#")
+                    .format(100 - ((residualCapacity / designCapacity) * 100))}%"
+                else "0%", if(residualCapacity > 0 && residualCapacity < designCapacity)
                     DecimalFormat("#.#").format(
-                        designCapacityWh - residualCapacity) else "0")
+                        getOnCapacityInWh(designCapacity - residualCapacity)) else "0")
         else context.getString(if(!isOverlay || !isOnlyValues) R.string.battery_wear else R.string
                 .battery_wear_overlay_only_values, if (residualCapacity > 0 &&
             residualCapacity < designCapacity) "${DecimalFormat("#.#")
@@ -532,21 +511,11 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val isCapacityInWh = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-            IS_CAPACITY_IN_WH, context.resources.getBoolean(R.bool.is_capacity_in_wh))
-
-        val unitOfMeasurementOfCurrentCapacity = PreferenceManager.getDefaultSharedPreferences(
-            context).getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-
-        var currentCapacity = getOnCurrentCapacity(context)
-
-        if(isCapacityInWh) currentCapacity = (currentCapacity / NOMINAL_BATTERY_VOLTAGE) *
-                if(unitOfMeasurementOfCurrentCapacity == "μAh") 1000.0 else 100.0
+        val currentCapacity = getOnCurrentCapacity(context)
 
         val residualCapacity = if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                "μAh"
-            ) == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0)
+                "μAh") == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0)
             .toDouble() / 1000.0 else pref.getInt(RESIDUAL_CAPACITY, 0).toDouble() / 100.0
 
         val chargeDischargeCurrent = getOnChargeDischargeCurrent(context).toDouble()
@@ -625,22 +594,11 @@ interface BatteryInfoInterface {
 
     fun getOnRemainingBatteryTime(context: Context): String {
 
-        var currentCapacity = getOnCurrentCapacity(context)
-
-        val isCapacityInWh = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-            IS_CAPACITY_IN_WH, context.resources.getBoolean(R.bool.is_capacity_in_wh))
-
-        val unitOfMeasurementOfCurrentCapacity = PreferenceManager.getDefaultSharedPreferences(
-            context).getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
+        val currentCapacity = getOnCurrentCapacity(context)
 
         return if(averageDischargeCurrent > 0.0) {
-            if(isCapacityInWh)
 
-             currentCapacity *= if(unitOfMeasurementOfCurrentCapacity == "μAh") 1000.0 else 100.0
-
-            val remainingBatteryTime = if(isCapacityInWh) (((currentCapacity /
-                    NOMINAL_BATTERY_VOLTAGE) / averageDischargeCurrent) * 3600.0).toLong()
-            else ((currentCapacity / averageDischargeCurrent) * 3600.0).toLong()
+            val remainingBatteryTime = ((currentCapacity / averageDischargeCurrent) * 3600.0).toLong()
 
             TimeHelper.getTime(remainingBatteryTime)
         }

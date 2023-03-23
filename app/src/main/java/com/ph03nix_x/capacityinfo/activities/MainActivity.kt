@@ -671,20 +671,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
             R.integer.min_design_capacity)).toDouble()
 
-        val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
-            resources.getBoolean(R.bool.is_capacity_in_wh))
-
-        val designCapacityWh = designCapacity * Constants.NOMINAL_BATTERY_VOLTAGE /
-                if(pref.getString(PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        "μAh") == "μAh") 1000.0 else 100.0
-
-        val batteryWear = if(isCapacityInWh && BatteryInfoInterface.residualCapacity > 0.0 &&
-            BatteryInfoInterface.residualCapacity < designCapacityWh) (100.0 - (BatteryInfoInterface
-            .residualCapacity / designCapacityWh) * 100.0)
-        else if(BatteryInfoInterface.residualCapacity > 0.0 &&
-            BatteryInfoInterface.residualCapacity < designCapacityWh)
-                (100.0 - (BatteryInfoInterface.residualCapacity / designCapacityWh) * 100.0)
-        else 0.0
+        val batteryWear = if(BatteryInfoInterface.residualCapacity > 0.0 &&
+            BatteryInfoInterface.residualCapacity < designCapacity)
+                (100.0 - (BatteryInfoInterface.residualCapacity / designCapacity) * 100.0) else 0.0
 
         when (batteryWear) {
             in 25.0..100.0 -> {

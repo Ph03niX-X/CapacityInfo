@@ -51,7 +51,6 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants
-import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -548,22 +547,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val residualCapacityCurrent = pref.getInt(RESIDUAL_CAPACITY, 0) / 1000
 
-        val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
-            resources.getBoolean(R.bool.is_capacity_in_wh))
-
-        if(isCapacityInWh) {
-            currentCapacity =
-                ((currentCapacity.toDouble() * 1000.0) / NOMINAL_BATTERY_VOLTAGE).toInt()
-            capacityAdded = (capacityAdded * 1000.0) / NOMINAL_BATTERY_VOLTAGE
-        }
-
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||
                 maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
                     resources.getInteger(R.integer.min_design_capacity) - 250) ||
                 pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(
                     R.bool.is_fast_charge_debug)))
-                    (currentCapacity + ((FAST_CHARGE_VOLTAGE / 100.0) * designCapacity)).toInt()
+                    (currentCapacity + ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
 
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),

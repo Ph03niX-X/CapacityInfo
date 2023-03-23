@@ -163,6 +163,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     }
 
     private fun getDesignCapacity(): String {
+
         val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
             R.integer.min_design_capacity))
 

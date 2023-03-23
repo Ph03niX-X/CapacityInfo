@@ -243,12 +243,15 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         withContext(Dispatchers.Main) {
 
+                            val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
+                                resources.getBoolean(R.bool.is_capacity_in_wh))
+
                             binding.currentCapacityChargeDischarge.text =
-                                getString(if(pref.getBoolean(IS_CAPACITY_IN_WH,
-                                        resources.getBoolean(R.bool.is_capacity_in_wh)))
-                                    R.string.current_capacity_wh else R.string.current_capacity,
-                                    DecimalFormat("#.#").format(getOnCurrentCapacity(
-                                        requireContext())))
+                                getString(if(isCapacityInWh) R.string.current_capacity_wh
+                                else R.string.current_capacity, DecimalFormat("#.#")
+                                    .format(if(isCapacityInWh) getOnCapacityInWh(
+                                        getOnCurrentCapacity(requireContext()))
+                                    else getOnCurrentCapacity(requireContext())))
 
                             when {
                                 getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {

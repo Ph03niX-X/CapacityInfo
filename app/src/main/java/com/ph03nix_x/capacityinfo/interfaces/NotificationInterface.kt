@@ -1135,7 +1135,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
                 if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
-                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
+                DecimalFormat("#.#").format(if(isCapacityInWh) getOnCapacityInWh(
+                    getOnCurrentCapacity(context)) else getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
@@ -1208,7 +1209,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
                 if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
-                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
+                DecimalFormat("#.#").format(if(isCapacityInWh) getOnCapacityInWh(
+                    getOnCurrentCapacity(context)) else getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
@@ -1281,7 +1283,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
                 if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
-                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
+                DecimalFormat("#.#").format(if(isCapacityInWh) getOnCapacityInWh(
+                    getOnCurrentCapacity(context)) else getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
@@ -1347,7 +1350,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
             setTextViewText(R.id.current_capacity_service_notification, context.getString(
                 if(isCapacityInWh) R.string.current_capacity_wh else R.string.current_capacity,
-                DecimalFormat("#.#").format(getOnCurrentCapacity(context))))
+                DecimalFormat("#.#").format(if(isCapacityInWh) getOnCapacityInWh(
+                    getOnCurrentCapacity(context)) else getOnCurrentCapacity(context))))
 
             setTextViewText(R.id.capacity_added_service_notification, getOnCapacityAdded(
                 context))
