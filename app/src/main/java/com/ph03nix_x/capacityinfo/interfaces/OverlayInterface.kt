@@ -652,7 +652,24 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-                text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                val isChargingDischargeCurrentInWatt = pref.getBoolean(
+                    PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+                    context.resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
+
+                if(isChargingDischargeCurrentInWatt)
+                    text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                            .getBoolean(R.bool.is_only_values_overlay)))
+                        context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
+                            R.string.charge_current_watt else R.string.discharge_current_watt,
+                            DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                                getOnChargeDischargeCurrent(context),
+                                status == BatteryManager.BATTERY_STATUS_CHARGING)))
+                else context.getString(R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            getOnChargeDischargeCurrent(context),
+                            status == BatteryManager.BATTERY_STATUS_CHARGING)))
+
+                else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay)))
                     context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
                         R.string.charge_current else R.string.discharge_current,
@@ -703,7 +720,30 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-                text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                val isChargingDischargeCurrentInWatt = pref.getBoolean(
+                    PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+                    resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
+
+                if(isChargingDischargeCurrentInWatt)
+                    text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                        .getBoolean(R.bool.is_only_values_overlay))) if(status ==
+                    BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
+                    .max_charge_current_watt, DecimalFormat("#.#").format(
+                        getOnChargeDischargeCurrentInWatt(BatteryInfoInterface.maxChargeCurrent,
+                            true)))
+                    else context.getString(R.string.max_discharge_current_watt,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.maxDischargeCurrent)))
+                    else if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(
+                        R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.maxChargeCurrent, true)))
+                    else context.getString(
+                        R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.maxDischargeCurrent)))
+
+                else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
                     .max_charge_current, BatteryInfoInterface.maxChargeCurrent) else context
@@ -736,7 +776,30 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-                text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                val isChargingDischargeCurrentInWatt = pref.getBoolean(
+                    PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+                    resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
+
+                if(isChargingDischargeCurrentInWatt)
+                    text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                            .getBoolean(R.bool.is_only_values_overlay))) if(status ==
+                        BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
+                        .average_charge_current_watt, DecimalFormat("#.#").format(
+                        getOnChargeDischargeCurrentInWatt(BatteryInfoInterface.averageChargeCurrent,
+                        true)))
+                    else context.getString(R.string.average_discharge_current_watt,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.averageDischargeCurrent)))
+                    else if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(
+                        R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.averageChargeCurrent,
+                            true))) else context.getString(
+                        R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.averageDischargeCurrent)))
+
+                else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
                     .average_charge_current, BatteryInfoInterface.averageChargeCurrent) else
@@ -769,7 +832,30 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-                text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                val isChargingDischargeCurrentInWatt = pref.getBoolean(
+                    PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+                    resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
+
+                if(isChargingDischargeCurrentInWatt)
+                    text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                            .getBoolean(R.bool.is_only_values_overlay))) if(status ==
+                        BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
+                        .min_charge_current_watt, DecimalFormat("#.#").format(
+                        getOnChargeDischargeCurrentInWatt(BatteryInfoInterface.minChargeCurrent,
+                        true)))
+                    else context.getString(R.string.min_discharge_current_watt,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.minDischargeCurrent)))
+                    else if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(
+                        R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.minChargeCurrent, true)))
+                    else context.getString(
+                        R.string.charging_discharge_current_watt_overlay_only_values,
+                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            BatteryInfoInterface.minDischargeCurrent)))
+
+                else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
                     .min_charge_current, BatteryInfoInterface.minChargeCurrent) else context
@@ -802,11 +888,28 @@ interface OverlayInterface : BatteryInfoInterface {
 
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
-                text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                        .getBoolean(R.bool.is_only_values_overlay))) context.getString(
-                    R.string.charging_current_limit, getOnChargingCurrentLimit(context))
-                else context.getString(R.string.charging_current_limit_overlay_only_values,
-                    getOnChargingCurrentLimit(context))
+                val isChargingDischargeCurrentInWatt = pref.getBoolean(
+                    PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+                    resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
+
+                val chargingCurrentLimit = getOnChargingCurrentLimit(context)
+
+
+                if(chargingCurrentLimit != null)
+                    text = if(isChargingDischargeCurrentInWatt)
+                        if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                                .getBoolean(R.bool.is_only_values_overlay))) context.getString(
+                            R.string.charging_current_limit_watt, DecimalFormat("#.#")
+                                .format(getOnChargeDischargeCurrentInWatt(
+                                    getOnChargingCurrentLimit(context)!!.toInt(), true)))
+                        else context.getString(
+                            R.string.charging_discharge_current_watt_overlay_only_values,
+                            getOnChargingCurrentLimit(context))
+                    else if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
+                            .getBoolean(R.bool.is_only_values_overlay))) context.getString(
+                        R.string.charging_current_limit, getOnChargingCurrentLimit(context))
+                    else context.getString(R.string.charging_current_limit_overlay_only_values,
+                        getOnChargingCurrentLimit(context))
 
                 visibility = if(pref.getBoolean(IS_CHARGING_CURRENT_LIMIT_OVERLAY, context
                         .resources.getBoolean(R.bool.is_charging_current_limit_overlay)))

@@ -341,4 +341,15 @@
     <string name="battery_wear_wh_overlay_only_values">%1$s (%2$s Wh)</string>
     <string name="capacity_added_wh">Capacity Added: %1$s Wh (%2$s)</string>
     <string name="capacity_added_wh_overlay_only_values">%1$s Wh (%2$s)</string>
+    <string name="charging_discharge_current_in_watt">Charging/Discharge Current in Watt</string>
+    <string name="charge_current_watt">Charging current: %1$sW</string>
+    <string name="charging_current_limit_watt">Charging Current Limit: %1$sW</string>
+    <string name="discharge_current_watt">Discharge current: %1$sW</string>
+    <string name="max_charge_current_watt">Maximum Charge Current %1$sW</string>
+    <string name="average_charge_current_watt">Average Charge Current %1$sW</string>
+    <string name="min_charge_current_watt">Minimum Charge Current %1$sW</string>
+    <string name="max_discharge_current_watt">Maximum Discharge Current %1$sW</string>
+    <string name="average_discharge_current_watt">Average Discharge Current %1$sW</string>
+    <string name="min_discharge_current_watt">Minimum Discharge Current %1$sW</string>
+    <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
 </resources>

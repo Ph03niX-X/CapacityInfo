@@ -27,6 +27,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHANGE_APP_LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
@@ -76,6 +77,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Misc
     private var capacityInWh: SwitchPreferenceCompat? = null
+    private var chargeDischargingCurrentInWatt: SwitchPreferenceCompat? = null
     private var resetScreenTime: SwitchPreferenceCompat? = null
     private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
@@ -312,6 +314,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Misc
         capacityInWh = findPreference(IS_CAPACITY_IN_WH)
 
+        chargeDischargingCurrentInWatt = findPreference(IS_CHARGING_DISCHARGE_CURRENT_IN_WATT)
+
         resetScreenTime = findPreference(IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL)
 
         moreOther = findPreference("more_other")
@@ -339,6 +343,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         debug = findPreference("debug")
 
         capacityInWh?.apply {
+
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        chargeDischargingCurrentInWatt?.apply {
 
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
@@ -384,6 +394,21 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
+                unitOfChargeDischargeCurrent?.apply {
+                    isVisible = true
+                    summary = getOnUnitOfChargeDischargeCurrentSummary()
+                }
+
+                unitOfMeasurementOfCurrentCapacity?.apply {
+                    isVisible = true
+                    summary = getOnUnitOfMeasurementOfCurrentCapacitySummary()
+                }
+
+                voltageUnit?.apply {
+                    isVisible = true
+                    summary = getOnVoltageUnitSummary()
+                }
+
                 changeDesignCapacity?.isVisible = true
                 overlay?.isVisible = true
                 resetToZeroTheNumberOfCharges?.apply {
@@ -415,6 +440,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
+                unitOfChargeDischargeCurrent?.isVisible = false
+                unitOfMeasurementOfCurrentCapacity?.isVisible = false
+                voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
                 overlay?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
@@ -674,6 +702,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
+        chargeDischargingCurrentInWatt?.apply {
+
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
         resetScreenTime?.apply {
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
@@ -712,13 +746,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             selectLanguage?.summary = getOnLanguageSummary()
 
         if(isPremium) tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch()
-
-        unitOfChargeDischargeCurrent?.summary = getOnUnitOfChargeDischargeCurrentSummary()
-
-        unitOfMeasurementOfCurrentCapacity?.summary =
-            getOnUnitOfMeasurementOfCurrentCapacitySummary()
-
-        voltageUnit?.summary = getOnVoltageUnitSummary()
 
         changeDesignCapacity?.summary = getString(R.string.change_design_summary,
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))

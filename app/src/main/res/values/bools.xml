@@ -15,6 +15,7 @@
     <bool name="is_auto_dark_mode">true</bool>
     <bool name="is_dark_mode">false</bool>
     <bool name="is_capacity_in_wh">false</bool>
+    <bool name="is_charging_discharge_current_in_watt">false</bool>
     <bool name="is_reset_screen_time_at_any_charge_level">false</bool>
 
     <!--Battery Status Information-->

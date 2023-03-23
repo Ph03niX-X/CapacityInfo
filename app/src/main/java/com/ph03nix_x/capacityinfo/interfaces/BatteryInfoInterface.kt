@@ -8,6 +8,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
+import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_VOLTAGE_WATT
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
@@ -126,6 +127,10 @@ interface BatteryInfoInterface {
             0
         }
     }
+
+    fun getOnChargeDischargeCurrentInWatt(chargeDischargeCurrent: Int, isCharging: Boolean = false)
+    = (chargeDischargeCurrent.toDouble() * if(isCharging) CHARGING_VOLTAGE_WATT
+    else NOMINAL_BATTERY_VOLTAGE) / 1000.0
 
     fun getOnFastCharge(context: Context): String {
         return if(isFastCharge(context))

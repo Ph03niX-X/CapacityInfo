@@ -25,6 +25,7 @@ import com.ph03nix_x.capacityinfo.databinding.ChargeDischargeFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
@@ -39,6 +40,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private var mainContext: MainActivity? = null
     private var job: Job? = null
     private var isJob = false
+    private var isChargingDischargeCurrentInWatt = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -76,6 +78,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
             IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         isJob = true
+
+        isChargingDischargeCurrentInWatt = pref.getBoolean(IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+            resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
 
         chargeDischargeInformationJob()
     }
@@ -293,8 +298,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                             withContext(Dispatchers.Main) {
 
-                                binding.chargeCurrent.text = getString(R.string.charge_current,
-                                    getOnChargeDischargeCurrent(requireContext()).toString())
+                                binding.chargeCurrent.text = if(isChargingDischargeCurrentInWatt)
+                                    getString(R.string.charge_current_watt,
+                                        DecimalFormat("#.#").format(
+                                            getOnChargeDischargeCurrentInWatt(
+                                                getOnChargeDischargeCurrent(requireContext()),
+                                                true)))
+                                else getString(R.string.charge_current,
+                                    "${getOnChargeDischargeCurrent(requireContext())}")
                             }
                         }
 
@@ -307,8 +318,13 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                             withContext(Dispatchers.Main) {
 
-                                binding.chargeCurrent.text = getString(R.string.discharge_current,
-                                    getOnChargeDischargeCurrent(requireContext()).toString())
+                                binding.chargeCurrent.text = if(isChargingDischargeCurrentInWatt)
+                                    getString(R.string.discharge_current_watt,
+                                        DecimalFormat("#.#").format(
+                                            getOnChargeDischargeCurrentInWatt(
+                                                getOnChargeDischargeCurrent(requireContext()))))
+                                else getString(R.string.discharge_current,
+                                    "${getOnChargeDischargeCurrent(requireContext())}")
                             }
                         }
 
@@ -345,15 +361,35 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                 if(binding.minChargeDischargeCurrent.visibility == View.GONE)
                                     binding.minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                                binding.maxChargeDischargeCurrent.text = getString(R.string
-                                    .max_charge_current, BatteryInfoInterface.maxChargeCurrent)
+                                binding.maxChargeDischargeCurrent.text =
+                                    if(isChargingDischargeCurrentInWatt)
+                                        getString(R.string.max_charge_current_watt,
+                                            DecimalFormat("#.#").format(
+                                                getOnChargeDischargeCurrentInWatt(
+                                                    BatteryInfoInterface.maxChargeCurrent,
+                                                    true)))
+                                else getString(R.string.max_charge_current,
+                                        BatteryInfoInterface.maxChargeCurrent)
 
-                                binding.averageChargeDischargeCurrent.text = getString(R.string
-                                    .average_charge_current,
-                                    BatteryInfoInterface.averageChargeCurrent)
+                                binding.averageChargeDischargeCurrent.text =
+                                    if(isChargingDischargeCurrentInWatt)
+                                        getString(R.string.average_charge_current_watt,
+                                            DecimalFormat("#.#").format(
+                                                getOnChargeDischargeCurrentInWatt(
+                                                    BatteryInfoInterface.averageChargeCurrent,
+                                                true)))
+                                else getString(R.string.average_charge_current,
+                                        BatteryInfoInterface.averageChargeCurrent)
 
-                                binding.minChargeDischargeCurrent.text = getString(R.string
-                                    .min_charge_current, BatteryInfoInterface.minChargeCurrent)
+                                binding.minChargeDischargeCurrent.text =
+                                    if(isChargingDischargeCurrentInWatt)
+                                        getString(R.string.min_charge_current_watt,
+                                            DecimalFormat("#.#").format(
+                                                getOnChargeDischargeCurrentInWatt(
+                                                    BatteryInfoInterface.minChargeCurrent,
+                                                true)))
+                                    else getString(R.string.min_charge_current,
+                                        BatteryInfoInterface.minChargeCurrent)
                             }
                         }
 
@@ -372,17 +408,32 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             if(binding.minChargeDischargeCurrent.visibility == View.GONE)
                                 binding.minChargeDischargeCurrent.visibility = View.VISIBLE
 
-                            binding.maxChargeDischargeCurrent.text = getString(
-                                R.string.max_discharge_current,
-                                BatteryInfoInterface.maxDischargeCurrent)
+                            binding.maxChargeDischargeCurrent.text =
+                                if(isChargingDischargeCurrentInWatt)
+                                    getString(R.string.max_discharge_current_watt,
+                                        DecimalFormat("#.#").format(
+                                            getOnChargeDischargeCurrentInWatt(
+                                                BatteryInfoInterface.maxDischargeCurrent)))
+                                else getString(R.string.max_discharge_current,
+                                    BatteryInfoInterface.maxDischargeCurrent)
 
-                            binding.averageChargeDischargeCurrent.text = getString(
-                                R.string.average_discharge_current,
-                                BatteryInfoInterface.averageDischargeCurrent)
+                            binding.averageChargeDischargeCurrent.text =
+                                if(isChargingDischargeCurrentInWatt)
+                                    getString(R.string.average_discharge_current_watt,
+                                        DecimalFormat("#.#").format(
+                                            getOnChargeDischargeCurrentInWatt(
+                                                BatteryInfoInterface.averageDischargeCurrent)))
+                                else getString(R.string.average_discharge_current,
+                                    BatteryInfoInterface.averageDischargeCurrent)
 
-                            binding.minChargeDischargeCurrent.text = getString(
-                                R.string.min_discharge_current,
-                                BatteryInfoInterface.minDischargeCurrent)
+                            binding.minChargeDischargeCurrent.text =
+                                if(isChargingDischargeCurrentInWatt)
+                                    getString(R.string.min_discharge_current_watt,
+                                        DecimalFormat("#.#").format(
+                                            getOnChargeDischargeCurrentInWatt(
+                                                BatteryInfoInterface.minDischargeCurrent)))
+                                else getString(R.string.min_discharge_current,
+                                    BatteryInfoInterface.minDischargeCurrent)
                         }
 
                         else -> {
@@ -407,13 +458,18 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         if(chargingCurrentLimit != null && chargingCurrentLimit.toInt() > 0) {
 
-                            if(this@ChargeDischargeFragment.binding.chargingCurrentLimit
+                            if(binding.chargingCurrentLimit
                                     .visibility == View.GONE) this@ChargeDischargeFragment
                                 .binding.chargingCurrentLimit.visibility = View.VISIBLE
 
-                            this@ChargeDischargeFragment
-                                .binding.chargingCurrentLimit.text = requireContext().getString(R.string
-                                .charging_current_limit, chargingCurrentLimit)
+                            if(isChargingDischargeCurrentInWatt)
+                                binding.chargingCurrentLimit.text = getString(
+                                    R.string.charging_current_limit_watt,
+                                    DecimalFormat("#.#").format(
+                                        getOnChargeDischargeCurrentInWatt(
+                                            chargingCurrentLimit.toInt(), true)))
+                            else binding.chargingCurrentLimit.text = getString(
+                                R.string.charging_current_limit, chargingCurrentLimit)
                         }
 
                         else if(this@ChargeDischargeFragment.binding.chargingCurrentLimit

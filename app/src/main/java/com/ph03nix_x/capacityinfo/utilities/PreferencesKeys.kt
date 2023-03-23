@@ -45,6 +45,7 @@ object PreferencesKeys {
 
     // Misc
     const val IS_CAPACITY_IN_WH = "is_capacity_in_wh"
+    const val IS_CHARGING_DISCHARGE_CURRENT_IN_WATT = "is_charging_discharge_current_in_watt"
     const val IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL = "is_reset_screen_time_at_any_charge_level"
     const val TAB_ON_APPLICATION_LAUNCH = "tab_on_application_launch"
     const val UNIT_OF_CHARGE_DISCHARGE_CURRENT = "unit_of_charge_discharge_current"
