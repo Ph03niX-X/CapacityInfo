@@ -279,7 +279,7 @@
     <string name="order_id">ID заказа</string>
     <string name="order_id_copied">ID заказа скопирован в буфер обмена</string>
     <string name="history_count">Количество истории</string>
-    <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• История > 3;\n\• Очистка истории;\n\• Показывать информацию об аккумуляторе;\n\• Остановить службу;\n\• Останавливать службу при отключении зарядного устройства;\n\• Информация о состоянии аккумулятора;;\n\• Шрифт текста;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Оверлей\n\nПриобретая Premium вы так же поддерживаете дальнейшую разработку приложения</string>
+    <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• История > 3;\n\• Возможность удалять историю (Свайп вправо)\n\• Очистка истории;\n\• Показывать информацию об аккумуляторе;\n\• Остановить службу;\n\• Останавливать службу при отключении зарядного устройства;\n\• Информация о состоянии аккумулятора;;\n\• Шрифт текста;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Оверлей\n\• Ёмкость в Втч\n\• Ток зарядки/разрядки в Вт\n\nПриобретая Premium вы так же поддерживаете дальнейшую разработку приложения</string>
     <string name="premium_feature">Premium функция</string>
     <string name="purchase_premium">Приобрести</string>
     <string name="premium_features_unlocked">Premium функции разблокированы!</string>
@@ -309,4 +309,25 @@
     <string name="minimum_temperature_overlay">Минимальная температура</string>
     <string name="history_removed">История удалена</string>
     <string name="undo">Отменить</string>
+    <string name="capacity_in_wh">Ёмкость в Втч</string>
+    <string name="design_capacity_wh">Проектная ёмкость: %1$s Втч</string>
+    <string name="current_capacity_wh">Текушая ёмкость: %1$s Втч</string>
+    <string name="current_capacity_wh_overlay_only_values">%1$s Втч</string>
+    <string name="residual_capacity_wh">Residual Capacity: %1$s Втч (%2$s)</string>
+    <string name="residual_capacity_wh_overlay_only_values">%1$s Втч (%2$s)</string>
+    <string name="battery_wear_wh">Износ аккумулятора: %1$s (%2$s Втч)</string>
+    <string name="battery_wear_wh_overlay_only_values">%1$s (%2$s Втч)</string>
+    <string name="capacity_added_wh">Добавилось ёмкости: %1$s Втч (%2$s)</string>
+    <string name="capacity_added_wh_overlay_only_values">%1$s Втч (%2$s)</string>
+    <string name="charging_discharge_current_in_watt">Ток зарядки/разрядки в Вт</string>
+    <string name="charge_current_watt">Ток зарядки: %1$s Вт</string>
+    <string name="charging_current_limit_watt">Предел зарядного тока: %1$s Вт</string>
+    <string name="discharge_current_watt">Ток разрядки: %1$s Вт</string>
+    <string name="max_charge_current_watt">Максимальный ток зарядки %1$s Вт</string>
+    <string name="average_charge_current_watt">Средний ток зарядки %1$s Вт</string>
+    <string name="min_charge_current_watt">Минимальный ток зарядки %1$s Вт</string>
+    <string name="max_discharge_current_watt">Максимальный ток разрядки %1$s Вт</string>
+    <string name="average_discharge_current_watt">Средний ток разрядки %1$s Вт</string>
+    <string name="min_discharge_current_watt">Минимальный ток разрядки %1$s Вт</string>
+    <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
 </resources>
