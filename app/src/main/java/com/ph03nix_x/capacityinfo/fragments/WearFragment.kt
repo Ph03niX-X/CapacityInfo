@@ -277,11 +277,14 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                             withContext(Dispatchers.Main) {
 
-                                binding.currentCapacityWear.text = getString(if(pref.getBoolean(
-                                        IS_CAPACITY_IN_WH, resources.getBoolean(
-                                            R.bool.is_capacity_in_wh))) R.string.current_capacity_wh
-                                else R.string.current_capacity, DecimalFormat("#.#").format(
-                                        getOnCurrentCapacity(requireContext())))
+                                val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
+                                    resources.getBoolean(R.bool.is_capacity_in_wh))
+
+                                binding.currentCapacityWear.text = getString(if(isCapacityInWh)
+                                    R.string.current_capacity_wh else R.string.current_capacity,
+                                    DecimalFormat("#.#").format(if(isCapacityInWh)
+                                        getOnCapacityInWh(getOnCurrentCapacity(requireContext()))
+                                    else getOnCurrentCapacity(requireContext())))
 
                                 when {
                                     getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A"
