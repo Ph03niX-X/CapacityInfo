@@ -137,11 +137,12 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                     if(getOnCurrentCapacity(context) > 0.0) {
 
-                        if(pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
-                                R.bool.is_capacity_in_wh)))
-                        context.getString(
-                            R.string.current_capacity_wh, DecimalFormat("#.#").format(
-                                getOnCurrentCapacity(context)))
+                        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
+                            context.resources.getBoolean(R.bool.is_capacity_in_wh))
+
+                        if(isCapacityInWh) context.getString(R.string.current_capacity_wh,
+                            DecimalFormat("#.#").format(
+                                getOnCapacityInWh(getOnCurrentCapacity(context))))
                         else context.getString(R.string.current_capacity,
                             DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
                     } else "${context.getString(
@@ -222,11 +223,12 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                     if(getOnCurrentCapacity(context) > 0.0) {
 
-                        if(pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
-                                R.bool.is_capacity_in_wh)))
-                            context.getString(
-                                R.string.current_capacity_wh, DecimalFormat("#.#").format(
-                                    getOnCurrentCapacity(context)))
+                        val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
+                            context.resources.getBoolean(R.bool.is_capacity_in_wh))
+
+                        if(isCapacityInWh) context.getString(R.string.current_capacity_wh,
+                            DecimalFormat("#.#").format(
+                                getOnCapacityInWh(getOnCurrentCapacity(context))))
                         else context.getString(R.string.current_capacity,
                             DecimalFormat("#.#").format(getOnCurrentCapacity(context)))
                     } else "${context.getString(
