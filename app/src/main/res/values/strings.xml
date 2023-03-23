@@ -300,7 +300,7 @@
     <string name="order_id_copied">Order ID copied to the clipboard</string>
     <string name="history_count">History Count</string>
     <string name="premium" translatable="false">Premium</string>
-    <string name="premium_dialog">By purchasing Premium, you will get additional features of the app:\n\• History > 3;\n\• Clear History;\n\• Show Battery Information;\n\• Stop Service;\n\• Stop the service when the charger is disconnected;\n\• Battery Status Information;\n\• Text Font;\n\• Reset Screen Time at any charge level;\n\• Backup;\n\• Tab on application launch;\n\• Overlay\n\nBy purchasing Premium you also support the further development of the app</string>
+    <string name="premium_dialog">By purchasing Premium, you will get additional features of the app:\n\• History > 3;\n\• Ability to remove history (Swipe Right)\n\• Clear History;\n\• Show Battery Information;\n\• Stop Service;\n\• Stop the service when the charger is disconnected;\n\• Battery Status Information;\n\• Text Font;\n\• Reset Screen Time at any charge level;\n\• Backup;\n\• Tab on application launch;\n\• Overlay\n\• Capacity in Wh\n\• Charging/Discharge Current in Watt\n\nBy purchasing Premium you also support the further development of the app</string>
     <string name="premium_feature">Premium feature</string>
     <string name="purchase_premium">Purchase</string>
     <string name="premium_features_unlocked">Premium features unlocked!</string>
