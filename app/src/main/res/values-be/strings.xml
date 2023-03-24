@@ -279,7 +279,7 @@
     <string name="order_id">ID замовы</string>
     <string name="order_id_copied">ID замовы скапіяваны ў буфер абмену</string>
     <string name="history_count">Колькасць гісторыі</string>
-    <string name="premium_dialog">Набывая Premium, вы атрымліваеце дадатковыя функцыі дадатка:\n\• Гісторыя > 3;\n\• Ачыстка гісторыі;\n\• Паказваць інфармацыю аб акумулятары;\n\• Спыніць службу;\n\• Спыняць службу пры адключэнні зараднай прылады;\n\• Інфармацыя аб стане акумулятара;\n\• Шрыфт тэксту;\n\• Абнуленне часу экрана пры любым узроўні зарада;\n\• Рэзервовае капіраванне;\n\• Ўкладка пры запуску дадатка;\n\• Аверлэй\n\nНабываючы Premium вы так жа падтрымліваеце далейшую распрацоўку дадатка</string>
+    <string name="premium_dialog">Набывая Premium, вы атрымліваеце дадатковыя функцыі дадатка:\n\• Гісторыя > 3;\n\• Можливість видаляти історію (Свайп вправо);\n\• Ачыстка гісторыі;\n\• Паказваць інфармацыю аб акумулятары;\n\• Спыніць службу;\n\• Спыняць службу пры адключэнні зараднай прылады;\n\• Інфармацыя аб стане акумулятара;\n\• Шрыфт тэксту;\n\• Абнуленне часу экрана пры любым узроўні зарада;\n\• Рэзервовае капіраванне;\n\• Ўкладка пры запуску дадатка;\n\• Аверлэй;\n\• Ёмістасць у Втг;\n\• Ток зарадкі/разрадкі ў Вт\n\nНабываючы Premium вы так жа падтрымліваеце далейшую распрацоўку дадатка</string>
     <string name="premium_feature">Premium функцыя</string>
     <string name="purchase_premium">Набыць</string>
     <string name="premium_features_unlocked">Premium функцыі разблакаваны!</string>
@@ -309,4 +309,25 @@
     <string name="minimum_temperature_overlay">Мінімальная тэмпература</string>
     <string name="history_removed">Гісторыя выдалена</string>
     <string name="undo">Адмяніць</string>
+    <string name="capacity_in_wh">Ёмістасць у Втг</string>
+    <string name="design_capacity_wh">Праектная ёмістасць: %1$s Втг</string>
+    <string name="current_capacity_wh">Бягучая ёмістасць: %1$s Втг</string>
+    <string name="current_capacity_wh_overlay_only_values">%1$s Втг</string>
+    <string name="residual_capacity_wh">Рэшткавая ёмістасць: %1$s Втг (%2$s)</string>
+    <string name="residual_capacity_wh_overlay_only_values">%1$s Втг (%2$s)</string>
+    <string name="battery_wear_wh">Знос акумулятара: %1$s (%2$s Втг)</string>
+    <string name="battery_wear_wh_overlay_only_values">%1$s (%2$s Втг)</string>
+    <string name="capacity_added_wh">Дадалося ёмістасці: %1$s Втг (%2$s)</string>
+    <string name="capacity_added_wh_overlay_only_values">%1$s Втг (%2$s)</string>
+    <string name="charging_discharge_current_in_watt">Ток зарадкі/разрадкі ў Вт</string>
+    <string name="charge_current_watt">Ток зарадкі: %1$s Вт</string>
+    <string name="charging_current_limit_watt">Мяжа зараднага току: %1$s Вт</string>
+    <string name="discharge_current_watt">Ток разрадкі: %1$s Вт</string>
+    <string name="max_charge_current_watt">Максімальны ток зарадкі %1$s Вт</string>
+    <string name="average_charge_current_watt">Сярэдні ток зарадкі %1$s Вт</string>
+    <string name="min_charge_current_watt">Мінімальны ток зарадкі %1$s Вт</string>
+    <string name="max_discharge_current_watt">Максімальны ток разрадкі %1$s Вт</string>
+    <string name="average_discharge_current_watt">Сярэдні ток разрадкі %1$s Вт</string>
+    <string name="min_discharge_current_watt">Мінімальны ток разрадкі %1$s Вт</string>
+    <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
 </resources>
