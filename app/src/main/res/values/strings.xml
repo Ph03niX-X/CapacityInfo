@@ -345,11 +345,11 @@
     <string name="charge_current_watt">Charging current: %1$sW</string>
     <string name="charging_current_limit_watt">Charging Current Limit: %1$sW</string>
     <string name="discharge_current_watt">Discharge current: %1$sW</string>
-    <string name="max_charge_current_watt">Maximum Charge Current %1$sW</string>
-    <string name="average_charge_current_watt">Average Charge Current %1$sW</string>
-    <string name="min_charge_current_watt">Minimum Charge Current %1$sW</string>
-    <string name="max_discharge_current_watt">Maximum Discharge Current %1$sW</string>
-    <string name="average_discharge_current_watt">Average Discharge Current %1$sW</string>
-    <string name="min_discharge_current_watt">Minimum Discharge Current %1$sW</string>
+    <string name="max_charge_current_watt">Maximum Charge Current: %1$sW</string>
+    <string name="average_charge_current_watt">Average Charge Current: %1$sW</string>
+    <string name="min_charge_current_watt">Minimum Charge Current: %1$sW</string>
+    <string name="max_discharge_current_watt">Maximum Discharge Current: %1$sW</string>
+    <string name="average_discharge_current_watt">Average Discharge Current: %1$sW</string>
+    <string name="min_discharge_current_watt">Minimum Discharge Current: %1$sW</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
 </resources>
