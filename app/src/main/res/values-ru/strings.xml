@@ -313,7 +313,7 @@
     <string name="design_capacity_wh">Проектная ёмкость: %1$s Втч</string>
     <string name="current_capacity_wh">Текушая ёмкость: %1$s Втч</string>
     <string name="current_capacity_wh_overlay_only_values">%1$s Втч</string>
-    <string name="residual_capacity_wh">Residual Capacity: %1$s Втч (%2$s)</string>
+    <string name="residual_capacity_wh">Остаточная ёмкость: %1$s Втч (%2$s)</string>
     <string name="residual_capacity_wh_overlay_only_values">%1$s Втч (%2$s)</string>
     <string name="battery_wear_wh">Износ аккумулятора: %1$s (%2$s Втч)</string>
     <string name="battery_wear_wh_overlay_only_values">%1$s (%2$s Втч)</string>
