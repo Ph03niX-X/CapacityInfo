@@ -323,11 +323,11 @@
     <string name="charge_current_watt">Ток зарядки: %1$s Вт</string>
     <string name="charging_current_limit_watt">Предел зарядного тока: %1$s Вт</string>
     <string name="discharge_current_watt">Ток разрядки: %1$s Вт</string>
-    <string name="max_charge_current_watt">Максимальный ток зарядки %1$s Вт</string>
-    <string name="average_charge_current_watt">Средний ток зарядки %1$s Вт</string>
-    <string name="min_charge_current_watt">Минимальный ток зарядки %1$s Вт</string>
-    <string name="max_discharge_current_watt">Максимальный ток разрядки %1$s Вт</string>
-    <string name="average_discharge_current_watt">Средний ток разрядки %1$s Вт</string>
-    <string name="min_discharge_current_watt">Минимальный ток разрядки %1$s Вт</string>
+    <string name="max_charge_current_watt">Максимальный ток зарядки: %1$s Вт</string>
+    <string name="average_charge_current_watt">Средний ток зарядки: %1$s Вт</string>
+    <string name="min_charge_current_watt">Минимальный ток зарядки: %1$s Вт</string>
+    <string name="max_discharge_current_watt">Максимальный ток разрядки: %1$s Вт</string>
+    <string name="average_discharge_current_watt">Средний ток разрядки: %1$s Вт</string>
+    <string name="min_discharge_current_watt">Минимальный ток разрядки: %1$s Вт</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
 </resources>
