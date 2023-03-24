@@ -10,8 +10,8 @@ android {
         namespace applicationId
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 1164
-        versionName "6.6.0.2"
+        versionCode 1198
+        versionName "6.6.0.3"
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs("en", "de", "es", "pl", "ro", "be", "ru", "uk")
@@ -68,7 +68,7 @@ dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
 
-    // Donate
+    // Premium
     implementation("com.anjlab.android.iab.v3:library:2.0.0")
 
     // Color Picker
