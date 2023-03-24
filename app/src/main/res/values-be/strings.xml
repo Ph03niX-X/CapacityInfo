@@ -323,11 +323,11 @@
     <string name="charge_current_watt">Ток зарадкі: %1$s Вт</string>
     <string name="charging_current_limit_watt">Мяжа зараднага току: %1$s Вт</string>
     <string name="discharge_current_watt">Ток разрадкі: %1$s Вт</string>
-    <string name="max_charge_current_watt">Максімальны ток зарадкі %1$s Вт</string>
-    <string name="average_charge_current_watt">Сярэдні ток зарадкі %1$s Вт</string>
-    <string name="min_charge_current_watt">Мінімальны ток зарадкі %1$s Вт</string>
-    <string name="max_discharge_current_watt">Максімальны ток разрадкі %1$s Вт</string>
-    <string name="average_discharge_current_watt">Сярэдні ток разрадкі %1$s Вт</string>
-    <string name="min_discharge_current_watt">Мінімальны ток разрадкі %1$s Вт</string>
+    <string name="max_charge_current_watt">Максімальны ток зарадкі: %1$s Вт</string>
+    <string name="average_charge_current_watt">Сярэдні ток зарадкі: %1$s Вт</string>
+    <string name="min_charge_current_watt">Мінімальны ток зарадкі: %1$s Вт</string>
+    <string name="max_discharge_current_watt">Максімальны ток разрадкі: %1$s Вт</string>
+    <string name="average_discharge_current_watt">Сярэдні ток разрадкі: %1$s Вт</string>
+    <string name="min_discharge_current_watt">Мінімальны ток разрадкі: %1$s Вт</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
 </resources>
