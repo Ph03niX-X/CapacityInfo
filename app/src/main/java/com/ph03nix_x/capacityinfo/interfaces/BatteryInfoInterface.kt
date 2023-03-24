@@ -15,6 +15,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
@@ -347,7 +348,8 @@ interface BatteryInfoInterface {
                 context.getString(if(!isOverlay || !isOnlyValues)
                     R.string.capacity_added_wh else
                     R.string.capacity_added_wh_overlay_only_values, DecimalFormat("#.#")
-                    .format(getOnCapacityInWh(capacityAddedPref)), "$percentAdded%")
+                    .format(getOnCapacityInWh(capacityAddedPref)),
+                    "${pref.getInt(PERCENT_ADDED, 0)}%")
 
             else context.getString(if(!isOverlay || !isOnlyValues)
                 R.string.capacity_added else
