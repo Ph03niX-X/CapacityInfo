@@ -662,11 +662,11 @@ interface OverlayInterface : BatteryInfoInterface {
                             .getBoolean(R.bool.is_only_values_overlay)))
                         context.getString(if(status == BatteryManager.BATTERY_STATUS_CHARGING)
                             R.string.charge_current_watt else R.string.discharge_current_watt,
-                            DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                            DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                                 getOnChargeDischargeCurrent(context),
                                 status == BatteryManager.BATTERY_STATUS_CHARGING)))
                 else context.getString(R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             getOnChargeDischargeCurrent(context),
                             status == BatteryManager.BATTERY_STATUS_CHARGING)))
 
@@ -729,19 +729,19 @@ interface OverlayInterface : BatteryInfoInterface {
                     text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                         .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                     BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
-                    .max_charge_current_watt, DecimalFormat("#.#").format(
+                    .max_charge_current_watt, DecimalFormat("#.##").format(
                         getOnChargeDischargeCurrentInWatt(BatteryInfoInterface.maxChargeCurrent,
                             true)))
                     else context.getString(R.string.max_discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.maxDischargeCurrent)))
                     else if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(
                         R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.maxChargeCurrent, true)))
                     else context.getString(
                         R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.maxDischargeCurrent)))
 
                 else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
@@ -785,19 +785,19 @@ interface OverlayInterface : BatteryInfoInterface {
                     text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                             .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                         BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
-                        .average_charge_current_watt, DecimalFormat("#.#").format(
+                        .average_charge_current_watt, DecimalFormat("#.##").format(
                         getOnChargeDischargeCurrentInWatt(BatteryInfoInterface.averageChargeCurrent,
                         true)))
                     else context.getString(R.string.average_discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.averageDischargeCurrent)))
                     else if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(
                         R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.averageChargeCurrent,
                             true))) else context.getString(
                         R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.averageDischargeCurrent)))
 
                 else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
@@ -841,19 +841,19 @@ interface OverlayInterface : BatteryInfoInterface {
                     text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                             .getBoolean(R.bool.is_only_values_overlay))) if(status ==
                         BatteryManager.BATTERY_STATUS_CHARGING) context.getString(R.string
-                        .min_charge_current_watt, DecimalFormat("#.#").format(
+                        .min_charge_current_watt, DecimalFormat("#.##").format(
                         getOnChargeDischargeCurrentInWatt(BatteryInfoInterface.minChargeCurrent,
                         true)))
                     else context.getString(R.string.min_discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.minDischargeCurrent)))
                     else if(status == BatteryManager.BATTERY_STATUS_CHARGING) context.getString(
                         R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.minChargeCurrent, true)))
                     else context.getString(
                         R.string.charging_discharge_current_watt_overlay_only_values,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             BatteryInfoInterface.minDischargeCurrent)))
 
                 else text = if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
@@ -900,7 +900,7 @@ interface OverlayInterface : BatteryInfoInterface {
                     text = if(isChargingDischargeCurrentInWatt)
                         if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
                                 .getBoolean(R.bool.is_only_values_overlay))) context.getString(
-                            R.string.charging_current_limit_watt, DecimalFormat("#.#")
+                            R.string.charging_current_limit_watt, DecimalFormat("#.##")
                                 .format(getOnChargeDischargeCurrentInWatt(
                                     getOnChargingCurrentLimit(context)!!.toInt(), true)))
                         else context.getString(

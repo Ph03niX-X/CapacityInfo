@@ -1152,7 +1152,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             if(isChargingDischargeCurrentInWatt)
                 setTextViewText(R.id.charge_discharge_current_service_notification,
                     context.getString(R.string.charge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             getOnChargeDischargeCurrent(context), true))))
             else setTextViewText(R.id.charge_discharge_current_service_notification,
                 context.getString(R.string.charge_current,
@@ -1226,7 +1226,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             if(isChargingDischargeCurrentInWatt)
                 setTextViewText(R.id.charge_discharge_current_service_notification,
                     context.getString(R.string.discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             getOnChargeDischargeCurrent(context)))))
             else setTextViewText(R.id.charge_discharge_current_service_notification,
                 context.getString(R.string.discharge_current,
@@ -1300,7 +1300,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             if(isChargingDischargeCurrentInWatt)
                 setTextViewText(R.id.charge_discharge_current_service_notification,
                     context.getString(R.string.discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             getOnChargeDischargeCurrent(context)))))
             else setTextViewText(R.id.charge_discharge_current_service_notification,
                 context.getString(R.string.discharge_current,
@@ -1367,7 +1367,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             if(isChargingDischargeCurrentInWatt)
                 setTextViewText(R.id.charge_discharge_current_service_notification,
                     context.getString(R.string.discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             getOnChargeDischargeCurrent(context)))))
             else setTextViewText(R.id.charge_discharge_current_service_notification,
                 context.getString(R.string.discharge_current,
@@ -1437,7 +1437,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             if(isChargingDischargeCurrentInWatt)
                 setTextViewText(R.id.charge_discharge_current_service_notification,
                     context.getString(R.string.discharge_current_watt,
-                        DecimalFormat("#.#").format(getOnChargeDischargeCurrentInWatt(
+                        DecimalFormat("#.##").format(getOnChargeDischargeCurrentInWatt(
                             getOnChargeDischargeCurrent(context)))))
             else setTextViewText(R.id.charge_discharge_current_service_notification,
                 context.getString(R.string.discharge_current,
