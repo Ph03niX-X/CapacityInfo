@@ -44,7 +44,7 @@
     <string name="developer">Разработчик</string>
     <string name="version">Версия</string>
     <string name="build">Сборка</string>
-    <string name="build_date">Дата сборки (GMT+2)</string>
+    <string name="build_date">Дата сборки (GMT+3)</string>
     <string name="rate_the_app">Оценить приложение</string>
     <string name="license">Лицензия: Apache 2.0</string>
     <string name="belarusian_translation">Белорусский перевод</string>
