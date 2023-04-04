@@ -311,7 +311,7 @@
     <string name="undo">Отменить</string>
     <string name="capacity_in_wh">Ёмкость в Втч</string>
     <string name="design_capacity_wh">Проектная ёмкость: %1$s Втч</string>
-    <string name="current_capacity_wh">Текушая ёмкость: %1$s Втч</string>
+    <string name="current_capacity_wh">Текущая ёмкость: %1$s Втч</string>
     <string name="current_capacity_wh_overlay_only_values">%1$s Втч</string>
     <string name="residual_capacity_wh">Остаточная ёмкость: %1$s Втч (%2$s)</string>
     <string name="residual_capacity_wh_overlay_only_values">%1$s Втч (%2$s)</string>
