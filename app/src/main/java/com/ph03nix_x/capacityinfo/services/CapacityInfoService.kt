@@ -218,11 +218,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 as? DisplayManager
 
                         if(displayManager != null)
-                            for(display in displayManager.displays)
-                                if(display.state == Display.STATE_ON) screenTime++
+                            display@for(display in displayManager.displays)
+                                if(display.state == Display.STATE_ON) {
+                                    screenTime++
+                                    break@display
+                                }
                     }
 
-                    delay(998L)
+                    delay(1000L)
                 }
             }
 
