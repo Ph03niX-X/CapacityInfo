@@ -330,4 +330,6 @@
     <string name="average_discharge_current_watt">Средний ток разрядки: %1$s Вт</string>
     <string name="min_discharge_current_watt">Минимальный ток разрядки: %1$s Вт</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
+    <string name="setting_is_intended_to_correct">
+        Данная настройка предназначена для исправления отображения значения</string>
 </resources>
