@@ -464,35 +464,69 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
            HistoryHelper.isHistoryNotEmpty(requireContext())
         }
 
-        unitOfChargeDischargeCurrent?.setOnPreferenceChangeListener { preference, newValue ->
+        unitOfChargeDischargeCurrent?.apply {
 
-            if((newValue as? String) == "μA")
-                preference.summary = resources.getStringArray(R.array
-                    .unit_of_charge_discharge_current_list)[0]
-            else preference.summary = resources.getStringArray(R.array
-                .unit_of_charge_discharge_current_list)[1]
+            setOnPreferenceClickListener {
 
-            true
+                Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
+                    Toast.LENGTH_LONG).show()
+
+                true
+            }
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                if((newValue as? String) == "μA")
+                    preference.summary = resources.getStringArray(R.array
+                        .unit_of_charge_discharge_current_list)[0]
+                else preference.summary = resources.getStringArray(R.array
+                    .unit_of_charge_discharge_current_list)[1]
+
+                true
+
+            }
         }
 
-        unitOfMeasurementOfCurrentCapacity?.setOnPreferenceChangeListener { preference, newValue ->
+        unitOfMeasurementOfCurrentCapacity?.apply {
 
-            if((newValue as? String) == "μAh")
-                preference.summary = resources.getStringArray(R.array
-                    .unit_of_measurement_of_current_capacity_list)[0]
-            else preference.summary = resources.getStringArray(R.array
-                .unit_of_measurement_of_current_capacity_list)[1]
+            setOnPreferenceClickListener {
 
-            true
+                Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
+                    Toast.LENGTH_LONG).show()
+
+                true
+            }
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                if((newValue as? String) == "μAh")
+                    preference.summary = resources.getStringArray(R.array
+                        .unit_of_measurement_of_current_capacity_list)[0]
+                else preference.summary = resources.getStringArray(R.array
+                    .unit_of_measurement_of_current_capacity_list)[1]
+
+                true
+            }
         }
 
-        voltageUnit?.setOnPreferenceChangeListener { preference, newValue ->
+        voltageUnit?.apply {
 
-            if((newValue as? String) == "μV")
-                preference.summary = resources.getStringArray(R.array.voltage_unit_list)[0]
-            else preference.summary = resources.getStringArray(R.array.voltage_unit_list)[1]
+            setOnPreferenceClickListener {
 
-            true
+                Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
+                    Toast.LENGTH_LONG).show()
+
+                true
+            }
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                if((newValue as? String) == "μV")
+                    preference.summary = resources.getStringArray(R.array.voltage_unit_list)[0]
+                else preference.summary = resources.getStringArray(R.array.voltage_unit_list)[1]
+
+                true
+            }
         }
 
         changeDesignCapacity?.setOnPreferenceClickListener {

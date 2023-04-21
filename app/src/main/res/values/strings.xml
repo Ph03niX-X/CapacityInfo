@@ -352,4 +352,6 @@
     <string name="average_discharge_current_watt">Average Discharge Current: %1$sW</string>
     <string name="min_discharge_current_watt">Minimum Discharge Current: %1$sW</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
+    <string name="setting_is_intended_to_correct">
+        This setting is intended to correct the display of the value</string>
 </resources>
