@@ -329,4 +329,6 @@
     <string name="average_discharge_current_watt">Durchschnittlicher Entladestrom: %1$sW</string>
     <string name="min_discharge_current_watt">Minimaler Entladestrom: %1$sW</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
+    <string name="setting_is_intended_to_correct">
+        Diese Einstellung soll die Anzeige des Wertes korrigieren</string>
 </resources>
