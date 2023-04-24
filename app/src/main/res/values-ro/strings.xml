@@ -330,4 +330,6 @@
     <string name="average_discharge_current_watt">Curent mediu de descărcare: %1$sW</string>
     <string name="min_discharge_current_watt">Curent minim de descărcare: %1$sW</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
+    <string name="setting_is_intended_to_correct">
+        Această setare are scopul de a corecta afișarea valorii</string>
 </resources>
