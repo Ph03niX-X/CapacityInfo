@@ -158,9 +158,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
             restoreSettingsFromBackup?.isEnabled = !MainApp.isInstalledGooglePlay
 
-            exportSettings?.isVisible = true
+            exportSettings?.isVisible = MainApp.isInstalledGooglePlay
 
-            importSettings?.isVisible = true
+            importSettings?.isVisible = MainApp.isInstalledGooglePlay
 
             exportHistory?.apply {
 

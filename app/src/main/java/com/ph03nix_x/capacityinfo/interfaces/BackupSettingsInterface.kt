@@ -168,7 +168,7 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    MainApp.restartApp(requireContext(), prefArrays)
+                    MainApp.restartApp(requireContext(), prefArrays, true)
                 }
             }
 
