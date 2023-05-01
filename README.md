@@ -13,7 +13,7 @@ alt="Get it on Google Play" width="323" height="125" border="10"/></p></a>
  <b>Download Latest Stable Version from Google Drive:</b>
 </p>
 
-<a href="https://drive.google.com/file/d/1cEkSWYG6o9hddhDOKJXOtz2q6QNSaVPg">
+<a href="https://drive.google.com/file/d/1H1L7Cw7cgQQfuEyzIn-2lLcsb0g5ihZQ">
 <p align="center">
 <img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
 alt="Get it on Google Drive" width="300" border="10"/></p></a>
