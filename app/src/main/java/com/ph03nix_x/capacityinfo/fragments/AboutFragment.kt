@@ -24,7 +24,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
     private var build: Preference? = null
     private var buildDate: Preference? = null
     private var github: Preference? = null
-    private var belarusianTranslation: Preference? = null
     private var ukrainianTranslation: Preference? = null
     private var betaTester: Preference? = null
     private var orderId: Preference? = null
@@ -46,8 +45,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
         buildDate = findPreference("build_date")
 
         github = findPreference("github")
-
-        belarusianTranslation = findPreference("belarusian_translation")
 
         ukrainianTranslation = findPreference("ukrainian_translation")
 

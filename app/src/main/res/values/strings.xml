@@ -49,7 +49,6 @@
     <string name="build_date">Build Date (GMT+3)</string>
     <string name="rate_the_app">Rate the app</string>
     <string name="license">License: Apache 2.0</string>
-    <string name="belarusian_translation">Belarusian translation</string>
     <string name="feedback">Feedback</string>
     <string name="email" translatable="false">E-mail</string>
     <string name="email_copied">E-mail copied</string>

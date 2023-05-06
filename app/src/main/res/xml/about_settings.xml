@@ -37,13 +37,6 @@
             android:key="github"/>
 
     <Preference
-            app:title="@string/belarusian_translation"
-            app:summary="Dr.Cyanogen"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_belarus"
-            android:key="belarusian_translation"/>
-
-    <Preference
         app:title="@string/ukrainian_translation"
         app:summary="Erdar2K22"
         app:singleLineTitle="false"

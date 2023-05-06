@@ -47,7 +47,6 @@
     <string name="build_date">Data zbudowania (GMT+3)</string>
     <string name="rate_the_app">Oceń aplikację</string>
     <string name="license">Licencja: Apache 2.0</string>
-    <string name="belarusian_translation">Tłumaczenie z języka białoruskiego</string>
     <string name="feedback">Informacje zwrotne</string>
     <string name="email_copied">E-mail skopiowany</string>
     <string name="auto_dark_mode">Automatyczny tryb przyciemniania</string>
