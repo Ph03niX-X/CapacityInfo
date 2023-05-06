@@ -61,7 +61,7 @@ static def getBuildDate() {
 
 dependencies {
 
-    def coroutinesVersion = '1.7.0-RC'
+    def coroutinesVersion = '1.7.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
