@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
-import com.ph03nix_x.capacityinfo.utilities.Constants.UKRAINIAN_TRANSLATION_LINK
 
 class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
 
@@ -24,7 +23,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
     private var build: Preference? = null
     private var buildDate: Preference? = null
     private var github: Preference? = null
-    private var ukrainianTranslation: Preference? = null
     private var betaTester: Preference? = null
     private var orderId: Preference? = null
 
@@ -45,8 +43,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
         buildDate = findPreference("build_date")
 
         github = findPreference("github")
-
-        ukrainianTranslation = findPreference("ukrainian_translation")
 
         betaTester = findPreference("become_a_beta_tester")
 
@@ -108,21 +104,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
 
                 Toast.makeText(requireContext(), e.message ?: e.toString(),
                     Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        ukrainianTranslation?.setOnPreferenceClickListener {
-
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(UKRAINIAN_TRANSLATION_LINK)))
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
             }
 
             true

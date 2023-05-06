@@ -251,7 +251,6 @@
     <string name="import_history">Імпорт історії</string>
     <string name="error_importing_history">Помилка імпортування історії!</string>
     <string name="history_imported_successfully">Історія успішно імпортована!</string>
-    <string name="ukrainian_translation">Український переклад</string>
     <string name="battery_is_charged_voltage">Акумулятор заряджений (Напруга)</string>
     <string name="battery_is_charged_notification_voltage">Акумулятор заряджений. %1$d мВ</string>
     <string name="battery_charged_discharged_voltage_seekbar_title">Напруга</string>
