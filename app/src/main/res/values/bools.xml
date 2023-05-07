@@ -22,6 +22,8 @@
     <bool name="is_bypass_dnd_mode">true</bool>
     <bool name="is_notify_overheat_overcool">false</bool>
     <bool name="is_notify_battery_is_fully_charged">false</bool>
+    <bool name="is_notify_full_charge_reminder_default_value">false</bool>
+    <bool name="is_notify_full_charge_reminder_enabled">false</bool>
     <bool name="is_notify_battery_is_charged">false</bool>
     <bool name="is_notify_battery_is_charged_voltage">false</bool>
     <bool name="is_notify_battery_is_discharged">false</bool>

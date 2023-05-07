@@ -84,6 +84,13 @@
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round" />
 
+        <service
+            android:name=".services.FullChargeReminderJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"/>
+
         <receiver android:name=".receivers.BootReceiver" android:exported="true">
 
             <intent-filter>

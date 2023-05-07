@@ -21,12 +21,17 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.ChangeBatteryIsChargedDischargedVoltageDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangeChargingCurrentNotifyLevelDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangeDischargeCurrentNotifyLevelDialogBinding
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.FullChargeReminderJobService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -42,6 +47,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_FULL_CHARGE_REMINDER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
@@ -61,6 +67,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var overheatDegrees: SeekBarPreference? = null
     private var overcoolDegrees: SeekBarPreference? = null
     private var notifyBatteryIsFullyCharged: SwitchPreferenceCompat? = null
+    private var notifyFullChargeReminder: SwitchPreferenceCompat? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
     private var notifyBatteryIsChargedVoltage: SwitchPreferenceCompat? = null
     private var notifyChargingCurrent: SwitchPreferenceCompat? = null
@@ -111,6 +118,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         overheatDegrees = findPreference(OVERHEAT_DEGREES)
         overcoolDegrees = findPreference(OVERCOOL_DEGREES)
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)
+        notifyFullChargeReminder = findPreference(IS_NOTIFY_FULL_CHARGE_REMINDER)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
         notifyBatteryIsChargedVoltage = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE)
         notifyChargingCurrent = findPreference(IS_NOTIFY_CHARGING_CURRENT)
@@ -147,6 +155,9 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                 R.bool.is_notify_overheat_overcool))
         }
+
+        notifyFullChargeReminder?.isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
+            resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
 
         batteryLevelNotifyCharged?.apply {
 
@@ -212,12 +223,34 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             true
         }
 
-        notifyBatteryIsFullyCharged?.setOnPreferenceChangeListener { _, _ ->
+        notifyBatteryIsFullyCharged?.setOnPreferenceChangeListener { _, newValue ->
 
             NotificationInterface.isNotifyBatteryFullyCharged = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+            val isChecked = (newValue as? Boolean) ?: false
+
+            notifyFullChargeReminder?.isEnabled = isChecked
+
+            if(!isChecked) ServiceHelper.cancelJob(requireContext(),
+                Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+
+            true
+        }
+
+        notifyFullChargeReminder?.setOnPreferenceChangeListener { _, newValue ->
+
+            val isChecked = (newValue as? Boolean) ?: false
+
+            if(isChecked && CapacityInfoService.instance?.isFull == true)
+                ServiceHelper.jobSchedule(requireContext(),
+                    FullChargeReminderJobService::class.java,
+                    Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
+                    Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_JOB_PERIODIC)
+            else ServiceHelper.cancelJob(requireContext(),
+                Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
 
             true
         }
@@ -446,6 +479,14 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         notifyBatteryIsFullyCharged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
             resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
+
+        notifyFullChargeReminder?.apply {
+
+            isChecked = pref.getBoolean(IS_NOTIFY_FULL_CHARGE_REMINDER,
+                resources.getBoolean(R.bool.is_notify_full_charge_reminder_default_value))
+
+            isEnabled = notifyBatteryIsFullyCharged?.isChecked == true
+        }
 
        notifyBatteryIsCharged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources
            .getBoolean(R.bool.is_notify_battery_is_charged))

@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 
@@ -138,6 +139,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
                 NotificationInterface.isBatteryDischargedVoltage = true
                 NotificationInterface.isChargingCurrent = true
                 NotificationInterface.isDischargeCurrent = true
+
+                ServiceHelper.cancelJob(context, Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
 
                 if(MainActivity.instance?.fragment != null) {
 

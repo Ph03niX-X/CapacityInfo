@@ -51,6 +51,8 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_JOB_PERIODIC
+import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -533,6 +535,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     private suspend fun batteryCharged() {
+
+        withContext(Dispatchers.Main) {
+            ServiceHelper.jobSchedule(this@CapacityInfoService,
+                FullChargeReminderJobService::class.java, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
+                FULL_CHARGE_REMINDER_JOB_SERVICE_JOB_PERIODIC)
+        }
 
         isFull = true
 
