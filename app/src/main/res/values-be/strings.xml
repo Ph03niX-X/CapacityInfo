@@ -330,4 +330,6 @@
     <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
     <string name="setting_is_intended_to_correct">
         Дадзеная налада прызначана для выпраўлення адлюстравання значэння</string>
+    <string name="full_charge_reminder">Нагадваць аб поўным зарадзе</string>
+    <string name="full_charge_reminder_summary">Нагадваць аб поўным зарадзе кожныя 30 хвілін</string>
 </resources>
