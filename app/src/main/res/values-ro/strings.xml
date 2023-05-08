@@ -330,4 +330,6 @@
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
     <string name="setting_is_intended_to_correct">
         Această setare are scopul de a corecta afișarea valorii</string>
+    <string name="full_charge_reminder">Memento de încărcare completă</string>
+    <string name="full_charge_reminder_summary">Memento de încărcare completă la fiecare 30 de minute</string>
 </resources>
