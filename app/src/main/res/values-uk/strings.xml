@@ -330,4 +330,6 @@
     <string name="charging_discharge_current_watt_overlay_only_values">%1$s Вт</string>
     <string name="setting_is_intended_to_correct">
         Дане налаштування призначено для виправлення відображення значення</string>
+    <string name="full_charge_reminder">Нагадувати про повний заряд</string>
+    <string name="full_charge_reminder_summary">Нагадувати про повний заряд кожні 30 хвилин</string>
 </resources>
