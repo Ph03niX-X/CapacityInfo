@@ -446,6 +446,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             Toast.makeText(this, R.string.service_stopped_successfully,
                 Toast.LENGTH_LONG).show()
 
+        ServiceHelper.cancelJob(this, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+
         super.onDestroy()
     }
 
