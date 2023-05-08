@@ -15,7 +15,5 @@ object LocaleHelper {
         return createConfigurationContext(config)
     }
 
-    fun Configuration.getSystemLocale(): String {
-        return locales[0].language
-    }
+    fun Configuration.getSystemLocale(): String = locales[0].language
 }

@@ -116,10 +116,12 @@
                 <action android:name="android.provider.Telephony.SECRET_CODE"/>
 
                 <!--CIDBGENABLED-->
-                <data android:scheme="android_secret_code" android:host="243243622533"/>
+                <data android:scheme="android_secret_code"/>
+                <data android:host="243243622533"/>
 
                 <!--CIDBGDISABLED-->
-                <data android:scheme="android_secret_code" android:host="2432434722533"/>
+                <data android:scheme="android_secret_code"/>
+                <data android:host="2432434722533"/>
             </intent-filter>
         </receiver>
 
