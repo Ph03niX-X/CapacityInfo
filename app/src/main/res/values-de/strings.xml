@@ -329,4 +329,6 @@
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
     <string name="setting_is_intended_to_correct">
         Diese Einstellung soll die Anzeige des Wertes korrigieren</string>
+    <string name="full_charge_reminder">Erinnerung an volle Ladung</string>
+    <string name="full_charge_reminder_summary">Erinnerung an volle Ladung alle 30 Minuten</string>
 </resources>
