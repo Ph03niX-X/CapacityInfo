@@ -22,26 +22,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 
-class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
+class UpdateApplicationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -54,8 +37,6 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(context)
 
                 PremiumInterface.premiumContext = context
-
-                if(!isPremium()) resetPremiumFeatures(context)
 
                 removeOldPreferences(context)
 
@@ -87,31 +68,6 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                         Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(
                             FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
                             "1")?.toLong() ?: 1L) * 60L * 60L * 1000L)
-            }
-        }
-    }
-
-    private fun resetPremiumFeatures(context: Context) {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        arrayListOf(IS_ENABLED_OVERLAY, IS_BYPASS_DND, IS_NOTIFY_OVERHEAT_OVERCOOL,
-            IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, IS_NOTIFY_BATTERY_IS_CHARGED,
-            IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, IS_NOTIFY_BATTERY_IS_DISCHARGED,
-            IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE, IS_NOTIFY_CHARGING_CURRENT,
-            IS_NOTIFY_DISCHARGE_CURRENT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
-            IS_AUTO_BACKUP_SETTINGS, IS_BACKUP_SETTINGS_TO_MICROSD,
-            FREQUENCY_OF_AUTO_BACKUP_SETTINGS, TAB_ON_APPLICATION_LAUNCH,
-            IS_ENABLED_DEBUG_OPTIONS, IS_SHOW_STOP_SERVICE, IS_SHOW_BATTERY_INFORMATION,
-            IS_STOP_THE_SERVICE_WHEN_THE_CD, IS_SHOW_EXPANDED_NOTIFICATION).forEach {
-
-            with(pref) {
-
-                edit().apply {
-
-                    if(contains(it)) this.remove(it)
-
-                    apply()
-                }
             }
         }
     }
