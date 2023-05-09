@@ -406,7 +406,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
-        if(batteryWearDialog == null) showBatteryWearDialog()
+        if(!pref.getBoolean(IS_BATTERY_WEAR, resources.getBoolean(R.bool.is_battery_wear)
+                    && batteryWearDialog == null)) showBatteryWearDialog()
 
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
@@ -668,38 +669,43 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
             R.integer.min_design_capacity)).toDouble()
 
+        val residualCapacity = if(pref.getString(PreferencesKeys
+                .UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+            pref.getInt(RESIDUAL_CAPACITY, 0).toDouble() / 1000.0 else pref.getInt(
+            RESIDUAL_CAPACITY, 0).toDouble() / 100.0
+
         val batteryWear = if(BatteryInfoInterface.residualCapacity > 0.0 &&
             BatteryInfoInterface.residualCapacity < designCapacity)
-                (100.0 - (BatteryInfoInterface.residualCapacity / designCapacity) * 100.0) else 0.0
+            (100.0 - (BatteryInfoInterface.residualCapacity / designCapacity) * 100.0)
+        else if(residualCapacity > 0.0 && residualCapacity < designCapacity)
+                (100.0 - (residualCapacity / designCapacity) * 100.0) else 0.0
 
         when (batteryWear) {
             in 25.0..100.0 -> {
                 with(pref) {
-                    if(!getBoolean(IS_BATTERY_WEAR, resources.getBoolean(R.bool.is_battery_wear))) {
-                        edit().putBoolean(IS_BATTERY_WEAR, true).apply()
-                    batteryWearDialog =
-                        MaterialAlertDialogBuilder(this@MainActivity).apply {
-                            setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                            setTitle(getString(R.string.information))
-                            setMessage(getString(when (batteryWear) {
+                        batteryWearDialog =
+                            MaterialAlertDialogBuilder(this@MainActivity).apply {
+                                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                                setTitle(getString(R.string.information))
+                                setMessage(getString(when (batteryWear) {
 
-                                in 25.0..39.9 -> R.string.battery_wear_dialog
+                                    in 25.0..39.9 -> R.string.battery_wear_dialog
 
-                                in 40.0..59.9 -> R.string.high_battery_wear_dialog
+                                    in 40.0..59.9 -> R.string.high_battery_wear_dialog
 
-                                in 60.0..74.9 -> R.string.very_high_battery_wear_dialog
+                                    in 60.0..74.9 -> R.string.very_high_battery_wear_dialog
 
-                                else -> R.string.critical_battery_wear_dialog },
-                                "${DecimalFormat("#.#").format(batteryWear)}%"))
+                                    else -> R.string.critical_battery_wear_dialog },
+                                    "${DecimalFormat("#.#").format(batteryWear)}%"))
 
-                            setPositiveButton(android.R.string.ok) { d, _ ->
-                                batteryWearDialog = null
-                                d.dismiss()
+                                setPositiveButton(android.R.string.ok) { d, _ ->
+                                    edit().putBoolean(IS_BATTERY_WEAR, true).apply()
+                                    batteryWearDialog = null
+                                    d.dismiss()
+                                }
+                                setCancelable(false)
+                                show()
                             }
-                            setCancelable(false)
-                            show()
-                        }
-                    }
                 }
             }
             else -> pref.edit().remove(IS_BATTERY_WEAR).apply()

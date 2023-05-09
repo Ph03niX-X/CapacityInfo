@@ -558,7 +558,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
         else 100.0
 
-        val residualCapacityCurrent = pref.getInt(RESIDUAL_CAPACITY, 0) / 1000
+        val residualCapacityCurrent = if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                "μAh") == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0) / 1000
+        else pref.getInt(RESIDUAL_CAPACITY, 0) / 100
 
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||
@@ -566,7 +568,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     resources.getInteger(R.integer.min_design_capacity) - 250) ||
                 pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(
                     R.bool.is_fast_charge_debug)))
-                    (currentCapacity + ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
+                (currentCapacity.toDouble() +
+                        ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
 
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
@@ -625,6 +628,18 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         withContext(Dispatchers.Main) {
             onUpdateServiceNotification(this@CapacityInfoService)
+        }
+
+        if(pref.getBoolean(PreferencesKeys.IS_BATTERY_WEAR,
+                resources.getBoolean(R.bool.is_battery_wear))) {
+            val residualCapacityPref = if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                    "μAh") == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0)
+                .toDouble() / 1000.0
+            else pref.getInt(RESIDUAL_CAPACITY, 0).toDouble() / 100.0
+
+            val batteryWear = if(residualCapacityPref > 0.0 && residualCapacityPref < designCapacity)
+                (100.0 - (residualCapacityPref / designCapacity) * 100.0) else 0.0
+            if(batteryWear in 0.0..20.0) pref.edit().remove(PreferencesKeys.IS_BATTERY_WEAR).apply()
         }
     }
 }
