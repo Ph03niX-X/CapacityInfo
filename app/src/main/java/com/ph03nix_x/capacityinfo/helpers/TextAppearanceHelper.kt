@@ -83,6 +83,12 @@ object TextAppearanceHelper : PremiumInterface {
 
             27 -> ResourcesCompat.getFont(context, R.font.rubik_iso)
 
+            28 -> ResourcesCompat.getFont(context, R.font.roboto_condensed)
+
+            29 -> ResourcesCompat.getFont(context, R.font.poppins)
+
+            30 -> ResourcesCompat.getFont(context, R.font.kanit)
+
             else -> null
         }
     }

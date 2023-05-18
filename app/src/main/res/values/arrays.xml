@@ -117,6 +117,9 @@
         <item>Montserrat</item>
         <item>Sono</item>
         <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -148,6 +151,9 @@
         <item>25</item>
         <item>26</item>
         <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
