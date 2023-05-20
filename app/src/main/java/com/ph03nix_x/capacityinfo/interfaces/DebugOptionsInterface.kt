@@ -26,16 +26,19 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.databinding.AddCustomHistoryDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangePrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
+import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
@@ -74,6 +77,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.NumberFormatException
 
 interface DebugOptionsInterface {
 
@@ -769,6 +773,115 @@ interface DebugOptionsInterface {
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
+        }
+    }
+
+    fun DebugFragment.onAddCustomHistory(pref: SharedPreferences,
+                                         addHistoryList: ArrayList<Preference?>,
+                                         historyCount: Preference? = null,
+                                         exportHistory: Preference? = null) {
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+
+        val binding = AddCustomHistoryDialogBinding.inflate(LayoutInflater.from(requireContext()),
+            null, false)
+
+        dialog.setView(binding.root.rootView)
+
+        binding.historyCountEdit.setText("${HistoryHelper.getHistoryCount(requireContext())}")
+
+        dialog.setPositiveButton(requireContext().getString(R.string.add)) { _, _ ->
+
+            val oldHistoryCount = HistoryHelper.getHistoryCount(requireContext())
+
+            var addHistoryCount = 0L
+
+            CoroutineScope(Dispatchers.Default).launch {
+                for(count in 1..(
+                        binding.historyCountEdit.text?.toString()?.toInt() ?: 1)) {
+                    val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
+                        R.integer.min_design_capacity))
+                    val date =  DateHelper.getDate((1..31).random(), (1..12).random(),
+                        DateHelper.getCurrentYear())
+                    val residualCapacity = if(pref.getString(
+                            UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") ((
+                            designCapacity * 0.01).toInt() * 1000..(designCapacity + (
+                            (designCapacity / 1000) * 5)) * 1000).random()
+                    else ((designCapacity * 0.01).toInt() * 100..(designCapacity + (
+                            (designCapacity / 1000) * 5)) * 100).random()
+
+                    HistoryHelper.addHistory(requireContext(), date, residualCapacity)
+
+                    addHistoryCount = HistoryHelper.getHistoryCount(requireContext()) - oldHistoryCount
+                }
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "$addHistoryCount",
+                        Toast.LENGTH_LONG).show()
+
+                    addHistoryList.forEach {
+                        it?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                    }
+
+                    exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
+
+                    historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
+                }
+            }
+        }
+
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+
+        val dialogCreate = dialog.create()
+
+        addHistoryDialogCreateShowListener(requireContext(), dialogCreate, binding.historyCountEdit)
+
+        dialogCreate.show()
+    }
+
+    private fun addHistoryDialogCreateShowListener(context: Context,
+                                                             dialogCreate: AlertDialog,
+                                                             historyCount: TextInputEditText) {
+
+        dialogCreate.setOnShowListener {
+
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
+                historyCount.text?.toString()!!.toInt() > 0 && !HistoryHelper.isHistoryMax(context)
+            }
+
+            catch (e: NumberFormatException) { false }
+
+            catch (e: Exception) { Toast.makeText(context, e.message ?: e.toString(),
+                Toast.LENGTH_LONG).show()
+                dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled
+            }
+
+            historyCount.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
+                        (HistoryHelper.isHistoryEmpty(context) && s.isNotEmpty() &&
+                                s.toString().toInt() > 0 && s.toString().toInt() <=
+                                Constants.HISTORY_COUNT_MAX) || (!HistoryHelper
+                            .isHistoryEmpty(context) && s.isNotEmpty() && s.toString().toInt() > 0
+                                && HistoryHelper.getHistoryCount(context) + s.toString().toInt() <=
+                                Constants.HISTORY_COUNT_MAX)
+                    }
+
+                    catch (e: NumberFormatException) { false }
+
+                    catch (e: Exception) { Toast.makeText(context, e.message ?: e.toString(),
+                        Toast.LENGTH_LONG).show()
+                        dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled
+                    }
+                }
+            })
         }
     }
 

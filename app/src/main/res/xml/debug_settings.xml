@@ -66,6 +66,11 @@
             android:key="reset_screen_time"/>
 
         <Preference
+            android:title="@string/add_custom_history"
+            app:singleLineTitle="false"
+            android:key="add_custom_history"/>
+
+        <Preference
             android:title="@string/add_history"
             app:singleLineTitle="false"
             android:key="add_history"/>

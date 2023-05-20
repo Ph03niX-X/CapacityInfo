@@ -35,6 +35,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
     private var resetScreenTime: Preference? = null
+    private var addCustomHistory: Preference? = null
     private var addHistory: Preference? = null
     private var addTenHistory: Preference? = null
     private var addFiftyHistory: Preference? = null
@@ -65,7 +66,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 Constants.IMPORT_HISTORY_REQUEST_CODE ->
                     if(it.resultCode == Activity.RESULT_OK) onImportHistory(it.data?.data,
-                        arrayListOf(addHistory, addTenHistory, addFiftyHistory, exportHistory))
+                        arrayListOf(addCustomHistory, addHistory, addTenHistory, addFiftyHistory,
+                            exportHistory))
 
                 Constants.EXPORT_SETTINGS_REQUEST_CODE ->
                     if(it.resultCode == Activity.RESULT_OK) onExportSettings(it.data)
@@ -89,6 +91,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetSettings = findPreference("reset_settings")
 
         resetScreenTime = findPreference("reset_screen_time")
+
+        addCustomHistory = findPreference("add_custom_history")
 
         addHistory = findPreference("add_history")
 
@@ -119,6 +123,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
         resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
+
+        addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
@@ -166,8 +172,17 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             true
         }
 
+        addCustomHistory?.setOnPreferenceClickListener {
+
+            onAddCustomHistory(pref, arrayListOf(it, addHistory, addTenHistory, addFiftyHistory),
+                historyCount, exportHistory)
+
+            true
+        }
+
         addHistory?.setOnPreferenceClickListener {
 
+            addCustomHistory?.isEnabled = false
             it.isEnabled = false
             addTenHistory?.isEnabled = false
             addFiftyHistory?.isEnabled = false
@@ -194,6 +209,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     Toast.LENGTH_LONG).show()
             else Toast.makeText(requireContext(), "0.0.0: 0", Toast.LENGTH_LONG).show()
 
+            addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
             addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -204,6 +220,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addTenHistory?.setOnPreferenceClickListener {
 
+            addCustomHistory?.isEnabled = false
             addHistory?.isEnabled = false
             it.isEnabled = false
             addFiftyHistory?.isEnabled = false
@@ -250,6 +267,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
+                    addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -262,6 +280,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory?.setOnPreferenceClickListener {
 
+            addCustomHistory?.isEnabled = false
             addHistory?.isEnabled = false
             addTenHistory?.isEnabled = false
             it.isEnabled = false
@@ -308,6 +327,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
                 withContext(Dispatchers.Main) {
 
+                    addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
@@ -532,6 +552,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 && isGooglePlay(requireContext())
 
         resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
+
+        addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
