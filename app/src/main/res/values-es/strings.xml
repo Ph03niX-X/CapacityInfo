@@ -234,6 +234,7 @@
     <string name="stop_overlay_service">Detener Overlay Service</string>
     <string name="restart_overlay_service">Reiniciar Overlay Service</string>
     <string name="history">Historia</string>
+    <string name="add_custom_history">Añadir historial personalizado</string>
     <string name="add_history">Añadir historia</string>
     <string name="add_ten_history">Añadir 10 historia</string>
     <string name="add_fifty_history">Añadir 50 historia</string>
