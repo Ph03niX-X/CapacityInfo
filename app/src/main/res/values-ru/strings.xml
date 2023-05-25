@@ -234,6 +234,7 @@
     <string name="stop_overlay_service">Остановить Overlay Service</string>
     <string name="restart_overlay_service">Перезапустить Overlay Service</string>
     <string name="history">История</string>
+    <string name="add_custom_history">Добавить пользовательское количество историй</string>
     <string name="add_history">Добавить историю</string>
     <string name="add_ten_history">Добавить 10 историй</string>
     <string name="add_fifty_history">Добавить 50 историй</string>
