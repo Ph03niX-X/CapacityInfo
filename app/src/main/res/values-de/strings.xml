@@ -233,6 +233,7 @@
     <string name="stop_overlay_service">Overlay Service stoppen</string>
     <string name="restart_overlay_service">Overlay Service neustarten</string>
     <string name="history">Geschichte</string>
+    <string name="add_custom_history">Benutzerdefinierten Verlauf hinzufügen</string>
     <string name="add_history">Geschichte hinzufügen</string>
     <string name="add_ten_history">10 Geschichte hinzufügen</string>
     <string name="add_fifty_history">50 Geschichte hinzufügen</string>
