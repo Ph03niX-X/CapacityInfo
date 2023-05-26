@@ -89,6 +89,10 @@ object TextAppearanceHelper : PremiumInterface {
 
             30 -> ResourcesCompat.getFont(context, R.font.kanit)
 
+            31 -> ResourcesCompat.getFont(context, R.font.playfair)
+
+            32 -> ResourcesCompat.getFont(context, R.font.mukta)
+
             else -> null
         }
     }

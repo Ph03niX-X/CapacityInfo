@@ -61,6 +61,8 @@
         <item>Roboto Condensed</item>
         <item>Poppins</item>
         <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -95,6 +97,8 @@
         <item>28</item>
         <item>29</item>
         <item>30</item>
+        <item>31</item>
+        <item>32</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
