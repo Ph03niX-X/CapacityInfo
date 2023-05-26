@@ -234,6 +234,7 @@
     <string name="stop_overlay_service">Спыніць Overlay Service</string>
     <string name="restart_overlay_service">Перазапусціць Overlay Service</string>
     <string name="history">Гісторыя</string>
+    <string name="add_custom_history">Дадаць карыстацкую колькасць гісторый</string>
     <string name="add_history">Дадаць гісторыю</string>
     <string name="add_ten_history">Дадаць 10 гісторый</string>
     <string name="add_fifty_history">Дадаць 50 гісторый</string>
