@@ -9,10 +9,12 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.graphics.Color
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.BatteryManager
+import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -180,7 +182,13 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 R.bool.is_service_time)))
         }
 
-        (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            notificationBuilder?.build()?.let {
+                (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
+                    it, FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+            }
+
+        else (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
             notificationBuilder?.build())
     }
 

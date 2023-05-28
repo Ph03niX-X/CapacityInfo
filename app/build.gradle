@@ -3,13 +3,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+//    compileSdkVersion 33
+    compileSdkPreview = "UpsideDownCake"
+    buildToolsVersion "34.0.0-rc4"
     defaultConfig {
         applicationId "com.ph03nix_x.capacityinfo"
         namespace applicationId
         minSdkVersion 26
-        targetSdkVersion 33
+//        targetSdkVersion 33
+        targetSdkPreview = "UpsideDownCake"
         versionCode 1226
         versionName "6.7.0.2"
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
