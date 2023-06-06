@@ -333,4 +333,5 @@
         Дане налаштування призначено для виправлення відображення значення</string>
     <string name="full_charge_reminder">Нагадувати про повний заряд</string>
     <string name="full_charge_reminder_summary">Нагадувати про повний заряд кожні 30 хвилин</string>
+    <string name="allow_all_app_notifications">ДОЗВОЛЬТЕ ЗАСТОСУНКУ ПОКАЗУВАТИ ВСІ СПОВІЩЕННЯ</string>
 </resources>
