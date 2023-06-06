@@ -344,17 +344,20 @@ interface BatteryInfoInterface {
                     .format(capacityAdded), "$percentAdded%")
             }
 
-            else -> if(isCapacityInWh)
-                context.getString(if(!isOverlay || !isOnlyValues)
-                    R.string.capacity_added_wh else
-                    R.string.capacity_added_wh_overlay_only_values, DecimalFormat("#.#")
-                    .format(getOnCapacityInWh(capacityAddedPref)),
-                    "${pref.getInt(PERCENT_ADDED, 0)}%")
+            else -> {
+                val percentAddedPref = pref.getInt(PERCENT_ADDED, 0)
+                if(isCapacityInWh)
+                    context.getString(if(!isOverlay || !isOnlyValues)
+                        R.string.capacity_added_wh else
+                        R.string.capacity_added_wh_overlay_only_values, DecimalFormat("#.#")
+                        .format(getOnCapacityInWh(capacityAddedPref)),
+                        "$percentAddedPref%")
 
             else context.getString(if(!isOverlay || !isOnlyValues)
                 R.string.capacity_added else
-                R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
-                .format(capacityAddedPref), "$percentAdded%")
+                    R.string.capacity_added_overlay_only_values, DecimalFormat("#.#")
+                    .format(capacityAddedPref), "$percentAddedPref%")
+            }
         }
     }
 
