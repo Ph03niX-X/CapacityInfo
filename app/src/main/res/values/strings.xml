@@ -355,4 +355,5 @@
         This setting is intended to correct the display of the value</string>
     <string name="full_charge_reminder">Full Charge Reminder</string>
     <string name="full_charge_reminder_summary">Full charge reminder every 30 minutes</string>
+    <string name="allow_all_app_notifications">ALLOW ALL APP NOTIFICATIONS</string>
 </resources>

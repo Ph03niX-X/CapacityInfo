@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -61,7 +62,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private lateinit var pref: SharedPreferences
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
-    private var batteryStatusInformationSettingsPrefScreen: PreferenceScreen? = null
+    private var batteryStatusInformationSettingsPrefCategory: PreferenceCategory? = null
+    private var allowAllAppNotifications: Preference? = null
     private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
     private var overheatDegrees: SeekBarPreference? = null
     private var overcoolDegrees: SeekBarPreference? = null
@@ -97,7 +99,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                     when (requestCode) {
 
                         POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE -> {
-                            batteryStatusInformationSettingsPrefScreen?.isEnabled = it.value
+                            allowAllAppNotifications?.isVisible = !it.value
+                            batteryStatusInformationSettingsPrefCategory?.isEnabled = it.value
                         }
                     }
                 }
@@ -111,8 +114,9 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             }
         }
 
-        batteryStatusInformationSettingsPrefScreen =
-            findPreference("battery_status_information_settings_pref_screen")
+        batteryStatusInformationSettingsPrefCategory =
+            findPreference("battery_status_information_settings_pref_category")
+        allowAllAppNotifications = findPreference("allow_all_app_notifications")
         notifyOverheatOvercool = findPreference(IS_NOTIFY_OVERHEAT_OVERCOOL)
         overheatDegrees = findPreference(OVERHEAT_DEGREES)
         overcoolDegrees = findPreference(OVERCOOL_DEGREES)
@@ -138,9 +142,23 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 requestCode = POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
                 requestPermissionLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
             }
-            batteryStatusInformationSettingsPrefScreen?.isEnabled = ContextCompat
+            batteryStatusInformationSettingsPrefCategory?.isEnabled = ContextCompat
                 .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED
+            allowAllAppNotifications?.apply {
+
+                isVisible = ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED
+
+                allowAllAppNotifications?.setOnPreferenceClickListener {
+                    startActivity(Intent().apply {
+                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                    })
+
+                    true
+                }
+            }
         }
 
         overheatDegrees?.apply {
@@ -456,10 +474,15 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         super.onResume()
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            batteryStatusInformationSettingsPrefScreen?.isEnabled = ContextCompat
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            batteryStatusInformationSettingsPrefCategory?.isEnabled = ContextCompat
                 .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED
+            allowAllAppNotifications?.isVisible = ContextCompat
+                .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_DENIED
+        }
 
         overheatDegrees?.apply {
             summary = getOverheatDegreesSummary()

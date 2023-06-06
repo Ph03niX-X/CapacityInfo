@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <Preference
+            android:title="@string/allow_all_app_notifications"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false"
+            android:key="allow_all_app_notifications"/>
+
+    <PreferenceCategory
+        android:key="battery_status_information_settings_pref_category"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
+
+    <SwitchPreferenceCompat
+        android:title="@string/bypass_dnd_mode"
+        android:summary="@string/bypass_dnd_mode_summary"
+        app:defaultValue="true"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_bypass_dnd_mode"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/overheat_overcool"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_overheat_overcool"/>
+
+    <SeekBarPreference
+        android:title="@string/overheat"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/overheat_overcool_degrees"
+        app:defaultValue="@integer/overheat_degrees_default"
+        app:singleLineTitle="false"
+        app:min="@integer/overheat_degrees_min"
+        android:max="@integer/overheat_degrees_max"
+        app:updatesContinuously="true"
+        android:key="overheat_degrees"/>
+
+    <SeekBarPreference
+        android:title="@string/overcool"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/overheat_overcool_degrees"
+        app:defaultValue="@integer/overcool_degrees_default"
+        app:singleLineTitle="false"
+        app:min="@integer/overcool_degrees_min"
+        android:max="@integer/overcool_degrees_max"
+        app:updatesContinuously="true"
+        android:key="overcool_degrees"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/battery_is_fully_charged"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_battery_is_fully_charged"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/full_charge_reminder"
+        android:summary="@string/full_charge_reminder_summary"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        app:defaultValue="@bool/is_notify_full_charge_reminder_default_value"
+        app:enabled="@bool/is_notify_full_charge_reminder_enabled"
+        android:key="is_notify_full_charge_reminder"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/battery_is_charged"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_battery_is_charged"/>
+
+    <SeekBarPreference
+        android:title="@string/battery_level_charge_discharge"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="80%"
+        app:defaultValue="@integer/battery_level_notify_charged"
+        app:singleLineTitle="false"
+        app:min="1"
+        app:updatesContinuously="true"
+        android:key="battery_level_notify_charged"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/battery_is_charged_voltage"
+        app:defaultValue="@bool/is_notify_battery_is_charged_voltage"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_battery_is_charged_voltage"/>
+
+    <SeekBarPreference
+        android:title="@string/battery_charged_discharged_voltage_seekbar_title"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/battery_charged_discharged_voltage_seekbar_summary"
+        app:defaultValue="@integer/battery_notify_charged_voltage_min"
+        app:singleLineTitle="false"
+        app:min="@integer/battery_notify_charged_voltage_min"
+        android:max="@integer/battery_notify_charged_voltage_max"
+        app:updatesContinuously="true"
+        android:key="battery_notify_charged_voltage"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/battery_is_discharged"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_battery_is_discharged"/>
+
+    <SeekBarPreference
+        android:title="@string/battery_level_charge_discharge"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="20%"
+        app:defaultValue="@integer/battery_level_notify_discharged"
+        app:singleLineTitle="false"
+        app:min="1"
+        android:max="99"
+        app:updatesContinuously="true"
+        android:key="battery_level_notify_discharged"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/battery_is_discharged_voltage"
+        app:defaultValue="@bool/is_notify_battery_is_discharged_voltage"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_battery_is_discharged_voltage"/>
+
+    <SeekBarPreference
+        android:title="@string/battery_charged_discharged_voltage_seekbar_title"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/battery_charged_discharged_voltage_seekbar_summary"
+        app:defaultValue="@integer/battery_notify_discharged_voltage_min"
+        app:singleLineTitle="false"
+        app:min="@integer/battery_notify_discharged_voltage_min"
+        android:max="@integer/battery_notify_discharged_voltage_max"
+        app:updatesContinuously="true"
+        android:key="battery_notify_discharged_voltage"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/charging_current"
+        android:defaultValue="@bool/is_notify_charging_current"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_charging_current"/>
+
+    <SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/ma"
+        app:defaultValue="@integer/charging_current_notify_level_min"
+        app:min="@integer/charging_current_notify_level_min"
+        android:max="@integer/charging_current_notify_level_max"
+        app:updatesContinuously="true"
+        android:key="charging_current_level_notify"/>
+
+    <SwitchPreferenceCompat
+        android:title="@string/discharge_current_settings_channel"
+        android:defaultValue="@bool/is_notify_discharge_current"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="is_notify_discharge_current"/>
+
+    <SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:summary="@string/ma"
+        app:defaultValue="@integer/discharge_current_notify_level_min"
+        app:min="@integer/discharge_current_notify_level_min"
+        android:max="@integer/discharge_current_notify_level_max"
+        app:updatesContinuously="true"
+        android:key="discharge_current_level_notify"/>
+
+    <Preference
+        android:title="@string/export_notification_sounds"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
+        android:key="export_notification_sounds"/>
+
+</PreferenceCategory>
+
+</PreferenceScreen>
