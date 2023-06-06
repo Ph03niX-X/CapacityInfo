@@ -49,7 +49,6 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
     private var importHistory: Preference? = null
 
     private var isRestoreSettingsFromBackup = false
-    private var isEnabledBackupInformationTimer = false
 
     private var requestCode = 0
 
@@ -173,14 +172,11 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             if(MainApp.isInstalledGooglePlay && pref.getBoolean(IS_SHOW_BACKUP_INFORMATION,
                     resources.getBoolean(R.bool.is_show_backup_information)))
                         MaterialAlertDialogBuilder(requireContext()).apply {
-                            isEnabledBackupInformationTimer = true
-                            enabledBackupInformationTimer()
                             setIcon(R.drawable.ic_instruction_not_supported_24dp)
                             setTitle(getString(R.string.information))
                             setMessage(getString(R.string.new_permission_is_required_dialog))
                             setPositiveButton(android.R.string.ok) { d, _ ->
-                                if(!isEnabledBackupInformationTimer)
-                                    pref.edit().putBoolean(IS_SHOW_BACKUP_INFORMATION, false).apply()
+                                pref.edit().putBoolean(IS_SHOW_BACKUP_INFORMATION, false).apply()
                                 d.dismiss() }
                             setCancelable(false)
                             show()
@@ -526,16 +522,5 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             .length() > 0)
 
         exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
-    }
-
-    private fun enabledBackupInformationTimer() {
-        var timer = 0
-        CoroutineScope(Dispatchers.Main).launch {
-            while(timer < 8) {
-                delay(1000L)
-                timer++
-            }
-            if(timer == 8) isEnabledBackupInformationTimer = false
-        }
     }
 }
