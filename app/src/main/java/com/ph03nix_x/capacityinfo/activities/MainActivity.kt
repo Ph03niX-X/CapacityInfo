@@ -430,6 +430,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(prefArrays != null) importSettings(prefArrays)
 
+        ServiceHelper.startService(this, CapacityInfoService::class.java)
+
         if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
                 .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
             !ServiceHelper.isStartedCapacityInfoService())
@@ -438,7 +440,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 PackageManager.PERMISSION_DENIED)
                 requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                     POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
-            else ServiceHelper.startService(this, CapacityInfoService::class.java)
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
@@ -470,16 +471,16 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
-
-        when (requestCode) {
-            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    ServiceHelper.startService(this, CapacityInfoService::class.java)
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
-    }
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+//                                            grantResults: IntArray) {
+//
+//        when (requestCode) {
+//            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
+//                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                    ServiceHelper.startService(this, CapacityInfoService::class.java)
+//            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        }
+//    }
 
     override fun onDestroy() {
 
