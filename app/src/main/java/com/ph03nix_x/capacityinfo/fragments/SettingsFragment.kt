@@ -303,7 +303,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             changeAppLanguage?.apply {
                 summary = getOnChangeAppLanguageSummary()
 
-                changeAppLanguage?.setOnPreferenceClickListener {
+                setOnPreferenceClickListener {
                     startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
                         Uri.parse("package:${requireContext().packageName}")))
                     true
