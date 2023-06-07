@@ -333,4 +333,5 @@
         Este ajuste está destinado a corregir la visualización del valor</string>
     <string name="full_charge_reminder">Recordatorio de carga completa</string>
     <string name="full_charge_reminder_summary">Recordatorio de carga completa cada 30 minutos</string>
+    <string name="allow_all_app_notifications">PERMITIR TODAS LAS NOTIFICACIONES DE APLICACIONES</string>
 </resources>
