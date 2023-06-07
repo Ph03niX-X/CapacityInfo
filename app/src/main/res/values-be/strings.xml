@@ -333,4 +333,5 @@
         Дадзеная налада прызначана для выпраўлення адлюстравання значэння</string>
     <string name="full_charge_reminder">Нагадваць аб поўным зарадзе</string>
     <string name="full_charge_reminder_summary">Нагадваць аб поўным зарадзе кожныя 30 хвілін</string>
+    <string name="allow_all_app_notifications">ДАЗВОЛІЦЕ ДАДАТКІ ПАКАЗВАЦЬ УСЕ АПАВЯШЧЭННІ</string>
 </resources>
