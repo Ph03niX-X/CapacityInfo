@@ -333,4 +333,5 @@
         To ustawienie ma na celu skorygowanie wyświetlania wartości</string>
     <string name="full_charge_reminder">Przypomnienie o pełnym naładowaniu</string>
     <string name="full_charge_reminder_summary">Przypomnienie o pełnym naładowaniu co 30 minut</string>
+    <string name="allow_all_app_notifications">ZEZWALAJ NA WSZYSTKIE POWIADOMIENIA APLIKACJI</string>
 </resources>
