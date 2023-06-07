@@ -1,0 +1,124 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Әдепкі)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Әдепкі)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Әдепкі)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Өте кішкентай</item>
+        <item>Кішкентай</item>
+        <item>Орташа (Әдепкі)</item>
+        <item>Үлкен</item>
+        <item>Өте үлкен</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Қалыпты (Әдепкі)</item>
+        <item>Майлы</item>
+        <item>Курсив</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Жүйелік</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (Әдепкі)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+    </string-array>
+
+    <string-array name="fonts_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Зарядтау/Разрядтау (Әдепкі)</item>
+        <item>Тозуы</item>
+        <item>Тарихы</item>
+    </string-array>
+
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Сағат</item>
+        <item>2 Сағат</item>
+        <item>3 Сағат</item>
+        <item>4 Сағат</item>
+        <item>5 Сағат</item>
+        <item>6 Сағат</item>
+        <item>7 Сағат</item>
+        <item>8 Сағат</item>
+        <item>9 Сағат</item>
+        <item>10 Сағат</item>
+        <item>11 Сағат</item>
+        <item>12 Сағат</item>
+    </string-array>
+
+</resources>
