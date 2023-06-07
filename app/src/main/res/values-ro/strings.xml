@@ -333,4 +333,5 @@
         Această setare are scopul de a corecta afișarea valorii</string>
     <string name="full_charge_reminder">Memento de încărcare completă</string>
     <string name="full_charge_reminder_summary">Memento de încărcare completă la fiecare 30 de minute</string>
+    <string name="allow_all_app_notifications">PERMITEȚI TOATE NOTIFICĂRILE APLICAȚIILOR</string>
 </resources>
