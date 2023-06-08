@@ -1,0 +1,124 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (По подразбиране)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (По подразбиране)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (По подразбиране)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Много малък</item>
+        <item>Малък</item>
+        <item>Средно (По подразбиране)</item>
+        <item>Голям</item>
+        <item>Много голям</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Нормално (По подразбиране)</item>
+        <item>Мазни</item>
+        <item>Курсив</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Системен</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (По подразбиране)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+    </string-array>
+
+    <string-array name="fonts_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Зареждане/Разреждане (По подразбиране)</item>
+        <item>Износване</item>
+        <item>Историята</item>
+    </string-array>
+
+    <string-array name="frequency_of_auto_backup_settings_list">
+        <item>1 Час</item>
+        <item>2 Часа</item>
+        <item>3 Часа</item>
+        <item>4 Часа</item>
+        <item>5 Часов</item>
+        <item>6 Часов</item>
+        <item>7 Часов</item>
+        <item>8 Часов</item>
+        <item>9 Часов</item>
+        <item>10 Часов</item>
+        <item>11 Часов</item>
+        <item>12 Часов</item>
+    </string-array>
+
+</resources>

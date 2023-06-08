@@ -116,11 +116,13 @@ interface SettingsInterface {
 
             "be" -> resources.getStringArray(R.array.languages_list)[5]
 
-            "kk" -> resources.getStringArray(R.array.languages_list)[6]
+            "bg" -> resources.getStringArray(R.array.languages_list)[6]
 
-            "ru" -> resources.getStringArray(R.array.languages_list)[7]
+            "kk" -> resources.getStringArray(R.array.languages_list)[7]
 
-            "uk" -> resources.getStringArray(R.array.languages_list)[8]
+            "ru" -> resources.getStringArray(R.array.languages_list)[8]
+
+            "uk" -> resources.getStringArray(R.array.languages_list)[9]
 
             else -> defLang
         }
@@ -142,11 +144,13 @@ interface SettingsInterface {
 
             "be" -> resources.getStringArray(R.array.languages_list)[5]
 
-            "kk" -> resources.getStringArray(R.array.languages_list)[6]
+            "bg" -> resources.getStringArray(R.array.languages_list)[6]
 
-            "ru" -> resources.getStringArray(R.array.languages_list)[7]
+            "kk" -> resources.getStringArray(R.array.languages_list)[7]
 
-            "uk" -> resources.getStringArray(R.array.languages_list)[8]
+            "ru" -> resources.getStringArray(R.array.languages_list)[8]
+
+            "uk" -> resources.getStringArray(R.array.languages_list)[9]
 
             else -> defLang
         }
