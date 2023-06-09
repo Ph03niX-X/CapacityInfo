@@ -1,15 +1,12 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -23,7 +20,6 @@ import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHANGE_APP_LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
@@ -35,7 +31,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
@@ -72,8 +67,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var textSize: ListPreference? = null
     private var textFont: ListPreference? = null
     private var textStyle: ListPreference? = null
-    private var selectLanguage: ListPreference? = null
-    private var changeAppLanguage: Preference? = null
 
     // Misc
     private var capacityInWh: SwitchPreferenceCompat? = null
@@ -232,11 +225,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle = findPreference(TEXT_STYLE)
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            selectLanguage = findPreference(LANGUAGE)
-
-        changeAppLanguage = findPreference(CHANGE_APP_LANGUAGE)
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
@@ -256,9 +244,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         textStyle?.summary = getOnTextStyleSummary()
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            selectLanguage?.summary = getOnLanguageSummary()
 
         autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
 
@@ -290,25 +275,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     (newValue as? String)?.toInt() ?: 0]
 
             true
-        }
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            selectLanguage?.setOnPreferenceChangeListener { _, newValue ->
-                MainActivity.isRecreate = true
-                onChangeLanguage(((newValue as? String) ?: MainApp.defLang))
-                true
-            }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            changeAppLanguage?.apply {
-                summary = getOnChangeAppLanguageSummary()
-
-                setOnPreferenceClickListener {
-                    startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
-                        Uri.parse("package:${requireContext().packageName}")))
-                    true
-                }
-            }
         }
 
         // Misc
@@ -773,11 +739,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         textStyle?.summary = getOnTextStyleSummary()
-
-        changeAppLanguage?.summary = getOnChangeAppLanguageSummary()
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            selectLanguage?.summary = getOnLanguageSummary()
 
         if(isPremium) tabOnApplicationLaunch?.summary = getOnTabOnApplicationLaunch()
 

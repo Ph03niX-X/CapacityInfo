@@ -119,16 +119,6 @@
                 app:defaultValue="0"
                 android:key="text_style"/>
 
-        <ListPreference
-                android:title="@string/application_language"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_language_24dp"
-                app:dialogIcon="@drawable/ic_language_24dp"
-                android:entries="@array/languages_list"
-                android:entryValues="@array/languages_codes"
-                app:defaultValue="en"
-                android:key="language"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory

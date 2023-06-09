@@ -64,7 +64,6 @@
     <string name="are_you_sure">Sind Sie sicher?</string>
     <string name="settings_reset_successfully">Einstellungen erfolgreich zurückgesetzt</string>
     <string name="forcibly_show_rate_the_app">\"Die App bewerten\" Zwangsweise anzeigen</string>
-    <string name="application_language">Sprache</string>
     <string name="export_settings">Einstellungen exportieren</string>
     <string name="successful_export_of_settings">Die Einstellungen wurden erfolgreich exportiert!\n\nDateiname: \"%1$s\"</string>
     <string name="error_exporting_settings">Fehler beim Exportieren von Einstellungen!\n%1$s</string>
@@ -281,7 +280,6 @@
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
-    <string name="change_app_language">App-Sprache ändern</string>
     <string name="empty_history_text">Aufladungsverlauf ist leer! Bitte laden Sie den Akku zu 100% auf (Status: Geladen)</string>
     <string name="show_battery_information">Batterieinformationen anzeigen</string>
     <string name="service_is_running">Dienst läuft</string>

@@ -22,7 +22,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BA
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 
 class UpdateApplicationReceiver : BroadcastReceiver() {
 
@@ -78,7 +77,7 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
         arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay",
             "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog", "is_supported",
-            "is_show_not_supported_dialog", LANGUAGE, "is_enable_fake_battery_wear",
+            "is_show_not_supported_dialog", "language", "is_enable_fake_battery_wear",
             "fake_battery_wear_value", "is_high_battery_wear", "is_very_high_battery_wear",
             "is_critical_battery_wear").forEach {
 
@@ -86,11 +85,7 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
 
                 edit().apply {
 
-                    if(contains(it)) {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && it == LANGUAGE)
-                            this.remove(it)
-                        else if(it != LANGUAGE) this.remove(it)
-                    }
+                    if(contains(it)) this.remove(it)
 
                     apply()
                 }

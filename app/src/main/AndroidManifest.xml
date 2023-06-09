@@ -16,7 +16,7 @@
 
     <application
             android:name=".MainApp"
-            android:configChanges="locale|layoutDirection|uiMode"
+            android:configChanges="layoutDirection|uiMode"
             android:backupAgent=".ApplicationBackup"
             android:allowBackup="true"
             android:fullBackupContent="true"
@@ -29,14 +29,13 @@
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme"
             android:requestLegacyExternalStorage="true"
-            android:localeConfig="@xml/locales_config"
             tools:targetApi="tiramisu">
 
         <activity
                 android:name=".activities.MainActivity"
                 android:launchMode="singleInstance"
                 android:exported="true"
-                android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection">
+                android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode|layoutDirection">
 
             <intent-filter>
 

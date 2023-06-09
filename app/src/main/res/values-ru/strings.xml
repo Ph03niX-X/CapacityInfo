@@ -65,7 +65,6 @@
     <string name="are_you_sure">Вы уверены?</string>
     <string name="settings_reset_successfully">Настройки успешно сброшены</string>
     <string name="forcibly_show_rate_the_app">Принудительно показывать \"Оценить приложение\"</string>
-    <string name="application_language">Язык приложения</string>
     <string name="export_settings">Экспорт настроек</string>
     <string name="successful_export_of_settings">Настройки были успешно экспортированы!\n\nИмя файла: \"%1$s\"</string>
     <string name="error_exporting_settings">Ошибка экспортирования настроек!\n%1$s</string>
@@ -282,7 +281,6 @@
     <string name="premium_feature">Premium функция</string>
     <string name="purchase_premium">Приобрести</string>
     <string name="premium_features_unlocked">Premium функции разблокированы!</string>
-    <string name="change_app_language">Изменить язык приложения</string>
     <string name="empty_history_text">История зарядки пустая! Пожалуйста, зарядите аккумулятор до полных 100% (Статус: Заряжено)</string>
     <string name="show_battery_information">Показывать информацию об аккумуляторе</string>
     <string name="service_is_running">Служба запущена</string>

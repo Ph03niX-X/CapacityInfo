@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
-import android.app.LocaleManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -10,7 +9,6 @@ import android.os.BatteryManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.LocaleList
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
@@ -19,14 +17,11 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.*
-import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.fragments.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
-import com.ph03nix_x.capacityinfo.MainApp.Companion.currentLanguage
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.services.*
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
@@ -51,7 +46,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -71,6 +65,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
+    var isChangeLanguage = false
+
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var showFaqDialog: MaterialAlertDialogBuilder? = null
@@ -323,14 +319,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         })
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        pref = PreferenceManager.getDefaultSharedPreferences(newBase)
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-        super.attachBaseContext(ContextWrapper(newBase.setLocale(
-            pref.getString(LANGUAGE, null) ?: defLang)))
-        else super.attachBaseContext(newBase)
-    }
-
     override fun onResume() {
 
         super.onResume()
@@ -461,13 +449,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             isRecreate = true
 
             recreate()
-        }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            newConfig.locales[0] != currentLanguage) {
-            val localeManager = getSystemService(Context.LOCALE_SERVICE) as LocaleManager
-            localeManager.applicationLocales = LocaleList.forLanguageTags(newConfig.locales[0].language)
-            currentLanguage = newConfig.locales[0]
         }
     }
 

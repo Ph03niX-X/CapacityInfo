@@ -16,19 +16,16 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.ph03nix_x.capacityinfo.MainApp.Companion.defLang
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.ChangeDesignCapacityDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.getSystemLocale
 import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
@@ -92,68 +89,6 @@ interface SettingsInterface {
 
         return resources.getStringArray(R.array.text_style_list)[
                 (pref.getString(TEXT_STYLE, "0") ?: "0").toInt()]
-    }
-
-    fun SettingsFragment.getOnLanguageSummary(): String? {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        if(pref.getString(LANGUAGE, null) !in
-            resources.getStringArray(R.array.languages_codes))
-            pref.edit().putString(LANGUAGE, null).apply()
-
-        return when(pref.getString(LANGUAGE, null)) {
-
-            "en" -> resources.getStringArray(R.array.languages_list)[0]
-
-            "de" -> resources.getStringArray(R.array.languages_list)[1]
-
-            "es" -> resources.getStringArray(R.array.languages_list)[2]
-
-            "pl" -> resources.getStringArray(R.array.languages_list)[3]
-
-            "ro" -> resources.getStringArray(R.array.languages_list)[4]
-
-            "be" -> resources.getStringArray(R.array.languages_list)[5]
-
-            "bg" -> resources.getStringArray(R.array.languages_list)[6]
-
-            "kk" -> resources.getStringArray(R.array.languages_list)[7]
-
-            "ru" -> resources.getStringArray(R.array.languages_list)[8]
-
-            "uk" -> resources.getStringArray(R.array.languages_list)[9]
-
-            else -> defLang
-        }
-    }
-
-    fun SettingsFragment.getOnChangeAppLanguageSummary(): String? {
-
-        return when(requireContext().resources.configuration.getSystemLocale()) {
-
-            "en" -> resources.getStringArray(R.array.languages_list)[0]
-
-            "de" -> resources.getStringArray(R.array.languages_list)[1]
-
-            "es" -> resources.getStringArray(R.array.languages_list)[2]
-
-            "pl" -> resources.getStringArray(R.array.languages_list)[3]
-
-            "ro" -> resources.getStringArray(R.array.languages_list)[4]
-
-            "be" -> resources.getStringArray(R.array.languages_list)[5]
-
-            "bg" -> resources.getStringArray(R.array.languages_list)[6]
-
-            "kk" -> resources.getStringArray(R.array.languages_list)[7]
-
-            "ru" -> resources.getStringArray(R.array.languages_list)[8]
-
-            "uk" -> resources.getStringArray(R.array.languages_list)[9]
-
-            else -> defLang
-        }
     }
 
     fun SettingsFragment.getOnTabOnApplicationLaunch(): String? {

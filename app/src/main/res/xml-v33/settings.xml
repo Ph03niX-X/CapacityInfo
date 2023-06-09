@@ -119,12 +119,6 @@
             app:defaultValue="0"
             android:key="text_style"/>
 
-        <Preference
-            android:title="@string/change_app_language"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_language_24dp"
-            android:key="change_app_language"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory

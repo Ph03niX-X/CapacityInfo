@@ -65,7 +65,6 @@
     <string name="are_you_sure">¿Estás seguro?</string>
     <string name="settings_reset_successfully">Ajustes reiniciados correctamente</string>
     <string name="forcibly_show_rate_the_app">Mostrar \"Calificar la aplicación\"</string>
-    <string name="application_language">Idioma de la aplicación</string>
     <string name="export_settings">Exportar ajustes</string>
     <string name="successful_export_of_settings">¡La configuración se ha exportado correctamente!\n\nNombre de archivo: \"%1$s\"</string>
     <string name="error_exporting_settings">Error al exportar los ajustes!\n%1$s</string>
@@ -282,7 +281,6 @@
     <string name="premium_feature">Función Premium</string>
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Funciones premium desbloqueadas!</string>
-    <string name="change_app_language">Cambiar el idioma de la aplicación</string>
     <string name="empty_history_text">¡El historial de cargas está vacío! Por favor, cargue la batería al 100% (Estado: Cargado)</string>
     <string name="show_battery_information">Mostrar información de la batería</string>
     <string name="service_is_running">El servicio se está ejecutando</string>

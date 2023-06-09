@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -33,7 +32,6 @@ import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -54,7 +52,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -140,8 +137,7 @@ interface DebugOptionsInterface {
 
             when(addPrefType.selectedItemPosition) {
 
-                0 -> addChangeSetting(context, pref, addPrefKey.text.toString(),
-                    addPrefValue.text.toString())
+                0 -> addChangeSetting(pref, addPrefKey.text.toString(), addPrefValue.text.toString())
 
                 1 -> addChangeSetting(pref, addPrefKey.text.toString(),
                     addPrefValue.text.toString().toInt())
@@ -335,11 +331,10 @@ interface DebugOptionsInterface {
 
             when(key) {
 
-                LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
+                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
                 OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
-                FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> addChangeSetting(
-                    context, pref, key, value.toString())
+                FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> addChangeSetting(pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
@@ -390,7 +385,7 @@ interface DebugOptionsInterface {
 
                     when(key) {
 
-                        LANGUAGE, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                        UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_SIZE,
                         OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
                         FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> setValueType("string",
@@ -529,10 +524,6 @@ interface DebugOptionsInterface {
 
                         when(key) {
 
-                            LANGUAGE -> s.toString() != pref.getString(key, null)
-                                    && s.toString() in context.resources.getStringArray(
-                                R.array.languages_codes)
-
                             UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY ->
                                 s.toString() != pref.getString(key, "μAh") &&
                                         s.toString() in context.resources.getStringArray(R.array
@@ -608,22 +599,9 @@ interface DebugOptionsInterface {
         }
     }
 
-    private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String,
-                                 value: String) {
+    private fun addChangeSetting(pref: SharedPreferences, key: String, value: String) {
 
         pref.edit().putString(key, value).apply()
-
-        if(key == LANGUAGE) {
-
-            MainActivity.isRecreate = !MainActivity.isRecreate
-
-            MainActivity.tempFragment = MainActivity.instance?.fragment
-
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                context.setLocale(value)
-
-            (context as? MainActivity)?.recreate()
-        }
     }
 
     private fun addChangeSetting(pref: SharedPreferences, key: String,
@@ -694,17 +672,6 @@ interface DebugOptionsInterface {
             when (key) {
 
                 IS_AUTO_DARK_MODE, IS_DARK_MODE -> ThemeHelper.setTheme(requireContext())
-                LANGUAGE -> {
-
-                    MainActivity.isRecreate = !MainActivity.isRecreate
-
-                    MainActivity.tempFragment = MainActivity.instance?.fragment
-
-                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                        requireContext().setLocale(MainApp.defLang)
-
-                    (context as? MainActivity)?.recreate()
-                }
 
                 IS_FORCIBLY_SHOW_RATE_THE_APP -> {
 

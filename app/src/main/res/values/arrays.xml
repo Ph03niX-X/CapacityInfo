@@ -1,31 +1,5 @@
 <resources>
 
-    <string-array name="languages_list"> // Do Not Translation
-        <item>English</item>
-        <item>Deutsch</item>
-        <item>Español</item>
-        <item>Polski</item>
-        <item>Română</item>
-        <item>Беларуская</item>
-        <item>Български</item>
-        <item>Қазақ тілі</item>
-        <item>Русский</item>
-        <item>Українська</item>
-    </string-array>
-
-    <string-array name="languages_codes"> // Do Not Translation
-        <item>en</item>
-        <item>de</item>
-        <item>es</item>
-        <item>pl</item>
-        <item>ro</item>
-        <item>be</item>
-        <item>bg</item>
-        <item>kk</item>
-        <item>ru</item>
-        <item>uk</item>
-    </string-array>
-
     <string-array name="unit_of_charge_discharge_current_list">
         <item>μA (Default)</item>
         <item>mA</item>

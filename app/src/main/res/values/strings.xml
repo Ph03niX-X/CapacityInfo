@@ -68,7 +68,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="settings_reset_successfully">Settings reset successfully</string>
     <string name="forcibly_show_rate_the_app">Forcibly Show \"Rate the app\"</string>
-    <string name="application_language">Application Language</string>
     <string name="export_settings">Export Settings</string>
     <string name="successful_export_of_settings">Settings have been exported successfully!\n\nFile Name: \"%1$s\"</string>
     <string name="error_exporting_settings">Error Exporting Settings!\n%1$s</string>
@@ -303,7 +302,6 @@
     <string name="premium_feature">Premium feature</string>
     <string name="purchase_premium">Purchase</string>
     <string name="premium_features_unlocked">Premium features unlocked!</string>
-    <string name="change_app_language">Change App Language</string>
     <string name="empty_history_text">History of charges is empty! Please, charge the battery to full 100% (Status: Charged)</string>
     <string name="show_battery_information">Show Battery Information</string>
     <string name="service_is_running">Service is running</string>

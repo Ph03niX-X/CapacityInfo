@@ -38,8 +38,6 @@ object PreferencesKeys {
     const val TEXT_SIZE = "text_size"
     const val TEXT_FONT = "text_font"
     const val TEXT_STYLE = "text_style"
-    const val LANGUAGE = "language"
-    const val CHANGE_APP_LANGUAGE = "change_app_language" // Android 13+
 
     // Misc
     const val IS_CAPACITY_IN_WH = "is_capacity_in_wh"

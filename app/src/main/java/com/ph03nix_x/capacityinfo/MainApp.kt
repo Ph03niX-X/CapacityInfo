@@ -11,15 +11,12 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.getSystemLocale
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LANGUAGE
 import java.io.Serializable
-import java.util.Locale
 import kotlin.collections.HashMap
 import kotlin.system.exitProcess
 
@@ -28,12 +25,10 @@ class MainApp : Application() {
     companion object {
 
         var batteryIntent: Intent? = null
-        var defLang: String = "en"
         var isPowerConnected = false
         var isInstalledGooglePlay = true
 
         var microSDPath: String? = null
-        var currentLanguage: Locale? = null
 
         var currentTheme = -1
 
@@ -83,10 +78,6 @@ class MainApp : Application() {
 
         super.onCreate()
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) defLang()
-
-        currentLanguage = resources.configuration.locales[0]
-
         isInstalledGooglePlay = isInstalledGooglePlay()
 
         ThemeHelper.setTheme(this)
@@ -124,25 +115,6 @@ class MainApp : Application() {
 
             MainActivity.instance?.recreate()
         }
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
-            newConfig.getSystemLocale() != defLang) defLang()
-    }
-
-    private fun defLang() {
-
-        defLang = "en"
-
-        val systemLanguage = resources.configuration.getSystemLocale()
-
-        if(systemLanguage in resources.getStringArray(R.array.languages_codes)) defLang =
-            systemLanguage
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        if(pref.getString(LANGUAGE, null) !in
-            resources.getStringArray(R.array.languages_codes))
-            pref.edit().putString(LANGUAGE, defLang).apply()
     }
 
     private fun isInstalledGooglePlay(): Boolean {
