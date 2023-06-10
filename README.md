@@ -40,40 +40,43 @@ alt="Get it on Google Drive" width="300" border="10"/></p></a>
 <b>About:</b>
 </p>
 
-Do you want to know the remaining battery capacity of your smartphone or tablet, or have you bought a new battery and want to check its capacity? Then this app is for you! Capacity Info can help you find out the remaining capacity of the battery or the actual capacity of a new battery. Also, using this application, you can find out the number of charging cycles, the temperature and voltage of the battery, find out the charging/discharging current, receive notifications when the battery is discharged (charge level is adjustable), when the battery is charged to a certain level of charge, when the battery is fully charged (Status "Charged"). Also, with the help of this application you can receive notifications of overheating/overcooling of the battery, as well as with this application you can find out the charging current limit (it is not always possible to get the charging current limit data). It is also possible to display values ​​in an overlay.
+Do you want to know the remaining battery capacity of your smartphone or tablet, or have you bought a new battery and want to check its capacity? Then this app is for you! Capacity Info will help you to know the remaining battery capacity or to know the actual capacity of a new battery. Also with this application you can find out the capacity in Wh, the number of charge cycles, the temperature and voltage of the battery, find out the charging/discharging current, receive notifications when the battery is low (the charge level is adjustable), when the battery is charged to a certain charge level, when the battery is full charged (Status "Charged"). Also with the help of this application you can receive notifications of overheating/overcooling of the battery, and also with the help of this application you can find out the limit of the charging current (not everywhere it is possible to get data on the limit of the charging current). It is also possible to display values in an overlay and much more.
 
-P.S This application consumes <b>very little</b> energy in the background. The wakelock, which is in the application, is used <b>only</b> during charging, it is needed for the charging time (without it, Android "puts the application to sleep" after ~40 seconds for a while, so without it, the charging time will <b>be incorrect</b>). Therefore, using this application, you will not notice the loss of autonomy. The application is completely free and without ads, and will remain so forever.
+P.S This application consumes <b>very little</b> background power. Therefore, using this application, you will not notice the loss of autonomy
 
-<b>Application Features:</b><br/>
-• Battery wear;<br/>
+<b>Application features:</b>
+• Battery Wear;<br/>
 • Residual capacity;<br/>
 • Added capacity during charging;<br/>
 • Current capacity;<br/>
-• Battery Level (%);<br/>
+• Charge level (%);<br/>
 • Charging status;<br/>
 • Charging/discharging current;<br/>
-• Fast Charge Information;<br/>
-• Maximum, average and minimum charging/discharging current;<br/>
+• Maximum, average and minimum charge/discharge current;<br/>
+• Fast Charge: Yes (Watt)/No;<br/>
 • Battery temperature;<br/>
+• Maximum, average and minimum battery temperature;<br/>
 • Battery voltage;<br/>
-• The number of cycles;<br/>
+• Number of cycles;<br/>
 • Number of charges;<br/>
-• Battery condition;<br/>
-• Time of the last charge;<br/>
+• Battery status;<br/>
+• Last charge time;<br/>
 • Battery technology;<br/>
-• Notification of a full charge, a certain level (%) of a charge, a certain level (%) of discharge, charging current, overheating and overcooling;<br/>
-• Resetting the number of charges;<br/>
-• Zeroing the number of cycles;<br/>
+• History of full charges;<br/>
+• Notification of full charge, certain level (%) of charge, certain level (%) of discharge, overheating and overcooling;<br/>
 • Overlay;<br/>
-• Light and dark theme;<br/>
-• Theme depending on the system theme (Android 10+);<br/>
+• Capacity in Wh;<br/>
+• Charge/Discharge current in Watt;<br/>
+• And much more<br/>
 
-<b>Explanations of required permissions:</b><br/>
-• Access to device memory - needed to back up settings;<br/>
-• On top of all windows - needed for overlay;<br/>
-• Launch after boot - needed so that the application starts itself after loading the OS.
+<b>Explanation of required permissions:</b><br/>
+• Access to the device memory - needed to backup settings;<br/>
+• On top of all windows - needed for an overlay;<br/>
+• Launch after boot - needed for the application to start itself after loading the OS
 
-<b>Attention!</b> Before leaving a review or asking a question, read the instructions and follow them, as well as read the FAQ.
+<b>Attention!</b> Before leaving a review or asking a question, read the instructions and follow them, as well as read the FAQ, there are answers to many questions.
+
+If you have any suggestions for improving the application or you have found any bug or error, write to the E-Mail: Ph03niX-X@outlook.com or Telegram: @Ph03niX_X or open an Issue on GitHub
 
 ---
 <p align="center">
