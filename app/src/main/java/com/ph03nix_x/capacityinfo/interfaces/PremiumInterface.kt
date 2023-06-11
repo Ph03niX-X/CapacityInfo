@@ -76,7 +76,7 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
     fun purchasePremium() {
         isPurchasePremium = true
         if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext!!)) {
-            billingProcessor = BillingProcessor.newBillingProcessor(premiumContext,
+            billingProcessor = BillingProcessor(premiumContext,
                 GOOGLE_PLAY_LICENSE_KEY, this)
         }
 
@@ -85,7 +85,7 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
 
     fun isPremium(): Boolean {
         if (premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-            billingProcessor = BillingProcessor.newBillingProcessor(premiumContext,
+            billingProcessor = BillingProcessor(premiumContext,
                 GOOGLE_PLAY_LICENSE_KEY, this)
         if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
         return billingProcessor?.isPurchased(PREMIUM_ID) ?: false
