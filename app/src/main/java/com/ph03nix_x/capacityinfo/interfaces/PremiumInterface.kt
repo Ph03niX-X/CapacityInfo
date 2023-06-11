@@ -76,8 +76,14 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
     fun purchasePremium() {
         isPurchasePremium = true
         if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext!!)) {
-            billingProcessor = BillingProcessor(premiumContext,
-                GOOGLE_PLAY_LICENSE_KEY, this)
+            billingProcessor = try {
+                BillingProcessor(premiumContext,
+                    GOOGLE_PLAY_LICENSE_KEY, this)
+            }
+            catch (e: SecurityException) {
+                Toast.makeText(premiumContext!!, e.toString(), Toast.LENGTH_LONG).show()
+                null
+            }
         }
 
         if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
@@ -85,8 +91,14 @@ interface PremiumInterface: BillingProcessor.IBillingHandler {
 
     fun isPremium(): Boolean {
         if (premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-            billingProcessor = BillingProcessor(premiumContext,
-                GOOGLE_PLAY_LICENSE_KEY, this)
+            billingProcessor = try {
+                BillingProcessor(premiumContext,
+                    GOOGLE_PLAY_LICENSE_KEY, this)
+            }
+            catch (e: SecurityException) {
+                BillingProcessor.newBillingProcessor(premiumContext,
+                    GOOGLE_PLAY_LICENSE_KEY, this)
+            }
         if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
         return billingProcessor?.isPurchased(PREMIUM_ID) ?: false
     }
