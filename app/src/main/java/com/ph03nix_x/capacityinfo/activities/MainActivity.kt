@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
-    var isChangeLanguage = false
 
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
