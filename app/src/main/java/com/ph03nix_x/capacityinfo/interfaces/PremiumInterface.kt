@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode
@@ -19,6 +20,8 @@ import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.queryPurchaseHistory
 import com.ph03nix_x.capacityinfo.PREMIUM_ID
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TOKEN_COUNT
+import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +56,11 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 }
             }
         } else if (billingResult.responseCode == BillingResponseCode.ITEM_ALREADY_OWNED) {
-            isPremium = true
+            val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+            if(purchases != null) pref.edit().putString(TOKEN_PREF,
+                purchases[0].purchaseToken).apply()
+            val tokenPref = pref.getString(TOKEN_PREF, null)
+            isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
@@ -74,11 +81,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
         billingClient?.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingResponseCode.OK) {
-                    if(isPurchasePremium) purchasePremium()
-                    else {
-                        querySkuDetails()
-                        checkPremium()
-                    }
+                    if(isPurchasePremium) purchasePremium() else querySkuDetails()
                 }
             }
 
@@ -98,6 +101,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     private suspend fun handlePurchase(purchase: Purchase) {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
@@ -105,23 +110,24 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 withContext(Dispatchers.IO) {
                     billingClient?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
                         if (it.responseCode == BillingResponseCode.OK) {
-                            isPremium = true
-                            Toast.makeText(
-                                premiumContext, R.string.premium_features_unlocked,
-                                Toast.LENGTH_LONG
-                            ).show()
+                            pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
+                            val tokenPref = pref.getString(TOKEN_PREF, null)
+                            isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                            Toast.makeText(premiumContext, R.string.premium_features_unlocked,
+                                Toast.LENGTH_LONG).show()
                             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
                                 ?.isVisible = false
                             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                                ?.isVisible =
-                                false
+                                ?.isVisible = false
                             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
                                 ?.isVisible = true
                         }
                     }
                 }
             } else {
-                isPremium = true
+                pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
+                val tokenPref = pref.getString(TOKEN_PREF, null)
+                isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
                 Toast.makeText(premiumContext, R.string.premium_features_unlocked,
                     Toast.LENGTH_LONG).show()
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
@@ -131,7 +137,9 @@ interface PremiumInterface: PurchasesUpdatedListener {
             }
 
         } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
-            isPremium = true
+            pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
+            val tokenPref = pref.getString(TOKEN_PREF, null)
+            isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
             Toast.makeText(premiumContext, R.string.premium_features_unlocked, Toast.LENGTH_LONG)
                 .show()
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
@@ -182,22 +190,37 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     fun checkPremium() {
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+
+        var tokenPref = pref.getString(TOKEN_PREF, null)
+
+        if(tokenPref != null && tokenPref.count() >= TOKEN_COUNT) {
+            isPremium = true
+            return
+        }
+
+        else if(tokenPref != null && tokenPref.count() < TOKEN_COUNT)
+            pref.edit().remove(TOKEN_PREF).apply()
+
+        if(billingClient?.isReady != true) initiateBilling()
+
         val params = QueryPurchaseHistoryParams.newBuilder()
             .setProductType(ProductType.INAPP)
 
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
 
             val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
 
             val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
 
-            isPremium = !purchaseHistoryRecordList.isNullOrEmpty()
+            if(!purchaseHistoryRecordList.isNullOrEmpty()) {
 
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = !isPremium
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible =
-                !isPremium
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible =
-                isPremium
+                pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken).apply()
+
+                tokenPref = pref.getString(TOKEN_PREF, null)
+
+                isPremium = tokenPref != null && (tokenPref?.count() ?: 0) >= TOKEN_COUNT
+            }
         }
     }
 }

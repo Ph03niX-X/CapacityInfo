@@ -87,7 +87,7 @@ class MainApp : Application(), PremiumInterface {
 
         ThemeHelper.setTheme(this)
 
-        if(isInstalledGooglePlay && billingClient?.isReady != true) initiateBilling()
+        if(isInstalledGooglePlay) checkPremium()
 
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
