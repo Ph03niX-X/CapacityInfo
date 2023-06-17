@@ -95,8 +95,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         addPreferencesFromResource(R.xml.settings)
 
-        val isPremium = isPremium()
-
         mainActivity = activity as? MainActivity
 
         premium = findPreference("premium")

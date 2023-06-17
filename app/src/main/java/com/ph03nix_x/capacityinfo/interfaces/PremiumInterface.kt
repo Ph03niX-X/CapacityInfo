@@ -4,12 +4,26 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.widget.Toast
-import com.anjlab.android.iab.v3.BillingProcessor
-import com.anjlab.android.iab.v3.PurchaseInfo
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClient.BillingResponseCode
+import com.android.billingclient.api.BillingClient.ProductType
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchaseHistoryParams
+import com.android.billingclient.api.queryPurchaseHistory
+import com.ph03nix_x.capacityinfo.PREMIUM_ID
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.GOOGLE_PLAY_LICENSE_KEY
-import com.ph03nix_x.capacityinfo.PREMIUM_ID
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -17,89 +31,173 @@ import com.ph03nix_x.capacityinfo.PREMIUM_ID
  */
 
 @SuppressLint("StaticFieldLeak")
-interface PremiumInterface: BillingProcessor.IBillingHandler {
+interface PremiumInterface: PurchasesUpdatedListener {
 
     companion object {
 
+        private var mProductDetailsList: List<ProductDetails>? = null
+
         var premiumContext: Context? = null
         var premiumActivity: Activity? = null
-        var billingProcessor: BillingProcessor? = null
+        var billingClient: BillingClient? = null
 
-        var isPurchasePremium = false
         var isPremium = false
     }
 
-    override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
-        isPurchasePremium = false
-        isPremium = billingProcessor?.isPurchased(PREMIUM_ID) == true
-        if(isPremium && premiumContext != null) {
-            Toast.makeText(premiumContext, R.string.premium_features_unlocked,
-                Toast.LENGTH_LONG).show()
+    override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
+
+        if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
+            for (purchase in purchases) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    handlePurchase(purchase)
+                }
+            }
+        } else if (billingResult.responseCode == BillingResponseCode.ITEM_ALREADY_OWNED) {
+            isPremium = true
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
         }
     }
 
-    override fun onPurchaseHistoryRestored() {
-        isPurchasePremium = false
-        isPremium = billingProcessor?.isPurchased(PREMIUM_ID) == true
-        if(isPremium) {
+    fun initiateBilling(isPurchasePremium: Boolean = false) {
+
+        billingClient = BillingClient.newBuilder(premiumContext!!)
+            .setListener(purchasesUpdatedListener()).enablePendingPurchases().build()
+
+        if (billingClient?.connectionState == BillingClient.ConnectionState.DISCONNECTED)
+            startConnection(isPurchasePremium)
+
+    }
+
+    private fun startConnection(isPurchasePremium: Boolean) {
+        billingClient?.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingResponseCode.OK) {
+                    if(isPurchasePremium) purchasePremium()
+                    else {
+                        querySkuDetails()
+                        checkPremium()
+                    }
+                }
+            }
+
+            override fun onBillingServiceDisconnected() {}
+        })
+    }
+
+    private fun purchasesUpdatedListener() = PurchasesUpdatedListener { _, purchases ->
+        if (purchases != null) {
+            for (purchase in purchases) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    handlePurchase(purchase)
+                }
+            }
+        }
+    }
+
+    private suspend fun handlePurchase(purchase: Purchase) {
+
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+            if (!purchase.isAcknowledged) {
+                val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                withContext(Dispatchers.IO) {
+                    billingClient?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
+                        if (it.responseCode == BillingResponseCode.OK) {
+                            isPremium = true
+                            Toast.makeText(
+                                premiumContext, R.string.premium_features_unlocked,
+                                Toast.LENGTH_LONG
+                            ).show()
+                            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
+                                ?.isVisible = false
+                            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                                ?.isVisible =
+                                false
+                            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                                ?.isVisible = true
+                        }
+                    }
+                }
+            } else {
+                isPremium = true
+                Toast.makeText(premiumContext, R.string.premium_features_unlocked,
+                    Toast.LENGTH_LONG).show()
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible =
+                    false
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+            }
+
+        } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
+            isPremium = true
+            Toast.makeText(premiumContext, R.string.premium_features_unlocked, Toast.LENGTH_LONG)
+                .show()
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
         }
     }
 
-    override fun onBillingError(errorCode: Int, error: Throwable?) {
-        isPurchasePremium = false
-    }
+    private fun querySkuDetails() {
+        val productList = mutableListOf(QueryProductDetailsParams.Product.newBuilder().apply {
+            setProductId(PREMIUM_ID)
+            setProductType(ProductType.INAPP)
+        }.build())
 
-    override fun onBillingInitialized() {
-        if(premiumContext != null && premiumActivity != null && isPurchasePremium &&
-            BillingProcessor.isIabServiceAvailable(premiumContext)
-            && billingProcessor?.isInitialized == true){
-            billingProcessor?.purchase(premiumActivity, PREMIUM_ID)
+        val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
+            .setProductList(productList).build()
+
+        billingClient?.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
+                                                                             productDetailsList ->
+
+            if (billingResult.responseCode == BillingResponseCode.OK)
+                mProductDetailsList = productDetailsList
         }
-        isPurchasePremium = false
-    }
-
-    fun getOrderId(): String? {
-        if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-            billingProcessor = BillingProcessor.newBillingProcessor(premiumContext,
-                GOOGLE_PLAY_LICENSE_KEY, this)
-        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        if(isPremium()) return billingProcessor?.getPurchaseInfo(PREMIUM_ID)?.purchaseData?.orderId
-        return null
     }
 
     fun purchasePremium() {
-        isPurchasePremium = true
-        if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext!!)) {
-            billingProcessor = try {
-                BillingProcessor(premiumContext,
-                    GOOGLE_PLAY_LICENSE_KEY, this)
-            }
-            catch (e: SecurityException) {
-                Toast.makeText(premiumContext!!, e.toString(), Toast.LENGTH_LONG).show()
-                null
-            }
-        }
 
-        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
+        if(!mProductDetailsList.isNullOrEmpty()) {
+            val productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams
+                .newBuilder().setProductDetails(mProductDetailsList!![0]).build())
+
+            val billingFlowParams = BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(productDetailsParamsList)
+                .build()
+
+            billingClient?.launchBillingFlow(premiumActivity!!, billingFlowParams)
+        }
     }
 
-    fun isPremium(): Boolean {
-        if (premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-            billingProcessor = try {
-                BillingProcessor(premiumContext,
-                    GOOGLE_PLAY_LICENSE_KEY, this)
-            }
-            catch (e: SecurityException) {
-                BillingProcessor.newBillingProcessor(premiumContext,
-                    GOOGLE_PLAY_LICENSE_KEY, this)
-            }
-        if (billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-        return billingProcessor?.isPurchased(PREMIUM_ID) ?: false
+    fun getOrderId(): String? {
+//        if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
+//            billingProcessor = BillingProcessor.newBillingProcessor(premiumContext,
+//                GOOGLE_PLAY_LICENSE_KEY, this)
+//        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
+//        if(isPremium()) return billingProcessor?.getPurchaseInfo(premium.test)?.purchaseData?.orderId
+        return null
+    }
+
+    fun checkPremium() {
+
+        val params = QueryPurchaseHistoryParams.newBuilder()
+            .setProductType(ProductType.INAPP)
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+            val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+
+            val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+
+            isPremium = !purchaseHistoryRecordList.isNullOrEmpty()
+
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = !isPremium
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible =
+                !isPremium
+            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible =
+                isPremium
+        }
     }
 }

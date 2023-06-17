@@ -117,9 +117,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
             setContentIntent(openApp)
 
-            PremiumInterface.premiumContext = CapacityInfoService.instance
-            PremiumInterface.isPremium = isPremium()
-
             if(PremiumInterface.isPremium) {
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
                         R.bool.is_show_stop_service)) && mActions.isEmpty())

@@ -26,7 +26,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
-import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingProcessor
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
@@ -99,8 +99,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         premiumContext = this
         premiumActivity = this
-
-        isPremium = isPremium()
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
@@ -468,8 +466,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         fragment = null
 
-        billingProcessor?.release()
-        billingProcessor = null
         premiumContext = null
         premiumActivity = null
         showFaqDialog = null
@@ -634,7 +630,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             setTitle(getString(R.string.premium))
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
-                purchasePremium()
+                if(billingClient?.isReady == true) purchasePremium()
+                else initiateBilling(true)
+
                 d.dismiss()
             }
             setNegativeButton(android.R.string.cancel) { d, _ ->

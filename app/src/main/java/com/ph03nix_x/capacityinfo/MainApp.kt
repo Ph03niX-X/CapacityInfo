@@ -13,6 +13,9 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -20,7 +23,7 @@ import java.io.Serializable
 import kotlin.collections.HashMap
 import kotlin.system.exitProcess
 
-class MainApp : Application() {
+class MainApp : Application(), PremiumInterface {
 
     companion object {
 
@@ -78,9 +81,13 @@ class MainApp : Application() {
 
         super.onCreate()
 
+        premiumContext = this
+
         isInstalledGooglePlay = isInstalledGooglePlay()
 
         ThemeHelper.setTheme(this)
+
+        if(isInstalledGooglePlay && billingClient?.isReady != true) initiateBilling()
 
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
 

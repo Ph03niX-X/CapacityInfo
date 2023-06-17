@@ -43,9 +43,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
 
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
 
-                PremiumInterface.premiumContext = context
-                PremiumInterface.isPremium = isPremium()
-
                 val isPremium = PremiumInterface.isPremium
 
                 val seconds = CapacityInfoService.instance?.seconds ?: 0

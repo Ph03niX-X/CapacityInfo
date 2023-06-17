@@ -33,9 +33,6 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface {
 
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
 
-                PremiumInterface.premiumContext = context
-                PremiumInterface.isPremium = isPremium()
-
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
                 val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
