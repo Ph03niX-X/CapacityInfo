@@ -58,6 +58,7 @@ dependencies {
 
     def coroutinesVersion = '1.7.1'
     def billing_version = "6.0.0"
+    def miuiAutoStart = "v1.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
@@ -76,6 +77,9 @@ dependencies {
 
     // Premium
     implementation("com.android.billingclient:billing-ktx:$billing_version")
+
+    // Checking Autostart on Xiaomi
+    implementation("com.github.XomaDev:MIUI-autostart:$miuiAutoStart")
 
     // Color Picker
     implementation("com.jaredrummler:colorpicker:1.1.0")

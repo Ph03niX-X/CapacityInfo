@@ -1,36 +1,51 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ph03nix_x.capacityinfo.*
-import com.ph03nix_x.capacityinfo.fragments.*
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.fragments.AboutFragment
+import com.ph03nix_x.capacityinfo.fragments.BackupSettingsFragment
+import com.ph03nix_x.capacityinfo.fragments.BatteryStatusInformationFragment
+import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
+import com.ph03nix_x.capacityinfo.fragments.DebugFragment
+import com.ph03nix_x.capacityinfo.fragments.FeedbackFragment
+import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
+import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
+import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
+import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
-import com.ph03nix_x.capacityinfo.services.*
-import com.ph03nix_x.capacityinfo.views.CenteredToolbar
-import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
+import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_RESTORE_SETTINGS_EXTRA
@@ -52,12 +67,15 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
+import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import xyz.kumaraswamy.autostart.Autostart
 import java.text.DecimalFormat
-import kotlin.collections.HashMap
+import java.util.Locale
+
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface {
 
@@ -65,6 +83,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
+    private var isXiaomi: Boolean = false
 
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
@@ -100,13 +119,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         premiumContext = this
         premiumActivity = this
 
+        isXiaomi = Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI"
+
+        if(isXiaomi && Autostart(this).autoStartState == Autostart.State.DISABLED)
+            showXiaomiAutoStartDialog()
+
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
         MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && MainApp.isGooglePlay(this)
 
         fragment = tempFragment
-
 
         batteryIntent = registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
@@ -617,6 +640,23 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         + getString(R.string.faq_not_displayed_number_of_cycles_android))
                 setPositiveButton(android.R.string.ok) { _, _ ->
                     showFaqDialog = null
+                }
+                setCancelable(false)
+                show()
+            }
+        }
+    }
+
+    private fun showXiaomiAutoStartDialog() {
+        if(isXiaomi && Autostart(this).autoStartState == Autostart.State.DISABLED) {
+            showFaqDialog = MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(getString(R.string.information))
+                setMessage(getString(R.string.auto_start_xiaomi_dialog))
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    startActivity(Intent().setComponent(ComponentName(
+                        "com.miui.securitycenter",
+                        "com.miui.permcenter.autostart.AutoStartManagementActivity")))
                 }
                 setCancelable(false)
                 show()
