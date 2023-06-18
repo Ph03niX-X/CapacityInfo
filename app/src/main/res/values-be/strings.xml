@@ -331,4 +331,5 @@
     <string name="full_charge_reminder">Нагадваць аб поўным зарадзе</string>
     <string name="full_charge_reminder_summary">Нагадваць аб поўным зарадзе кожныя 30 хвілін</string>
     <string name="allow_all_app_notifications">ДАЗВОЛІЦЕ ДАДАТКІ ПАКАЗВАЦЬ УСЕ АПАВЯШЧЭННІ</string>
+    <string name="auto_start_xiaomi_dialog">Для таго каб прыкладанне працавала карэктна, падайце дазвол у наступным акне</string>
 </resources>
