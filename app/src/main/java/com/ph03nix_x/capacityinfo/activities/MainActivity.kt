@@ -89,6 +89,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
     private var showFaqDialog: MaterialAlertDialogBuilder? = null
+    private var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
+    private var showHuaweiInformation: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
@@ -653,8 +655,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun showXiaomiAutoStartDialog() {
-        if(isXiaomi && Autostart(this).autoStartState == Autostart.State.DISABLED) {
-            MaterialAlertDialogBuilder(this).apply {
+        if(showXiaomiAutostartDialog == null && isXiaomi &&
+            Autostart(this).autoStartState == Autostart.State.DISABLED) {
+            showXiaomiAutostartDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.information))
                 setMessage(getString(R.string.auto_start_xiaomi_dialog))
@@ -662,20 +665,23 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     startActivity(Intent().setComponent(ComponentName(
                         "com.miui.securitycenter",
                         "com.miui.permcenter.autostart.AutoStartManagementActivity")))
+                    showXiaomiAutostartDialog = null
                 }
-                setCancelable(false)
                 show()
             }
         }
     }
 
     private fun showHuaweiInfo() {
-        if(isHuawei)
-            MaterialAlertDialogBuilder(this).apply {
+        if(isHuawei && showHuaweiInformation == null)
+            showHuaweiInformation = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.information))
                 setMessage(getString(R.string.huawei_honor_information))
-                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                setPositiveButton(android.R.string.ok) { d, _ ->
+                    showHuaweiInformation = null
+                    d.dismiss()
+                }
                 show()
             }
     }
