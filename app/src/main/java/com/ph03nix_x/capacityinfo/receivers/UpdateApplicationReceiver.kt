@@ -79,7 +79,12 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
             "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog", "is_supported",
             "is_show_not_supported_dialog", "language", "is_enable_fake_battery_wear",
             "fake_battery_wear_value", "is_high_battery_wear", "is_very_high_battery_wear",
-            "is_critical_battery_wear").forEach {
+            "is_critical_battery_wear",
+            "${context.packageName}_preferences.products.cache.v2_6.version",
+            "${context.packageName}_preferences.products.cache.v2_6",
+            "${context.packageName}_preferences.products.restored.v2_6",
+            "${context.packageName}_preferences.subscriptions.cache.v2_6",
+            "${context.packageName}_preferences.subscriptions.cache.v2_6.version").forEach {
 
             with(pref) {
 
