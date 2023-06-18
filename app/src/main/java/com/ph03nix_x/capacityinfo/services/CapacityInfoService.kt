@@ -553,12 +553,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||
-                maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
-                    resources.getInteger(R.integer.min_design_capacity) - 250) ||
-                pref.getBoolean(IS_FAST_CHARGE_DEBUG, resources.getBoolean(
-                    R.bool.is_fast_charge_debug)))
-                (currentCapacity.toDouble() +
-                        ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
+                isTurboCharge(this@CapacityInfoService) || pref.getBoolean(
+                    IS_FAST_CHARGE_DEBUG, resources.getBoolean(R.bool.is_fast_charge_debug)))
+                    (currentCapacity.toDouble() +
+                            ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
 
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
