@@ -654,7 +654,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun showXiaomiAutoStartDialog() {
         if(isXiaomi && Autostart(this).autoStartState == Autostart.State.DISABLED) {
-            showFaqDialog = MaterialAlertDialogBuilder(this).apply {
+            MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.information))
                 setMessage(getString(R.string.auto_start_xiaomi_dialog))
