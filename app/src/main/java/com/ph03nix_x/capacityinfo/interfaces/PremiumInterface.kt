@@ -179,15 +179,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
         }
     }
 
-    fun getOrderId(): String? {
-//        if(premiumContext != null && BillingProcessor.isIabServiceAvailable(premiumContext))
-//            billingProcessor = BillingProcessor.newBillingProcessor(premiumContext,
-//                GOOGLE_PLAY_LICENSE_KEY, this)
-//        if(billingProcessor?.isInitialized != true) billingProcessor?.initialize()
-//        if(isPremium()) return billingProcessor?.getPurchaseInfo(premium.test)?.purchaseData?.orderId
-        return null
-    }
-
     fun checkPremium() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
