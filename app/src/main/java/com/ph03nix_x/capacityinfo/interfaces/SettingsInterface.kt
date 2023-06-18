@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,14 +16,9 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.ChangeDesignCapacityDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
-import com.ph03nix_x.capacityinfo.helpers.LocaleHelper.setLocale
-import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
@@ -161,20 +155,6 @@ interface SettingsInterface {
 
             else -> pref.getString(VOLTAGE_UNIT, "mV")
         }
-    }
-
-    fun SettingsFragment.onChangeLanguage(language: String) {
-
-        if(CapacityInfoService.instance != null)
-            ServiceHelper.stopService(requireContext(), CapacityInfoService::class.java)
-
-        if(OverlayService.instance != null)
-            ServiceHelper.stopService(requireContext(), OverlayService::class.java)
-
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            requireContext().setLocale(language)
-
-        (context as? MainActivity)?.recreate()
     }
 
     fun SettingsFragment.onChangeDesignCapacity(designCapacity: Preference? = null) {

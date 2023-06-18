@@ -14,7 +14,6 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
-import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -71,7 +70,7 @@ class MainApp : Application(), PremiumInterface {
             return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 activity.intent.getSerializableExtra(name, clazz)
             else {
-                @Suppress("DEPRECATION")
+                @Suppress("DEPRECATION", "UNCHECKED_CAST")
                 activity.intent.getSerializableExtra(name) as T
             }
         }
@@ -131,10 +130,7 @@ class MainApp : Application(), PremiumInterface {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME,
                     PackageManager.PackageInfoFlags.of(0))
-            else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME, 0)
-            }
+            else packageManager.getPackageInfo(Constants.GOOGLE_PLAY_PACKAGE_NAME, 0)
 
             true
         }

@@ -75,7 +75,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     requireContext().packageManager?.getPackageInfo(requireContext().packageName,
                         PackageManager.PackageInfoFlags.of(0))?.versionName
                 else {
-                    @Suppress("DEPRECATION")
                     requireContext().packageManager?.getPackageInfo(requireContext().packageName,
                         0)?.versionName
                 }
@@ -85,7 +84,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                         PackageInfoCompat.getLongVersionCode(it).toString()
                     }
                 else {
-                    @Suppress("DEPRECATION")
                     requireContext().packageManager?.getPackageInfo(requireContext().packageName,
                         0)?.let { PackageInfoCompat.getLongVersionCode(it).toString() }
                 }
