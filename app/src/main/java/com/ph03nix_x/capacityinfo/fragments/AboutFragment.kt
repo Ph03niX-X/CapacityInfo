@@ -24,7 +24,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
     private var buildDate: Preference? = null
     private var github: Preference? = null
     private var betaTester: Preference? = null
-    private var orderId: Preference? = null
 
     lateinit var pref: SharedPreferences
 
@@ -45,8 +44,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
         github = findPreference("github")
 
         betaTester = findPreference("become_a_beta_tester")
-
-        orderId = findPreference("order_id")
 
         betaTester?.isVisible = isInstalledGooglePlay
 
@@ -124,21 +121,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
             }
 
             true
-        }
-
-        orderId?.apply {
-
-            isVisible = getOrderId() != null
-            summary = getOrderId()
-
-            setOnPreferenceClickListener {
-                val clipboardManager = requireContext()
-                    .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("order_id", orderId?.summary)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(requireContext(), R.string.order_id_copied, Toast.LENGTH_LONG).show()
-                true
-            }
         }
 
     }

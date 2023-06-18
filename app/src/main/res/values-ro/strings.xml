@@ -274,7 +274,6 @@
     <string name="high_battery_wear_dialog">Uzură mare a bateriei (%1$s). Vă sfătuim să schimbați bateria sau smartphone-ul/tableta</string>
     <string name="very_high_battery_wear_dialog">Uzură foarte mare a bateriei (%1$s). Vă sfătuim să schimbați bateria sau smartphone-ul/tableta</string>
     <string name="critical_battery_wear_dialog">Uzura critică a bateriei (%1$s). Vă sfătuim să schimbați bateria sau smartphone-ul/tableta</string>
-    <string name="order_id">ID-ul comenzii</string>
     <string name="order_id_copied">ID-ul comenzii copiat în clipboard</string>
     <string name="history_count">Numărătoarea Istorie</string>
     <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Istorie > 3;\n\• Posibilitatea de a elimina istoricul (glisați spre dreapta);\n\• Ștergeți istoricul;\n\• Afișați informații despre baterie;\n\• Oprire serviciu;\n\• Se oprește serviciul atunci când încărcătorul este deconectat;\n\• Informații despre starea bateriei;\n\• Font;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere;\n\• Capacitate în Wh;\n\• Curent de încărcare/descărcare în wați\n\nAchiziționând Premium, sprijiniți și dezvoltarea ulterioară a aplicației</string>
