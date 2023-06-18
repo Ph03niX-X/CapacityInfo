@@ -536,8 +536,14 @@ interface BatteryInfoInterface {
 
             if(chargeDischargeCurrent > 0.0) {
 
-                chargingTimeRemaining = if(chargeDischargeCurrent > 500.0)
-                    (capacity / chargeDischargeCurrent) * 1.1 else capacity / chargeDischargeCurrent
+                chargingTimeRemaining = if(chargeDischargeCurrent > 500.0) {
+                    (capacity / chargeDischargeCurrent) * if(isTurboCharge(context)) {
+                        if(chargeDischargeCurrent >= 1500) 1.2
+                        else if(chargeDischargeCurrent >= 1000) 0.8 else 0.4
+                    }
+                    else 1.1
+                }
+                else capacity / chargeDischargeCurrent
 
                 chargingTimeRemaining *= 3600.0
 
