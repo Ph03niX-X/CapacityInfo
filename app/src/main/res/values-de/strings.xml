@@ -330,4 +330,5 @@
     <string name="full_charge_reminder">Erinnerung an volle Ladung</string>
     <string name="full_charge_reminder_summary">Erinnerung an volle Ladung alle 30 Minuten</string>
     <string name="allow_all_app_notifications">ALLE APP-BENACHRICHTIGUNGEN ZULASSEN</string>
+    <string name="auto_start_xiaomi_dialog">Damit die Anwendung ordnungsgemäß funktioniert, müssen Sie in folgendem Fenster die Erlaubnis erteilen</string>
 </resources>
