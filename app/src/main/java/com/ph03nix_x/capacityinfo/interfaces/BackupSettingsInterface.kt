@@ -50,9 +50,7 @@ interface BackupSettingsInterface {
 
                 MainActivity.isOnBackPressed = false
 
-                if(pref.contains(TOKEN_PREF)) {
-                    pref.edit().remove(TOKEN_PREF).apply()
-                }
+                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
 
                 val pickerDir = intent?.data?.let {
                     requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
@@ -244,11 +242,15 @@ interface BackupSettingsInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
+        val tokenPref = pref.getString(TOKEN_PREF, null)
+
         var backupPath = ""
 
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
+
+                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
 
                 backupPath = if(pref.getBoolean(PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD,
                         requireContext().resources.getBoolean(R.bool.is_backup_settings_to_microsd))
@@ -272,6 +274,8 @@ interface BackupSettingsInterface {
 
                     Toast.makeText(requireContext(), getString(R.string
                         .settings_backup_successfully_created), Toast.LENGTH_LONG).show()
+
+                    pref.edit().putString(TOKEN_PREF, tokenPref).apply()
                 }
             }
             catch(e: Exception) {

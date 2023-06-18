@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.microSDPath
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 import kotlinx.coroutines.*
@@ -24,6 +25,10 @@ class AutoBackupSettingsJobService : JobService() {
             try {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+                val tokenPref = pref.getString(TOKEN_PREF, null)
+
+                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
 
                 val backupPath = if(pref.getBoolean(IS_BACKUP_SETTINGS_TO_MICROSD,
                         applicationContext.resources.getBoolean(R.bool
@@ -42,6 +47,8 @@ class AutoBackupSettingsJobService : JobService() {
                 if(HistoryHelper.getHistoryCount(applicationContext) > 0)
                     File("${applicationContext.filesDir.parent}/databases/History.db")
                         .copyTo(File("${backupPath}/History.db"), true)
+
+                pref.edit().putString(TOKEN_PREF, tokenPref).apply()
             }
 
             catch (e: Exception) {
