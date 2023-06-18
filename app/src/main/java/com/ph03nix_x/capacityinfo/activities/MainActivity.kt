@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
     private var isXiaomi: Boolean = false
+    private var isHuawei: Boolean = false
 
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
@@ -118,11 +119,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         premiumContext = this
         premiumActivity = this
-
-        isXiaomi = Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI"
-
-        if(isXiaomi && Autostart(this).autoStartState == Autostart.State.DISABLED)
-            showXiaomiAutoStartDialog()
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
@@ -411,7 +407,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-        if(pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
+        isXiaomi = Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI"
+
+        isHuawei = Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HUAWEI" ||
+                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HONOR"
+
+        if(!isHuawei && isXiaomi && Autostart(this).autoStartState ==
+            Autostart.State.DISABLED) showXiaomiAutoStartDialog()
+
+        else if(isHuawei) showHuaweiInfo()
+
+        if(!isHuawei && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
         if(!pref.getBoolean(IS_BATTERY_WEAR, resources.getBoolean(R.bool.is_battery_wear)
@@ -611,8 +617,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message)
                     + getString(R.string.instruction_message_do_not_kill_the_service)
-                    + getString(R.string.instruction_message_dont_kill_my_app)
-                    + getString(R.string.instruction_message_huawei_honor))
+                    + getString(R.string.instruction_message_dont_kill_my_app))
 
             setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
 
@@ -662,6 +667,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 show()
             }
         }
+    }
+
+    private fun showHuaweiInfo() {
+        if(isHuawei)
+            MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(getString(R.string.information))
+                setMessage(getString(R.string.huawei_honor_information))
+                setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                show()
+            }
     }
 
     fun showPremiumDialog() {
