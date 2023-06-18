@@ -13,6 +13,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.BackupSettingsFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
@@ -39,11 +40,19 @@ interface BackupSettingsInterface {
                 "${requireContext().packageName}_preferences.xml"
         val prefName = File(prefPath).name
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        val tokenPref = pref.getString(TOKEN_PREF, null)
+
         CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
             try {
 
                 MainActivity.isOnBackPressed = false
+
+                if(pref.contains(TOKEN_PREF)) {
+                    pref.edit().remove(TOKEN_PREF).apply()
+                }
 
                 val pickerDir = intent?.data?.let {
                     requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
@@ -80,6 +89,8 @@ interface BackupSettingsInterface {
                     Toast.makeText(requireContext(),
                         getString(R.string.successful_export_of_settings, prefName),
                         Toast.LENGTH_LONG).show()
+
+                    pref.edit().putString(TOKEN_PREF, tokenPref).apply()
                 }
             }
 
