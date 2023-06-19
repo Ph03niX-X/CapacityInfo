@@ -17,7 +17,7 @@ import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_TEMPERATURE_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_HEALTH_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_HEALTH_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_ADDED_OVERLAY
@@ -205,7 +205,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         screenTimeOverlay = findPreference(IS_SCREEN_TIME_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
-        batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_OVERLAY)
+        batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_ANDROID_OVERLAY)
         residualCapacityOverlay = findPreference(IS_RESIDUAL_CAPACITY_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
         sourceOfPowerOverlay = findPreference(IS_SOURCE_OF_POWER)
