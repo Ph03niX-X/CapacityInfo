@@ -384,12 +384,12 @@ interface BatteryInfoInterface {
     fun getBatteryHealth(context: Context): Int? {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val designCapacity = pref.getInt(DESIGN_CAPACITY,
-            context.resources.getInteger(R.integer.min_design_capacity))
-        var residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0)
+            context.resources.getInteger(R.integer.min_design_capacity)).toDouble()
+        var residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
         return if(residualCapacity > 0) {
             residualCapacity /= if(pref.getString(
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000 else 100
-            when(100 - ((residualCapacity / designCapacity) * 100)) {
+                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0
+            when((100.0 - ((residualCapacity / designCapacity) * 100.0)).toInt()) {
                 in 0..19 -> R.string.battery_health_great
                 in 20..39 -> R.string.battery_health_good
                 in 40..59 -> R.string.battery_health_bad
