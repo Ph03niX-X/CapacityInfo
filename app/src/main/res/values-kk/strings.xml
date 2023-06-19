@@ -136,7 +136,7 @@
     <string name="charging_time_overlay">Зарядтау уақыты</string>
     <string name="current_capacity_overlay">Ағымдағы сыйымдылық</string>
     <string name="capacity_added_overlay">Қосымша сыйымдылық</string>
-    <string name="battery_health_android_overlay">Батарея күйі (Android)</string>
+    <string name="battery_health_android_overlay">Батарея денсаулығы (Android)</string>
     <string name="residual_capacity_overlay">Қалдық сыйымдылық</string>
     <string name="status_overlay">Күй</string>
     <string name="source_of_power_overlay">Нәр беруші</string>
@@ -335,7 +335,7 @@
     <string name="background_activity_control_xiaomi_dialog">Қолданбаның фондық режимде дұрыс жұмыс істеуі үшін келесі терезеге өтіп, қолданбаны (Capacity Info), содан кейін \"Фондық әрекетті басқару\" және келесі терезеде \"Шектеусіз\" тармағын таңдаңыз</string>
     <string name="battery_health">Батарея денсаулығы: %1$s</string>
     <string name="battery_health_great">Тамаша</string>
-    <string name="battery_health_good">Хорошее</string>
+    <string name="battery_health_good">Жақсы</string>
     <string name="battery_health_bad">Нашар</string>
     <string name="battery_health_replacement_required">Ауыстыру қажет</string>
     <string name="battery_health_overlay">Батарея денсаулығы</string>
