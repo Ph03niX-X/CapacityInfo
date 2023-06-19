@@ -333,4 +333,10 @@
     <string name="allow_all_app_notifications">PERMITEȚI TOATE NOTIFICĂRILE APLICAȚIILOR</string>
     <string name="auto_start_xiaomi_dialog">Pentru ca aplicația să funcționeze corect, permiteți pornirea automată în fereastra următoare</string>
     <string name="background_activity_control_xiaomi_dialog">Pentru ca aplicația să funcționeze corect în fundal, mergeți în fereastra următoare și selectați aplicația (Capacity Info), apoi selectați \"Background Activity Control\" și în fereastra următoare selectați \"No restrictions\"</string>
+    <string name="battery_health">Sănătatea bateriei: %1$s</string>
+    <string name="battery_health_great">Mare</string>
+    <string name="battery_health_good">Bună</string>
+    <string name="battery_health_bad">Rău</string>
+    <string name="battery_health_replacement_required">Înlocuire necesară</string>
+    <string name="battery_health_overlay">Sănătatea bateriei</string>
 </resources>
