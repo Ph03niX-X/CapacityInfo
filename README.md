@@ -89,9 +89,7 @@ If you have any suggestions for improving the application or you have found any 
 4.If the design capacity is incorrect, change it in the application settings.<br/>
 5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings.
 
-<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS. If you don't know what and where to configure so that the application is not "killed" by the system, use the "Don't kill my app!" Service by choosing the manufacturer of your device.
-
-<b>ATTENTION!</b> On Huawei & Honor, the current capacity may not display correctly. Unfortunately nothing can be done about it
+<b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS. If you don't know what and where to configure so that the application is not "killed" by the system, use the "Don't kill my app!" Service by choosing the manufacturer of your device
 
 ---
 <p align="center">
