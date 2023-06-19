@@ -108,6 +108,15 @@
             android:textSize="@dimen/medium_text_size"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/google_sans"
+        android:textColor="@android:color/white"
+        android:id="@+id/battery_health_overlay"
+        android:text="@string/battery_health"
+        android:textSize="@dimen/medium_text_size"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/google_sans"

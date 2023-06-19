@@ -360,5 +360,5 @@
     <string name="battery_health_good">Good</string>
     <string name="battery_health_bad">Bad</string>
     <string name="battery_health_replacement_required">Replacement Required</string>
-
+    <string name="battery_health_overlay">Battery Health</string>
 </resources>

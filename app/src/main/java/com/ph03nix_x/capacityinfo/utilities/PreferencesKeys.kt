@@ -77,6 +77,7 @@ object PreferencesKeys {
     const val IS_SCREEN_TIME_OVERLAY = "is_screen_time_overlay"
     const val IS_CURRENT_CAPACITY_OVERLAY = "is_current_capacity_overlay"
     const val IS_CAPACITY_ADDED_OVERLAY = "is_capacity_added_overlay"
+    const val IS_BATTERY_HEALTH_OVERLAY = "is_battery_health_overlay"
     const val IS_BATTERY_HEALTH_ANDROID_OVERLAY = "is_battery_health_android_overlay"
     const val IS_RESIDUAL_CAPACITY_OVERLAY = "is_residual_capacity_overlay"
     const val IS_STATUS_OVERLAY = "is_status_overlay"

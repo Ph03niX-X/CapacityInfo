@@ -166,6 +166,13 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/is_battery_health_overlay"
+            android:key="is_battery_health_overlay"
+            android:title="@string/battery_health_overlay"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false"/>
+
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_battery_health_android_overlay"
                 android:key="is_battery_health_android_overlay"
                 android:title="@string/battery_health_android_overlay"
