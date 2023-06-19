@@ -73,6 +73,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.kumaraswamy.autostart.Autostart
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 import java.text.DecimalFormat
 import java.util.Locale
 
@@ -83,8 +86,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
-    private var isXiaomi: Boolean = false
-    private var isHuawei: Boolean = false
 
     private var prefArrays: HashMap<*, *>? = null
     private var batteryWearDialog: MaterialAlertDialogBuilder? = null
@@ -340,7 +341,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     override fun onResume() {
 
         super.onResume()
-
+        
         tempFragment = null
 
         if(isRecreate) isRecreate = false
@@ -409,17 +410,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-        isXiaomi = Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI"
 
-        isHuawei = Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HUAWEI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HONOR"
-
-        if(!isHuawei && isXiaomi && Autostart(this).autoStartState ==
+        if(!isHuawei() && isXiaomi() && Autostart(this).autoStartState ==
             Autostart.State.DISABLED) showXiaomiAutoStartDialog()
 
-        else if(isHuawei) showHuaweiInfo()
+        else if(isHuawei()) showHuaweiInfo()
 
-        if(!isHuawei && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
+        if(!isHuawei() && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
                 R.bool.is_show_instruction))) showInstruction()
 
         if(!pref.getBoolean(IS_BATTERY_WEAR, resources.getBoolean(R.bool.is_battery_wear)
@@ -607,6 +604,37 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     fun clearMenu() = toolbar.menu.clear()
 
+    private fun isXiaomi() =
+        Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" && isMIUI()
+
+    private fun isMIUI(): Boolean {
+
+        val propName = "ro.miui.ui.version.name"
+        val line: String
+        var input: BufferedReader? = null
+        return try {
+            val p = Runtime.getRuntime().exec("getprop $propName")
+            input = BufferedReader(InputStreamReader(p.inputStream), 1024)
+            line = input.readLine()
+            input.close()
+            line.isNotEmpty()
+        } catch (ex: IOException) {
+            false
+        } finally {
+            if (input != null) {
+                try {
+                    input.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun isHuawei() =
+        Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HUAWEI" ||
+                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HONOR"
+
     private fun showInstruction() {
 
         MaterialAlertDialogBuilder(this).apply {
@@ -655,7 +683,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun showXiaomiAutoStartDialog() {
-        if(showXiaomiAutostartDialog == null && isXiaomi &&
+        if(showXiaomiAutostartDialog == null && isXiaomi() &&
             Autostart(this).autoStartState == Autostart.State.DISABLED) {
             showXiaomiAutostartDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
@@ -673,7 +701,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun showHuaweiInfo() {
-        if(isHuawei && showHuaweiInformation == null)
+        if(isHuawei() && showHuaweiInformation == null)
             showHuaweiInformation = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.information))
