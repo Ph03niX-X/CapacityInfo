@@ -331,5 +331,6 @@
     <string name="full_charge_reminder">Memento de încărcare completă</string>
     <string name="full_charge_reminder_summary">Memento de încărcare completă la fiecare 30 de minute</string>
     <string name="allow_all_app_notifications">PERMITEȚI TOATE NOTIFICĂRILE APLICAȚIILOR</string>
-    <string name="auto_start_xiaomi_dialog">For the application to work correctly, provide permission in the following window</string>
+    <string name="auto_start_xiaomi_dialog">Pentru ca aplicația să funcționeze corect, permiteți pornirea automată în fereastra următoare</string>
+    <string name="background_activity_control_xiaomi_dialog">Pentru ca aplicația să funcționeze corect în fundal, mergeți în fereastra următoare și selectați aplicația (Capacity Info), apoi selectați \"Background Activity Control\" și în fereastra următoare selectați \"No restrictions\"</string>
 </resources>
