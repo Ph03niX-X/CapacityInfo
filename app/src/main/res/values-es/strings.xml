@@ -270,11 +270,6 @@
     <string name="reset_screen_time">Restablecer el tiempo de pantalla</string>
     <string name="success">Éxito!</string>
     <string name="error">Fallo!</string>
-    <string name="battery_wear_dialog">Desgaste de la batería %1$s. Te aconsejamos que cambies la batería o el smartphone/tableta</string>
-    <string name="high_battery_wear_dialog">Alto desgaste de la batería (%1$s). Te aconsejamos que cambies la batería o el smartphone/tableta</string>
-    <string name="very_high_battery_wear_dialog">Desgaste de la batería muy alto (%1$s). Te aconsejamos que cambies la batería o el smartphone/tableta</string>
-    <string name="critical_battery_wear_dialog">Desgaste crítico de la batería (%1$s). Te aconsejamos que cambies la batería o el smartphone/tableta</string>
-    <string name="order_id_copied">ID del pedido copiado en el portapapeles</string>
     <string name="history_count">Recuento de la historia</string>
     <string name="premium_dialog">Al comprar Premium, obtendrá funciones adicionales de la aplicación:\n\• Historial > 3;\n\• Posibilidad de eliminar el historial (deslizar hacia la derecha)\n\• Historia clara;\n\• Mostrar información de la batería;\n\• Detener servicio;\n\• Detener el servicio cuando el cargador está desconectado;\n\• Información del estado de la batería;\n\• Fuente de texto;\n\• Restablecer el tiempo de pantalla en cualquier nivel de carga;\n\• Guardar;\n\• Pestaña al iniciar la aplicación;\n\• Overlay;\n\• Capacidad en Wh;\n\• Corriente de carga/descarga en vatios\n\nAl comprar Premium también apoyas el desarrollo de la aplicación</string>
     <string name="premium_feature">Función Premium</string>

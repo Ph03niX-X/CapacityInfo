@@ -269,11 +269,6 @@
     <string name="reset_screen_time">Bildschirmzeit zurücksetzen</string>
     <string name="success">Erfolg!</string>
     <string name="error">Fehler!</string>
-    <string name="battery_wear_dialog">Akkuverschleiß %1$s. Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
-    <string name="high_battery_wear_dialog">Hoher Akkuverschleiß (%1$s). Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
-    <string name="very_high_battery_wear_dialog">Sehr hoher Akkuverschleiß (%1$s). Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
-    <string name="critical_battery_wear_dialog">Kritischer Akkuverschleiß (%1$s).  Wir empfehlen Ihnen, den Akku oder das Smartphone/Tablet zu wechseln</string>
-    <string name="order_id_copied">Auftrags-ID in die Zwischenablage kopiert</string>
     <string name="history_count">Geschichte zählen</string>
     <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Geschichte > 3;\n\• Möglichkeit, den Verlauf zu entfernen (nach rechts wischen);\n\• Geschichte löschen;\n\• Batterieinformationen anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Khufu von Premium understate Sie auth die Welterweight der App</string>
     <string name="premium_feature">Premium-Funktion</string>
