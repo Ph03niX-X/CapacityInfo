@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.AddCustomHistoryDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
@@ -401,6 +402,8 @@ interface DebugOptionsInterface {
                         CAPACITY_ADDED, NUMBER_OF_CYCLES ->
                             setValueType("float", changePrefValue, pref,
                                 prefValueInputTypeDef, prefValueKeyListenerDef)
+
+                        TOKEN_PREF -> return
 
                         else -> setValueType("boolean", changePrefValue, pref,
                             prefValueInputTypeDef, prefValueKeyListenerDef)
