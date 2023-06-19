@@ -2,8 +2,6 @@ package com.ph03nix_x.capacityinfo.utilities
 
 object PreferencesKeys {
 
-    const val IS_SHOW_INSTRUCTION = "is_show_instruction"
-
     // Service & Notification
     const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
     const val IS_SERVICE_TIME = "is_service_time"

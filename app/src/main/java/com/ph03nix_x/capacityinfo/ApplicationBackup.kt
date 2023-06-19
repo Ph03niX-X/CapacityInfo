@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -44,7 +43,7 @@ class ApplicationBackup : BackupAgent() {
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-            IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION)
+            IS_SHOW_BACKUP_INFORMATION)
 
         prefsTempList.forEach {
             with(prefArrays) {
@@ -68,8 +67,8 @@ class ApplicationBackup : BackupAgent() {
                                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> pref?.edit()?.putFloat(it.key,
                                     it.value as Float)?.apply()
 
-                               IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION ->
-                                   pref?.edit()?.putBoolean(it.key, it.value as Boolean)?.apply()
+                                IS_SHOW_BACKUP_INFORMATION -> pref?.edit()?.putBoolean(it.key,
+                                    it.value as Boolean)?.apply()
                             }
                         }
                     }

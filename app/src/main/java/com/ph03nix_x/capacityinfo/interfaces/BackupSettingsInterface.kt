@@ -143,8 +143,7 @@ interface BackupSettingsInterface {
                         PreferencesKeys.BATTERY_LEVEL_TO, PreferencesKeys.BATTERY_LEVEL_WITH,
                         PreferencesKeys.DESIGN_CAPACITY, PreferencesKeys.CAPACITY_ADDED,
                         PreferencesKeys.LAST_CHARGE_TIME, PreferencesKeys.PERCENT_ADDED,
-                        PreferencesKeys.RESIDUAL_CAPACITY, PreferencesKeys.IS_SHOW_INSTRUCTION ->
-                            prefArrays[it.key] = it.value
+                        PreferencesKeys.RESIDUAL_CAPACITY -> prefArrays[it.key] = it.value
                     }
                 }
 
@@ -337,8 +336,7 @@ interface BackupSettingsInterface {
                         PreferencesKeys.BATTERY_LEVEL_TO, PreferencesKeys.BATTERY_LEVEL_WITH,
                         PreferencesKeys.DESIGN_CAPACITY, PreferencesKeys.CAPACITY_ADDED,
                         PreferencesKeys.LAST_CHARGE_TIME, PreferencesKeys.PERCENT_ADDED,
-                        PreferencesKeys.RESIDUAL_CAPACITY, PreferencesKeys.IS_SHOW_INSTRUCTION ->
-                            prefArrays[it.key] = it.value
+                        PreferencesKeys.RESIDUAL_CAPACITY -> prefArrays[it.key] = it.value
                     }
                 }
 

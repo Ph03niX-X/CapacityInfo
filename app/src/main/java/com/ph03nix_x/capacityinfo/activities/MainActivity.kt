@@ -59,7 +59,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_INSTRUCTION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -412,9 +411,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         else if(isHuawei()) showHuaweiInfo()
 
-        if(!isHuawei() && pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
-                R.bool.is_show_instruction))) showInstruction()
-
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
                 this) > 0.0
@@ -632,10 +628,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         MaterialAlertDialogBuilder(this).apply {
 
-            if(pref.getBoolean(IS_SHOW_INSTRUCTION, resources.getBoolean(
-                    R.bool.is_show_instruction)))
-                pref.edit().putBoolean(IS_SHOW_INSTRUCTION, false).apply()
-
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message)
@@ -832,7 +824,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-            IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION)
+            IS_SHOW_BACKUP_INFORMATION)
 
         if(prefArrays != null)
             prefsTempList.forEach {
@@ -860,9 +852,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                                     pref.edit().putFloat(it.key as String,
                                         it.value as Float).apply()
 
-                                IS_SHOW_INSTRUCTION, IS_SHOW_BACKUP_INFORMATION ->
-                                    pref.edit().putBoolean(it.key as String,
-                                        it.value as Boolean).apply()
+                                IS_SHOW_BACKUP_INFORMATION -> pref.edit().putBoolean(it.key as
+                                        String, it.value as Boolean).apply()
                             }
                         }
                     }
