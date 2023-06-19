@@ -84,7 +84,8 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
             "${context.packageName}_preferences.products.cache.v2_6",
             "${context.packageName}_preferences.products.restored.v2_6",
             "${context.packageName}_preferences.subscriptions.cache.v2_6",
-            "${context.packageName}_preferences.subscriptions.cache.v2_6.version").forEach {
+            "${context.packageName}_preferences.subscriptions.cache.v2_6.version",
+            "is_battery_wear").forEach {
 
             with(pref) {
 

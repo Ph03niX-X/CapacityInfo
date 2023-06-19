@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.utilities
 object PreferencesKeys {
 
     const val IS_SHOW_INSTRUCTION = "is_show_instruction"
-    const val IS_BATTERY_WEAR = "is_battery_wear"
 
     // Service & Notification
     const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
