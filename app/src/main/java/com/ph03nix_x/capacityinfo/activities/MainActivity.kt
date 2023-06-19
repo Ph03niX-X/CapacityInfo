@@ -690,10 +690,44 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 setTitle(getString(R.string.information))
                 setMessage(getString(R.string.auto_start_xiaomi_dialog))
                 setPositiveButton(android.R.string.ok) { _, _ ->
-                    startActivity(Intent().setComponent(ComponentName(
-                        "com.miui.securitycenter",
-                        "com.miui.permcenter.autostart.AutoStartManagementActivity")))
-                    showXiaomiAutostartDialog = null
+                    try {
+                        startActivity(Intent("miui.intent.action.OP_AUTO_START")
+                            .addCategory(Intent.CATEGORY_DEFAULT))
+
+                        showXiaomiBackgroundActivityControlDialog()
+                    }
+                    catch (e: ActivityNotFoundException) {
+                        startActivity(Intent().setComponent(ComponentName(
+                            "com.miui.securitycenter",
+                            "com.miui.permcenter.autostart.AutoStartManagementActivity")))
+
+                        showXiaomiBackgroundActivityControlDialog()
+                    }
+                    finally {
+                        showXiaomiAutostartDialog = null
+                    }
+                }
+
+                setCancelable(false)
+                show()
+            }
+        }
+    }
+
+    private fun showXiaomiBackgroundActivityControlDialog() {
+        if(isXiaomi()) {
+            MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(getString(R.string.information))
+                setMessage(getString(R.string.background_activity_control_xiaomi_dialog))
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    try {
+                        startActivity(Intent("miui.intent.action.POWER_HIDE_MODE_APP_LIST")
+                            .addCategory(Intent.CATEGORY_DEFAULT))
+                    }
+                    catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+                    }
                 }
                 show()
             }
