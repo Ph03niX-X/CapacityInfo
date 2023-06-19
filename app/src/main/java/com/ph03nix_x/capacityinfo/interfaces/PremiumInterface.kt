@@ -25,6 +25,7 @@ import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -181,39 +182,43 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     fun checkPremium() {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
-
-        var tokenPref = pref.getString(TOKEN_PREF, null)
-
-        if(tokenPref != null && tokenPref.count() >= TOKEN_COUNT) {
-            isPremium = true
-            return
-        }
-
-        else if(tokenPref != null && tokenPref.count() < TOKEN_COUNT)
-            pref.edit().remove(TOKEN_PREF).apply()
-
-        if(billingClient?.isReady != true) initiateBilling()
-
-        val params = QueryPurchaseHistoryParams.newBuilder()
-            .setProductType(ProductType.INAPP)
-
         CoroutineScope(Dispatchers.IO).launch {
 
-            val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+            val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
 
-            val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+            var tokenPref = pref.getString(TOKEN_PREF, null)
 
-            if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+            if(tokenPref != null && tokenPref.count() >= TOKEN_COUNT) isPremium = true
 
-                pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken).apply()
+            else if(tokenPref != null && tokenPref.count() < TOKEN_COUNT)
+                pref.edit().remove(TOKEN_PREF).apply()
 
-                tokenPref = pref.getString(TOKEN_PREF, null)
+           else if(tokenPref == null || tokenPref.count() < TOKEN_COUNT) {
 
-                isPremium = tokenPref != null && (tokenPref?.count() ?: 0) >= TOKEN_COUNT
+                if(billingClient?.isReady != true) initiateBilling()
 
-                billingClient?.endConnection()
+                delay(2500L)
+                val params = QueryPurchaseHistoryParams.newBuilder()
+                    .setProductType(ProductType.INAPP)
+
+                val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+
+                val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+
+                if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+
+                    pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
+                        .apply()
+
+                    tokenPref = pref.getString(TOKEN_PREF, null)
+
+                    isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+
+                    delay(5000L)
+                    billingClient?.endConnection()
+                }
             }
         }
+
     }
 }
