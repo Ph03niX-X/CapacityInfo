@@ -211,6 +211,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 tokenPref = pref.getString(TOKEN_PREF, null)
 
                 isPremium = tokenPref != null && (tokenPref?.count() ?: 0) >= TOKEN_COUNT
+
+                billingClient?.endConnection()
             }
         }
     }
