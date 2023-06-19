@@ -74,14 +74,14 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
         if (billingClient?.connectionState == BillingClient.ConnectionState.DISCONNECTED)
             startConnection(isPurchasePremium)
-
     }
 
     private fun startConnection(isPurchasePremium: Boolean) {
         billingClient?.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingResponseCode.OK) {
-                    if(isPurchasePremium) purchasePremium() else querySkuDetails()
+                    querySkuDetails()
+                    if(isPurchasePremium) purchasePremium()
                 }
             }
 
