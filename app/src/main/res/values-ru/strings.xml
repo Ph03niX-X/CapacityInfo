@@ -333,4 +333,10 @@
     <string name="allow_all_app_notifications">РАЗРЕШИТЕ ПРИЛОЖЕНИЮ ПОКАЗЫВАТЬ ВСЕ УВЕДОМЛЕНИЯ</string>
     <string name="auto_start_xiaomi_dialog">Для того чтобы приложение работало корректно, разрешите автозапуск в следующем окне</string>
     <string name="background_activity_control_xiaomi_dialog">Для того чтобы приложение работало корректно в фоне, перейдите к следующему окну и выберите приложение (Capacity Info), далее выберите пункт \"Контроль фоновой активности\" и в следующем окне выберите \"Нет ограничений\"</string>
+    <string name="battery_health">Состояние аккумулятора: %1$s</string>
+    <string name="battery_health_great">Отличное</string>
+    <string name="battery_health_good">Хорошее</string>
+    <string name="battery_health_bad">Плохое</string>
+    <string name="battery_health_replacement_required">Требуется замена</string>
+    <string name="battery_health_overlay">Состояние аккумулятора</string>
 </resources>
