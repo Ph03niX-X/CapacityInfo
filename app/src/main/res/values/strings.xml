@@ -353,6 +353,6 @@
     <string name="full_charge_reminder">Full Charge Reminder</string>
     <string name="full_charge_reminder_summary">Full charge reminder every 30 minutes</string>
     <string name="allow_all_app_notifications">ALLOW ALL APP NOTIFICATIONS</string>
-    <string name="auto_start_xiaomi_dialog">In order for the application to work correctly, allow autorun in the next window</string>
+    <string name="auto_start_xiaomi_dialog">In order for the application to work correctly, allow autostart in the next window</string>
     <string name="background_activity_control_xiaomi_dialog">In order for the application to work correctly in the background, go to the next window and select the application (Capacity Info), then select \"Background Activity Control\" and in the next window select \"No restrictions\"</string>
 </resources>
