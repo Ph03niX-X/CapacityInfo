@@ -100,7 +100,7 @@
     <string name="max_discharge_current">Maximaler Entladestrom: %1$d mA</string>
     <string name="average_discharge_current">Durchschnittlicher Entladestrom: %1$d mA</string>
     <string name="min_discharge_current">Minimaler Entladestrom: %1$d mA</string>
-    <string name="battery_health_android">Akkuzustand (Android): %1$s</string>
+    <string name="battery_health_android">Batteriezustand (Android): %1$s</string>
     <string name="battery_health_good_android">Gut</string>
     <string name="battery_health_dead_android">Tot</string>
     <string name="battery_health_cold_android">Kalt</string>
@@ -332,4 +332,10 @@
     <string name="allow_all_app_notifications">ALLE APP-BENACHRICHTIGUNGEN ZULASSEN</string>
     <string name="auto_start_xiaomi_dialog">Damit die Anwendung korrekt funktioniert, lassen Sie im nächsten Fenster den Autostart zu</string>
     <string name="background_activity_control_xiaomi_dialog">Damit die Anwendung korrekt im Hintergrund arbeitet, wählen Sie im nächsten Fenster die Anwendung aus (Capacity Info), wählen Sie dann \"Steuerung der Hintergrundaktivität\" und im nächsten Fenster \"Keine Einschränkungen\" aus</string>
+    <string name="battery_health">Batteriezustand: %1$s</string>
+    <string name="battery_health_great">Großartig</string>
+    <string name="battery_health_good">Gut</string>
+    <string name="battery_health_bad">Schlecht</string>
+    <string name="battery_health_replacement_required">Auswechseln erforderlich</string>
+    <string name="battery_health_overlay">Batteriezustand</string>
 </resources>
