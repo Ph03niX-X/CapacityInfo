@@ -394,17 +394,17 @@ interface BatteryInfoInterface {
             BatteryManager.BATTERY_HEALTH_UNKNOWN
         )) {
 
-            BatteryManager.BATTERY_HEALTH_GOOD -> context.getString(R.string.battery_health_good)
-            BatteryManager.BATTERY_HEALTH_DEAD -> context.getString(R.string.battery_health_dead)
-            BatteryManager.BATTERY_HEALTH_COLD -> context.getString(R.string.battery_health_cold)
+            BatteryManager.BATTERY_HEALTH_GOOD -> context.getString(R.string.battery_health_good_android)
+            BatteryManager.BATTERY_HEALTH_DEAD -> context.getString(R.string.battery_health_dead_android)
+            BatteryManager.BATTERY_HEALTH_COLD -> context.getString(R.string.battery_health_cold_android)
             BatteryManager.BATTERY_HEALTH_OVERHEAT -> context.getString(
-                R.string.battery_health_overheat
+                R.string.battery_health_overheat_android
             )
             BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE -> context.getString(
-                R.string.battery_health_over_voltage
+                R.string.battery_health_over_voltage_android
             )
             BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE -> context.getString(
-                R.string.battery_health_unspecified_failure
+                R.string.battery_health_unspecified_failure_android
             )
             else -> context.getString(R.string.unknown)
         }

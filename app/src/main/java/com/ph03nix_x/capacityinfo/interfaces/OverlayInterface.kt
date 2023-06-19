@@ -549,10 +549,10 @@ interface OverlayInterface : BatteryInfoInterface {
 
     private fun onUpdateBatteryHealthOverlay() {
 
-        if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, binding.batteryHealthOverlay.context.resources
+        if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, binding.batteryHealthAndroidOverlay.context.resources
                 .getBoolean(R.bool.is_battery_health_overlay)) ||
-            binding.batteryHealthOverlay.visibility == View.VISIBLE)
-            binding.batteryHealthOverlay.apply {
+            binding.batteryHealthAndroidOverlay.visibility == View.VISIBLE)
+            binding.batteryHealthAndroidOverlay.apply {
 
             TextAppearanceHelper.setTextAppearance(context, this,
                 pref.getString(OVERLAY_TEXT_STYLE, "0"),
@@ -562,7 +562,7 @@ interface OverlayInterface : BatteryInfoInterface {
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
 
             text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_only_values_overlay))) R.string.battery_health
+                    .getBoolean(R.bool.is_only_values_overlay))) R.string.battery_health_android
             else R.string.battery_health_overlay_only_values, getOnBatteryHealth(context))
 
             visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, context.resources

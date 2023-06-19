@@ -81,7 +81,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         binding.numberOfCyclesAndroid.visibility = if(File(NUMBER_OF_CYCLES_PATH).exists())
             View.VISIBLE else View.GONE
 
-        binding.batteryHealth.text = getString(R.string.battery_health,
+        binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
             getOnBatteryHealth(requireContext()))
 
         binding.residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
@@ -148,7 +148,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryHealth,
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryHealthAndroid,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
@@ -249,7 +249,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                     withContext(Dispatchers.Main) {
 
-                        binding.batteryHealth.text = getString(R.string.battery_health,
+                        binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
                             getOnBatteryHealth(requireContext()))
                     }
 
