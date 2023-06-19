@@ -83,7 +83,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private var batteryLevelOverlay: SwitchPreferenceCompat? = null
     private var currentCapacityOverlay: SwitchPreferenceCompat? = null
     private var capacityAddedOverlay: SwitchPreferenceCompat? = null
-    private var batteryHealthOverlay: SwitchPreferenceCompat? = null
+    private var batteryHealthAndroidOverlay: SwitchPreferenceCompat? = null
     private var residualCapacityOverlay: SwitchPreferenceCompat? = null
     private var statusOverlay: SwitchPreferenceCompat? = null
     private var sourceOfPowerOverlay: SwitchPreferenceCompat? = null
@@ -205,7 +205,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         screenTimeOverlay = findPreference(IS_SCREEN_TIME_OVERLAY)
         currentCapacityOverlay = findPreference(IS_CURRENT_CAPACITY_OVERLAY)
         capacityAddedOverlay = findPreference(IS_CAPACITY_ADDED_OVERLAY)
-        batteryHealthOverlay = findPreference(IS_BATTERY_HEALTH_ANDROID_OVERLAY)
+        batteryHealthAndroidOverlay = findPreference(IS_BATTERY_HEALTH_ANDROID_OVERLAY)
         residualCapacityOverlay = findPreference(IS_RESIDUAL_CAPACITY_OVERLAY)
         statusOverlay = findPreference(IS_STATUS_OVERLAY)
         sourceOfPowerOverlay = findPreference(IS_SOURCE_OF_POWER)
@@ -319,7 +319,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
             true
         }
 
-        batteryHealthOverlay?.setOnPreferenceChangeListener { _, newValue ->
+        batteryHealthAndroidOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)
