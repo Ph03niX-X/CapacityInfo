@@ -331,5 +331,6 @@
     <string name="full_charge_reminder">Напомняне за пълно зареждане</string>
     <string name="full_charge_reminder_summary">Напомня ви да зареждате напълно на всеки 30 минути</string>
     <string name="allow_all_app_notifications">РАЗРЕШЕТЕ НА ПРИЛОЖЕНИЕТО ДА ПОКАЗВА ВСИЧКИ ИЗВЕСТИЯ</string>
-    <string name="auto_start_xiaomi_dialog">За да работи правилно приложението, дайте разрешение в следващия прозорец</string>
+    <string name="auto_start_xiaomi_dialog">За да работи правилно приложението, разрешете автоматично стартиране в следващия прозорец</string>
+    <string name="background_activity_control_xiaomi_dialog">За да работи приложението правилно във фонов режим, отидете на следващия прозорец и изберете приложението (Capacity Info), след това изберете \"Контрол на фоновата активност\" и в следващия прозорец изберете \"Без ограничения\"</string>
 </resources>
