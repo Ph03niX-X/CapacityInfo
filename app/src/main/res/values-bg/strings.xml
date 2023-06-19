@@ -136,7 +136,7 @@
     <string name="charging_time_overlay">Време за зареждане</string>
     <string name="current_capacity_overlay">Текущ капацитет</string>
     <string name="capacity_added_overlay">Добавен капацитет</string>
-    <string name="battery_health_android_overlay">Състояние на батерията (Android)</string>
+    <string name="battery_health_android_overlay">Здраве на батерията (Android)</string>
     <string name="residual_capacity_overlay">Остатъчен капацитет</string>
     <string name="status_overlay">Статус</string>
     <string name="source_of_power_overlay">Захранване</string>
@@ -333,4 +333,10 @@
     <string name="allow_all_app_notifications">РАЗРЕШЕТЕ НА ПРИЛОЖЕНИЕТО ДА ПОКАЗВА ВСИЧКИ ИЗВЕСТИЯ</string>
     <string name="auto_start_xiaomi_dialog">За да работи правилно приложението, разрешете автоматично стартиране в следващия прозорец</string>
     <string name="background_activity_control_xiaomi_dialog">За да работи приложението правилно във фонов режим, отидете на следващия прозорец и изберете приложението (Capacity Info), след това изберете \"Контрол на фоновата активност\" и в следващия прозорец изберете \"Без ограничения\"</string>
+    <string name="battery_health">Състояние на батерията: %1$s</string>
+    <string name="battery_health_great">Страхотно</string>
+    <string name="battery_health_good">Добре</string>
+    <string name="battery_health_bad">Лошо</string>
+    <string name="battery_health_replacement_required">Необходима подмяна</string>
+    <string name="battery_health_overlay">Състояние на батерията</string>
 </resources>
