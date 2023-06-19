@@ -333,4 +333,10 @@
     <string name="allow_all_app_notifications">PERMITIR TODAS LAS NOTIFICACIONES DE APLICACIONES</string>
     <string name="auto_start_xiaomi_dialog">Para que la aplicación funcione correctamente, permita el inicio automático en la siguiente ventana</string>
     <string name="background_activity_control_xiaomi_dialog">Para que la aplicación funcione correctamente en segundo plano, vaya a la siguiente ventana y seleccione la aplicación (Capacity Info), luego seleccione \"Control de actividad en segundo plano\" y en la siguiente ventana seleccione \"Sin restricciones\"</string>
+    <string name="battery_health">Salud de la batería: %1$s</string>
+    <string name="battery_health_great">Genial</string>
+    <string name="battery_health_good">Buena</string>
+    <string name="battery_health_bad">Malo</string>
+    <string name="battery_health_replacement_required">Sustitución necesaria</string>
+    <string name="battery_health_overlay">Salud de la batería</string>
 </resources>
