@@ -331,5 +331,6 @@
     <string name="full_charge_reminder">Przypomnienie o pełnym naładowaniu</string>
     <string name="full_charge_reminder_summary">Przypomnienie o pełnym naładowaniu co 30 minut</string>
     <string name="allow_all_app_notifications">ZEZWALAJ NA WSZYSTKIE POWIADOMIENIA APLIKACJI</string>
-    <string name="auto_start_xiaomi_dialog">Aby aplikacja działała poprawnie, należy podać uprawnienia w następującym oknie</string>
+    <string name="auto_start_xiaomi_dialog">Aby aplikacja działała poprawnie, należy zezwolić na autostart w następnym oknie</string>
+    <string name="background_activity_control_xiaomi_dialog">Aby aplikacja działała poprawnie w tle, należy przejść do kolejnego okna i wybrać aplikację (Capacity Info), następnie wybrać \"Kontrola aktywności w tle\", a w kolejnym oknie wybrać \"Bez ograniczeń\"</string>
 </resources>
