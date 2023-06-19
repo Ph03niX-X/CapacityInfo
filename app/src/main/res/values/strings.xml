@@ -355,4 +355,10 @@
     <string name="allow_all_app_notifications">ALLOW ALL APP NOTIFICATIONS</string>
     <string name="auto_start_xiaomi_dialog">In order for the application to work correctly, allow autostart in the next window</string>
     <string name="background_activity_control_xiaomi_dialog">In order for the application to work correctly in the background, go to the next window and select the application (Capacity Info), then select \"Background Activity Control\" and in the next window select \"No restrictions\"</string>
+    <string name="battery_health">Battery Health: %1$s</string>
+    <string name="battery_health_great">Great</string>
+    <string name="battery_health_good">Good</string>
+    <string name="battery_health_bad">Bad</string>
+    <string name="battery_health_replacement_required">Replacement Required</string>
+
 </resources>

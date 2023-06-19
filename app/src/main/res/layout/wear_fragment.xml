@@ -115,12 +115,23 @@
                     android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/battery_health"
+                    android:text="@string/battery_health"
+                    android:visibility="gone"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/battery_health_android"
                         android:text="@string/battery_health_android"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
+                        android:layout_below="@id/battery_health"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView

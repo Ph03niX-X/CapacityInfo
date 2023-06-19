@@ -81,6 +81,15 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         binding.numberOfCyclesAndroid.visibility = if(File(NUMBER_OF_CYCLES_PATH).exists())
             View.VISIBLE else View.GONE
 
+        binding.batteryHealth.apply {
+
+            if(getBatteryHealth(requireContext()) != null) {
+                visibility = View.VISIBLE
+                text = getString(R.string.battery_health, getString(
+                    getBatteryHealth(requireContext()) ?: R.string.battery_health_great))
+            }
+        }
+
         binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
             getOnBatteryHealth(requireContext()))
 
@@ -145,6 +154,10 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryTechnology,
+            pref.getString(TEXT_STYLE, "0"),
+            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+            pref.getString(TEXT_SIZE, "2"))
+        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryHealth,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
@@ -248,6 +261,16 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                     }
 
                     withContext(Dispatchers.Main) {
+
+                        binding.batteryHealthAndroid.apply {
+
+                            if(getBatteryHealth(requireContext()) != null) {
+                                visibility = View.VISIBLE
+                                text = getString(R.string.battery_health,
+                                    getString(getBatteryHealth(requireContext()) ?:
+                                    R.string.battery_health_great))
+                            }
+                        }
 
                         binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
                             getOnBatteryHealth(requireContext()))
