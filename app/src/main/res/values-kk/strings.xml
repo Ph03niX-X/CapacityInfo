@@ -101,7 +101,7 @@
     <string name="max_discharge_current">Максималды разрядтау тогы: %1$d mA</string>
     <string name="average_discharge_current">Орташа разрядтау тогы: %1$d mA</string>
     <string name="min_discharge_current">Минималды разрядтау тогы: %1$d mA</string>
-    <string name="battery_health_android">Батарея күйі (Android): %1$s</string>
+    <string name="battery_health_android">Батарея денсаулығы (Android): %1$s</string>
     <string name="battery_health_good_android">Жақсы</string>
     <string name="battery_health_dead_android">Өлген</string>
     <string name="battery_health_cold_android">Суық</string>
@@ -333,4 +333,10 @@
     <string name="allow_all_app_notifications">ҚОЛДАНБАҒА БАРЛЫҚ ХАБАРЛАНДЫРУЛАРДЫ КӨРСЕТУГЕ РҰҚСАТ БЕРІҢІЗ</string>
     <string name="auto_start_xiaomi_dialog">Қолданба дұрыс жұмыс істеуі үшін келесі терезеде автоматты іске қосуға рұқсат етіңіз</string>
     <string name="background_activity_control_xiaomi_dialog">Қолданбаның фондық режимде дұрыс жұмыс істеуі үшін келесі терезеге өтіп, қолданбаны (Capacity Info), содан кейін \"Фондық әрекетті басқару\" және келесі терезеде \"Шектеусіз\" тармағын таңдаңыз</string>
+    <string name="battery_health">Батарея денсаулығы: %1$s</string>
+    <string name="battery_health_great">Тамаша</string>
+    <string name="battery_health_good">Хорошее</string>
+    <string name="battery_health_bad">Нашар</string>
+    <string name="battery_health_replacement_required">Ауыстыру қажет</string>
+    <string name="battery_health_overlay">Батарея денсаулығы</string>
 </resources>
