@@ -333,4 +333,10 @@
     <string name="allow_all_app_notifications">ДОЗВОЛЬТЕ ЗАСТОСУНКУ ПОКАЗУВАТИ ВСІ СПОВІЩЕННЯ</string>
     <string name="auto_start_xiaomi_dialog">Для того щоб додаток працював коректно, дозвольте автозапуск у такому вікні</string>
     <string name="background_activity_control_xiaomi_dialog">Для того щоб додаток працював коректно у фоні, перейдіть до наступного вікна і виберіть додаток (Capacity Info), далі виберіть пункт \"Контроль фонової активності\" і в наступному вікні виберіть \"Немає обмежень\"</string>
+    <string name="battery_health">Стан акумулятора: %1$s</string>
+    <string name="battery_health_great">Відмінний</string>
+    <string name="battery_health_good">Гарний</string>
+    <string name="battery_health_bad">Поганий</string>
+    <string name="battery_health_replacement_required">Потрібна заміна</string>
+    <string name="battery_health_overlay">Стан акумулятора</string>
 </resources>
