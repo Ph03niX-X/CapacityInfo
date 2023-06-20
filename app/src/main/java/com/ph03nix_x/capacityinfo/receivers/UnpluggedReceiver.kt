@@ -47,7 +47,7 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface {
 
                 val seconds = CapacityInfoService.instance?.seconds ?: 0
 
-                val batteryLevel = CapacityInfoService.instance?.getOnBatteryLevel(context) ?: 0
+                val batteryLevel = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0
 
                 val batteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
 

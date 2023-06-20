@@ -100,7 +100,7 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         if(newResidualCapacity < 0.0) newResidualCapacity /= -1.0
 
         return if(isCapacityInWh) context.getString(R.string.residual_capacity_wh,
-            DecimalFormat("#.#").format(getOnCapacityInWh(newResidualCapacity)),
+            DecimalFormat("#.#").format(getCapacityInWh(newResidualCapacity)),
             "${DecimalFormat("#.#").format(
                 ((newResidualCapacity / designCapacity)) * 100.0)}%")
 
@@ -131,7 +131,7 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
                     100 - (newResidualCapacity / designCapacity) * 100)}%" else "0%",
             if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
                 DecimalFormat("#.#").format(
-                    getOnCapacityInWh(designCapacity - newResidualCapacity)) else "0")
+                    getCapacityInWh(designCapacity - newResidualCapacity)) else "0")
 
         else context.getString(R.string.battery_wear, if (newResidualCapacity > 0 &&
             newResidualCapacity < designCapacity) "${DecimalFormat("#.#").format(

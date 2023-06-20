@@ -49,7 +49,7 @@ interface SettingsInterface {
         requireContext().startActivity(intent)
     }
 
-    fun SettingsFragment.getOnTextSizeSummary(): String? {
+    fun SettingsFragment.getTextSizeSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -61,7 +61,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
     }
 
-    fun SettingsFragment.getOnTextFontSummary(): String? {
+    fun SettingsFragment.getTextFontSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -73,7 +73,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
     }
 
-    fun SettingsFragment.getOnTextStyleSummary(): String? {
+    fun SettingsFragment.getTextStyleSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -85,7 +85,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_STYLE, "0") ?: "0").toInt()]
     }
 
-    fun SettingsFragment.getOnTabOnApplicationLaunch(): String? {
+    fun SettingsFragment.getTabOnApplicationLaunch(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -97,7 +97,7 @@ interface SettingsInterface {
                 (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]
     }
 
-    fun SettingsFragment.getOnUnitOfChargeDischargeCurrentSummary(): String? {
+    fun SettingsFragment.getUnitOfChargeDischargeCurrentSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -117,7 +117,7 @@ interface SettingsInterface {
         }
     }
 
-    fun SettingsFragment.getOnUnitOfMeasurementOfCurrentCapacitySummary(): String? {
+    fun SettingsFragment.getUnitOfMeasurementOfCurrentCapacitySummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -138,7 +138,7 @@ interface SettingsInterface {
         }
     }
 
-    fun SettingsFragment.getOnVoltageUnitSummary(): String? {
+    fun SettingsFragment.getVoltageUnitSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 

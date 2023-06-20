@@ -107,7 +107,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
+        val chargingCurrentLimit = getChargingCurrentLimit(requireContext())
 
         addPreferencesFromResource(R.xml.overlay_settings)
 
@@ -471,7 +471,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         super.onResume()
 
-        val chargingCurrentLimit = getOnChargingCurrentLimit(requireContext())
+        val chargingCurrentLimit = getChargingCurrentLimit(requireContext())
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())

@@ -399,7 +399,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             pref.edit().apply {
 
-                putInt(DESIGN_CAPACITY, getOnDesignCapacity(this@MainActivity))
+                putInt(DESIGN_CAPACITY, getDesignCapacity(this@MainActivity))
 
                 apply()
             }
@@ -413,7 +413,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         else if(isHuawei()) showHuaweiInfo()
 
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
-            toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
+            toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
                 this) > 0.0
 
         if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
@@ -535,7 +535,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             toolbar.inflateMenu(R.menu.main_menu)
 
-            toolbar.menu.findItem(R.id.instruction).isVisible = getOnCurrentCapacity(
+            toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
                 this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
 
             toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
@@ -797,7 +797,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     fun getChargeDischargeNavigationIcon(isCharge: Boolean): Int {
 
-        val batteryLevel = getOnBatteryLevel(this) ?: 0
+        val batteryLevel = getBatteryLevel(this) ?: 0
 
         if(isCharge)
             return when(batteryLevel) {

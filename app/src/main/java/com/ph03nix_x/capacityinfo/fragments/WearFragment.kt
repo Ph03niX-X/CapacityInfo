@@ -91,7 +91,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         }
 
         binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
-            getOnBatteryHealth(requireContext()))
+            getBatteryAndroidHealth(requireContext()))
 
         binding.residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
@@ -273,10 +273,10 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                         }
 
                         binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
-                            getOnBatteryHealth(requireContext()))
+                            getBatteryAndroidHealth(requireContext()))
                     }
 
-                    if(getOnCurrentCapacity(requireContext()) >= 0.0) {
+                    if(getCurrentCapacity(requireContext()) >= 0.0) {
 
                         if(pref.getInt(DESIGN_CAPACITY, resources.getInteger(
                                 R.integer.min_design_capacity)) >= resources.getInteger(
@@ -285,14 +285,14 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                             withContext(Dispatchers.Main) {
 
-                                binding.residualCapacity.text = getOnResidualCapacity(requireContext())
+                                binding.residualCapacity.text = getResidualCapacity(requireContext())
 
-                                binding.batteryWear.text = getOnBatteryWear(requireContext())
+                                binding.batteryWear.text = getBatteryWear(requireContext())
 
                             }
                         }
 
-                        if(getOnCurrentCapacity(requireContext()) > 0.0) {
+                        if(getCurrentCapacity(requireContext()) > 0.0) {
 
                             if(binding.currentCapacityWear.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
@@ -306,27 +306,27 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                 binding.currentCapacityWear.text = getString(if(isCapacityInWh)
                                     R.string.current_capacity_wh else R.string.current_capacity,
                                     DecimalFormat("#.#").format(if(isCapacityInWh)
-                                        getOnCapacityInWh(getOnCurrentCapacity(requireContext()))
-                                    else getOnCurrentCapacity(requireContext())))
+                                        getCapacityInWh(getCurrentCapacity(requireContext()))
+                                    else getCurrentCapacity(requireContext())))
 
                                 when {
-                                    getOnSourceOfPower(requireContext(), sourceOfPower) != "N/A"
+                                    getSourceOfPower(requireContext(), sourceOfPower) != "N/A"
                                     -> {
 
                                         if(binding.capacityAddedWear.visibility == View.GONE)
                                             binding.capacityAddedWear.visibility = View.VISIBLE
 
                                         binding.capacityAddedWear.text =
-                                            getOnCapacityAdded(requireContext())
+                                            getCapacityAdded(requireContext())
                                     }
-                                    getOnSourceOfPower(requireContext(), sourceOfPower) == "N/A"
+                                    getSourceOfPower(requireContext(), sourceOfPower) == "N/A"
                                     -> {
 
                                         if(binding.capacityAddedWear.visibility == View.GONE)
                                             binding.capacityAddedWear.visibility = View.VISIBLE
 
                                         binding.capacityAddedWear.text =
-                                            getOnCapacityAdded(requireContext())
+                                            getCapacityAdded(requireContext())
                                     }
                                     binding.capacityAddedWear.visibility == View.VISIBLE ->
                                         binding.capacityAddedWear.visibility = View.GONE
@@ -378,7 +378,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if (getOnCurrentCapacity(requireContext()) > 0.0) 989L
+                            delay(if (getCurrentCapacity(requireContext()) > 0.0) 989L
                             else 996L)
 
                         else -> delay(1500L)
