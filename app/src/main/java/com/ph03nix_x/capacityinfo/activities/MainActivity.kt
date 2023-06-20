@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -87,6 +88,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var showFaqDialog: MaterialAlertDialogBuilder? = null
     private var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     private var showHuaweiInformation: MaterialAlertDialogBuilder? = null
+    private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
@@ -405,12 +407,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-
-        if(showXiaomiAutostartDialog == null && !isHuawei() && isXiaomi()
-            && Autostart(this).autoStartState == Autostart.State.DISABLED)
-            showXiaomiAutoStartDialog()
-
-        else if(isHuawei()) showHuaweiInfo()
+        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
 
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
@@ -441,8 +438,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
                     .checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                 PackageManager.PERMISSION_DENIED)
-                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
+                requestNotificationPermission()
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
@@ -467,16 +463,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-//                                            grantResults: IntArray) {
-//
-//        when (requestCode) {
-//            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
-//                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                    ServiceHelper.startService(this, CapacityInfoService::class.java)
-//            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        }
-//    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+
+        when (requestCode) {
+            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
+                if((grantResults.isNotEmpty() && grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED) || (grantResults.isNotEmpty() &&
+                            grantResults[0] == PackageManager.PERMISSION_DENIED)) checkManufacturer()
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
 
     override fun onDestroy() {
 
@@ -500,6 +497,23 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         super.onDestroy()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestNotificationPermission() {
+        if(showRequestNotificationPermissionDialog == null)
+            showRequestNotificationPermissionDialog =
+                MaterialAlertDialogBuilder(this).apply {
+                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                    setTitle(R.string.information)
+                    setMessage(R.string.request_notification_message)
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+                        requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
+                        showRequestNotificationPermissionDialog = null
+                    }
+                    show()
+                }
     }
 
     private fun inflateMenu() {
@@ -593,6 +607,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     fun clearMenu() = toolbar.menu.clear()
+
+    private fun checkManufacturer() {
+        if(showXiaomiAutostartDialog == null && !isHuawei() && isXiaomi()
+            && Autostart(this).autoStartState == Autostart.State.DISABLED)
+            showXiaomiAutoStartDialog() else if(isHuawei()) showHuaweiInfo()
+    }
 
     private fun isXiaomi() =
         (Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" ||

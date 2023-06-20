@@ -356,4 +356,5 @@
     <string name="battery_health_bad">Bad</string>
     <string name="battery_health_replacement_required">Replacement Required</string>
     <string name="battery_health_overlay">Battery Health</string>
+    <string name="request_notification_message">For the application to work correctly, you need to enable notifications. This is necessary for the service that is responsible for most of the application\'s operation, including calculating the residual battery capacity</string>
 </resources>
