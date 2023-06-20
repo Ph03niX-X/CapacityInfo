@@ -334,4 +334,5 @@
     <string name="battery_health_bad">Лошо</string>
     <string name="battery_health_replacement_required">Необходима подмяна</string>
     <string name="battery_health_overlay">Състояние на батерията</string>
+    <string name="request_notification_message">Известията трябва да са разрешени, за да работи приложението правилно. Това е необходимо за услугата, която отговаря за по-голямата част от работата на приложението, включително за изчисляване на оставащия капацитет на батерията</string>
 </resources>
