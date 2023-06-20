@@ -618,7 +618,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         (Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" ||
                 Build.MANUFACTURER.uppercase(Locale.getDefault()) == "POCO" ||
                 Build.MANUFACTURER.uppercase(Locale.getDefault()) == "REDMI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "BLACKSHARK") && isMIUI()
+                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "BLACK SHARK") && isMIUI()
 
     private fun isMIUI(): Boolean {
 
