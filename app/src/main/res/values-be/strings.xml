@@ -334,4 +334,5 @@
     <string name="battery_health_bad">Дрэнны</string>
     <string name="battery_health_replacement_required">Патрабуецца замена</string>
     <string name="battery_health_overlay">Стан акумулятара</string>
+    <string name="request_notification_message">Для карэктнай працы прыкладання патрабуецца дазволіць апавяшчэнні. Гэта трэба для службы, якая адказвае за большую частку працы прыкладання ў тым ліку і для вылічэння пакінутай ёмістасці акумулятара</string>
 </resources>
