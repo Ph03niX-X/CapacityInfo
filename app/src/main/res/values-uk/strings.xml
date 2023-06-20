@@ -334,4 +334,5 @@
     <string name="battery_health_bad">Поганий</string>
     <string name="battery_health_replacement_required">Потрібна заміна</string>
     <string name="battery_health_overlay">Стан акумулятора</string>
+    <string name="request_notification_message">Для коректної роботи застосунка потрібно дозволити сповіщення. Це потрібно для служби, яка відповідає за більшу частину роботи застосунку, зокрема й для обчислення залишкової ємності акумулятора</string>
 </resources>
