@@ -334,4 +334,5 @@
     <string name="battery_health_bad">Плохое</string>
     <string name="battery_health_replacement_required">Требуется замена</string>
     <string name="battery_health_overlay">Состояние аккумулятора</string>
+    <string name="request_notification_message">Для корректной работы приложения требуется разрешить уведомления. Это нужно для службы, которая отвечает за большую часть работы приложения в том числе и для вычисления оставшейся ёмкости аккумулятора</string>
 </resources>
