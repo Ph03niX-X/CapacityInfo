@@ -334,4 +334,5 @@
     <string name="battery_health_bad">Zły</string>
     <string name="battery_health_replacement_required">Wymagana wymiana</string>
     <string name="battery_health_overlay">Stan baterii</string>
+    <string name="request_notification_message">Aby aplikacja działała poprawnie należy włączyć powiadomienia. Jest to niezbędne dla serwisu, który odpowiada za większość działania aplikacji, w tym za obliczanie pozostałej pojemności baterii</string>
 </resources>
