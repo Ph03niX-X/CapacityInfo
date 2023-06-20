@@ -407,8 +407,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
-
         if(fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
                 this) > 0.0
@@ -439,6 +437,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     .checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                 PackageManager.PERMISSION_DENIED)
                 requestNotificationPermission()
+
+        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
@@ -512,6 +512,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                             POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
                         showRequestNotificationPermissionDialog = null
                     }
+                    setCancelable(false)
                     show()
                 }
     }
@@ -662,7 +663,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             setCancelable(false)
 
-            show()        }
+            show()
+        }
     }
 
     private fun showFaq() {
