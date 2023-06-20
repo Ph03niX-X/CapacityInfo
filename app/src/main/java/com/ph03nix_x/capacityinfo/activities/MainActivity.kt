@@ -406,8 +406,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
 
-        if(!isHuawei() && isXiaomi() && Autostart(this).autoStartState ==
-            Autostart.State.DISABLED) showXiaomiAutoStartDialog()
+        if(showXiaomiAutostartDialog == null && !isHuawei() && isXiaomi()
+            && Autostart(this).autoStartState == Autostart.State.DISABLED)
+            showXiaomiAutoStartDialog()
 
         else if(isHuawei()) showHuaweiInfo()
 
@@ -594,7 +595,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     fun clearMenu() = toolbar.menu.clear()
 
     private fun isXiaomi() =
-        Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" && isMIUI()
+        (Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" ||
+                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "POCO" ||
+                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "REDMI" ||
+                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "BLACKSHARK") && isMIUI()
 
     private fun isMIUI(): Boolean {
 
