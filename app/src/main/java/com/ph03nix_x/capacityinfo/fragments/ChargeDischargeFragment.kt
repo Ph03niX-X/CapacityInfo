@@ -22,7 +22,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.databinding.ChargeDischargeFragmentBinding
-import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper.showPremiumDialog
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
@@ -33,7 +32,7 @@ import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
 class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
-    BatteryInfoInterface, NavigationInterface {
+    BatteryInfoInterface, NavigationInterface, PremiumInterface {
 
     private lateinit var binding: ChargeDischargeFragmentBinding
 

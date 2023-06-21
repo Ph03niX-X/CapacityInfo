@@ -18,7 +18,6 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.WearFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
-import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper.showPremiumDialog
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -34,7 +33,8 @@ import kotlinx.coroutines.*
 import java.io.*
 import java.text.DecimalFormat
 
-class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, BatteryInfoInterface {
+class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, BatteryInfoInterface,
+    PremiumInterface {
     
     private lateinit var binding: WearFragmentBinding
     
