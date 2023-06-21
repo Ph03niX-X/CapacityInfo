@@ -223,13 +223,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
                     delay(5000L)
                     billingClient?.endConnection()
                 }
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                    ServiceHelper.jobSchedule(premiumContext!!, CheckPremiumJob::class.java,
-                        CHECK_PREMIUM_JOB_ID, CHECK_PREMIUM_JOB_SERVICE_PERIODIC,
-                        JobInfo.PRIORITY_HIGH) else ServiceHelper.jobSchedule(
-                    premiumContext!!, CheckPremiumJob::class.java, CHECK_PREMIUM_JOB_ID,
-                    CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
             }
         }
 
