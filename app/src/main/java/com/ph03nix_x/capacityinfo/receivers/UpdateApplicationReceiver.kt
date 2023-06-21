@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
@@ -23,7 +24,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_BACKUP_SETTI
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD
 
-class UpdateApplicationReceiver : BroadcastReceiver() {
+class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -45,6 +46,9 @@ class UpdateApplicationReceiver : BroadcastReceiver() {
                         R.bool.is_auto_start_update_app))) return
 
                 ServiceHelper.cancelAllJobs(context)
+
+                ServiceHelper.jobSchedule(context, CheckPremiumJob::class.java,
+                    Constants.CHECK_PREMIUM_JOB_ID, Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
 
                 if(CapacityInfoService.instance == null &&
                     !ServiceHelper.isStartedCapacityInfoService()) ServiceHelper.startService(
