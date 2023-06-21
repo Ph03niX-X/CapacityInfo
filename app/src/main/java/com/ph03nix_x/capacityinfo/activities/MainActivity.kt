@@ -1,8 +1,6 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
@@ -37,6 +35,7 @@ import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.ManufacturerInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
@@ -69,25 +68,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import xyz.kumaraswamy.autostart.Autostart
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.util.Locale
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
-    MenuInterface {
+    MenuInterface, ManufacturerInterface {
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
     private var isRestoreSettingsFromBackup = false
-
     private var prefArrays: HashMap<*, *>? = null
+    private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
+
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     var showHuaweiInformation: MaterialAlertDialogBuilder? = null
-    var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
@@ -514,112 +508,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     setCancelable(false)
                     show()
                 }
-    }
-
-    private fun checkManufacturer() {
-        if(showXiaomiAutostartDialog == null && !isHuawei() && isXiaomi()
-            && Autostart(this).autoStartState == Autostart.State.DISABLED)
-            showXiaomiAutoStartDialog() else if(isHuawei()) showHuaweiInfo()
-    }
-
-    private fun isXiaomi() =
-        (Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "POCO" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "REDMI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "BLACK SHARK") && isMIUI()
-
-    private fun isMIUI(): Boolean {
-
-        val propName = "ro.miui.ui.version.name"
-        val line: String
-        var input: BufferedReader? = null
-        return try {
-            val p = Runtime.getRuntime().exec("getprop $propName")
-            input = BufferedReader(InputStreamReader(p.inputStream), 1024)
-            line = input.readLine()
-            input.close()
-            line.isNotEmpty()
-        } catch (ex: IOException) {
-            false
-        } finally {
-            if (input != null) {
-                try {
-                    input.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-    private fun isHuawei() =
-        Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HUAWEI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HONOR"
-
-    private fun showXiaomiAutoStartDialog() {
-        if(showXiaomiAutostartDialog == null && isXiaomi() &&
-            Autostart(this).autoStartState == Autostart.State.DISABLED) {
-            showXiaomiAutostartDialog = MaterialAlertDialogBuilder(this).apply {
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.information))
-                setMessage(getString(R.string.auto_start_xiaomi_dialog))
-                setPositiveButton(android.R.string.ok) { _, _ ->
-                    try {
-                        startActivity(Intent("miui.intent.action.OP_AUTO_START")
-                            .addCategory(Intent.CATEGORY_DEFAULT))
-
-                        showXiaomiBackgroundActivityControlDialog()
-                    }
-                    catch (e: ActivityNotFoundException) {
-                        startActivity(Intent().setComponent(ComponentName(
-                            "com.miui.securitycenter",
-                            "com.miui.permcenter.autostart.AutoStartManagementActivity")))
-
-                        showXiaomiBackgroundActivityControlDialog()
-                    }
-                    finally {
-                        showXiaomiAutostartDialog = null
-                    }
-                }
-
-                setCancelable(false)
-                show()
-            }
-        }
-    }
-
-    private fun showXiaomiBackgroundActivityControlDialog() {
-        if(isXiaomi()) {
-            MaterialAlertDialogBuilder(this).apply {
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.information))
-                setMessage(getString(R.string.background_activity_control_xiaomi_dialog))
-                setPositiveButton(android.R.string.ok) { _, _ ->
-                    try {
-                        startActivity(Intent("miui.intent.action.POWER_HIDE_MODE_APP_LIST")
-                            .addCategory(Intent.CATEGORY_DEFAULT))
-                    }
-                    catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
-                    }
-                }
-                show()
-            }
-        }
-    }
-
-    private fun showHuaweiInfo() {
-        if(isHuawei() && showHuaweiInformation == null)
-            showHuaweiInformation = MaterialAlertDialogBuilder(this).apply {
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.information))
-                setMessage(getString(R.string.huawei_honor_information))
-                setPositiveButton(android.R.string.ok) { d, _ ->
-                    showHuaweiInformation = null
-                    d.dismiss()
-                }
-                show()
-            }
     }
 
     fun showPremiumDialog() {
