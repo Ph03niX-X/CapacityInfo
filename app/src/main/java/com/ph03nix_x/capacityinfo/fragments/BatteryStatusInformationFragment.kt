@@ -265,7 +265,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 ServiceHelper.jobSchedule(requireContext(),
                     FullChargeReminderJobService::class.java,
                     Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
-                    Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_JOB_PERIODIC)
+                    Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC)
             else ServiceHelper.cancelJob(requireContext(),
                 Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
 
