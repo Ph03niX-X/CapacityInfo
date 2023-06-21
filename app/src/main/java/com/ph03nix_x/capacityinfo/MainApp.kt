@@ -94,12 +94,8 @@ class MainApp : Application(), PremiumInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            ServiceHelper.jobSchedule(this, CheckPremiumJob::class.java,
-                Constants.CHECK_PREMIUM_JOB_ID, Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC,
-                JobInfo.PRIORITY_HIGH) else ServiceHelper.jobSchedule(
-            this, CheckPremiumJob::class.java, Constants.CHECK_PREMIUM_JOB_ID,
-            Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
+        ServiceHelper.jobSchedule(this, CheckPremiumJob::class.java,
+            Constants.CHECK_PREMIUM_JOB_ID, Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
 
         if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
                 R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(

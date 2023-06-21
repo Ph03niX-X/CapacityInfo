@@ -5,9 +5,7 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.preference.Preference
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -87,24 +85,6 @@ object ServiceHelper {
         val jobInfo = JobInfo.Builder(jobId, serviceComponent).apply {
 
             setPeriodic(periodic)
-
-        }.build()
-
-        if(!isJobSchedule(context, jobId)) jobScheduler?.schedule(jobInfo)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun jobSchedule(context: Context, jobName: Class<*>, jobId: Int, periodic: Long,
-                    priority: Int = JobInfo.PRIORITY_DEFAULT) {
-
-        val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
-
-        val serviceComponent = ComponentName(context, jobName)
-
-        val jobInfo = JobInfo.Builder(jobId, serviceComponent).apply {
-
-            setPeriodic(periodic)
-            setPriority(priority)
 
         }.build()
 
