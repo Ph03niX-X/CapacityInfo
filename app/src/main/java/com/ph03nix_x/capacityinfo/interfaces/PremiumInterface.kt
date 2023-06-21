@@ -243,11 +243,11 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     }
 
-    fun CheckPremiumJob.checkPremium() {
+    fun CheckPremiumJob.checkPremiumJob() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val pref = PreferenceManager.getDefaultSharedPreferences(this@checkPremium)
+            val pref = PreferenceManager.getDefaultSharedPreferences(this@checkPremiumJob)
 
             if(billingClient?.isReady != true) initiateBilling()
 

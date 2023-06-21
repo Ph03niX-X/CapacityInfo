@@ -14,8 +14,9 @@ class CheckPremiumJob : JobService(), PremiumInterface {
     companion object {
         var isCheckPremiumJob = false
     }
+
     override fun onStartJob(p0: JobParameters?): Boolean {
-        if(isCheckPremiumJob) checkPremium() else isCheckPremiumJob = true
+        if(isCheckPremiumJob) checkPremiumJob() else isCheckPremiumJob = true
         return false
     }
 
