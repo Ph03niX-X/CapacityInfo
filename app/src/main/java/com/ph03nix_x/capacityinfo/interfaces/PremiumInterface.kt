@@ -2,9 +2,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.job.JobInfo
 import android.content.Context
-import android.os.Build
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
@@ -20,15 +18,13 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.queryPurchaseHistory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.PREMIUM_ID
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
-import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -169,6 +165,25 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
             if (billingResult.responseCode == BillingResponseCode.OK)
                 mProductDetailsList = productDetailsList
+        }
+    }
+
+    fun MainActivity.showPremiumDialog() {
+        MaterialAlertDialogBuilder(this).apply {
+            setIcon(R.drawable.ic_premium_24)
+            setTitle(getString(R.string.premium))
+            setMessage(getString(R.string.premium_dialog))
+            setPositiveButton(R.string.purchase_premium) { d, _ ->
+                if(billingClient?.isReady == true) purchasePremium()
+                else initiateBilling(true)
+
+                d.dismiss()
+            }
+            setNegativeButton(android.R.string.cancel) { d, _ ->
+                d.dismiss()
+            }
+            setCancelable(false)
+            show()
         }
     }
 
