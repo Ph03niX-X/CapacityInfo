@@ -2,7 +2,9 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.job.JobInfo
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
@@ -18,12 +20,15 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.queryPurchaseHistory
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.PREMIUM_ID
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
+import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -167,26 +172,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
         }
     }
 
-    fun MainActivity.showPremiumDialog() {
-        MaterialAlertDialogBuilder(this).apply {
-            setIcon(R.drawable.ic_premium_24)
-            setTitle(getString(R.string.premium))
-            setMessage(getString(R.string.premium_dialog))
-            setPositiveButton(R.string.purchase_premium) { d, _ ->
-                if(billingClient?.isReady == true) purchasePremium()
-                else initiateBilling(true)
-
-                d.dismiss()
-            }
-            setNegativeButton(android.R.string.cancel) { d, _ ->
-                d.dismiss()
-            }
-            setCancelable(false)
-            show()
-        }
-    }
-
-    private fun purchasePremium() {
+    fun purchasePremium() {
 
         if(!mProductDetailsList.isNullOrEmpty()) {
             val productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams
@@ -237,8 +223,47 @@ interface PremiumInterface: PurchasesUpdatedListener {
                     delay(5000L)
                     billingClient?.endConnection()
                 }
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    ServiceHelper.jobSchedule(premiumContext!!, CheckPremiumJob::class.java,
+                        CHECK_PREMIUM_JOB_ID, CHECK_PREMIUM_JOB_SERVICE_PERIODIC,
+                        JobInfo.PRIORITY_HIGH) else ServiceHelper.jobSchedule(
+                    premiumContext!!, CheckPremiumJob::class.java, CHECK_PREMIUM_JOB_ID,
+                    CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
             }
         }
 
+    }
+
+    fun CheckPremiumJob.checkPremium() {
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val pref = PreferenceManager.getDefaultSharedPreferences(this@checkPremium)
+
+            if(billingClient?.isReady != true) initiateBilling()
+
+            delay(2500L)
+            val params = QueryPurchaseHistoryParams.newBuilder()
+                .setProductType(ProductType.INAPP)
+
+            val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+
+            val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+
+            if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+                pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
+                    .apply()
+                val tokenPref = pref.getString(TOKEN_PREF, null)
+                isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                delay(5000L)
+                billingClient?.endConnection()
+            }
+            else {
+                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
+                val tokenPref = pref.getString(TOKEN_PREF, null)
+                isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+            }
+        }
     }
 }
