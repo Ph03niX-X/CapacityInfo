@@ -46,6 +46,7 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isN
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isOverheatOvercool
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
+import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -83,7 +84,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
 
-class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface {
+class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface,
+    NavigationInterface {
 
     private lateinit var pref: SharedPreferences
     private var screenTimeJob: Job? = null

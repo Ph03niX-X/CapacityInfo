@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.WearFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
+import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper.showPremiumDialog
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface

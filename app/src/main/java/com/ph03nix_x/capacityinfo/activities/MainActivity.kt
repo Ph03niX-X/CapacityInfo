@@ -37,7 +37,6 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.ManufacturerInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
-import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -386,25 +385,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     setCancelable(false)
                     show()
                 }
-    }
-
-    fun showPremiumDialog() {
-        MaterialAlertDialogBuilder(this).apply {
-            setIcon(R.drawable.ic_premium_24)
-            setTitle(getString(R.string.premium))
-            setMessage(getString(R.string.premium_dialog))
-            setPositiveButton(R.string.purchase_premium) { d, _ ->
-                if(billingClient?.isReady == true) purchasePremium()
-                else initiateBilling(true)
-
-                d.dismiss()
-            }
-            setNegativeButton(android.R.string.cancel) { d, _ ->
-                d.dismiss()
-            }
-            setCancelable(false)
-            show()
-        }
     }
 
     private fun importSettings(prefArrays: HashMap<*, *>?) {

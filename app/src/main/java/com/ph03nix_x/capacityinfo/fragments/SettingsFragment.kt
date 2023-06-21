@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
+import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -44,7 +45,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
-    BatteryInfoInterface, PremiumInterface {
+    BatteryInfoInterface, PremiumInterface, NavigationInterface {
 
     private lateinit var pref: SharedPreferences
 

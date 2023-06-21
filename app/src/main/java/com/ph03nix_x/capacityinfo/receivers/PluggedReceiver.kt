@@ -19,8 +19,9 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 
-class PluggedReceiver : BroadcastReceiver(), PremiumInterface {
+class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
 
