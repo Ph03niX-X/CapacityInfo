@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
@@ -40,7 +39,6 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.billingClient
-import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -48,7 +46,6 @@ import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
-import com.ph03nix_x.capacityinfo.utilities.Constants.DONT_KILL_MY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_RESTORE_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_RESTORE_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
@@ -67,6 +64,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
+import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -77,7 +75,8 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.util.Locale
 
-class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface {
+class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
+    MenuInterface {
 
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
@@ -85,10 +84,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isRestoreSettingsFromBackup = false
 
     private var prefArrays: HashMap<*, *>? = null
-    private var showFaqDialog: MaterialAlertDialogBuilder? = null
-    private var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
-    private var showHuaweiInformation: MaterialAlertDialogBuilder? = null
-    private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
+    var showFaqDialog: MaterialAlertDialogBuilder? = null
+    var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
+    var showHuaweiInformation: MaterialAlertDialogBuilder? = null
+    var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
@@ -517,98 +516,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 }
     }
 
-    private fun inflateMenu() {
-
-        if(fragment is HistoryFragment) {
-
-            toolbar.inflateMenu(R.menu.history_menu)
-
-            toolbar.menu.findItem(R.id.clear_history).apply {
-
-                isVisible = isPremium && HistoryHelper.isHistoryNotEmpty(this@MainActivity)
-
-                setOnMenuItemClickListener {
-
-                    HistoryHelper.clearHistory(this@MainActivity, this)
-
-                    true
-                }
-            }
-
-            toolbar.menu.findItem(R.id.history_premium).apply {
-                isVisible = !isPremium
-
-                setOnMenuItemClickListener {
-                    showPremiumDialog()
-
-                    true
-                }
-            }
-        }
-
-        else {
-
-            toolbar.inflateMenu(R.menu.main_menu)
-
-            toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
-                this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
-
-            toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
-
-                showInstruction()
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.faq).setOnMenuItemClickListener {
-
-                showFaq()
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.tips).setOnMenuItemClickListener {
-
-                MaterialAlertDialogBuilder(this).apply {
-
-                    setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
-                    setTitle(getString(R.string.tips_dialog_title))
-                    setMessage(getString(R.string.tip1) + getString(R.string.tip2)
-                            + getString(R.string.tip3) + getString(R.string.tip4))
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                    show()
-                }
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
-
-                try {
-
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONT_KILL_MY_APP_LINK)))
-                }
-                catch(e: ActivityNotFoundException) {
-
-                    Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
-                        .show()
-                }
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.premium).isVisible = !isPremium
-
-            if(!isPremium)
-                toolbar.menu.findItem(R.id.premium).setOnMenuItemClickListener {
-                    showPremiumDialog()
-                    true
-                }
-        }
-    }
-
-    fun clearMenu() = toolbar.menu.clear()
-
     private fun checkManufacturer() {
         if(showXiaomiAutostartDialog == null && !isHuawei() && isXiaomi()
             && Autostart(this).autoStartState == Autostart.State.DISABLED)
@@ -648,50 +555,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private fun isHuawei() =
         Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HUAWEI" ||
                 Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HONOR"
-
-    private fun showInstruction() {
-
-        MaterialAlertDialogBuilder(this).apply {
-
-            setIcon(R.drawable.ic_instruction_not_supported_24dp)
-            setTitle(getString(R.string.instruction))
-            setMessage(getString(R.string.instruction_message)
-                    + getString(R.string.instruction_message_do_not_kill_the_service)
-                    + getString(R.string.instruction_message_dont_kill_my_app))
-
-            setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-
-            setCancelable(false)
-
-            show()
-        }
-    }
-
-    private fun showFaq() {
-        if(showFaqDialog == null) {
-            showFaqDialog = MaterialAlertDialogBuilder(this).apply {
-                setIcon(R.drawable.ic_faq_question_24dp)
-                setTitle(getString(R.string.faq))
-                setMessage(getString(R.string.faq_how_does_the_app_work)
-                        + getString(R.string.faq_capacity_added)
-                        + getString(R.string.faq_where_does_the_app_get_the_ccl)
-                        + getString(R.string.faq_why_is_ccl_not_displayed)
-                        + getString(R.string.faq_i_have_everything_in_zeros)
-                        + getString(R.string.faq_units) + getString(R.string.faq_current_capacity)
-                        + getString(R.string.faq_residual_capacity_is_higher)
-                        + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
-                        + getString(R.string.faq_battery_wear_not_change)
-                        + getString(R.string.faq_with_each_charge_battery_wear_changes)
-                        + getString(R.string.faq_where_does_the_app_get_the_number_of_cycles_android)
-                        + getString(R.string.faq_not_displayed_number_of_cycles_android))
-                setPositiveButton(android.R.string.ok) { _, _ ->
-                    showFaqDialog = null
-                }
-                setCancelable(false)
-                show()
-            }
-        }
-    }
 
     private fun showXiaomiAutoStartDialog() {
         if(showXiaomiAutostartDialog == null && isXiaomi() &&

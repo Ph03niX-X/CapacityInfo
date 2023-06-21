@@ -19,12 +19,13 @@ import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.databinding.HistoryFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HistoryFragment : Fragment(R.layout.history_fragment) {
+class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var historyAdapter: HistoryAdapter
