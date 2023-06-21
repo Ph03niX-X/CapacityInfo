@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -79,8 +80,9 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         binding.designCapacity.text = getDesignCapacity()
 
-        binding.numberOfCyclesAndroid.visibility = if(File(NUMBER_OF_CYCLES_PATH).exists())
-            View.VISIBLE else View.GONE
+        binding.numberOfCyclesAndroid.visibility =
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+                || File(NUMBER_OF_CYCLES_PATH).exists()) View.VISIBLE else View.GONE
 
         binding.batteryHealth.apply {
 
@@ -193,11 +195,14 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
     private suspend fun getNumberOfCyclesAndroid(): Int {
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            return batteryIntent?.getStringExtra(BatteryManager.EXTRA_CYCLE_COUNT)?.toInt() ?: 0
+
         if(!File(NUMBER_OF_CYCLES_PATH).exists()) return 0
 
-        val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
-
         var numberOfCycles = 0
+
+        val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
 
         withContext(Dispatchers.IO) {
 
