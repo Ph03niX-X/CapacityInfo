@@ -64,14 +64,15 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
+import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
-    MenuInterface, ManufacturerInterface {
-
+    MenuInterface, ManufacturerInterface, NavigationInterface {
+    
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
@@ -189,131 +190,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
-        navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(
-            if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charging
-            else R.string.discharge)
-
-        navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat.getDrawable(
-            this, getChargeDischargeNavigationIcon(status ==
-                    BatteryManager.BATTERY_STATUS_CHARGING))
-
-        navigation.setOnItemSelectedListener {
-
-            when(it.itemId) {
-
-                R.id.charge_discharge_navigation -> {
-
-                    if(fragment !is ChargeDischargeFragment) {
-
-                        fragment = ChargeDischargeFragment()
-
-                        toolbar.navigationIcon = null
-
-                        isLoadChargeDischarge = true
-
-                        isLoadWear = false
-
-                        isLoadHistory = false
-
-                        isLoadSettings = false
-
-                        isLoadDebug = false
-
-                        clearMenu()
-
-                        inflateMenu()
-
-                        loadFragment(fragment ?: ChargeDischargeFragment())
-                    }
-                }
-
-                R.id.wear_navigation -> {
-
-                    if(fragment !is WearFragment) {
-
-                        fragment = WearFragment()
-
-                        toolbar.title = getString(R.string.wear)
-
-                        toolbar.navigationIcon = null
-
-                        isLoadChargeDischarge = false
-
-                        isLoadWear = true
-
-                        isLoadHistory = false
-
-                        isLoadSettings = false
-
-                        isLoadDebug = false
-
-                        clearMenu()
-
-                        inflateMenu()
-
-                        loadFragment(fragment ?: WearFragment())
-                    }
-                }
-
-                R.id.history_navigation -> {
-
-                    if(fragment !is HistoryFragment) {
-
-                        fragment = HistoryFragment()
-
-                        toolbar.title = getString(R.string.history)
-
-                        toolbar.navigationIcon = null
-
-                        isLoadChargeDischarge = false
-
-                        isLoadWear = false
-
-                        isLoadHistory = true
-
-                        isLoadSettings = false
-
-                        isLoadDebug = false
-
-                        clearMenu()
-
-                        inflateMenu()
-
-                        loadFragment(fragment ?: HistoryFragment())
-                    }
-                }
-
-                R.id.settings_navigation -> {
-
-                    when(fragment) {
-
-                        null, is ChargeDischargeFragment, is WearFragment, is HistoryFragment -> {
-
-                            fragment = SettingsFragment()
-
-                            toolbar.title = getString(R.string.settings)
-
-                            toolbar.navigationIcon = null
-
-                            isLoadChargeDischarge = false
-
-                            isLoadWear = false
-
-                            isLoadSettings = true
-
-                            isLoadDebug = false
-
-                            clearMenu()
-
-                            loadFragment(fragment ?: SettingsFragment())
-                        }
-                    }
-                }
-            }
-
-            true
-        }
+        
+        bottomNavigation(status)
 
         if(!isRecreate || fragment !is SettingsFragment)
             loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
@@ -526,74 +404,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
             setCancelable(false)
             show()
-        }
-    }
-
-    fun loadFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
-
-        supportFragmentManager.beginTransaction().apply {
-
-            replace(R.id.fragment_container, fragment)
-            if(isAddToBackStack) addToBackStack(null)
-
-            if(!isRecreate || fragment is ChargeDischargeFragment || fragment is WearFragment)
-                commit()
-        }
-
-        when {
-
-            fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
-                    && fragment !is AboutFragment && fragment !is DebugFragment
-                    && fragment !is FeedbackFragment && fragment !is BackupSettingsFragment -> {
-
-                navigation.selectedItemId = when(fragment) {
-
-                    is ChargeDischargeFragment -> R.id.charge_discharge_navigation
-                    is WearFragment -> R.id.wear_navigation
-                    is HistoryFragment -> R.id.history_navigation
-                    is SettingsFragment -> R.id.settings_navigation
-                    else -> R.id.charge_discharge_navigation
-                }
-            }
-
-            else -> {
-
-                navigation.selectedItemId = R.id.settings_navigation
-
-                clearMenu()
-
-                toolbar.navigationIcon = ContextCompat.getDrawable(this,
-                    R.drawable.ic_arrow_back_24dp)
-            }
-        }
-    }
-
-    fun getChargeDischargeNavigationIcon(isCharge: Boolean): Int {
-
-        val batteryLevel = getBatteryLevel(this) ?: 0
-
-        if(isCharge)
-            return when(batteryLevel) {
-
-            in 0..29 -> R.drawable.ic_charge_navigation_20_24dp
-            in 30..49 -> R.drawable.ic_charge_navigation_30_24dp
-            in 50..59 -> R.drawable.ic_charge_navigation_50_24dp
-            in 60..79 -> R.drawable.ic_charge_navigation_60_24dp
-            in 80..89 -> R.drawable.ic_charge_navigation_80_24dp
-            in 90..95 -> R.drawable.ic_charge_navigation_90_24dp
-            else -> R.drawable.ic_charge_navigation_full_24dp
-        }
-
-        else return when(batteryLevel) {
-
-            in 0..9 -> R.drawable.ic_discharge_navigation_9_24dp
-            in 10..29 -> R.drawable.ic_discharge_navigation_20_24dp
-            in 30..49 -> R.drawable.ic_discharge_navigation_30_24dp
-            in 50..59 -> R.drawable.ic_discharge_navigation_50_24dp
-            in 60..79 -> R.drawable.ic_discharge_navigation_60_24dp
-            in 80..89 -> R.drawable.ic_discharge_navigation_80_24dp
-            in 90..95 -> R.drawable.ic_discharge_navigation_90_24dp
-            else -> R.drawable.ic_discharge_navigation_full_24dp
         }
     }
 
