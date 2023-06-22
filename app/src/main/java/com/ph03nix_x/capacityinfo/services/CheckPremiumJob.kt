@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.services
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 
 /**
@@ -16,7 +17,8 @@ class CheckPremiumJob : JobService(), PremiumInterface {
     }
 
     override fun onStartJob(p0: JobParameters?): Boolean {
-        if(isCheckPremiumJob) checkPremiumJob() else isCheckPremiumJob = true
+        if(isCheckPremiumJob && MainApp.isInstalledGooglePlay) checkPremiumJob()
+        else isCheckPremiumJob = true
         return false
     }
 
