@@ -7,8 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.preference.Preference
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import kotlinx.coroutines.*
 
 object ServiceHelper {
@@ -90,6 +93,11 @@ object ServiceHelper {
 
         if(!isJobSchedule(context, jobId)) jobScheduler?.schedule(jobInfo)
     }
+
+    fun checkPremiumJobSchedule(context: Context) =
+        jobSchedule(context, CheckPremiumJob::class.java, Constants.CHECK_PREMIUM_JOB_ID,
+            Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
+
 
     private fun isJobSchedule(context: Context, jobId: Int): Boolean {
 

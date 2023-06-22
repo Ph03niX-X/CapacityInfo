@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo
 import android.Manifest
 import android.app.Activity
 import android.app.Application
-import android.app.job.JobInfo
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,7 +16,6 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
-import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import java.io.Serializable
@@ -94,8 +92,7 @@ class MainApp : Application(), PremiumInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        ServiceHelper.jobSchedule(this, CheckPremiumJob::class.java,
-            Constants.CHECK_PREMIUM_JOB_ID, Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
+        ServiceHelper.checkPremiumJobSchedule(this)
 
         if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
                 R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(

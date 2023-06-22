@@ -16,7 +16,6 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
@@ -47,8 +46,7 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
                 ServiceHelper.cancelAllJobs(context)
 
-                ServiceHelper.jobSchedule(context, CheckPremiumJob::class.java,
-                    Constants.CHECK_PREMIUM_JOB_ID, Constants.CHECK_PREMIUM_JOB_SERVICE_PERIODIC)
+                ServiceHelper.checkPremiumJobSchedule(context)
 
                 if(CapacityInfoService.instance == null &&
                     !ServiceHelper.isStartedCapacityInfoService()) ServiceHelper.startService(
