@@ -104,13 +104,16 @@ interface ManufacturerInterface {
                 setMessage(getString(R.string.background_activity_control_xiaomi_dialog))
                 setPositiveButton(android.R.string.ok) { _, _ ->
                     try {
-                        startActivity(
-                            Intent("miui.intent.action.POWER_HIDE_MODE_APP_LIST")
-                            .addCategory(Intent.CATEGORY_DEFAULT))
+                        startActivity(Intent().apply {
+
+                            setClassName("com.miui.powerkeeper",
+                                "com.miui.powerkeeper.ui.HiddenAppsConfigActivity")
+                            putExtra("package_name",
+                                this@showXiaomiBackgroundActivityControlDialog.packageName)
+                            putExtra("package_label", getText(R.string.app_name))
+                        })
                     }
-                    catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
-                    }
+                    catch (e: ActivityNotFoundException) { e.printStackTrace() }
                 }
                 show()
             }
