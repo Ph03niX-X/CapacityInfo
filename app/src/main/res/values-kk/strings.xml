@@ -313,7 +313,7 @@
     <string name="full_charge_reminder_summary">Әр 30 минут сайын толық зарядтауды еске саламыз</string>
     <string name="allow_all_app_notifications">ҚОЛДАНБАҒА БАРЛЫҚ ХАБАРЛАНДЫРУЛАРДЫ КӨРСЕТУГЕ РҰҚСАТ БЕРІҢІЗ</string>
     <string name="auto_start_xiaomi_dialog">Қолданба дұрыс жұмыс істеуі үшін келесі терезеде автоматты іске қосуға рұқсат етіңіз</string>
-    <string name="background_activity_control_xiaomi_dialog">Қолданбаның фондық режимде дұрыс жұмыс істеуі үшін келесі терезеге өтіп, қолданбаны (Capacity Info), содан кейін \"Фондық әрекетті басқару\" және келесі терезеде \"Шектеусіз\" тармағын таңдаңыз</string>
+    <string name="background_activity_control_xiaomi_dialog">Қолданбаның фондық режимде дұрыс жұмыс істеуі үшін келесі терезеге өтіп, \"Шектеу жоқ\" тармағын таңдаңыз</string>
     <string name="battery_health">Батарея денсаулығы: %1$s</string>
     <string name="battery_health_great">Тамаша</string>
     <string name="battery_health_good">Жақсы</string>
