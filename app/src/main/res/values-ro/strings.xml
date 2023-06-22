@@ -321,4 +321,5 @@
     <string name="battery_health_replacement_required">Înlocuire necesară</string>
     <string name="battery_health_overlay">Sănătatea bateriei</string>
     <string name="request_notification_message">Pentru ca aplicația să funcționeze corect, trebuie să activați notificările. Acest lucru este necesar pentru serviciul care este responsabil pentru cea mai mare parte a funcționării aplicațiilor, inclusiv pentru calcularea capacității reziduale a bateriei</string>
+    <string name="not_installed_google_play_dialog">Nu este posibil să achiziționați Premium. Motivul: nu este instalat Google Play</string>
 </resources>
