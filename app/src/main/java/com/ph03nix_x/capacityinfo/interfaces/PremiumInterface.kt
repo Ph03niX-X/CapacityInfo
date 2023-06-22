@@ -20,6 +20,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.queryPurchaseHistory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.PREMIUM_ID
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_COUNT
@@ -180,8 +181,13 @@ interface PremiumInterface: PurchasesUpdatedListener {
             setTitle(getString(R.string.premium))
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
-                if(billingClient?.isReady == true) purchasePremium()
-                else initiateBilling(true)
+
+                Toast.makeText(this@showPremiumDialog, "${MainApp.isInstalledGooglePlay}", Toast.LENGTH_SHORT).show()
+                if(MainApp.isInstalledGooglePlay) {
+                    if(billingClient?.isReady == true) purchasePremium()
+                    else initiateBilling(true)
+                }
+                else showNotInstalledGooglePlayDialog(this@showPremiumDialog)
 
                 d.dismiss()
             }
@@ -191,6 +197,16 @@ interface PremiumInterface: PurchasesUpdatedListener {
             setCancelable(false)
             show()
         }
+    }
+
+    private fun showNotInstalledGooglePlayDialog(context: Context) {
+     MaterialAlertDialogBuilder(context).apply {
+         setIcon(R.drawable.ic_instruction_not_supported_24dp)
+         setTitle(R.string.error)
+         setMessage(R.string.not_installed_google_play_dialog)
+         setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+         show()
+     }
     }
 
     fun purchasePremium() {
