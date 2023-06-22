@@ -1,11 +1,9 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.*
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.*
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
@@ -46,9 +44,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         addPreferencesFromResource(R.xml.debug_settings)
-
-        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && isGooglePlay(requireContext())
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
@@ -411,9 +406,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     override fun onResume() {
 
         super.onResume()
-
-        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && isGooglePlay(requireContext())
 
         resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
 

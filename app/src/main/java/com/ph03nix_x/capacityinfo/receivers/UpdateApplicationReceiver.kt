@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -22,8 +21,6 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-                MainApp.isInstalledGooglePlay = MainApp.isGooglePlay(context)
 
                 PremiumInterface.premiumContext = context
 

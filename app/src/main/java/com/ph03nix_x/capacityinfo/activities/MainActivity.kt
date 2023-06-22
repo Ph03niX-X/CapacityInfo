@@ -42,7 +42,6 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumC
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_RESTORE_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
@@ -109,9 +108,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         premiumActivity = this
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
-
-        MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && MainApp.isGooglePlay(this)
 
         fragment = tempFragment
 
