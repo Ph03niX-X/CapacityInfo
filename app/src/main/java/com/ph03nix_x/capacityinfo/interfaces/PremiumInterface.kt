@@ -181,8 +181,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
             setTitle(getString(R.string.premium))
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
-
-                Toast.makeText(this@showPremiumDialog, "${MainApp.isInstalledGooglePlay}", Toast.LENGTH_SHORT).show()
                 if(MainApp.isInstalledGooglePlay) {
                     if(billingClient?.isReady == true) purchasePremium()
                     else initiateBilling(true)
