@@ -1,13 +1,8 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
@@ -176,7 +171,7 @@ interface BackupSettingsInterface {
 
                     MainActivity.isOnBackPressed = true
 
-                    MainApp.restartApp(requireContext(), prefArrays, true)
+                    MainApp.restartApp(requireContext(), prefArrays)
                 }
             }
 
@@ -189,185 +184,6 @@ interface BackupSettingsInterface {
                     Toast.makeText(requireContext(), getString(
                         R.string.error_importing_settings, e.message ?: e.toString()),
                         Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-   fun BackupSettingsFragment.isMicroSD(): Boolean {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-
-            val files = ContextCompat.getExternalFilesDirs(requireContext(), null)
-
-            for (m: File? in files) {
-
-                if(m?.listFiles() != null)
-                    if (m.path.contains("-", true)) {
-
-                        MainApp.microSDPath = m.parentFile?.parentFile?.parentFile?.parentFile
-                            ?.absolutePath
-
-                        return true
-                    }
-            }
-        }
-
-        MainApp.microSDPath = null
-
-        return false
-    }
-
-    fun BackupSettingsFragment.isExternalStoragePermission() =
-        ContextCompat.checkSelfPermission(requireContext(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-
-    fun BackupSettingsFragment.onGetFrequencyOfAutoBackupSettingsSummary(): CharSequence {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        if(pref.getString(PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1") !in
-            requireContext().resources.getStringArray(R.array.frequency_of_auto_backup_settings_values))
-            pref.edit().putString(PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1").apply()
-
-        return requireContext().resources.getStringArray(R.array.frequency_of_auto_backup_settings_list)[
-                (pref.getString(PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS,
-                    "1")?.toInt() ?: 1) - 1]
-    }
-
-    fun BackupSettingsFragment.onBackupSettings(restoreSettingsFromBackupPref: Preference?) {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        val tokenPref = pref.getString(TOKEN_PREF, null)
-
-        var backupPath = ""
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
-
-                backupPath = if(pref.getBoolean(PreferencesKeys.IS_BACKUP_SETTINGS_TO_MICROSD,
-                        requireContext().resources.getBoolean(R.bool.is_backup_settings_to_microsd))
-                    && isMicroSD()) "${MainApp.microSDPath}/Capacity Info/Backup"
-                else "${Environment.getExternalStorageDirectory().absolutePath}/Capacity Info/Backup"
-
-                if(!File(backupPath).exists()) File(backupPath).mkdirs()
-
-                File("${requireContext().filesDir?.parent}/shared_prefs/" +
-                        "${requireContext().packageName}_preferences.xml").copyTo(
-                    File(
-                    "${backupPath}/${requireContext().packageName}_preferences.xml"),
-                    true)
-
-                delay(1000L)
-                if(HistoryHelper.isHistoryNotEmpty(requireContext()))
-                    File("${requireContext().filesDir?.parent}/databases/History.db")
-                        .copyTo(File("${backupPath}/History.db"), true)
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), getString(R.string
-                        .settings_backup_successfully_created), Toast.LENGTH_LONG).show()
-
-                    pref.edit().putString(TOKEN_PREF, tokenPref).apply()
-                }
-            }
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), getString(R.string.error_backup_settings,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-                }
-            }
-
-            finally {
-
-                withContext(Dispatchers.Main) {
-
-                    restoreSettingsFromBackupPref?.isEnabled = File(
-                        "$backupPath/${requireContext().packageName}_preferences.xml")
-                        .exists() && File(
-                        "$backupPath/${requireContext().packageName}_preferences.xml")
-                        .length() > 0
-                }
-            }
-        }
-    }
-
-    fun BackupSettingsFragment.onRestoreSettingsFromBackup(backupPath: String) {
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        val prefArrays: HashMap<String, Any?> = hashMapOf()
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                MainActivity.isOnBackPressed = false
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), R.string.restore_settings_from_backup_3dots,
-                        Toast.LENGTH_LONG).show()
-
-                    if(CapacityInfoService.instance != null)
-                        requireContext().let {
-                            ServiceHelper.stopService(it, CapacityInfoService::class.java)
-
-                        }
-
-                    if(OverlayService.instance != null)
-                        requireContext().let {
-                            ServiceHelper.stopService(it, OverlayService::class.java)
-                        }
-                }
-
-                pref.all.forEach {
-
-                    when(it.key) {
-
-                        PreferencesKeys.BATTERY_LEVEL_TO, PreferencesKeys.BATTERY_LEVEL_WITH,
-                        PreferencesKeys.DESIGN_CAPACITY, PreferencesKeys.CAPACITY_ADDED,
-                        PreferencesKeys.LAST_CHARGE_TIME, PreferencesKeys.PERCENT_ADDED,
-                        PreferencesKeys.RESIDUAL_CAPACITY -> prefArrays[it.key] = it.value
-                    }
-                }
-
-                delay(2000L)
-                File("${backupPath}/${requireContext().packageName}_preferences.xml")
-                    .copyTo(File(
-                        "${requireContext().filesDir?.parent}/shared_prefs/${
-                            requireContext().packageName}_preferences.xml"), true)
-
-                if(File("${backupPath}/History.db").exists())
-                    File("${backupPath}/History.db").copyTo(File(
-                        "${requireContext().filesDir?.parent}/databases/History.db"),
-                        true)
-
-                MainActivity.isOnBackPressed = true
-
-                withContext(Dispatchers.Main) {
-
-                    MainApp.restartApp(requireContext(), prefArrays, true)
-                }
-
-            }
-            catch(e: Exception) {
-
-                MainActivity.isOnBackPressed = true
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), getString(
-                        R.string.error_restoring_settings_from_backup,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
                 }
             }
         }

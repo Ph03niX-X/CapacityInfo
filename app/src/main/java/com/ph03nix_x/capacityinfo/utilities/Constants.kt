@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.utilities
 object Constants {
 
     const val IMPORT_RESTORE_SETTINGS_EXTRA = "import_settings"
-    const val IS_RESTORE_SETTINGS_EXTRA = "is_restore_settings"
     const val GOOGLE_PLAY_APP_LINK = "https://play.google.com/store/apps/details?id=com.ph03nix_x.capacityinfo"
     const val GITHUB_LINK = "https://github.com/Ph03niX-X/CapacityInfo"
     const val TELEGRAM_DEVELOPER_LINK = "https://t.me/Ph03niX_X"
@@ -26,9 +25,7 @@ object Constants {
     const val OPEN_APP_REQUEST_CODE = 0
     const val CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE = 2
     const val DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE = 3
-    const val EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 0
     const val POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE = 4
-    const val AUTO_BACKUP_SETTINGS_JOB_ID = 0
     const val IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID = 1
     const val CHECK_PREMIUM_JOB_ID = 2
     const val HISTORY_COUNT_MAX = 500

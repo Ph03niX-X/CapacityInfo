@@ -150,34 +150,4 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Hour</item>
-        <item>2 Hours</item>
-        <item>3 Hours</item>
-        <item>4 Hours</item>
-        <item>5 Hours</item>
-        <item>6 Hours</item>
-        <item>7 Hours</item>
-        <item>8 Hours</item>
-        <item>9 Hours</item>
-        <item>10 Hours</item>
-        <item>11 Hours</item>
-        <item>12 Hours</item>
-    </string-array>
-
-    <string-array name="frequency_of_auto_backup_settings_values"> // Do Not Translation
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </string-array>
-
 </resources>

@@ -40,21 +40,17 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
-import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.IMPORT_RESTORE_SETTINGS_EXTRA
-import com.ph03nix_x.capacityinfo.utilities.Constants.IS_RESTORE_SETTINGS_EXTRA
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_OPEN_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BACKUP_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -75,7 +71,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
-    private var isRestoreSettingsFromBackup = false
     private var prefArrays: HashMap<*, *>? = null
     private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
 
@@ -133,38 +128,28 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
             HashMap::class.java)
 
-        isRestoreSettingsFromBackup = intent.getBooleanExtra(IS_RESTORE_SETTINGS_EXTRA,
-            false)
-
         if(fragment == null)
             fragment = when {
 
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
                         != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2"
                         && prefArrays == null && !isLoadWear && !isLoadHistory && !isLoadSettings
-                        && !isRestoreSettingsFromBackup && !isLoadDebug) ->
-                    ChargeDischargeFragment()
+                        && !isLoadDebug) -> ChargeDischargeFragment()
 
                 isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
                         prefArrays == null && !isLoadChargeDischarge && !isLoadHistory &&
-                        !isLoadSettings && !isRestoreSettingsFromBackup && !isLoadDebug) ->
-                    WearFragment()
+                        !isLoadSettings && !isLoadDebug) -> WearFragment()
 
                 isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
                         && HistoryHelper.isHistoryNotEmpty(this))
                         && prefArrays == null && !isLoadChargeDischarge && !isLoadHistory &&
                         !isLoadSettings && !isLoadDebug -> HistoryFragment()
 
-                isRestoreSettingsFromBackup && !isLoadChargeDischarge && !isLoadWear &&
-                        !isLoadHistory && !isLoadSettings && !isLoadDebug && prefArrays != null ->
-                    BackupSettingsFragment()
+                !isLoadChargeDischarge && !isLoadWear && !isLoadHistory && !isLoadSettings &&
+                        !isLoadDebug && prefArrays != null -> BackupSettingsFragment()
 
-                (isLoadDebug && !isLoadChargeDischarge && !isLoadWear && !isLoadHistory
-                        && !isRestoreSettingsFromBackup && !isLoadSettings
-                        && prefArrays == null) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-                        && prefArrays != null && !isRestoreSettingsFromBackup) || (Build.VERSION
-                    .SDK_INT >= Build.VERSION_CODES.R && prefArrays != null && !MainApp
-                    .isInstalledGooglePlay && !isRestoreSettingsFromBackup) -> DebugFragment()
+                isLoadDebug && !isLoadChargeDischarge && !isLoadWear && !isLoadHistory &&
+                        isLoadSettings && prefArrays == null -> DebugFragment()
 
                 else -> SettingsFragment()
             }
@@ -281,18 +266,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
                 this) > 0.0
 
-        if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            ServiceHelper.jobSchedule(this, AutoBackupSettingsJobService::class.java,
-                Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(
-                    PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
-                    ?.toLong() ?: 1L) * 60L * 60L * 1000L)
-
-        else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
-
         val prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
             HashMap::class.java)
 
@@ -390,8 +363,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private fun importSettings(prefArrays: HashMap<*, *>?) {
 
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
-            DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY,
-            IS_SHOW_BACKUP_INFORMATION)
+            DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY)
 
         if(prefArrays != null)
             prefsTempList.forEach {
@@ -418,9 +390,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                                 CAPACITY_ADDED, NUMBER_OF_CYCLES ->
                                     pref.edit().putFloat(it.key as String,
                                         it.value as Float).apply()
-
-                                IS_SHOW_BACKUP_INFORMATION -> pref.edit().putBoolean(it.key as
-                                        String, it.value as Boolean).apply()
                             }
                         }
                     }
@@ -432,15 +401,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         isRestoreImportSettings = true
 
-        Toast.makeText(this, if(intent.getBooleanExtra(IS_RESTORE_SETTINGS_EXTRA,
-                false)) R.string.settings_successfully_restored_from_backup else
-            R.string.settings_imported_successfully, Toast.LENGTH_LONG).show()
-
         this.prefArrays = null
 
         intent.removeExtra(IMPORT_RESTORE_SETTINGS_EXTRA)
-
-        intent.removeExtra(IS_RESTORE_SETTINGS_EXTRA)
     }
 
     fun backPressed() {

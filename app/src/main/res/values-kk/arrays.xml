@@ -106,19 +106,4 @@
         <item>Тарихы</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Сағат</item>
-        <item>2 Сағат</item>
-        <item>3 Сағат</item>
-        <item>4 Сағат</item>
-        <item>5 Сағат</item>
-        <item>6 Сағат</item>
-        <item>7 Сағат</item>
-        <item>8 Сағат</item>
-        <item>9 Сағат</item>
-        <item>10 Сағат</item>
-        <item>11 Сағат</item>
-        <item>12 Сағат</item>
-    </string-array>
-
 </resources>

@@ -106,19 +106,4 @@
         <item>Гісторыя</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Гадзіна</item>
-        <item>2 Гадзіны</item>
-        <item>3 Гадзіны</item>
-        <item>4 Гадзіны</item>
-        <item>5 Гадзінаў</item>
-        <item>6 Гадзінаў</item>
-        <item>7 Гадзінаў</item>
-        <item>8 Гадзінаў</item>
-        <item>9 Гадзінаў</item>
-        <item>10 Гадзінаў</item>
-        <item>11 Гадзінаў</item>
-        <item>12 Гадзінаў</item>
-    </string-array>
-
 </resources>

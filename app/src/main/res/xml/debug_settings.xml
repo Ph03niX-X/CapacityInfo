@@ -86,31 +86,9 @@
             android:key="add_fifty_history"/>
 
         <Preference
-            android:title="@string/export_history"
-            app:singleLineTitle="false"
-            android:key="export_history"/>
-
-        <Preference
-            android:title="@string/import_history"
-            app:singleLineTitle="false"
-            android:key="import_history"/>
-
-        <Preference
             android:title="@string/history_count"
             app:singleLineTitle="false"
             android:key="history_count"/>
-
-        <Preference
-            android:title="@string/export_settings"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_export_settings_24dp"
-            android:key="export_settings"/>
-
-        <Preference
-            android:title="@string/import_settings"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_import_settings_24dp"
-            android:key="import_settings"/>
 
         <Preference
             android:title="@string/start_capacity_info_service"

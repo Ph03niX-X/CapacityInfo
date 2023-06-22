@@ -4,48 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        android:title="@string/auto_backup"
-        android:summary="@string/auto_backup_summary"
-        app:singleLineTitle="false"
-        android:enabled="@bool/is_auto_backup_settings_enabled"
-        app:icon="@drawable/ic_backup"
-        android:key="is_auto_backup_settings"/>
-
-    <SwitchPreferenceCompat
-        android:title="@string/backup_settings_to_microsd"
-        app:singleLineTitle="false"
-        app:isPreferenceVisible="@bool/is_backup_settings_to_microsd_visible"
-        android:enabled="@bool/is_backup_settings_to_microsd_enabled"
-        app:icon="@drawable/ic_backup_settings_to_microsd"
-        android:key="is_backup_settings_to_microsd"/>
-
-    <ListPreference
-        android:title="@string/frequency_of_auto_backup_settings"
-        app:singleLineTitle="false"
-        android:enabled="@bool/frequency_of_auto_backup_settings_enabled"
-        app:icon="@drawable/ic_frequency_of_auto_backup_settings"
-        app:dialogIcon="@drawable/ic_frequency_of_auto_backup_settings"
-        android:entries="@array/frequency_of_auto_backup_settings_list"
-        android:entryValues="@array/frequency_of_auto_backup_settings_values"
-        app:defaultValue="1"
-        android:key="frequency_of_auto_backup_settings"/>
-
-    <Preference
-        android:title="@string/create_backup_settings"
-        android:summary="@string/auto_backup_summary"
-        app:singleLineTitle="false"
-        android:enabled="@bool/create_backup_settings_enabled"
-        app:icon="@drawable/ic_create_backup_settings"
-        android:key="create_backup_settings"/>
-
-    <Preference
-        android:title="@string/restore_settings_from_backup"
-        app:singleLineTitle="false"
-        android:enabled="@bool/restore_settings_from_backup_enabled"
-        app:icon="@drawable/ic_restore_settings_from_backup"
-        android:key="restore_settings_from_backup"/>
-
     <Preference
         android:title="@string/export_settings"
         app:singleLineTitle="false"

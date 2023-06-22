@@ -106,19 +106,4 @@
         <item>Историята</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Час</item>
-        <item>2 Часа</item>
-        <item>3 Часа</item>
-        <item>4 Часа</item>
-        <item>5 Часов</item>
-        <item>6 Часов</item>
-        <item>7 Часов</item>
-        <item>8 Часов</item>
-        <item>9 Часов</item>
-        <item>10 Часов</item>
-        <item>11 Часов</item>
-        <item>12 Часов</item>
-    </string-array>
-
 </resources>

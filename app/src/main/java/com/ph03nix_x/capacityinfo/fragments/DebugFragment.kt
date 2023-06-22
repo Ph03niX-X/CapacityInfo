@@ -1,12 +1,9 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.app.Activity
 import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
@@ -18,7 +15,6 @@ import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
@@ -27,7 +23,6 @@ import kotlinx.coroutines.*
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
-    private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var addSetting: Preference? = null
@@ -39,43 +34,18 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var addHistory: Preference? = null
     private var addTenHistory: Preference? = null
     private var addFiftyHistory: Preference? = null
-    private var exportHistory: Preference? = null
-    private var importHistory: Preference? = null
     private var historyCount: Preference? = null
-    private var exportSettings: Preference? = null
-    private var importSettings: Preference? = null
     private var startCapacityInfoService: Preference? = null
     private var stopCapacityInfoService: Preference? = null
     private var restartCapacityInfoService: Preference? = null
     private var stopOverlayService: Preference? = null
     private var restartOverlayService: Preference? = null
 
-    private var requestCode = 0
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         addPreferencesFromResource(R.xml.debug_settings)
-
-        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            when(requestCode) {
-
-                Constants.EXPORT_HISTORY_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onExportHistory(it.data)
-
-                Constants.IMPORT_HISTORY_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onImportHistory(it.data?.data,
-                        arrayListOf(addCustomHistory, addHistory, addTenHistory, addFiftyHistory,
-                            exportHistory))
-
-                Constants.EXPORT_SETTINGS_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onExportSettings(it.data)
-
-                Constants.IMPORT_SETTINGS_REQUEST_CODE ->
-                    if(it.resultCode == Activity.RESULT_OK) onImportSettings(it.data?.data)
-            }
-        }
 
         MainApp.isInstalledGooglePlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                 && isGooglePlay(requireContext())
@@ -100,15 +70,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory = findPreference("add_fifty_history")
 
-        exportHistory = findPreference("export_history")
-
-        importHistory = findPreference("import_history")
-
         historyCount = findPreference("history_count")
-
-        exportSettings = findPreference("export_settings")
-
-        importSettings = findPreference("import_settings")
 
         startCapacityInfoService = findPreference("start_capacity_info_service")
 
@@ -131,26 +93,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        exportHistory?.apply {
-
-            isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                    && !MainApp.isInstalledGooglePlay)
-                    || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-            isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
-        }
-
-        importHistory?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay)
-                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-
-        exportSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay)
-                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-
-        importSettings?.isVisible = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && !MainApp.isInstalledGooglePlay)
-                || Build.VERSION.SDK_INT < Build.VERSION_CODES.R
 
         resetScreenTime?.setOnPreferenceClickListener {
 
@@ -175,7 +117,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addCustomHistory?.setOnPreferenceClickListener {
 
             onAddCustomHistory(pref, arrayListOf(it, addHistory, addTenHistory, addFiftyHistory),
-                historyCount, exportHistory)
+                historyCount)
 
             true
         }
@@ -186,7 +128,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             it.isEnabled = false
             addTenHistory?.isEnabled = false
             addFiftyHistory?.isEnabled = false
-            exportHistory?.isEnabled = false
 
             val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
                 R.integer.min_design_capacity))
@@ -200,7 +141,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     (designCapacity / 1000) * 5)) * 100).random()
 
             HistoryHelper.addHistory(requireContext(), date, residualCapacity)
-            exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
 
             val historyDB = HistoryDB(requireContext()).readDB()
 
@@ -224,7 +164,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             addHistory?.isEnabled = false
             it.isEnabled = false
             addFiftyHistory?.isEnabled = false
-            exportHistory?.isEnabled = false
 
             CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
@@ -244,11 +183,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                             (designCapacity / 1000) * 5)) * 100).random()
 
                     HistoryHelper.addHistory(requireContext(), date, residualCapacity)
-
-                    withContext(Dispatchers.Main) {
-
-                        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
-                    }
 
                     val historyDB = HistoryDB(requireContext()).readDB()
 
@@ -284,7 +218,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             addHistory?.isEnabled = false
             addTenHistory?.isEnabled = false
             it.isEnabled = false
-            exportHistory?.isEnabled = false
 
             CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
 
@@ -304,11 +237,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                             (designCapacity / 1000) * 5)) * 100).random()
 
                     HistoryHelper.addHistory(requireContext(), date, residualCapacity)
-
-                    withContext(Dispatchers.Main) {
-
-                        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
-                    }
 
                     val historyDB = HistoryDB(requireContext()).readDB()
 
@@ -333,70 +261,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     it.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
                 }
-            }
-
-            true
-        }
-
-        exportHistory?.setOnPreferenceClickListener {
-            try {
-
-                requestCode = Constants.EXPORT_HISTORY_REQUEST_CODE
-                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
-            }
-
-            true
-        }
-
-        importHistory?.setOnPreferenceClickListener {
-            try {
-                Constants.IMPORT_HISTORY_REQUEST_CODE
-                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "application/octet-stream"
-                })
-            }
-            catch(e: ActivityNotFoundException) {
-                Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
-            }
-
-            true
-        }
-
-        exportSettings?.setOnPreferenceClickListener {
-
-            try {
-                requestCode = Constants.EXPORT_SETTINGS_REQUEST_CODE
-                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
-            }
-            catch(e: ActivityNotFoundException) {
-                Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-            }
-
-            true
-        }
-
-        importSettings?.setOnPreferenceClickListener {
-
-            try {
-                requestCode = Constants.IMPORT_SETTINGS_REQUEST_CODE
-                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "text/xml"
-                })
-            }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
-                    e.message ?: e.toString()), Toast.LENGTH_LONG).show()
             }
 
             true
@@ -560,8 +424,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
 
         historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
 

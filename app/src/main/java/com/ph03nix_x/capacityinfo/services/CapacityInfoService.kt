@@ -1,9 +1,7 @@
 package com.ph03nix_x.capacityinfo.services
 
-import android.Manifest
 import android.app.*
 import android.content.*
-import android.content.pm.PackageManager
 import android.hardware.display.DisplayManager
 import android.os.*
 import android.view.Display
@@ -49,11 +47,9 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
@@ -180,18 +176,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            ServiceHelper.jobSchedule(this, AutoBackupSettingsJobService::class.java,
-                Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(
-                    PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
-                    ?.toLong() ?: 1L) * 60L * 60L * 1000L)
-
-        else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
 
         if(screenTimeJob == null)
             screenTimeJob = CoroutineScope(Dispatchers.Default).launch {

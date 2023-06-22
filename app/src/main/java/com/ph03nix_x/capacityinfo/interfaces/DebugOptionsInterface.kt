@@ -2,9 +2,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -17,12 +15,10 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.documentfile.provider.DocumentFile
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -35,7 +31,6 @@ import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
-import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -47,7 +42,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FREQUENCY_OF_AUTO_BACKUP_SETTINGS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
@@ -70,10 +64,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
 import java.lang.NumberFormatException
 
 interface DebugOptionsInterface {
@@ -333,8 +323,8 @@ interface DebugOptionsInterface {
 
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
-                FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> addChangeSetting(pref, key, value.toString())
+                OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
+                    addChangeSetting(pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
@@ -387,9 +377,9 @@ interface DebugOptionsInterface {
 
                         UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_SIZE,
-                        OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
-                        FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> setValueType("string",
-                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+                        OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
+                            setValueType("string", changePrefValue, pref,
+                                prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
@@ -432,7 +422,7 @@ interface DebugOptionsInterface {
                 when(key) {
 
                     OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH, FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> {
+                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH -> {
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
                         changePrefValue.keyListener = DigitsKeyListener.getInstance(
@@ -567,10 +557,6 @@ interface DebugOptionsInterface {
                             TAB_ON_APPLICATION_LAUNCH -> s.toString() != pref.getString(
                                 key, "0") && s.toString() in context.resources
                                 .getStringArray(R.array.tab_on_application_launch_values)
-
-                            FREQUENCY_OF_AUTO_BACKUP_SETTINGS -> s.toString() != pref.getString(key,
-                                "1") && s.toString() in context.resources.getStringArray(
-                                R.array.frequency_of_auto_backup_settings_values)
 
                             else -> s.isNotEmpty() && s.toString() !=
                                     pref.getString(key, null)
@@ -747,8 +733,7 @@ interface DebugOptionsInterface {
 
     fun DebugFragment.onAddCustomHistory(pref: SharedPreferences,
                                          addHistoryList: ArrayList<Preference?>,
-                                         historyCount: Preference? = null,
-                                         exportHistory: Preference? = null) {
+                                         historyCount: Preference? = null) {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
 
@@ -791,8 +776,6 @@ interface DebugOptionsInterface {
                     addHistoryList.forEach {
                         it?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                     }
-
-                    exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
 
                     historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
                 }
@@ -851,296 +834,6 @@ interface DebugOptionsInterface {
                     }
                 }
             })
-        }
-    }
-
-    fun DebugFragment.onExportHistory(intent: Intent?) {
-
-        val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
-        val dbName = "History.db"
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                if(HistoryHelper.isHistoryEmpty(requireContext()))
-                    throw IOException (getString(R.string.history_is_empty))
-
-                MainActivity.isOnBackPressed = false
-
-                val pickerDir = intent?.data?.let {
-                    requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
-                }
-
-                delay(1000L)
-                pickerDir?.findFile(dbName)?.delete()
-                val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
-                    dbName)?.uri?.let {
-                    requireContext().contentResolver?.openOutputStream(it)
-                    }
-
-                val fileInputStream = FileInputStream(dbPath)
-                val buffer = byteArrayOf((1024 * 8).toByte())
-                var read: Int
-
-                while (true) {
-
-                    read = fileInputStream.read(buffer)
-
-                    if(read != -1)
-                        outputStream?.write(buffer, 0, read)
-                    else break
-                }
-
-                fileInputStream.close()
-                outputStream?.flush()
-                outputStream?.close()
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), getString(
-                        R.string.history_exported_successfully), Toast.LENGTH_LONG).show()
-                }
-
-                MainActivity.isOnBackPressed = true
-            }
-
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(requireContext(), "${getString(R.string
-                        .error_exporting_history)}\n${e.message ?: e.toString()}",
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    fun DebugFragment.onImportHistory(uri: Uri?, preferencesList: ArrayList<Preference?>) {
-
-        val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                MainActivity.isOnBackPressed = false
-
-                delay(1000L)
-                File(dbPath).deleteOnExit()
-                File("$dbPath-journal").deleteOnExit()
-
-                File(dbPath).createNewFile()
-
-                val fileOutputStream = FileOutputStream(dbPath)
-                val inputStream = uri?.let {
-                    requireContext().contentResolver?.openInputStream(it) }
-
-                val buffer = byteArrayOf((1024 * 8).toByte())
-                var read: Int
-
-                while (true) {
-
-                    read = inputStream?.read(buffer) ?: -1
-
-                    if(read != -1)
-                        fileOutputStream.write(buffer, 0, read)
-                    else break
-                }
-
-                inputStream?.close()
-                fileOutputStream.flush()
-                fileOutputStream.close()
-
-                MainActivity.isOnBackPressed = true
-
-                val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(requireContext())
-
-                withContext(Dispatchers.Main) {
-
-                    preferencesList.forEach {
-
-                        if(it?.key == "add_history" || it?.key == "add_ten_history"
-                            || it?.key == "add_fifty_history")
-                            it.isEnabled = isHistoryNotEmpty &&
-                                    !HistoryHelper.isHistoryMax(requireContext())
-                        else it?.isEnabled = isHistoryNotEmpty
-                    }
-                }
-
-                if(!isHistoryNotEmpty)
-                    throw IOException(getString(R.string.history_is_empty))
-
-                else withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), getString(
-                        R.string.history_imported_successfully), Toast.LENGTH_LONG).show()
-                }
-            }
-
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(requireContext(), "${getString(R.string
-                        .error_importing_history)}\n${e.message ?: e.toString()}",
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    fun DebugFragment.onExportSettings(intent: Intent?) {
-
-        val prefPath = "${requireContext().filesDir?.parent}/shared_prefs/" +
-                "${requireContext().packageName}_preferences.xml"
-        val prefName = File(prefPath).name
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                MainActivity.isOnBackPressed = false
-
-                val pickerDir = intent?.data?.let {
-                    requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
-                }
-
-                pickerDir?.findFile(prefName)?.delete()
-
-                val outputStream = pickerDir?.createFile("text/xml",
-                    prefName)?.uri?.let {
-                    requireContext().contentResolver?.openOutputStream(it)
-                }
-
-                val fileInputStream = FileInputStream(prefPath)
-                val buffer = byteArrayOf((1024 * 8).toByte())
-                var read: Int
-
-                while (true) {
-
-                    read = fileInputStream.read(buffer)
-
-                    if(read != -1)
-                        outputStream?.write(buffer, 0, read)
-                    else break
-                }
-
-                fileInputStream.close()
-                outputStream?.flush()
-                outputStream?.close()
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(requireContext(), getString(
-                        R.string.successful_export_of_settings, prefName), Toast.LENGTH_LONG).show()
-                }
-            }
-
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(requireContext(), getString(R.string.error_exporting_settings,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    fun DebugFragment.onImportSettings(uri: Uri?) {
-
-        val prefPath = "${requireContext().filesDir?.parent}/shared_prefs/" +
-                "${requireContext().packageName}_preferences.xml"
-
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-
-            try {
-
-                MainActivity.isOnBackPressed = false
-
-                withContext(Dispatchers.Main) {
-
-                    Toast.makeText(requireContext(), R.string.import_settings_3dots,
-                        Toast.LENGTH_LONG).show()
-
-                    if(CapacityInfoService.instance != null)
-                        requireContext().let {
-                            ServiceHelper.stopService(it,CapacityInfoService::class.java)
-                        }
-
-                    if(OverlayService.instance != null)
-                        requireContext().let {
-                            ServiceHelper.stopService(it, OverlayService::class.java)
-                        }
-                }
-
-                val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-                val prefArrays: HashMap<String, Any?> = hashMapOf()
-
-                pref.all.forEach {
-
-                    when(it.key) {
-
-                        BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY, CAPACITY_ADDED,
-                        LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY ->
-                            prefArrays[it.key] = it.value
-                    }
-                }
-
-                delay(2000L)
-                if(File(prefPath).exists()) File(prefPath).delete()
-
-                File(prefPath).createNewFile()
-
-                val fileOutputStream = FileOutputStream(prefPath)
-                val inputStream = uri?.let {
-                    requireContext().contentResolver?.openInputStream(it) }
-
-                val buffer = byteArrayOf((1024 * 8).toByte())
-                var read: Int
-
-                while (true) {
-
-                    read = inputStream?.read(buffer) ?: -1
-
-                    if(read != -1)
-                        fileOutputStream.write(buffer, 0, read)
-                    else break
-                }
-
-                inputStream?.close()
-                fileOutputStream.flush()
-                fileOutputStream.close()
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    MainApp.restartApp(requireContext(), prefArrays)
-                }
-            }
-
-            catch(e: Exception) {
-
-                withContext(Dispatchers.Main) {
-
-                    MainActivity.isOnBackPressed = true
-
-                    Toast.makeText(requireContext(), getString(R.string.error_importing_settings,
-                        e.message ?: e.toString()), Toast.LENGTH_LONG).show()
-                }
-            }
         }
     }
 }

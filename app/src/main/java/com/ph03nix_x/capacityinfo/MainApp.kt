@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo
 
-import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -8,16 +7,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
-import androidx.core.content.ContextCompat
-import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
-import com.ph03nix_x.capacityinfo.services.AutoBackupSettingsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import java.io.Serializable
 import kotlin.collections.HashMap
 import kotlin.system.exitProcess
@@ -29,8 +24,6 @@ class MainApp : Application(), PremiumInterface {
         var batteryIntent: Intent? = null
         var isPowerConnected = false
         var isInstalledGooglePlay = true
-
-        var microSDPath: String? = null
 
         var currentTheme = -1
 
@@ -44,8 +37,7 @@ class MainApp : Application(), PremiumInterface {
             else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
                 .getInstallerPackageName(context.packageName)
 
-        fun restartApp(context: Context, prefArrays: HashMap<String, Any?>,
-                       isRestore: Boolean = false) {
+        fun restartApp(context: Context, prefArrays: HashMap<String, Any?>) {
 
             val packageManager = context.packageManager
 
@@ -57,8 +49,6 @@ class MainApp : Application(), PremiumInterface {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
             intent?.putExtra(Constants.IMPORT_RESTORE_SETTINGS_EXTRA, prefArrays)
-
-            if(isRestore) intent?.putExtra(Constants.IS_RESTORE_SETTINGS_EXTRA, true)
 
             context.startActivity(intent)
 
@@ -90,21 +80,7 @@ class MainApp : Application(), PremiumInterface {
 
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
         ServiceHelper.checkPremiumJobSchedule(this)
-
-        if(pref.getBoolean(PreferencesKeys.IS_AUTO_BACKUP_SETTINGS, resources.getBoolean(
-                R.bool.is_auto_backup_settings)) && ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            ServiceHelper.jobSchedule(this, AutoBackupSettingsJobService::class.java,
-                Constants.AUTO_BACKUP_SETTINGS_JOB_ID, (pref.getString(PreferencesKeys
-                    .FREQUENCY_OF_AUTO_BACKUP_SETTINGS, "1")
-                    ?.toLong() ?: 1L) * 60L * 60L * 1000L)
-
-        else ServiceHelper.cancelJob(this, Constants.AUTO_BACKUP_SETTINGS_JOB_ID)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

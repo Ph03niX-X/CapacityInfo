@@ -107,19 +107,4 @@
         <item>Historia</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Godzina</item>
-        <item>2 Godziny</item>
-        <item>3 Godziny</item>
-        <item>4 Godziny</item>
-        <item>5 Godziny</item>
-        <item>6 Godziny</item>
-        <item>7 Godziny</item>
-        <item>8 Godziny</item>
-        <item>9 Godziny</item>
-        <item>10 Godziny</item>
-        <item>11 Godziny</item>
-        <item>12 Godziny</item>
-    </string-array>
-
 </resources>

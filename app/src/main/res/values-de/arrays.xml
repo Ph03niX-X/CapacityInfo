@@ -106,18 +106,4 @@
         <item>Verlauf</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Stunde</item>
-        <item>2 Stunden</item>
-        <item>3 Stunden</item>
-        <item>4 Stunden</item>
-        <item>5 Stunden</item>
-        <item>6 Stunden</item>
-        <item>7 Stunden</item>
-        <item>8 Stunden</item>
-        <item>9 Stunden</item>
-        <item>10 Stunden</item>
-        <item>11 Stunden</item>
-        <item>12 Stunden</item>
-    </string-array>
 </resources>

@@ -210,23 +210,10 @@
     <string name="disable">Disable</string>
     <string name="overlay_text_color">Text Color</string>
     <string name="backup">Backup</string>
-    <string name="auto_backup">Auto Backup Settings</string>
-    <string name="auto_backup_summary">Path: %1$s</string>
-    <string name="create_backup_settings">Create Backup Settings</string>
-    <string name="settings_backup_successfully_created">Settings Backup successfully created!</string>
-    <string name="error_backup_settings">Error Backup Settings!\n%1$s</string>
-    <string name="restore_settings_from_backup">Restore settings from backup</string>
-    <string name="restore_settings_from_backup_3dots">Restore settings from backup&#8230;</string>
-    <string name="settings_successfully_restored_from_backup">Settings have been successfully restored from backup!</string>
-    <string name="error_restoring_settings_from_backup">Error restoring settings from backup!\n%1$s</string>
-    <string name="frequency_of_auto_backup_settings">Frequency of Auto Backup Settings</string>
-    <string name="access_memory">To Backup, access to the device memory is required. Grant permission in the next window</string>
     <string name="unknown_error">Unknown Error!</string>
     <string name="charging_current_limit">Charging Current Limit: %1$s mA</string>
     <string name="charging_current_limit_overlay">Charging Current Limit</string>
     <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
-    <string name="backup_settings_to_microsd">Backup Settings to MicroSD</string>
-    <string name="access_memory_card">For backup, access to the memory card is required. Grant permission in the next window</string>
     <string name="screen_time">Screen Time: %1$s</string>
     <string name="screen_time_overlay">Screen Time</string>
     <string name="screen_time_overlay_only_values" translatable="false">%1$s</string>
@@ -279,7 +266,6 @@
     <string name="battery_is_discharged_voltage">Battery is Discharged (Voltage)</string>
     <string name="battery_is_discharged_notification_voltage">Battery is discharged. %1$d mV</string>
     <string name="discharged_voltage">Discharged (Voltage)</string>
-    <string name="new_permission_is_required_dialog">On Android 11+, a new permission is required for a full-fledged backup to work, Google does not want to let this application into its store with this permission. Therefore, use \"Export Settings\" to create a backup of settings (file name: com.ph03nix_x.capacityinfo_preferences.xml), as well as \"Import Settings\" to restore settings (from an xml file). \"Export History\" creates a backup copy of history (file name: History.db), \"Import History\" restores history (from db file)</string>
     <string name="number_of_full_charges">Number of Full Charges: %1$d</string>
     <string name="number_of_full_charges_overlay">Number of Full Charges</string>
     <string name="number_of_full_charges_overlay_only_values" translatable="false">%1$d</string>

@@ -107,19 +107,4 @@
         <item>History</item>
     </string-array>
 
-    <string-array name="frequency_of_auto_backup_settings_list">
-        <item>1 Hora</item>
-        <item>2 Horas</item>
-        <item>3 Horas</item>
-        <item>4 Horas</item>
-        <item>5 Horas</item>
-        <item>6 Horas</item>
-        <item>7 Horas</item>
-        <item>8 Horas</item>
-        <item>9 Horas</item>
-        <item>10 Horas</item>
-        <item>11 Horas</item>
-        <item>12 Horas</item>
-    </string-array>
-
 </resources>
