@@ -28,6 +28,27 @@ import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
+import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_FULL_CHARGE_REMINDER
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -260,6 +281,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
                     isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
 
+                    if(!isPremium) removePremiumFeatures()
+
                     delay(5000L)
                     billingClient?.endConnection()
                 }
@@ -302,6 +325,40 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 val tokenPref = pref.getString(TOKEN_PREF, null)
                 isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
             }
+
+            if(!isPremium) removePremiumFeatures()
+        }
+    }
+
+    private suspend fun removePremiumFeatures() {
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+
+        arrayListOf(IS_SHOW_STOP_SERVICE, IS_STOP_THE_SERVICE_WHEN_THE_CD,
+            IS_SHOW_BATTERY_INFORMATION, IS_BYPASS_DND, IS_NOTIFY_OVERHEAT_OVERCOOL,
+            IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, IS_NOTIFY_FULL_CHARGE_REMINDER,
+            IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, IS_NOTIFY_BATTERY_IS_CHARGED,
+            IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, IS_NOTIFY_BATTERY_IS_DISCHARGED,
+            IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE, IS_NOTIFY_CHARGING_CURRENT,
+            IS_NOTIFY_DISCHARGE_CURRENT, TEXT_FONT, IS_CAPACITY_IN_WH,
+            IS_CHARGING_DISCHARGE_CURRENT_IN_WATT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
+            TAB_ON_APPLICATION_LAUNCH, IS_ENABLED_OVERLAY).forEach {
+
+            with(pref) {
+                edit().apply {
+                    if(contains(it)) remove(it)
+                    apply()
+                }
+            }
+            }
+
+        withContext(Dispatchers.Main) {
+
+            ServiceHelper.cancelJob(premiumContext!!,
+                Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+
+            if(OverlayService.instance != null)
+                ServiceHelper.stopService(premiumContext!!, OverlayService::class.java)
         }
     }
 }
