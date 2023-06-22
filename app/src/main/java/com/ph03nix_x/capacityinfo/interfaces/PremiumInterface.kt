@@ -24,6 +24,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +68,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+            ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
 
@@ -124,6 +126,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                                 ?.isVisible = false
                             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
                                 ?.isVisible = true
+                            ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
                         }
                     }
                 }
@@ -137,6 +140,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible =
                     false
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+                ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
             }
 
         } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
@@ -148,6 +152,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+            ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
 
