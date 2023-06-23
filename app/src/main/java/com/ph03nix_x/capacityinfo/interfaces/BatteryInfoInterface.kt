@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.R
@@ -526,11 +527,16 @@ interface BatteryInfoInterface {
 
         return context.getString(
             if (!isOverlay || !isOnlyValues) R.string.charging_time else
-                R.string.charging_time_overlay_only_values, TimeHelper.getTime(seconds.toLong())
-        )
+                R.string.charging_time_overlay_only_values, TimeHelper.getTime(seconds.toLong()))
     }
 
     fun getChargingTimeRemaining(context: Context): String {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            val chargingTimeRemaining = batteryManager.computeChargeTimeRemaining() / 1000
+            return TimeHelper.getTime(chargingTimeRemaining)
+        }
 
         var chargingTimeRemaining: Double
 
