@@ -80,7 +80,7 @@ class MainApp : Application(), PremiumInterface {
 
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
-        ServiceHelper.checkPremiumJobSchedule(this)
+        if(isInstalledGooglePlay) ServiceHelper.checkPremiumJobSchedule(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

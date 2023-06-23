@@ -86,7 +86,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             if(purchases != null) pref.edit().putString(TOKEN_PREF,
                 purchases[0].purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
-            isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+            isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
@@ -139,7 +139,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                         if (it.responseCode == BillingResponseCode.OK) {
                             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                             val tokenPref = pref.getString(TOKEN_PREF, null)
-                            isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                            isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                             Toast.makeText(premiumContext, R.string.premium_features_unlocked,
                                 Toast.LENGTH_LONG).show()
                             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
@@ -155,7 +155,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             } else {
                 pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                 val tokenPref = pref.getString(TOKEN_PREF, null)
-                isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                 Toast.makeText(premiumContext, R.string.premium_features_unlocked,
                     Toast.LENGTH_LONG).show()
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
@@ -168,7 +168,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
         } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
-            isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+            isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
             Toast.makeText(premiumContext, R.string.premium_features_unlocked, Toast.LENGTH_LONG)
                 .show()
             MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
@@ -249,7 +249,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
             var tokenPref = pref.getString(TOKEN_PREF, null)
 
-            if(tokenPref != null && tokenPref.count() >= TOKEN_COUNT) isPremium = true
+            if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
 
             else if(tokenPref != null && tokenPref.count() < TOKEN_COUNT)
                 pref.edit().remove(TOKEN_PREF).apply()
@@ -273,7 +273,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
                     tokenPref = pref.getString(TOKEN_PREF, null)
 
-                    isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                    isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
 
                     if(!isPremium) removePremiumFeatures()
 
@@ -305,14 +305,14 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
                     .apply()
                 val tokenPref = pref.getString(TOKEN_PREF, null)
-                isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                 delay(5000L)
                 billingClient?.endConnection()
             }
             else {
                 if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
                 val tokenPref = pref.getString(TOKEN_PREF, null)
-                isPremium = tokenPref != null && tokenPref.count() >= TOKEN_COUNT
+                isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
             }
 
             if(!isPremium) removePremiumFeatures()

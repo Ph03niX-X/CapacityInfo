@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -76,12 +77,9 @@ interface ManufacturerInterface {
                         showXiaomiBackgroundActivityControlDialog()
                     }
                     catch (e: ActivityNotFoundException) {
-                        startActivity(
-                            Intent().setComponent(
-                                ComponentName(
+                        startActivity(Intent().setComponent(ComponentName(
                             "com.miui.securitycenter",
-                            "com.miui.permcenter.autostart.AutoStartManagementActivity")
-                            ))
+                            "com.miui.permcenter.autostart.AutoStartManagementActivity")))
 
                         showXiaomiBackgroundActivityControlDialog()
                     }
@@ -105,7 +103,6 @@ interface ManufacturerInterface {
                 setPositiveButton(android.R.string.ok) { _, _ ->
                     try {
                         startActivity(Intent().apply {
-
                             setClassName("com.miui.powerkeeper",
                                 "com.miui.powerkeeper.ui.HiddenAppsConfigActivity")
                             putExtra("package_name",
@@ -113,7 +110,10 @@ interface ManufacturerInterface {
                             putExtra("package_label", getText(R.string.app_name))
                         })
                     }
-                    catch (e: ActivityNotFoundException) { e.printStackTrace() }
+                    catch (e: ActivityNotFoundException) {
+                        Toast.makeText(this@showXiaomiBackgroundActivityControlDialog,
+                            e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                    }
                 }
                 show()
             }

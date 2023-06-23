@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.preference.Preference
-import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -123,12 +122,5 @@ object ServiceHelper {
         val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
 
         if(jobScheduler?.allPendingJobs?.isNotEmpty() == true) jobScheduler.cancelAll()
-    }
-
-    fun rescheduleJob(context: Context, jobName: Class<*>, jobId: Int, periodic: Long) {
-
-        cancelJob(context, jobId)
-
-        jobSchedule(context, jobName, jobId, periodic)
     }
 }
