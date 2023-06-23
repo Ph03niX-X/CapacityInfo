@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.interfaces
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
@@ -244,11 +243,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     fun checkPremium() {
 
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            isPremium = true
-            return
-        }
-
         CoroutineScope(Dispatchers.IO).launch {
 
             val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
@@ -292,11 +286,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     fun CheckPremiumJob.checkPremiumJob() {
-
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            isPremium = true
-            return
-        }
 
         CoroutineScope(Dispatchers.IO).launch {
 
