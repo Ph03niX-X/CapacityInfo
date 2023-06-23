@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces.views
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
@@ -138,7 +139,21 @@ interface MenuInterface {
             showFaqDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_faq_question_24dp)
                 setTitle(getString(R.string.faq))
-                setMessage(getString(R.string.faq_how_does_the_app_work)
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+                    setMessage(getString(R.string.faq_how_does_the_app_work)
+                            + getString(R.string.faq_capacity_added)
+                            + getString(R.string.faq_where_does_the_app_get_the_ccl)
+                            + getString(R.string.faq_why_is_ccl_not_displayed)
+                            + getString(R.string.faq_i_have_everything_in_zeros)
+                            + getString(R.string.faq_units)
+                            + getString(R.string.faq_current_capacity)
+                            + getString(R.string.faq_residual_capacity_is_higher)
+                            + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
+                            + getString(R.string.faq_battery_wear_not_change)
+                            + getString(R.string.faq_with_each_charge_battery_wear_changes))
+
+                else setMessage(getString(R.string.faq_how_does_the_app_work)
                         + getString(R.string.faq_capacity_added)
                         + getString(R.string.faq_where_does_the_app_get_the_ccl)
                         + getString(R.string.faq_why_is_ccl_not_displayed)
