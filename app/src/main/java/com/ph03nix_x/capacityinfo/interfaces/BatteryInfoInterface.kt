@@ -386,17 +386,18 @@ interface BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val designCapacity = pref.getInt(DESIGN_CAPACITY,
             context.resources.getInteger(R.integer.min_design_capacity)).toDouble()
-        var residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble()
-        return if(residualCapacity > 0) {
-            residualCapacity /= if(pref.getString(
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0
+        val residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0).toDouble() / if(pref.getString(
+                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0
+        return if(residualCapacity > 0 && residualCapacity <= designCapacity) {
             when((100.0 - ((residualCapacity / designCapacity) * 100.0)).toInt()) {
                 in 0..19 -> R.string.battery_health_great
                 in 20..39 -> R.string.battery_health_good
                 in 40..59 -> R.string.battery_health_bad
                 else -> R.string.battery_health_replacement_required
             }
-        } else null
+        }
+        else if(residualCapacity > designCapacity) R.string.battery_health_great
+        else if(residualCapacity < 0) R.string.battery_health_replacement_required else null
     }
 
     fun getBatteryAndroidHealth(context: Context): String {
