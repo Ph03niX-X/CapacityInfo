@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.widget.Toast
@@ -77,9 +76,8 @@ interface ManufacturerInterface {
                         showXiaomiBackgroundActivityControlDialog()
                     }
                     catch (e: ActivityNotFoundException) {
-                        startActivity(Intent().setComponent(ComponentName(
-                            "com.miui.securitycenter",
-                            "com.miui.permcenter.autostart.AutoStartManagementActivity")))
+                        startActivity(Intent().setClassName("com.miui.securitycenter",
+                            "com.miui.permcenter.autostart.AutoStartManagementActivity"))
 
                         showXiaomiBackgroundActivityControlDialog()
                     }
