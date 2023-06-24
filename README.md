@@ -69,14 +69,9 @@ P.S This application consumes <b>very little</b> background power. Therefore, us
 • Charge/Discharge current in Watt;<br/>
 • And much more<br/>
 
-<b>Explanation of required permissions:</b><br/>
-• Access to the device memory - needed to backup settings;<br/>
-• On top of all windows - needed for an overlay;<br/>
-• Launch after boot - needed for the application to start itself after loading the OS
-
 <b>Attention!</b> Before leaving a review or asking a question, read the instructions and follow them, as well as read the FAQ, there are answers to many questions.
 
-If you have any suggestions for improving the application or you have found any bug or error, write to the E-Mail: Ph03niX-X@outlook.com or Telegram: @Ph03niX_X or open an Issue on GitHub
+P.S If you have any suggestions for improving the application or you have found any bug or error, write to the E-Mail: Ph03niX-X@outlook.com or Telegram: @Ph03niX_X or open an Issue on GitHub
 
 ---
 <p align="center">
@@ -84,8 +79,8 @@ If you have any suggestions for improving the application or you have found any 
 </p>
 
 1.In order for the application to show the residual capacity, discharge the battery to 10% or lower and put the device on charge, while the service must be turned on.<br/>
-2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed. <br/>
-3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%. <br/>
+2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed.<br/>
+3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%.<br/>
 4.If the design capacity is incorrect, change it in the application settings.<br/>
 5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings.
 
