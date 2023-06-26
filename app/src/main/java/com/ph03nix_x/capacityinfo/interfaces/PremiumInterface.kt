@@ -291,8 +291,9 @@ interface PremiumInterface: PurchasesUpdatedListener {
                     billingClient?.endConnection()
                 }
             }
-        }
 
+            if(!isPremium) removePremiumFeatures(premiumContext!!)
+        }
     }
 
     fun CheckPremiumJob.checkPremiumJob() {
