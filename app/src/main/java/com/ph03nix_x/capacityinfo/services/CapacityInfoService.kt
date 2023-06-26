@@ -214,6 +214,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 while (isJob && !isStopService) {
 
+                    if(instance == null) instance = this@CapacityInfoService
+
                     if((getBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
 
@@ -323,8 +325,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         withContext(Dispatchers.Main) {
                             onUpdateServiceNotification(this@CapacityInfoService)
                         }
-
-                        if(instance == null) instance = this@CapacityInfoService
 
                         delay(1496L)
                     }
