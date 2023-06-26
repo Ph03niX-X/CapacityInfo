@@ -47,6 +47,7 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.not
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
@@ -422,6 +423,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 Toast.LENGTH_LONG).show()
 
         ServiceHelper.cancelJob(this, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+        ServiceHelper.cancelJob(this, CHECK_PREMIUM_JOB_ID)
 
         super.onDestroy()
     }

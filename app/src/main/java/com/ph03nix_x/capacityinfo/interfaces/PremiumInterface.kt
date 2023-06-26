@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -75,6 +76,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
 
+        if(premiumContext == null) premiumContext = CapacityInfoService.instance
+
         if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
             for (purchase in purchases) {
                 CoroutineScope(Dispatchers.Default).launch {
@@ -95,6 +98,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     fun initiateBilling(isPurchasePremium: Boolean = false) {
+
+        if(premiumContext == null) premiumContext = CapacityInfoService.instance
 
         billingClient = BillingClient.newBuilder(premiumContext!!)
             .setListener(purchasesUpdatedListener()).enablePendingPurchases().build()
@@ -127,6 +132,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     private suspend fun handlePurchase(purchase: Purchase) {
+
+        if(premiumContext == null) premiumContext = CapacityInfoService.instance
 
         val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
 
@@ -243,6 +250,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     fun checkPremium() {
 
+        if(premiumContext == null) premiumContext = CapacityInfoService.instance
+
         CoroutineScope(Dispatchers.IO).launch {
 
             val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
@@ -251,10 +260,10 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
             if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
 
-            else if(tokenPref != null && tokenPref.count() < TOKEN_COUNT)
+            else if(tokenPref != null && tokenPref.count() != TOKEN_COUNT)
                 pref.edit().remove(TOKEN_PREF).apply()
 
-           else if(tokenPref == null || tokenPref.count() < TOKEN_COUNT) {
+           else if(tokenPref == null || tokenPref.count() != TOKEN_COUNT) {
 
                 if(billingClient?.isReady != true) initiateBilling()
 
@@ -275,7 +284,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
 
-                    if(!isPremium) removePremiumFeatures()
+                    if(!isPremium) removePremiumFeatures(premiumContext!!)
 
                     delay(5000L)
                     billingClient?.endConnection()
@@ -315,13 +324,13 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
             }
 
-            if(!isPremium) removePremiumFeatures()
+            if(!isPremium) removePremiumFeatures(this@checkPremiumJob)
         }
     }
 
-    private suspend fun removePremiumFeatures() {
+    private suspend fun removePremiumFeatures(context: Context) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         arrayListOf(IS_SHOW_STOP_SERVICE, IS_STOP_THE_SERVICE_WHEN_THE_CD,
             IS_SHOW_BATTERY_INFORMATION, IS_BYPASS_DND, IS_NOTIFY_OVERHEAT_OVERCOOL,
@@ -343,11 +352,11 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
         withContext(Dispatchers.Main) {
 
-            ServiceHelper.cancelJob(premiumContext!!,
+            ServiceHelper.cancelJob(context,
                 Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
 
             if(OverlayService.instance != null)
-                ServiceHelper.stopService(premiumContext!!, OverlayService::class.java)
+                ServiceHelper.stopService(context, OverlayService::class.java)
         }
     }
 }

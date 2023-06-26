@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
-        premiumContext = this
+        if(premiumContext == null) premiumContext = this
         premiumActivity = this
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
@@ -320,7 +320,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         fragment = null
 
-        premiumContext = null
         premiumActivity = null
         showFaqDialog = null
 
