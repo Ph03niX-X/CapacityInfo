@@ -324,6 +324,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             onUpdateServiceNotification(this@CapacityInfoService)
                         }
 
+                        if(instance == null) instance = this@CapacityInfoService
+
                         delay(1496L)
                     }
                 }

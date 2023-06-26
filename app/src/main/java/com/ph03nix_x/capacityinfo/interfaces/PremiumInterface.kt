@@ -209,6 +209,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
                 if(MainApp.isInstalledGooglePlay) {
+                    if(premiumContext == null) premiumContext = this@showPremiumDialog
                     if(billingClient?.isReady == true) purchasePremium()
                     else initiateBilling(true)
                 }
