@@ -305,28 +305,30 @@ interface PremiumInterface: PurchasesUpdatedListener {
             if(billingClient?.isReady != true) initiateBilling()
 
             delay(2500L)
-            val params = QueryPurchaseHistoryParams.newBuilder()
-                .setProductType(ProductType.INAPP)
+            if(billingClient?.isReady == true) {
+                val params = QueryPurchaseHistoryParams.newBuilder()
+                    .setProductType(ProductType.INAPP)
 
-            val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+                val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
 
-            val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+                val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
 
-            if(!purchaseHistoryRecordList.isNullOrEmpty()) {
-                pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
-                    .apply()
-                val tokenPref = pref.getString(TOKEN_PREF, null)
-                isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                delay(5000L)
-                billingClient?.endConnection()
+                if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+                    pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
+                        .apply()
+                    val tokenPref = pref.getString(TOKEN_PREF, null)
+                    isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                    delay(5000L)
+                    billingClient?.endConnection()
+                }
+                else {
+                    if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
+                    val tokenPref = pref.getString(TOKEN_PREF, null)
+                    isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                }
+
+                if(!isPremium) removePremiumFeatures(this@checkPremiumJob)
             }
-            else {
-                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
-                val tokenPref = pref.getString(TOKEN_PREF, null)
-                isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            }
-
-            if(!isPremium) removePremiumFeatures(this@checkPremiumJob)
         }
     }
 
