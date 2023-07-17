@@ -269,30 +269,32 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 if(billingClient?.isReady != true) initiateBilling()
 
                 delay(2500L)
-                val params = QueryPurchaseHistoryParams.newBuilder()
-                    .setProductType(ProductType.INAPP)
+                if(billingClient?.isReady == true) {
+                    val params = QueryPurchaseHistoryParams.newBuilder()
+                       .setProductType(ProductType.INAPP)
 
-                val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+                   val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
 
-                val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+                   val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
 
-                if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+                   if(!purchaseHistoryRecordList.isNullOrEmpty()) {
 
-                    pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
-                        .apply()
+                       pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
+                           .apply()
 
-                    tokenPref = pref.getString(TOKEN_PREF, null)
+                       tokenPref = pref.getString(TOKEN_PREF, null)
 
-                    isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                       isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
 
-                    if(!isPremium) removePremiumFeatures(premiumContext!!)
+                       if(!isPremium) removePremiumFeatures(premiumContext!!)
 
-                    delay(5000L)
-                    billingClient?.endConnection()
-                }
-            }
+                       delay(5000L)
+                       billingClient?.endConnection()
+                   }
+               }
 
-            if(!isPremium) removePremiumFeatures(premiumContext!!)
+                if(!isPremium) removePremiumFeatures(premiumContext!!)
+           }
         }
     }
 
