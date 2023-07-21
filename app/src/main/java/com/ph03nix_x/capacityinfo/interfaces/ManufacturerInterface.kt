@@ -26,11 +26,10 @@ interface ManufacturerInterface {
             showXiaomiAutoStartDialog() else if(isHuawei()) showHuaweiInfo()
     }
 
-    private fun isXiaomi() =
-        (Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "POCO" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "REDMI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "BLACK SHARK") && isMIUI()
+    private fun isXiaomi() = (getManufacturer() == "XIAOMI" || getManufacturer() == "POCO" ||
+            getManufacturer() == "REDMI" || getManufacturer() == "BLACK SHARK") && isMIUI()
+
+    private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
 
     private fun isMIUI(): Boolean {
 
@@ -56,9 +55,7 @@ interface ManufacturerInterface {
         }
     }
 
-    private fun isHuawei() =
-        Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HUAWEI" ||
-                Build.MANUFACTURER.uppercase(Locale.getDefault()) == "HONOR"
+    private fun isHuawei() = getManufacturer() == "HUAWEI" || getManufacturer() == "HONOR"
 
     private fun MainActivity.showXiaomiAutoStartDialog() {
         if(showXiaomiAutostartDialog == null && isXiaomi() &&
