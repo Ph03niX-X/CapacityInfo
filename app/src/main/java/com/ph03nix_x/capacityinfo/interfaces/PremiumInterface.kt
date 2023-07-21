@@ -290,6 +290,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
                        delay(5000L)
                        billingClient?.endConnection()
+                       billingClient = null
                    }
                }
 
@@ -322,6 +323,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                     delay(5000L)
                     billingClient?.endConnection()
+                    billingClient = null
                 }
                 else {
                     if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
