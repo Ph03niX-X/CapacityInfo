@@ -25,6 +25,7 @@ interface ManufacturerInterface {
             Autostart(this).autoStartState == Autostart.State.DISABLED)
             showXiaomiAutoStartDialog() else if(isHuawei()) showHuaweiInfo()
     }
+    private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
 
     private fun isXiaomi() : Boolean {
 
@@ -32,8 +33,6 @@ interface ManufacturerInterface {
 
         return getManufacturer() in xiaomiManufacturerList && isMIUI()
     }
-
-    private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
 
     private fun isMIUI(): Boolean {
 
