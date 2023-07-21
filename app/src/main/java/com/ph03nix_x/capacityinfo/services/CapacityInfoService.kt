@@ -542,10 +542,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         else pref.getInt(RESIDUAL_CAPACITY, 0) / 100
 
         val residualCapacity =
-            if(residualCapacityCurrent !in 1..maxChargeCurrent &&
-                !isTurboCharge(this@CapacityInfoService) && !pref.getBoolean(
+            if(residualCapacityCurrent in 1..maxChargeCurrent ||
+                isTurboCharge(this@CapacityInfoService) || pref.getBoolean(
                     IS_FAST_CHARGE_DEBUG, resources.getBoolean(R.bool.is_fast_charge_debug)))
-                    (currentCapacity.toDouble() -
+                    (currentCapacity.toDouble() +
                             ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
 
