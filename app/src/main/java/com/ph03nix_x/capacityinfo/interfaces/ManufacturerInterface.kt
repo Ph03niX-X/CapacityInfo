@@ -26,8 +26,12 @@ interface ManufacturerInterface {
             showXiaomiAutoStartDialog() else if(isHuawei()) showHuaweiInfo()
     }
 
-    private fun isXiaomi() = (getManufacturer() == "XIAOMI" || getManufacturer() == "POCO" ||
-            getManufacturer() == "REDMI" || getManufacturer() == "BLACK SHARK") && isMIUI()
+    private fun isXiaomi() : Boolean {
+
+        val xiaomiManufacturerList = arrayListOf("XIAOMI", "POCO", "REDMI", "BLACK SHARK")
+
+        return getManufacturer() in xiaomiManufacturerList && isMIUI()
+    }
 
     private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
 
@@ -55,7 +59,12 @@ interface ManufacturerInterface {
         }
     }
 
-    private fun isHuawei() = getManufacturer() == "HUAWEI" || getManufacturer() == "HONOR"
+    private fun isHuawei(): Boolean {
+
+        val huaweiManufacturerList = arrayListOf("HUAWEI", "HONOR")
+
+        return getManufacturer() in huaweiManufacturerList
+    }
 
     private fun MainActivity.showXiaomiAutoStartDialog() {
         if(showXiaomiAutostartDialog == null && isXiaomi() &&
