@@ -1,10 +1,11 @@
+//file:noinspection GroovyImplicitNullArgumentCall
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
 android {
     compileSdk = 34
-    buildToolsVersion "34.0.0"
+    buildToolsVersion = "34.0.0"
     defaultConfig {
         applicationId "com.ph03nix_x.capacityinfo"
         namespace applicationId
