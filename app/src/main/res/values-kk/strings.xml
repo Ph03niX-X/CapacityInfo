@@ -322,4 +322,5 @@
     <string name="battery_health_overlay">Батарея денсаулығы</string>
     <string name="request_notification_message">Қолданба дұрыс жұмыс істеуі үшін хабарландырулар қосулы болуы керек. Бұл қолданба жұмысының көп бөлігіне, соның ішінде батареяның қалған сыйымдылығын есептеуге жауапты қызмет үшін қажет</string>
     <string name="not_installed_google_play_dialog">Premium сатып алу мүмкін емес. Себебі: Google Play орнатылмаған</string>
+    <string name="history_premium_feature">Бұл мүмкіндікке қол жеткізу үшін Premium сатып алу қажет</string>
 </resources>
