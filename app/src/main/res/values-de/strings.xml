@@ -256,7 +256,7 @@
     <string name="success">Erfolg!</string>
     <string name="error">Fehler!</string>
     <string name="history_count">Geschichte zählen</string>
-    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Geschichte > 3;\n\• Möglichkeit, den Verlauf zu entfernen (nach rechts wischen);\n\• Geschichte löschen;\n\• Batterieinformationen anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Khufu von Premium understate Sie auth die Welterweight der App</string>
+    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Geschichte;\n\• Möglichkeit, den Verlauf zu entfernen (nach rechts wischen);\n\• Geschichte löschen;\n\• Batterieinformationen anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Khufu von Premium understate Sie auth die Welterweight der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
