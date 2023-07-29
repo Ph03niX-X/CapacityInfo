@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.adapters
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,16 +49,12 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     override fun onBindViewHolder(holderHistory: HistoryViewHolder, position: Int) {
         updateTextAppearance(holderHistory)
 
-        if((!isPremium && position < 3) || isPremium) {
+        if(isPremium) {
             binding.historyDate.text = historyList[itemCount - 1 - position].date
-            binding.historyResidualCapacity.text = getResidualCapacity(holderHistory
-                .itemView.context, historyList[itemCount - 1 - position].residualCapacity)
-            binding.historyBatteryWear.text = getBatteryWear(holderHistory.itemView
-                .context, historyList[itemCount - 1 - position].residualCapacity)
-        }
-        else {
-            holderHistory.itemView.visibility = View.GONE
-            holderHistory.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+            binding.historyResidualCapacity.text = getResidualCapacity(holderHistory.itemView.context,
+                historyList[itemCount - 1 - position].residualCapacity)
+            binding.historyBatteryWear.text = getBatteryWear(holderHistory.itemView.context,
+                historyList[itemCount - 1 - position].residualCapacity)
         }
     }
 

@@ -55,19 +55,25 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
         val historyDB = HistoryDB(requireContext())
 
-        if(historyDB.getCount() > 0) {
+        if(PremiumInterface.isPremium && historyDB.getCount() > 0) {
             binding?.emptyHistoryLayout?.visibility = View.GONE
             binding?.refreshEmptyHistory?.visibility = View.GONE
             binding?.historyRecyclerView?.visibility = View.VISIBLE
             historyAdapter = HistoryAdapter(historyDB.readDB())
             binding?.historyRecyclerView?.setItemViewCacheSize(historyAdapter.itemCount)
             binding?.historyRecyclerView?.adapter = historyAdapter
-
+        }
+        else if(PremiumInterface.isPremium) {
+            binding?.historyRecyclerView?.visibility = View.GONE
+            binding?.refreshEmptyHistory?.visibility = View.VISIBLE
+            binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+            binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
         }
         else {
             binding?.historyRecyclerView?.visibility = View.GONE
             binding?.refreshEmptyHistory?.visibility = View.VISIBLE
             binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+            binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
         }
 
         if(PremiumInterface.isPremium) swipeToRemoveHistory()
@@ -79,16 +85,23 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
     override fun onResume() {
         super.onResume()
-        if(HistoryHelper.getHistoryCount(requireContext()) > 0) {
+        if(PremiumInterface.isPremium && HistoryHelper.getHistoryCount(requireContext()) > 0) {
             historyAdapter.update(requireContext())
             binding?.refreshEmptyHistory?.visibility = View.GONE
             binding?.emptyHistoryLayout?.visibility = View.GONE
             binding?.historyRecyclerView?.visibility = View.VISIBLE
         }
+        else if(PremiumInterface.isPremium) {
+            binding?.historyRecyclerView?.visibility = View.GONE
+            binding?.refreshEmptyHistory?.visibility = View.VISIBLE
+            binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+            binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
+        }
         else {
             binding?.historyRecyclerView?.visibility = View.GONE
             binding?.refreshEmptyHistory?.visibility = View.VISIBLE
             binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+            binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
         }
     }
 
@@ -164,18 +177,24 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                 R.color.swipe_refresh_layout_progress_background))
             setOnRefreshListener {
                 isRefreshing = true
-                if(HistoryHelper.isHistoryNotEmpty(requireContext())) {
+                if(PremiumInterface.isPremium && HistoryHelper.isHistoryNotEmpty(requireContext())) {
                     historyAdapter.update(requireContext())
                     visibility = View.GONE
                     binding?.refreshEmptyHistory?.visibility = View.VISIBLE
                     binding?.emptyHistoryLayout?.visibility = View.GONE
                     binding?.historyRecyclerView?.visibility = View.VISIBLE
                 }
-                else {
+                else if(PremiumInterface.isPremium) {
                     binding?.historyRecyclerView?.visibility = View.GONE
-                    binding?.refreshEmptyHistory?.visibility = View.GONE
                     visibility = View.VISIBLE
                     binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+                    binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
+                }
+                else {
+                    binding?.historyRecyclerView?.visibility = View.GONE
+                    visibility = View.VISIBLE
+                    binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+                    binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
                 }
                 isRefreshing = false
             }
@@ -190,7 +209,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                 R.color.swipe_refresh_layout_progress_background))
             setOnRefreshListener {
                 isRefreshing = true
-                if(HistoryHelper.isHistoryNotEmpty(requireContext())) {
+                if(PremiumInterface.isPremium && HistoryHelper.isHistoryNotEmpty(requireContext())) {
                     historyAdapter.update(requireContext())
                     binding?.refreshEmptyHistory?.visibility = View.GONE
                     visibility = View.VISIBLE
@@ -209,5 +228,8 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
         binding?.refreshHistory?.visibility = View.GONE
         binding?.refreshEmptyHistory?.visibility = View.VISIBLE
         binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+        binding?.emptyHistoryText?.text = getText(
+            if(PremiumInterface.isPremium) R.string.empty_history_text
+            else R.string.history_premium_feature)
     }
 }

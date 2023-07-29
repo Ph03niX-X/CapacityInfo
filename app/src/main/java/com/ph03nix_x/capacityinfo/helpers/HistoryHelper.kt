@@ -27,7 +27,7 @@ object HistoryHelper {
     }
     fun remove(context: Context, residualCapacity: Int) = HistoryDB(context).remove(residualCapacity)
 
-    private fun clearHistory(context: Context) = HistoryDB(context).clear()
+    fun clearHistory(context: Context) = HistoryDB(context).clear()
 
     fun getHistoryCount(context: Context) = HistoryDB(context).getCount()
 
@@ -63,6 +63,8 @@ object HistoryHelper {
                                 View.VISIBLE
                             HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
                                 View.VISIBLE
+                            HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                                context.resources.getText(R.string.empty_history_text)
                             Toast.makeText(context, context.getString(
                                 R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
                         }

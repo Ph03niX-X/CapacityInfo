@@ -25,6 +25,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
@@ -357,6 +358,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 }
             }
             }
+
+        HistoryHelper.clearHistory(context)
 
         withContext(Dispatchers.Main) {
 

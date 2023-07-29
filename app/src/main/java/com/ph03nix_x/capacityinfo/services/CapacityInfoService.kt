@@ -44,6 +44,7 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isN
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isOverheatOvercool
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
@@ -582,7 +583,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         withContext(Dispatchers.Main) {
-            if(residualCapacity > 0 && seconds >= 10) {
+            if(PremiumInterface.isPremium && residualCapacity > 0 && seconds >= 10) {
                 HistoryHelper.removeFirstRow(this@CapacityInfoService)
                 HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
                     residualCapacity)
@@ -595,6 +596,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 else {
                     HistoryFragment.instance?.binding?.historyRecyclerView?.visibility = View.GONE
                     HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+                    HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                        resources.getText(R.string.empty_history_text)
                 }
             }
         }
