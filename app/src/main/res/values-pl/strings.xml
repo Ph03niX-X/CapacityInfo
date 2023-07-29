@@ -257,7 +257,7 @@
     <string name="success">Sukces!</string>
     <string name="error">Błąd!</string>
     <string name="history_count">Historia Liczenie</string>
-    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia > 3;\n\• Możliwość usunięcia historii (przesuń w prawo);\n\• Czysta historia;\n\• Pokaż informacje o baterii;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay;\n\• Pojemność w Wh;\n\• Prąd ładowania/rozładowania w watach\n\nKupując Premium wspierasz również dalszy rozwój aplikacji</string>
+    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia;\n\• Możliwość usunięcia historii (przesuń w prawo);\n\• Czysta historia;\n\• Pokaż informacje o baterii;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay;\n\• Pojemność w Wh;\n\• Prąd ładowania/rozładowania w watach\n\nKupując Premium wspierasz również dalszy rozwój aplikacji</string>
     <string name="premium_feature">Funkcja Premium</string>
     <string name="purchase_premium">Zakup</string>
     <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
@@ -322,4 +322,5 @@
     <string name="battery_health_overlay">Stan baterii</string>
     <string name="request_notification_message">Aby aplikacja działała poprawnie należy włączyć powiadomienia. Jest to niezbędne dla serwisu, który odpowiada za większość działania aplikacji, w tym za obliczanie pozostałej pojemności baterii</string>
     <string name="not_installed_google_play_dialog">Nie ma możliwości zakupu Premium. Powód: nie zainstalowano Google Play</string>
+    <string name="history_premium_feature">Aby uzyskać dostęp do tej funkcji, wymagany jest zakup wersji Premium</string>
 </resources>
