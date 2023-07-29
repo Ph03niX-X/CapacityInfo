@@ -10,12 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.WearFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
@@ -57,11 +55,6 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
         super.onViewCreated(view, savedInstanceState)
 
-        if(binding.premiumButton.isVisible)
-            binding.premiumButton.setOnClickListener {
-                MainActivity.instance?.showPremiumDialog()
-            }
-
         updateTextAppearance()
 
         binding.designCapacity.setOnClickListener {
@@ -75,8 +68,6 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     override fun onResume() {
 
         super.onResume()
-
-        binding.premiumButton.isVisible = !PremiumInterface.isPremium
 
         binding.designCapacity.text = getDesignCapacity()
 
@@ -262,8 +253,6 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             if(visibility == View.VISIBLE) text = getString(R.string
                                 .number_of_cycles_android, getNumberOfCyclesAndroid())
                         }
-
-                        binding.premiumButton.isVisible = !PremiumInterface.isPremium
                     }
 
                     withContext(Dispatchers.Main) {

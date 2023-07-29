@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
@@ -59,21 +58,12 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
         mainContext = context as? MainActivity
 
-        binding.premiumButton.isVisible = !PremiumInterface.isPremium
-
-        if(binding.premiumButton.isVisible)
-            binding.premiumButton.setOnClickListener {
-                MainActivity.instance?.showPremiumDialog()
-            }
-
         updateTextAppearance()
     }
 
     override fun onResume() {
 
         super.onResume()
-
-        binding.premiumButton.isVisible = !PremiumInterface.isPremium
 
         batteryIntent = requireContext().registerReceiver(null,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -186,8 +176,6 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                         requireContext()))
                             }
                         }
-
-                        binding.premiumButton.isVisible = !PremiumInterface.isPremium
                     }
 
                     withContext(Dispatchers.Main) {

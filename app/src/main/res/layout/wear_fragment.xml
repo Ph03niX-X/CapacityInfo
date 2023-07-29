@@ -169,15 +169,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/premium_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start"
-            android:layout_marginEnd="@dimen/margin_end"
-            android:layout_marginTop="@dimen/margin_top"
-            android:text="@string/premium" />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </ScrollView>
