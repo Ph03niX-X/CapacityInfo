@@ -183,18 +183,27 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                     binding?.refreshEmptyHistory?.visibility = View.VISIBLE
                     binding?.emptyHistoryLayout?.visibility = View.GONE
                     binding?.historyRecyclerView?.visibility = View.VISIBLE
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                        ?.isVisible = false
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                        ?.isVisible = true
                 }
                 else if(PremiumInterface.isPremium) {
                     binding?.historyRecyclerView?.visibility = View.GONE
                     visibility = View.VISIBLE
                     binding?.emptyHistoryLayout?.visibility = View.VISIBLE
                     binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
+                    MainActivity.instance?.clearMenu()
                 }
                 else {
                     binding?.historyRecyclerView?.visibility = View.GONE
                     visibility = View.VISIBLE
                     binding?.emptyHistoryLayout?.visibility = View.VISIBLE
                     binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                        ?.isVisible = true
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                        ?.isVisible = false
                 }
                 isRefreshing = false
             }
@@ -215,6 +224,10 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                     visibility = View.VISIBLE
                     binding?.emptyHistoryLayout?.visibility = View.GONE
                     binding?.historyRecyclerView?.visibility = View.VISIBLE
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                        ?.isVisible = false
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                        ?.isVisible = true
                 }
                 else emptyHistory()
                 isRefreshing = false

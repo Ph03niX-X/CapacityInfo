@@ -96,7 +96,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
                     ?.isVisible = false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible =
+                    HistoryHelper.isHistoryNotEmpty(premiumContext!!)
                 HistoryFragment.instance?.binding?.emptyHistoryText?.text =
                     premiumContext?.resources?.getText(R.string.empty_history_text)
             }
@@ -201,7 +202,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
         MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
             ?.isVisible = false
         MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-            ?.isVisible = true
+            ?.isVisible = HistoryHelper.isHistoryNotEmpty(context)
         HistoryFragment.instance?.binding?.emptyHistoryText?.text =
             context.resources?.getText(R.string.empty_history_text)
     }
@@ -362,7 +363,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             }
             }
 
-        HistoryHelper.clearHistory(context)
+        if(HistoryHelper.isHistoryNotEmpty(context)) HistoryHelper.clearHistory(context)
 
         withContext(Dispatchers.Main) {
 

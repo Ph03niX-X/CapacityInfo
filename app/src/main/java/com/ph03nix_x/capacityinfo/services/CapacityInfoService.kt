@@ -583,22 +583,44 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         withContext(Dispatchers.Main) {
-            if(PremiumInterface.isPremium && residualCapacity > 0 && seconds >= 10) {
-                HistoryHelper.removeFirstRow(this@CapacityInfoService)
-                HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
-                    residualCapacity)
-                if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
-                    HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility = View.GONE
-                    HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
-                        View.VISIBLE
-                    HistoryAdapter.instance?.update(this@CapacityInfoService)
+            if(PremiumInterface.isPremium) {
+                if(residualCapacity > 0 && seconds >= 10) {
+                    HistoryHelper.removeFirstRow(this@CapacityInfoService)
+                    HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
+                        residualCapacity)
+                    if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
+                        HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
+                            View.GONE
+                        HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
+                            View.VISIBLE
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                            ?.isVisible = false
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                            ?.isVisible = true
+                        HistoryAdapter.instance?.update(this@CapacityInfoService)
+                    }
+                    else {
+                        HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
+                            View.GONE
+                        HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
+                            View.VISIBLE
+                        HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                            resources.getText(R.string.empty_history_text)
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                            ?.isVisible = false
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                            ?.isVisible = false
+                    }
                 }
-                else {
-                    HistoryFragment.instance?.binding?.historyRecyclerView?.visibility = View.GONE
-                    HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-                    HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                        resources.getText(R.string.empty_history_text)
-                }
+            }
+            else {
+                HistoryFragment.instance?.binding?.historyRecyclerView?.visibility = View.GONE
+                HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                    resources.getText(R.string.history_premium_feature)
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                    ?.isVisible = true
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = false
             }
         }
 
