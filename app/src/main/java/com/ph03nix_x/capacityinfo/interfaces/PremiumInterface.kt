@@ -25,6 +25,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -91,9 +92,15 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 purchases[0].purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+            if(isPremium) {
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                    ?.isVisible = false
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                    premiumContext?.resources?.getText(R.string.empty_history_text)
+            }
+
             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
@@ -148,14 +155,19 @@ interface PremiumInterface: PurchasesUpdatedListener {
                             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                             val tokenPref = pref.getString(TOKEN_PREF, null)
                             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                            Toast.makeText(premiumContext, R.string.premium_features_unlocked,
-                                Toast.LENGTH_LONG).show()
-                            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
-                                ?.isVisible = false
-                            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                                ?.isVisible = false
-                            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                                ?.isVisible = true
+                            if(isPremium) {
+                                Toast.makeText(premiumContext, R.string.premium_features_unlocked,
+                                    Toast.LENGTH_LONG).show()
+                                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
+                                    ?.isVisible = false
+                                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                                    ?.isVisible = false
+                                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                                    ?.isVisible = true
+                                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                                    premiumContext?.resources?.getText(R.string.empty_history_text)
+                            }
+
                             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
                         }
                     }
@@ -164,12 +176,18 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                 val tokenPref = pref.getString(TOKEN_PREF, null)
                 isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                Toast.makeText(premiumContext, R.string.premium_features_unlocked,
-                    Toast.LENGTH_LONG).show()
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible =
-                    false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+                if(isPremium) {
+                    Toast.makeText(premiumContext, R.string.premium_features_unlocked,
+                        Toast.LENGTH_LONG).show()
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                        ?.isVisible = false
+                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+                        ?.isVisible = true
+                    HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                        premiumContext?.resources?.getText(R.string.empty_history_text)
+                }
+
                 ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
             }
 
@@ -177,11 +195,17 @@ interface PremiumInterface: PurchasesUpdatedListener {
             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            Toast.makeText(premiumContext, R.string.premium_features_unlocked, Toast.LENGTH_LONG)
-                .show()
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+            if(isPremium) {
+                Toast.makeText(premiumContext, R.string.premium_features_unlocked, Toast.LENGTH_LONG)
+                    .show()
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+                    ?.isVisible = false
+                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
+                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+                    premiumContext?.resources?.getText(R.string.empty_history_text)
+            }
+
             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
