@@ -321,4 +321,5 @@
     <string name="battery_health_overlay">Batteriezustand</string>
     <string name="request_notification_message">Damit die Anwendung korrekt funktioniert, müssen Sie die Benachrichtigungen aktivieren. Dies ist für den Dienst erforderlich, der für die meisten Funktionen der Anwendung verantwortlich ist, einschließlich der Berechnung der Restkapazität der Batterie</string>
     <string name="not_installed_google_play_dialog">Es ist nicht möglich, Premium zu kaufen. Grund: Google Play nicht installiert</string>
+    <string name="history_premium_feature">Für den Zugriff auf diese Funktion ist ein Premium-Kauf erforderlich</string>
 </resources>
