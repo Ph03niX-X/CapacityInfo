@@ -6,6 +6,12 @@
         tools:context=".activities.MainActivity">
 
     <item
+        android:id="@+id/premium"
+        android:title="@string/premium"
+        android:icon="@drawable/ic_premium_24"
+        app:showAsAction="ifRoom"/>
+
+    <item
             android:id="@+id/more_menu"
             android:title="@string/more"
             android:icon="@drawable/ic_more_vert_24dp"
@@ -36,12 +42,6 @@
                     android:title="@string/dont_kill_my_app"
                     android:icon="@drawable/ic_dont_kill_my_app"
                     app:showAsAction="never"/>
-
-            <item
-                android:id="@+id/premium"
-                android:title="@string/premium"
-                android:icon="@drawable/ic_premium_24"
-                app:showAsAction="never"/>
         </menu>
 
     </item>
