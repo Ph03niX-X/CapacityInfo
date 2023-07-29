@@ -100,7 +100,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 HistoryFragment.instance?.binding?.emptyHistoryText?.text =
                     premiumContext?.resources?.getText(R.string.empty_history_text)
             }
-
             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
@@ -155,19 +154,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                             val tokenPref = pref.getString(TOKEN_PREF, null)
                             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                            if(isPremium) {
-                                Toast.makeText(premiumContext, R.string.premium_features_unlocked,
-                                    Toast.LENGTH_LONG).show()
-                                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
-                                    ?.isVisible = false
-                                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                                    ?.isVisible = false
-                                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                                    ?.isVisible = true
-                                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                                    premiumContext?.resources?.getText(R.string.empty_history_text)
-                            }
-
+                            if(isPremium) premiumFeaturesUnlocked(premiumContext!!)
                             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
                         }
                     }
@@ -176,18 +163,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                 val tokenPref = pref.getString(TOKEN_PREF, null)
                 isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                if(isPremium) {
-                    Toast.makeText(premiumContext, R.string.premium_features_unlocked,
-                        Toast.LENGTH_LONG).show()
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                        ?.isVisible = false
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                        ?.isVisible = true
-                    HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                        premiumContext?.resources?.getText(R.string.empty_history_text)
-                }
-
+                if(isPremium) premiumFeaturesUnlocked(premiumContext!!)
                 ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
             }
 
@@ -195,17 +171,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            if(isPremium) {
-                Toast.makeText(premiumContext, R.string.premium_features_unlocked, Toast.LENGTH_LONG)
-                    .show()
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                    ?.isVisible = false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = true
-                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                    premiumContext?.resources?.getText(R.string.empty_history_text)
-            }
-
+            if(isPremium) premiumFeaturesUnlocked(premiumContext!!)
             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
@@ -225,6 +191,19 @@ interface PremiumInterface: PurchasesUpdatedListener {
             if (billingResult.responseCode == BillingResponseCode.OK)
                 mProductDetailsList = productDetailsList
         }
+    }
+
+    private fun premiumFeaturesUnlocked(context: Context) {
+        Toast.makeText(context, R.string.premium_features_unlocked,
+            Toast.LENGTH_LONG).show()
+        MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
+            ?.isVisible = false
+        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
+            ?.isVisible = false
+        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
+            ?.isVisible = true
+        HistoryFragment.instance?.binding?.emptyHistoryText?.text =
+            context.resources?.getText(R.string.empty_history_text)
     }
 
     fun MainActivity.showPremiumDialog() {
