@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,13 +20,6 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.appupdate.AppUpdateOptions
-import com.google.android.play.core.common.IntentSenderForResultStarter
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
-import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
@@ -47,6 +39,7 @@ import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.ManufacturerInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
@@ -77,24 +70,21 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
-    MenuInterface, ManufacturerInterface, NavigationInterface {
+    MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface {
 
     private lateinit var pref: SharedPreferences
+    lateinit var appUpdateManager: AppUpdateManager
 
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
 
-    private var appUpdateManager: AppUpdateManager? = null
     private var prefArrays: HashMap<*, *>? = null
     private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
 
-    private val updateType = AppUpdateType.IMMEDIATE
+    val updateFlowResultLauncher = registerForActivityResult(ActivityResultContracts
+        .StartIntentSenderForResult()) { _ -> isCheckUpdateFromGooglePlay = false }
 
-    private val updateFlowResultLauncher = registerForActivityResult(
-        ActivityResultContracts
-            .StartIntentSenderForResult()
-    ) { }
-
+    var isCheckUpdateFromGooglePlay = true
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     var showHuaweiInformation: MaterialAlertDialogBuilder? = null
@@ -342,7 +332,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         )
             ServiceHelper.startService(this, OverlayService::class.java)
 
-        if (isInstalledGooglePlay && isGooglePlay(this) && appUpdateManager == null)
+        if (isInstalledGooglePlay && isGooglePlay(this) && isCheckUpdateFromGooglePlay)
             checkUpdateFromGooglePlay()
     }
 
@@ -388,8 +378,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         premiumActivity = null
         showFaqDialog = null
-
-        appUpdateManager = null
 
         if (!isRecreate) {
 
@@ -498,10 +486,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 if (fragment is SettingsFragment) toolbar.navigationIcon = null
 
                 supportFragmentManager.popBackStack()
-            } else if (toolbar.title != getString(R.string.settings) &&
-                (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
-                || isRestoreImportSettings
-            ) {
+            } else if (toolbar.title != getString(R.string.settings) && (fragment is BackupSettingsFragment &&
+                        supportFragmentManager.backStackEntryCount == 0)
+                || isRestoreImportSettings) {
 
                 fragment = SettingsFragment()
 
@@ -534,35 +521,4 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    private fun checkUpdateFromGooglePlay() {
-
-        appUpdateManager = AppUpdateManagerFactory.create(this)
-
-        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
-        appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
-            val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
-                    UpdateAvailability.UPDATE_AVAILABLE
-            val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
-                    UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-            val isUpdateAllowed = when (updateType) {
-                AppUpdateType.IMMEDIATE -> appUpdateInfo.isImmediateUpdateAllowed
-                AppUpdateType.FLEXIBLE -> appUpdateInfo.isFlexibleUpdateAllowed
-                else -> false
-            }
-
-            IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues, _, _ ->
-                val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
-                    .setFlags(flagsValues, flagsMask).build()
-                updateFlowResultLauncher.launch(request)
-            }
-
-            val appUpdateOptions =
-                AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false)
-            if ((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered)
-                appUpdateManager?.startUpdateFlowForResult(
-                    appUpdateInfo, updateFlowResultLauncher,
-                    appUpdateOptions.build()
-                )
-        }
-    }
 }
