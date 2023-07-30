@@ -11,6 +11,8 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -18,8 +20,18 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.common.IntentSenderForResultStarter
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
+import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
 import com.ph03nix_x.capacityinfo.fragments.BackupSettingsFragment
@@ -66,12 +78,22 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
     MenuInterface, ManufacturerInterface, NavigationInterface {
-    
+
     private lateinit var pref: SharedPreferences
+
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
+
+    private var appUpdateManager: AppUpdateManager? = null
     private var prefArrays: HashMap<*, *>? = null
     private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
+
+    private val updateType = AppUpdateType.IMMEDIATE
+
+    private val updateFlowResultLauncher = registerForActivityResult(
+        ActivityResultContracts
+            .StartIntentSenderForResult()
+    ) { }
 
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
@@ -104,27 +126,34 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         setContentView(R.layout.activity_main)
 
-        if(premiumContext == null) premiumContext = this
+        if (premiumContext == null) premiumContext = this
         premiumActivity = this
 
         MainApp.currentTheme = ThemeHelper.currentTheme(resources.configuration)
 
         fragment = tempFragment
 
-        batteryIntent = registerReceiver(null, IntentFilter(
-            Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = registerReceiver(
+            null, IntentFilter(
+                Intent.ACTION_BATTERY_CHANGED
+            )
+        )
 
-        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+        val status = batteryIntent?.getIntExtra(
+            BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN
+        ) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
         toolbar = findViewById(R.id.toolbar)
 
         navigation = findViewById(R.id.navigation)
 
-        prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
-            HashMap::class.java)
+        prefArrays = MainApp.getSerializable(
+            this, IMPORT_RESTORE_SETTINGS_EXTRA,
+            HashMap::class.java
+        )
 
-        if(fragment == null)
+        if (fragment == null)
             fragment = when {
 
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
@@ -150,11 +179,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else -> SettingsFragment()
             }
 
-        toolbar.title = when(fragment) {
+        toolbar.title = when (fragment) {
 
             is ChargeDischargeFragment -> getString(
-                if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
-                else R.string.discharge)
+                if (status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
+                else R.string.discharge
+            )
 
             is WearFragment -> getString(R.string.wear)
             is HistoryFragment -> getString(R.string.history)
@@ -165,21 +195,23 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         toolbar.navigationIcon = null
 
-        if(fragment !is SettingsFragment) inflateMenu()
+        if (fragment !is SettingsFragment) inflateMenu()
 
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        
+
         bottomNavigation(status)
 
-        if(!isRecreate || fragment !is SettingsFragment)
-            loadFragment(fragment ?: ChargeDischargeFragment(), fragment is
-                    BatteryStatusInformationFragment || fragment is BackupSettingsFragment
-                    || fragment is OverlayFragment || fragment is DebugFragment ||
-                    fragment is AboutFragment || fragment is FeedbackFragment)
+        if (!isRecreate || fragment !is SettingsFragment)
+            loadFragment(
+                fragment ?: ChargeDischargeFragment(), fragment is
+                        BatteryStatusInformationFragment || fragment is BackupSettingsFragment
+                        || fragment is OverlayFragment || fragment is DebugFragment ||
+                        fragment is AboutFragment || fragment is FeedbackFragment
+            )
 
-        onBackPressedDispatcher.addCallback(this, object:OnBackPressedCallback(true) {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 backPressed()
             }
@@ -189,31 +221,42 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     override fun onResume() {
 
         super.onResume()
-        
+
         tempFragment = null
 
-        if(isRecreate) isRecreate = false
+        if (isRecreate) isRecreate = false
 
-        if(instance == null) instance = this
+        if (instance == null) instance = this
 
-        batteryIntent = registerReceiver(null, IntentFilter(
-            Intent.ACTION_BATTERY_CHANGED))
+        batteryIntent = registerReceiver(
+            null, IntentFilter(
+                Intent.ACTION_BATTERY_CHANGED
+            )
+        )
 
-        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+        val status = batteryIntent?.getIntExtra(
+            BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN
+        ) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
 
-        if(fragment !is ChargeDischargeFragment) {
+        if (fragment !is ChargeDischargeFragment) {
 
-            navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(if(
-                status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
-                R.string.discharge)
+            navigation.menu.findItem(R.id.charge_discharge_navigation).title = getString(
+                if (
+                    status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
+                    R.string.discharge
+            )
 
             navigation.menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat
-                .getDrawable(this, getChargeDischargeNavigationIcon(status ==
-                        BatteryManager.BATTERY_STATUS_CHARGING))
+                .getDrawable(
+                    this, getChargeDischargeNavigationIcon(
+                        status ==
+                                BatteryManager.BATTERY_STATUS_CHARGING
+                    )
+                )
         }
 
-        if(fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
+        if (fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
             fragment = ChargeDischargeFragment()
             isLoadHistory = false
             isLoadChargeDischarge = true
@@ -221,16 +264,18 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             inflateMenu()
             loadFragment(fragment ?: ChargeDischargeFragment())
         }
-        if(HistoryHelper.isHistoryEmpty(this) &&
-            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2")
+        if (HistoryHelper.isHistoryEmpty(this) &&
+            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
+        )
             pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
 
 
-        toolbar.title = when(fragment) {
+        toolbar.title = when (fragment) {
 
             is ChargeDischargeFragment -> getString(
-                if(status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
-                else R.string.discharge)
+                if (status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
+                else R.string.discharge
+            )
 
             is WearFragment -> getString(R.string.wear)
             is HistoryFragment -> getString(R.string.history)
@@ -244,11 +289,15 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             else -> getString(R.string.app_name)
         }
 
-        if(!pref.contains(DESIGN_CAPACITY) ||
+        if (!pref.contains(DESIGN_CAPACITY) ||
             pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)) <
-            resources.getInteger(R.integer.min_design_capacity) || pref.getInt(DESIGN_CAPACITY,
-                resources.getInteger(R.integer.min_design_capacity)) > resources.getInteger(
-                R.integer.max_design_capacity)) {
+            resources.getInteger(R.integer.min_design_capacity) || pref.getInt(
+                DESIGN_CAPACITY,
+                resources.getInteger(R.integer.min_design_capacity)
+            ) > resources.getInteger(
+                R.integer.max_design_capacity
+            )
+        ) {
 
             pref.edit().apply {
 
@@ -258,30 +307,43 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             }
         }
 
-        if(fragment is ChargeDischargeFragment || fragment is WearFragment)
+        if (fragment is ChargeDischargeFragment || fragment is WearFragment)
             toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
-                this) > 0.0
+                this
+            ) > 0.0
 
-        val prefArrays = MainApp.getSerializable(this, IMPORT_RESTORE_SETTINGS_EXTRA,
-            HashMap::class.java)
+        val prefArrays = MainApp.getSerializable(
+            this, IMPORT_RESTORE_SETTINGS_EXTRA,
+            HashMap::class.java
+        )
 
-        if(prefArrays != null) importSettings(prefArrays)
+        if (prefArrays != null) importSettings(prefArrays)
 
         ServiceHelper.startService(this, CapacityInfoService::class.java)
 
-        if(pref.getBoolean(IS_AUTO_START_OPEN_APP, resources.getBoolean(R.bool
-                .is_auto_start_open_app)) && CapacityInfoService.instance == null &&
-            !ServiceHelper.isStartedCapacityInfoService())
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
+        if (pref.getBoolean(
+                IS_AUTO_START_OPEN_APP, resources.getBoolean(
+                    R.bool
+                        .is_auto_start_open_app
+                )
+            ) && CapacityInfoService.instance == null &&
+            !ServiceHelper.isStartedCapacityInfoService()
+        )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
                     .checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_DENIED)
+                PackageManager.PERMISSION_DENIED
+            )
                 requestNotificationPermission()
 
-        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
+        if (showRequestNotificationPermissionDialog == null) checkManufacturer()
 
-        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
-            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
+        if (pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
+            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService()
+        )
             ServiceHelper.startService(this, OverlayService::class.java)
+
+        if (isInstalledGooglePlay && isGooglePlay(this) && appUpdateManager == null)
+            checkUpdateFromGooglePlay()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -292,7 +354,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
 
-        if(newTheme != MainApp.currentTheme) {
+        if (newTheme != MainApp.currentTheme) {
 
             tempFragment = fragment
 
@@ -302,14 +364,18 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
 
         when (requestCode) {
             POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE ->
-                if((grantResults.isNotEmpty() && grantResults[0] ==
+                if ((grantResults.isNotEmpty() && grantResults[0] ==
                             PackageManager.PERMISSION_GRANTED) || (grantResults.isNotEmpty() &&
-                            grantResults[0] == PackageManager.PERMISSION_DENIED)) checkManufacturer()
+                            grantResults[0] == PackageManager.PERMISSION_DENIED)
+                ) checkManufacturer()
+
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
@@ -323,7 +389,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         premiumActivity = null
         showFaqDialog = null
 
-        if(!isRecreate) {
+        appUpdateManager = null
+
+        if (!isRecreate) {
 
             tempFragment = null
 
@@ -339,15 +407,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun requestNotificationPermission() {
-        if(showRequestNotificationPermissionDialog == null)
+        if (showRequestNotificationPermissionDialog == null)
             showRequestNotificationPermissionDialog =
                 MaterialAlertDialogBuilder(this).apply {
                     setIcon(R.drawable.ic_instruction_not_supported_24dp)
                     setTitle(R.string.information)
                     setMessage(R.string.request_notification_message)
                     setPositiveButton(android.R.string.ok) { _, _ ->
-                        requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
+                        requestPermissions(
+                            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
+                        )
                         showRequestNotificationPermissionDialog = null
                     }
                     setCancelable(false)
@@ -357,40 +427,47 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun importSettings(prefArrays: HashMap<*, *>?) {
 
-        val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
-            DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY)
+        val prefsTempList = arrayListOf(
+            BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
+            DESIGN_CAPACITY, CAPACITY_ADDED, LAST_CHARGE_TIME, PERCENT_ADDED, RESIDUAL_CAPACITY
+        )
 
-        if(prefArrays != null)
+        if (prefArrays != null)
             prefsTempList.forEach {
 
-            with(prefArrays) {
+                with(prefArrays) {
 
-                when {
+                    when {
 
-                    !containsKey(it) -> pref.edit().remove(it).apply()
+                        !containsKey(it) -> pref.edit().remove(it).apply()
 
-                    else -> {
+                        else -> {
 
-                        forEach {
+                            forEach {
 
-                            when(it.key as String) {
+                                when (it.key as String) {
 
-                                NUMBER_OF_CHARGES -> pref.edit().putLong(it.key as String,
-                                    it.value as Long).apply()
+                                    NUMBER_OF_CHARGES -> pref.edit().putLong(
+                                        it.key as String,
+                                        it.value as Long
+                                    ).apply()
 
-                                BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
-                                DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED ->
-                                    pref.edit().putInt(it.key as String, it.value as Int).apply()
+                                    BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, LAST_CHARGE_TIME,
+                                    DESIGN_CAPACITY, RESIDUAL_CAPACITY, PERCENT_ADDED ->
+                                        pref.edit().putInt(it.key as String, it.value as Int)
+                                            .apply()
 
-                                CAPACITY_ADDED, NUMBER_OF_CYCLES ->
-                                    pref.edit().putFloat(it.key as String,
-                                        it.value as Float).apply()
+                                    CAPACITY_ADDED, NUMBER_OF_CYCLES ->
+                                        pref.edit().putFloat(
+                                            it.key as String,
+                                            it.value as Float
+                                        ).apply()
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
         toolbar.menu.clear()
 
@@ -402,27 +479,29 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     fun backPressed() {
-        if(isOnBackPressed) {
-            if(toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
+        if (isOnBackPressed) {
+            if (toolbar.title != getString(R.string.settings) && !isRestoreImportSettings && ((fragment != null
                         && fragment !is SettingsFragment && fragment !is ChargeDischargeFragment
                         && fragment !is WearFragment && fragment !is HistoryFragment &&
                         fragment !is DebugFragment && fragment !is BackupSettingsFragment) || ((
                         fragment is BackupSettingsFragment || fragment is DebugFragment) &&
-                        supportFragmentManager.backStackEntryCount > 0))) {
+                        supportFragmentManager.backStackEntryCount > 0))
+            ) {
 
                 fragment = SettingsFragment()
 
-                toolbar.title = getString(if(fragment !is DebugFragment) R.string.settings
-                else R.string.debug)
+                toolbar.title = getString(
+                    if (fragment !is DebugFragment) R.string.settings
+                    else R.string.debug
+                )
 
-                if(fragment is SettingsFragment) toolbar.navigationIcon = null
+                if (fragment is SettingsFragment) toolbar.navigationIcon = null
 
                 supportFragmentManager.popBackStack()
-            }
-
-            else if(toolbar.title != getString(R.string.settings) &&
+            } else if (toolbar.title != getString(R.string.settings) &&
                 (fragment is BackupSettingsFragment && supportFragmentManager.backStackEntryCount == 0)
-                || isRestoreImportSettings) {
+                || isRestoreImportSettings
+            ) {
 
                 fragment = SettingsFragment()
 
@@ -433,18 +512,17 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 isRestoreImportSettings = false
 
                 loadFragment(fragment ?: SettingsFragment())
-            }
+            } else {
 
-            else {
-
-                if(isDoubleBackToExitPressedOnce) finish()
-
+                if (isDoubleBackToExitPressedOnce) finish()
                 else {
 
                     isDoubleBackToExitPressedOnce = true
 
-                    Toast.makeText(this@MainActivity, R.string.press_the_back_button_again,
-                        Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity, R.string.press_the_back_button_again,
+                        Toast.LENGTH_LONG
+                    ).show()
 
                     CoroutineScope(Dispatchers.Main).launch {
 
@@ -453,6 +531,38 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     }
                 }
             }
+        }
+    }
+
+    private fun checkUpdateFromGooglePlay() {
+
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+
+        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
+        appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
+            val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
+                    UpdateAvailability.UPDATE_AVAILABLE
+            val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
+                    UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+            val isUpdateAllowed = when (updateType) {
+                AppUpdateType.IMMEDIATE -> appUpdateInfo.isImmediateUpdateAllowed
+                AppUpdateType.FLEXIBLE -> appUpdateInfo.isFlexibleUpdateAllowed
+                else -> false
+            }
+
+            IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues, _, _ ->
+                val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
+                    .setFlags(flagsValues, flagsMask).build()
+                updateFlowResultLauncher.launch(request)
+            }
+
+            val appUpdateOptions =
+                AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false)
+            if ((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered)
+                appUpdateManager?.startUpdateFlowForResult(
+                    appUpdateInfo, updateFlowResultLauncher,
+                    appUpdateOptions.build()
+                )
         }
     }
 }
