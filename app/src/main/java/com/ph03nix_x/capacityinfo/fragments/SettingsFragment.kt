@@ -43,6 +43,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.seconds
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
     BatteryInfoInterface, PremiumInterface, NavigationInterface {
@@ -154,7 +155,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                     withContext(Dispatchers.Main) {
 
-                        delay(3500L)
+                        delay(3.5.seconds)
                         isShowExtendedNotification?.isEnabled = (value as? Boolean) == true
                     }
                 }

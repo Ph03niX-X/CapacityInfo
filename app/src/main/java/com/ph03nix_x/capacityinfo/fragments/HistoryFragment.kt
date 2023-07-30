@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
@@ -146,7 +147,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
                 CoroutineScope(Dispatchers.Main).launch(Dispatchers.Main) {
 
-                    delay(3000)
+                    delay(3.seconds)
                     if(isRemoving) {
                         val historyList = HistoryDB(requireContext()).readDB()
 

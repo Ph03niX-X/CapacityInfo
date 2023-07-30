@@ -81,6 +81,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.seconds
 
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface,
     NavigationInterface {
@@ -204,7 +205,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 }
                     }
 
-                    delay(1000L)
+                    delay(1.seconds)
                 }
             }
 
@@ -327,7 +328,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             onUpdateServiceNotification(this@CapacityInfoService)
                         }
 
-                        delay(1496L)
+                        delay(1.496.seconds)
                     }
                 }
             }
@@ -499,10 +500,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(displayManager != null)
             for(display in displayManager.displays)
                 if(display.state == Display.STATE_ON)
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0) 949L
-                    else 955L)
-                else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0) 938L
-                else 935L)
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
+                        9.49.seconds else 9.55.seconds)
+                else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
+                    9.38.seconds else 9.35.seconds)
 
         seconds++
 

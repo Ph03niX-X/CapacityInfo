@@ -12,6 +12,7 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.linearLa
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.windowManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.seconds
 
 class OverlayService : Service(), OverlayInterface {
 
@@ -50,7 +51,8 @@ class OverlayService : Service(), OverlayInterface {
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
 
-                    delay(if(status == BatteryManager.BATTERY_STATUS_CHARGING) 991L else 1499L)
+                    delay(if(status == BatteryManager.BATTERY_STATUS_CHARGING) 9.91.seconds
+                    else 1.499.seconds)
 
                     withContext(Dispatchers.Main) {
 

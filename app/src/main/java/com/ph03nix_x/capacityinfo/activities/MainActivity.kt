@@ -68,6 +68,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
     MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface {
@@ -513,7 +514,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
                     CoroutineScope(Dispatchers.Main).launch {
 
-                        delay(3000L)
+                        delay(3.seconds)
                         isDoubleBackToExitPressedOnce = false
                     }
                 }

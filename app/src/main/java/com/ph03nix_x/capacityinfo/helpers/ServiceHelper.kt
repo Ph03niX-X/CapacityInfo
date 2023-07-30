@@ -12,6 +12,7 @@ import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.seconds
 
 object ServiceHelper {
 
@@ -29,10 +30,10 @@ object ServiceHelper {
 
                     isStartedCapacityInfoService = true
 
-                    delay(2500L)
+                    delay(2.5.seconds)
                     context.startForegroundService(Intent(context, serviceName))
 
-                    delay(1000L)
+                    delay(1.seconds)
                     isStartedCapacityInfoService = false
                 }
 
@@ -40,7 +41,7 @@ object ServiceHelper {
 
                     isStartedOverlayService = true
 
-                    if(!isStartOverlayServiceFromSettings) delay(3600L)
+                    if(!isStartOverlayServiceFromSettings) delay(3.6.seconds)
 
                     context.startService(Intent(context, serviceName))
                     isStartedCapacityInfoService = false
@@ -68,11 +69,11 @@ object ServiceHelper {
 
                 stopService(context, serviceName)
 
-                if(serviceName == CapacityInfoService::class.java) delay(2500L)
+                if(serviceName == CapacityInfoService::class.java) delay(2.5.seconds)
 
                 startService(context, serviceName)
 
-                delay(1000L)
+                delay(1.seconds)
                 preference?.isEnabled = true
             }
         }

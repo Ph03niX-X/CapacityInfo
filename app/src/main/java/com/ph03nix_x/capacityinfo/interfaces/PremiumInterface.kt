@@ -56,6 +56,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -273,7 +274,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
                 if(billingClient?.isReady != true) initiateBilling()
 
-                delay(2500L)
+                delay(2.5.seconds)
                 if(billingClient?.isReady == true) {
                     val params = QueryPurchaseHistoryParams.newBuilder()
                        .setProductType(ProductType.INAPP)
@@ -293,7 +294,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
                        if(!isPremium) removePremiumFeatures(premiumContext!!)
 
-                       delay(5000L)
+                       delay(5.seconds)
                        billingClient?.endConnection()
                        billingClient = null
                    }
@@ -312,7 +313,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
             if(billingClient?.isReady != true) initiateBilling()
 
-            delay(2500L)
+            delay(2.5.seconds)
             if(billingClient?.isReady == true) {
                 val params = QueryPurchaseHistoryParams.newBuilder()
                     .setProductType(ProductType.INAPP)
@@ -326,7 +327,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                         .apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                    delay(5000L)
+                    delay(5.seconds)
                     billingClient?.endConnection()
                     billingClient = null
                 }

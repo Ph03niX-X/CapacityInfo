@@ -21,6 +21,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Created by Ph03niX-X on 15.05.2021
@@ -142,7 +143,7 @@ interface BackupSettingsInterface {
                     }
                 }
 
-                delay(2000L)
+                delay(2.seconds)
                 if(File(prefPath).exists()) File(prefPath).delete()
 
                 File(prefPath).createNewFile()
@@ -207,7 +208,7 @@ interface BackupSettingsInterface {
                     requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }
                 }
 
-                delay(1000L)
+                delay(1.seconds)
                 pickerDir?.findFile(dbName)?.delete()
                 val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
                     dbName)?.uri?.let {
@@ -264,7 +265,7 @@ interface BackupSettingsInterface {
 
                 MainActivity.isOnBackPressed = false
 
-                delay(1000L)
+                delay(1.seconds)
                 File(dbPath).deleteOnExit()
                 File("$dbPath-journal").deleteOnExit()
 

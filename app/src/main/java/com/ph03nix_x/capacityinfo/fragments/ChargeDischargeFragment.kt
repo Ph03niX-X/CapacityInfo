@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
+import kotlin.time.Duration.Companion.seconds
 
 class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     BatteryInfoInterface, NavigationInterface, PremiumInterface {
@@ -476,9 +477,10 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(getCurrentCapacity(requireContext()) > 0.0) 972L else 979L)
+                            delay(if(getCurrentCapacity(requireContext()) > 0.0) 9.72.seconds
+                            else 9.79.seconds)
 
-                        else -> delay(1500L)
+                        else -> delay(1.5.seconds)
                     }
                 }
             }

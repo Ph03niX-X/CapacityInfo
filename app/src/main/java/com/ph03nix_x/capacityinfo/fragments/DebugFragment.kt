@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.seconds
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
@@ -189,7 +190,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                         else if(historyDB.isEmpty() || historyDB[historyDB.size - 1].date != date) {
                             Toast.makeText(requireContext(), "$i: 0.0.0: 0",
                                 Toast.LENGTH_LONG).show()
-                            delay(3500L)
+                            delay(3.5.seconds)
                         }
                     }
                 }
@@ -243,7 +244,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                         else if(historyDB.isEmpty() || historyDB[historyDB.size - 1].date != date) {
                             Toast.makeText(requireContext(), "$i: 0.0.0: 0",
                                 Toast.LENGTH_LONG).show()
-                            delay(3500L)
+                            delay(3.5.seconds)
                         }
                     }
                 }
@@ -308,7 +309,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             CoroutineScope(Dispatchers.Main).launch {
 
-                delay(3700L)
+                delay(3.7.seconds)
                 it.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
                     .isStartedCapacityInfoService()
 
@@ -330,7 +331,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             CoroutineScope(Dispatchers.Main).launch {
 
-                delay(2500L)
+                delay(2.5.seconds)
                 startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null
                         && !ServiceHelper.isStartedCapacityInfoService()
 
@@ -352,7 +353,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             CoroutineScope(Dispatchers.Main).launch {
 
-                delay(6200L)
+                delay(6.2.seconds)
                 startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null
                         && !ServiceHelper.isStartedCapacityInfoService()
 
@@ -374,7 +375,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             CoroutineScope(Dispatchers.Main).launch {
 
-                delay(1500L)
+                delay(1.5.seconds)
                 it.isEnabled = OverlayService.instance != null
 
                 restartOverlayService?.isEnabled = OverlayService.instance != null
@@ -393,7 +394,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
             CoroutineScope(Dispatchers.Main).launch {
 
-                delay(4800L)
+                delay(4.8.seconds)
                 stopOverlayService?.isEnabled = OverlayService.instance != null
 
                 it.isEnabled = OverlayService.instance != null

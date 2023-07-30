@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import kotlinx.coroutines.*
 import java.io.*
 import java.text.DecimalFormat
+import kotlin.time.Duration.Companion.seconds
 
 class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, BatteryInfoInterface,
     PremiumInterface {
@@ -373,10 +374,10 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if (getCurrentCapacity(requireContext()) > 0.0) 989L
-                            else 996L)
+                            delay(if (getCurrentCapacity(requireContext()) > 0.0) 9.89.seconds
+                            else 9.96.seconds)
 
-                        else -> delay(1500L)
+                        else -> delay(1.5.seconds)
                     }
                 }
             }
