@@ -63,10 +63,6 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         shareTheApp = findPreference("share_the_app")
 
-        rateTheApp?.isVisible = isGooglePlay(requireContext()) || pref.getBoolean(
-            IS_FORCIBLY_SHOW_RATE_THE_APP, resources.getBoolean(
-                R.bool.is_forcibly_show_rate_the_app))
-
         email?.setOnPreferenceClickListener {
 
             try {
@@ -104,8 +100,12 @@ class FeedbackFragment : PreferenceFragmentCompat() {
             true
         }
 
-        if(rateTheApp?.isVisible == true)
-            rateTheApp?.setOnPreferenceClickListener {
+        rateTheApp?.apply {
+            isVisible = isGooglePlay(requireContext()) || pref.getBoolean(
+                IS_FORCIBLY_SHOW_RATE_THE_APP, resources.getBoolean(
+                    R.bool.is_forcibly_show_rate_the_app))
+
+            setOnPreferenceClickListener {
 
                 val manager = ReviewManagerFactory.create(requireContext())
 
@@ -139,6 +139,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
                 true
             }
+        }
 
         shareTheApp?.setOnPreferenceClickListener {
 

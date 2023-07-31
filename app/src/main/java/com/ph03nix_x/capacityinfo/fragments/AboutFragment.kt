@@ -57,9 +57,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
                 true
             }
         }
-
-        betaTester?.isVisible = isInstalledGooglePlay
-
         version?.summary = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             requireContext().packageManager?.getPackageInfo(requireContext().packageName,
                 PackageManager.PackageInfoFlags.of(0))?.versionName
@@ -117,29 +114,27 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
             true
         }
 
-        betaTester?.setOnPreferenceClickListener {
+        betaTester?.apply {
+            isVisible = isInstalledGooglePlay
+            setOnPreferenceClickListener {
+                try {
 
-            try {
-
-                startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/apps/testing/${requireContext()
-                        .packageName}")))
+                    startActivity(Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/apps/testing/${requireContext()
+                            .packageName}")))
+                }
+                catch(e: ActivityNotFoundException) {
+                    Toast.makeText(requireContext(), e.message ?: e.toString(),
+                        Toast.LENGTH_LONG).show()
+                }
+                true
             }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), e.message ?: e.toString(),
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
         }
 
     }
 
     override fun onResume() {
-
         super.onResume()
-
         betaTester?.isVisible = isInstalledGooglePlay
     }
 }
