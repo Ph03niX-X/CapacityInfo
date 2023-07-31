@@ -42,10 +42,9 @@ interface CheckUpdateInterface {
             val appUpdateOptions =
                 AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
 
-            if(isUpdateDeveloperTriggered) startUpdate(appUpdateManager, appUpdateInfo,
-                updateFlowResultLauncher, appUpdateOptions)
-            else if(isUpdateAvailable && isUpdateAllowed) startUpdate(appUpdateManager,
-                appUpdateInfo, updateFlowResultLauncher, appUpdateOptions)
+            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered)
+                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
+                    appUpdateOptions)
         }
     }
 
