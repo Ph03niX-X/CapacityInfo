@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -11,7 +12,9 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.fragments.AboutFragment
 
 /**
  * Created by Ph03niX-X on 30.07.2023
@@ -45,6 +48,36 @@ interface CheckUpdateInterface {
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
                     appUpdateOptions)
             }
+        }
+    }
+
+    fun AboutFragment.checkUpdateFromGooglePlay() {
+        val appUpdateManager = AppUpdateManagerFactory.create(requireContext())
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
+                    UpdateAvailability.UPDATE_AVAILABLE
+            val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
+                    UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+            val isUpdateAllowed = appUpdateInfo.isImmediateUpdateAllowed
+                    || appUpdateInfo.isFlexibleUpdateAllowed
+
+            val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
+            else AppUpdateType.FLEXIBLE
+            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered) {
+                val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
+                IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
+                                               _, _ ->
+                    val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
+                        .setFlags(flagsValues, flagsMask).build()
+                    updateFlowResultLauncher?.launch(request)
+                }
+                val appUpdateOptions =
+                    AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
+                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
+                    appUpdateOptions)
+            }
+            else Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -11,13 +11,16 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
+import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 
-class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
+class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateInterface {
 
+    private var checkUpdate: Preference? = null
     private var developer: Preference? = null
     private var version: Preference? = null
     private var build: Preference? = null
@@ -41,9 +44,19 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface {
 
         buildDate = findPreference("build_date")
 
+        checkUpdate = findPreference("check_update")
+
         github = findPreference("github")
 
         betaTester = findPreference("become_a_beta_tester")
+
+        checkUpdate?.apply {
+            isVisible = isInstalledGooglePlay && MainApp.isGooglePlay(requireContext())
+            setOnPreferenceClickListener {
+                checkUpdateFromGooglePlay()
+                true
+            }
+        }
 
         betaTester?.isVisible = isInstalledGooglePlay
 
