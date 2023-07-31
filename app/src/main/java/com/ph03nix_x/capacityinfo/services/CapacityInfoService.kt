@@ -79,8 +79,10 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.SCREEN_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface,
@@ -184,6 +186,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             screenTimeJob = CoroutineScope(Dispatchers.Default).launch {
 
                 isScreenTimeJob = !isScreenTimeJob
+
+                val screenTimePref = pref.getLong(SCREEN_TIME, 0L)
+
+                if(screenTimePref >= 5.minutes.inWholeMilliseconds) {
+                    screenTime = screenTimePref
+                    pref.edit().remove(SCREEN_TIME).apply()
+                }
 
                 while(isScreenTimeJob && !isStopService) {
 
