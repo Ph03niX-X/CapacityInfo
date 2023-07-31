@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.common.IntentSenderForResultStarter
@@ -19,7 +20,7 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 interface CheckUpdateInterface {
 
     fun MainActivity.checkUpdateFromGooglePlay() {
-        appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
@@ -41,18 +42,16 @@ interface CheckUpdateInterface {
             val appUpdateOptions =
                 AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
 
-            if(isUpdateDeveloperTriggered) startUpdate(appUpdateInfo, updateFlowResultLauncher,
-                appUpdateOptions)
-            else if(isUpdateAvailable && isUpdateAllowed)
-                startUpdate(appUpdateInfo, updateFlowResultLauncher, appUpdateOptions)
-
-            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered)
-                isCheckUpdateFromGooglePlay = false
+            if(isUpdateDeveloperTriggered) startUpdate(appUpdateManager, appUpdateInfo,
+                updateFlowResultLauncher, appUpdateOptions)
+            else if(isUpdateAvailable && isUpdateAllowed) startUpdate(appUpdateManager,
+                appUpdateInfo, updateFlowResultLauncher, appUpdateOptions)
         }
     }
 
-    private fun MainActivity.startUpdate(appUpdateInfo: AppUpdateInfo, updateFlowResultLauncher:
-    ActivityResultLauncher<IntentSenderRequest>, appUpdateOptions: AppUpdateOptions) =
-        appUpdateManager.startUpdateFlowForResult(appUpdateInfo, updateFlowResultLauncher,
-            appUpdateOptions)
+    private fun startUpdate(appUpdateManager: AppUpdateManager, appUpdateInfo: AppUpdateInfo,
+                            updateFlowResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+                            appUpdateOptions: AppUpdateOptions) = appUpdateManager
+                                .startUpdateFlowForResult(appUpdateInfo, updateFlowResultLauncher,
+                                    appUpdateOptions)
 }

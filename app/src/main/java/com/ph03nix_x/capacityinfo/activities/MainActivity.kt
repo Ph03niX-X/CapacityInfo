@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.play.core.appupdate.AppUpdateManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
@@ -76,8 +75,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface {
 
     private lateinit var pref: SharedPreferences
-    lateinit var appUpdateManager: AppUpdateManager
 
+    private var isCheckUpdateFromGooglePlay = true
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
 
@@ -98,7 +97,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
     }
 
-    var isCheckUpdateFromGooglePlay = true
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     var showHuaweiInformation: MaterialAlertDialogBuilder? = null
