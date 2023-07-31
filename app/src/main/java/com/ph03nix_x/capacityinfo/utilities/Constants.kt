@@ -1,5 +1,8 @@
 package com.ph03nix_x.capacityinfo.utilities
 
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+
 object Constants {
 
     const val IMPORT_RESTORE_SETTINGS_EXTRA = "import_settings"
@@ -35,6 +38,7 @@ object Constants {
     const val STOP_SERVICE_REQUEST_CODE = 1
     const val NOMINAL_BATTERY_VOLTAGE = 3.87
     const val CHARGING_VOLTAGE_WATT = 5.0
-    const val FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC = 30L * 60L * 1000L
-    const val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 4L * 60L * 60L * 1000L
+
+    val FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC = 30.minutes.inWholeMilliseconds
+    val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 4.hours.inWholeMilliseconds
 }
