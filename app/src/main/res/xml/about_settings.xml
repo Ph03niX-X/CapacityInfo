@@ -30,6 +30,12 @@
             android:key="build_date"/>
 
     <Preference
+        app:title="@string/check_update"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_check_update_24dp"
+        android:key="check_update"/>
+
+    <Preference
             app:title="@string/github"
             app:summary="@string/license"
             app:singleLineTitle="false"
