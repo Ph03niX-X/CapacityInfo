@@ -44,6 +44,11 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
 
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
 
+                val isCheckedUpdateFromGooglePlay =
+                    MainActivity.instance?.isCheckUpdateFromGooglePlay ?: false
+
+                MainActivity.instance?.isCheckUpdateFromGooglePlay = !isCheckedUpdateFromGooglePlay
+
                 val isPremium = PremiumInterface.isPremium
 
                 val seconds = CapacityInfoService.instance?.seconds ?: 0

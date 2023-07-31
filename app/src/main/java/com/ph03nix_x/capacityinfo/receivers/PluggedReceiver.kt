@@ -34,6 +34,11 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
 
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
 
+                val isCheckedUpdateFromGooglePlay =
+                    MainActivity.instance?.isCheckUpdateFromGooglePlay ?: false
+
+                MainActivity.instance?.isCheckUpdateFromGooglePlay = !isCheckedUpdateFromGooglePlay
+
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
                 val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)

@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private lateinit var pref: SharedPreferences
 
-    private var isCheckUpdateFromGooglePlay = true
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
 
@@ -96,6 +95,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             RESULT_CANCELED -> if(pref.equals(SCREEN_TIME)) pref.edit().remove(SCREEN_TIME).apply()
         }
     }
+
+    var isCheckUpdateFromGooglePlay = true
 
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null

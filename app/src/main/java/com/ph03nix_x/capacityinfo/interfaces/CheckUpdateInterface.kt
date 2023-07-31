@@ -33,18 +33,18 @@ interface CheckUpdateInterface {
             val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
             else AppUpdateType.FLEXIBLE
 
-            IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues, _, _ ->
-                val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
-                    .setFlags(flagsValues, flagsMask).build()
-                updateFlowResultLauncher.launch(request)
-            }
-
-            val appUpdateOptions =
-                AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
-
-            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered)
+            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered) {
+                IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
+                                               _, _ ->
+                    val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
+                        .setFlags(flagsValues, flagsMask).build()
+                    updateFlowResultLauncher.launch(request)
+                }
+                val appUpdateOptions =
+                    AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
                     appUpdateOptions)
+            }
         }
     }
 
