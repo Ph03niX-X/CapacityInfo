@@ -26,17 +26,10 @@ interface CheckUpdateInterface {
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
-                    UpdateAvailability.UPDATE_AVAILABLE
-            val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
-                    UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-            val isUpdateAllowed = appUpdateInfo.isImmediateUpdateAllowed
-                    || appUpdateInfo.isFlexibleUpdateAllowed
-
+            val isUpdateAvailable = isUpdateAvailable(appUpdateInfo)
             val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
             else AppUpdateType.FLEXIBLE
-
-            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered) {
+            if(isUpdateAvailable) {
                 IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
                                                _, _ ->
                     val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
@@ -55,16 +48,10 @@ interface CheckUpdateInterface {
         val appUpdateManager = AppUpdateManagerFactory.create(requireContext())
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
-                    UpdateAvailability.UPDATE_AVAILABLE
-            val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
-                    UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-            val isUpdateAllowed = appUpdateInfo.isImmediateUpdateAllowed
-                    || appUpdateInfo.isFlexibleUpdateAllowed
-
+            val isUpdateAvailable = isUpdateAvailable(appUpdateInfo)
             val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
             else AppUpdateType.FLEXIBLE
-            if((isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered) {
+            if(isUpdateAvailable) {
                 val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
                 IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
                                                _, _ ->
@@ -77,8 +64,21 @@ interface CheckUpdateInterface {
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
                     appUpdateOptions)
             }
-            else Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
+            else {
+                MainActivity.instance?.isCheckUpdateFromGooglePlay = true
+                Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
+            }
         }
+    }
+
+    private fun isUpdateAvailable(appUpdateInfo: AppUpdateInfo): Boolean {
+        val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
+                UpdateAvailability.UPDATE_AVAILABLE
+        val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
+                UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+        val isUpdateAllowed = appUpdateInfo.isImmediateUpdateAllowed
+                || appUpdateInfo.isFlexibleUpdateAllowed
+        return (isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered
     }
 
     private fun startUpdate(appUpdateManager: AppUpdateManager, appUpdateInfo: AppUpdateInfo,
