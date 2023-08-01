@@ -107,4 +107,16 @@
         <item>History</item>
     </string-array>
 
+    <string-array name="overlay_location_list">
+        <item>Superior</item>
+        <item>Superior izquierda</item>
+        <item>Superior derecha</item>
+        <item>Centro</item>
+        <item>Centro izquierda</item>
+        <item>Centro Derecha</item>
+        <item>Inferior</item>
+        <item>Inferior izquierda</item>
+        <item>Inferior derecha</item>
+    </string-array>
+
 </resources>
