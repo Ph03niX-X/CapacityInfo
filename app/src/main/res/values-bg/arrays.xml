@@ -106,4 +106,16 @@
         <item>Историята</item>
     </string-array>
 
+    <string-array name="overlay_location_list">
+        <item>Най-горе</item>
+        <item>Горе вляво</item>
+        <item>Горе вдясно</item>
+        <item>Център</item>
+        <item>Център ляво</item>
+        <item>Център вдясно</item>
+        <item>Дъно</item>
+        <item>Долу вляво</item>
+        <item>Долу вдясно</item>
+    </string-array>
+
 </resources>
