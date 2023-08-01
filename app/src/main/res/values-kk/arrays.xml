@@ -106,4 +106,16 @@
         <item>Тарихы</item>
     </string-array>
 
+    <string-array name="overlay_location_list">
+        <item>Жоғарғы</item>
+        <item>Жоғарғы сол жақ</item>
+        <item>Жоғарғы оң жақ</item>
+        <item>Орталық</item>
+        <item>Орталық сол жақ</item>
+        <item>Орталық оң жақ</item>
+        <item>Төменгі</item>
+        <item>Төменгі сол жақ</item>
+        <item>Төменгі оң жақ</item>
+    </string-array>
+
 </resources>
