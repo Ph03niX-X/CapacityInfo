@@ -106,4 +106,16 @@
         <item>Verlauf</item>
     </string-array>
 
+    <string-array name="overlay_location_list">
+        <item>Oben</item>
+        <item>Oben links</item>
+        <item>Oben Rechts</item>
+        <item>Mitte</item>
+        <item>Mitte Links</item>
+        <item>Mitte Rechts</item>
+        <item>Unten</item>
+        <item>Unten links</item>
+        <item>Unten Rechts</item>
+    </string-array>
+
 </resources>
