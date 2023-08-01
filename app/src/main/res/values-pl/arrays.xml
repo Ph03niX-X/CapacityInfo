@@ -107,4 +107,16 @@
         <item>Historia</item>
     </string-array>
 
+    <string-array name="overlay_location_list">
+        <item>Góra</item>
+        <item>Górny lewy</item>
+        <item>Górny prawy</item>
+        <item>Centrum</item>
+        <item>Centrum lewy</item>
+        <item>Centrum prawy</item>
+        <item>Spód</item>
+        <item>Spód lewy</item>
+        <item>Spód prawy</item>
+    </string-array>
+
 </resources>
