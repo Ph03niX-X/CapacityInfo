@@ -83,7 +83,7 @@ interface CheckUpdateInterface {
                                                    appUpdateOptions: AppUpdateOptions) {
         MaterialAlertDialogBuilder(this).apply {
             setIcon(R.drawable.ic_check_update_24dp)
-            setTitle(R.string.check_update)
+            setTitle(R.string.update_available)
             setMessage(R.string.update_available)
             setPositiveButton(R.string.update) {_, _ ->
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
