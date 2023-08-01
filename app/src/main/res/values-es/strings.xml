@@ -323,4 +323,11 @@
     <string name="request_notification_message">Para que la aplicación funcione correctamente, es necesario activar las notificaciones. Esto es necesario para el servicio que es responsable de la mayor parte del funcionamiento de las aplicaciones, incluyendo el cálculo de la capacidad residual de la batería</string>
     <string name="not_installed_google_play_dialog">No es posible comprar Premium. Razón: no instalado Google Play</string>
     <string name="history_premium_feature">Para acceder a esta función es necesario adquirir una cuenta Premium</string>
+    <string name="update_available_dialog_title">Actualización disponible</string>
+    <string name="update_available_dialog_message">Ya está disponible una nueva versión de la aplicación. ¿Actualización?</string>
+    <string name="update">¿Actualización</string>
+    <string name="later_update">Más tarde</string>
+    <string name="check_update">Comprobar actualización</string>
+    <string name="update_not_found">Actualización no encontrada!</string>
+    <string name="overlay_location">Ubicación</string>
 </resources>
