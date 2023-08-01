@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     val updateFlowResultLauncher = registerForActivityResult(ActivityResultContracts
         .StartIntentSenderForResult()) { result ->
-        isCheckUpdateFromGooglePlay = false
         pref = PreferenceManager.getDefaultSharedPreferences(this)
         when(result.resultCode) {
             RESULT_OK -> {

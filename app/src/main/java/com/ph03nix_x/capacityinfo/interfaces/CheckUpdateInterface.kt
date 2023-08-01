@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -29,20 +30,50 @@ interface CheckUpdateInterface {
             val isUpdateAvailable = isUpdateAvailable(appUpdateInfo)
             val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
             else AppUpdateType.FLEXIBLE
-            if(isUpdateAvailable) {
-                IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
-                                               _, _ ->
-                    val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
-                        .setFlags(flagsValues, flagsMask).build()
-                    updateFlowResultLauncher.launch(request)
-                }
+
+            if(isUpdateDeveloperTriggered(appUpdateInfo)) {
+                intentResultStarter()
                 val appUpdateOptions =
                     AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
                     appUpdateOptions)
             }
+            else if(isUpdateAvailable) {
+                intentResultStarter()
+                val appUpdateOptions =
+                    AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
+                isCheckUpdateFromGooglePlay = false
+                updateAvailableDialog(appUpdateManager, appUpdateInfo, appUpdateOptions)
+            }
         }
     }
+    
+    private fun MainActivity.updateAvailableDialog(appUpdateManager: AppUpdateManager,
+                                               appUpdateInfo: AppUpdateInfo,
+                                               appUpdateOptions: AppUpdateOptions) {
+        MaterialAlertDialogBuilder(this).apply { 
+            setIcon(R.drawable.ic_check_update_24dp)
+            setTitle(R.string.check_update)
+            setMessage(R.string.update_available)
+            setPositiveButton(R.string.update) {_, _ ->
+                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
+                    appUpdateOptions)
+            }
+            setNegativeButton(R.string.later_update) { _, _ ->
+                isCheckUpdateFromGooglePlay = true
+            }
+            setCancelable(false)
+            show()
+        }
+    }
+
+    private fun MainActivity.intentResultStarter() =
+        IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
+                                       _, _ ->
+            val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
+                .setFlags(flagsValues, flagsMask).build()
+            updateFlowResultLauncher.launch(request)
+        }
 
     fun AboutFragment.checkUpdateFromGooglePlay() {
         val appUpdateManager = AppUpdateManagerFactory.create(requireContext())
@@ -74,12 +105,14 @@ interface CheckUpdateInterface {
     private fun isUpdateAvailable(appUpdateInfo: AppUpdateInfo): Boolean {
         val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
                 UpdateAvailability.UPDATE_AVAILABLE
-        val isUpdateDeveloperTriggered = appUpdateInfo.updateAvailability() ==
-                UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
         val isUpdateAllowed = appUpdateInfo.isImmediateUpdateAllowed
                 || appUpdateInfo.isFlexibleUpdateAllowed
-        return (isUpdateAvailable && isUpdateAllowed) || isUpdateDeveloperTriggered
+        return isUpdateAvailable && isUpdateAllowed
     }
+    
+    private fun isUpdateDeveloperTriggered(appUpdateInfo: AppUpdateInfo) =
+        appUpdateInfo.updateAvailability() ==
+                UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
 
     private fun startUpdate(appUpdateManager: AppUpdateManager, appUpdateInfo: AppUpdateInfo,
                             updateFlowResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
