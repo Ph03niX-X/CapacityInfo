@@ -107,4 +107,16 @@
         <item>History</item>
     </string-array>
 
+    <string-array name="overlay_location_list">
+        <item>Sus</item>
+        <item>Stânga sus</item>
+        <item>Dreapta sus</item>
+        <item>Centru</item>
+        <item>Centru stânga</item>
+        <item>Centru dreapta</item>
+        <item>De jos</item>
+        <item>Stânga jos</item>
+        <item>Dreapta jos</item>
+    </string-array>
+
 </resources>
