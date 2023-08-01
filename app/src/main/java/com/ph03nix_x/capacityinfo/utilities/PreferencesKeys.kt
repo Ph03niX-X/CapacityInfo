@@ -51,6 +51,7 @@ object PreferencesKeys {
     // Overlay Preferences
     const val IS_ENABLED_OVERLAY = "is_enabled_overlay"
     const val IS_ONLY_VALUES_OVERLAY = "is_only_values_overlay"
+    const val OVERLAY_LOCATION = "overlay_location"
 
     // Overlay Appearance
     const val OVERLAY_SIZE = "overlay_size"

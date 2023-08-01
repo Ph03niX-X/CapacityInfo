@@ -351,4 +351,5 @@
     <string name="later_update">Later</string>
     <string name="check_update">Check Update</string>
     <string name="update_not_found">Update not Found!</string>
+    <string name="overlay_location">Location</string>
 </resources>

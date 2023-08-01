@@ -18,6 +18,7 @@
     <integer name="overcool_degrees_max">20</integer>
     <integer name="discharge_current_notify_level_min">250</integer>
     <integer name="discharge_current_notify_level_max">5000</integer>
+    <integer name="overlay_location_default">0</integer>
     <integer name="overlay_opacity_default">127</integer>
     <integer name="overlay_opacity_max">255</integer>
     <integer name="fast_charge_min">2500</integer>

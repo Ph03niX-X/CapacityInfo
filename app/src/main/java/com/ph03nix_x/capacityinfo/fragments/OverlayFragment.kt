@@ -47,6 +47,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STATUS_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_VOLTAGE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
@@ -63,6 +64,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
     private var onlyValuesOverlay: SwitchPreferenceCompat? = null
+    private var overlayLocation: ListPreference? = null
 
     // Appearance
     private var appearanceCategory: PreferenceCategory? = null
@@ -121,6 +123,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         onlyValuesOverlay = findPreference(IS_ONLY_VALUES_OVERLAY)
 
+        overlayLocation = findPreference(OVERLAY_LOCATION)
+
         enableOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             when(newValue as? Boolean) {
@@ -142,6 +146,19 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
             enableAllOverlay(newValue as? Boolean)
 
             true
+        }
+
+        overlayLocation?.apply {
+            summary = getOverlayLocationSummary()
+            setOnPreferenceChangeListener { preference, newValue ->
+                if(OverlayService.instance != null && OverlayInterface.isEnabledOverlay(
+                        requireContext(), enableOverlay?.isEnabled == true))
+                    ServiceHelper.restartService(context, OverlayService::class.java)
+                preference.summary = resources.getStringArray(R.array.overlay_location_list)[
+                    (newValue as? String)?.toInt() ?: resources.getInteger(
+                        R.integer.overlay_location_default)]
+                true
+            }
         }
 
         // Appearance
@@ -480,6 +497,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         chargingCurrentLimitOverlay?.isVisible = chargingCurrentLimit != null &&
                 chargingCurrentLimit.toInt() > 0
 
+        overlayLocation?.summary = getOverlayLocationSummary()
+
         overlaySize?.summary = getOverlayTextSizeSummary()
 
         overlayTextStyle?.summary = getOverlayTextStyleSummary()
@@ -495,6 +514,18 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         if(dialogRequestOverlayPermission == null && !canDrawOverlays)
             requestOverlayPermission()
+    }
+
+    private fun getOverlayLocationSummary(): CharSequence? {
+        if(pref.getString(OVERLAY_LOCATION, "${resources.getInteger(
+                R.integer.overlay_location_default)}") !in
+            resources.getStringArray(R.array.overlay_location_values))
+                pref.edit().putString(OVERLAY_LOCATION, "${resources.getInteger(
+                    R.integer.overlay_location_default)}").apply()
+
+        return resources.getStringArray(R.array.overlay_location_list)[pref.getString(
+            OVERLAY_LOCATION,
+            "${resources.getInteger(R.integer.overlay_location_default)}")!!.toInt()]
     }
 
     private fun getOverlayTextSizeSummary(): CharSequence? {
@@ -567,6 +598,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private fun enableAllOverlay(isEnable: Boolean?) {
 
         onlyValuesOverlay?.isEnabled = isEnable ?: onlyValuesOverlay?.isEnabled ?: false
+        overlayLocation?.isEnabled = isEnable ?: overlayLocation?.isEnabled ?: false
         appearanceCategory?.isEnabled = isEnable ?: appearanceCategory?.isEnabled ?: false
         overlayCategory?.isEnabled = isEnable ?: overlayCategory?.isEnabled ?: false
     }

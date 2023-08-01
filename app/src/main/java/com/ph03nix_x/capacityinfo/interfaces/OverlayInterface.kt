@@ -64,6 +64,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REMAINING_BATTERY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SCREEN_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import java.io.*
 import java.lang.Exception
@@ -169,7 +170,21 @@ interface OverlayInterface : BatteryInfoInterface {
                     .TYPE_APPLICATION_OVERLAY, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT)
 
-            parameters.gravity = Gravity.TOP
+            val overlayLocation = pref.getString(OVERLAY_LOCATION, "${context.resources.getInteger(
+                R.integer.overlay_location_default)}")
+
+            parameters.gravity = when(overlayLocation?.toInt()) {
+                0 -> Gravity.TOP
+                1 -> Gravity.TOP or Gravity.START
+                2 -> Gravity.TOP or Gravity.END
+                3 -> Gravity.CENTER
+                4 -> Gravity.CENTER or Gravity.START
+                5 -> Gravity.CENTER or Gravity.END
+                6 -> Gravity.BOTTOM
+                7 -> Gravity.BOTTOM or Gravity.START
+                8 -> Gravity.BOTTOM or Gravity.END
+                else -> Gravity.TOP
+            }
             parameters.x = 0
             parameters.y = 0
 

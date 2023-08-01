@@ -20,6 +20,16 @@
             app:enabled="false"
             android:key="is_only_values_overlay"/>
 
+    <ListPreference
+        android:title="@string/overlay_location"
+        app:singleLineTitle="false"
+        android:entries="@array/overlay_location_list"
+        android:entryValues="@array/overlay_location_values"
+        app:defaultValue="@integer/overlay_location_default"
+        app:iconSpaceReserved="false"
+        app:enabled="false"
+        android:key="overlay_location"/>
+
     <PreferenceCategory
             app:title="@string/appearance"
             app:singleLineTitle="false"
