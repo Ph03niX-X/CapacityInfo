@@ -323,4 +323,11 @@
     <string name="request_notification_message">Pentru ca aplicația să funcționeze corect, trebuie să activați notificările. Acest lucru este necesar pentru serviciul care este responsabil pentru cea mai mare parte a funcționării aplicațiilor, inclusiv pentru calcularea capacității reziduale a bateriei</string>
     <string name="not_installed_google_play_dialog">Nu este posibil să achiziționați Premium. Motivul: nu este instalat Google Play</string>
     <string name="history_premium_feature">Achiziția Premium este necesară pentru a accesa această funcție</string>
+    <string name="update_available_dialog_title">Actualizare disponibilă</string>
+    <string name="update_available_dialog_message">Este disponibilă o nouă versiune a aplicației. Actualizare?</string>
+    <string name="update">Actualizare</string>
+    <string name="later_update">Mai târziu</string>
+    <string name="check_update">Verificarea actualizării</string>
+    <string name="update_not_found">Actualizare nedescoperită!</string>
+    <string name="overlay_location">Locația</string>
 </resources>
