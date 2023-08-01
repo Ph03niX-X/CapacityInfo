@@ -47,11 +47,41 @@ interface CheckUpdateInterface {
             }
         }
     }
-    
+
+    fun AboutFragment.checkUpdateFromGooglePlay() {
+        val appUpdateManager = AppUpdateManagerFactory.create(requireContext())
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            val isUpdateAvailable = isUpdateAvailable(appUpdateInfo)
+            val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
+            else AppUpdateType.FLEXIBLE
+            if(isUpdateDeveloperTriggered(appUpdateInfo)) {
+                val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
+                MainActivity.instance?.intentResultStarter()
+                val appUpdateOptions =
+                    AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
+                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
+                    appUpdateOptions)
+            }
+            if(isUpdateAvailable) {
+                MainActivity.instance?.intentResultStarter()
+                val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
+                val appUpdateOptions =
+                    AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
+                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
+                    appUpdateOptions)
+            }
+            else {
+                MainActivity.instance?.isCheckUpdateFromGooglePlay = true
+                Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     private fun MainActivity.updateAvailableDialog(appUpdateManager: AppUpdateManager,
-                                               appUpdateInfo: AppUpdateInfo,
-                                               appUpdateOptions: AppUpdateOptions) {
-        MaterialAlertDialogBuilder(this).apply { 
+                                                   appUpdateInfo: AppUpdateInfo,
+                                                   appUpdateOptions: AppUpdateOptions) {
+        MaterialAlertDialogBuilder(this).apply {
             setIcon(R.drawable.ic_check_update_24dp)
             setTitle(R.string.check_update)
             setMessage(R.string.update_available)
@@ -74,33 +104,6 @@ interface CheckUpdateInterface {
                 .setFlags(flagsValues, flagsMask).build()
             updateFlowResultLauncher.launch(request)
         }
-
-    fun AboutFragment.checkUpdateFromGooglePlay() {
-        val appUpdateManager = AppUpdateManagerFactory.create(requireContext())
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            val isUpdateAvailable = isUpdateAvailable(appUpdateInfo)
-            val updateType = if(appUpdateInfo.isImmediateUpdateAllowed) AppUpdateType.IMMEDIATE
-            else AppUpdateType.FLEXIBLE
-            if(isUpdateAvailable) {
-                val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
-                IntentSenderForResultStarter { intent, _, fillInIntent, flagsMask, flagsValues,
-                                               _, _ ->
-                    val request = IntentSenderRequest.Builder(intent).setFillInIntent(fillInIntent)
-                        .setFlags(flagsValues, flagsMask).build()
-                    updateFlowResultLauncher?.launch(request)
-                }
-                val appUpdateOptions =
-                    AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
-                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
-                    appUpdateOptions)
-            }
-            else {
-                MainActivity.instance?.isCheckUpdateFromGooglePlay = true
-                Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
-            }
-        }
-    }
 
     private fun isUpdateAvailable(appUpdateInfo: AppUpdateInfo): Boolean {
         val isUpdateAvailable = appUpdateInfo.updateAvailability() ==
