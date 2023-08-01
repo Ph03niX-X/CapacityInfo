@@ -323,4 +323,11 @@
     <string name="request_notification_message">Aby aplikacja działała poprawnie należy włączyć powiadomienia. Jest to niezbędne dla serwisu, który odpowiada za większość działania aplikacji, w tym za obliczanie pozostałej pojemności baterii</string>
     <string name="not_installed_google_play_dialog">Nie ma możliwości zakupu Premium. Powód: nie zainstalowano Google Play</string>
     <string name="history_premium_feature">Aby uzyskać dostęp do tej funkcji, wymagany jest zakup wersji Premium</string>
+    <string name="update_available_dialog_title">Aktualizacja dostępna</string>
+    <string name="update_available_dialog_message">Dostępna jest nowa wersja aplikacji. Aktualizacja?</string>
+    <string name="update">Aktualizacja</string>
+    <string name="later_update">Później</string>
+    <string name="check_update">Sprawdź aktualizację</string>
+    <string name="update_not_found">Nie znaleziono aktualizacji!</string>
+    <string name="overlay_location">Położenie</string>
 </resources>
