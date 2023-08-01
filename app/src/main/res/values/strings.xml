@@ -345,9 +345,10 @@
     <string name="request_notification_message">For the application to work correctly, you need to enable notifications. This is necessary for the service that is responsible for most of the application\'s operation, including calculating the residual battery capacity</string>
     <string name="not_installed_google_play_dialog">It is not possible to purchase Premium. Reason: not installed Google Play</string>
     <string name="history_premium_feature">Premium purchase is required to access this feature</string>
-    <string name="check_update">Check Update</string>
-    <string name="update_available">A new version of the app is available. Update?</string>
+    <string name="update_available_dialog_title">Update available</string>
+    <string name="update_available_dialog_message">A new version of the app is available. Update?</string>
     <string name="update">Update</string>
     <string name="later_update">Later</string>
+    <string name="check_update">Check Update</string>
     <string name="update_not_found">Update not Found!</string>
 </resources>
