@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         when(result.resultCode) {
             RESULT_OK -> {
                 val screenTime = CapacityInfoService.instance?.screenTime ?: 0L
-                if(screenTime >= 5.minutes.inWholeMilliseconds)
+                if(screenTime >= 5.minutes.inWholeSeconds)
                     pref.edit().putLong(SCREEN_TIME, screenTime)
             }
             RESULT_CANCELED -> if(pref.equals(SCREEN_TIME)) pref.edit().remove(SCREEN_TIME).apply()

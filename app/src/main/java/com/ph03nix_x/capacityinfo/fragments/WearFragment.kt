@@ -374,8 +374,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if (getCurrentCapacity(requireContext()) > 0.0) 9.89.seconds
-                            else 9.96.seconds)
+                            delay(if (getCurrentCapacity(requireContext()) > 0.0) 0.989.seconds
+                            else 0.996.seconds)
 
                         else -> delay(1.5.seconds)
                     }

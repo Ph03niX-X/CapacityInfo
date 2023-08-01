@@ -477,8 +477,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     when(status) {
 
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(getCurrentCapacity(requireContext()) > 0.0) 9.72.seconds
-                            else 9.79.seconds)
+                            delay(if(getCurrentCapacity(requireContext()) > 0.0) 0.972.seconds
+                            else 0.979.seconds)
 
                         else -> delay(1.5.seconds)
                     }

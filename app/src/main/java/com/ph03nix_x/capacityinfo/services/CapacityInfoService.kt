@@ -189,7 +189,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 val screenTimePref = pref.getLong(SCREEN_TIME, 0L)
 
-                if(screenTimePref >= 5.minutes.inWholeMilliseconds) {
+                if(screenTimePref >= 5.minutes.inWholeSeconds) {
                     screenTime = screenTimePref
                     pref.edit().remove(SCREEN_TIME).apply()
                 }
@@ -510,9 +510,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             for(display in displayManager.displays)
                 if(display.state == Display.STATE_ON)
                     delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
-                        9.49.seconds else 9.55.seconds)
+                        0.949.seconds else 0.955.seconds)
                 else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
-                    9.38.seconds else 9.35.seconds)
+                    0.938.seconds else 0.935.seconds)
 
         seconds++
 
