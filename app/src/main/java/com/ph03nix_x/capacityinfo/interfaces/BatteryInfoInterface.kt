@@ -390,9 +390,11 @@ interface BatteryInfoInterface {
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0 else 100.0
         return if(residualCapacity > 0 && residualCapacity <= designCapacity) {
             when((100.0 - ((residualCapacity / designCapacity) * 100.0)).toInt()) {
-                in 0..19 -> R.string.battery_health_great
-                in 20..39 -> R.string.battery_health_good
-                in 40..59 -> R.string.battery_health_bad
+                in 0..9 -> R.string.battery_health_great
+                in 10..19 -> R.string.battery_health_very_good
+                in 20..29 -> R.string.battery_health_good
+                in 30..39 -> R.string.battery_health_bad
+                in 40..59 -> R.string.battery_health_very_bad
                 else -> R.string.battery_health_replacement_required
             }
         }
