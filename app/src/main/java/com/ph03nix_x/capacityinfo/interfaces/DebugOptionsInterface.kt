@@ -54,6 +54,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
@@ -384,7 +385,7 @@ interface DebugOptionsInterface {
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
-                        OVERLAY_OPACITY, BATTERY_LEVEL_NOTIFY_CHARGED,
+                        OVERLAY_OPACITY, OVERLAY_TEXT_COLOR, BATTERY_LEVEL_NOTIFY_CHARGED,
                         BATTERY_NOTIFY_CHARGED_VOLTAGE, BATTERY_NOTIFY_DISCHARGED_VOLTAGE,
                         BATTERY_LEVEL_NOTIFY_DISCHARGED, CHARGING_CURRENT_LEVEL_NOTIFY
                         -> setValueType("int|long", changePrefValue, pref,
