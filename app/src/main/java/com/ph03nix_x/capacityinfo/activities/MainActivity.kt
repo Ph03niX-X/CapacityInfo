@@ -63,12 +63,10 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.SCREEN_TIME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
@@ -83,17 +81,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
 
     val updateFlowResultLauncher = registerForActivityResult(ActivityResultContracts
-        .StartIntentSenderForResult()) { result ->
-        pref = PreferenceManager.getDefaultSharedPreferences(this)
-        when(result.resultCode) {
-            RESULT_OK -> {
-                val screenTime = CapacityInfoService.instance?.screenTime ?: 0L
-                if(screenTime >= 5.minutes.inWholeSeconds)
-                    pref.edit().putLong(SCREEN_TIME, screenTime)
-            }
-            RESULT_CANCELED -> if(pref.equals(SCREEN_TIME)) pref.edit().remove(SCREEN_TIME).apply()
-        }
-    }
+        .StartIntentSenderForResult()) { _ -> }
 
     var isCheckUpdateFromGooglePlay = true
 

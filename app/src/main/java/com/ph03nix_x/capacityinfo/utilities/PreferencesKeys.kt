@@ -108,7 +108,4 @@ object PreferencesKeys {
     const val BATTERY_LEVEL_TO = "battery_level_to"
     const val NUMBER_OF_CYCLES = "number_of_cycles"
     const val NUMBER_OF_FULL_CHARGES = "number_of_full_charges"
-
-    //Other
-    const val SCREEN_TIME = "screen_time"
 }
