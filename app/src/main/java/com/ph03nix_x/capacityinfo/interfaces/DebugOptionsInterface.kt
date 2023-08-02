@@ -51,6 +51,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
@@ -322,7 +323,7 @@ interface DebugOptionsInterface {
             when(key) {
 
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
-                VOLTAGE_UNIT, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
+                VOLTAGE_UNIT, OVERLAY_LOCATION, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
                 OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
                     addChangeSetting(pref, key, value.toString())
 
@@ -376,10 +377,10 @@ interface DebugOptionsInterface {
                     when(key) {
 
                         UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
-                        UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_SIZE,
-                        OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
-                            setValueType("string", changePrefValue, pref,
-                                prefValueInputTypeDef, prefValueKeyListenerDef)
+                        UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_LOCATION,
+                        OVERLAY_SIZE, OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE,
+                        TAB_ON_APPLICATION_LAUNCH -> setValueType("string",
+                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
@@ -421,8 +422,8 @@ interface DebugOptionsInterface {
 
                 when(key) {
 
-                    OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                    TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH -> {
+                    OVERLAY_LOCATION, OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE,
+                    TEXT_FONT, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH -> {
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
                         changePrefValue.keyListener = DigitsKeyListener.getInstance(
@@ -529,6 +530,11 @@ interface DebugOptionsInterface {
                             VOLTAGE_UNIT -> s.toString() != pref.getString(key, "mV") &&
                                     s.toString() in context.resources.getStringArray(R.array
                                 .voltage_unit_values)
+
+                            OVERLAY_LOCATION -> s.toString() != pref.getString(key,
+                                "${context.resources.getInteger(
+                                    R.integer.overlay_location_default)}") && s.toString() in
+                                    context.resources.getStringArray(R.array.overlay_location_values)
 
                             OVERLAY_SIZE -> s.toString() != pref.getString(key, "2") &&
                                     s.toString() in context.resources.getStringArray(R.array
