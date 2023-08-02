@@ -1,7 +1,5 @@
 package com.ph03nix_x.capacityinfo.utilities
 
-import kotlin.time.Duration.Companion.seconds
-
 object PreferencesKeys {
 
     // Service & Notification
