@@ -168,48 +168,51 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         overlayTextStyle = findPreference(OVERLAY_TEXT_STYLE)
         overlayOpacity = findPreference("overlay_opacity")
 
-        overlaySize?.summary = getOverlayTextSizeSummary()
+        overlaySize?.apply {
+            summary = getOverlayTextSizeSummary()
+            setOnPreferenceChangeListener { preference, newValue ->
 
-        overlayFont?.summary = getOverlayTextFontSummary()
-
-        overlayTextStyle?.summary = getOverlayTextStyleSummary()
-
-        overlayOpacity?.summary = getOverlayOpacitySummary()
-
-        overlaySize?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = resources.getStringArray(R.array.text_size_list)[
+                preference.summary = resources.getStringArray(R.array.text_size_list)[
                     (newValue as? String)?.toInt() ?: 2]
 
-            true
+                true
+            }
         }
 
-        overlayFont?.setOnPreferenceChangeListener { preference, newValue ->
+        overlayFont?.apply {
+            summary = getOverlayTextFontSummary()
+            setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = resources.getStringArray(R.array.fonts_list)[
+                preference.summary = resources.getStringArray(R.array.fonts_list)[
                     (newValue as? String)?.toInt() ?: 6]
 
-            true
+                true
+            }
         }
 
-        overlayTextStyle?.setOnPreferenceChangeListener { preference, newValue ->
+        overlayTextStyle?.apply {
+            summary = getOverlayTextStyleSummary()
+            setOnPreferenceChangeListener { preference, newValue ->
 
-            preference.summary = resources.getStringArray(R.array.text_style_list)[
+                preference.summary = resources.getStringArray(R.array.text_style_list)[
                     (newValue as? String)?.toInt() ?: 0]
 
-            true
+                true
+            }
         }
 
-        overlayOpacity?.setOnPreferenceChangeListener { preference, newValue ->
+        overlayOpacity?.apply {
+            summary = getOverlayOpacitySummary()
+            setOnPreferenceChangeListener { preference, newValue ->
 
-            val progress = newValue as? Int ?: 0
+                val progress = newValue as? Int ?: 0
 
-            preference.summary = "${DecimalFormat("#").format(
-                (progress.toFloat() / 255f) * 100f)}%"
+                preference.summary = "${DecimalFormat("#").format(
+                    (progress.toFloat() / 255f) * 100f)}%"
 
-            true
+                true
+            }
         }
-
 
         // Show/Hide
         overlayCategory = findPreference("show_hide_pref_category")
