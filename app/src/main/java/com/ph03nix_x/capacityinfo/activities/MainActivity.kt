@@ -341,7 +341,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if (isInstalledGooglePlay && isGooglePlay(this) && isCheckUpdateFromGooglePlay)
             checkUpdateFromGooglePlay()
 
-        if((pref.getLong(NUMBER_OF_FULL_CHARGES, 0) % 3 == 0L) && pref.getBoolean(IS_REQUEST_RATE_THE_APP,
+        if((isInstalledGooglePlay && isGooglePlay(this) &&
+                    pref.getLong(NUMBER_OF_FULL_CHARGES, 0) % 3 == 0L) &&
+            pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
     }
 

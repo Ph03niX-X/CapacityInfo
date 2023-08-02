@@ -11,6 +11,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
@@ -100,7 +101,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
         }
 
         rateTheApp?.apply {
-            isVisible = isGooglePlay(requireContext()) || pref.getBoolean(
+            isVisible = isInstalledGooglePlay && isGooglePlay(requireContext()) || pref.getBoolean(
                 IS_FORCIBLY_SHOW_RATE_THE_APP, resources.getBoolean(
                     R.bool.is_forcibly_show_rate_the_app))
 
