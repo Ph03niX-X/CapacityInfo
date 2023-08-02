@@ -1,11 +1,13 @@
 package com.ph03nix_x.capacityinfo.activities
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +21,8 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
@@ -63,6 +67,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_L
 import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REQUEST_RATE_THE_APP
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -334,6 +341,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if (isInstalledGooglePlay && isGooglePlay(this) && isCheckUpdateFromGooglePlay)
             checkUpdateFromGooglePlay()
+
+        if((pref.getLong(NUMBER_OF_FULL_CHARGES, 0) % 3 == 0L) && pref.getBoolean(IS_REQUEST_RATE_THE_APP,
+                resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -411,6 +421,24 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     setCancelable(false)
                     show()
                 }
+    }
+
+    private fun requestRateTheApp() {
+        Snackbar.make(toolbar, getString(R.string.do_you_like_the_app),
+            Snackbar.LENGTH_LONG).apply {
+            setAction(getString(R.string.rate_the_app)) {
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW,
+                        Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+                    pref.edit().putBoolean(IS_REQUEST_RATE_THE_APP, false).apply()
+                }
+                catch(e: ActivityNotFoundException) {
+                    Toast.makeText(this@MainActivity, getString(
+                        R.string.unknown_error), Toast.LENGTH_LONG).show()
+                }
+            }
+            show()
+        }
     }
 
     private fun importSettings(prefArrays: HashMap<*, *>?) {

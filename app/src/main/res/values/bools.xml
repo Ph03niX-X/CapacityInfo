@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="is_show_instruction">true</bool>
+    <bool name="is_request_rate_the_app">true</bool>
 
     <!--Settings-->
     <bool name="is_show_stop_service">false</bool>
