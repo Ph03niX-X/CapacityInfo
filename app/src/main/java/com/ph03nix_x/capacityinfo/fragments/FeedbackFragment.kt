@@ -10,7 +10,6 @@ import androidx.core.content.pm.PackageInfoCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
@@ -107,34 +106,13 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             setOnPreferenceClickListener {
 
-                val manager = ReviewManagerFactory.create(requireContext())
-
-                val request = manager.requestReviewFlow()
-
-                request.addOnCompleteListener {
-
-                    if(it.isSuccessful) {
-
-                        val flow = manager.launchReviewFlow(requireActivity(), it.result)
-
-                        if(!flow.isSuccessful) try {
-                            requireContext().startActivity(Intent(Intent.ACTION_VIEW,
-                                Uri.parse(GOOGLE_PLAY_APP_LINK)))
-                        }
-                        catch(e: ActivityNotFoundException) {
-                            Toast.makeText(requireContext(), requireContext().getString(
-                                R.string.unknown_error), Toast.LENGTH_LONG).show()
-                        }
-                    }
-
-                    else try {
-                        requireContext().startActivity(Intent(Intent.ACTION_VIEW,
-                            Uri.parse(GOOGLE_PLAY_APP_LINK)))
-                    }
-                    catch(e: ActivityNotFoundException) {
-                        Toast.makeText(requireContext(), requireContext().getString(
-                            R.string.unknown_error), Toast.LENGTH_LONG).show()
-                    }
+                try {
+                    requireContext().startActivity(Intent(Intent.ACTION_VIEW,
+                        Uri.parse(GOOGLE_PLAY_APP_LINK)))
+                }
+                catch(e: ActivityNotFoundException) {
+                    Toast.makeText(requireContext(), requireContext().getString(
+                        R.string.unknown_error), Toast.LENGTH_LONG).show()
                 }
 
                 true
