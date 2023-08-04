@@ -119,4 +119,11 @@
         <item>Inferior derecha</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>45 minutos</item>
+        <item>1 hora</item>
+    </string-array>
+
 </resources>

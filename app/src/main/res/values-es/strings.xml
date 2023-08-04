@@ -310,14 +310,16 @@
     <string name="setting_is_intended_to_correct">
         Este ajuste está destinado a corregir la visualización del valor</string>
     <string name="full_charge_reminder">Recordatorio de carga completa</string>
-    <string name="full_charge_reminder_summary">Recordatorio de carga completa cada 30 minutos</string>
+    <string name = "full_charge_reminder_frequency"> Frecuencia de recordatorio de carga completa</string>
     <string name="allow_all_app_notifications">PERMITIR TODAS LAS NOTIFICACIONES DE APLICACIONES</string>
     <string name="auto_start_xiaomi_dialog">Para que la aplicación funcione correctamente, permita el inicio automático en la siguiente ventana</string>
     <string name="background_activity_control_xiaomi_dialog">Para que la aplicación funcione correctamente en segundo plano, vaya a la siguiente ventana y seleccione \"Sin restricciones\"</string>
     <string name="battery_health">Salud de la batería: %1$s</string>
     <string name="battery_health_great">Genial</string>
+    <string name = "battery_health_very_good"> Muy Buena</string>
     <string name="battery_health_good">Buena</string>
     <string name="battery_health_bad">Malo</string>
+    <string name = "battery_health_very_bad">Muy Malo</string>
     <string name="battery_health_replacement_required">Sustitución necesaria</string>
     <string name="battery_health_overlay">Salud de la batería</string>
     <string name="request_notification_message">Para que la aplicación funcione correctamente, es necesario activar las notificaciones. Esto es necesario para el servicio que es responsable de la mayor parte del funcionamiento de las aplicaciones, incluyendo el cálculo de la capacidad residual de la batería</string>
@@ -330,4 +332,5 @@
     <string name="check_update">Comprobar actualización</string>
     <string name="update_not_found">Actualización no encontrada!</string>
     <string name="overlay_location">Ubicación</string>
+    <string name = "do_you_like_the_app">¿Le gusta la aplicación?</string>
 </resources>
