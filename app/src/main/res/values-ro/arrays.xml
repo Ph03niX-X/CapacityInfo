@@ -119,4 +119,11 @@
         <item>Dreapta jos</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 de minute</item>
+        <item>30 de minute</item>
+        <item>45 de minute</item>
+        <item>1 oră</item>
+    </string-array>
+
 </resources>

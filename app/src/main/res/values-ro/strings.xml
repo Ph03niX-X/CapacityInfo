@@ -310,14 +310,16 @@
     <string name="setting_is_intended_to_correct">
         Această setare are scopul de a corecta afișarea valorii</string>
     <string name="full_charge_reminder">Memento de încărcare completă</string>
-    <string name="full_charge_reminder_summary">Memento de încărcare completă la fiecare 30 de minute</string>
+    <string name="full_charge_reminder_frequency">Frecvența de memento a încărcării complete</string>
     <string name="allow_all_app_notifications">PERMITEȚI TOATE NOTIFICĂRILE APLICAȚIILOR</string>
     <string name="auto_start_xiaomi_dialog">Pentru ca aplicația să funcționeze corect, permiteți pornirea automată în fereastra următoare</string>
     <string name="background_activity_control_xiaomi_dialog">Pentru ca aplicația să funcționeze corect în fundal, mergeți în fereastra următoare și selectați \"Fără restricții\"</string>
     <string name="battery_health">Sănătatea bateriei: %1$s</string>
     <string name="battery_health_great">Mare</string>
+    <string name="battery_health_very_good">Foarte Bună</string>
     <string name="battery_health_good">Bună</string>
     <string name="battery_health_bad">Rău</string>
+    <string name="battery_health_very_bad">Foarte Rău</string>
     <string name="battery_health_replacement_required">Înlocuire necesară</string>
     <string name="battery_health_overlay">Sănătatea bateriei</string>
     <string name="request_notification_message">Pentru ca aplicația să funcționeze corect, trebuie să activați notificările. Acest lucru este necesar pentru serviciul care este responsabil pentru cea mai mare parte a funcționării aplicațiilor, inclusiv pentru calcularea capacității reziduale a bateriei</string>
@@ -330,4 +332,5 @@
     <string name="check_update">Verificarea actualizării</string>
     <string name="update_not_found">Actualizare nedescoperită!</string>
     <string name="overlay_location">Locația</string>
+    <string name="do_you_like_the_app">Îți place aplicația?</string>
 </resources>
