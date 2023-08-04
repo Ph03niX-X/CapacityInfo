@@ -118,4 +118,11 @@
         <item>Төменгі оң жақ</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 минут</item>
+        <item>30 минут</item>
+        <item>45 минут</item>
+        <item>1 сағат</item>
+    </string-array>
+
 </resources>
