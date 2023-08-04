@@ -34,7 +34,6 @@ import com.ph03nix_x.capacityinfo.services.FullChargeReminderJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
@@ -170,22 +169,81 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getOverheatDegreesSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                 R.bool.is_notify_overheat_overcool))
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                val temperature = (newValue as? Int) ?: resources.getInteger(R.integer
+                    .overheat_degrees_default)
+
+                preference.summary = getString(R.string.overheat_overcool_degrees, temperature,
+                    DecimalFormat("#.#").format((temperature * 1.8) + 32.0))
+
+                true
+            }
         }
 
         overcoolDegrees?.apply {
             summary = getOvercoolDegreesSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                 R.bool.is_notify_overheat_overcool))
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                val temperature = (newValue as? Int) ?: resources.getInteger(R.integer
+                    .overcool_degrees_default)
+
+                preference.summary = getString(R.string.overheat_overcool_degrees, temperature,
+                    DecimalFormat("#.#").format((temperature * 1.8) + 32.0))
+
+                true
+            }
         }
 
-        notifyFullChargeReminder?.isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
-            resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
+        notifyFullChargeReminder?.apply {
+
+            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
+                resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
+
+            setOnPreferenceChangeListener { _, newValue ->
+
+                val isChecked = (newValue as? Boolean) ?: false
+
+                fullChargeReminderFrequency?.isEnabled = isChecked
+
+                val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
+                    "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
+
+                if(isChecked && CapacityInfoService.instance?.isFull == true)
+                    ServiceHelper.jobSchedule(requireContext(),
+                        FullChargeReminderJobService::class.java,
+                        Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
+                        fullChargeReminderFrequency?.minutes?.inWholeMilliseconds ?: resources
+                            .getInteger(R.integer.full_charge_reminder_frequency_default).minutes
+                            .inWholeMilliseconds)
+                else ServiceHelper.cancelJob(requireContext(),
+                    Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+
+                true
+            }
+        }
 
         batteryLevelNotifyCharged?.apply {
-
             summary = getBatteryLevelNotifyChargingSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged))
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                preference.summary = "${((newValue as? Int) ?: pref.getInt(
+                    BATTERY_LEVEL_NOTIFY_CHARGED, 80))}%"
+
+                NotificationInterface.isNotifyBatteryCharged = true
+
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+                true
+            }
         }
 
         batteryNotifyChargedVoltage?.apply {
@@ -193,13 +251,46 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 .battery_notify_charged_voltage_min))}"
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged_voltage))
+
+            setOnPreferenceClickListener {
+
+                changeBatteryNotifyChargedVoltage()
+
+                true
+            }
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                preference.summary = "${((newValue as? Int) ?: pref.getInt(
+                    BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
+                        .battery_notify_charged_voltage_min)))}"
+
+                NotificationInterface.isNotifyBatteryChargedVoltage = true
+
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+                true
+            }
         }
 
         batteryLevelNotifyDischarged?.apply {
-
             summary = getBatteryLevelNotifyDischargeSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_discharged))
+
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                preference.summary = "${((newValue as? Int) ?: pref.getInt(
+                    BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))}%"
+
+                NotificationInterface.isNotifyBatteryDischarged = true
+
+                NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+
+                true
+            }
         }
 
         batteryNotifyDischargedVoltage?.apply {
@@ -207,6 +298,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 R.integer.battery_notify_discharged_voltage_min))}"
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
                 resources.getBoolean(R.bool.is_notify_battery_is_discharged_voltage))
+
+            setOnPreferenceClickListener {
+
+                changeBatteryNotifyDischargedVoltage()
+
+                true
+            }
         }
 
         notifyOverheatOvercool?.setOnPreferenceChangeListener { _, newValue ->
@@ -219,28 +317,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
-
-            true
-        }
-
-        overheatDegrees?.setOnPreferenceChangeListener { preference, newValue ->
-
-            val temperature = (newValue as? Int) ?: resources.getInteger(R.integer
-                .overheat_degrees_default)
-
-            preference.summary = getString(R.string.overheat_overcool_degrees, temperature,
-                DecimalFormat("#.#").format((temperature * 1.8) + 32.0))
-
-            true
-        }
-
-        overcoolDegrees?.setOnPreferenceChangeListener { preference, newValue ->
-
-            val temperature = (newValue as? Int) ?: resources.getInteger(R.integer
-                .overcool_degrees_default)
-
-            preference.summary = getString(R.string.overheat_overcool_degrees, temperature,
-                DecimalFormat("#.#").format((temperature * 1.8) + 32.0))
 
             true
         }
@@ -263,29 +339,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             true
         }
-
-        notifyFullChargeReminder?.setOnPreferenceChangeListener { _, newValue ->
-
-            val isChecked = (newValue as? Boolean) ?: false
-
-            fullChargeReminderFrequency?.isEnabled = isChecked
-
-            val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
-                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
-
-            if(isChecked && CapacityInfoService.instance?.isFull == true)
-                ServiceHelper.jobSchedule(requireContext(),
-                    FullChargeReminderJobService::class.java,
-                    Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
-                    fullChargeReminderFrequency?.minutes?.inWholeMilliseconds ?: resources
-                        .getInteger(R.integer.full_charge_reminder_frequency_default).minutes
-                        .inWholeMilliseconds)
-            else ServiceHelper.cancelJob(requireContext(),
-                Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-
-            true
-        }
-
 
         fullChargeReminderFrequency?.apply {
             isEnabled = notifyBatteryIsFullyCharged?.isChecked == true &&
@@ -370,40 +423,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             true
         }
 
-        batteryLevelNotifyCharged?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = "${((newValue as? Int) ?: pref.getInt(
-                BATTERY_LEVEL_NOTIFY_CHARGED, 80))}%"
-
-            NotificationInterface.isNotifyBatteryCharged = true
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
-            true
-        }
-
-        batteryNotifyChargedVoltage?.setOnPreferenceClickListener {
-
-            changeBatteryNotifyChargedVoltage()
-
-            true
-        }
-
-        batteryNotifyChargedVoltage?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = "${((newValue as? Int) ?: pref.getInt(
-                BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
-                    .battery_notify_charged_voltage_min)))}"
-
-            NotificationInterface.isNotifyBatteryChargedVoltage = true
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
-            true
-        }
-
         notifyBatteryIsDischarged?.setOnPreferenceChangeListener { _, newValue ->
 
             batteryLevelNotifyDischarged?.isEnabled = newValue as? Boolean == true
@@ -412,26 +431,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
-            true
-        }
-
-        batteryLevelNotifyDischarged?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = "${((newValue as? Int) ?: pref.getInt(
-                BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))}%"
-
-            NotificationInterface.isNotifyBatteryDischarged = true
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
-            true
-        }
-
-        batteryNotifyDischargedVoltage?.setOnPreferenceClickListener {
-
-            changeBatteryNotifyDischargedVoltage()
 
             true
         }
