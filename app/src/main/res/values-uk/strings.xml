@@ -310,14 +310,16 @@
     <string name="setting_is_intended_to_correct">
         Дане налаштування призначено для виправлення відображення значення</string>
     <string name="full_charge_reminder">Нагадувати про повний заряд</string>
-    <string name="full_charge_reminder_summary">Нагадувати про повний заряд кожні 30 хвилин</string>
+    <string name="full_charge_reminder_frequency">Частота нагадування про повний заряд</string>
     <string name="allow_all_app_notifications">ДОЗВОЛЬТЕ ЗАСТОСУНКУ ПОКАЗУВАТИ ВСІ СПОВІЩЕННЯ</string>
     <string name="auto_start_xiaomi_dialog">Для того щоб додаток працював коректно, дозвольте автозапуск у такому вікні</string>
     <string name="background_activity_control_xiaomi_dialog">Для того щоб додаток працював коректно у фоні, перейдіть до наступного вікна і виберіть \"Немає обмежень\"</string>
     <string name="battery_health">Стан акумулятора: %1$s</string>
     <string name="battery_health_great">Відмінний</string>
+    <string name="battery_health_very_good">Дуже гарний</string>
     <string name="battery_health_good">Гарний</string>
     <string name="battery_health_bad">Поганий</string>
+    <string name="battery_health_very_bad">Дуже поганий</string>
     <string name="battery_health_replacement_required">Потрібна заміна</string>
     <string name="battery_health_overlay">Стан акумулятора</string>
     <string name="request_notification_message">Для коректної роботи застосунка потрібно дозволити сповіщення. Це потрібно для служби, яка відповідає за більшу частину роботи застосунку, зокрема й для обчислення залишкової ємності акумулятора</string>
@@ -330,4 +332,5 @@
     <string name="check_update">Перевірити оновлення</string>
     <string name="update_not_found">Оновлення не знайдено!</string>
     <string name="overlay_location">Розташування</string>
+    <string name="do_you_like_the_app">Подобається додаток?</string>
 </resources>

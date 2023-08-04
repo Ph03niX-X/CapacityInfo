@@ -118,4 +118,11 @@
         <item>Внизу праворуч</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 Хвилин</item>
+        <item>30 Хвилин</item>
+        <item>45 Хвилин</item>
+        <item>1 Година</item>
+    </string-array>
+
 </resources>
