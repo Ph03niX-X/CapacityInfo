@@ -309,14 +309,16 @@
     <string name="setting_is_intended_to_correct">
         Diese Einstellung soll die Anzeige des Wertes korrigieren</string>
     <string name="full_charge_reminder">Erinnerung an volle Ladung</string>
-    <string name="full_charge_reminder_summary">Erinnerung an volle Ladung alle 30 Minuten</string>
+    <string name="full_charge_reminder_frequency">Erinnerungshäufigkeit für volle Ladung</string>
     <string name="allow_all_app_notifications">ALLE APP-BENACHRICHTIGUNGEN ZULASSEN</string>
     <string name="auto_start_xiaomi_dialog">Damit die Anwendung korrekt funktioniert, lassen Sie im nächsten Fenster den Autostart zu</string>
     <string name="background_activity_control_xiaomi_dialog">Damit die Anwendung im Hintergrund korrekt funktioniert, gehen Sie zum nächsten Fenster und wählen Sie \"Keine Einschränkungen\"</string>
     <string name="battery_health">Batteriezustand: %1$s</string>
     <string name="battery_health_great">Großartig</string>
+    <string name="battery_health_very_good">Sehr gut</string>
     <string name="battery_health_good">Gut</string>
     <string name="battery_health_bad">Schlecht</string>
+    <string name="battery_health_very_bad">Sehr schlecht</string>
     <string name="battery_health_replacement_required">Auswechseln erforderlich</string>
     <string name="battery_health_overlay">Batteriezustand</string>
     <string name="request_notification_message">Damit die Anwendung korrekt funktioniert, müssen Sie die Benachrichtigungen aktivieren. Dies ist für den Dienst erforderlich, der für die meisten Funktionen der Anwendung verantwortlich ist, einschließlich der Berechnung der Restkapazität der Batterie</string>
@@ -329,4 +331,5 @@
     <string name="check_update">Update prüfen</string>
     <string name="update_not_found">Update nicht gefunden!</string>
     <string name="overlay_location">Standort</string>
+    <string name="do_you_like_the_app">Gefällt dir die App?</string>
 </resources>

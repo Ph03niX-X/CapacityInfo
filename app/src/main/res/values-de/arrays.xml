@@ -118,4 +118,11 @@
         <item>Unten Rechts</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>45 Minuten</item>
+        <item>1 Stunde</item>
+    </string-array>
+
 </resources>
