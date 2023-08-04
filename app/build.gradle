@@ -56,7 +56,7 @@ static def getBuildDate() {
 
 dependencies {
 
-    def coroutinesVersion = '1.7.2'
+    def coroutinesVersion = '1.7.3'
     def billingVersion = "6.0.1"
     def miuiAutoStart = "v1.1"
 
