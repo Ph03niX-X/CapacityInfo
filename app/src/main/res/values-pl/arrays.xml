@@ -119,4 +119,11 @@
         <item>Spód prawy</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>45 minut</item>
+        <item>1 godzina</item>
+    </string-array>
+
 </resources>
