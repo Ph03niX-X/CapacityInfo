@@ -310,14 +310,16 @@
     <string name="setting_is_intended_to_correct">
         Тази настройка има за цел да коригира показването на стойността</string>
     <string name="full_charge_reminder">Напомняне за пълно зареждане</string>
-    <string name="full_charge_reminder_summary">Напомня ви да зареждате напълно на всеки 30 минути</string>
+    <string name="full_charge_reminder_frequency">Честота на напомняне за пълно зареждане</string>
     <string name="allow_all_app_notifications">РАЗРЕШЕТЕ НА ПРИЛОЖЕНИЕТО ДА ПОКАЗВА ВСИЧКИ ИЗВЕСТИЯ</string>
     <string name="auto_start_xiaomi_dialog">За да работи правилно приложението, разрешете автоматично стартиране в следващия прозорец</string>
     <string name="background_activity_control_xiaomi_dialog">За да работи приложението правилно във фонов режим, отидете на следващия прозорец и изберете \"Без ограничения\"</string>
     <string name="battery_health">Състояние на батерията: %1$s</string>
     <string name="battery_health_great">Страхотно</string>
+    <string name="battery_health_very_good">Много добре</string>
     <string name="battery_health_good">Добре</string>
     <string name="battery_health_bad">Лошо</string>
+    <string name="battery_health_very_bad">Много лошо</string>
     <string name="battery_health_replacement_required">Необходима подмяна</string>
     <string name="battery_health_overlay">Състояние на батерията</string>
     <string name="request_notification_message">Известията трябва да са разрешени, за да работи приложението правилно. Това е необходимо за услугата, която отговаря за по-голямата част от работата на приложението, включително за изчисляване на оставащия капацитет на батерията</string>
@@ -330,4 +332,5 @@
     <string name="check_update">Проверка за актуализации</string>
     <string name="update_not_found">Актуализация не е намерена!</string>
     <string name="overlay_location">Местоположение</string>
+    <string name="do_you_like_the_app">Харесвате ли приложението?</string>
 </resources>

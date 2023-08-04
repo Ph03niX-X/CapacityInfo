@@ -118,4 +118,11 @@
         <item>Долу вдясно</item>
     </string-array>
 
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 минути</item>
+        <item>30 минути</item>
+        <item>45 минути</item>
+        <item>1 час</item>
+    </string-array>
+
 </resources>
