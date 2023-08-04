@@ -310,14 +310,16 @@
     <string name="setting_is_intended_to_correct">
         Дадзеная налада прызначана для выпраўлення адлюстравання значэння</string>
     <string name="full_charge_reminder">Нагадваць аб поўным зарадзе</string>
-    <string name="full_charge_reminder_summary">Нагадваць аб поўным зарадзе кожныя 30 хвілін</string>
+    <string name="full_charge_reminder_frequency">Частата напамінкаў аб поўным зарадзе</string>
     <string name="allow_all_app_notifications">ДАЗВОЛІЦЕ ДАДАТКІ ПАКАЗВАЦЬ УСЕ АПАВЯШЧЭННІ</string>
     <string name="auto_start_xiaomi_dialog">Для таго каб прыкладанне працавала карэктна, дазвольце аўтазапуск у наступным акне</string>
     <string name="background_activity_control_xiaomi_dialog">Для таго каб прыкладанне працавала карэктна ў фоне, перайдзіце да наступнага акна і абярыце \"Няма абмежаванняў\"</string>
     <string name="battery_health">Стан акумулятара: %1$s</string>
     <string name="battery_health_great">Выдатнае</string>
+    <string name="battery_health_very_good">Вельмі добрае</string>
     <string name="battery_health_good">Добры</string>
     <string name="battery_health_bad">Дрэнны</string>
+    <string name="battery_health_very_bad">Вельмі дрэннае</string>
     <string name="battery_health_replacement_required">Патрабуецца замена</string>
     <string name="battery_health_overlay">Стан акумулятара</string>
     <string name="request_notification_message">Для карэктнай працы прыкладання патрабуецца дазволіць апавяшчэнні. Гэта трэба для службы, якая адказвае за большую частку працы прыкладання ў тым ліку і для вылічэння пакінутай ёмістасці акумулятара</string>
@@ -330,4 +332,5 @@
     <string name="check_update">Праверыць абнаўленне</string>
     <string name="update_not_found">Абнаўленне не знойдзена!</string>
     <string name="overlay_location">Размяшчэнне</string>
+    <string name="do_you_like_the_app">Падабаецца дадатак?</string>
 </resources>
