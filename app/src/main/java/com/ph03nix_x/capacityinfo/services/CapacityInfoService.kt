@@ -49,7 +49,6 @@ import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -62,6 +61,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_DEBUG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
@@ -81,6 +81,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterface,
@@ -520,9 +521,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private suspend fun batteryCharged() {
 
         withContext(Dispatchers.Main) {
+            val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
+                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
             ServiceHelper.jobSchedule(this@CapacityInfoService,
                 FullChargeReminderJobService::class.java, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
-                FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC)
+                fullChargeReminderFrequency?.minutes?.inWholeMilliseconds ?: resources
+                    .getInteger(R.integer.full_charge_reminder_frequency_default).minutes
+                    .inWholeMilliseconds)
         }
 
         isFull = true

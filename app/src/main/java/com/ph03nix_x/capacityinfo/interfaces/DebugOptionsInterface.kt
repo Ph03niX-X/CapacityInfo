@@ -42,6 +42,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
@@ -325,8 +326,8 @@ interface DebugOptionsInterface {
 
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_LOCATION, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
-                OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH ->
-                    addChangeSetting(pref, key, value.toString())
+                OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
+                FULL_CHARGE_REMINDER_FREQUENCY -> addChangeSetting(pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
@@ -380,8 +381,9 @@ interface DebugOptionsInterface {
                         UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_LOCATION,
                         OVERLAY_SIZE, OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE,
-                        TAB_ON_APPLICATION_LAUNCH -> setValueType("string",
-                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
+                        TAB_ON_APPLICATION_LAUNCH, FULL_CHARGE_REMINDER_FREQUENCY ->
+                            setValueType("string", changePrefValue, pref,
+                                prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
@@ -424,7 +426,8 @@ interface DebugOptionsInterface {
                 when(key) {
 
                     OVERLAY_LOCATION, OVERLAY_SIZE, OVERLAY_TEXT_STYLE, OVERLAY_FONT, TEXT_SIZE,
-                    TEXT_FONT, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH -> {
+                    TEXT_FONT, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
+                    FULL_CHARGE_REMINDER_FREQUENCY -> {
                         changePrefValue.inputType = InputType.TYPE_CLASS_NUMBER
 
                         changePrefValue.keyListener = DigitsKeyListener.getInstance(
@@ -564,6 +567,12 @@ interface DebugOptionsInterface {
                             TAB_ON_APPLICATION_LAUNCH -> s.toString() != pref.getString(
                                 key, "0") && s.toString() in context.resources
                                 .getStringArray(R.array.tab_on_application_launch_values)
+
+                            FULL_CHARGE_REMINDER_FREQUENCY -> s.toString() != pref.getString(
+                                key,"${context.resources.getInteger(
+                                    R.integer.full_charge_reminder_frequency_default)}") &&
+                                    s.toString() in context.resources.getStringArray(
+                                R.array.full_charge_reminder_frequency_values)
 
                             else -> s.isNotEmpty() && s.toString() !=
                                     pref.getString(key, null)

@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.utilities
 
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 object Constants {
 
@@ -39,6 +38,5 @@ object Constants {
     const val NOMINAL_BATTERY_VOLTAGE = 3.87
     const val CHARGING_VOLTAGE_WATT = 5.0
 
-    val FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC = 30.minutes.inWholeMilliseconds
     val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 4.hours.inWholeMilliseconds
 }

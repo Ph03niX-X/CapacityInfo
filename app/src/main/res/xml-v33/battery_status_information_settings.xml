@@ -61,12 +61,21 @@
 
     <SwitchPreferenceCompat
         android:title="@string/full_charge_reminder"
-        android:summary="@string/full_charge_reminder_summary"
         app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:defaultValue="@bool/is_notify_full_charge_reminder_default_value"
         app:enabled="@bool/is_notify_full_charge_reminder_enabled"
         android:key="is_notify_full_charge_reminder"/>
+
+        <ListPreference
+            android:title="@string/full_charge_reminder_frequency"
+            app:singleLineTitle="false"
+            android:entries="@array/full_charge_reminder_frequency_list"
+            android:entryValues="@array/full_charge_reminder_frequency_values"
+            app:defaultValue="@integer/full_charge_reminder_frequency_default"
+            app:iconSpaceReserved="false"
+            app:enabled="@bool/is_notify_full_charge_reminder_frequency_enabled"
+            android:key="full_charge_reminder_frequency"/>
 
     <SwitchPreferenceCompat
         android:title="@string/battery_is_charged"

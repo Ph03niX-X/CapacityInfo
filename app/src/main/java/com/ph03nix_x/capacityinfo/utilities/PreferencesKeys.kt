@@ -19,6 +19,7 @@ object PreferencesKeys {
     const val OVERCOOL_DEGREES = "overcool_degrees"
     const val IS_NOTIFY_BATTERY_IS_FULLY_CHARGED = "is_notify_battery_is_fully_charged"
     const val IS_NOTIFY_FULL_CHARGE_REMINDER = "is_notify_full_charge_reminder"
+    const val FULL_CHARGE_REMINDER_FREQUENCY = "full_charge_reminder_frequency"
     const val IS_NOTIFY_BATTERY_IS_CHARGED = "is_notify_battery_is_charged"
     const val IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE = "is_notify_battery_is_charged_voltage"
     const val BATTERY_LEVEL_NOTIFY_CHARGED = "battery_level_notify_charged"

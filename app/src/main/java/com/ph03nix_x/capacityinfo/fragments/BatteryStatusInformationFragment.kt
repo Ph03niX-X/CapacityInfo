@@ -34,12 +34,14 @@ import com.ph03nix_x.capacityinfo.services.FullChargeReminderJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
@@ -56,6 +58,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
+import kotlin.time.Duration.Companion.minutes
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
@@ -69,6 +72,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var overcoolDegrees: SeekBarPreference? = null
     private var notifyBatteryIsFullyCharged: SwitchPreferenceCompat? = null
     private var notifyFullChargeReminder: SwitchPreferenceCompat? = null
+    private var fullChargeReminderFrequency: ListPreference? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
     private var notifyBatteryIsChargedVoltage: SwitchPreferenceCompat? = null
     private var notifyChargingCurrent: SwitchPreferenceCompat? = null
@@ -122,6 +126,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         overcoolDegrees = findPreference(OVERCOOL_DEGREES)
         notifyBatteryIsFullyCharged = findPreference(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED)
         notifyFullChargeReminder = findPreference(IS_NOTIFY_FULL_CHARGE_REMINDER)
+        fullChargeReminderFrequency = findPreference(FULL_CHARGE_REMINDER_FREQUENCY)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
         notifyBatteryIsChargedVoltage = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE)
         notifyChargingCurrent = findPreference(IS_NOTIFY_CHARGING_CURRENT)
@@ -250,6 +255,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             val isChecked = (newValue as? Boolean) ?: false
 
             notifyFullChargeReminder?.isEnabled = isChecked
+            fullChargeReminderFrequency?.isEnabled = isChecked &&
+                    notifyFullChargeReminder?.isChecked == true
 
             if(!isChecked) ServiceHelper.cancelJob(requireContext(),
                 Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
@@ -261,15 +268,58 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             val isChecked = (newValue as? Boolean) ?: false
 
+            fullChargeReminderFrequency?.isEnabled = isChecked
+
+            val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
+                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
+
             if(isChecked && CapacityInfoService.instance?.isFull == true)
                 ServiceHelper.jobSchedule(requireContext(),
                     FullChargeReminderJobService::class.java,
                     Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
-                    Constants.FULL_CHARGE_REMINDER_JOB_SERVICE_PERIODIC)
+                    fullChargeReminderFrequency?.minutes?.inWholeMilliseconds ?: resources
+                        .getInteger(R.integer.full_charge_reminder_frequency_default).minutes
+                        .inWholeMilliseconds)
             else ServiceHelper.cancelJob(requireContext(),
                 Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
 
             true
+        }
+
+
+        fullChargeReminderFrequency?.apply {
+            isEnabled = notifyBatteryIsFullyCharged?.isChecked == true &&
+                    notifyFullChargeReminder?.isChecked == true
+            summary = getFullChargeReminderFrequencySummary()
+            setOnPreferenceChangeListener { preference, newValue ->
+
+                ServiceHelper.cancelJob(requireContext(),
+                    Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+
+                val fullChargeReminderFrequencyPref = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
+                    "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")
+
+                if(notifyFullChargeReminder?.isChecked == true &&
+                    CapacityInfoService.instance?.isFull == true)
+                    ServiceHelper.jobSchedule(requireContext(),
+                        FullChargeReminderJobService::class.java,
+                        Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
+                        fullChargeReminderFrequencyPref?.toInt()?.minutes
+                            ?.inWholeMilliseconds ?: resources.getInteger(R.integer
+                                .full_charge_reminder_frequency_default).minutes.inWholeMilliseconds)
+
+                preference.summary = resources.getStringArray(R.array
+                    .full_charge_reminder_frequency_list)[when((newValue as? String)?.toInt()) {
+                        15 -> 0
+                        30 -> 1
+                        45 -> 2
+                        60 -> 3
+                        else -> resources.getInteger(
+                            R.integer.full_charge_reminder_frequency_default_index)
+                }]
+
+                true
+            }
         }
 
         notifyBatteryIsCharged?.setOnPreferenceChangeListener { _, newValue ->
@@ -484,6 +534,12 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                     PackageManager.PERMISSION_DENIED
         }
 
+        fullChargeReminderFrequency?.apply {
+            isEnabled = notifyBatteryIsFullyCharged?.isChecked == true &&
+                    notifyFullChargeReminder?.isChecked == true
+            summary = getFullChargeReminderFrequencySummary()
+        }
+
         overheatDegrees?.apply {
             summary = getOverheatDegreesSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
@@ -568,6 +624,26 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             isEnabled = pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources.getBoolean(
                 R.bool.is_notify_discharge_current))
         }
+    }
+
+    private fun getFullChargeReminderFrequencySummary(): String {
+        if(pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
+                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}") !in
+            resources.getStringArray(R.array.full_charge_reminder_frequency_values))
+            pref.edit().putString(FULL_CHARGE_REMINDER_FREQUENCY,
+                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}").apply()
+
+        val fullChargeReminderFrequencyPref = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
+            "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")
+
+        return resources.getStringArray(R.array.full_charge_reminder_frequency_list)[
+           when(fullChargeReminderFrequencyPref?.toInt()) {
+               15 -> 0
+               30 -> 1
+               45 -> 2
+               60 -> 3
+               else -> resources.getInteger(R.integer.full_charge_reminder_frequency_default_index)
+           }]
     }
 
     private fun getOverheatDegreesSummary(): String {
