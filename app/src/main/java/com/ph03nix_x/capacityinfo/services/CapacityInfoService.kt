@@ -406,6 +406,22 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
 
+        withContext(Dispatchers.Main) {
+
+            val mainActivity = MainActivity.instance
+            val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
+                R.id.charge_discharge_navigation)
+
+            if(mainActivity?.fragment is ChargeDischargeFragment)
+                mainActivity.toolbar.title = getString(R.string.charge)
+
+            chargeDischargeNavigation?.title = getString(R.string.charge)
+            chargeDischargeNavigation?.icon =
+                mainActivity?.getChargeDischargeNavigationIcon(true)?.let {
+                ContextCompat.getDrawable(mainActivity, it)
+            }
+        }
+
         if(batteryLevel == 100) {
             if(secondsFullCharge >= 3600) batteryCharged()
             currentCapacity = (getCurrentCapacity(this) * if(pref.getString(
@@ -483,6 +499,19 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private suspend fun batteryCharged() {
 
         withContext(Dispatchers.Main) {
+            val mainActivity = MainActivity.instance
+            val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
+                R.id.charge_discharge_navigation)
+
+            if(mainActivity?.fragment is ChargeDischargeFragment)
+                mainActivity.toolbar.title = getString(R.string.discharge)
+
+            chargeDischargeNavigation?.title = getString(R.string.discharge)
+            chargeDischargeNavigation?.icon =
+                mainActivity?.getChargeDischargeNavigationIcon(false)?.let {
+                    ContextCompat.getDrawable(mainActivity, it)
+                }
+
             val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
                 "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
             ServiceHelper.jobSchedule(this@CapacityInfoService,
