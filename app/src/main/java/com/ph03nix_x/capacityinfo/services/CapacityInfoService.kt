@@ -33,14 +33,6 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isB
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryFullyCharged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isChargingCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isDischargeCurrent
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryCharged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryChargedVoltage
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryDischarged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryDischargedVoltage
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyBatteryFullyCharged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyChargingCurrent
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyDischargeCurrent
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isNotifyOverheatOvercool
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isOverheatOvercool
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
@@ -94,7 +86,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var dischargeCurrentTemp: Int? = null
     private var isScreenTimeJob = false
     private var isJob = false
-    private var secondsTemperature = 0
     private var currentCapacity = 0
 
     var isFull = false
@@ -247,21 +238,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
 
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
-                            R.bool.is_notify_overheat_overcool)) && isNotifyOverheatOvercool
-                        && (temperature >= pref.getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer
-                            .overheat_degrees_default)) ||
+                            R.bool.is_notify_overheat_overcool)) && (temperature >= pref
+                                .getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer
+                                    .overheat_degrees_default)) ||
                                 temperature <= pref.getInt(OVERCOOL_DEGREES, resources.getInteger(
                             R.integer.overcool_degrees_default))))
                         withContext(Dispatchers.Main) {
-                            secondsTemperature = 0
                             onNotifyOverheatOvercool(this@CapacityInfoService, temperature)
                         }
-
-                    else if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
-                            R.bool.is_notify_overheat_overcool)) && !isNotifyOverheatOvercool) {
-                        if(secondsTemperature >= 600) isNotifyOverheatOvercool = true
-                        else secondsTemperature++
-                    }
 
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING
                         && !isStopService && secondsFullCharge < 3600) batteryCharging()
@@ -270,23 +254,18 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         !isFull && !isStopService) batteryCharged()
 
                     else if(!isStopService) {
-                        isNotifyBatteryFullyCharged = true
-                        isNotifyBatteryCharged = true
-                        isNotifyBatteryChargedVoltage = true
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                                 R.bool.is_notify_battery_is_discharged)) && (getBatteryLevel(
                                 this@CapacityInfoService) ?: 0) <= pref.getInt(
-                                BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)
-                            && isNotifyBatteryDischarged)
+                                BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))
                             withContext(Dispatchers.Main) {
 
                                 onNotifyBatteryDischarged(this@CapacityInfoService)
                             }
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
-                                resources.getBoolean(R.bool.is_notify_battery_is_charged_voltage))
-                            && isNotifyBatteryDischargedVoltage) {
+                                resources.getBoolean(R.bool.is_notify_battery_is_charged_voltage))) {
 
                             val voltage = getVoltage(this@CapacityInfoService)
 
@@ -316,8 +295,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                             else if(dischargeCurrent >= pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY,
                                     resources.getInteger(R.integer
-                                        .discharge_current_notify_level_min)) &&
-                                isNotifyDischargeCurrent)
+                                        .discharge_current_notify_level_min)))
                                 withContext(Dispatchers.Main) {
 
                                     onNotifyDischargeCurrent(this@CapacityInfoService,
@@ -347,15 +325,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         screenTimeJob = null
         jobService = null
         notificationBuilder = null
-
-        isNotifyOverheatOvercool = true
-        isNotifyBatteryFullyCharged = true
-        isNotifyBatteryCharged = true
-        isNotifyBatteryChargedVoltage = true
-        isNotifyBatteryDischarged = true
-        isNotifyBatteryDischargedVoltage = true
-        isNotifyChargingCurrent = true
-        isNotifyDischargeCurrent = true
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
@@ -435,9 +404,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     private suspend fun batteryCharging() {
 
-        isNotifyBatteryDischarged = true
-        isNotifyBatteryDischargedVoltage = true
-
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
 
         if(batteryLevel == 100) {
@@ -453,16 +419,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged)) &&
-            (getBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED,
-                80) && isNotifyBatteryCharged)
+            (getBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80))
             withContext(Dispatchers.Main) {
 
                 onNotifyBatteryCharged(this@CapacityInfoService)
             }
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, resources.getBoolean(R.bool
-                .is_notify_battery_is_charged_voltage)) && isNotifyBatteryChargedVoltage
-            && seconds >= 15) {
+                .is_notify_battery_is_charged_voltage)) && seconds >= 15) {
 
             val voltage = getVoltage(this)
 
@@ -489,12 +453,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
 
             else if(chargingCurrent <= pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
-                    .getInteger(R.integer.charging_current_notify_level_min)) &&
-                isNotifyChargingCurrent && seconds >= 15)
+                    .getInteger(R.integer.charging_current_notify_level_min)) && seconds >= 15)
                     withContext(Dispatchers.Main) {
 
                         onNotifyChargingCurrent(this@CapacityInfoService, chargingCurrent)
-
                     }
         }
 
@@ -532,8 +494,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         isFull = true
 
-        isNotifyBatteryDischarged = true
-        isNotifyBatteryDischargedVoltage = true
         if(currentCapacity == 0)
             currentCapacity = (getCurrentCapacity(this) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
@@ -560,7 +520,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_fully_charged)) && isNotifyBatteryFullyCharged)
+                R.bool.is_notify_battery_is_fully_charged)))
             withContext(Dispatchers.Main) {
 
                 onNotifyBatteryFullyCharged(this@CapacityInfoService)

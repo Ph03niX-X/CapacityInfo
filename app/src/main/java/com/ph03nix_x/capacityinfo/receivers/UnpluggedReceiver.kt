@@ -123,6 +123,9 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                 }
 
                 NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_FULLY_CHARGED_ID)
+
+                NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
                 NotificationInterface.notificationManager?.cancel(

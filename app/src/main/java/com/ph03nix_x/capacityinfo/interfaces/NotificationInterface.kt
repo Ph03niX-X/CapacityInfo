@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
@@ -20,15 +21,14 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
-import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CloseNotificationBatteryStatusInformationService
 import com.ph03nix_x.capacityinfo.services.DisableNotificationBatteryStatusInformationService
 import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
-import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_VOLTAGE_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_CURRENT_ID
@@ -37,6 +37,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.DISABLE_NOTIFICATION_BATTE
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISCHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISCHARGED_VOLTAGE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISCHARGE_CURRENT_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.OPEN_APP_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.OVERHEAT_OVERCOOL_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
@@ -51,8 +52,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
-import java.lang.RuntimeException
 import java.text.DecimalFormat
+
 
 @SuppressLint("StaticFieldLeak")
 interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
@@ -61,23 +62,16 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         const val NOTIFICATION_SERVICE_ID = 101
         const val NOTIFICATION_BATTERY_STATUS_ID = 102
-        const val NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID = 103
-        const val NOTIFICATION_CHARGING_CURRENT_ID = 104
-        const val NOTIFICATION_DISCHARGE_CURRENT_ID = 105
+        const val NOTIFICATION_FULLY_CHARGED_ID = 103
+        const val NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID = 104
+        const val NOTIFICATION_CHARGING_CURRENT_ID = 105
+        const val NOTIFICATION_DISCHARGE_CURRENT_ID = 106
 
         private lateinit var channelId: String
         private lateinit var stopService: PendingIntent
 
         var notificationBuilder: NotificationCompat.Builder? = null
         var notificationManager: NotificationManager? = null
-        var isNotifyOverheatOvercool = true
-        var isNotifyBatteryFullyCharged = true
-        var isNotifyBatteryCharged = true
-        var isNotifyBatteryChargedVoltage = true
-        var isNotifyBatteryDischarged = true
-        var isNotifyBatteryDischargedVoltage = true
-        var isNotifyChargingCurrent = true
-        var isNotifyDischargeCurrent = true
         var isOverheatOvercool = false
         var isBatteryFullyCharged = false
         var isBatteryCharged = false
@@ -193,7 +187,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     fun onUpdateServiceNotification(context: Context) {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as NotificationManager
 
         batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(
@@ -276,13 +270,13 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     fun onNotifyOverheatOvercool(context: Context, temperature: Double) {
 
+        if(isNotificationExists(context, NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)) return
+
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val temperatureInFahrenheit = getTemperatureInFahrenheit(context)
 
-        isNotifyOverheatOvercool = false
-
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, OVERHEAT_OVERCOOL_CHANNEL_ID)
@@ -360,13 +354,13 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             notificationBuilder.build())
     }
     
-    fun onNotifyBatteryFullyCharged(context: Context) {
+    fun onNotifyBatteryFullyCharged(context: Context, isReminder: Boolean = false) {
+
+        if(!isReminder && isNotificationExists(context, NOTIFICATION_FULLY_CHARGED_ID)) return
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        isNotifyBatteryFullyCharged = false
-
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, FULLY_CHARGED_CHANNEL_ID)
@@ -426,18 +420,18 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                     "${context.packageName}/${R.raw.battery_is_fully_charged}"))
         }
 
-        notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
+        notificationManager?.notify(NOTIFICATION_FULLY_CHARGED_ID, notificationBuilder.build())
     }
 
     fun onNotifyBatteryCharged(context: Context) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
 
-        isNotifyBatteryCharged = false
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val batteryLevel = getBatteryLevel(context)
 
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, CHARGED_CHANNEL_ID)
@@ -513,11 +507,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     fun onNotifyBatteryChargedVoltage(context: Context, voltage: Int) {
 
+        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
+
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        isNotifyBatteryChargedVoltage = false
-
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, CHARGED_CHANNEL_VOLTAGE_ID)
@@ -593,13 +587,13 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     fun onNotifyBatteryDischarged(context: Context) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
 
-        isNotifyBatteryDischarged = false
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val batteryLevel = getBatteryLevel(context) ?: 0
 
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, DISCHARGED_CHANNEL_ID)
@@ -677,13 +671,13 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     fun onNotifyBatteryDischargedVoltage(context: Context, voltage: Int) {
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
 
-        isNotifyBatteryDischargedVoltage = false
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val batteryLevel = getBatteryLevel(context) ?: 0
 
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, DISCHARGED_VOLTAGE_CHANNEL_ID)
@@ -760,11 +754,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     fun onNotifyChargingCurrent(context: Context, chargingCurrent: Int) {
 
+        if(isNotificationExists(context, NOTIFICATION_CHARGING_CURRENT_ID)) return
+
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        isNotifyChargingCurrent = false
-
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, CHARGING_CURRENT_ID)
@@ -831,11 +825,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     fun onNotifyDischargeCurrent(context: Context, dischargeCurrent: Int) {
 
+        if(isNotificationExists(context, NOTIFICATION_DISCHARGE_CURRENT_ID)) return
+
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        isNotifyDischargeCurrent = false
-
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
 
         val channelId = onCreateNotificationChannel(context, CHARGING_CURRENT_ID)
@@ -904,7 +898,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             String {
 
         val notificationService =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+            context.getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
 
         val soundAttributes = AudioAttributes.Builder().apply {
 
@@ -1455,5 +1449,16 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             setTextViewText(R.id.voltage_service_notification, context.getString(R.string.voltage,
                 DecimalFormat("#.#").format(getVoltage(context))))
         }
+    }
+
+    private fun isNotificationExists(context: Context, notificationID: Int): Boolean {
+        val notificationManager =
+            context.getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
+        val notifications = notificationManager?.activeNotifications
+        if(notifications != null) {
+            for(notification in notifications)
+                return notification.id == notificationID
+        }
+        return false
     }
 }

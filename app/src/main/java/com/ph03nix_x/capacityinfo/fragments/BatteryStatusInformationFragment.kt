@@ -237,8 +237,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 preference.summary = "${((newValue as? Int) ?: pref.getInt(
                     BATTERY_LEVEL_NOTIFY_CHARGED, 80))}%"
 
-                NotificationInterface.isNotifyBatteryCharged = true
-
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
@@ -265,8 +263,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                     BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(R.integer
                         .battery_notify_charged_voltage_min)))}"
 
-                NotificationInterface.isNotifyBatteryChargedVoltage = true
-
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
@@ -283,8 +279,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
                 preference.summary = "${((newValue as? Int) ?: pref.getInt(
                     BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))}%"
-
-                NotificationInterface.isNotifyBatteryDischarged = true
 
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
@@ -313,8 +307,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             overcoolDegrees?.isEnabled = newValue as? Boolean == true
 
-            NotificationInterface.isNotifyOverheatOvercool = true
-
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
 
@@ -323,10 +315,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         notifyBatteryIsFullyCharged?.setOnPreferenceChangeListener { _, newValue ->
 
-            NotificationInterface.isNotifyBatteryFullyCharged = true
-
             NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
+                NotificationInterface.NOTIFICATION_FULLY_CHARGED_ID)
 
             val isChecked = (newValue as? Boolean) ?: false
 
@@ -379,8 +369,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             batteryLevelNotifyCharged?.isEnabled = newValue as? Boolean == true
 
-            NotificationInterface.isNotifyBatteryChargedVoltage = true
-
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
@@ -390,8 +378,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyBatteryIsChargedVoltage?.setOnPreferenceChangeListener { _, newValue ->
 
             batteryNotifyChargedVoltage?.isEnabled = newValue as? Boolean == true
-
-            NotificationInterface.isNotifyBatteryChargedVoltage = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
@@ -403,8 +389,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             chargingCurrentLevelNotify?.isEnabled = newValue as? Boolean == true
 
-            NotificationInterface.isNotifyChargingCurrent = true
-
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
@@ -414,8 +398,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyDischargeCurrent?.setOnPreferenceChangeListener { _, newValue ->
 
             dischargeCurrentLevelNotify?.isEnabled = newValue as? Boolean == true
-
-            NotificationInterface.isNotifyDischargeCurrent = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_DISCHARGE_CURRENT_ID)
@@ -427,8 +409,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             batteryLevelNotifyDischarged?.isEnabled = newValue as? Boolean == true
 
-            NotificationInterface.isNotifyBatteryDischarged = true
-
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
@@ -438,8 +418,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyBatteryIsDischargedVoltage?.setOnPreferenceChangeListener { _, newValue ->
 
             batteryNotifyDischargedVoltage?.isEnabled = newValue as? Boolean == true
-
-            NotificationInterface.isNotifyBatteryDischargedVoltage = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
@@ -452,8 +430,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             preference.summary = "${((newValue as? Int) ?: pref.getInt(
                 BATTERY_NOTIFY_DISCHARGED_VOLTAGE, resources.getInteger(R.integer
                     .battery_notify_discharged_voltage_min)))}"
-
-            NotificationInterface.isNotifyBatteryDischargedVoltage = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
@@ -474,8 +450,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
                     .charging_current_notify_level_min))))
 
-            NotificationInterface.isNotifyChargingCurrent = true
-
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
@@ -494,8 +468,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             preference.summary = getString(R.string.ma, ((newValue as? Int) ?: pref.getInt(
                 DISCHARGE_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
                     .discharge_current_notify_level_min))))
-
-            NotificationInterface.isNotifyDischargeCurrent = true
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_DISCHARGE_CURRENT_ID)

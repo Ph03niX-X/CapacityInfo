@@ -56,6 +56,9 @@ class DisableNotificationBatteryStatusInformationService : Service() {
             }
         }
 
+        if(NotificationInterface.isBatteryFullyCharged)
+            NotificationInterface.notificationManager?.cancel(NotificationInterface
+                .NOTIFICATION_FULLY_CHARGED_ID)
         if(NotificationInterface.isOverheatOvercool) {
             NotificationInterface.notificationManager?.cancel(NotificationInterface
                 .NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)

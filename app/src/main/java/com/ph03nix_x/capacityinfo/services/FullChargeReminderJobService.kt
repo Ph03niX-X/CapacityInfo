@@ -32,7 +32,7 @@ class FullChargeReminderJobService : JobService(), NotificationInterface {
             ServiceHelper.cancelJob(this, Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
 
         else if(isNotifyBatteryIsFullyCharged && CapacityInfoService.instance?.isFull == true)
-            onNotifyBatteryFullyCharged(this)
+            onNotifyBatteryFullyCharged(this, true)
 
         return false
     }

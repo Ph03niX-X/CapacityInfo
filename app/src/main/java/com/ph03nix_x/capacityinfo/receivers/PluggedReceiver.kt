@@ -72,6 +72,9 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
                 CapacityInfoService.instance?.isSaveNumberOfCharges = true
 
                 NotificationInterface.notificationManager?.cancel(
+                    NotificationInterface.NOTIFICATION_FULLY_CHARGED_ID)
+
+                NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
 
                 NotificationInterface.notificationManager?.cancel(
