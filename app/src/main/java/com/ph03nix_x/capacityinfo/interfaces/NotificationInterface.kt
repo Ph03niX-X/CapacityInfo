@@ -106,8 +106,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             setCategory(Notification.CATEGORY_SERVICE)
             setSmallIcon(R.drawable.ic_service_small_icon)
 
-            color = ContextCompat.getColor(context, if(isSystemDarkMode(
-                        context.resources.configuration)) R.color.red else R.color.blue)
+            color = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                ContextCompat.getColor(context, android.R.color.system_accent1_300) else
+                    ContextCompat.getColor(context,
+                        if(isSystemDarkMode(context.resources.configuration)) R.color.red
+                        else R.color.blue)
 
             setContentIntent(openApp)
 
@@ -198,9 +201,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         notificationBuilder?.apply {
 
-            color = ContextCompat.getColor(context.applicationContext, if(
-                isSystemDarkMode(context.resources.configuration)) R.color.red
-            else R.color.blue)
+            color =  if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                ContextCompat.getColor(context, android.R.color.system_accent1_300) else
+                ContextCompat.getColor(context,
+                    if(isSystemDarkMode(context.resources.configuration)) R.color.red
+                    else R.color.blue)
 
             if(PremiumInterface.isPremium) {
                 if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(

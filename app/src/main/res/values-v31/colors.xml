@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@android:color/system_accent1_300</color>
+    <color name="primary_dark">@android:color/white</color>
+    <color name="accent">@android:color/system_accent1_300</color>
+    <color name="navigation_bar">@android:color/transparent</color>
+    <color name="window_background">@color/dark</color>
+    <color name="scrollbar_thumb_vertical">@android:color/system_accent1_300</color>
+    <color name="popup_menu_background">@color/dark</color>
+    <color name="text_dialog_list_item">@color/dark_white</color>
+    <color name="dialog_window_background">@color/dark</color>
+    <color name="dialog_background">@color/dark</color>
+    <color name="title_text">@color/dark_white</color>
+    <color name="subtitle_text">@color/dark_white</color>
+    <color name="icons">@android:color/system_accent1_300</color>
+    <color name="icons_pref_category">@android:color/system_accent1_300</color>
+    <color name="service_notification_text">@android:color/darker_gray</color>
+    <color name="icon_telegram">@android:color/system_accent1_300</color>
+    <color name="icon_telegram_center">@android:color/black</color>
+    <color name="swipe_refresh_layout_progress">@color/primary</color>
+    <color name="dialog_text">@color/dark_white</color>
+    <color name="dialog_text_primary">@color/dark_white</color>
+    <color name="menu_text">@color/dark_white</color>
+</resources>
