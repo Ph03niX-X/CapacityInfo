@@ -435,7 +435,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged)) &&
-            (getBatteryLevel(this) ?: 0) >= pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80))
+            (getBatteryLevel(this) ?: 0) == pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80))
             withContext(Dispatchers.Main) {
 
                 onNotifyBatteryCharged(this@CapacityInfoService)
