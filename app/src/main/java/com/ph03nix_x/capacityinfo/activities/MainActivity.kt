@@ -252,20 +252,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 )
         }
 
-        if (fragment is HistoryFragment && HistoryHelper.isHistoryEmpty(this)) {
-            fragment = ChargeDischargeFragment()
-            isLoadHistory = false
-            isLoadChargeDischarge = true
-            clearMenu()
-            inflateMenu()
-            loadFragment(fragment ?: ChargeDischargeFragment())
-        }
-        if (HistoryHelper.isHistoryEmpty(this) &&
-            pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
-        )
-            pref.edit().remove(TAB_ON_APPLICATION_LAUNCH).apply()
-
-
         toolbar.title = when (fragment) {
 
             is ChargeDischargeFragment -> getString(

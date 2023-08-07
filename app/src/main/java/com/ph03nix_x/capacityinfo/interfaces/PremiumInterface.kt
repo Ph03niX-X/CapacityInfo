@@ -106,7 +106,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
         }
     }
 
-    fun initiateBilling(isPurchasePremium: Boolean = false) {
+    fun initiateBilling(isPurchasePremium: Boolean) {
 
         if(premiumContext == null) premiumContext = CapacityInfoService.instance
 
@@ -272,7 +272,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
            else if(tokenPref == null || tokenPref.count() != TOKEN_COUNT) {
 
-                if(billingClient?.isReady != true) initiateBilling()
+                if(billingClient?.isReady != true) initiateBilling(false)
 
                 delay(2.5.seconds)
                 if(billingClient?.isReady == true) {
@@ -311,7 +311,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
             val pref = PreferenceManager.getDefaultSharedPreferences(this@checkPremiumJob)
 
-            if(billingClient?.isReady != true) initiateBilling()
+            if(billingClient?.isReady != true) initiateBilling(false)
 
             delay(2.5.seconds)
             if(billingClient?.isReady == true) {
