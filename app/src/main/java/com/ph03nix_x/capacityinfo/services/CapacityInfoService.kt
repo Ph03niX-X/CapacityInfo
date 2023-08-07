@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
+import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
@@ -584,20 +585,41 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
                         residualCapacity)
                     if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
-                        HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
-                            View.GONE
-                        HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
-                            View.VISIBLE
+                        val historyFragment = HistoryFragment.instance
+                        historyFragment?.binding?.refreshEmptyHistory?.visibility = View.GONE
+                        historyFragment?.binding?.emptyHistoryLayout?.visibility = View.GONE
+                        historyFragment?.binding?.historyRecyclerView?.visibility = View.VISIBLE
+                        historyFragment?.binding?.refreshHistory?.visibility = View.VISIBLE
                         MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
                             ?.isVisible = false
                         MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
                             ?.isVisible = true
-                        HistoryAdapter.instance?.update(this@CapacityInfoService)
+
+                        if(HistoryHelper.getHistoryCount(this@CapacityInfoService) == 1L) {
+                            val historyDB = withContext(Dispatchers.IO) {
+                                HistoryDB(this@CapacityInfoService)
+                            }
+                            historyFragment?.historyAdapter = HistoryAdapter(withContext(Dispatchers.IO) {
+                                historyDB.readDB()
+                            })
+                            historyFragment?.historyAdapter?.itemCount?.let {
+                                historyFragment.binding?.historyRecyclerView?.setItemViewCacheSize(
+                                    it
+                                )
+                            }
+                            historyFragment?.binding?.historyRecyclerView?.adapter =
+                                historyFragment?.historyAdapter
+                        }
+
+                        else HistoryAdapter.instance?.update(this@CapacityInfoService)
                     }
                     else {
                         HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
                             View.GONE
+                        HistoryFragment.instance?.binding?.refreshHistory?.visibility = View.GONE
                         HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
+                            View.VISIBLE
+                        HistoryFragment.instance?.binding?.refreshEmptyHistory?.visibility =
                             View.VISIBLE
                         HistoryFragment.instance?.binding?.emptyHistoryText?.text =
                             resources.getText(R.string.empty_history_text)
@@ -610,7 +632,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
             else {
                 HistoryFragment.instance?.binding?.historyRecyclerView?.visibility = View.GONE
+                HistoryFragment.instance?.binding?.refreshHistory?.visibility = View.GONE
                 HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility = View.VISIBLE
+                HistoryFragment.instance?.binding?.refreshEmptyHistory?.visibility = View.VISIBLE
                 HistoryFragment.instance?.binding?.emptyHistoryText?.text =
                     resources.getText(R.string.history_premium_feature)
                 MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
