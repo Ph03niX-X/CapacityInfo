@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/premium"
-        android:title="@string/premium"
+        android:title="@string/get_premium"
         android:icon="@drawable/ic_premium_24"
         app:showAsAction="ifRoom"/>
 
