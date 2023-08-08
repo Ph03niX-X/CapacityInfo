@@ -99,7 +99,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         mainActivity = activity as? MainActivity
 
-        premium = findPreference("premium")
+        premium = findPreference("get_premium")
 
         premium?.apply {
             isVisible = !isPremium

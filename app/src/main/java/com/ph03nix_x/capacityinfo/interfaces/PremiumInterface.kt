@@ -212,7 +212,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
     fun MainActivity.showPremiumDialog() {
         MaterialAlertDialogBuilder(this).apply {
             setIcon(R.drawable.ic_premium_24)
-            setTitle(getString(R.string.premium))
+            setTitle(getString(R.string.get_premium))
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
                 if(MainApp.isInstalledGooglePlay) {

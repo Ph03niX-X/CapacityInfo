@@ -8,7 +8,7 @@
         android:title="@string/premium"
         app:singleLineTitle="false"
         app:icon="@drawable/ic_premium_24"
-        android:key="premium"/>
+        android:key="get_premium"/>
 
     <PreferenceCategory
         android:title="@string/service_and_notification"
