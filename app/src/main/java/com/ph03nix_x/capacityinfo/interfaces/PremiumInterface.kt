@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.view.View
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
@@ -93,15 +94,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 purchases[0].purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            if(isPremium) {
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                    ?.isVisible = false
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible =
-                    HistoryHelper.isHistoryNotEmpty(premiumContext!!)
-                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                    premiumContext?.resources?.getText(R.string.empty_history_text)
-            }
+            if(isPremium) premiumFeaturesUnlocked(premiumContext!!, false)
             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
@@ -195,17 +188,25 @@ interface PremiumInterface: PurchasesUpdatedListener {
         }
     }
 
-    private fun premiumFeaturesUnlocked(context: Context) {
-        Toast.makeText(context, R.string.premium_features_unlocked,
-            Toast.LENGTH_LONG).show()
-        MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)
-            ?.isVisible = false
-        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-            ?.isVisible = false
-        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-            ?.isVisible = HistoryHelper.isHistoryNotEmpty(context)
+    private fun premiumFeaturesUnlocked(context: Context, isShowToast: Boolean = true) {
+        if(isShowToast)
+            Toast.makeText(context, R.string.premium_features_unlocked, Toast.LENGTH_LONG).show()
+        val mainActivity = MainActivity.instance
+        val historyFragment = HistoryFragment.instance
+        val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
+        mainActivity?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
+        mainActivity?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
+        mainActivity?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
+        historyFragment?.binding?.refreshEmptyHistory?.visibility =
+            if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+        historyFragment?.binding?.emptyHistoryLayout?.visibility =
+            if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+        historyFragment?.binding?.historyRecyclerView?.visibility =
+            if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+        historyFragment?.binding?.refreshHistory?.visibility =
+            if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
         HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-            context.resources?.getText(R.string.empty_history_text)
+            if(!isHistoryNotEmpty) context.resources?.getText(R.string.empty_history_text) else null
     }
 
     fun MainActivity.showPremiumDialog() {
@@ -298,9 +299,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
                        billingClient?.endConnection()
                        billingClient = null
                    }
-               }
-
-                if(!isPremium) removePremiumFeatures(premiumContext!!)
+                    if(!isPremium) removePremiumFeatures(premiumContext!!)
+                }
            }
         }
     }
