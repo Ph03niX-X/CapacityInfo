@@ -8,9 +8,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import xyz.kumaraswamy.autostart.Autostart
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
+import xyz.kumaraswamy.autostart.Utils
 import java.util.Locale
 
 /**
@@ -21,9 +19,9 @@ import java.util.Locale
 interface ManufacturerInterface {
 
     fun MainActivity.checkManufacturer() {
-        if(showXiaomiAutostartDialog == null && isXiaomi() &&
-            Autostart(this).autoStartState == Autostart.State.DISABLED)
-            showXiaomiAutoStartDialog() else if(isHuawei()) showHuaweiInfo()
+        if(showXiaomiAutostartDialog == null && isXiaomi()
+            && !Autostart.isAutoStartEnabled(this)) showXiaomiAutoStartDialog()
+        else if(isHuawei()) showHuaweiInfo()
     }
 
     private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
@@ -32,31 +30,7 @@ interface ManufacturerInterface {
 
         val xiaomiManufacturerList = arrayListOf("XIAOMI", "POCO", "REDMI", "BLACK SHARK")
 
-        return getManufacturer() in xiaomiManufacturerList && isMIUI()
-    }
-
-    private fun isMIUI(): Boolean {
-
-        val propName = "ro.miui.ui.version.name"
-        val line: String
-        var input: BufferedReader? = null
-        return try {
-            val p = Runtime.getRuntime().exec("getprop $propName")
-            input = BufferedReader(InputStreamReader(p.inputStream), 1024)
-            line = input.readLine()
-            input.close()
-            line.isNotEmpty()
-        } catch (ex: IOException) {
-            false
-        } finally {
-            if (input != null) {
-                try {
-                    input.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
+        return getManufacturer() in xiaomiManufacturerList && Utils.isOnMiui()
     }
 
     private fun isHuawei(): Boolean {
@@ -67,8 +41,8 @@ interface ManufacturerInterface {
     }
 
     private fun MainActivity.showXiaomiAutoStartDialog() {
-        if(showXiaomiAutostartDialog == null && isXiaomi() &&
-            Autostart(this).autoStartState == Autostart.State.DISABLED) {
+        if(showXiaomiAutostartDialog == null && isXiaomi()
+            && !Autostart.isAutoStartEnabled(this)) {
             showXiaomiAutostartDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.information))
