@@ -581,9 +581,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         withContext(Dispatchers.Main) {
             if(PremiumInterface.isPremium) {
                 if(residualCapacity > 0 && seconds >= 10) {
-                    HistoryHelper.removeFirstRow(this@CapacityInfoService)
-                    HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
-                        residualCapacity)
+                    withContext(Dispatchers.IO) {
+                        HistoryHelper.removeFirstRow(this@CapacityInfoService)
+                        HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
+                            residualCapacity)
+                    }
                     if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
                         val historyFragment = HistoryFragment.instance
                         historyFragment?.binding?.refreshEmptyHistory?.visibility = View.GONE
