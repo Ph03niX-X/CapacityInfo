@@ -334,4 +334,6 @@
     <string name="update_not_found">Nie znaleziono aktualizacji!</string>
     <string name="overlay_location">Położenie</string>
     <string name="do_you_like_the_app">Podoba Ci się ta aplikacja?</string>
+    <string name="premium_purchase_error">Błąd zakupu Premium!</string>
+    <string name="install_the_app_from_gp">Zainstaluj aplikację z Google Play</string>
 </resources>
