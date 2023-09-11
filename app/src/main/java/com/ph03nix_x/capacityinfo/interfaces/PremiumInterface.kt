@@ -2,7 +2,10 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import androidx.preference.PreferenceManager
@@ -215,11 +218,14 @@ interface PremiumInterface: PurchasesUpdatedListener {
             setTitle(getString(R.string.get_premium))
             setMessage(getString(R.string.premium_dialog))
             setPositiveButton(R.string.purchase_premium) { d, _ ->
-                if(MainApp.isInstalledGooglePlay) {
+                if(MainApp.isInstalledGooglePlay
+                    && MainApp.isGooglePlay(this@showPremiumDialog)) {
                     if(premiumContext == null) premiumContext = this@showPremiumDialog
                     if(billingClient?.isReady == true) purchasePremium()
                     else initiateBilling(true)
                 }
+                else if(!MainApp.isGooglePlay(this@showPremiumDialog))
+                    showInstallAppFromGooglePlayDialog(this@showPremiumDialog)
                 else showNotInstalledGooglePlayDialog(this@showPremiumDialog)
 
                 d.dismiss()
@@ -228,6 +234,23 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 d.dismiss()
             }
             setCancelable(false)
+            show()
+        }
+    }
+
+    private fun showInstallAppFromGooglePlayDialog(context: Context) {
+        MaterialAlertDialogBuilder(context).apply {
+            setIcon(R.drawable.ic_instruction_not_supported_24dp)
+            setTitle(R.string.premium_purchase_error)
+            setMessage(R.string.install_the_app_from_gp)
+            setPositiveButton(android.R.string.ok) { _, _ ->
+                try {
+                    context.startActivity(Intent(Intent.ACTION_VIEW,
+                        Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+                }
+                catch(_: ActivityNotFoundException) {}
+            }
+            setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
         }
     }
