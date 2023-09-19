@@ -19,9 +19,12 @@ import java.util.Locale
 interface ManufacturerInterface {
 
     fun MainActivity.checkManufacturer() {
-        if(showXiaomiAutostartDialog == null && isXiaomi()
-            && !Autostart.isAutoStartEnabled(this)) showXiaomiAutoStartDialog()
-        else if(isHuawei()) showHuaweiInfo()
+        try {
+            if(showXiaomiAutostartDialog == null && isXiaomi()
+                && !Autostart.isAutoStartEnabled(this)) showXiaomiAutoStartDialog()
+            else if(isHuawei()) showHuaweiInfo()
+        }
+        catch (_: Exception) { return }
     }
 
     private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
