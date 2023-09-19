@@ -93,6 +93,12 @@ object TextAppearanceHelper : PremiumInterface {
 
             32 -> ResourcesCompat.getFont(context, R.font.mukta)
 
+            33 -> ResourcesCompat.getFont(context, R.font.mooli)
+
+            34 -> ResourcesCompat.getFont(context, R.font.inclusive_sans)
+
+            35 -> ResourcesCompat.getFont(context, R.font.borel)
+
             else -> null
         }
     }
