@@ -259,7 +259,6 @@
     <string name="history_imported_successfully">History imported successfully!</string>
     <string name="battery_is_charged_notification_voltage">Battery is charged. %1$d mV</string>
     <string name="mv">mV</string>
-    <string name="charged_voltage">Charged (Voltage)</string>
     <string name="number_of_full_charges">Number of Full Charges: %1$d</string>
     <string name="number_of_full_charges_overlay">Number of Full Charges</string>
     <string name="number_of_full_charges_overlay_only_values" translatable="false">%1$d</string>

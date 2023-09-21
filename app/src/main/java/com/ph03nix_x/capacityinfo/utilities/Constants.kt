@@ -14,7 +14,6 @@ object Constants {
     const val OVERHEAT_OVERCOOL_CHANNEL_ID = "overheat_overcool"
     const val FULLY_CHARGED_CHANNEL_ID = "fully_charged_channel"
     const val CHARGED_CHANNEL_ID = "charged_channel"
-    const val CHARGED_CHANNEL_VOLTAGE_ID = "charged_voltage_channel"
     const val DISCHARGED_CHANNEL_ID = "discharged_channel"
     const val CHARGING_CURRENT_ID = "charging_current"
     const val DISCHARGE_CURRENT_ID = "discharge_current"

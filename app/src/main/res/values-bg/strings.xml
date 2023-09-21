@@ -240,7 +240,6 @@
     <string name="history_imported_successfully">Историята е импортирана успешно!</string>
     <string name="battery_is_charged_notification_voltage">Батерията е заредена. %1$d mV</string>
     <string name="mv">mV</string>
-    <string name="charged_voltage">Заредена (Волтаж)</string>
     <string name="number_of_full_charges">Брой пълни зарядки: %1$d</string>
     <string name="number_of_full_charges_overlay">Брой пълни зарядки</string>
     <string name="reset_the_number_of_full_charges_to_zero">Нулирайте броя на пълните зареждания</string>

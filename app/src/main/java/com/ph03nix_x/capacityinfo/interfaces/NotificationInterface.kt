@@ -30,7 +30,6 @@ import com.ph03nix_x.capacityinfo.services.CloseNotificationBatteryStatusInforma
 import com.ph03nix_x.capacityinfo.services.DisableNotificationBatteryStatusInformationService
 import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_VOLTAGE_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_CURRENT_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
@@ -779,25 +778,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             CHARGED_CHANNEL_ID -> {
 
                 val channelName = context.getString(R.string.charged)
-
-                notificationService?.createNotificationChannel(NotificationChannel(
-                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
-
-                    setShowBadge(true)
-
-                    enableLights(true)
-
-                    lightColor = Color.GREEN
-
-                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                            "${context.packageName}/${R.raw.battery_is_charged}"),
-                        soundAttributes.build())
-                })
-            }
-
-            CHARGED_CHANNEL_VOLTAGE_ID -> {
-
-                val channelName = context.getString(R.string.charged_voltage)
 
                 notificationService?.createNotificationChannel(NotificationChannel(
                     notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {

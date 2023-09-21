@@ -240,7 +240,6 @@
     <string name="history_imported_successfully">Гісторыя паспяхова імпартаваная!</string>
     <string name="battery_is_charged_notification_voltage">Акумулятар зараджаны. %1$d мВ</string>
     <string name="mv">мВ</string>
-    <string name="charged_voltage">Зараджаны (Напружанне)</string>
     <string name="number_of_full_charges">Колькасць поўных зарадак: %1$d</string>
     <string name="number_of_full_charges_overlay">Колькасць поўных зарадак</string>
     <string name="reset_the_number_of_full_charges_to_zero">Абнуліць колькасць поўных зарадак</string>
