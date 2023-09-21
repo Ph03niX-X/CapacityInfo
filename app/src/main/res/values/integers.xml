@@ -5,8 +5,6 @@
     <integer name="full_charge_reminder_frequency_default">30</integer>
     <integer name="full_charge_reminder_frequency_default_index">1</integer>
     <integer name="battery_level_notify_charged">80</integer>
-    <integer name="battery_notify_charged_voltage_min">3400</integer>
-    <integer name="battery_notify_charged_voltage_max">4400</integer>
     <integer name="battery_level_notify_discharged">20</integer>
     <integer name="battery_notify_discharged_voltage_min">3200</integer>
     <integer name="battery_notify_discharged_voltage_max">4350</integer>

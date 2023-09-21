@@ -237,10 +237,7 @@
     <string name="import_history">Geschichte importieren</string>
     <string name="error_importing_history">Fehler beim Importieren des Geschichtes!</string>
     <string name="history_imported_successfully">Geschichte erfolgreich importiert!</string>
-    <string name="battery_is_charged_voltage">Der Akku ist geladen (Spannung)</string>
     <string name="battery_is_charged_notification_voltage">Der Akku ist geladen. %1$d mV</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">Spannung</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Aufgeladen (Spannung)</string>
     <string name="battery_is_discharged_voltage">Der Akku ist entladen (Spannung)</string>

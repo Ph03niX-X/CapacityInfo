@@ -65,7 +65,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 "${context.packageName}_preferences.subscriptions.cache.v2_6.version",
                 "is_battery_wear", "is_show_instruction", "is_show_backup_information",
                 "is_auto_backup_settings", "is_backup_settings_to_microsd",
-                "frequency_of_auto_backup_settings").forEach {
+                "frequency_of_auto_backup_settings", "is_notify_battery_is_charged_voltage",
+                "battery_notify_charged_voltage").forEach {
 
                 with(pref) {
 

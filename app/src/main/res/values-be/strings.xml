@@ -238,10 +238,7 @@
     <string name="import_history">Імпарт гісторыі</string>
     <string name="error_importing_history">Памылка імпарту гісторыі!</string>
     <string name="history_imported_successfully">Гісторыя паспяхова імпартаваная!</string>
-    <string name="battery_is_charged_voltage">Акумулятар зараджаны (Напружанне)</string>
     <string name="battery_is_charged_notification_voltage">Акумулятар зараджаны. %1$d мВ</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">Напружанне</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d мВ</string>
     <string name="mv">мВ</string>
     <string name="charged_voltage">Зараджаны (Напружанне)</string>
     <string name="battery_is_discharged_voltage">Акумулятар разраджаны (Напружанне)</string>

@@ -238,10 +238,7 @@
     <string name="import_history">Импортиране историята</string>
     <string name="error_importing_history">Грешка при импортиране историята!</string>
     <string name="history_imported_successfully">Историята е импортирана успешно!</string>
-    <string name="battery_is_charged_voltage">Батерията е заредена (Волтаж)</string>
     <string name="battery_is_charged_notification_voltage">Батерията е заредена. %1$d mV</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">Волтаж</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Заредена (Волтаж)</string>
     <string name="battery_is_discharged_voltage">Батерията е разредена (Волтаж)</string>

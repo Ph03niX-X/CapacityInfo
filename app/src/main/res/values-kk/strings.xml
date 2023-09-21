@@ -238,10 +238,7 @@
     <string name="import_history">Тарихты импорттау</string>
     <string name="error_importing_history">Тарихты импорттау қатесі!</string>
     <string name="history_imported_successfully">Тарих сәтті импортталды!</string>
-    <string name="battery_is_charged_voltage">Батарея зарядталған (Вольтаж)</string>
     <string name="battery_is_charged_notification_voltage">Батарея зарядталған. %1$d mV</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">Вольтаж</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Зарядталған (Вольтаж)</string>
     <string name="battery_is_discharged_voltage">Батарея заряды төмен (Вольтаж)</string>

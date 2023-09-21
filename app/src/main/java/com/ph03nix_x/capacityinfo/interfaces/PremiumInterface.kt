@@ -41,7 +41,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
@@ -373,9 +372,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
             IS_SHOW_BATTERY_INFORMATION, IS_BYPASS_DND, IS_NOTIFY_OVERHEAT_OVERCOOL,
             IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, IS_NOTIFY_FULL_CHARGE_REMINDER,
             IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, IS_NOTIFY_BATTERY_IS_CHARGED,
-            IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, IS_NOTIFY_BATTERY_IS_DISCHARGED,
-            IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE, IS_NOTIFY_CHARGING_CURRENT,
-            IS_NOTIFY_DISCHARGE_CURRENT, TEXT_FONT, IS_CAPACITY_IN_WH,
+            IS_NOTIFY_BATTERY_IS_DISCHARGED, IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
+            IS_NOTIFY_CHARGING_CURRENT, IS_NOTIFY_DISCHARGE_CURRENT, TEXT_FONT, IS_CAPACITY_IN_WH,
             IS_CHARGING_DISCHARGE_CURRENT_IN_WATT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
             TAB_ON_APPLICATION_LAUNCH, IS_ENABLED_OVERLAY).forEach {
 

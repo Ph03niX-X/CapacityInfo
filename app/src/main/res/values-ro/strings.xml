@@ -238,10 +238,7 @@
     <string name="import_history">Istoric de import</string>
     <string name="error_importing_history">Eroare la importul istoricului!</string>
     <string name="history_imported_successfully">Istoric importat cu succes!</string>
-    <string name="battery_is_charged_voltage">Bateria este încărcată (tensiune)</string>
     <string name="battery_is_charged_notification_voltage">ateria este încărcată. %1$d mV</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">tensiune</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Încărcat (tensiune)</string>
     <string name="battery_is_discharged_voltage">Bateria este descărcată (tensiune)</string>

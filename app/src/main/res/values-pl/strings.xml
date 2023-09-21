@@ -238,10 +238,7 @@
     <string name="import_history">Historia importu</string>
     <string name="error_importing_history">Błąd importowania historii!</string>
     <string name="history_imported_successfully">Historia została zaimportowana pomyślnie!</string>
-    <string name="battery_is_charged_voltage">Bateria jest naładowana (Napięcie)</string>
     <string name="battery_is_charged_notification_voltage">Bateria jest naładowana. %1$d mV</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">Napięcie</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Naładowany (Napięcie)</string>
     <string name="battery_is_discharged_voltage">Bateria jest rozładowana (Napięcie)</string>

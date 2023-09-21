@@ -54,7 +54,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import java.text.DecimalFormat
 
-
 @SuppressLint("StaticFieldLeak")
 interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
@@ -75,7 +74,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         var isOverheatOvercool = false
         var isBatteryFullyCharged = false
         var isBatteryCharged = false
-        var isBatteryChargedVoltage = false
         var isBatteryDischarged = false
         var isBatteryDischargedVoltage = false
         var isChargingCurrent = false
@@ -318,7 +316,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = true
         isBatteryFullyCharged = false
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = false
         isChargingCurrent = false
@@ -388,7 +385,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = true
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = false
         isChargingCurrent = false
@@ -459,7 +455,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = true
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = false
         isChargingCurrent = false
@@ -488,86 +483,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 in 60..79 -> R.drawable.ic_battery_is_charged_60_24dp
                 in 80..89 -> R.drawable.ic_battery_is_charged_80_24dp
                 in 90..95 -> R.drawable.ic_battery_is_charged_90_24dp
-                else -> R.drawable.ic_battery_is_fully_charged_24dp
-            })
-
-            color = ContextCompat.getColor(context, R.color.battery_charged)
-
-            setContentTitle(context.getString(R.string.battery_status_information))
-
-            setCustomContentView(remoteViewsContent)
-
-            setStyle(NotificationCompat.DecoratedCustomViewStyle())
-
-            setShowWhen(true)
-
-            setLights(Color.GREEN, 1500, 500)
-
-            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                    "${context.packageName}/${R.raw.battery_is_charged}"))
-        }
-
-        notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
-    }
-
-    fun onNotifyBatteryChargedVoltage(context: Context, voltage: Int) {
-
-        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
-                as? NotificationManager
-
-        val channelId = onCreateNotificationChannel(context, CHARGED_CHANNEL_VOLTAGE_ID)
-
-        val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
-
-        remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
-            R.string.battery_is_charged_notification_voltage, voltage))
-
-        val close = PendingIntent.getService(context,
-            CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
-                CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_IMMUTABLE)
-
-        val disable = PendingIntent.getService(context,
-            DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
-                DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_IMMUTABLE)
-
-        isOverheatOvercool = false
-        isBatteryFullyCharged = false
-        isBatteryCharged = false
-        isBatteryChargedVoltage = true
-        isBatteryDischarged = false
-        isBatteryDischargedVoltage = false
-        isChargingCurrent = false
-        isDischargeCurrent = false
-
-        val notificationBuilder = NotificationCompat.Builder(
-            context, channelId).apply {
-
-            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
-                    R.bool.is_bypass_dnd_mode)))
-                setCategory(NotificationCompat.CATEGORY_ALARM)
-
-            setAutoCancel(true)
-            setOngoing(false)
-
-            addAction(0, context.getString(R.string.close), close)
-            addAction(0, context.getString(R.string.disable), disable)
-
-            priority = NotificationCompat.PRIORITY_MAX
-
-            setSmallIcon(when(voltage) {
-
-                in 2800..3399 -> R.drawable.ic_battery_is_charged_20_24dp
-                in 3400..3599 -> R.drawable.ic_battery_is_charged_30_24dp
-                in 3600..3799 -> R.drawable.ic_battery_is_charged_50_24dp
-                in 3800..3999 -> R.drawable.ic_battery_is_charged_60_24dp
-                in 4000..4199 -> R.drawable.ic_battery_is_charged_80_24dp
-                in 4200..4299 -> R.drawable.ic_battery_is_charged_90_24dp
                 else -> R.drawable.ic_battery_is_fully_charged_24dp
             })
 
@@ -622,7 +537,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = true
         isBatteryDischargedVoltage = false
         isChargingCurrent = false
@@ -705,7 +619,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = true
         isChargingCurrent = false
@@ -786,7 +699,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = false
         isChargingCurrent = true
@@ -857,7 +769,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = false
         isChargingCurrent = false

@@ -28,7 +28,6 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.maxChargeCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryChargedVoltage
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischarged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischargedVoltage
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryFullyCharged
@@ -48,7 +47,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_NOTIFY_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
@@ -58,7 +56,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_DEBUG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
@@ -266,7 +263,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             }
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED_VOLTAGE,
-                                resources.getBoolean(R.bool.is_notify_battery_is_charged_voltage))) {
+                                resources.getBoolean(R.bool.is_notify_battery_is_discharged_voltage))) {
 
                             val voltage = getVoltage(this@CapacityInfoService)
 
@@ -329,7 +326,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isOverheatOvercool = false
         isBatteryFullyCharged = false
         isBatteryCharged = false
-        isBatteryChargedVoltage = false
         isBatteryDischarged = false
         isBatteryDischargedVoltage = false
         isChargingCurrent = false
@@ -441,18 +437,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 onNotifyBatteryCharged(this@CapacityInfoService)
             }
-
-        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED_VOLTAGE, resources.getBoolean(R.bool
-                .is_notify_battery_is_charged_voltage)) && seconds >= 15) {
-
-            val voltage = getVoltage(this)
-
-            if(voltage >= pref.getInt(BATTERY_NOTIFY_CHARGED_VOLTAGE, resources.getInteger(
-                    R.integer.battery_notify_charged_voltage_min)))
-                withContext(Dispatchers.Main) {
-                    onNotifyBatteryChargedVoltage(this@CapacityInfoService, voltage.toInt())
-                }
-        }
 
 
         if(pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(

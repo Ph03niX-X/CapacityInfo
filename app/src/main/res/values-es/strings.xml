@@ -238,10 +238,7 @@
     <string name="import_history">Historia de la importación</string>
     <string name="error_importing_history">Error al importar el historial!</string>
     <string name="history_imported_successfully">Historial importado con éxito!</string>
-    <string name="battery_is_charged_voltage">La batería está cargada (Tensión)</string>
     <string name="battery_is_charged_notification_voltage">La batería está cargada. %1$d mV</string>
-    <string name="battery_charged_discharged_voltage_seekbar_title">Tensión</string>
-    <string name="battery_charged_discharged_voltage_seekbar_summary">%1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Cargado (Tensión)</string>
     <string name="battery_is_discharged_voltage">La batería está descargada (Tensión)</string>
