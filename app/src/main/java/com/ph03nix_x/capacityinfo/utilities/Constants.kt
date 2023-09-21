@@ -16,7 +16,6 @@ object Constants {
     const val CHARGED_CHANNEL_ID = "charged_channel"
     const val CHARGED_CHANNEL_VOLTAGE_ID = "charged_voltage_channel"
     const val DISCHARGED_CHANNEL_ID = "discharged_channel"
-    const val DISCHARGED_VOLTAGE_CHANNEL_ID = "discharged_voltage_channel"
     const val CHARGING_CURRENT_ID = "charging_current"
     const val DISCHARGE_CURRENT_ID = "discharge_current"
     const val ENABLED_DEBUG_OPTIONS_HOST = "243243622533" // CIDBGENABLED

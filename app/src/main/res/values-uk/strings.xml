@@ -241,9 +241,6 @@
     <string name="battery_is_charged_notification_voltage">Акумулятор заряджений. %1$d мВ</string>
     <string name="mv">мВ</string>
     <string name="charged_voltage">Заряджений (Напруга)</string>
-    <string name="battery_is_discharged_voltage">Акумулятор розряджений (напруга)</string>
-    <string name="battery_is_discharged_notification_voltage">Акумулятор розряджений. %1$d мВ</string>
-    <string name="discharged_voltage">Розряджений (Напруга)</string>
     <string name="number_of_full_charges">Кількість повних зарядок: %1$d</string>
     <string name="number_of_full_charges_overlay">Кількість повних зарядок</string>
     <string name="reset_the_number_of_full_charges_to_zero">Обнулити кількість повних зарядок</string>

@@ -241,9 +241,6 @@
     <string name="battery_is_charged_notification_voltage">Батарея зарядталған. %1$d mV</string>
     <string name="mv">mV</string>
     <string name="charged_voltage">Зарядталған (Вольтаж)</string>
-    <string name="battery_is_discharged_voltage">Батарея заряды төмен (Вольтаж)</string>
-    <string name="battery_is_discharged_notification_voltage">Батарея заряды төмен. %1$d mV</string>
-    <string name="discharged_voltage">Разрядталған (Вольтаж)</string>
     <string name="number_of_full_charges">Толық төлемдер саны: %1$d</string>
     <string name="number_of_full_charges_overlay">Толық төлемдер саны</string>
     <string name="reset_the_number_of_full_charges_to_zero">Толық төлемдер санын қалпына келтіріңіз</string>

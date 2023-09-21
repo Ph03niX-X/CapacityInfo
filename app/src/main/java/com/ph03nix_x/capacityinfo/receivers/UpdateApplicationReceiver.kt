@@ -66,7 +66,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 "is_battery_wear", "is_show_instruction", "is_show_backup_information",
                 "is_auto_backup_settings", "is_backup_settings_to_microsd",
                 "frequency_of_auto_backup_settings", "is_notify_battery_is_charged_voltage",
-                "battery_notify_charged_voltage").forEach {
+                "battery_notify_charged_voltage", "is_notify_battery_is_discharged_voltage",
+                "battery_notify_discharged_voltage").forEach {
 
                 with(pref) {
 
