@@ -201,7 +201,6 @@
     <string name="screen_time">Czas ekranowy: %1$s</string>
     <string name="screen_time_overlay">Czas ekranowy</string>
     <string name="other">Inne</string>
-    <string name="charging_current">Prąd ładowania</string>
     <string name="charging_current_ma">Prąd ładowania: %1$d mA</string>
     <string name="ma">%1$d mA</string>
     <string name="ma_hint">mA</string>

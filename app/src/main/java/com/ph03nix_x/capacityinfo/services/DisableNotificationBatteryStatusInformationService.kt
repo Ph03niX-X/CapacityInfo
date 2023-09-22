@@ -42,9 +42,6 @@ class DisableNotificationBatteryStatusInformationService : Service() {
                 NotificationInterface.isBatteryDischarged -> putBoolean(
                     PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED, false).apply()
 
-                NotificationInterface.isChargingCurrent -> putBoolean(PreferencesKeys
-                    .IS_NOTIFY_CHARGING_CURRENT, false).apply()
-
                 NotificationInterface.isDischargeCurrent -> putBoolean(PreferencesKeys
                     .IS_NOTIFY_DISCHARGE_CURRENT, false).apply()
             }
@@ -58,11 +55,7 @@ class DisableNotificationBatteryStatusInformationService : Service() {
                 .NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
             return
         }
-        if(NotificationInterface.isChargingCurrent) {
-            NotificationInterface.notificationManager?.cancel(NotificationInterface
-                .NOTIFICATION_CHARGING_CURRENT_ID)
-            return
-        }
+
         if(NotificationInterface.isDischargeCurrent) {
             NotificationInterface.notificationManager?.cancel(NotificationInterface
                 .NOTIFICATION_DISCHARGE_CURRENT_ID)

@@ -201,7 +201,6 @@
     <string name="screen_time">Време на екрана: %1$s</string>
     <string name="screen_time_overlay">Време на екрана</string>
     <string name="other">Други</string>
-    <string name="charging_current">Заряден ток</string>
     <string name="charging_current_ma">Заряден ток: %1$d mA</string>
     <string name="ma">%1$d mA</string>
     <string name="ma_hint">mA</string>

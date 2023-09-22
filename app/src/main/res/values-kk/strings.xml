@@ -201,7 +201,6 @@
     <string name="screen_time">Экран уақыты: %1$s</string>
     <string name="screen_time_overlay">Экран уақыты</string>
     <string name="other">Басқа</string>
-    <string name="charging_current">Зарядтау тогы</string>
     <string name="charging_current_ma">Зарядтау тогы: %1$d mA</string>
     <string name="ma">%1$d mA</string>
     <string name="ma_hint">mA</string>

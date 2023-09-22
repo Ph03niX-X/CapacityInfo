@@ -80,9 +80,6 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
 
-                NotificationInterface.notificationManager?.cancel(
-                    NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
-
                 NotificationInterface.notificationManager?.cancel(NotificationInterface
                     .NOTIFICATION_DISCHARGE_CURRENT_ID)
 
@@ -90,7 +87,6 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
                 NotificationInterface.isBatteryFullyCharged = true
                 NotificationInterface.isBatteryCharged = true
                 NotificationInterface.isBatteryDischarged = true
-                NotificationInterface.isChargingCurrent = true
                 NotificationInterface.isDischargeCurrent = true
 
                 if(MainActivity.instance?.fragment != null) {

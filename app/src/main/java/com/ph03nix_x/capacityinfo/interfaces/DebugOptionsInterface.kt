@@ -38,7 +38,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
@@ -329,7 +328,7 @@ interface DebugOptionsInterface {
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
-                BATTERY_LEVEL_NOTIFY_DISCHARGED, CHARGING_CURRENT_LEVEL_NOTIFY ->
+                BATTERY_LEVEL_NOTIFY_DISCHARGED ->
                     addChangeSetting(pref, key, value.toString().toInt())
 
                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(pref, key,
@@ -385,7 +384,7 @@ interface DebugOptionsInterface {
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
                         OVERLAY_OPACITY, OVERLAY_TEXT_COLOR, BATTERY_LEVEL_NOTIFY_CHARGED,
-                        BATTERY_LEVEL_NOTIFY_DISCHARGED, CHARGING_CURRENT_LEVEL_NOTIFY ->
+                        BATTERY_LEVEL_NOTIFY_DISCHARGED ->
                             setValueType("int|long", changePrefValue, pref,
                                 prefValueInputTypeDef, prefValueKeyListenerDef)
 

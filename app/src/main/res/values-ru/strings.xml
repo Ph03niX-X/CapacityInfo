@@ -201,7 +201,6 @@
     <string name="screen_time">Время работы экрана: %1$s</string>
     <string name="screen_time_overlay">Время работы экрана</string>
     <string name="other">Прочее</string>
-    <string name="charging_current">Ток зарядки</string>
     <string name="charging_current_ma">Ток зарядки: %1$d мА</string>
     <string name="ma">%1$d мА</string>
     <string name="ma_hint">мА</string>

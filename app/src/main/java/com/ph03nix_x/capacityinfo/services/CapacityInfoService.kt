@@ -30,7 +30,6 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischarged
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryFullyCharged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isChargingCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isDischargeCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isOverheatOvercool
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
@@ -47,7 +46,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
@@ -55,7 +53,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_DEBUG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -77,7 +74,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private lateinit var pref: SharedPreferences
     private var screenTimeJob: Job? = null
     private var jobService: Job? = null
-    private var chargingCurrentTemp: Int? = null
     private var dischargeCurrentTemp: Int? = null
     private var isScreenTimeJob = false
     private var isJob = false
@@ -311,7 +307,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isBatteryFullyCharged = false
         isBatteryCharged = false
         isBatteryDischarged = false
-        isChargingCurrent = false
         isDischargeCurrent = false
 
         val batteryLevel = getBatteryLevel(this) ?: 0
@@ -420,29 +415,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 onNotifyBatteryCharged(this@CapacityInfoService)
             }
-
-
-        if(pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
-                R.bool.is_notify_charging_current))) {
-
-            val chargingCurrent =  getChargeDischargeCurrent(this)
-
-            if(chargingCurrentTemp == null) chargingCurrentTemp = chargingCurrent
-
-            if(chargingCurrent > (chargingCurrentTemp ?: -1)) {
-
-                notificationManager?.cancel(NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
-
-                chargingCurrentTemp = null
-            }
-
-            else if(chargingCurrent <= pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
-                    .getInteger(R.integer.charging_current_notify_level_min)) && seconds >= 15)
-                    withContext(Dispatchers.Main) {
-
-                        onNotifyChargingCurrent(this@CapacityInfoService, chargingCurrent)
-                    }
-        }
 
         if(displayManager != null)
             for(display in displayManager.displays)
@@ -613,8 +585,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
 
         isSaveNumberOfCharges = false
-
-        notificationManager?.cancel(NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
         withContext(Dispatchers.Main) {
             onUpdateServiceNotification(this@CapacityInfoService)

@@ -24,7 +24,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.databinding.ChangeChargingCurrentNotifyLevelDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangeDischargeCurrentNotifyLevelDialogBinding
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
@@ -35,13 +34,11 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.EXPORT_NOTIFICATION_SOUNDS
 import com.ph03nix_x.capacityinfo.utilities.Constants.POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DISCHARGE_CURRENT_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_CHARGING_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_FULL_CHARGE_REMINDER
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
@@ -68,12 +65,10 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private var notifyFullChargeReminder: SwitchPreferenceCompat? = null
     private var fullChargeReminderFrequency: ListPreference? = null
     private var notifyBatteryIsCharged: SwitchPreferenceCompat? = null
-    private var notifyChargingCurrent: SwitchPreferenceCompat? = null
     private var notifyDischargeCurrent: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyCharged: SeekBarPreference? = null
     private var notifyBatteryIsDischarged: SwitchPreferenceCompat? = null
     private var batteryLevelNotifyDischarged: SeekBarPreference? = null
-    private var chargingCurrentLevelNotify: SeekBarPreference? = null
     private var dischargeCurrentLevelNotify: SeekBarPreference? = null
     private var exportNotificationSounds: Preference? = null
 
@@ -118,12 +113,10 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyFullChargeReminder = findPreference(IS_NOTIFY_FULL_CHARGE_REMINDER)
         fullChargeReminderFrequency = findPreference(FULL_CHARGE_REMINDER_FREQUENCY)
         notifyBatteryIsCharged = findPreference(IS_NOTIFY_BATTERY_IS_CHARGED)
-        notifyChargingCurrent = findPreference(IS_NOTIFY_CHARGING_CURRENT)
         notifyDischargeCurrent = findPreference(IS_NOTIFY_DISCHARGE_CURRENT)
         batteryLevelNotifyCharged = findPreference(BATTERY_LEVEL_NOTIFY_CHARGED)
         notifyBatteryIsDischarged = findPreference(IS_NOTIFY_BATTERY_IS_DISCHARGED)
         batteryLevelNotifyDischarged = findPreference(BATTERY_LEVEL_NOTIFY_DISCHARGED)
-        chargingCurrentLevelNotify = findPreference(CHARGING_CURRENT_LEVEL_NOTIFY)
         dischargeCurrentLevelNotify = findPreference(DISCHARGE_CURRENT_LEVEL_NOTIFY)
         exportNotificationSounds = findPreference("export_notification_sounds")
 
@@ -322,16 +315,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             true
         }
 
-        notifyChargingCurrent?.setOnPreferenceChangeListener { _, newValue ->
-
-            chargingCurrentLevelNotify?.isEnabled = newValue as? Boolean == true
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
-
-            true
-        }
-
         notifyDischargeCurrent?.setOnPreferenceChangeListener { _, newValue ->
 
             dischargeCurrentLevelNotify?.isEnabled = newValue as? Boolean == true
@@ -348,25 +331,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
-            true
-        }
-
-        chargingCurrentLevelNotify?.setOnPreferenceClickListener {
-
-            changeChargingCurrentNotifyLevel()
-
-            true
-        }
-
-        chargingCurrentLevelNotify?.setOnPreferenceChangeListener { preference, newValue ->
-
-            preference.summary = getString(R.string.ma, ((newValue as? Int) ?: pref.getInt(
-                CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
-                    .charging_current_notify_level_min))))
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_CHARGING_CURRENT_ID)
 
             true
         }
@@ -458,9 +422,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         notifyBatteryIsDischarged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED,
             resources.getBoolean(R.bool.is_notify_battery_is_discharged))
 
-        notifyChargingCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources
-            .getBoolean(R.bool.is_notify_charging_current))
-
         notifyDischargeCurrent?.isChecked = pref.getBoolean(IS_NOTIFY_DISCHARGE_CURRENT, resources
             .getBoolean(R.bool.is_notify_discharge_current))
 
@@ -476,13 +437,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getBatteryLevelNotifyDischargeSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_discharged))
-        }
-
-        chargingCurrentLevelNotify?.apply {
-
-            summary = getChargingCurrentLevelNotifySummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_CHARGING_CURRENT, resources.getBoolean(
-                R.bool.is_notify_charging_current))
         }
 
         dischargeCurrentLevelNotify?.apply {
@@ -563,20 +517,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         return "${pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)}%"
     }
 
-    private fun getChargingCurrentLevelNotifySummary(): String {
-
-        if(pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
-                .charging_current_notify_level_min)) > resources.getInteger(R.integer
-                .charging_current_notify_level_max) || pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
-                resources.getInteger(R.integer.charging_current_notify_level_min)) < resources
-                .getInteger(R.integer.charging_current_notify_level_min))
-                    pref.edit().putInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
-                .charging_current_notify_level_min)).apply()
-
-        return getString(R.string.ma, pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, resources
-            .getInteger(R.integer.charging_current_notify_level_min)))
-    }
-
     private fun getDischargeCurrentLevelNotifySummary(): String {
 
         if(pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, resources.getInteger(R.integer
@@ -589,82 +529,6 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         return getString(R.string.ma, pref.getInt(DISCHARGE_CURRENT_LEVEL_NOTIFY, resources
             .getInteger(R.integer.discharge_current_notify_level_min)))
-    }
-
-    private fun changeChargingCurrentNotifyLevel() {
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-
-        val  binding = ChangeChargingCurrentNotifyLevelDialogBinding.inflate(
-            LayoutInflater.from(context), null, false)
-
-        dialog.setView(binding.root.rootView)
-
-        binding.changeChargingCurrentLevelEdit.setText(if(pref.getInt(
-                CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
-                R.integer.charging_current_notify_level_min)) >= requireContext().resources
-                .getInteger(R.integer.charging_current_notify_level_min) || pref.getInt(
-                CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
-                    R.integer.charging_current_notify_level_min)) <= requireContext().resources
-                .getInteger(R.integer.charging_current_notify_level_max))
-                    pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources
-                        .getInteger(R.integer.charging_current_notify_level_min)).toString()
-
-        else requireContext().resources.getInteger(R.integer.min_design_capacity).toString())
-
-        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
-
-            pref.edit().putInt(CHARGING_CURRENT_LEVEL_NOTIFY, binding
-                .changeChargingCurrentLevelEdit.text.toString().toInt()).apply()
-
-            chargingCurrentLevelNotify?.apply {
-
-                summary = getString(R.string.ma, binding.changeChargingCurrentLevelEdit.text
-                    .toString().toInt())
-
-                value = pref.getInt(CHARGING_CURRENT_LEVEL_NOTIFY,
-                    resources.getInteger(R.integer.charging_current_notify_level_min))
-            }
-        }
-
-        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
-
-        val dialogCreate = dialog.create()
-
-        changeChargingCurrentNotifyLevelDialogCreateShowListener(dialogCreate,
-            binding.changeChargingCurrentLevelEdit)
-
-        dialogCreate.show()
-    }
-
-    private fun changeChargingCurrentNotifyLevelDialogCreateShowListener(dialogCreate: AlertDialog,
-                                                                         changeChargingCurrentLevel:
-                                                                         TextInputEditText) {
-
-        dialogCreate.setOnShowListener {
-
-            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
-
-            changeChargingCurrentLevel.addTextChangedListener(object : TextWatcher {
-
-                override fun afterTextChanged(s: Editable) {}
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
-                                               after: Int) {}
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled =
-                        s.isNotEmpty() && s.toString() != pref.getInt(
-                            CHARGING_CURRENT_LEVEL_NOTIFY, requireContext().resources.getInteger(
-                                R.integer.charging_current_notify_level_min)).toString() &&
-                                s.toString().toInt() >= requireContext().resources.getInteger(
-                            R.integer.charging_current_notify_level_min) && s.toString().toInt() <=
-                                requireContext().resources.getInteger(
-                                    R.integer.charging_current_notify_level_max)
-                }
-            })
-        }
     }
 
     private fun changeDischargeCurrentNotifyLevel() {
