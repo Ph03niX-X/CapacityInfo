@@ -65,6 +65,8 @@
         <item>Mooli</item>
         <item>Inclusive Sans</item>
         <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -104,6 +106,8 @@
         <item>33</item>
         <item>34</item>
         <item>35</item>
+        <item>36</item>
+        <item>37</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">

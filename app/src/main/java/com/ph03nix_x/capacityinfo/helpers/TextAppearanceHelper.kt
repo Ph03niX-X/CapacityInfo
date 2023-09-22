@@ -99,6 +99,10 @@ object TextAppearanceHelper : PremiumInterface {
 
             35 -> ResourcesCompat.getFont(context, R.font.borel)
 
+            36 -> ResourcesCompat.getFont(context, R.font.handjet)
+
+            37 -> ResourcesCompat.getFont(context, R.font.ysabeau_sc)
+
             else -> null
         }
     }
