@@ -23,7 +23,6 @@
     <bool name="is_notify_full_charge_reminder_frequency_enabled">false</bool>
     <bool name="is_notify_battery_is_charged">false</bool>
     <bool name="is_notify_battery_is_discharged">false</bool>
-    <bool name="is_notify_discharge_current">false</bool>
 
     <!--Backup-->
     <bool name="export_settings_visible">true</bool>

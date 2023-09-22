@@ -15,7 +15,6 @@ object Constants {
     const val FULLY_CHARGED_CHANNEL_ID = "fully_charged_channel"
     const val CHARGED_CHANNEL_ID = "charged_channel"
     const val DISCHARGED_CHANNEL_ID = "discharged_channel"
-    const val DISCHARGE_CURRENT_ID = "discharge_current"
     const val ENABLED_DEBUG_OPTIONS_HOST = "243243622533" // CIDBGENABLED
     const val DISABLED_DEBUG_OPTIONS_HOST = "2432434722533" // CIDBGDISABLED
     const val NUMBER_OF_CYCLES_PATH = "/sys/class/power_supply/battery/cycle_count"

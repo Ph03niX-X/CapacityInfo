@@ -33,7 +33,6 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISCHARGED_CHANNEL_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.DISCHARGE_CURRENT_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.OPEN_APP_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.OVERHEAT_OVERCOOL_CHANNEL_ID
@@ -60,7 +59,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         const val NOTIFICATION_BATTERY_STATUS_ID = 102
         const val NOTIFICATION_FULLY_CHARGED_ID = 103
         const val NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID = 104
-        const val NOTIFICATION_DISCHARGE_CURRENT_ID = 106
 
         private lateinit var channelId: String
         private lateinit var stopService: PendingIntent
@@ -71,7 +69,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         var isBatteryFullyCharged = false
         var isBatteryCharged = false
         var isBatteryDischarged = false
-        var isDischargeCurrent = false
     }
 
     @SuppressLint("RestrictedApi")
@@ -311,7 +308,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isBatteryFullyCharged = false
         isBatteryCharged = false
         isBatteryDischarged = false
-        isDischargeCurrent = false
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -378,7 +374,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isBatteryFullyCharged = true
         isBatteryCharged = false
         isBatteryDischarged = false
-        isDischargeCurrent = false
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -446,7 +441,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isBatteryFullyCharged = false
         isBatteryCharged = true
         isBatteryDischarged = false
-        isDischargeCurrent = false
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -526,7 +520,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         isBatteryFullyCharged = false
         isBatteryCharged = false
         isBatteryDischarged = true
-        isDischargeCurrent = false
 
         val notificationBuilder = NotificationCompat.Builder(
             context, channelId).apply {
@@ -572,74 +565,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         }
 
         notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
-    }
-
-    fun onNotifyDischargeCurrent(context: Context, dischargeCurrent: Int) {
-
-        if(isNotificationExists(context, NOTIFICATION_DISCHARGE_CURRENT_ID)) return
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
-                as? NotificationManager
-
-        val channelId = onCreateNotificationChannel(context, CHARGING_CURRENT_ID)
-
-        val remoteViewsContent = RemoteViews(context.packageName, R.layout.notification_content)
-
-        remoteViewsContent.setTextViewText(R.id.notification_content_text, context.getString(
-            R.string.discharge_current_ma, dischargeCurrent))
-
-        val close = PendingIntent.getService(context,
-            CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
-                CloseNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_IMMUTABLE)
-
-        val disable = PendingIntent.getService(context,
-            DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE, Intent(context,
-                DisableNotificationBatteryStatusInformationService::class.java),
-            PendingIntent.FLAG_IMMUTABLE)
-
-        isOverheatOvercool = false
-        isBatteryFullyCharged = false
-        isBatteryCharged = false
-        isBatteryDischarged = false
-        isDischargeCurrent = true
-
-        val notificationBuilder = NotificationCompat.Builder(
-            context, channelId).apply {
-
-            if(pref.getBoolean(IS_BYPASS_DND, context.resources.getBoolean(
-                    R.bool.is_bypass_dnd_mode)))
-                setCategory(NotificationCompat.CATEGORY_ALARM)
-
-            setAutoCancel(true)
-            setOngoing(false)
-
-            addAction(0, context.getString(R.string.close), close)
-            addAction(0, context.getString(R.string.disable), disable)
-
-            priority = NotificationCompat.PRIORITY_MAX
-
-            setSmallIcon(R.drawable.ic_charging_current_notification_24)
-
-            color = ContextCompat.getColor(context, R.color.charging_current_notification)
-
-            setContentTitle(context.getString(R.string.battery_status_information))
-
-            setCustomContentView(remoteViewsContent)
-
-            setStyle(NotificationCompat.DecoratedCustomViewStyle())
-
-            setShowWhen(true)
-
-            setLights(Color.BLUE, 1500, 500)
-
-            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                    "${context.packageName}/${R.raw.charging_current}"))
-        }
-
-        notificationManager?.notify(NOTIFICATION_DISCHARGE_CURRENT_ID, notificationBuilder.build())
     }
 
     private fun onCreateNotificationChannel(context: Context, notificationChannelId: String):
@@ -732,25 +657,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
                     setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
                             "${context.packageName}/${R.raw.battery_is_discharged}"),
-                        soundAttributes.build())
-                })
-            }
-
-            DISCHARGE_CURRENT_ID -> {
-
-                val channelName = context.getString(R.string.discharge_current_settings_channel)
-
-                notificationService?.createNotificationChannel(NotificationChannel(
-                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
-
-                    setShowBadge(true)
-
-                    enableLights(true)
-
-                    lightColor = Color.BLUE
-
-                    setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                            "${context.packageName}/${R.raw.charging_current}"),
                         soundAttributes.build())
                 })
             }

@@ -112,23 +112,6 @@
         app:updatesContinuously="true"
         android:key="battery_level_notify_discharged"/>
 
-    <SwitchPreferenceCompat
-        android:title="@string/discharge_current_settings_channel"
-        android:defaultValue="@bool/is_notify_discharge_current"
-        app:singleLineTitle="false"
-        app:iconSpaceReserved="false"
-        android:key="is_notify_discharge_current"/>
-
-    <SeekBarPreference
-        app:iconSpaceReserved="false"
-        app:enabled="false"
-        android:summary="@string/ma"
-        app:defaultValue="@integer/discharge_current_notify_level_min"
-        app:min="@integer/discharge_current_notify_level_min"
-        android:max="@integer/discharge_current_notify_level_max"
-        app:updatesContinuously="true"
-        android:key="discharge_current_level_notify"/>
-
     <Preference
         android:title="@string/export_notification_sounds"
         app:singleLineTitle="false"

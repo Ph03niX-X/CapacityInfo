@@ -208,7 +208,6 @@
     <string name="overcool">Шамадан тыс салқындату</string>
     <string name="number_of_cycles_android">Циклдар саны (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Циклдар саны (Android)</string>
-    <string name="discharge_current_settings_channel">Разрядтау тогы</string>
     <string name="discharge_current_ma">Разрядтау тогы: %1$d mA</string>
     <string name="auto_start_boot">Автоматты іске қосу (ОЖ іске қосылғаннан кейін)</string>
     <string name="auto_start_open_app">Автоматты іске қосу (қолданба ашылғанда)</string>

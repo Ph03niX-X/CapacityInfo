@@ -68,7 +68,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 "frequency_of_auto_backup_settings", "is_notify_battery_is_charged_voltage",
                 "battery_notify_charged_voltage", "is_notify_battery_is_discharged_voltage",
                 "battery_notify_discharged_voltage", "is_notify_charging_current",
-                "charging_current_level_notify").forEach {
+                "charging_current_level_notify", "is_notify_discharge_current",
+                "discharge_current_level_notify").forEach {
 
                 with(pref) {
 

@@ -208,7 +208,6 @@
     <string name="overcool">Переохлаждение</string>
     <string name="number_of_cycles_android">Количество циклов (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Количество циклов (Android)</string>
-    <string name="discharge_current_settings_channel">Ток разрядки</string>
     <string name="discharge_current_ma">Ток разрядки: %1$d мА</string>
     <string name="auto_start_boot">Автозапуск (После запуска ОС)</string>
     <string name="auto_start_open_app">Автозапуск (При открытии приложения)</string>

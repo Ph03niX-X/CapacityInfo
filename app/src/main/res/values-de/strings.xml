@@ -207,7 +207,6 @@
     <string name="overcool">Unterkühlung</string>
     <string name="number_of_cycles_android">Anzahl der Zyklen (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Anzahl der Zyklen (Android)</string>
-    <string name="discharge_current_settings_channel">Entladestrom</string>
     <string name="discharge_current_ma">Entladestrom: %1$d mA</string>
     <string name="auto_start_boot">Automatischer Start (Boot)</string>
     <string name="auto_start_open_app">Automatischer Start (Anwendung öffnen)</string>

@@ -27,11 +27,6 @@ class CloseNotificationBatteryStatusInformationService : Service() {
                 .NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
             return
         }
-        if(NotificationInterface.isDischargeCurrent) {
-            NotificationInterface.notificationManager?.cancel(NotificationInterface
-                .NOTIFICATION_DISCHARGE_CURRENT_ID)
-            return
-        }
 
         NotificationInterface.notificationManager?.cancel(NotificationInterface
             .NOTIFICATION_BATTERY_STATUS_ID)
