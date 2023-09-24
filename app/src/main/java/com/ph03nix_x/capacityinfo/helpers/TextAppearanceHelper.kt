@@ -103,6 +103,10 @@ object TextAppearanceHelper : PremiumInterface {
 
             37 -> ResourcesCompat.getFont(context, R.font.ysabeau_sc)
 
+            38 -> ResourcesCompat.getFont(context, R.font.ysabeau_office)
+
+            39 -> ResourcesCompat.getFont(context, R.font.ysabeau_infant)
+
             else -> null
         }
     }
