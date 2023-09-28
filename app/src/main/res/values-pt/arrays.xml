@@ -1,0 +1,205 @@
+<resources>
+
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Padrão)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_charge_discharge_current_values"> // Do Not Translation
+        <item>μA</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Padrão)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_values"> // Do Not Translation
+        <item>μAh</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Padrão)</item>
+    </string-array>
+
+    <string-array name="voltage_unit_values"> // Do Not Translation
+        <item>μV</item>
+        <item>mV</item>
+    </string-array>
+
+    <string-array name="key_types_list"> // Do Not Translation
+        <item>String</item>
+        <item>Int</item>
+        <item>Long</item>
+        <item>Float</item>
+        <item>Boolean</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Muito Pequeno</item>
+        <item>Pequeno</item>
+        <item>Médio (Padrão)</item>
+        <item>Grande</item>
+        <item>Very Large</item>
+    </string-array>
+
+    <string-array name="text_size_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normal (Padrão)</item>
+        <item>Negrito</item>
+        <item>Itálico</item>
+    </string-array>
+
+    <string-array name="text_style_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>System</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (Padrão)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+        <item>Mooli</item>
+        <item>Inclusive Sans</item>
+        <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
+        <item>Ysabeau Office</item>
+        <item>Ysabeau Infant</item>
+    </string-array>
+
+    <string-array name="fonts_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Carga/Descarga (Padrão)</item>
+        <item>Info</item>
+        <item>Histórico</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="overlay_location_list">
+        <item>Cima</item>
+        <item>Canto superior esquero</item>
+        <item>Canto superior direito</item>
+        <item>Centro</item>
+        <item>Centro esquerdo</item>
+        <item>Centro direito</item>
+        <item>Baixo</item>
+        <item>Canto inferior esquerdo</item>
+        <item>Canto inferior direito</item>
+    </string-array>
+
+    <string-array name="overlay_location_values"> // Do Not Translation
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 Minutos</item>
+        <item>30 Minutos</item>
+        <item>45 Minutos</item>
+        <item>1 Hora</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_values"> // Do Not Translation
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </string-array>
+
+</resources>
