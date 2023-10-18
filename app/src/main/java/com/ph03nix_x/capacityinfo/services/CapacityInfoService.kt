@@ -327,7 +327,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 apply()
             }
 
-            HistoryHelper.removeFirstRow(this)
             HistoryHelper.addHistory(this, DateHelper.getDate(DateHelper.getCurrentDay(),
                 DateHelper.getCurrentMonth(), DateHelper.getCurrentYear()), pref.getInt(
                 RESIDUAL_CAPACITY, 0))
@@ -490,7 +489,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             if(PremiumInterface.isPremium) {
                 if(residualCapacity > 0 && seconds >= 10) {
                     withContext(Dispatchers.IO) {
-                        HistoryHelper.removeFirstRow(this@CapacityInfoService)
                         HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
                             residualCapacity)
                     }
@@ -509,7 +507,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             val historyDB = withContext(Dispatchers.IO) {
                                 HistoryDB(this@CapacityInfoService)
                             }
-                            historyFragment?.historyAdapter = HistoryAdapter(withContext(Dispatchers.IO) {
+                            historyFragment?.historyAdapter =
+                                HistoryAdapter(withContext(Dispatchers.IO) {
                                 historyDB.readDB()
                             })
                             historyFragment?.historyAdapter?.itemCount?.let {
