@@ -487,7 +487,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         withContext(Dispatchers.Main) {
             if(PremiumInterface.isPremium) {
-                if(residualCapacity > 0 && seconds >= 10) {
+                if(residualCapacity > 0) {
                     withContext(Dispatchers.IO) {
                         HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
                             residualCapacity)
