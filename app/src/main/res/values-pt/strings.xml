@@ -250,7 +250,7 @@
     <string name="font_overlay">Fonte</string>
     <string name="telegram_link_copied">Link do Telegram copiado</string>
     <string name="telegram_developer">Desenvolvedor</string>
-    <string name="fast_charge_debug">Carregamento rápido</string>
+    <string name="fast_charge_setting">Carregamento rápido</string>
     <string name="fast_charge_overlay">Carregamento rápido</string>
     <string name="fast_charge_yes">Carregamento rápido: Sim (%1$sW)</string>
     <string name="fast_charge_no">Carregamento rápido: Não</string>

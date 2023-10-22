@@ -69,5 +69,5 @@
     <bool name="is_auto_start_boot">true</bool>
     <bool name="is_auto_start_open_app">true</bool>
     <bool name="is_auto_start_update_app">true</bool>
-    <bool name="is_fast_charge_debug">false</bool>
+    <bool name="is_fast_charge_setting">false</bool>
 </resources>

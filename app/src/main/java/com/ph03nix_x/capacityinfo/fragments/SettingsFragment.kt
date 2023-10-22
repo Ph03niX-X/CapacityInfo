@@ -26,6 +26,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_SETTING
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
@@ -71,6 +72,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var textStyle: ListPreference? = null
 
     // Misc
+    private var fastChargeSetting: SwitchPreferenceCompat? = null
     private var capacityInWh: SwitchPreferenceCompat? = null
     private var chargeDischargingCurrentInWatt: SwitchPreferenceCompat? = null
     private var resetScreenTime: SwitchPreferenceCompat? = null
@@ -278,6 +280,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         // Misc
+        fastChargeSetting = findPreference(IS_FAST_CHARGE_SETTING)
+
         capacityInWh = findPreference(IS_CAPACITY_IN_WH)
 
         chargeDischargingCurrentInWatt = findPreference(IS_CHARGING_DISCHARGE_CURRENT_IN_WATT)
@@ -307,6 +311,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         resetTheNumberOfFullChargesToZero = findPreference("reset_the_number_of_full_charges_to_zero")
 
         debug = findPreference("debug")
+
+        fastChargeSetting?.setOnPreferenceChangeListener { _, newValue ->
+            if(newValue as? Boolean == true)
+                MaterialAlertDialogBuilder(requireContext()).apply {
+                    setTitle(R.string.information)
+                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                    setMessage(R.string.fast_charge_setting_dialog)
+                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                    show()
+                }
+
+            true
+        }
 
         capacityInWh?.apply {
 
@@ -360,6 +377,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
+                tabOnApplicationLaunch?.apply {
+                    isVisible = true
+                    isEnabled = premium?.isVisible == false
+                    summary = if(!isEnabled) getString(R.string.premium_feature) else null
+                }
+
                 unitOfChargeDischargeCurrent?.apply {
                     isVisible = true
                     summary = getUnitOfChargeDischargeCurrentSummary()
@@ -406,6 +429,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
+                tabOnApplicationLaunch?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false

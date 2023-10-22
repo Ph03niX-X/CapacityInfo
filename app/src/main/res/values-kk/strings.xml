@@ -264,7 +264,7 @@
     <string name="font_overlay">Шрифті</string>
     <string name="telegram_link_copied">Telegram сілтемесі көшірілді</string>
     <string name="telegram_developer">Әзірлеуші</string>
-    <string name="fast_charge_debug">Жылдам зарядтау</string>
+    <string name="fast_charge_setting">Жылдам зарядтау</string>
     <string name="fast_charge_overlay">Жылдам зарядтау</string>
     <string name="fast_charge_yes">Жылдам зарядтау: Иә (%1$sW)</string>
     <string name="fast_charge_no">Жылдам зарядтау: Жоқ</string>

@@ -69,7 +69,7 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 "battery_notify_charged_voltage", "is_notify_battery_is_discharged_voltage",
                 "battery_notify_discharged_voltage", "is_notify_charging_current",
                 "charging_current_level_notify", "is_notify_discharge_current",
-                "discharge_current_level_notify").forEach {
+                "discharge_current_level_notify", "is_fast_charge_debug").forEach {
 
                 with(pref) {
 

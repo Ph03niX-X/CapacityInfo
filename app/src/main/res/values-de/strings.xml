@@ -263,7 +263,7 @@
     <string name="font_overlay">Schriftart</string>
     <string name="telegram_link_copied">Telegram-Link kopiert</string>
     <string name="telegram_developer">Entwickler</string>
-    <string name="fast_charge_debug">Schnelles Aufladen</string>
+    <string name="fast_charge_setting">Schnelles Aufladen</string>
     <string name="fast_charge_overlay">Schnelles Aufladen</string>
     <string name="fast_charge_yes">Schnelles Aufladen: Ja (%1$sW)</string>
     <string name="fast_charge_no">Schnelles Aufladen: Nein</string>

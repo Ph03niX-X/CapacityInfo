@@ -264,7 +264,7 @@
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Връзката към Telegram е копирана</string>
     <string name="telegram_developer">Разработчик</string>
-    <string name="fast_charge_debug">Бързо зареждане</string>
+    <string name="fast_charge_setting">Бързо зареждане</string>
     <string name="fast_charge_overlay">Бързо зареждане</string>
     <string name="fast_charge_yes">Бързо зареждане: Да (%1$sW)</string>
     <string name="fast_charge_no">Бързо зареждане: Не</string>

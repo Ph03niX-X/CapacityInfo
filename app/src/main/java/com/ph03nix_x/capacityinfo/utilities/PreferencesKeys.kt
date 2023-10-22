@@ -33,6 +33,7 @@ object PreferencesKeys {
     const val TEXT_STYLE = "text_style"
 
     // Misc
+    const val IS_FAST_CHARGE_SETTING = "is_fast_charge_setting"
     const val IS_CAPACITY_IN_WH = "is_capacity_in_wh"
     const val IS_CHARGING_DISCHARGE_CURRENT_IN_WATT = "is_charging_discharge_current_in_watt"
     const val IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL = "is_reset_screen_time_at_any_charge_level"
@@ -92,7 +93,6 @@ object PreferencesKeys {
     const val IS_AUTO_START_BOOT = "is_auto_start_boot"
     const val IS_AUTO_START_OPEN_APP = "is_auto_start_open_app"
     const val IS_AUTO_START_UPDATE_APP = "is_auto_start_update_app"
-    const val IS_FAST_CHARGE_DEBUG = "is_fast_charge_debug"
 
     // Battery Information
     const val NUMBER_OF_CHARGES = "number_of_charges"

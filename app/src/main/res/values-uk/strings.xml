@@ -264,7 +264,7 @@
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Посилання на Telegram скопійовано</string>
     <string name="telegram_developer">Розробник</string>
-    <string name="fast_charge_debug">Швидка зарядка</string>
+    <string name="fast_charge_setting">Швидка зарядка</string>
     <string name="fast_charge_overlay">Швидка зарядка</string>
     <string name="fast_charge_yes">Швидка зарядка: Так (%1$s Вт)</string>
     <string name="fast_charge_no">Швидка зарядка: Ні</string>
