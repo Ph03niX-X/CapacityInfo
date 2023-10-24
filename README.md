@@ -82,7 +82,9 @@ P.S If you have any suggestions for improving the application or you have found 
 2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed.<br/>
 3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%.<br/>
 4.If the design capacity is incorrect, change it in the application settings.<br/>
-5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings.
+5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings
+
+If you charge your device with fast charging, enable the "Fast Charge" option in the app settings to more correctly calculate battery wear
 
 <b>ATTENTION!</b> Do not kill the service. If the shell of your device likes to "kill" applications, or completely "kills" applications when cleaning the most recently launched applications or when removing an application from the most recently launched applications, or you use power saving, add this application to all possible exceptions. If your firmware has an application startup setting, be sure to ensure that this application can start after loading the OS, if you want the application to start automatically after loading the OS. If you don't know what and where to configure so that the application is not "killed" by the system, use the "Don't kill my app!" Service by choosing the manufacturer of your device
 
