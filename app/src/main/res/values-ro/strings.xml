@@ -16,6 +16,7 @@
     <string name="information">Informaţii</string>
     <string name="battery_technology">Tehnologia bateriei: %1$s</string>
     <string name="instruction_message" formatted="false">1. Pentru ca aplicația să arate capacitatea rămasă, descărcați bateria la 10% sau mai puțin și puneți dispozitivul la încărcare, în timp ce serviciul trebuie să fie pornit.\n2. Pentru o afișare mai exactă a capacității rămase, încărcați dispozitivul complet până când este afișat \"Încărcat\".\n3. Dacă încărcarea continuă după ce a ajuns la 100%, acest lucru este normal. Dispozitivele moderne continuă să se încarce ceva timp după ce au ajuns la 100%.\n4. Dacă capacitatea de proiectare este incorectă, schimbați-o în setările aplicației.\n5. Dacă capacitatea curentă și/sau curentul de încărcare/descărcare și/sau tensiunea nu sunt afișate corect, atunci schimbați unitatea în setările aplicației.\n\n</string>
+    <string name="instruction_message_enable_fast_charge_option">Dacă vă încărcați dispozitivul cu încărcare rapidă, activați opțiunea \"Încărcare rapidă\" din setările aplicației pentru a calcula mai corect uzura bateriei\n\n</string>
     <string name="instruction_message_do_not_kill_the_service">ATENȚIE! Nu opriți serviciul. Dacă sistemului de operare al dispozitivului îi place să \"oprească\" aplicații, sau să \"oprească\" complet aplicațiile recente atunci când le eliminați, sau dacă utilizați economisire de energie, adăugați această aplicație în toate excepțiile posibile. Dacă sistemului de operare al dispozitivului are o setare de pornire automată a aplicațiilor, asigurați-vă că această aplicație poate porni după încărcarea sistemului de operare.\n\n</string>
     <string name="instruction_message_dont_kill_my_app">Dacă nu știţi ce și unde să configuraţi astfel încât aplicația să nu fie \"oprită\" de sistem, folosiţi serviciul \"Don\'t kill my app!\" prin alegerea producătorului dispozitivului dvs.\n\n</string>
     <string name="huawei_honor_information">ATENŢIE! Pe Huawei și Honor, este posibil ca capacitatea actuală să nu se afișeze corect. Din păcate, nu se poate face nimic în acest sens</string>
@@ -265,6 +266,7 @@
     <string name="telegram_link_copied">Link Telegram copiat</string>
     <string name="telegram_developer">Dezvoltator</string>
     <string name="fast_charge_setting">Încărcare rapidă</string>
+    <string name="fast_charge_setting_dialog">Această opțiune este concepută pentru a calcula mai corect uzura bateriei atunci când se utilizează încărcarea rapidă. Activați această opțiune numai dacă vă încărcați dispozitivul cu un încărcător rapid</string>
     <string name="fast_charge_overlay">Încărcare rapidă</string>
     <string name="fast_charge_yes">Încărcare rapidă: Da (%1$sW)</string>
     <string name="fast_charge_no">Încărcare rapidă: Nu</string>
