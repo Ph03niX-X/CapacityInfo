@@ -345,7 +345,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         tabOnApplicationLaunch?.apply {
             isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            summary = if(!isEnabled) getString(R.string.premium_feature)
+            else getTabOnApplicationLaunch()
         }
 
         backupSettings?.apply {
@@ -380,7 +381,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 tabOnApplicationLaunch?.apply {
                     isVisible = true
                     isEnabled = premium?.isVisible == false
-                    summary = if(!isEnabled) getString(R.string.premium_feature) else null
+                    summary = if(!isEnabled) getString(R.string.premium_feature)
+                    else getTabOnApplicationLaunch()
                 }
 
                 unitOfChargeDischargeCurrent?.apply {
