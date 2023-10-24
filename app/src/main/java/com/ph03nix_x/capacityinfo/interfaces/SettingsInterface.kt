@@ -85,7 +85,7 @@ interface SettingsInterface {
                 (pref.getString(TEXT_STYLE, "0") ?: "0").toInt()]
     }
 
-    fun SettingsFragment.getTabOnApplicationLaunch(): String? {
+    fun SettingsFragment.getTabOnApplicationLaunchSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 

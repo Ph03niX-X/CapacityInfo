@@ -332,25 +332,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         chargeDischargingCurrentInWatt?.apply {
-
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
         resetScreenTime?.apply {
-
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
-        tabOnApplicationLaunch?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature)
-            else getTabOnApplicationLaunch()
-        }
-
         backupSettings?.apply {
-
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
 
@@ -372,9 +363,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         moreOther?.setOnPreferenceClickListener {
-
             if(it.title == requireContext().getString(R.string.more)) {
-
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
@@ -382,22 +371,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     isVisible = true
                     isEnabled = premium?.isVisible == false
                     summary = if(!isEnabled) getString(R.string.premium_feature)
-                    else getTabOnApplicationLaunch()
-                }
-
-                unitOfChargeDischargeCurrent?.apply {
-                    isVisible = true
-                    summary = getUnitOfChargeDischargeCurrentSummary()
-                }
-
-                unitOfMeasurementOfCurrentCapacity?.apply {
-                    isVisible = true
-                    summary = getUnitOfMeasurementOfCurrentCapacitySummary()
-                }
-
-                voltageUnit?.apply {
-                    isVisible = true
-                    summary = getVoltageUnitSummary()
+                    else getTabOnApplicationLaunchSummary()
                 }
 
                 changeDesignCapacity?.isVisible = true
@@ -522,9 +496,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         changeDesignCapacity?.setOnPreferenceClickListener {
-
             onChangeDesignCapacity(it)
-
             true
         }
 
@@ -723,23 +695,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         capacityInWh?.apply {
-
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
         chargeDischargingCurrentInWatt?.apply {
-
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
         resetScreenTime?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        tabOnApplicationLaunch?.apply {
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
@@ -766,10 +731,30 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle?.summary = getTextStyleSummary()
 
-        if(isPremium) tabOnApplicationLaunch?.summary = getTabOnApplicationLaunch()
+        tabOnApplicationLaunch?.apply {
+            if(isVisible) {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature)
+                else getTabOnApplicationLaunchSummary()
+            }
+        }
 
-        changeDesignCapacity?.summary = getString(R.string.change_design_summary,
-            pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
+        unitOfChargeDischargeCurrent?.apply {
+            if(isVisible) summary = getUnitOfChargeDischargeCurrentSummary()
+        }
+
+        unitOfMeasurementOfCurrentCapacity?.apply {
+            if(isVisible) summary = getUnitOfMeasurementOfCurrentCapacitySummary()
+        }
+
+        voltageUnit?.apply {
+            if(isVisible) summary = getVoltageUnitSummary()
+        }
+
+        changeDesignCapacity?.apply {
+            if(isVisible) summary = getString(R.string.change_design_summary,
+                pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
+        }
 
         resetToZeroTheNumberOfCharges?.isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
 
