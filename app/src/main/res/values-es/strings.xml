@@ -16,6 +16,7 @@
     <string name="information">Información</string>
     <string name="battery_technology">Tecnología de batería: %1$s</string>
     <string name="instruction_message" formatted="false">1. Para que la aplicación muestre la capacidad restante, descargue la batería al 10% o menos y ponga el dispositivo a carga, mientras el servicio debe estar encendido.\n2. o una visualización más precisa de la capacidad restante, cargar el dispositivo completamente hasta que se muestre \"Estado: Cargado\".\n3.Si el cargo ocurre después de alcanzar el 100%, esto es normal. Los dispositivos modernos continúan cargando durante algún tiempo después de alcanzar el 100 %.\n4. f la capacidad de diseño es incorrecta, cámbiela en los ajustes de la aplicación.\n5. f la capacidad actual y/o la corriente de carga/descarga y/o voltaje no se muestran correctamente, luego cambie la unidad en la configuración de la aplicación.\n\n</string>
+    <string name="instruction_message_enable_fast_charge_option">Si cargas tu dispositivo con carga rápida, activa la opción \"Carga rápida\" en los ajustes de la aplicación para calcular más correctamente el desgaste de la batería\n\n</string>
     <string name="instruction_message_do_not_kill_the_service">¡ATENCIÓN! No mates el servicio. Si al intérprete de tu dispositivo le gusta \"matar\" aplicaciones, o completamente \"mata\" aplicaciones al limpiar las aplicaciones más recientes o al eliminar una aplicación de las aplicaciones más recientes, o usa ahorro de energía, agregue esta aplicación a todas las excepciones posibles. Si su firmware tiene una configuración de inicio de la aplicación, asegúrese de que esta aplicación puede iniciarse después de cargar el sistema operativo, si quiere que la aplicación se inicie automáticamente después de cargar el sistema operativo.&#160;</string>
     <string name="instruction_message_dont_kill_my_app">Si no sabes qué y dónde configurar para que la aplicación no sea \"asesinada\" por el sistema, usa \"Don\'t kill my app!\" Servicio seleccionando el fabricante de su dispositivo.\n\n</string>
     <string name="huawei_honor_information">¡ATENCIÓN! En Huawei &amp; Honor, la capacidad actual puede no mostrarse correctamente. Desafortunadamente, no se puede hacer nada al respecto</string>
@@ -265,6 +266,7 @@
     <string name="telegram_link_copied">Enlace de Telegram copiado</string>
     <string name="telegram_developer">Desarrollador</string>
     <string name="fast_charge_setting">Carga rápida</string>
+    <string name="fast_charge_setting_dialog">Esta opción está diseñada para calcular más correctamente el desgaste de la batería cuando se utiliza la carga rápida. Habilita esta opción solo si cargas el dispositivo con un cargador rápido</string>
     <string name="fast_charge_overlay">Carga rápida</string>
     <string name="fast_charge_yes">Carga rápida: Sí (%1$sW)</string>
     <string name="fast_charge_no">Carga rápida: No</string>
