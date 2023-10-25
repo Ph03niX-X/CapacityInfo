@@ -19,6 +19,7 @@ import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
@@ -163,6 +164,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
             setUsesChronometer(pref.getBoolean(IS_SERVICE_TIME, context.resources.getBoolean(
                 R.bool.is_service_time)))
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                foregroundServiceBehavior = FOREGROUND_SERVICE_IMMEDIATE
         }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
