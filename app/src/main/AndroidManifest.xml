@@ -48,6 +48,7 @@
                 android:name=".services.CapacityInfoService"
                 android:foregroundServiceType="specialUse"
                 android:exported="false"
+                android:stopWithTask="false"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
@@ -60,18 +61,21 @@
         <service
                 android:name=".services.OverlayService"
                 android:exported="false"
+                android:stopWithTask="false"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"/>
 
         <service
             android:name=".services.CloseNotificationBatteryStatusInformationService"
             android:exported="false"
+            android:stopWithTask="false"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"/>
 
         <service
             android:name=".services.DisableNotificationBatteryStatusInformationService"
             android:exported="false"
+            android:stopWithTask="false"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"/>
 
