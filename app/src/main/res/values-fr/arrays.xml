@@ -1,0 +1,98 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>µA (par défaut)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (par défaut)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>µV</item>
+        <item>mV (par défaut)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Très petit</item>
+        <item>Petit</item>
+        <item>Moyen (par défaut)</item>
+        <item>Grand</item>
+        <item>Très grand</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normal (par défaut)</item>
+        <item>Audacieux</item>
+        <item>Italique</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Système</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (par défaut)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+        <item>Mooli</item>
+        <item>Inclusive Sans</item>
+        <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
+        <item>Ysabeau Office</item>
+        <item>Ysabeau Infant</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Chargé/Décharge (par défaut)</item>
+        <item>Porter</item>
+        <item>Histoire</item>
+    </string-array>
+
+    <string-array name="overlay_location_list">
+        <item>Haut</item>
+        <item>En haut à gauche</item>
+        <item>En haut à droite</item>
+        <item>Centre</item>
+        <item>Centre gauche</item>
+        <item>Centre droit</item>
+        <item>Bas</item>
+        <item>En bas à gauche</item>
+        <item>En bas à droite</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 heure</item>
+    </string-array>
+</resources>
