@@ -317,7 +317,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 MaterialAlertDialogBuilder(requireContext()).apply {
                     setTitle(R.string.information)
                     setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                    setMessage(R.string.fast_charge_setting_dialog)
+                    setMessage(R.string.fast_charge_dialog_message)
                     setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
                     show()
                 }

@@ -265,9 +265,8 @@
     <string name="font_overlay">Font</string>
     <string name="telegram_link_copied">Link Telegram copiat</string>
     <string name="telegram_developer">Dezvoltator</string>
-    <string name="fast_charge_setting">Încărcare rapidă</string>
-    <string name="fast_charge_setting_dialog">Această opțiune este concepută pentru a calcula mai corect uzura bateriei atunci când se utilizează încărcarea rapidă. Activați această opțiune numai dacă vă încărcați dispozitivul cu un încărcător rapid</string>
-    <string name="fast_charge_overlay">Încărcare rapidă</string>
+    <string name="fast_charge">Încărcare rapidă</string>
+    <string name="fast_charge_dialog_message">Această opțiune este concepută pentru a calcula mai corect uzura bateriei atunci când se utilizează încărcarea rapidă. Activați această opțiune numai dacă vă încărcați dispozitivul cu un încărcător rapid</string>
     <string name="fast_charge_yes">Încărcare rapidă: Da (%1$sW)</string>
     <string name="fast_charge_no">Încărcare rapidă: Nu</string>
     <string name="fast_charge_yes_overlay_only_values">Da (%1$sW)</string>

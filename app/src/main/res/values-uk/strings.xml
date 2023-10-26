@@ -265,9 +265,8 @@
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Посилання на Telegram скопійовано</string>
     <string name="telegram_developer">Розробник</string>
-    <string name="fast_charge_setting">Швидка зарядка</string>
-    <string name="fast_charge_setting_dialog">Ця опція призначена для більш правильного розрахунку зносу акумулятора під час використання швидкого заряджання. Вмикайте цю опцію тільки в тому випадку, якщо ви заряджаєте свій пристрій за допомогою швидкого зарядного пристрою</string>
-    <string name="fast_charge_overlay">Швидка зарядка</string>
+    <string name="fast_charge">Швидка зарядка</string>
+    <string name="fast_charge_dialog_message">Ця опція призначена для більш правильного розрахунку зносу акумулятора під час використання швидкого заряджання. Вмикайте цю опцію тільки в тому випадку, якщо ви заряджаєте свій пристрій за допомогою швидкого зарядного пристрою</string>
     <string name="fast_charge_yes">Швидка зарядка: Так (%1$s Вт)</string>
     <string name="fast_charge_no">Швидка зарядка: Ні</string>
     <string name="fast_charge_yes_overlay_only_values">Так (%1$s Вт)</string>

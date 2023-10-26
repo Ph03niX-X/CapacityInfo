@@ -265,9 +265,8 @@
     <string name="font_overlay">Fuente</string>
     <string name="telegram_link_copied">Enlace de Telegram copiado</string>
     <string name="telegram_developer">Desarrollador</string>
-    <string name="fast_charge_setting">Carga rápida</string>
-    <string name="fast_charge_setting_dialog">Esta opción está diseñada para calcular más correctamente el desgaste de la batería cuando se utiliza la carga rápida. Habilita esta opción solo si cargas el dispositivo con un cargador rápido</string>
-    <string name="fast_charge_overlay">Carga rápida</string>
+    <string name="fast_charge">Carga rápida</string>
+    <string name="fast_charge_dialog_message">Esta opción está diseñada para calcular más correctamente el desgaste de la batería cuando se utiliza la carga rápida. Habilita esta opción solo si cargas el dispositivo con un cargador rápido</string>
     <string name="fast_charge_yes">Carga rápida: Sí (%1$sW)</string>
     <string name="fast_charge_no">Carga rápida: No</string>
     <string name="fast_charge_yes_overlay_only_values">Sí (%1$sW)</string>

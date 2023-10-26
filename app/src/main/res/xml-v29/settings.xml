@@ -129,7 +129,7 @@
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
-            android:title="@string/fast_charge_setting"
+            android:title="@string/fast_charge"
             android:defaultValue="@bool/is_fast_charge_setting"
             app:singleLineTitle="false"
             android:key="is_fast_charge_setting"/>

@@ -265,9 +265,8 @@
     <string name="font_overlay">Шрифті</string>
     <string name="telegram_link_copied">Telegram сілтемесі көшірілді</string>
     <string name="telegram_developer">Әзірлеуші</string>
-    <string name="fast_charge_setting">Жылдам зарядтау</string>
-    <string name="fast_charge_setting_dialog">Бұл опция жылдам зарядтауды пайдаланған кезде батареяның тозуын дұрысырақ есептеу үшін жасалған. Бұл опцияны құрылғыны жылдам зарядтағыш арқылы зарядтасаңыз ғана қосыңыз</string>
-    <string name="fast_charge_overlay">Жылдам зарядтау</string>
+    <string name="fast_charge">Жылдам зарядтау</string>
+    <string name="fast_charge_dialog_message">Бұл опция жылдам зарядтауды пайдаланған кезде батареяның тозуын дұрысырақ есептеу үшін жасалған. Бұл опцияны құрылғыны жылдам зарядтағыш арқылы зарядтасаңыз ғана қосыңыз</string>
     <string name="fast_charge_yes">Жылдам зарядтау: Иә (%1$sW)</string>
     <string name="fast_charge_no">Жылдам зарядтау: Жоқ</string>
     <string name="fast_charge_yes_overlay_only_values">Иә (%1$sW)</string>

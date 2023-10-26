@@ -220,7 +220,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="@bool/is_fast_charge_overlay"
             android:key="is_fast_charge_overlay"
-            android:title="@string/fast_charge_overlay"
+            android:title="@string/fast_charge"
             app:iconSpaceReserved="false"
             app:singleLineTitle="false"/>
 

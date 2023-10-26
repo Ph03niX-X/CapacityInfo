@@ -265,9 +265,8 @@
     <string name="font_overlay">Czcionka</string>
     <string name="telegram_link_copied">Skopiowano łącze do telegramu</string>
     <string name="telegram_developer">Deweloper</string>
-    <string name="fast_charge_setting">Szybkie ładowanie</string>
-    <string name="fast_charge_setting_dialog">Ta opcja służy do bardziej poprawnego obliczania zużycia baterii podczas korzystania z szybkiego ładowania. Opcję tę należy włączyć tylko w przypadku ładowania urządzenia za pomocą szybkiej ładowarki</string>
-    <string name="fast_charge_overlay">Szybkie ładowanie</string>
+    <string name="fast_charge">Szybkie ładowanie</string>
+    <string name="fast_charge_dialog_message">Ta opcja służy do bardziej poprawnego obliczania zużycia baterii podczas korzystania z szybkiego ładowania. Opcję tę należy włączyć tylko w przypadku ładowania urządzenia za pomocą szybkiej ładowarki</string>
     <string name="fast_charge_yes">Szybkie ładowanie: Tak (%1$sW)</string>
     <string name="fast_charge_no">Szybkie ładowanie: Nie</string>
     <string name="fast_charge_yes_overlay_only_values">Tak (%1$sW)</string>
