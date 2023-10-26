@@ -176,22 +176,34 @@
     <string name="battery_overcooling">Super-resfriamento da bateria! Temperatura: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Mostrar notificação expandida</string>
     <string name="service_restart_required">Mostrar notificação expandida</string>
-    <string name="dont_kill_my_app" translatable="false">Não feche meu aplicativo!</string>
     <string name="charging_time_remaining">Tempo de Carregamento Restante: %1$s</string>
     <string name="charging_time_remaining_overlay">Tempo de Carregamento Restante</string>
     <string name="remaining_battery_time">Tempo Restante da Bateria: %1$s</string>
     <string name="remaining_battery_time_overlay">Tempo Restante da Bateria</string>
     <string name="only_values">Somente Valores</string>
+    <string name="current_capacity_overlay_only_values">%1$s mAh</string>
+    <string name="capacity_added_overlay_only_values">%1$s mAh (%2$s)</string>
+    <string name="residual_capacity_overlay_only_values">%1$s mAh (%2$s)</string>
+    <string name="charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="max_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="average_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="min_charge_discharge_overlay_only_values">%1$d mA</string>
+    <string name="voltage_overlay_only_values">%1$s mV</string>
+    <string name="battery_wear_overlay_only_values">%1$s (%2$s mAh)</string>
     <string name="close">Fechar</string>
     <string name="disable">Desativar</string>
     <string name="overlay_text_color">Cor do Texto</string>
+    <string name="backup">Cópia de segurança</string>
     <string name="unknown_error">Erro Desconhecido!</string>
     <string name="charging_current_limit">Limite de Corrente de Carga: %1$s mA</string>
     <string name="charging_current_limit_overlay">Limite de Corrente de Carga</string>
+    <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
     <string name="screen_time">Tempo de Tela: %1$s</string>
     <string name="screen_time_overlay">Tempo de Tela</string>
     <string name="other">Outro</string>
     <string name="charging_current_ma">Corrente Atual: %1$d mA</string>
+    <string name="ma">%1$d mA</string>
+    <string name="ma_hint">mA</string>
     <string name="overheat">Superaquecimento</string>
     <string name="overcool">Super-resfriamento</string>
     <string name="number_of_cycles_android">Número de Ciclos (Android): %1$d</string>
@@ -225,6 +237,7 @@
     <string name="error_importing_history">Erro ao Importar Histórico!</string>
     <string name="history_imported_successfully">Histórico Importado com Sucesso!</string>
     <string name="battery_is_charged_notification_voltage">A bateria está carregada. %1$d mV</string>
+    <string name="mv">mV</string>
     <string name="number_of_full_charges">Número de Cargas Completas: %1$d</string>
     <string name="number_of_full_charges_overlay">Número de Cargas Completas</string>
     <string name="reset_the_number_of_full_charges_to_zero">Resetar Número de Cargas Completas para zero</string>
@@ -245,7 +258,7 @@
     <string name="service_is_running">O serviço está em execução</string>
     <string name="stop_the_service_when_the_cd">Parar o serviço quando o carregador for desconectado</string>
     <string name="stop_service">Parar serviço</string>
-    <string name="stopping_service">Parando o serviço...</string>
+    <string name="stopping_service">Parando o serviço…</string>
     <string name="service_stopped_successfully">Serviço interrompido com sucesso!</string>
     <string name="text_font">Fonte do Texto (Carga/Descarga/Desgaste/Histórico)</string>
     <string name="font_overlay">Fonte</string>
@@ -268,9 +281,13 @@
     <string name="capacity_in_wh">Capacidade em Wh</string>
     <string name="design_capacity_wh">Capacidade Total: %1$s Wh</string>
     <string name="current_capacity_wh">Capacidade Atual: %1$s Wh</string>
+    <string name="current_capacity_wh_overlay_only_values">%1$s Wh</string>
     <string name="residual_capacity_wh">Capacidade Residual: %1$s Wh (%2$s)</string>
+    <string name="residual_capacity_wh_overlay_only_values">%1$s Wh (%2$s)</string>
     <string name="battery_wear_wh">Desgaste da bateria: %1$s (%2$s Wh)</string>
+    <string name="battery_wear_wh_overlay_only_values">%1$s (%2$s Wh)</string>
     <string name="capacity_added_wh">Capacidade adicionada: %1$s Wh (%2$s)</string>
+    <string name="capacity_added_wh_overlay_only_values">%1$s Wh (%2$s)</string>
     <string name="charging_discharge_current_in_watt">Corrente de carga/descarga em Watt</string>
     <string name="charge_current_watt">Corrente de carga: %1$sW</string>
     <string name="charging_current_limit_watt">Limite de corrente de carga: %1$sW</string>
@@ -282,7 +299,8 @@
     <string name="average_discharge_current_watt">Corrente média de descarga: %1$sW</string>
     <string name="min_discharge_current_watt">Corrente mínima de descarga: %1$sW</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$sW</string>
-    <string name="setting_is_intended_to_correct">Esta configuração deve corrigir a exibição do valor</string>
+    <string name="setting_is_intended_to_correct">
+        Esta configuração deve corrigir a exibição do valor</string>
     <string name="full_charge_reminder">Lembrete de Carga Completa</string>
     <string name="full_charge_reminder_frequency">Frequência do Lembrete de Carga Completa</string>
     <string name="allow_all_app_notifications">PERMITIR TODAS AS NOTIFICAÇÕES DO APLICATIVO</string>
