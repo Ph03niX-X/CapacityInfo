@@ -254,7 +254,7 @@
     <string name="premium_feature">Funzionalità Premium</string>
     <string name="purchase_premium">Acquistare</string>
     <string name="premium_features_unlocked">Funzionalità premium sbloccate!</string>
-    <string name="empty_history_text">La storia degli addebiti è vuota! Per favore, carica la batteria completamente al 100% (Stato: carica)</string>
+    <string name="empty_history_text">La storia è vuota! Per favore, carica la batteria completamente al 100% (Stato: carica)</string>
     <string name="show_battery_information">Mostra informazioni sulla batteria</string>
     <string name="service_is_running">Il servizio è in esecuzione</string>
     <string name="stop_the_service_when_the_cd">Interrompere il servizio quando il caricabatterie è scollegato</string>
