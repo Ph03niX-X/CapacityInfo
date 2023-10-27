@@ -73,7 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Chargé/Décharge (par défaut)</item>
-        <item>Porter</item>
+        <item>Usure de la</item>
         <item>Histoire</item>
     </string-array>
 

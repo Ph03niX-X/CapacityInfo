@@ -163,7 +163,7 @@
     <string name="battery_is_discharged_notification">La batterie est déchargée. Niveau de batterie: %1$d</string>
     <string name="charge">Chargé</string>
     <string name="discharge">Décharge</string>
-    <string name="wear">Porter</string>
+    <string name="wear">Usure de la</string>
     <string name="debug_successfully_enabled">Débogage activé avec succès!</string>
     <string name="debug_successfully_disabled">Débogage désactivé avec succès!</string>
     <string name="bypass_dnd_mode">Contourner le mode DND</string>
