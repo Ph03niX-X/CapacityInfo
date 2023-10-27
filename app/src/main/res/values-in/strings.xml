@@ -250,7 +250,7 @@
     <string name="error">Kesalahan!</string>
     <string name="history_count">Hitungan Sejarah</string>
     <string name="get_premium">Dapatkan Premium</string>
-    <string name="premium_dialog">Dengan membeli Premium, Anda akan mendapatkan fitur tambahan pada aplikasi:\n• Sejarah;\n• Tampilkan Informasi Baterai;\n• Hentikan Layanan;\n• Hentikan layanan bila pengisi daya dicabut;\n• Informasi Status Baterai;\n• Font Teks;\n• Atur Ulang Durasi Layar pada tingkat pengisian daya berapa pun;\n• Cadangan;\n• Tab pada peluncuran aplikasi;\n• Hamparan\n• Kapasitas dalam Wh;\n• Arus Pengisian/Pengosongan dalam Watt\n\nDengan membeli Premium, Anda juga mendukung pengembangan lebih lanjut aplikasi dan Ukraina dalam Perang</string>
+    <string name="premium_dialog">Dengan membeli Premium, Anda akan mendapatkan fitur tambahan pada aplikasi:\n\• Sejarah;\n\• Tampilkan Informasi Baterai;\n\• Hentikan Layanan;\n\• Hentikan layanan bila pengisi daya dicabut;\n\• Informasi Status Baterai;\n\• Font Teks;\n\• Atur Ulang Durasi Layar pada tingkat pengisian daya berapa pun;\n\• Cadangan;\n\• Tab pada peluncuran aplikasi;\n\• Hamparan\n\• Kapasitas dalam Wh;\n\• Arus Pengisian/Pengosongan dalam Watt\n\nDengan membeli Premium, Anda juga mendukung pengembangan lebih lanjut aplikasi dan Ukraina dalam Perang</string>
     <string name="premium_feature">Fitur Premium</string>
     <string name="purchase_premium">Pembelian</string>
     <string name="premium_features_unlocked">Fitur premium tidak terkunci!</string>
