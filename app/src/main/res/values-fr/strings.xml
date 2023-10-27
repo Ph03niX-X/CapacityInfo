@@ -228,7 +228,7 @@
     <string name="export_history">Historique des exportations</string>
     <string name="history_exported_successfully">Historique exporté avec succès!</string>
     <string name="error_exporting_history">Erreur lors de l\'exportation de l\'historique!</string>
-    <string name="history_is_empty">L\'histoire est vide !</string>
+    <string name="history_is_empty">L\'histoire est vide!</string>
     <string name="export_notification_sounds">Exporter les sons de notification</string>
     <string name="successful_export_of_notification_sounds">Les sons de notification ont été exportés avec succès!</string>
     <string name="error_exporting_notification_sounds">Erreur lors de l\'exportation des sons de notification!\n%1$s</string>
@@ -252,7 +252,7 @@
     <string name="premium_feature">Fonctionnalité premium</string>
     <string name="purchase_premium">Achat</string>
     <string name="premium_features_unlocked">Fonctionnalités Premium débloquées!</string>
-    <string name="empty_history_text">L\'historique des charges est vide! Veuillez charger la batterie jusqu\'à 100% (Sétat: Chargé)</string>
+    <string name="empty_history_text">L\'historique est vide! Veuillez charger la batterie jusqu\'à 100% (Sétat: Chargé)</string>
     <string name="show_battery_information">Afficher les informations sur la batterie</string>
     <string name="service_is_running">Le service est en cours d\'exécution</string>
     <string name="stop_the_service_when_the_cd">Arrêter le service lorsque le chargeur est débranché</string>
