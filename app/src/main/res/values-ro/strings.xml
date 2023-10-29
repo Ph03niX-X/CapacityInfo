@@ -45,7 +45,7 @@
     <string name="developer">Dezvoltator</string>
     <string name="version">Versiune</string>
     <string name="build">Build</string>
-    <string name="build_date">Dată Build (GMT+3)</string>
+    <string name="build_date">Dată Build (GMT+2)</string>
     <string name="rate_the_app">Evaluați aplicația</string>
     <string name="license">Licență: Apache 2.0</string>
     <string name="feedback">Opinii</string>

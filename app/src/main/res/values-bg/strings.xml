@@ -45,7 +45,7 @@
     <string name="developer">Разработчик</string>
     <string name="version">Версия</string>
     <string name="build">Сглобяване</string>
-    <string name="build_date">Дата на компилация (GMT+3)</string>
+    <string name="build_date">Дата на компилация (GMT+2)</string>
     <string name="rate_the_app">Оценете приложението</string>
     <string name="license">Разрешително: Apache 2.0</string>
     <string name="feedback">Обратна връзка</string>
