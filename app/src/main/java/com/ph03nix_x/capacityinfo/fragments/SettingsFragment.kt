@@ -374,7 +374,19 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     else getTabOnApplicationLaunchSummary()
                 }
 
-                changeDesignCapacity?.isVisible = true
+                unitOfChargeDischargeCurrent?.apply {
+                    isVisible = true
+                    summary = getUnitOfChargeDischargeCurrentSummary()
+                }
+                unitOfMeasurementOfCurrentCapacity?.apply {
+                    isVisible = true
+                    summary = getUnitOfMeasurementOfCurrentCapacitySummary()
+                }
+                changeDesignCapacity?.apply {
+                    isVisible = true
+                    summary = getString(R.string.change_design_summary,
+                        pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
+                }
                 overlay?.isVisible = true
                 resetToZeroTheNumberOfCharges?.apply {
 
@@ -431,7 +443,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         unitOfChargeDischargeCurrent?.apply {
-
             setOnPreferenceClickListener {
 
                 Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
@@ -454,7 +465,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         unitOfMeasurementOfCurrentCapacity?.apply {
-
             setOnPreferenceClickListener {
 
                 Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
