@@ -58,7 +58,7 @@ static def getBuildDate() {
 dependencies {
 
     def coroutinesVersion = '1.7.3'
-    def billingVersion = "6.0.1"
+    def billingVersion = "6.1.0"
     def miuiAutoStart = "v1.3"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
