@@ -33,15 +33,10 @@ object ServiceHelper {
                     isStartedCapacityInfoService = true
 
                     delay(2.5.seconds)
-                    try {
-                        context.startForegroundService(Intent(context, serviceName))
-                        delay(1.seconds)
-                        isStartedCapacityInfoService = false
-                    }
-                    catch (e: Exception) {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                            && e is ForegroundServiceStartNotAllowedException) return@launch
-                    }
+                    context.startForegroundService(Intent(context, serviceName))
+
+                    delay(1.seconds)
+                    isStartedCapacityInfoService = false
                 }
                 else if(serviceName == OverlayService::class.java) {
 
@@ -54,7 +49,9 @@ object ServiceHelper {
                 }
             }
             catch(e: Exception) {
-                Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                    && e is ForegroundServiceStartNotAllowedException) return@launch
+                else Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
             }
         }
     }
