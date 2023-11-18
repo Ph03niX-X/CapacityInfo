@@ -1,10 +1,12 @@
 package com.ph03nix_x.capacityinfo.helpers
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.Toast
 import androidx.preference.Preference
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
@@ -31,12 +33,16 @@ object ServiceHelper {
                     isStartedCapacityInfoService = true
 
                     delay(2.5.seconds)
-                    context.startForegroundService(Intent(context, serviceName))
-
-                    delay(1.seconds)
-                    isStartedCapacityInfoService = false
+                    try {
+                        context.startForegroundService(Intent(context, serviceName))
+                        delay(1.seconds)
+                        isStartedCapacityInfoService = false
+                    }
+                    catch (e: Exception) {
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                            && e is ForegroundServiceStartNotAllowedException) return@launch
+                    }
                 }
-
                 else if(serviceName == OverlayService::class.java) {
 
                     isStartedOverlayService = true
@@ -48,7 +54,6 @@ object ServiceHelper {
                 }
             }
             catch(e: Exception) {
-
                 Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
             }
         }

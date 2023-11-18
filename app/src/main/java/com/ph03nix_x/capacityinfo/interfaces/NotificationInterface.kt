@@ -1,6 +1,7 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
 import android.annotation.SuppressLint
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -169,14 +170,20 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 foregroundServiceBehavior = FOREGROUND_SERVICE_IMMEDIATE
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-            notificationBuilder?.build()?.let {
-                (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
-                    it, FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
-            }
+        try {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+                notificationBuilder?.build()?.let {
+                    (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
+                        it, FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+                }
 
-        else (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
-            notificationBuilder?.build())
+            else (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
+                notificationBuilder?.build())
+        }
+        catch (e: Exception) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                && e is ForegroundServiceStartNotAllowedException) return
+        }
     }
 
     @SuppressLint("RestrictedApi")
