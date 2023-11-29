@@ -151,6 +151,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                 }
 
                 CapacityInfoService.instance?.isPluggedOrUnplugged = false
+
+                CapacityInfoService.instance?.wakeLockRelease()
             }
         }
     }

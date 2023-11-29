@@ -40,6 +40,7 @@ import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
+import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_WAKELOCK_TIMEOUT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
@@ -71,6 +72,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private lateinit var pref: SharedPreferences
     private var screenTimeJob: Job? = null
     private var jobService: Job? = null
+    private var powerManager: PowerManager? = null
+    private var wakeLock: PowerManager.WakeLock? = null
     private var isScreenTimeJob = false
     private var isJob = false
     private var currentCapacity = 0
@@ -197,6 +200,18 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     if(instance == null) instance = this@CapacityInfoService
 
+                    if(wakeLock == null) {
+
+                        if(powerManager == null) powerManager = getSystemService(Context
+                            .POWER_SERVICE) as PowerManager
+
+                        wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                            "${packageName}:service_wakelock")
+                    }
+
+                    if(wakeLock?.isHeld != true && !isFull && isPowerConnected)
+                        wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
+
                     if((getBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
 
@@ -255,7 +270,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             onUpdateServiceNotification(this@CapacityInfoService)
                         }
 
-                        delay(1.496.seconds)
+                        delay(1.497.seconds)
                     }
                 }
             }
@@ -341,6 +356,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         ServiceHelper.cancelJob(this, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
         ServiceHelper.cancelJob(this, CHECK_PREMIUM_JOB_ID)
+
+        wakeLockRelease()
 
         super.onDestroy()
     }
@@ -556,6 +573,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         withContext(Dispatchers.Main) {
             onUpdateServiceNotification(this@CapacityInfoService)
+            wakeLockRelease()
         }
+    }
+
+    fun wakeLockRelease() {
+        try {
+            if(wakeLock?.isHeld == true) wakeLock?.release()
+        }
+        catch (_: RuntimeException) {}
     }
 }
