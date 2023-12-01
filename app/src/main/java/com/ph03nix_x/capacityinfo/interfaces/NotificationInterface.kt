@@ -120,13 +120,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             val isShowExpandedNotification =  pref.getBoolean(
                 IS_SHOW_EXPANDED_NOTIFICATION, context.resources.getBoolean(
                     R.bool.is_show_expanded_notification))
-            if(isShowBatteryInformation && isShowExpandedNotification) {
+            if(isShowBatteryInformation)
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                     if(getCurrentCapacity(context) > 0.0) {
-
                         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
                             context.resources.getBoolean(R.bool.is_capacity_in_wh))
-
                         if(isCapacityInWh) context.getString(R.string.current_capacity_wh,
                             DecimalFormat("#.#").format(
                                 getCapacityInWh(getCurrentCapacity(context))))
@@ -134,11 +132,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                             DecimalFormat("#.#").format(getCurrentCapacity(context)))
                     } else "${context.getString(
                         R.string.battery_level, (getBatteryLevel(context) ?: 0).toString())}%")
-            }
-            else if(!isShowBatteryInformation && (PremiumInterface.isPremium)) {
-                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                    context.getString(R.string.service_is_running))
-            }
+            else remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                context.getString(R.string.service_is_running))
 
             setCustomContentView(remoteViewsServiceContent)
 
@@ -223,13 +218,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             val isShowExpandedNotification =  pref.getBoolean(
                 IS_SHOW_EXPANDED_NOTIFICATION, context.resources.getBoolean(
                     R.bool.is_show_expanded_notification))
-            if(isShowBatteryInformation && isShowExpandedNotification) {
+            if(isShowBatteryInformation)
                 remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
                     if(getCurrentCapacity(context) > 0.0) {
-
                         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
                             context.resources.getBoolean(R.bool.is_capacity_in_wh))
-
                         if(isCapacityInWh) context.getString(R.string.current_capacity_wh,
                             DecimalFormat("#.#").format(
                                 getCapacityInWh(getCurrentCapacity(context))))
@@ -237,11 +230,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                             DecimalFormat("#.#").format(getCurrentCapacity(context)))
                     } else "${context.getString(
                         R.string.battery_level, (getBatteryLevel(context) ?: 0).toString())}%")
-            }
-            else if(!isShowBatteryInformation && (PremiumInterface.isPremium)) {
-                remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
-                    context.getString(R.string.service_is_running))
-            }
+            else remoteViewsServiceContent.setTextViewText(R.id.notification_content_text,
+                context.getString(R.string.service_is_running))
+
 
             setCustomContentView(remoteViewsServiceContent)
 
