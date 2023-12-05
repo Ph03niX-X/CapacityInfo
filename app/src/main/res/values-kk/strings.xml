@@ -328,4 +328,5 @@
     <string name = "do_you_like_the_app">Сізге қолданба ұнай ма?</string>
     <string name="premium_purchase_error">Premium сатып алу сәтсіз аяқталды!</string>
     <string name = "install_the_app_from_gp">Қолданбаны Google Play дүкенінен орнату</string>
+    <string name ="ignoring_battery_optimizations_dialog_message">Қолданба дұрыс жұмыс істеуі үшін қолданбаның фондық режимде жұмыс істеуіне рұқсат беру керек</string>
 </resources>
