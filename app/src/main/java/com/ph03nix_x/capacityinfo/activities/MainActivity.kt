@@ -41,6 +41,7 @@ import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.BatteryOptimizationsInterface
 import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.ManufacturerInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
@@ -76,7 +77,8 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
-    MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface {
+    MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface,
+    BatteryOptimizationsInterface {
 
     private lateinit var pref: SharedPreferences
 
@@ -94,6 +96,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     var showHuaweiInformation: MaterialAlertDialogBuilder? = null
+    var showRequestIgnoringBatteryOptimizationsDialog: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
@@ -313,11 +316,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
                     .checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_DENIED
-            )
+                PackageManager.PERMISSION_DENIED)
                 requestNotificationPermission()
 
-        if (showRequestNotificationPermissionDialog == null) checkManufacturer()
+        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
+
+        if(!isIgnoringBatteryOptimizations() && showRequestIgnoringBatteryOptimizationsDialog == null
+            && showXiaomiAutostartDialog == null && showHuaweiInformation == null)
+            showRequestIgnoringBatteryOptimizationsDialog()
 
         if (pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
@@ -365,6 +371,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
+    }
+
+    override fun onStop() {
+        showRequestIgnoringBatteryOptimizationsDialog = null
+        super.onStop()
     }
 
     override fun onDestroy() {
