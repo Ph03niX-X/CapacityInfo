@@ -328,4 +328,5 @@
     <string name="do_you_like_the_app">Ti piace l\'applicazione?</string>
     <string name="premium_purchase_error">Errore nell\'acquisto del Premium!</string>
     <string name="install_the_app_from_gp">Installa l\'app da Google Play</string>
+    <string name="ignoring_battery_optimizations_dialog_message">Per il corretto funzionamento dell\'applicazione, è necessario consentirne l\'esecuzione in background</string>
 </resources>
