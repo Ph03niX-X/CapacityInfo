@@ -327,4 +327,5 @@
     <string name="do_you_like_the_app">Você gosta do aplicativo?</string>
     <string name="premium_purchase_error">Erro de compra Premium!</string>
     <string name="install_the_app_from_gp">Instale o aplicativo do Google Play</string>
+    <string name="ignoring_battery_optimizations_dialog_message">Para que a aplicação funcione corretamente, tem de permitir que a aplicação seja executada em segundo plano</string>
 </resources>
