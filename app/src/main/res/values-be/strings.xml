@@ -328,4 +328,5 @@
     <string name="do_you_like_the_app">Падабаецца дадатак?</string>
     <string name="premium_purchase_error">Памылка набыцця Premium!</string>
     <string name="install_the_app_from_gp">Усталюйце дадатак з Google Play</string>
+    <string name="ignoring_battery_optimizations_dialog_message">Для карэктнай працы дадатка патрабуецца дазволіць дадатку запуск у фонавым рэжыме</string>
 </resources>
