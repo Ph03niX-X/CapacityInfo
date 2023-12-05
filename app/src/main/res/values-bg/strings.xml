@@ -328,4 +328,5 @@
     <string name="do_you_like_the_app">Харесвате ли приложението?</string>
     <string name="premium_purchase_error">Буда при закупуване на Premium!</string>
     <string name="install_the_app_from_gp">Инсталиране на приложението от Google Play</string>
+    <string name="ignoring_battery_optimizations_dialog_message">За да работи приложението правилно, трябва да разрешите на приложението да работи във фонов режим</string>
 </resources>
