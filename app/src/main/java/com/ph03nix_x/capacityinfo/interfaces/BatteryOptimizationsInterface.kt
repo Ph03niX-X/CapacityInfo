@@ -29,7 +29,8 @@ interface BatteryOptimizationsInterface {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(R.string.information)
                 setMessage(R.string.ignoring_battery_optimizations_dialog_message)
-                setPositiveButton(android.R.string.ok) {_, _ ->
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    isShowRequestIgnoringBatteryOptimizationsDialog = false
                     requestIgnoringBatteryOptimizations()
                 }
                 show()

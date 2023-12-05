@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         .StartIntentSenderForResult()) { _ -> }
 
     var isCheckUpdateFromGooglePlay = true
+    var isShowRequestIgnoringBatteryOptimizationsDialog = true
 
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
@@ -321,7 +322,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(showRequestNotificationPermissionDialog == null) checkManufacturer()
 
-        if(!isIgnoringBatteryOptimizations() && showRequestIgnoringBatteryOptimizationsDialog == null
+        if(!isIgnoringBatteryOptimizations() && isShowRequestIgnoringBatteryOptimizationsDialog
+            && showRequestIgnoringBatteryOptimizationsDialog == null
             && showXiaomiAutostartDialog == null && showHuaweiInformation == null)
             showRequestIgnoringBatteryOptimizationsDialog()
 
@@ -337,6 +339,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     numberOfFullCharges > 0 && numberOfFullCharges % 3 == 0L) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
+
+        isShowRequestIgnoringBatteryOptimizationsDialog = true
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
