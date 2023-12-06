@@ -65,6 +65,7 @@ interface ManufacturerInterface {
                         showXiaomiBackgroundActivityControlDialog()
                     }
                     finally {
+                        isShowXiaomiBackgroundActivityControlDialog = true
                         showXiaomiAutostartDialog = null
                     }
                 }
