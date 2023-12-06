@@ -343,7 +343,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
 
         isShowRequestIgnoringBatteryOptimizationsDialog = true
-        isShowXiaomiBackgroundActivityControlDialog = false
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

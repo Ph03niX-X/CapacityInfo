@@ -65,7 +65,6 @@ interface ManufacturerInterface {
                         showXiaomiBackgroundActivityControlDialog()
                     }
                     finally {
-                        isShowXiaomiBackgroundActivityControlDialog = true
                         showXiaomiAutostartDialog = null
                     }
                 }
@@ -95,6 +94,9 @@ interface ManufacturerInterface {
                     catch (e: ActivityNotFoundException) {
                         Toast.makeText(this@showXiaomiBackgroundActivityControlDialog,
                             e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                    }
+                    finally {
+                        isShowXiaomiBackgroundActivityControlDialog = true
                     }
                 }
                 show()
