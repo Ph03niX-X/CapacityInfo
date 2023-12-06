@@ -46,6 +46,7 @@ interface ManufacturerInterface {
     private fun MainActivity.showXiaomiAutoStartDialog() {
         if(showXiaomiAutostartDialog == null && isXiaomi()
             && !Autostart.isAutoStartEnabled(this)) {
+            isShowXiaomiBackgroundActivityControlDialog = true
             showXiaomiAutostartDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.information))
@@ -94,9 +95,6 @@ interface ManufacturerInterface {
                     catch (e: ActivityNotFoundException) {
                         Toast.makeText(this@showXiaomiBackgroundActivityControlDialog,
                             e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-                    }
-                    finally {
-                        isShowXiaomiBackgroundActivityControlDialog = true
                     }
                 }
                 show()
