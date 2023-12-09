@@ -320,14 +320,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     .checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                 PackageManager.PERMISSION_DENIED)
                 requestNotificationPermission()
-
-        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
-
-        if(!isIgnoringBatteryOptimizations() && !isShowXiaomiBackgroundActivityControlDialog
-            && isShowRequestIgnoringBatteryOptimizationsDialog &&
-            showRequestIgnoringBatteryOptimizationsDialog == null &&
-            showXiaomiAutostartDialog == null && showHuaweiInformation == null)
-            showRequestIgnoringBatteryOptimizationsDialog()
+            else checkBatteryOptimizations()
 
         if (pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
@@ -416,15 +409,27 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     setTitle(R.string.information)
                     setMessage(R.string.request_notification_message)
                     setPositiveButton(android.R.string.ok) { _, _ ->
-                        requestPermissions(
-                            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
-                        )
+                        requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                            POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE)
                         showRequestNotificationPermissionDialog = null
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(2.5.seconds)
+                            checkBatteryOptimizations()
+                        }
                     }
                     setCancelable(false)
                     show()
                 }
+    }
+
+    private fun checkBatteryOptimizations() {
+        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
+
+        if(!isIgnoringBatteryOptimizations() && !isShowXiaomiBackgroundActivityControlDialog
+            && isShowRequestIgnoringBatteryOptimizationsDialog &&
+            showRequestIgnoringBatteryOptimizationsDialog == null &&
+            showXiaomiAutostartDialog == null && showHuaweiInformation == null)
+            showRequestIgnoringBatteryOptimizationsDialog()
     }
 
     private fun requestRateTheApp() {
