@@ -78,6 +78,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
+        if(isNotificationExists(context, NOTIFICATION_SERVICE_ID)) return
+
         channelId = onCreateNotificationChannel(context, SERVICE_CHANNEL_ID)
 
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
@@ -183,6 +185,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onUpdateServiceNotification(context: Context) {
+        if(!isNotificationExists(context, NOTIFICATION_SERVICE_ID))
+            onCreateServiceNotification(context)
+
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
@@ -213,8 +218,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
 
-            val isShowBatteryInformation = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION, context.resources.getBoolean(
-                R.bool.is_show_battery_information))
+            val isShowBatteryInformation = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION,
+                context.resources.getBoolean(R.bool.is_show_battery_information))
             val isShowExpandedNotification =  pref.getBoolean(
                 IS_SHOW_EXPANDED_NOTIFICATION, context.resources.getBoolean(
                     R.bool.is_show_expanded_notification))
