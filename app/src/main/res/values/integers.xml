@@ -7,7 +7,7 @@
     <integer name="battery_level_notify_charged">80</integer>
     <integer name="battery_level_notify_discharged">20</integer>
     <integer name="overheat_degrees_default">40</integer>
-    <integer name="overheat_degrees_min">40</integer>
+    <integer name="overheat_degrees_min">36</integer>
     <integer name="overheat_degrees_max">60</integer>
     <integer name="overcool_degrees_default">0</integer>
     <integer name="overcool_degrees_min">-20</integer>
