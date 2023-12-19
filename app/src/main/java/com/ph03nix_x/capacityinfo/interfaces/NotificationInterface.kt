@@ -1059,10 +1059,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         val notificationManager =
             context.getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
         val notifications = notificationManager?.activeNotifications
-        if(notifications != null) {
+        var isNotificationExists = false
+        if(notifications != null)
             for(notification in notifications)
-                return notification.id == notificationID
-        }
-        return false
+                isNotificationExists = notification.id == notificationID
+
+        return isNotificationExists
     }
 }
