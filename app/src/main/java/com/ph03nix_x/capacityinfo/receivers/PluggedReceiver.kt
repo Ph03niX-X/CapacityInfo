@@ -6,14 +6,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import androidx.core.content.ContextCompat
-import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
@@ -39,17 +37,11 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
 
                 MainActivity.instance?.isCheckUpdateFromGooglePlay = !isCheckedUpdateFromGooglePlay
 
-                val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-                val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
-
                 batteryIntent = context.registerReceiver(null, IntentFilter(Intent
                     .ACTION_BATTERY_CHANGED))
 
                 val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                     BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
-
-                pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                 CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance
                     ?.getBatteryLevel(context) ?: 0

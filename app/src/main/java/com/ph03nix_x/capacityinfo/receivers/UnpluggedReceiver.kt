@@ -28,6 +28,7 @@ import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 
 class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterface {
 
@@ -65,6 +66,10 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                 pref.edit().apply {
 
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
+
+                        val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
+
+                        putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                         putInt(LAST_CHARGE_TIME, seconds)
 

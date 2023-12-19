@@ -107,8 +107,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             batteryIntent = registerReceiver(null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED))
 
-            val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
-
             when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
 
                 BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
@@ -125,8 +123,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
-
-                    pref.edit().putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
 
                     if(MainActivity.instance?.fragment != null) {
 
@@ -489,6 +485,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         pref.edit().apply {
 
+            val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
+            if(seconds > 1) putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
             putInt(LAST_CHARGE_TIME, seconds)
             putInt(RESIDUAL_CAPACITY, residualCapacity)
             putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
