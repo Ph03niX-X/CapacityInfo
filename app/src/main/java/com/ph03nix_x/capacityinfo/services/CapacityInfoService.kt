@@ -263,7 +263,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             }
 
                         withContext(Dispatchers.Main) {
-                            onUpdateServiceNotification(this@CapacityInfoService)
+                            onUpdateServiceNotification(applicationContext)
                         }
 
                         delay(1.495.seconds)
@@ -410,7 +410,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         try {
 
             withContext(Dispatchers.Main) {
-                onUpdateServiceNotification(this@CapacityInfoService)
+                onUpdateServiceNotification(applicationContext)
             }
         }
 
@@ -570,7 +570,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isSaveNumberOfCharges = false
 
         withContext(Dispatchers.Main) {
-            onUpdateServiceNotification(this@CapacityInfoService)
+            onUpdateServiceNotification(applicationContext)
             wakeLockRelease()
         }
     }
