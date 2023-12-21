@@ -376,7 +376,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onStop() {
         showRequestIgnoringBatteryOptimizationsDialog = null
-        Toast.makeText(this, "${CapacityInfoService.instance}", Toast.LENGTH_LONG).show()
         super.onStop()
     }
 
