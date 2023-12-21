@@ -32,7 +32,7 @@ class OverlayService : Service(), OverlayInterface {
 
         instance = this
 
-        onCreateOverlay(this)
+        onCreateOverlay(applicationContext)
 
         isJob = !isJob
     }
@@ -56,9 +56,9 @@ class OverlayService : Service(), OverlayInterface {
 
                     withContext(Dispatchers.Main) {
 
-                        if(isEnabledOverlay(this@OverlayService))
-                            onUpdateOverlay(this@OverlayService)
-                        else ServiceHelper.stopService(this@OverlayService,
+                        if(isEnabledOverlay(applicationContext))
+                            onUpdateOverlay(applicationContext)
+                        else ServiceHelper.stopService(applicationContext,
                             OverlayService::class.java)
                     }
                 }

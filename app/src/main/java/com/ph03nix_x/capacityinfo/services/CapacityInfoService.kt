@@ -102,7 +102,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             instance = this
 
-            pref = PreferenceManager.getDefaultSharedPreferences(this)
+            pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
             batteryIntent = registerReceiver(null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED))
@@ -114,11 +114,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                     isPowerConnected = true
 
-                    batteryLevelWith = getBatteryLevel(this) ?: 0
+                    batteryLevelWith = getBatteryLevel(applicationContext) ?: 0
 
                     tempBatteryLevelWith = batteryLevelWith
 
-                    tempCurrentCapacity = getCurrentCapacity(this)
+                    tempCurrentCapacity = getCurrentCapacity(applicationContext)
 
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
@@ -140,7 +140,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         chargeDischargeNavigation?.icon = MainActivity.instance
                             ?.getChargeDischargeNavigationIcon(status == BatteryManager
                                 .BATTERY_STATUS_CHARGING)?.let {
-                                ContextCompat.getDrawable(this, it)
+                                ContextCompat.getDrawable(applicationContext, it)
                             }
                     }
                 }
@@ -152,7 +152,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(
                 Intent.ACTION_POWER_DISCONNECTED))
 
-            onCreateServiceNotification(this@CapacityInfoService)
+            onCreateServiceNotification(applicationContext)
         }
     }
 
@@ -208,8 +208,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(wakeLock?.isHeld != true && !isFull && isPowerConnected)
                         wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
 
-                    if((getBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
-                        batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
+                    if((getBatteryLevel(applicationContext) ?: 0) < batteryLevelWith)
+                        batteryLevelWith = getBatteryLevel(applicationContext) ?: 0
 
                     batteryIntent = registerReceiver(null, IntentFilter(
                         Intent.ACTION_BATTERY_CHANGED))
@@ -217,20 +217,20 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN)
 
-                    val temperature = getTemperatureInCelsius(this@CapacityInfoService)
+                    val temperature = getTemperatureInCelsius(applicationContext)
 
                     if(!isPluggedOrUnplugged) {
 
                         BatteryInfoInterface.maximumTemperature =
-                            getMaximumTemperature(this@CapacityInfoService,
+                            getMaximumTemperature(applicationContext,
                                 BatteryInfoInterface.maximumTemperature)
 
                         BatteryInfoInterface.minimumTemperature =
-                            getMinimumTemperature(this@CapacityInfoService,
+                            getMinimumTemperature(applicationContext,
                                 BatteryInfoInterface.minimumTemperature)
 
                         BatteryInfoInterface.averageTemperature = getAverageTemperature(
-                            this@CapacityInfoService,
+                            applicationContext,
                             BatteryInfoInterface.maximumTemperature,
                             BatteryInfoInterface.minimumTemperature)
                     }
@@ -242,7 +242,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 temperature <= pref.getInt(OVERCOOL_DEGREES, resources.getInteger(
                             R.integer.overcool_degrees_default))))
                         withContext(Dispatchers.Main) {
-                            onNotifyOverheatOvercool(this@CapacityInfoService, temperature)
+                            onNotifyOverheatOvercool(applicationContext, temperature)
                         }
 
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING
@@ -255,11 +255,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                                 R.bool.is_notify_battery_is_discharged)) && (getBatteryLevel(
-                                this@CapacityInfoService) ?: 0) <= pref.getInt(
+                                applicationContext) ?: 0) <= pref.getInt(
                                 BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))
                             withContext(Dispatchers.Main) {
 
-                                onNotifyBatteryDischarged(this@CapacityInfoService)
+                                onNotifyBatteryDischarged(applicationContext)
                             }
 
                         withContext(Dispatchers.Main) {
@@ -289,7 +289,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isBatteryCharged = false
         isBatteryDischarged = false
 
-        val batteryLevel = getBatteryLevel(this) ?: 0
+        val batteryLevel = getBatteryLevel(applicationContext) ?: 0
 
         val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
@@ -298,7 +298,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         notificationManager?.cancelAll()
 
-        if(!::pref.isInitialized) pref = PreferenceManager.getDefaultSharedPreferences(this)
+        if(!::pref.isInitialized)
+            pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
         if(!isFull && seconds > 1) {
 
@@ -338,20 +339,20 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 apply()
             }
 
-            HistoryHelper.addHistory(this, DateHelper.getDate(DateHelper.getCurrentDay(),
-                DateHelper.getCurrentMonth(), DateHelper.getCurrentYear()), pref.getInt(
-                RESIDUAL_CAPACITY, 0))
+            HistoryHelper.addHistory(applicationContext,
+                DateHelper.getDate(DateHelper.getCurrentDay(), DateHelper.getCurrentMonth(),
+                    DateHelper.getCurrentYear()), pref.getInt(RESIDUAL_CAPACITY, 0))
         }
 
         BatteryInfoInterface.batteryLevel = 0
         BatteryInfoInterface.tempBatteryLevel = 0
 
         if(isStopService)
-            Toast.makeText(this, R.string.service_stopped_successfully,
+            Toast.makeText(applicationContext, R.string.service_stopped_successfully,
                 Toast.LENGTH_LONG).show()
 
-        ServiceHelper.cancelJob(this, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-        ServiceHelper.cancelJob(this, CHECK_PREMIUM_JOB_ID)
+        ServiceHelper.cancelJob(applicationContext, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+        ServiceHelper.cancelJob(applicationContext, CHECK_PREMIUM_JOB_ID)
 
         wakeLockRelease()
 
@@ -360,7 +361,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     private suspend fun batteryCharging() {
 
-        val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
+        val batteryLevel = getBatteryLevel(applicationContext) ?: 0
 
         withContext(Dispatchers.Main) {
 
@@ -380,7 +381,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(batteryLevel == 100) {
             if(secondsFullCharge >= 3600) batteryCharged()
-            currentCapacity = (getCurrentCapacity(this) * if(pref.getString(
+            currentCapacity = (getCurrentCapacity(applicationContext) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                 1000.0 else 100.0).toInt()
             secondsFullCharge++
@@ -391,18 +392,19 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged)) &&
-            (getBatteryLevel(this) ?: 0) == pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80))
+            (getBatteryLevel(applicationContext) ?: 0) ==
+            pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80))
             withContext(Dispatchers.Main) {
 
-                onNotifyBatteryCharged(this@CapacityInfoService)
+                onNotifyBatteryCharged(applicationContext)
             }
 
         if(displayManager != null)
             for(display in displayManager.displays)
                 if(display.state == Display.STATE_ON)
-                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
+                    delay(if(getCurrentCapacity(applicationContext) > 0.0)
                         0.948.seconds else 0.954.seconds)
-                else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
+                else delay(if(getCurrentCapacity(applicationContext) > 0.0)
                     0.937.seconds else 0.934.seconds)
 
         seconds++
@@ -435,7 +437,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
                 "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
-            ServiceHelper.jobSchedule(this@CapacityInfoService,
+            ServiceHelper.jobSchedule(applicationContext,
                 FullChargeReminderJobService::class.java, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID,
                 fullChargeReminderFrequency?.minutes?.inWholeMilliseconds ?: resources
                     .getInteger(R.integer.full_charge_reminder_frequency_default).minutes
@@ -445,7 +447,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isFull = true
 
         if(currentCapacity == 0)
-            currentCapacity = (getCurrentCapacity(this) * if(pref.getString(
+            currentCapacity = (getCurrentCapacity(applicationContext) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
             else 100.0).toInt()
 
@@ -460,7 +462,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||
-                isTurboCharge(this@CapacityInfoService) || pref.getBoolean(
+                isTurboCharge(applicationContext) || pref.getBoolean(
                     IS_FAST_CHARGE_SETTING, resources.getBoolean(R.bool.is_fast_charge_setting)))
                     (currentCapacity.toDouble() +
                             ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
@@ -473,10 +475,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 R.bool.is_notify_battery_is_fully_charged)))
             withContext(Dispatchers.Main) {
 
-                onNotifyBatteryFullyCharged(this@CapacityInfoService)
+                onNotifyBatteryFullyCharged(applicationContext)
             }
 
-        val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
+        val batteryLevel = getBatteryLevel(applicationContext) ?: 0
 
         val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
@@ -504,10 +506,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             if(PremiumInterface.isPremium) {
                 if(residualCapacity > 0) {
                     withContext(Dispatchers.IO) {
-                        HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
+                        HistoryHelper.addHistory(applicationContext, currentDate,
                             residualCapacity)
                     }
-                    if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
+                    if(HistoryHelper.isHistoryNotEmpty(applicationContext)) {
                         val historyFragment = HistoryFragment.instance
                         historyFragment?.binding?.refreshEmptyHistory?.visibility = View.GONE
                         historyFragment?.binding?.emptyHistoryLayout?.visibility = View.GONE
@@ -518,9 +520,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
                             ?.isVisible = true
 
-                        if(HistoryHelper.getHistoryCount(this@CapacityInfoService) == 1L) {
+                        if(HistoryHelper.getHistoryCount(applicationContext) == 1L) {
                             val historyDB = withContext(Dispatchers.IO) {
-                                HistoryDB(this@CapacityInfoService)
+                                HistoryDB(applicationContext)
                             }
                             historyFragment?.historyAdapter =
                                 HistoryAdapter(withContext(Dispatchers.IO) {
@@ -535,7 +537,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 historyFragment?.historyAdapter
                         }
 
-                        else HistoryAdapter.instance?.update(this@CapacityInfoService)
+                        else HistoryAdapter.instance?.update(applicationContext)
                     }
                     else {
                         HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
