@@ -169,13 +169,10 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         try {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-                notificationBuilder?.build()?.let {
-                    (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
-                        it, FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
-                }
-
-            else (context as? CapacityInfoService)?.startForeground(NOTIFICATION_SERVICE_ID,
-                notificationBuilder?.build())
+                CapacityInfoService.instance?.startForeground(NOTIFICATION_SERVICE_ID,
+                    notificationBuilder!!.build(), FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+            else CapacityInfoService.instance?.startForeground(NOTIFICATION_SERVICE_ID,
+                notificationBuilder!!.build())
         }
         catch (e: Exception) {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

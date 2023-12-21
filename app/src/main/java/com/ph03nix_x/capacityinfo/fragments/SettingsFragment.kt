@@ -150,8 +150,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 preference.isEnabled = false
                 isShowExtendedNotification?.isEnabled = false
 
-                ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
-                    preference)
+                try {
+                    ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                        preference)
+                }
+             catch (e: Exception) {
+                 Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+             }
 
                 CoroutineScope(Dispatchers.Default).launch {
 

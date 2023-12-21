@@ -12,6 +12,7 @@ import android.net.NetworkRequest
 import android.os.Build
 import android.widget.Toast
 import androidx.preference.Preference
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -71,6 +72,9 @@ object ServiceHelper {
         CoroutineScope(Dispatchers.Default).launch {
 
             withContext(Dispatchers.Main) {
+                if(serviceName == CapacityInfoService::class.java)
+                    MainActivity.instance?.tempScreenTime =
+                        CapacityInfoService.instance?.screenTime ?: 0L
 
                 stopService(context, serviceName)
 

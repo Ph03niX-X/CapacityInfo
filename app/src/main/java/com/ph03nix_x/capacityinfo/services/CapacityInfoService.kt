@@ -102,6 +102,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             instance = this
 
+            screenTime = MainActivity.instance?.tempScreenTime ?: 0L
+
+            MainActivity.instance?.tempScreenTime = 0L
+
             pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
             batteryIntent = registerReceiver(null, IntentFilter(
@@ -582,5 +586,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             if(wakeLock?.isHeld == true) wakeLock?.release()
         }
         catch (_: RuntimeException) {}
+    }
+
+    fun stopService() {
+        stopSelf()
     }
 }
