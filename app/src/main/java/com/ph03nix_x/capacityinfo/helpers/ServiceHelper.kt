@@ -28,7 +28,7 @@ object ServiceHelper {
     fun startService(context: Context, serviceName: Class<*>,
                      isStartOverlayServiceFromSettings: Boolean = false) {
 
-        CoroutineScope(Dispatchers.Main).launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main).launch{
 
             try {
 
@@ -69,22 +69,19 @@ object ServiceHelper {
 
     fun restartService(context: Context, serviceName: Class<*>, preference: Preference? = null) {
 
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.Main).launch {
+            if(serviceName == CapacityInfoService::class.java)
+                MainActivity.instance?.tempScreenTime =
+                    CapacityInfoService.instance?.screenTime ?: 0L
 
-            withContext(Dispatchers.Main) {
-                if(serviceName == CapacityInfoService::class.java)
-                    MainActivity.instance?.tempScreenTime =
-                        CapacityInfoService.instance?.screenTime ?: 0L
+            stopService(context, serviceName)
 
-                stopService(context, serviceName)
+            if(serviceName == CapacityInfoService::class.java) delay(2.5.seconds)
 
-                if(serviceName == CapacityInfoService::class.java) delay(2.5.seconds)
+            startService(context, serviceName)
 
-                startService(context, serviceName)
-
-                delay(1.seconds)
-                preference?.isEnabled = true
-            }
+            delay(1.seconds)
+            preference?.isEnabled = true
         }
     }
 
