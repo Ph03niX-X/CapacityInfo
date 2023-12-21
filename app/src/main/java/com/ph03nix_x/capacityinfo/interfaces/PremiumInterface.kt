@@ -277,53 +277,51 @@ interface PremiumInterface: PurchasesUpdatedListener {
 
     fun checkPremium() {
 
-        isPremium = true
+        if(premiumContext == null) premiumContext = CapacityInfoService.instance
 
-//        if(premiumContext == null) premiumContext = CapacityInfoService.instance
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//
-//            val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
-//
-//            var tokenPref = pref.getString(TOKEN_PREF, null)
-//
-//            if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
-//
-//            else if(tokenPref != null && tokenPref.count() != TOKEN_COUNT)
-//                pref.edit().remove(TOKEN_PREF).apply()
-//
-//           else if(tokenPref == null || tokenPref.count() != TOKEN_COUNT) {
-//
-//                if(billingClient?.isReady != true) initiateBilling(false)
-//
-//                delay(2.5.seconds)
-//                if(billingClient?.isReady == true) {
-//                    val params = QueryPurchaseHistoryParams.newBuilder()
-//                       .setProductType(ProductType.INAPP)
-//
-//                   val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
-//
-//                   val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
-//
-//                   if(!purchaseHistoryRecordList.isNullOrEmpty()) {
-//
-//                       pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
-//                           .apply()
-//
-//                       tokenPref = pref.getString(TOKEN_PREF, null)
-//
-//                       isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-//
-//                       if(!isPremium) removePremiumFeatures(premiumContext!!)
-//
-//                       delay(5.seconds)
-//                       billingClient?.endConnection()
-//                       billingClient = null
-//                   }
-//                    if(!isPremium) removePremiumFeatures(premiumContext!!)
-//                }
-//           }
-//        }
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+
+            var tokenPref = pref.getString(TOKEN_PREF, null)
+
+            if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
+
+            else if(tokenPref != null && tokenPref.count() != TOKEN_COUNT)
+                pref.edit().remove(TOKEN_PREF).apply()
+
+           else if(tokenPref == null || tokenPref.count() != TOKEN_COUNT) {
+
+                if(billingClient?.isReady != true) initiateBilling(false)
+
+                delay(2.5.seconds)
+                if(billingClient?.isReady == true) {
+                    val params = QueryPurchaseHistoryParams.newBuilder()
+                       .setProductType(ProductType.INAPP)
+
+                   val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+
+                   val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+
+                   if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+
+                       pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
+                           .apply()
+
+                       tokenPref = pref.getString(TOKEN_PREF, null)
+
+                       isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+
+                       if(!isPremium) removePremiumFeatures(premiumContext!!)
+
+                       delay(5.seconds)
+                       billingClient?.endConnection()
+                       billingClient = null
+                   }
+                    if(!isPremium) removePremiumFeatures(premiumContext!!)
+                }
+           }
+        }
     }
 
     fun CheckPremiumJob.checkPremiumJob() {
