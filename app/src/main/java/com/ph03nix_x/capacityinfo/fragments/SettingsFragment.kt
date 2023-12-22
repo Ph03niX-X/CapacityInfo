@@ -699,9 +699,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         isShowExtendedNotification?.apply {
-            isEnabled = if(premium?.isVisible == false) true
-            else pref.getBoolean(IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
-                    R.bool.is_show_battery_information))
+           val isShowBatteryInformationPref = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION,
+               requireContext().resources.getBoolean(R.bool.is_show_battery_information))
+            isEnabled = if(premium?.isVisible == false && isShowBatteryInformationPref) true
+            else isShowBatteryInformationPref
         }
 
         batteryStatusInformation?.apply {
