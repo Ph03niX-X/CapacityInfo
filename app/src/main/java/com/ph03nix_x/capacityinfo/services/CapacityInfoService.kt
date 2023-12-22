@@ -596,8 +596,4 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         catch (_: RuntimeException) {}
     }
-
-    fun stopService() {
-        stopSelf()
-    }
 }
