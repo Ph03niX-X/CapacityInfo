@@ -302,9 +302,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isBatteryCharged = false
         isBatteryDischarged = false
 
+        MainApp.isUpdateApp = false
+
         val batteryLevel = getBatteryLevel(applicationContext) ?: 0
 
-        MainApp.tempScreenTime = screenTime
+        if(!isStopService) MainApp.tempScreenTime = screenTime
 
         val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
