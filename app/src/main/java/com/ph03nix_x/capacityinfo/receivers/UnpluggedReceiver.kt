@@ -119,13 +119,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                 CapacityInfoService.instance?.isFull = false
 
                 if(isPremium && pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD,
-                        context.resources.getBoolean(R.bool.is_stop_the_service_when_the_cd))) {
-
-                    NotificationInterface.notificationManager?.cancel(NotificationInterface
-                        .NOTIFICATION_SERVICE_ID)
-
+                        context.resources.getBoolean(R.bool.is_stop_the_service_when_the_cd)))
                     ServiceHelper.stopService(context, CapacityInfoService::class.java)
-                }
 
                 NotificationInterface.notificationManager?.cancel(
                     NotificationInterface.NOTIFICATION_FULLY_CHARGED_ID)

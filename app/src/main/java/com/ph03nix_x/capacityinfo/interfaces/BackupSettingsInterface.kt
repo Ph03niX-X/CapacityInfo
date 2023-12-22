@@ -125,14 +125,10 @@ interface BackupSettingsInterface {
                         Toast.LENGTH_LONG).show()
 
                     if(CapacityInfoService.instance != null)
-                        requireContext().let {
-                            ServiceHelper.stopService(it, CapacityInfoService::class.java)
-                        }
+                        ServiceHelper.stopService(requireContext(), CapacityInfoService::class.java)
 
                     if(OverlayService.instance != null)
-                        requireContext().let {
-                            ServiceHelper.stopService(it, OverlayService::class.java)
-                        }
+                        ServiceHelper.stopService(requireContext(), OverlayService::class.java)
                 }
 
                 val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
