@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
@@ -471,7 +472,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         binding.screenTime.text = getString(R.string.screen_time, TimeHelper
                             .getTime(CapacityInfoService.instance
-                                ?.screenTime ?: 0L))
+                                ?.screenTime ?: MainApp.tempScreenTime))
                     }
 
                     when(status) {
