@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
@@ -102,9 +103,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             instance = this
 
-            screenTime = MainActivity.instance?.tempScreenTime ?: 0L
+            screenTime = MainApp.tempScreenTime
 
-            MainActivity.instance?.tempScreenTime = 0L
+            MainApp.tempScreenTime = 0L
 
             pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 

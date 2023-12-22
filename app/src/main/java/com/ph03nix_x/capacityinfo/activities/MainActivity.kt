@@ -95,8 +95,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     var isShowRequestIgnoringBatteryOptimizationsDialog = true
     var isShowXiaomiBackgroundActivityControlDialog = false
 
-    var tempScreenTime = 0L
-
     var showFaqDialog: MaterialAlertDialogBuilder? = null
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     var showHuaweiInformation: MaterialAlertDialogBuilder? = null

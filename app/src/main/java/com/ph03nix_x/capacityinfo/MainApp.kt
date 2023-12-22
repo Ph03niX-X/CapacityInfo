@@ -27,6 +27,8 @@ class MainApp : Application(), PremiumInterface {
 
         var currentTheme = -1
 
+        var tempScreenTime = 0L
+
         @Suppress("DEPRECATION")
         fun isGooglePlay(context: Context) =
 
