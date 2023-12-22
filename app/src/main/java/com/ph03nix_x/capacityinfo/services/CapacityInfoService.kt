@@ -63,6 +63,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -103,11 +104,16 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             instance = this
 
-            screenTime = MainApp.tempScreenTime
+            pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+            screenTime = if(MainApp.tempScreenTime > 0L) MainApp.tempScreenTime
+            else pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)
 
             MainApp.tempScreenTime = 0L
 
-            pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            pref.apply {
+                if(contains(UPDATE_TEMP_SCREEN_TIME)) edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+            }
 
             batteryIntent = registerReceiver(null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED))

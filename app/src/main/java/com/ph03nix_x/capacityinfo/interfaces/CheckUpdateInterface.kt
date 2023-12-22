@@ -16,6 +16,8 @@ import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
 
 /**
  * Created by Ph03niX-X on 30.07.2023
@@ -39,6 +41,10 @@ interface CheckUpdateInterface {
                     appUpdateOptions)
             }
             else if(isUpdateAvailable) {
+                pref.apply {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME))
+                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                }
                 intentResultStarter()
                 val appUpdateOptions =
                     AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
@@ -64,6 +70,8 @@ interface CheckUpdateInterface {
                     appUpdateOptions)
             }
             if(isUpdateAvailable) {
+                pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
+                    CapacityInfoService.instance?.screenTime ?: 0L).apply()
                 MainActivity.instance?.intentResultStarter()
                 val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
                 val appUpdateOptions =
@@ -72,6 +80,10 @@ interface CheckUpdateInterface {
                     appUpdateOptions)
             }
             else {
+                pref.apply {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME))
+                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                }
                 MainActivity.instance?.isCheckUpdateFromGooglePlay = true
                 Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
             }
@@ -86,6 +98,8 @@ interface CheckUpdateInterface {
             setTitle(R.string.update_available_dialog_title)
             setMessage(R.string.update_available_dialog_message)
             setPositiveButton(R.string.update) {_, _ ->
+                pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
+                    CapacityInfoService.instance?.screenTime ?: 0L).apply()
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
                     appUpdateOptions)
             }

@@ -28,6 +28,7 @@ import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
 import kotlinx.coroutines.*
 import java.text.DecimalFormat
 import kotlin.time.Duration.Companion.seconds
@@ -472,7 +473,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         binding.screenTime.text = getString(R.string.screen_time, TimeHelper
                             .getTime(CapacityInfoService.instance
-                                ?.screenTime ?: MainApp.tempScreenTime))
+                                ?.screenTime ?: if(MainApp.tempScreenTime > 0) MainApp.tempScreenTime
+                            else pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)))
                     }
 
                     when(status) {

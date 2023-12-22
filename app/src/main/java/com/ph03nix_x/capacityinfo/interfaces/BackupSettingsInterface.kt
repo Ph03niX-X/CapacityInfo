@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
@@ -46,7 +47,13 @@ interface BackupSettingsInterface {
 
                 MainActivity.isOnBackPressed = false
 
-                if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
+                with(pref) {
+                    edit().apply {
+                        if(contains(UPDATE_TEMP_SCREEN_TIME)) remove(UPDATE_TEMP_SCREEN_TIME)
+                        if(contains(TOKEN_PREF)) remove(TOKEN_PREF)
+                        apply()
+                    }
+                }
 
                 val pickerDir = intent?.data?.let {
                     requireContext().let { it1 -> DocumentFile.fromTreeUri(it1, it) }

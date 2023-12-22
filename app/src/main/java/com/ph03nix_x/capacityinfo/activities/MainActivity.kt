@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface,
     BatteryOptimizationsInterface {
 
-    private lateinit var pref: SharedPreferences
+    lateinit var pref: SharedPreferences
 
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
