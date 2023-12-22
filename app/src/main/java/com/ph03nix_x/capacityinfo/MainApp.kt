@@ -23,6 +23,7 @@ class MainApp : Application(), PremiumInterface {
 
         var batteryIntent: Intent? = null
         var isPowerConnected = false
+        var isUpdateApp = false
         var isInstalledGooglePlay = true
 
         var currentTheme = -1

@@ -107,9 +107,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
             screenTime = if(MainApp.tempScreenTime > 0L) MainApp.tempScreenTime
-            else pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)
+            else if(MainApp.isUpdateApp) pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)
+            else screenTime
 
             MainApp.tempScreenTime = 0L
+            MainApp.isUpdateApp = false
 
             pref.apply {
                 if(contains(UPDATE_TEMP_SCREEN_TIME)) edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()

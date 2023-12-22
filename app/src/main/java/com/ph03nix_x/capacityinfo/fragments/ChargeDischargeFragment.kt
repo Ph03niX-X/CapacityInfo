@@ -474,7 +474,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         binding.screenTime.text = getString(R.string.screen_time, TimeHelper
                             .getTime(CapacityInfoService.instance
                                 ?.screenTime ?: if(MainApp.tempScreenTime > 0) MainApp.tempScreenTime
-                            else pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)))
+                            else if(MainApp.isUpdateApp)
+                                pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L) else 0L))
                     }
 
                     when(status) {
