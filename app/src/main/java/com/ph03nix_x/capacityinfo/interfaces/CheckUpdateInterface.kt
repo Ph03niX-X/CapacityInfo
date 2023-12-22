@@ -104,6 +104,10 @@ interface CheckUpdateInterface {
                     appUpdateOptions)
             }
             setNegativeButton(R.string.later_update) { _, _ ->
+                pref.apply {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME))
+                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                }
                 isCheckUpdateFromGooglePlay = true
             }
             setCancelable(false)
