@@ -62,6 +62,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
 import java.lang.NumberFormatException
@@ -334,8 +335,8 @@ interface DebugOptionsInterface {
                 CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(pref, key,
                     value.toString().toFloat())
 
-                NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES -> addChangeSetting(pref, key,
-                    value.toString().toLong())
+                NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES, UPDATE_TEMP_SCREEN_TIME ->
+                    addChangeSetting(pref, key, value.toString().toLong())
 
                 else -> addChangeSetting(context, pref, key, value = value == "1")
             }
@@ -384,7 +385,7 @@ interface DebugOptionsInterface {
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
                         OVERLAY_OPACITY, OVERLAY_TEXT_COLOR, BATTERY_LEVEL_NOTIFY_CHARGED,
-                        BATTERY_LEVEL_NOTIFY_DISCHARGED ->
+                        BATTERY_LEVEL_NOTIFY_DISCHARGED, UPDATE_TEMP_SCREEN_TIME ->
                             setValueType("int|long", changePrefValue, pref,
                                 prefValueInputTypeDef, prefValueKeyListenerDef)
 
@@ -576,7 +577,8 @@ interface DebugOptionsInterface {
 
                     "int|long" -> {
 
-                        if(key != NUMBER_OF_CHARGES && key != NUMBER_OF_FULL_CHARGES)
+                        if(key != NUMBER_OF_CHARGES && key != NUMBER_OF_FULL_CHARGES
+                            && key != UPDATE_TEMP_SCREEN_TIME)
                             s.toString().toInt() != pref.getInt(key, 0)
                         else s.toString().toLong() != pref.getLong(key, 0)
                     }
