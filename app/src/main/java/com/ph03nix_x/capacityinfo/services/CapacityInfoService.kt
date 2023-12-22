@@ -276,10 +276,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             }
 
                         withContext(Dispatchers.Main) {
-                            onUpdateServiceNotification(applicationContext)
+                            try {
+                                onUpdateServiceNotification(applicationContext)
+                            }
+                            catch(_: NullPointerException) {}
+                            finally {
+                                delay(1.495.seconds)
+                            }
                         }
-
-                        delay(1.495.seconds)
                     }
                 }
             }
@@ -426,14 +430,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         seconds++
 
-        try {
-
-            withContext(Dispatchers.Main) {
+        withContext(Dispatchers.Main) {
+            try {
                 onUpdateServiceNotification(applicationContext)
             }
+            catch(_: RuntimeException) {}
+            catch(_: NullPointerException) {}
         }
-
-        catch(_: RuntimeException) {}
     }
 
     private suspend fun batteryCharged() {
@@ -589,8 +592,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isSaveNumberOfCharges = false
 
         withContext(Dispatchers.Main) {
-            onUpdateServiceNotification(applicationContext)
-            wakeLockRelease()
+            try {
+                onUpdateServiceNotification(applicationContext)
+            }
+            catch(_: NullPointerException) {}
+            finally {
+                wakeLockRelease()
+            }
         }
     }
 
