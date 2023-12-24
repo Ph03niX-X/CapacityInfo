@@ -694,7 +694,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     private fun getBatteryStatusCharging(context: Context, batteryIntent: Intent?,
                                            remoteViews: RemoteViews) {
 
-        val capacityInfoServiceContext = context as? CapacityInfoService
+        val capacityInfoServiceContext = CapacityInfoService.instance
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -774,7 +774,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         
-        val capacityInfoServiceContext = context as? CapacityInfoService
+        val capacityInfoServiceContext = CapacityInfoService.instance
 
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
             R.bool.is_capacity_in_wh))
@@ -848,7 +848,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val capacityInfoServiceContext = context as? CapacityInfoService
+        val capacityInfoServiceContext = CapacityInfoService.instance
 
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
             R.bool.is_capacity_in_wh))
@@ -989,7 +989,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val capacityInfoServiceContext = context as? CapacityInfoService
+        val capacityInfoServiceContext = CapacityInfoService.instance
 
         val isChargingDischargeCurrentInWatt = pref.getBoolean(
             PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
