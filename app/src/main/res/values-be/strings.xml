@@ -130,7 +130,6 @@
     <string name="charging_time_overlay">Час зарадкі</string>
     <string name="current_capacity_overlay">Бягучая ёмістасць</string>
     <string name="capacity_added_overlay">Дадалося ёмістасці</string>
-    <string name="battery_health_android_overlay">Стан акумулятара (Android)</string>
     <string name="residual_capacity_overlay">Рэшткавая ёмістасць</string>
     <string name="status_overlay">Статус</string>
     <string name="source_of_power_overlay">Крыніца сілкавання</string>
