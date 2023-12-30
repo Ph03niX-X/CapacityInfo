@@ -469,7 +469,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         val notificationSoundsList = arrayListOf(R.raw.overheat_overcool,
             R.raw.battery_is_fully_charged, R.raw.battery_is_charged, R.raw.battery_is_discharged)
 
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
 
             try {
 

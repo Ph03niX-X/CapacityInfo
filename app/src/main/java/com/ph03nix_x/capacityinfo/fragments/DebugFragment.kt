@@ -161,7 +161,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             it.isEnabled = false
             addFiftyHistory?.isEnabled = false
 
-            CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+            CoroutineScope(Dispatchers.IO).launch {
 
                 for(i in 1..10) {
 
@@ -215,7 +215,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             addTenHistory?.isEnabled = false
             it.isEnabled = false
 
-            CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+            CoroutineScope(Dispatchers.IO).launch {
 
                 for(i in 1..50) {
 

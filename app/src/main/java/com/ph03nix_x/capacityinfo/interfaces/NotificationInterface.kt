@@ -193,7 +193,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as NotificationManager
 
-        batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(
+        batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
 
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,

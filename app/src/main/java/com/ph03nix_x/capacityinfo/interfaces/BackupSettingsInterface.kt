@@ -41,7 +41,7 @@ interface BackupSettingsInterface {
 
         val tokenPref = pref.getString(TOKEN_PREF, null)
 
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
 
             try {
 
@@ -113,7 +113,7 @@ interface BackupSettingsInterface {
         val prefPath = "${requireContext().filesDir?.parent}/shared_prefs/" +
                 "${requireContext().packageName}_preferences.xml"
 
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
 
             try {
 
@@ -198,7 +198,7 @@ interface BackupSettingsInterface {
         val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
         val dbName = "History.db"
 
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
 
             try {
 
@@ -262,7 +262,7 @@ interface BackupSettingsInterface {
 
         val dbPath = "${requireContext().filesDir?.parent}/databases/History.db"
 
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
 
             try {
 

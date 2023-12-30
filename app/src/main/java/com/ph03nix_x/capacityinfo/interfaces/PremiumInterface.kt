@@ -193,17 +193,18 @@ interface PremiumInterface: PurchasesUpdatedListener {
         val mainActivity = MainActivity.instance
         val historyFragment = HistoryFragment.instance
         val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
-        mainActivity?.toolbar?.menu?.findItem(R.id.premium)?.isVisible = false
-        mainActivity?.toolbar?.menu?.findItem(R.id.history_premium)?.isVisible = false
-        mainActivity?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
-        historyFragment?.binding?.refreshEmptyHistory?.visibility =
-            if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-        historyFragment?.binding?.emptyHistoryLayout?.visibility =
-            if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-        historyFragment?.binding?.historyRecyclerView?.visibility =
-            if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
-        historyFragment?.binding?.refreshHistory?.visibility =
-            if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+        mainActivity?.toolbar?.menu?.apply {
+            findItem(R.id.premium)?.isVisible = false
+            findItem(R.id.history_premium)?.isVisible = false
+            findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
+        }
+        historyFragment?.binding?.apply {
+            refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+            emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+            historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+        }
+        historyFragment?.binding?.refreshHistory?.visibility = if(!isHistoryNotEmpty) View.GONE
+        else View.VISIBLE
         HistoryFragment.instance?.binding?.emptyHistoryText?.text =
             if(!isHistoryNotEmpty) context.resources?.getText(R.string.empty_history_text) else null
     }

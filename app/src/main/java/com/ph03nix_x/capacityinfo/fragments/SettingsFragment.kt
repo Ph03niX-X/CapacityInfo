@@ -19,7 +19,6 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremiu
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
-import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
@@ -154,13 +153,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                  Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
              }
 
-                CoroutineScope(Dispatchers.Default).launch {
-
-                    withContext(Dispatchers.Main) {
-
-                        delay(3.5.seconds)
-                        isShowExtendedNotification?.isEnabled = (value as? Boolean) == true
-                    }
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(3.5.seconds)
+                    isShowExtendedNotification?.isEnabled = (value as? Boolean) == true
                 }
 
                 true
