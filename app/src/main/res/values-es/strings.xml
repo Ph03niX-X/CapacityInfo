@@ -102,13 +102,6 @@
     <string name="max_discharge_current">Máximo de descarga actual: %1$d mA</string>
     <string name="average_discharge_current">Promedio de descarga actual: %1$d mA</string>
     <string name="min_discharge_current">Descarga mínima actual: %1$d mA</string>
-    <string name="battery_health_android">Salud de la batería (Android): %1$s</string>
-    <string name="battery_health_good_android">Buena</string>
-    <string name="battery_health_dead_android">Muerta</string>
-    <string name="battery_health_cold_android">Fría</string>
-    <string name="battery_health_overheat_android">Sobrecaliente</string>
-    <string name="battery_health_over_voltage_android">Supervoltaje</string>
-    <string name="battery_health_unspecified_failure_android">Fallo sin especificar</string>
     <string name="tips_menu">Consejos</string>
     <string name="tips_dialog_title">Consejos para prolongar la duración de la batería</string>
     <string name="tip1">Consejo #1: Intenta no descargar la batería por debajo del 10%.\n\n</string>

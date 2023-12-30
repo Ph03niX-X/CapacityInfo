@@ -102,13 +102,6 @@
     <string name="max_discharge_current">Corrente di scarica massima: %1$d mA</string>
     <string name="average_discharge_current">Corrente di scarica media: %1$d mA</string>
     <string name="min_discharge_current">Corrente di scarica minima: %1$d mA</string>
-    <string name="battery_health_android">Stato della batteria (Android): %1$s</string>
-    <string name="battery_health_good_android">Bene</string>
-    <string name="battery_health_dead_android">Morto</string>
-    <string name="battery_health_cold_android">Freddo</string>
-    <string name="battery_health_overheat_android">Surriscaldare</string>
-    <string name="battery_health_over_voltage_android">Sovratensione</string>
-    <string name="battery_health_unspecified_failure_android">Guasto non specificato</string>
     <string name="tips_menu">Suggerimenti</string>
     <string name="tips_dialog_title">Suggerimenti per prolungare la durata della batteria</string>
     <string name="tip1">Suggerimento n.1: cercare di non scaricare la batteria al di sotto del 10%.\n\n</string>
@@ -137,7 +130,6 @@
     <string name="charging_time_overlay">Tempo di carica</string>
     <string name="current_capacity_overlay">Capacità attuale</string>
     <string name="capacity_added_overlay">Capacità aggiunta</string>
-    <string name="battery_health_android_overlay">Stato della batteria (Android)</string>
     <string name="residual_capacity_overlay">Capacità residua</string>
     <string name="status_overlay">Stato</string>
     <string name="source_of_power_overlay">Fonte di energia</string>

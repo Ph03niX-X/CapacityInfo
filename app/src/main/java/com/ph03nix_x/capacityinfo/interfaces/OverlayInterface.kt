@@ -22,7 +22,6 @@ import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_HEALTH_ANDROID_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_ADDED_OVERLAY
@@ -110,9 +109,7 @@ interface OverlayInterface : BatteryInfoInterface {
                         IS_CAPACITY_ADDED_OVERLAY, context.resources.getBoolean(
                             R.bool.is_capacity_added_overlay)), getBoolean(
                         IS_BATTERY_HEALTH_OVERLAY, context.resources.getBoolean(
-                            R.bool.is_battery_health_overlay)),
-                    getBoolean(IS_BATTERY_HEALTH_ANDROID_OVERLAY, context.resources.getBoolean(
-                            R.bool.is_battery_health_android_overlay)), getBoolean(
+                            R.bool.is_battery_health_overlay)), getBoolean(
                         IS_RESIDUAL_CAPACITY_OVERLAY, context.resources.getBoolean(
                             R.bool.is_residual_capacity_overlay)), getBoolean(IS_STATUS_OVERLAY,
                         context.resources.getBoolean(R.bool.is_status_overlay)), getBoolean(
@@ -251,7 +248,6 @@ interface OverlayInterface : BatteryInfoInterface {
             onUpdateCurrentCapacityOverlay()
             onUpdateCapacityAddedOverlay()
             onUpdateBatteryHealthOverlay()
-            onUpdateBatteryHealthAndroidOverlay()
             onUpdateResidualCapacityOverlay()
             onUpdateStatusOverlay(status)
             onUpdateSourceOfPowerOverlay(sourceOfPower)
@@ -569,7 +565,7 @@ interface OverlayInterface : BatteryInfoInterface {
     private fun onUpdateBatteryHealthOverlay() {
 
         if(pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, binding.batteryHealthOverlay.context.resources
-                .getBoolean(R.bool.is_battery_health_android_overlay)) ||
+                .getBoolean(R.bool.is_battery_health_overlay)) ||
             binding.batteryHealthOverlay.visibility == View.VISIBLE)
             binding.batteryHealthOverlay.apply {
 
@@ -589,29 +585,6 @@ interface OverlayInterface : BatteryInfoInterface {
                         .getBoolean(R.bool.is_battery_health_overlay)) &&
                     getBatteryHealth(context) != null) View.VISIBLE else View.GONE
             }
-    }
-
-    private fun onUpdateBatteryHealthAndroidOverlay() {
-
-        if(pref.getBoolean(IS_BATTERY_HEALTH_ANDROID_OVERLAY, binding.batteryHealthAndroidOverlay
-                .context.resources.getBoolean(R.bool.is_battery_health_android_overlay)) ||
-            binding.batteryHealthAndroidOverlay.visibility == View.VISIBLE)
-            binding.batteryHealthAndroidOverlay.apply {
-
-            TextAppearanceHelper.setTextAppearance(context, this,
-                pref.getString(OVERLAY_TEXT_STYLE, "0"),
-                pref.getString(OVERLAY_FONT, "6"),
-                pref.getString(OVERLAY_SIZE, "2"))
-
-                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
-
-            text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_only_values_overlay))) R.string.battery_health_android
-            else R.string.battery_health_overlay_only_values, getBatteryAndroidHealth(context))
-
-            visibility = if(pref.getBoolean(IS_BATTERY_HEALTH_ANDROID_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_battery_health_android_overlay))) View.VISIBLE else View.GONE
-        }
     }
 
     private fun onUpdateResidualCapacityOverlay() {

@@ -102,13 +102,6 @@
     <string name="max_discharge_current">Curent maxim de descărcare: %1$d mA</string>
     <string name="average_discharge_current">Curent mediu de descărcare: %1$d mA</string>
     <string name="min_discharge_current">Curent minim de descărcare: %1$d mA</string>
-    <string name="battery_health_android">Sănătatea bateriei (Android): %1$s</string>
-    <string name="battery_health_good_android">Bună</string>
-    <string name="battery_health_dead_android">Rea</string>
-    <string name="battery_health_cold_android">Rece</string>
-    <string name="battery_health_overheat_android">Supraîncălzită</string>
-    <string name="battery_health_over_voltage_android">Supra-tensiune</string>
-    <string name="battery_health_unspecified_failure_android">Defectțiune nespecificată</string>
     <string name="tips_menu">Sfaturi</string>
     <string name="tips_dialog_title">Sfaturi pentru prelungirea duratei de viață a bateriei</string>
     <string name="tip1">Sfatul #1: Încercați să nu descărcați bateria sub 10%.\n\n</string>
@@ -137,7 +130,6 @@
     <string name="charging_time_overlay">Timp de încărcare</string>
     <string name="current_capacity_overlay">Capacitate</string>
     <string name="capacity_added_overlay">Capacitate adăugată</string>
-    <string name="battery_health_android_overlay">Sănătatea bateriei (Android)</string>
     <string name="residual_capacity_overlay">Capacitate reziduală</string>
     <string name="status_overlay">Stare</string>
     <string name="source_of_power_overlay">Sursă de energie</string>

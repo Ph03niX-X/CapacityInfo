@@ -183,13 +183,6 @@
             app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
-                android:defaultValue="@bool/is_battery_health_android_overlay"
-                android:key="is_battery_health_android_overlay"
-                android:title="@string/battery_health_android_overlay"
-                app:iconSpaceReserved="false"
-                app:singleLineTitle="false"/>
-
-        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_residual_capacity_overlay"
                 android:key="is_residual_capacity_overlay"
                 android:title="@string/residual_capacity_overlay"

@@ -102,13 +102,6 @@
     <string name="max_discharge_current">Maksymalny prąd rozładowania: %1$d mA</string>
     <string name="average_discharge_current">Średni prąd rozładowania: %1$d mA</string>
     <string name="min_discharge_current">Minimalny prąd rozładowania: %1$d mA</string>
-    <string name="battery_health_android">Stan baterii (Android): %1$s</string>
-    <string name="battery_health_good_android">Dobra</string>
-    <string name="battery_health_dead_android">Martwy</string>
-    <string name="battery_health_cold_android">Cold</string>
-    <string name="battery_health_overheat_android">Przegrzanie</string>
-    <string name="battery_health_over_voltage_android">Nadmierne napięcie</string>
-    <string name="battery_health_unspecified_failure_android">Nieokreślone niepowodzenie</string>
     <string name="tips_menu">Wskazówki</string>
     <string name="tips_dialog_title">Wskazówki dotyczące wydłużenia czasu pracy akumulatora</string>
     <string name="tip1">Wskazówka #1: Staraj się nie rozładowywać akumulatora poniżej 10%.\n\n</string>
@@ -137,7 +130,6 @@
     <string name="charging_time_overlay">Czas ładowania</string>
     <string name="current_capacity_overlay">Aktualna pojemność</string>
     <string name="capacity_added_overlay">Dodana pojemność</string>
-    <string name="battery_health_android_overlay">Stan baterii (Android)</string>
     <string name="residual_capacity_overlay">Pojemność rezydualna</string>
     <string name="status_overlay">Stan</string>
     <string name="source_of_power_overlay">Źródło zasilania</string>

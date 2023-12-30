@@ -85,9 +85,6 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             }
         }
 
-        binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
-            getBatteryAndroidHealth(requireContext()))
-
         binding.residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
 
         binding.batteryWear.text = getString(R.string.battery_wear, "0%", "0")
@@ -153,10 +150,6 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
         TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryHealth,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryHealthAndroid,
             pref.getString(TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(TEXT_SIZE, "2"))
@@ -254,22 +247,6 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             if(visibility == View.VISIBLE) text = getString(R.string
                                 .number_of_cycles_android, getNumberOfCyclesAndroid())
                         }
-                    }
-
-                    withContext(Dispatchers.Main) {
-
-                        binding.batteryHealthAndroid.apply {
-
-                            if(getBatteryHealth(requireContext()) != null) {
-                                visibility = View.VISIBLE
-                                text = getString(R.string.battery_health,
-                                    getString(getBatteryHealth(requireContext()) ?:
-                                    R.string.battery_health_great))
-                            }
-                        }
-
-                        binding.batteryHealthAndroid.text = getString(R.string.battery_health_android,
-                            getBatteryAndroidHealth(requireContext()))
                     }
 
                     if(getCurrentCapacity(requireContext()) >= 0.0) {

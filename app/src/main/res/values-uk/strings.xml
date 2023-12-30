@@ -102,13 +102,6 @@
     <string name="max_discharge_current">Максимальный струм розрядки: %1$d мА</string>
     <string name="average_discharge_current">Середній струм розрядки: %1$d мА</string>
     <string name="min_discharge_current">Мінімальний струм розрядки: %1$d мА</string>
-    <string name="battery_health_android">Стан акумулятора (Android): %1$s</string>
-    <string name="battery_health_good_android">Гарний</string>
-    <string name="battery_health_dead_android">Мертвий</string>
-    <string name="battery_health_cold_android">Холодна</string>
-    <string name="battery_health_overheat_android">Перегрів</string>
-    <string name="battery_health_over_voltage_android">Перенапруження</string>
-    <string name="battery_health_unspecified_failure_android">Невизачений збій</string>
     <string name="tips_menu">Поради</string>
     <string name="tips_dialog_title">Поради по продовженню життя акумулятора</string>
     <string name="tip1">Порада №1: Намагайтеся не розряджати акумулятор нижче 10%.\n\n</string>
@@ -137,7 +130,6 @@
     <string name="charging_time_overlay">Час зарядки</string>
     <string name="current_capacity_overlay">Поточна ємність</string>
     <string name="capacity_added_overlay">Додалося ємності</string>
-    <string name="battery_health_android_overlay">Стан акумулятора (Android)</string>
     <string name="residual_capacity_overlay">Залишкова ємність</string>
     <string name="status_overlay">Стан</string>
     <string name="source_of_power_overlay">Джерело живлення</string>

@@ -45,7 +45,6 @@
     <bool name="is_current_capacity_overlay">false</bool>
     <bool name="is_capacity_added_overlay">false</bool>
     <bool name="is_battery_health_overlay">false</bool>
-    <bool name="is_battery_health_android_overlay">false</bool>
     <bool name="is_residual_capacity_overlay">false</bool>
     <bool name="is_status_overlay">false</bool>
     <bool name="is_source_of_power_overlay">false</bool>

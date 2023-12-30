@@ -127,21 +127,11 @@
                 <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/battery_health_android"
-                        android:text="@string/battery_health_android"
-                        android:textSize="@dimen/medium_text_size"
-                        android:gravity="center"
-                        android:layout_below="@id/battery_health"
-                        android:fontFamily="@font/google_sans"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/residual_capacity"
                         android:text="@string/residual_capacity"
                         android:textSize="@dimen/medium_text_size"
                         android:gravity="center"
-                        android:layout_below="@id/battery_health_android"
+                        android:layout_below="@id/battery_health"
                         android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
