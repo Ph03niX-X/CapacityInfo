@@ -50,6 +50,7 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
         }
     }
 
+    @Deprecated("Will be removed in 8.0")
     private fun removeOldPreferences(context: Context) {
 
         CoroutineScope(Dispatchers.IO).launch {
