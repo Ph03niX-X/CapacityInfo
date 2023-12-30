@@ -34,7 +34,6 @@
     <string name="service">Қызмет</string>
     <string name="charging_time">Зарядтау уақыты: %1$s</string>
     <string name="apply">Қолдану</string>
-    <string name="open_notification_category_settings_service">Хабарландыру санаты параметрлерін ашыңыз \"Қызмет\"</string>
     <string name="service_and_notification">Қызмет &amp; хабарландыру</string>
     <string name="appearance">Сыртқы түрі</string>
     <string name="misc">Әртүрлі</string>

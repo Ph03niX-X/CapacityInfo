@@ -31,24 +31,6 @@ import java.lang.NumberFormatException
 
 interface SettingsInterface {
 
-    fun SettingsFragment.onOpenNotificationCategorySettings(notificationId: String) {
-
-        val notificationManager =
-            requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val notificationChannel = notificationManager
-            .getNotificationChannel(notificationId)
-
-        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
-
-            putExtra(Settings.EXTRA_CHANNEL_ID, notificationChannel.id)
-
-            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-        }
-
-        requireContext().startActivity(intent)
-    }
-
     fun SettingsFragment.getTextSizeSummary(): String? {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())

@@ -34,7 +34,6 @@
     <string name="service">Melayani</string>
     <string name="charging_time">Waktu Pengisian Daya: %1$s</string>
     <string name="apply">Menerapkan</string>
-    <string name="open_notification_category_settings_service">Buka pengaturan kategori notifikasi \"Layanan\"</string>
     <string name="service_and_notification">Layanan &amp; Pemberitahuan</string>
     <string name="appearance">Penampilan</string>
     <string name="misc">Lain-lain</string>

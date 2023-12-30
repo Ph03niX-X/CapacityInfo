@@ -34,7 +34,6 @@
     <string name="service">Обслужване</string>
     <string name="charging_time">Време за зареждане: %1$s</string>
     <string name="apply">Приложи</string>
-    <string name="open_notification_category_settings_service">Отворете настройките за категория известия \"Обслужване\"</string>
     <string name="service_and_notification">Обслужване &amp; известия</string>
     <string name="appearance">Външен вид</string>
     <string name="misc">Разни</string>

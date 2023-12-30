@@ -34,7 +34,6 @@
     <string name="service">Служба</string>
     <string name="charging_time">Час зарядки: %1$s</string>
     <string name="apply">Застосувати</string>
-    <string name="open_notification_category_settings_service">Відкрити параметри категорії повідомлення \"Служба\"</string>
     <string name="service_and_notification">Служба &amp; повідомлення</string>
     <string name="appearance">Зовнішній вигляд</string>
     <string name="misc">Інше</string>

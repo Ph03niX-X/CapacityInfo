@@ -34,7 +34,6 @@
     <string name="service">Servicio</string>
     <string name="charging_time">Tiempo de carga: %1$s</string>
     <string name="apply">Aplicar</string>
-    <string name="open_notification_category_settings_service">Abrir la configuración de la categoría de notificaciones \"Servicio\"</string>
     <string name="service_and_notification">Servicio &amp; Notificación</string>
     <string name="appearance">Apariencia</string>
     <string name="misc">Misc</string>

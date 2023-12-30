@@ -34,7 +34,6 @@
     <string name="service">Служба</string>
     <string name="charging_time">Час зарадкі: %1$s</string>
     <string name="apply">Прымяніць</string>
-    <string name="open_notification_category_settings_service">Адкрыць налады катэгорыі паведамлення \"Служба\"</string>
     <string name="service_and_notification">Служба &amp; паведамленне</string>
     <string name="appearance">Знешні выгляд</string>
     <string name="misc">Рознае</string>

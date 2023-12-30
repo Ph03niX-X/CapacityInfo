@@ -33,7 +33,6 @@
     <string name="service">Dienst</string>
     <string name="charging_time">Aufladezeit: %1$s</string>
     <string name="apply">Anwenden</string>
-    <string name="open_notification_category_settings_service">Einstellungsdienst der Benachrichtigungskategorien öffnen</string>
     <string name="service_and_notification">Dienst &amp; Benachrichtigung</string>
     <string name="appearance">Erscheinungsbild</string>
     <string name="misc">Sonstiges</string>

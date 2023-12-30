@@ -61,7 +61,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var isShowBatteryInformation: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
-    private var openNotificationCategorySettingsService: Preference? = null
     private var batteryStatusInformation: Preference? = null
 
     // Appearance
@@ -126,9 +125,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
-       openNotificationCategorySettingsService =
-           findPreference("open_notification_category_settings_service")
-
         stopService?.apply {
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
@@ -190,13 +186,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         batteryStatusInformation = findPreference("battery_status_information")
-
-        openNotificationCategorySettingsService?.setOnPreferenceClickListener {
-
-            onOpenNotificationCategorySettings(SERVICE_CHANNEL_ID)
-
-            true
-        }
 
         batteryStatusInformation?.apply {
 

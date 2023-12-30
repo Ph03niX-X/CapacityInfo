@@ -34,7 +34,6 @@
     <string name="service">Serviciu</string>
     <string name="charging_time">Timp încărcare: %1$s</string>
     <string name="apply">Aplicare</string>
-    <string name="open_notification_category_settings_service">Deschideți setările categoriei de notificare \"Serviciu\"</string>
     <string name="service_and_notification">Serviciu și notificare</string>
     <string name="appearance">Aspect</string>
     <string name="misc">Altele</string>

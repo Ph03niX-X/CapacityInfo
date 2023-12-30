@@ -34,7 +34,6 @@
     <string name="service">Служба</string>
     <string name="charging_time">Время зарядки: %1$s</string>
     <string name="apply">Применить</string>
-    <string name="open_notification_category_settings_service">Открыть настройки категории уведомления \"Служба\"</string>
     <string name="service_and_notification">Служба &amp; уведомление</string>
     <string name="appearance">Внешний вид</string>
     <string name="misc">Разное</string>

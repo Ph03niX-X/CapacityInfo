@@ -34,7 +34,6 @@
     <string name="service">Serwis</string>
     <string name="charging_time">Czas ładowania: %1$s</string>
     <string name="apply">Apply</string>
-    <string name="open_notification_category_settings_service">Otwórz ustawienia kategorii powiadomień \"Serwis\"</string>
     <string name="service_and_notification">Serwis &amp; Powiadomienie</string>
     <string name="appearance">Wygląd</string>
     <string name="misc">Różne</string>
