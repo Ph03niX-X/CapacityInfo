@@ -464,6 +464,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 else preference.summary = resources.getStringArray(R.array
                     .unit_of_charge_discharge_current_list)[1]
 
+                BatteryInfoInterface.apply {
+                    maxChargeCurrent = 0
+                    maxDischargeCurrent = 0
+                    averageChargeCurrent = 0
+                    averageDischargeCurrent = 0
+                    minChargeCurrent = 0
+                    minDischargeCurrent = 0
+                }
+
                 true
 
             }
