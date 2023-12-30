@@ -130,7 +130,6 @@
     <string name="charging_time_overlay">Tiempo de carga</string>
     <string name="current_capacity_overlay">Capacidad actual</string>
     <string name="capacity_added_overlay">Capacidad añadida</string>
-    <string name="battery_health_android_overlay">Salud de la batería (Android)</string>
     <string name="residual_capacity_overlay">Capacidad residual</string>
     <string name="status_overlay">Estado</string>
     <string name="source_of_power_overlay">Fuente de energía</string>
