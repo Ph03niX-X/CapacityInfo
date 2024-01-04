@@ -274,7 +274,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             try {
                                 onUpdateServiceNotification(applicationContext)
                             }
-                            catch(_: NullPointerException) {}
+                            catch(_: NullPointerException) {
+                                delay(5.seconds)
+                                onUpdateServiceNotification(applicationContext)
+                            }
                             finally {
                                 delay(1.495.seconds)
                             }
@@ -418,8 +421,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             try {
                 onUpdateServiceNotification(applicationContext)
             }
-            catch(_: RuntimeException) {}
-            catch(_: NullPointerException) {}
+            catch(_: RuntimeException) {
+                delay(5.seconds)
+                onUpdateServiceNotification(applicationContext)
+            }
+            catch(_: NullPointerException) {
+                delay(5.seconds)
+                onUpdateServiceNotification(applicationContext)
+            }
         }
     }
 
@@ -559,7 +568,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             try {
                 onUpdateServiceNotification(applicationContext)
             }
-            catch(_: NullPointerException) {}
+            catch(_: NullPointerException) {
+                delay(5.seconds)
+                onUpdateServiceNotification(applicationContext)
+            }
             finally {
                 wakeLockRelease()
             }
