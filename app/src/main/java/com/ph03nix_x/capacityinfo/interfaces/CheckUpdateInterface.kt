@@ -71,7 +71,7 @@ interface CheckUpdateInterface {
             }
             if(isUpdateAvailable) {
                 pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
-                    CapacityInfoService.instance?.screenTime ?: 0L).apply()
+                    (CapacityInfoService.instance?.screenTime ?: 0L) + 15L).apply()
                 MainActivity.instance?.intentResultStarter()
                 val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
                 val appUpdateOptions =
@@ -99,7 +99,7 @@ interface CheckUpdateInterface {
             setMessage(R.string.update_available_dialog_message)
             setPositiveButton(R.string.update) {_, _ ->
                 pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
-                    CapacityInfoService.instance?.screenTime ?: 0L).apply()
+                    (CapacityInfoService.instance?.screenTime ?: 0L) + 15L).apply()
                 startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
                     appUpdateOptions)
             }
