@@ -163,19 +163,15 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         isShowExtendedNotification?.apply {
-
-            isEnabled = if(!isPremium) true
-            else pref.getBoolean(
+            isEnabled = premium?.isVisible == false && pref.getBoolean(
                 IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
                     R.bool.is_show_battery_information))
-
+            summary = getString(if(premium?.isVisible == true) R.string.premium_feature
+            else R.string.service_restart_required)
             setOnPreferenceChangeListener { preference, _ ->
-
                 preference.isEnabled = false
-
                 ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
                     preference)
-
                 true
             }
         }
@@ -685,10 +681,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         isShowExtendedNotification?.apply {
-           val isShowBatteryInformationPref = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION,
-               requireContext().resources.getBoolean(R.bool.is_show_battery_information))
-            isEnabled = if(premium?.isVisible == false && isShowBatteryInformationPref) true
-            else isShowBatteryInformationPref
+            isEnabled = premium?.isVisible == false && pref.getBoolean(
+                IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
+                    R.bool.is_show_battery_information))
+            summary = getString(if(premium?.isVisible == true) R.string.premium_feature
+            else R.string.service_restart_required)
         }
 
         batteryStatusInformation?.apply {
