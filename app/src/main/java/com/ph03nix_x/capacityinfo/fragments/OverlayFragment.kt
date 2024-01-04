@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.fragments
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.ActivityResultLauncher
@@ -244,7 +245,9 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
         lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
         batteryWearOverlay = findPreference(IS_BATTERY_WEAR_OVERLAY)
 
-        numberOfCyclesAndroidOverlay?.isVisible = File(NUMBER_OF_CYCLES_PATH).exists()
+        numberOfCyclesAndroidOverlay?.isVisible =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ||
+                    File(NUMBER_OF_CYCLES_PATH).exists()
         chargingCurrentLimitOverlay?.isVisible = chargingCurrentLimit != null &&
                 chargingCurrentLimit.toInt() > 0
 

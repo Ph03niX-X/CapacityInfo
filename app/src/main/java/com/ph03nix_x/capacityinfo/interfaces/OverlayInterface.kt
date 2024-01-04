@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.BatteryManager
+import android.os.Build
 import android.provider.Settings
 import android.view.*
 import android.widget.Toast
@@ -65,6 +66,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.*
 import java.lang.Exception
 import java.text.DecimalFormat
@@ -330,6 +334,10 @@ interface OverlayInterface : BatteryInfoInterface {
 
     private fun onUpdateNumberOfCyclesAndroidOverlay() {
         if((pref.getBoolean(IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY, binding
+                .numberOfCyclesAndroidOverlay.context.resources.getBoolean(
+                    R.bool.is_number_of_cycles_android_overlay)) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            || (pref.getBoolean(IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY, binding
                 .numberOfCyclesAndroidOverlay.context.resources.getBoolean(
                     R.bool.is_number_of_cycles_android_overlay)) && File(
                 NUMBER_OF_CYCLES_PATH).exists()) ||
@@ -944,18 +952,24 @@ interface OverlayInterface : BatteryInfoInterface {
     }
 
     private fun getNumberOfCyclesAndroid(): Int {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            return batteryIntent?.getStringExtra(BatteryManager.EXTRA_CYCLE_COUNT)?.toInt() ?: 0
         if(!File(NUMBER_OF_CYCLES_PATH).exists()) return 0
+        var numberOfCycles = 0
         val cycleCount = File(NUMBER_OF_CYCLES_PATH).absolutePath
-        var numberOfCycles: Int
-        try {
-            val br = try {
-                BufferedReader(FileReader(cycleCount))
-            }
-            catch (e: FileNotFoundException) { null }
-            numberOfCycles = br?.readLine()?.toInt() ?: 0
-            br?.close()
-
-        } catch (e: IOException) { numberOfCycles = 0 }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                var br: BufferedReader? = null
+                kotlin.runCatching {
+                    br = try {
+                        BufferedReader(FileReader(cycleCount))
+                    }
+                    catch (e: FileNotFoundException) { null }
+                }
+                kotlin.runCatching { numberOfCycles = br?.readLine()?.toInt() ?: 0 }
+                kotlin.runCatching { br?.close() }
+            } catch (e: IOException) { numberOfCycles = 0 }
+        }
         return numberOfCycles
     }
 
