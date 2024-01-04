@@ -166,7 +166,7 @@
     <string name="battery_overheating">Superaquecimento da bateria! Temperatura: %1$s°C/%2$s°F</string>
     <string name="battery_overcooling">Super-resfriamento da bateria! Temperatura: %1$s°C/%2$s°F</string>
     <string name="show_expanded_notification">Mostrar notificação expandida</string>
-    <string name="service_restart_required">Mostrar notificação expandida</string>
+    <string name="service_restart_required">Reinicialização do serviço necessária</string>
     <string name="charging_time_remaining">Tempo de Carregamento Restante: %1$s</string>
     <string name="charging_time_remaining_overlay">Tempo de Carregamento Restante</string>
     <string name="remaining_battery_time">Tempo Restante da Bateria: %1$s</string>
@@ -240,7 +240,7 @@
     <string name="error">Erro!</string>
     <string name="history_count">Contagem de histórico</string>
     <string name="get_premium">Obter Premium</string>
-    <string name="premium_dialog">Ao adquirir o Premium, você receberá recursos adicionais do aplicativo:\n\• Histórico;\n\• Mostrar informações da bateria;\n\• Parar serviço;\n\• Parar o serviço quando o carregador for desconectado;\n\• Informações sobre o status da bateria;\n\• Fonte de texto;\n\• Reiniciar o tempo de tela em qualquer nível de carga;\n\• Backup;\n\• Guia no lançamento do aplicativo;\n\• Sobreposição;\n\• Capacidade em Wh;\n\• Corrente de carga/descarga em Watt\n\nAo adquirir o Premium, você também apoia o desenvolvimento futuro do aplicativo e da Ucrânia na Guerra</string>
+    <string name="premium_dialog">Ao adquirir o Premium, você receberá recursos adicionais do aplicativo:\n\• Histórico;\n\• Mostrar informações da bateria;\n\• Mostrar notificação expandida;\n\• Parar serviço;\n\• Parar o serviço quando o carregador for desconectado;\n\• Informações sobre o status da bateria;\n\• Fonte de texto;\n\• Reiniciar o tempo de tela em qualquer nível de carga;\n\• Backup;\n\• Guia no lançamento do aplicativo;\n\• Sobreposição;\n\• Capacidade em Wh;\n\• Corrente de carga/descarga em Watt\n\nAo adquirir o Premium, você também apoia o desenvolvimento futuro do aplicativo e da Ucrânia na Guerra</string>
     <string name="premium_feature">Recurso Premium</string>
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Recursos Premium desbloqueados!</string>
