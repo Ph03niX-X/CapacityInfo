@@ -517,8 +517,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             refreshHistory.visibility = View.VISIBLE
                         }
                         MainActivity.instance?.toolbar?.menu?.apply {
-                            findItem(R.id.history_premium).isVisible = false
-                            findItem(R.id.clear_history).isVisible = true
+                            findItem(R.id.history_premium)?.isVisible = false
+                            findItem(R.id.clear_history)?.isVisible = true
                         }
                         if(HistoryHelper.getHistoryCount(this@CapacityInfoService) == 1L) {
                             val historyDB = withContext(Dispatchers.IO) {
@@ -545,8 +545,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             emptyHistoryText.text = resources.getText(R.string.empty_history_text)
                         }
                         MainActivity.instance?.toolbar?.menu?.apply {
-                            findItem(R.id.history_premium).isVisible = false
-                            findItem(R.id.clear_history).isVisible = false
+                            findItem(R.id.history_premium)?.isVisible = false
+                            findItem(R.id.clear_history)?.isVisible = false
                         }
                     }
                     return@withContext
@@ -561,8 +561,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
                 }
                 MainActivity.instance?.toolbar?.menu?.apply {
-                    findItem(R.id.history_premium).isVisible = true
-                    findItem(R.id.clear_history).isVisible = false
+                    findItem(R.id.history_premium)?.isVisible = true
+                    findItem(R.id.clear_history)?.isVisible = false
                 }
             }
         }

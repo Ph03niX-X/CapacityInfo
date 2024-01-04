@@ -295,7 +295,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         }
 
         if (fragment is ChargeDischargeFragment || fragment is WearFragment)
-            toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
+            toolbar.menu.findItem(R.id.instruction)?.isVisible = getCurrentCapacity(
                 this
             ) > 0.0
 

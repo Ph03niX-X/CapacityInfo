@@ -46,7 +46,7 @@ interface MenuInterface {
         else {
             with(toolbar) {
                 inflateMenu(R.menu.main_menu)
-                menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
+                menu.findItem(R.id.instruction)?.isVisible = getCurrentCapacity(
                     this@inflateMenu) > 0.0 && (fragment is ChargeDischargeFragment
                         || fragment is WearFragment)
                 menu.findItem(R.id.instruction).setOnMenuItemClickListener {
@@ -79,7 +79,7 @@ interface MenuInterface {
                     }
                     true
                 }
-                menu.findItem(R.id.premium).isVisible = !PremiumInterface.isPremium
+                menu.findItem(R.id.premium)?.isVisible = !PremiumInterface.isPremium
                 if(!PremiumInterface.isPremium)
                     menu.findItem(R.id.premium).setOnMenuItemClickListener {
                         showPremiumDialog()

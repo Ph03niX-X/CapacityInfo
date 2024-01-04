@@ -195,9 +195,9 @@ interface PremiumInterface: PurchasesUpdatedListener {
         val historyFragment = HistoryFragment.instance
         val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
         mainActivity?.toolbar?.menu?.apply {
-            findItem(R.id.premium).isVisible = false
-            findItem(R.id.history_premium).isVisible = false
-            findItem(R.id.clear_history).isVisible = isHistoryNotEmpty
+            findItem(R.id.premium)?.isVisible = false
+            findItem(R.id.history_premium)?.isVisible = false
+            findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
         }
         historyFragment?.binding?.apply {
             refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
