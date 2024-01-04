@@ -507,7 +507,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         with(binding) {
             val textViewArrayList = arrayListOf(batteryLevel, chargingTime, chargingTimeRemaining,
                 remainingBatteryTime, screenTime, currentCapacityChargeDischarge,
-                capacityAddedChargeDischarge, status, sourceOfPower, chargeCurrent,
+                capacityAddedChargeDischarge, status, sourceOfPower, chargeCurrent, fastCharge,
                 maxChargeDischargeCurrent, averageChargeDischargeCurrent, minChargeDischargeCurrent,
                 chargingCurrentLimit, temperature, maximumTemperature, averageTemperature,
                 minimumTemperature, voltage, lastChargeTime)
