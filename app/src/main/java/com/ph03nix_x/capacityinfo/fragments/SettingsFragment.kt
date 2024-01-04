@@ -170,8 +170,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             else R.string.service_restart_required)
             setOnPreferenceChangeListener { preference, _ ->
                 preference.isEnabled = false
-                ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
-                    preference)
+                isShowBatteryInformation?.isEnabled = false
+                try {
+                    ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                        preference)
+                }
+                catch (e: Exception) {
+                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(3.5.seconds)
+                    isShowBatteryInformation?.isEnabled = true
+                }
                 true
             }
         }
