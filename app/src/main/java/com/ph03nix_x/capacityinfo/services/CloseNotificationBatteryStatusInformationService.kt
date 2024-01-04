@@ -11,24 +11,19 @@ class CloseNotificationBatteryStatusInformationService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
        close()
-
         ServiceHelper.stopService(this,
             CloseNotificationBatteryStatusInformationService::class.java)
-
         return START_NOT_STICKY
     }
 
     private fun close() {
-
-        if(NotificationInterface.isOverheatOvercool) {
-            NotificationInterface.notificationManager?.cancel(NotificationInterface
-                .NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
-            return
+        with(NotificationInterface) {
+            if(isOverheatOvercool) {
+                notificationManager?.cancel(NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+                return
+            }
+            notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
         }
-
-        NotificationInterface.notificationManager?.cancel(NotificationInterface
-            .NOTIFICATION_BATTERY_STATUS_ID)
     }
 }

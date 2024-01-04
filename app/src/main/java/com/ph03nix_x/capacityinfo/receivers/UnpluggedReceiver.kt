@@ -33,126 +33,88 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
-
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
         if(CapacityInfoService.instance != null && isPowerConnected)
             when(intent.action) {
-
             Intent.ACTION_POWER_DISCONNECTED -> {
-
                 isPowerConnected = false
-
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
-
                 val isCheckedUpdateFromGooglePlay =
                     MainActivity.instance?.isCheckUpdateFromGooglePlay ?: false
-
                 MainActivity.instance?.isCheckUpdateFromGooglePlay = !isCheckedUpdateFromGooglePlay
-
                 val isPremium = PremiumInterface.isPremium
-
                 val seconds = CapacityInfoService.instance?.seconds ?: 0
-
                 val batteryLevel = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0
-
                 val batteryLevelWith = CapacityInfoService.instance?.batteryLevelWith ?: 0
-
                 val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
                     NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
                     NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
                         batteryLevelWith / 100f)
-
                 pref.edit().apply {
-
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
-
                         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
-
                         putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
-
                         putInt(LAST_CHARGE_TIME, seconds)
-
                         putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance
                             ?.batteryLevelWith ?: 0)
-
                         putInt(BATTERY_LEVEL_TO, batteryLevel)
-
                         if(CapacityInfoService.instance?.isSaveNumberOfCharges != false)
                             putFloat(NUMBER_OF_CYCLES, numberOfCycles)
-
                         if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
-
                         if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
-
                         percentAdded = 0
-
                         capacityAdded = 0.0
                     }
-
                     apply()
                 }
-
                 batteryIntent = context.registerReceiver(null, IntentFilter(Intent
                     .ACTION_BATTERY_CHANGED))
-
                 CapacityInfoService.instance?.seconds = 0
-
                 if(isPremium && (batteryLevel >= 90 || pref.getBoolean(
                         IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL, context.resources.getBoolean(
                             R.bool.is_reset_screen_time_at_any_charge_level))))
                     CapacityInfoService.instance?.screenTime = 0L
-
-                BatteryInfoInterface.batteryLevel = 0
-
-                BatteryInfoInterface.maxChargeCurrent = 0
-                BatteryInfoInterface.averageChargeCurrent = 0
-                BatteryInfoInterface.minChargeCurrent = 0
-                BatteryInfoInterface.maxDischargeCurrent = 0
-                BatteryInfoInterface.averageDischargeCurrent = 0
-                BatteryInfoInterface.minDischargeCurrent = 0
-                BatteryInfoInterface.maximumTemperature = 0.0
-                BatteryInfoInterface.averageTemperature = 0.0
-                BatteryInfoInterface.minimumTemperature = 0.0
-
-                CapacityInfoService.instance?.secondsFullCharge = 0
-                CapacityInfoService.instance?.isFull = false
-
+                BatteryInfoInterface.apply {
+                    this.batteryLevel = 0
+                    maxChargeCurrent = 0
+                    averageChargeCurrent = 0
+                    minChargeCurrent = 0
+                    maxDischargeCurrent = 0
+                    averageDischargeCurrent = 0
+                    minDischargeCurrent = 0
+                    maximumTemperature = 0.0
+                    averageTemperature = 0.0
+                    minimumTemperature = 0.0
+                }
+                CapacityInfoService.instance?.apply {
+                    secondsFullCharge = 0
+                    isFull = false
+                }
                 if(isPremium && pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD,
                         context.resources.getBoolean(R.bool.is_stop_the_service_when_the_cd)))
                     ServiceHelper.stopService(context, CapacityInfoService::class.java)
-
-                NotificationInterface.notificationManager?.cancel(
-                    NotificationInterface.NOTIFICATION_FULLY_CHARGED_ID)
-
-                NotificationInterface.notificationManager?.cancel(
-                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
-                NotificationInterface.notificationManager?.cancel(
-                    NotificationInterface.NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
-
+                NotificationInterface.apply {
+                    notificationManager?.cancel(NOTIFICATION_FULLY_CHARGED_ID)
+                    notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
+                    notificationManager?.cancel(NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
+                }
                 ServiceHelper.cancelJob(context, Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-
                 if(MainActivity.instance?.fragment != null) {
-
                     if(MainActivity.instance?.fragment is ChargeDischargeFragment)
                         MainActivity.instance?.toolbar?.title = context.getString(
                             R.string.discharge)
-
                     val chargeDischargeNavigation = MainActivity.instance?.navigation
                         ?.menu?.findItem(R.id.charge_discharge_navigation)
-
                     chargeDischargeNavigation?.title = context.getString(R.string.discharge)
-
                     chargeDischargeNavigation?.icon = MainActivity.instance
                         ?.getChargeDischargeNavigationIcon(false)?.let {
                             ContextCompat.getDrawable(context, it)
                         }
                 }
-
-                CapacityInfoService.instance?.isPluggedOrUnplugged = false
-
-                CapacityInfoService.instance?.wakeLockRelease()
+                CapacityInfoService.instance?.apply {
+                    isPluggedOrUnplugged = false
+                    wakeLockRelease()
+                }
             }
         }
     }

@@ -35,36 +35,36 @@ class CenteredToolbar : MaterialToolbar {
     override fun setSubtitle(resId: Int) { subtitle = resources.getString(resId) }
 
     override fun setSubtitle(subtitle: CharSequence) {
-
-        tvSubtitle?.visibility = View.VISIBLE
-        tvSubtitle?.text = subtitle
+        tvSubtitle?.apply {
+            visibility = View.VISIBLE
+            text = subtitle
+        }
     }
 
     private fun setupTextViews() {
-
         tvSubtitle = AppCompatTextView(context)
         tvTitle = AppCompatTextView(context)
-
-        tvTitle?.ellipsize = TextUtils.TruncateAt.END
-        tvTitle?.setTextAppearance(R.style.TitleTheme)
-        tvTitle?.gravity = Gravity.CENTER
-
+        tvTitle?.apply {
+            ellipsize = TextUtils.TruncateAt.END
+            setTextAppearance(R.style.TitleTheme)
+            gravity = Gravity.CENTER
+        }
         linear = LinearLayoutCompat(context)
-        linear?.gravity = Gravity.CENTER
-        linear?.orientation = LinearLayoutCompat.VERTICAL
-        linear?.addView(tvTitle)
-        linear?.addView(tvSubtitle)
-
-        tvSubtitle?.setSingleLine()
-        tvSubtitle?.ellipsize = TextUtils.TruncateAt.END
-        tvSubtitle?.setTextAppearance(R.style.SubtitleTheme)
-
-        tvSubtitle?.visibility = View.GONE
-
+        linear?.apply {
+            gravity = Gravity.CENTER
+            orientation = LinearLayoutCompat.VERTICAL
+            addView(tvTitle)
+            addView(tvSubtitle) 
+        }
         val lp = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         lp.gravity = Gravity.CENTER
         linear?.layoutParams = lp
-
+        tvSubtitle?.apply {
+            setSingleLine()
+            ellipsize = TextUtils.TruncateAt.END
+            setTextAppearance(R.style.SubtitleTheme)
+            visibility = View.GONE
+        }
         addView(linear)
     }
 }

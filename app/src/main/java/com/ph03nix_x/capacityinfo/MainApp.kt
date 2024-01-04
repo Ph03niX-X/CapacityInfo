@@ -87,20 +87,19 @@ class MainApp : Application(), PremiumInterface {
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
-
         super.onConfigurationChanged(newConfig)
-
         val newTheme = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES or
                 newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
 
         if(newTheme != currentTheme) {
+            MainActivity.apply {
+                tempFragment = instance?.fragment
 
-            MainActivity.tempFragment = MainActivity.instance?.fragment
+               isRecreate = true
 
-            MainActivity.isRecreate = true
-
-            MainActivity.instance?.recreate()
+               instance?.recreate()
+            }
         }
     }
 

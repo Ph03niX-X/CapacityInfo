@@ -50,30 +50,23 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         updateTextAppearance(holderHistory)
 
         if(isPremium) {
-            binding.historyDate.text = historyList[itemCount - 1 - position].date
-            binding.historyResidualCapacity.text = getResidualCapacity(holderHistory.itemView.context,
-                historyList[itemCount - 1 - position].residualCapacity)
-            binding.historyBatteryWear.text = getBatteryWear(holderHistory.itemView.context,
-                historyList[itemCount - 1 - position].residualCapacity)
+            binding.apply {
+                historyDate.text = historyList[itemCount - 1 - position].date
+                historyResidualCapacity.text = getResidualCapacity(holderHistory.itemView.context,
+                    historyList[itemCount - 1 - position].residualCapacity)
+                historyBatteryWear.text = getBatteryWear(holderHistory.itemView.context,
+                    historyList[itemCount - 1 - position].residualCapacity)
+            }
         }
     }
 
     fun getHistoryList() = historyList
 
     private fun updateTextAppearance(holderHistory: HistoryViewHolder) {
-
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context, binding.historyDate,
+        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context,
+            arrayListOf(binding.historyDate, binding.historyResidualCapacity,
+                binding.historyBatteryWear),
             pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
-
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context,
-            binding.historyResidualCapacity, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
-
-        TextAppearanceHelper.setTextAppearance(holderHistory.itemView.context,
-            binding.historyBatteryWear, pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
             pref.getString(PreferencesKeys.TEXT_FONT, "6"),
             pref.getString(PreferencesKeys.TEXT_SIZE, "2"))
     }

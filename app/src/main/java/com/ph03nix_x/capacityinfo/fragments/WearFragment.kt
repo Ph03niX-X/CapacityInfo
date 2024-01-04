@@ -67,31 +67,25 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     }
 
     override fun onResume() {
-
         super.onResume()
-
-        binding.designCapacity.text = getDesignCapacity()
-
-        binding.numberOfCyclesAndroid.visibility =
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-                || File(NUMBER_OF_CYCLES_PATH).exists()) View.VISIBLE else View.GONE
-
-        binding.batteryHealth.apply {
-
-            if(getBatteryHealth(requireContext()) != null) {
-                visibility = View.VISIBLE
-                text = getString(R.string.battery_health, getString(
-                    getBatteryHealth(requireContext()) ?: R.string.battery_health_great))
+        with(binding) {
+            designCapacity.text = getDesignCapacity()
+            numberOfCyclesAndroid.visibility =
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+                    || File(NUMBER_OF_CYCLES_PATH).exists()) View.VISIBLE else View.GONE
+            batteryHealth.apply {
+                if(getBatteryHealth(requireContext()) != null) {
+                    visibility = View.VISIBLE
+                    text = getString(R.string.battery_health, getString(
+                        getBatteryHealth(requireContext()) ?: R.string.battery_health_great))
+                }
             }
+            residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
+            batteryWear.text = getString(R.string.battery_wear, "0%", "0")
+            batteryIntent = requireContext().registerReceiver(null,
+                IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         }
-
-        binding.residualCapacity.text = getString(R.string.residual_capacity, "0", "0%")
-
-        binding.batteryWear.text = getString(R.string.battery_wear, "0%", "0")
-
-        batteryIntent = requireContext().registerReceiver(null,
-            IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
+        
         isJob = true
 
         wearInformationJob()
@@ -116,51 +110,16 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     }
 
     private fun updateTextAppearance() {
-
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.designCapacity,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.numberOfCharges,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.numberOfFullCharges,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.numberOfCycles,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.numberOfCyclesAndroid,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.currentCapacityWear,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.capacityAddedWear,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryTechnology,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryHealth,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.residualCapacity,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
-        TextAppearanceHelper.setTextAppearance(requireContext(), binding.batteryWear,
-            pref.getString(TEXT_STYLE, "0"),
-            pref.getString(PreferencesKeys.TEXT_FONT, "6"),
-            pref.getString(TEXT_SIZE, "2"))
+        with(binding) {
+            val textViewArrayList = arrayListOf(designCapacity, numberOfCharges, numberOfFullCharges,
+                numberOfCycles, numberOfCyclesAndroid, currentCapacityWear, capacityAddedWear,
+                batteryTechnology, batteryHealth, residualCapacity, batteryWear)
+            
+            TextAppearanceHelper.setTextAppearance(requireContext(), textViewArrayList,
+                pref.getString(TEXT_STYLE, "0"),
+                pref.getString(PreferencesKeys.TEXT_FONT, "6"),
+                pref.getString(TEXT_SIZE, "2"))
+        }
     }
 
     private fun getDesignCapacity(): String {
@@ -219,33 +178,29 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
             job = CoroutineScope(Dispatchers.Default).launch {
                 while(isJob) {
 
-                    val status = batteryIntent?.getIntExtra(
-                        BatteryManager.EXTRA_STATUS,
-                        BatteryManager.BATTERY_STATUS_UNKNOWN
-                    ) ?: BatteryManager
-                        .BATTERY_STATUS_UNKNOWN
-                    val sourceOfPower = batteryIntent?.getIntExtra(
-                        BatteryManager.EXTRA_PLUGGED, -1
-                    ) ?: -1
+                    val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+                        BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+                    val sourceOfPower = batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED,
+                        -1) ?: -1
 
                     withContext(Dispatchers.Main) {
+                        with(binding) {
+                            designCapacity.text = getDesignCapacity()
 
-                        binding.designCapacity.text = getDesignCapacity()
+                            numberOfCharges.text = getString(R.string.number_of_charges,
+                                pref.getLong(PreferencesKeys.NUMBER_OF_CHARGES, 0))
 
-                        binding.numberOfCharges.text = getString(R.string.number_of_charges,
-                            pref.getLong(PreferencesKeys.NUMBER_OF_CHARGES, 0))
+                            numberOfFullCharges.text = getString(R.string.number_of_full_charges,
+                                pref.getLong(NUMBER_OF_FULL_CHARGES, 0))
 
-                        binding.numberOfFullCharges.text = getString(R.string.number_of_full_charges,
-                            pref.getLong(NUMBER_OF_FULL_CHARGES, 0))
+                            numberOfCycles.text = getString(R.string.number_of_cycles,
+                                DecimalFormat("#.##").format(pref.getFloat(
+                                    PreferencesKeys.NUMBER_OF_CYCLES, 0f)))
 
-                        binding.numberOfCycles.text = getString(R.string.number_of_cycles,
-                            DecimalFormat("#.##").format(pref.getFloat(
-                                PreferencesKeys.NUMBER_OF_CYCLES, 0f)))
-
-                        binding.numberOfCyclesAndroid.apply {
-
-                            if(visibility == View.VISIBLE) text = getString(R.string
-                                .number_of_cycles_android, getNumberOfCyclesAndroid())
+                            numberOfCyclesAndroid.apply {
+                                if(visibility == View.VISIBLE) text = getString(R.string
+                                    .number_of_cycles_android, getNumberOfCyclesAndroid())
+                            }
                         }
                     }
 
@@ -257,99 +212,93 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             && pref.getInt(PreferencesKeys.RESIDUAL_CAPACITY, 0) > 0) {
 
                             withContext(Dispatchers.Main) {
-
-                                binding.residualCapacity.text = getResidualCapacity(requireContext())
-
-                                binding.batteryWear.text = getBatteryWear(requireContext())
-
-                            }
-                        }
-
-                        if(getCurrentCapacity(requireContext()) > 0.0) {
-
-                            if(binding.currentCapacityWear.visibility == View.GONE)
-                                withContext(Dispatchers.Main) {
-                                    binding.currentCapacityWear.visibility = View.VISIBLE }
-
-                            withContext(Dispatchers.Main) {
-
-                                val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
-                                    resources.getBoolean(R.bool.is_capacity_in_wh))
-
-                                binding.currentCapacityWear.text = getString(if(isCapacityInWh)
-                                    R.string.current_capacity_wh else R.string.current_capacity,
-                                    DecimalFormat("#.#").format(if(isCapacityInWh)
-                                        getCapacityInWh(getCurrentCapacity(requireContext()))
-                                    else getCurrentCapacity(requireContext())))
-
-                                when {
-                                    getSourceOfPower(requireContext(), sourceOfPower) != "N/A"
-                                    -> {
-
-                                        if(binding.capacityAddedWear.visibility == View.GONE)
-                                            binding.capacityAddedWear.visibility = View.VISIBLE
-
-                                        binding.capacityAddedWear.text =
-                                            getCapacityAdded(requireContext())
-                                    }
-                                    getSourceOfPower(requireContext(), sourceOfPower) == "N/A"
-                                    -> {
-
-                                        if(binding.capacityAddedWear.visibility == View.GONE)
-                                            binding.capacityAddedWear.visibility = View.VISIBLE
-
-                                        binding.capacityAddedWear.text =
-                                            getCapacityAdded(requireContext())
-                                    }
-                                    binding.capacityAddedWear.visibility == View.VISIBLE ->
-                                        binding.capacityAddedWear.visibility = View.GONE
+                                binding.apply {
+                                    residualCapacity.text = getResidualCapacity(requireContext())
+                                    batteryWear.text = getBatteryWear(requireContext())
                                 }
                             }
                         }
 
+                        if(getCurrentCapacity(requireContext()) > 0.0) {
+                            
+                            binding.apply {
+                                if(currentCapacityWear.visibility == View.GONE)
+                                    withContext(Dispatchers.Main) {
+                                        currentCapacityWear.visibility = View.VISIBLE }
+
+                                withContext(Dispatchers.Main) {
+
+                                    val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH,
+                                        resources.getBoolean(R.bool.is_capacity_in_wh))
+
+                                    currentCapacityWear.text = getString(if(isCapacityInWh)
+                                        R.string.current_capacity_wh else R.string.current_capacity,
+                                        DecimalFormat("#.#").format(if(isCapacityInWh)
+                                            getCapacityInWh(getCurrentCapacity(requireContext()))
+                                        else getCurrentCapacity(requireContext())))
+
+                                    when {
+                                        getSourceOfPower(requireContext(), sourceOfPower) != "N/A"
+                                        -> {
+
+                                            if(capacityAddedWear.visibility == View.GONE)
+                                                capacityAddedWear.visibility = View.VISIBLE
+
+                                            capacityAddedWear.text =
+                                                getCapacityAdded(requireContext())
+                                        }
+                                        getSourceOfPower(requireContext(), sourceOfPower) == "N/A"
+                                        -> {
+
+                                            if(capacityAddedWear.visibility == View.GONE)
+                                                capacityAddedWear.visibility = View.VISIBLE
+
+                                            capacityAddedWear.text =
+                                                getCapacityAdded(requireContext())
+                                        }
+                                        capacityAddedWear.visibility == View.VISIBLE ->
+                                            capacityAddedWear.visibility = View.GONE
+                                    }
+                                }   
+                            }
+                        }
+
                         else {
+                            binding.apply {
+                                if(currentCapacityWear.visibility == View.VISIBLE)
+                                    withContext(Dispatchers.Main) {
+                                        currentCapacityWear.visibility = View.GONE }
 
-                            if(binding.currentCapacityWear.visibility == View.VISIBLE)
-                                withContext(Dispatchers.Main) {
-                                    binding.currentCapacityWear.visibility = View.GONE }
-
-                            if(binding.capacityAddedWear.visibility == View.GONE
-                                && pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
-                                withContext(Dispatchers.Main) {
-                                    binding.capacityAddedWear.visibility = View.VISIBLE }
-
-                            else withContext(Dispatchers.Main) {
-                                binding.capacityAddedWear.visibility = View.GONE }
+                                if(capacityAddedWear.visibility == View.GONE && pref.getFloat(
+                                        PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
+                                    withContext(Dispatchers.Main) {
+                                        capacityAddedWear.visibility = View.VISIBLE }
+                                else withContext(Dispatchers.Main) {
+                                    capacityAddedWear.visibility = View.GONE }
+                            }
                         }
                     }
-
                     else {
-
-                        if(binding.currentCapacityWear.visibility == View.VISIBLE)
-                            withContext(Dispatchers.Main) {
-                                binding.currentCapacityWear.visibility = View.GONE }
-
-                        if(binding.capacityAddedWear.visibility == View.VISIBLE)
-                            withContext(Dispatchers.Main) { binding.capacityAddedWear.visibility = View.GONE }
-
-                        if(pref.contains(PreferencesKeys.CAPACITY_ADDED)) pref.edit().remove(
-                            PreferencesKeys.CAPACITY_ADDED
-                        ).apply()
-
-                        if(pref.contains(PreferencesKeys.PERCENT_ADDED)) pref.edit().remove(
-                            PreferencesKeys.PERCENT_ADDED
-                        ).apply()
+                        binding.apply {
+                            if(currentCapacityWear.visibility == View.VISIBLE)
+                                withContext(Dispatchers.Main) {
+                                    currentCapacityWear.visibility = View.GONE }
+                            if(capacityAddedWear.visibility == View.VISIBLE)
+                                withContext(Dispatchers.Main) {
+                                    capacityAddedWear.visibility = View.GONE }
+                            if(pref.contains(PreferencesKeys.CAPACITY_ADDED)) pref.edit().remove(
+                                PreferencesKeys.CAPACITY_ADDED).apply()
+                            if(pref.contains(PreferencesKeys.PERCENT_ADDED)) pref.edit().remove(
+                                PreferencesKeys.PERCENT_ADDED).apply()
+                        }
                     }
-
                     withContext(Dispatchers.Main) {
-
                         binding.batteryTechnology.text = getString(R.string.battery_technology,
                             batteryIntent?.getStringExtra(
                                 BatteryManager.EXTRA_TECHNOLOGY) ?: getString(R.string.unknown))
                     }
 
                     when(status) {
-
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if (getCurrentCapacity(requireContext()) > 0.0) 0.989.seconds
                             else 0.996.seconds)

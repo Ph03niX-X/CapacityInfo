@@ -11,6 +11,19 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 
 object TextAppearanceHelper : PremiumInterface {
 
+    fun setTextAppearance(context: Context, textViewArrayList: ArrayList<AppCompatTextView>,
+                          textStylePref: String?,
+                          textFontPref: String?, textSizePref: String?) {
+
+        val isPremium = PremiumInterface.isPremium
+
+        textViewArrayList.forEach {
+            setTextSize(context, it, textSizePref)
+            val fontFamily = setTextFont(it.context, if(isPremium) textFontPref else "6")
+            it.typeface = setTextStyle(it, textStylePref, fontFamily)
+        }
+    }
+
     fun setTextAppearance(context: Context, textView: AppCompatTextView, textStylePref: String?,
                           textFontPref: String?, textSizePref: String?) {
 

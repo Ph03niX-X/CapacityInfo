@@ -57,28 +57,24 @@ object HistoryHelper {
                         val isHistoryNotEmpty = isHistoryNotEmpty(context)
                         clearHistoryToolbarMenu.isVisible = isHistoryNotEmpty
                         if(!isHistoryNotEmpty) {
-                            HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
-                                View.GONE
-                            HistoryFragment.instance?.binding?.refreshHistory?.visibility =
-                                View.GONE
-                            HistoryFragment.instance?.binding?.refreshEmptyHistory?.visibility =
-                                View.VISIBLE
-                            HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
-                                View.VISIBLE
-                            HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                                context.resources.getText(R.string.empty_history_text)
+                            HistoryFragment.instance?.binding?.apply {
+                                historyRecyclerView.visibility = View.GONE
+                                refreshHistory.visibility = View.GONE
+                                refreshEmptyHistory.visibility = View.VISIBLE
+                                emptyHistoryLayout.visibility = View.VISIBLE
+                                emptyHistoryText.text =
+                                    context.resources.getText(R.string.empty_history_text)
+                            }
                             Toast.makeText(context, context.getString(
                                 R.string.history_cleared_successfully), Toast.LENGTH_LONG).show()
                         }
                         else {
-                            HistoryFragment.instance?.binding?.refreshEmptyHistory?.visibility =
-                                View.GONE
-                            HistoryFragment.instance?.binding?.refreshHistory?.visibility =
-                                View.VISIBLE
-                            HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
-                                View.GONE
-                            HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
-                                View.VISIBLE
+                            HistoryFragment.instance?.binding?.apply {
+                                refreshEmptyHistory.visibility = View.GONE
+                                refreshHistory.visibility = View.VISIBLE
+                                emptyHistoryLayout.visibility = View.GONE
+                                historyRecyclerView.visibility = View.VISIBLE
+                            }
                             HistoryAdapter.instance?.update(context)
                             Toast.makeText(context, context.getString(R.string
                                 .error_clearing_history), Toast.LENGTH_LONG).show()

@@ -189,18 +189,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             if(isEnabled)
                 setOnPreferenceClickListener {
-                    mainActivity?.fragment = BatteryStatusInformationFragment()
-
-                    mainActivity?.toolbar?.title = requireContext().getString(
-                        R.string.battery_status_information)
-
-                    mainActivity?.toolbar?.navigationIcon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
-
-                    mainActivity?.loadFragment(
-                        mainActivity?.fragment ?: BatteryStatusInformationFragment(),
-                        true)
-
+                    mainActivity?.apply {
+                        fragment = BatteryStatusInformationFragment()
+                        toolbar.title = requireContext().getString(
+                            R.string.battery_status_information)
+                        toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                            R.drawable.ic_arrow_back_24dp)
+                        loadFragment(fragment ?: BatteryStatusInformationFragment(),
+                            true)
+                    }
+                    
                     true
                 }
         }
@@ -336,17 +334,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             if(isEnabled)
                 setOnPreferenceClickListener {
-                    mainActivity?.fragment = BackupSettingsFragment()
-
-                    mainActivity?.toolbar?.title = requireContext().getString(
-                        R.string.backup)
-
-                    mainActivity?.toolbar?.navigationIcon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
-
-                    mainActivity?.loadFragment(
-                        mainActivity?.fragment ?: BackupSettingsFragment(), true)
-
+                    mainActivity?.apply {
+                        fragment = BackupSettingsFragment()
+                        toolbar.title = requireContext().getString(R.string.backup)
+                        toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                            R.drawable.ic_arrow_back_24dp)
+                        loadFragment(fragment ?: BackupSettingsFragment(), 
+                            true)
+                    }
                     true
                 }
         }
@@ -531,17 +526,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
             if(isEnabled)
                 setOnPreferenceClickListener {
-                    mainActivity?.fragment = OverlayFragment()
-
-                    mainActivity?.toolbar?.title = requireContext().getString(
-                        R.string.overlay)
-
-                    mainActivity?.toolbar?.navigationIcon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
-
-                    mainActivity?.loadFragment(
-                        mainActivity?.fragment ?: OverlayFragment(), true)
-
+                    mainActivity?.apply {
+                        fragment = OverlayFragment()
+                        toolbar.title = requireContext().getString(R.string.overlay)
+                        toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                            R.drawable.ic_arrow_back_24dp)
+                        loadFragment(fragment ?: OverlayFragment(), true)
+                    }
                     true
                 }
         }
@@ -633,17 +624,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         debug?.setOnPreferenceClickListener {
-
-            mainActivity?.fragment = DebugFragment()
-
-            mainActivity?.toolbar?.title = requireContext().getString(R.string.debug)
-
-            mainActivity?.toolbar?.navigationIcon = ContextCompat.getDrawable(requireContext(),
-                R.drawable.ic_arrow_back_24dp)
-
-            mainActivity?.loadFragment(mainActivity?.fragment ?: DebugFragment(),
-                true)
-
+            mainActivity?.apply {
+                fragment = DebugFragment()
+                toolbar.title = requireContext().getString(R.string.debug)
+                toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                    R.drawable.ic_arrow_back_24dp)
+                loadFragment(fragment ?: DebugFragment(), true)
+            }
             true
         }
 
@@ -653,34 +640,24 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         feedback = findPreference("feedback")
 
         about?.setOnPreferenceClickListener {
-
-            mainActivity?.fragment = AboutFragment()
-
-            mainActivity?.toolbar?.title = requireContext().getString(
-                R.string.about)
-
-            mainActivity?.toolbar?.navigationIcon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
-
-            mainActivity?.loadFragment(
-                mainActivity?.fragment ?: AboutFragment(), true)
-
+            mainActivity?.apply {
+                fragment = AboutFragment()
+                toolbar.title = requireContext().getString(R.string.about)
+                toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                    R.drawable.ic_arrow_back_24dp)
+                loadFragment(fragment ?: AboutFragment(), true)
+            }
             true
         }
 
         feedback?.setOnPreferenceClickListener {
-
-            mainActivity?.fragment = FeedbackFragment()
-
-            mainActivity?.toolbar?.title = requireContext().getString(
-                R.string.feedback)
-
-            mainActivity?.toolbar?.navigationIcon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_24dp)
-
-            mainActivity?.loadFragment(
-                mainActivity?.fragment ?: FeedbackFragment(), true)
-
+            mainActivity?.apply {
+                fragment = FeedbackFragment()
+                toolbar.title = requireContext().getString(R.string.feedback)
+                toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                    R.drawable.ic_arrow_back_24dp)
+                loadFragment(fragment ?: FeedbackFragment(), true)
+            }
             true
         }
     }

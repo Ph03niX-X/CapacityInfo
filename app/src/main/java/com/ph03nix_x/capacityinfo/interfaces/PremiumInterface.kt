@@ -194,19 +194,18 @@ interface PremiumInterface: PurchasesUpdatedListener {
         val historyFragment = HistoryFragment.instance
         val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
         mainActivity?.toolbar?.menu?.apply {
-            findItem(R.id.premium)?.isVisible = false
-            findItem(R.id.history_premium)?.isVisible = false
-            findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
+            findItem(R.id.premium).isVisible = false
+            findItem(R.id.history_premium).isVisible = false
+            findItem(R.id.clear_history).isVisible = isHistoryNotEmpty
         }
         historyFragment?.binding?.apply {
             refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
             emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
             historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+            refreshHistory.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+            emptyHistoryText.text = if(!isHistoryNotEmpty)
+                context.resources?.getText(R.string.empty_history_text) else null
         }
-        historyFragment?.binding?.refreshHistory?.visibility = if(!isHistoryNotEmpty) View.GONE
-        else View.VISIBLE
-        HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-            if(!isHistoryNotEmpty) context.resources?.getText(R.string.empty_history_text) else null
     }
 
     fun MainActivity.showPremiumDialog() {
@@ -263,15 +262,12 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     fun purchasePremium() {
-
         if(!mProductDetailsList.isNullOrEmpty()) {
             val productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams
                 .newBuilder().setProductDetails(mProductDetailsList!![0]).build())
-
             val billingFlowParams = BillingFlowParams.newBuilder()
                 .setProductDetailsParamsList(productDetailsParamsList)
                 .build()
-
             billingClient?.launchBillingFlow(premiumActivity!!, billingFlowParams)
         }
     }

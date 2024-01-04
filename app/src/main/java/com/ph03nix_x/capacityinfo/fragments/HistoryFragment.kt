@@ -57,27 +57,33 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
         val historyDB = HistoryDB(requireContext())
 
         if(PremiumInterface.isPremium && historyDB.getCount() > 0) {
-            binding?.emptyHistoryLayout?.visibility = View.GONE
-            binding?.refreshEmptyHistory?.visibility = View.GONE
-            binding?.historyRecyclerView?.visibility = View.VISIBLE
-            binding?.refreshHistory?.visibility = View.VISIBLE
-            historyAdapter = HistoryAdapter(historyDB.readDB())
-            binding?.historyRecyclerView?.setItemViewCacheSize(historyAdapter.itemCount)
-            binding?.historyRecyclerView?.adapter = historyAdapter
+            binding?.apply {
+                emptyHistoryLayout.visibility = View.GONE
+                refreshEmptyHistory.visibility = View.GONE
+                historyRecyclerView.visibility = View.VISIBLE
+                refreshHistory.visibility = View.VISIBLE
+                historyAdapter = HistoryAdapter(historyDB.readDB())
+                historyRecyclerView.setItemViewCacheSize(historyAdapter.itemCount)
+                historyRecyclerView.adapter = historyAdapter
+            }
         }
         else if(PremiumInterface.isPremium) {
-            binding?.historyRecyclerView?.visibility = View.GONE
-            binding?.refreshEmptyHistory?.visibility = View.VISIBLE
-            binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-            binding?.refreshHistory?.visibility = View.GONE
-            binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
+            binding?.apply {
+                historyRecyclerView.visibility = View.GONE
+                refreshEmptyHistory.visibility = View.VISIBLE
+                emptyHistoryLayout.visibility = View.VISIBLE
+                refreshHistory.visibility = View.GONE
+                emptyHistoryText.text = resources.getText(R.string.empty_history_text)
+            }
         }
         else {
-            binding?.historyRecyclerView?.visibility = View.GONE
-            binding?.refreshEmptyHistory?.visibility = View.VISIBLE
-            binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-            binding?.refreshHistory?.visibility = View.GONE
-            binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
+            binding?.apply {
+                historyRecyclerView.visibility = View.GONE
+                refreshEmptyHistory.visibility = View.VISIBLE
+                emptyHistoryLayout.visibility = View.VISIBLE
+                refreshHistory.visibility = View.GONE
+                emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
+            }
         }
 
         if(PremiumInterface.isPremium) swipeToRemoveHistory()
@@ -91,35 +97,43 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
         super.onResume()
         val historyDB = HistoryDB(requireContext())
         if(PremiumInterface.isPremium && HistoryHelper.getHistoryCount(requireContext()) > 0) {
-            binding?.refreshEmptyHistory?.visibility = View.GONE
-            binding?.emptyHistoryLayout?.visibility = View.GONE
-            binding?.historyRecyclerView?.visibility = View.VISIBLE
-            binding?.refreshHistory?.visibility = View.VISIBLE
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                ?.isVisible = false
-            MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                ?.isVisible = true
+            binding?.apply {
+                refreshEmptyHistory.visibility = View.GONE
+                emptyHistoryLayout.visibility = View.GONE
+                historyRecyclerView.visibility = View.VISIBLE
+                refreshHistory.visibility = View.VISIBLE
+            }
+            MainActivity.instance?.toolbar?.menu?.apply {
+                findItem(R.id.history_premium).isVisible = false
+                findItem(R.id.clear_history).isVisible = true
+            }
             if(HistoryHelper.getHistoryCount(requireContext()) == 1L) {
                 historyAdapter = HistoryAdapter(historyDB.readDB())
-                binding?.historyRecyclerView?.setItemViewCacheSize(historyAdapter.itemCount)
-                binding?.historyRecyclerView?.adapter = historyAdapter
+                binding?.historyRecyclerView?.apply {
+                    setItemViewCacheSize(historyAdapter.itemCount)
+                    adapter = historyAdapter
+                }
             }
             else historyAdapter.update(requireContext())
 
         }
         else if(PremiumInterface.isPremium) {
-            binding?.historyRecyclerView?.visibility = View.GONE
-            binding?.refreshEmptyHistory?.visibility = View.VISIBLE
-            binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-            binding?.refreshHistory?.visibility = View.GONE
-            binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
+            binding?.apply {
+                historyRecyclerView.visibility = View.GONE
+                refreshEmptyHistory.visibility = View.VISIBLE
+                emptyHistoryLayout.visibility = View.VISIBLE
+                refreshHistory.visibility = View.GONE
+                emptyHistoryText.text = resources.getText(R.string.empty_history_text)
+            }
         }
         else {
-            binding?.historyRecyclerView?.visibility = View.GONE
-            binding?.refreshEmptyHistory?.visibility = View.VISIBLE
-            binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-            binding?.refreshHistory?.visibility = View.GONE
-            binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
+            binding?.apply {
+                historyRecyclerView.visibility = View.GONE
+                refreshEmptyHistory.visibility = View.VISIBLE
+                emptyHistoryLayout.visibility = View.VISIBLE
+                refreshHistory.visibility = View.GONE
+                emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
+            }
         }
     }
 
@@ -188,84 +202,91 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
         }).attachToRecyclerView(binding?.historyRecyclerView)
 
     private fun refreshEmptyHistory() {
-        binding?.refreshEmptyHistory?.apply {
-            setColorSchemeColors(ContextCompat.getColor(requireContext(),
-                R.color.swipe_refresh_layout_progress))
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
-                R.color.swipe_refresh_layout_progress_background))
-            setOnRefreshListener {
-                isRefreshing = true
-                if(PremiumInterface.isPremium && HistoryHelper.isHistoryNotEmpty(requireContext())) {
-                    historyAdapter.update(requireContext())
-                    visibility = View.GONE
-                    binding?.refreshHistory?.visibility = View.VISIBLE
-                    binding?.emptyHistoryLayout?.visibility = View.GONE
-                    binding?.historyRecyclerView?.visibility = View.VISIBLE
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                        ?.isVisible = false
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                        ?.isVisible = true
+        binding?.apply {
+            refreshEmptyHistory.apply {
+                setColorSchemeColors(ContextCompat.getColor(requireContext(),
+                    R.color.swipe_refresh_layout_progress))
+                setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
+                    R.color.swipe_refresh_layout_progress_background))
+                setOnRefreshListener {
+                    isRefreshing = true
+                    if(PremiumInterface.isPremium &&
+                        HistoryHelper.isHistoryNotEmpty(requireContext())) {
+                        historyAdapter.update(requireContext())
+                        visibility = View.GONE
+                        refreshHistory.visibility = View.VISIBLE
+                        emptyHistoryLayout.visibility = View.GONE
+                        historyRecyclerView.visibility = View.VISIBLE
+                        MainActivity.instance?.toolbar?.menu?.apply {
+                            findItem(R.id.history_premium).isVisible = false
+                            findItem(R.id.clear_history).isVisible = true
+                        }
+                    }
+                    else if(PremiumInterface.isPremium) {
+                        historyRecyclerView.visibility = View.GONE
+                        visibility = View.VISIBLE
+                        refreshHistory.visibility = View.GONE
+                        emptyHistoryLayout.visibility = View.VISIBLE
+                        emptyHistoryText.text = resources.getText(R.string.empty_history_text)
+                        MainActivity.instance?.clearMenu()
+                    }
+                    else {
+                        historyRecyclerView.visibility = View.GONE
+                        visibility = View.VISIBLE
+                        refreshHistory.visibility = View.GONE
+                        emptyHistoryLayout.visibility = View.VISIBLE
+                        emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
+                        MainActivity.instance?.toolbar?.menu?.apply {
+                            findItem(R.id.history_premium).isVisible = true
+                            findItem(R.id.clear_history).isVisible = false
+                        }
+                    }
+                    isRefreshing = false
                 }
-                else if(PremiumInterface.isPremium) {
-                    binding?.historyRecyclerView?.visibility = View.GONE
-                    visibility = View.VISIBLE
-                    binding?.refreshHistory?.visibility = View.GONE
-                    binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-                    binding?.emptyHistoryText?.text = resources.getText(R.string.empty_history_text)
-                    MainActivity.instance?.clearMenu()
-                }
-                else {
-                    binding?.historyRecyclerView?.visibility = View.GONE
-                    visibility = View.VISIBLE
-                    binding?.refreshHistory?.visibility = View.GONE
-                    binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-                    binding?.emptyHistoryText?.text = resources.getText(R.string.history_premium_feature)
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                        ?.isVisible = true
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                        ?.isVisible = false
-                }
-                isRefreshing = false
             }
         }
     }
 
     private fun refreshHistory() {
-        binding?.refreshHistory?.apply {
-            setColorSchemeColors(ContextCompat.getColor(requireContext(),
-                R.color.swipe_refresh_layout_progress))
-            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
-                R.color.swipe_refresh_layout_progress_background))
-            setOnRefreshListener {
-                isRefreshing = true
-                if(PremiumInterface.isPremium && HistoryHelper.isHistoryNotEmpty(requireContext())) {
-                    historyAdapter.update(requireContext())
-                    binding?.refreshEmptyHistory?.visibility = View.GONE
-                    visibility = View.VISIBLE
-                    binding?.emptyHistoryLayout?.visibility = View.GONE
-                    binding?.historyRecyclerView?.visibility = View.VISIBLE
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                        ?.isVisible = false
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                        ?.isVisible = true
+        binding?.apply {
+            binding?.refreshHistory?.apply {
+                setColorSchemeColors(ContextCompat.getColor(requireContext(),
+                    R.color.swipe_refresh_layout_progress))
+                setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(),
+                    R.color.swipe_refresh_layout_progress_background))
+                setOnRefreshListener {
+                    isRefreshing = true
+                    if(PremiumInterface.isPremium &&
+                        HistoryHelper.isHistoryNotEmpty(requireContext())) {
+                        historyAdapter.update(requireContext())
+                        refreshEmptyHistory.visibility = View.GONE
+                        visibility = View.VISIBLE
+                        emptyHistoryLayout.visibility = View.GONE
+                        historyRecyclerView.visibility = View.VISIBLE
+                        MainActivity.instance?.toolbar?.menu?.apply {
+                            findItem(R.id.history_premium).isVisible = false
+                            findItem(R.id.clear_history).isVisible = true
+                        }
+                    }
+                    else emptyHistory()
+                    isRefreshing = false
                 }
-                else emptyHistory()
-                isRefreshing = false
             }
         }
     }
 
     fun emptyHistory() {
-        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-            ?.isVisible = false
-        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-            ?.isVisible = false
-        binding?.historyRecyclerView?.visibility = View.GONE
-        binding?.refreshHistory?.visibility = View.GONE
-        binding?.refreshEmptyHistory?.visibility = View.VISIBLE
-        binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-        binding?.emptyHistoryText?.text = getText(
-            if(PremiumInterface.isPremium) R.string.empty_history_text
-            else R.string.history_premium_feature)
+        MainActivity.instance?.toolbar?.menu?.apply {
+            findItem(R.id.history_premium).isVisible = false
+            findItem(R.id.clear_history).isVisible = false
+        }
+        binding?.apply {
+            historyRecyclerView.visibility = View.GONE
+            refreshHistory.visibility = View.GONE
+            refreshEmptyHistory.visibility = View.VISIBLE
+            emptyHistoryLayout.visibility = View.VISIBLE
+            emptyHistoryText.text = getText(if(PremiumInterface.isPremium)
+                R.string.empty_history_text else R.string.history_premium_feature)
+        }
     }
 }

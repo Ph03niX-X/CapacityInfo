@@ -23,7 +23,6 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {}
 
     fun insertData(history: History) {
-
         val db = writableDatabase
         val cv = ContentValues()
         cv.put(DATE, history.date)
@@ -33,7 +32,6 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
     }
 
     fun readDB(): MutableList<History> {
-
         val historyList: MutableList<History> = mutableListOf()
         val db = readableDatabase
         val query = "Select * from $DB_TITLE"
@@ -41,10 +39,11 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
         if (cursor.moveToFirst()) {
             do {
                 val history = History()
-                history.id = cursor.getString(cursor.getColumnIndexOrThrow(ID)).toInt()
-                history.date = cursor.getString(cursor.getColumnIndexOrThrow(DATE))
-                history.residualCapacity =
-                    cursor.getInt(cursor.getColumnIndexOrThrow(RESIDUAL_CAPACITY))
+                history.apply {
+                    id = cursor.getString(cursor.getColumnIndexOrThrow(ID)).toInt()
+                    date = cursor.getString(cursor.getColumnIndexOrThrow(DATE))
+                    residualCapacity = cursor.getInt(cursor.getColumnIndexOrThrow(RESIDUAL_CAPACITY))
+                }
                 historyList.add(history)
             } while (cursor.moveToNext())
         }
@@ -54,10 +53,11 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
     }
 
     fun clear() {
-
         val db = writableDatabase
-        db.delete(DB_TITLE, null, null)
-        db.close()
+        db.apply {
+            delete(DB_TITLE, null, null)
+            close()
+        }
     }
 
     fun removeFirstRow() {
@@ -69,7 +69,6 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
             val rowId: String = cursor.getString(cursor.getColumnIndexOrThrow(ID))
             db.delete(DB_TITLE, "$ID=?", arrayOf(rowId))
         }
-
         cursor.close()
         db.close()
     }
@@ -82,7 +81,6 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
     }
 
     fun remove(residualCapacity: Int) {
-
         val id = getId(residualCapacity)
         val db = writableDatabase
         val query = "Select * from $DB_TITLE"
@@ -93,12 +91,9 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
     }
 
     private fun getId(residualCapacity: Int): Int {
-
         val sqLiteDatabase = readableDatabase
         val cursor = sqLiteDatabase.rawQuery("Select * from $DB_TITLE", null)
-
         var currentId = -1
-
         if (cursor.moveToFirst()) {
            do {
                 if(cursor.getInt(cursor.getColumnIndexOrThrow(RESIDUAL_CAPACITY)) ==

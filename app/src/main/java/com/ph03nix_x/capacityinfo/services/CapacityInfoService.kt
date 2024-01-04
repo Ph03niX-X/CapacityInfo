@@ -233,19 +233,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     val temperature = getTemperatureInCelsius(applicationContext)
 
                     if(!isPluggedOrUnplugged) {
-
-                        BatteryInfoInterface.maximumTemperature =
-                            getMaximumTemperature(applicationContext,
-                                BatteryInfoInterface.maximumTemperature)
-
-                        BatteryInfoInterface.minimumTemperature =
-                            getMinimumTemperature(applicationContext,
-                                BatteryInfoInterface.minimumTemperature)
-
-                        BatteryInfoInterface.averageTemperature = getAverageTemperature(
-                            applicationContext,
-                            BatteryInfoInterface.maximumTemperature,
-                            BatteryInfoInterface.minimumTemperature)
+                        BatteryInfoInterface.apply {
+                            maximumTemperature = getMaximumTemperature(applicationContext,
+                                maximumTemperature)
+                            minimumTemperature = getMinimumTemperature(applicationContext,
+                                minimumTemperature)
+                            averageTemperature = getAverageTemperature(applicationContext,
+                                maximumTemperature, minimumTemperature)
+                        }
                     }
 
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
@@ -364,42 +359,36 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 DateHelper.getDate(DateHelper.getCurrentDay(), DateHelper.getCurrentMonth(),
                     DateHelper.getCurrentYear()), pref.getInt(RESIDUAL_CAPACITY, 0))
         }
-
-        BatteryInfoInterface.batteryLevel = 0
-        BatteryInfoInterface.tempBatteryLevel = 0
-
+        BatteryInfoInterface.apply {
+            this.batteryLevel = 0
+            tempBatteryLevel = 0
+        }
         if(isStopService)
             Toast.makeText(applicationContext, R.string.service_stopped_successfully,
                 Toast.LENGTH_LONG).show()
-
-        ServiceHelper.cancelJob(applicationContext, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-        ServiceHelper.cancelJob(applicationContext, CHECK_PREMIUM_JOB_ID)
-
+        ServiceHelper.apply {
+            cancelJob(applicationContext, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+            cancelJob(applicationContext, CHECK_PREMIUM_JOB_ID)
+        }
         wakeLockRelease()
-
         super.onDestroy()
     }
 
     private suspend fun batteryCharging() {
-
         val batteryLevel = getBatteryLevel(applicationContext) ?: 0
-
         withContext(Dispatchers.Main) {
-
             val mainActivity = MainActivity.instance
             val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
                 R.id.charge_discharge_navigation)
-
-            if(mainActivity?.fragment is ChargeDischargeFragment)
-                mainActivity.toolbar.title = getString(R.string.charge)
-
-            chargeDischargeNavigation?.title = getString(R.string.charge)
-            chargeDischargeNavigation?.icon =
-                mainActivity?.getChargeDischargeNavigationIcon(true)?.let {
-                ContextCompat.getDrawable(mainActivity, it)
+            mainActivity?.apply {
+                if(fragment is ChargeDischargeFragment) toolbar.title = getString(R.string.charge)
+            }
+            chargeDischargeNavigation?.apply {
+                title = getString(R.string.charge)
+                icon = ContextCompat.getDrawable(applicationContext,
+                    mainActivity.getChargeDischargeNavigationIcon(true))
             }
         }
-
         if(batteryLevel == 100) {
             if(secondsFullCharge >= 3600) batteryCharged()
             currentCapacity = (getCurrentCapacity(applicationContext) * if(pref.getString(
@@ -407,10 +396,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 1000.0 else 100.0).toInt()
             secondsFullCharge++
         }
-
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
-
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged)) &&
             (getBatteryLevel(applicationContext) ?: 0) ==
@@ -419,7 +406,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                 onNotifyBatteryCharged(applicationContext)
             }
-
         if(displayManager != null)
             for(display in displayManager.displays)
                 if(display.state == Display.STATE_ON)
@@ -427,9 +413,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         0.948.seconds else 0.954.seconds)
                 else delay(if(getCurrentCapacity(applicationContext) > 0.0)
                     0.937.seconds else 0.934.seconds)
-
         seconds++
-
         withContext(Dispatchers.Main) {
             try {
                 onUpdateServiceNotification(applicationContext)
@@ -440,21 +424,19 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     private suspend fun batteryCharged() {
-
         withContext(Dispatchers.Main) {
             val mainActivity = MainActivity.instance
             val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
                 R.id.charge_discharge_navigation)
-
-            if(mainActivity?.fragment is ChargeDischargeFragment)
-                mainActivity.toolbar.title = getString(R.string.discharge)
-
-            chargeDischargeNavigation?.title = getString(R.string.discharge)
-            chargeDischargeNavigation?.icon =
-                mainActivity?.getChargeDischargeNavigationIcon(false)?.let {
-                    ContextCompat.getDrawable(mainActivity, it)
-                }
-
+            mainActivity?.apply {
+                if(fragment is ChargeDischargeFragment)
+                    toolbar.title = getString(R.string.discharge)
+            }
+            chargeDischargeNavigation?.apply {
+                title = getString(R.string.discharge)
+                icon =  ContextCompat.getDrawable(applicationContext,
+                    mainActivity.getChargeDischargeNavigationIcon(false))
+            }
             val fullChargeReminderFrequency = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
                 "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")?.toInt()
             ServiceHelper.jobSchedule(applicationContext,
@@ -463,23 +445,18 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     .getInteger(R.integer.full_charge_reminder_frequency_default).minutes
                     .inWholeMilliseconds)
         }
-
         isFull = true
-
         if(currentCapacity == 0)
             currentCapacity = (getCurrentCapacity(applicationContext) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
             else 100.0).toInt()
-
         val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
             R.integer.min_design_capacity)).toDouble() * if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
         else 100.0
-
         val residualCapacityCurrent = if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                 "μAh") == "μAh") pref.getInt(RESIDUAL_CAPACITY, 0) / 1000
         else pref.getInt(RESIDUAL_CAPACITY, 0) / 100
-
         val residualCapacity =
             if(residualCapacityCurrent in 1..maxChargeCurrent ||
                 isTurboCharge(applicationContext) || pref.getBoolean(
@@ -487,26 +464,19 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     (currentCapacity.toDouble() +
                             ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
-
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
-
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_fully_charged)))
             withContext(Dispatchers.Main) {
-
                 onNotifyBatteryFullyCharged(applicationContext)
             }
-
         val batteryLevel = getBatteryLevel(applicationContext) ?: 0
-
         val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
                 batteryLevelWith / 100f)
-
         pref.edit().apply {
-
             val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
             if(seconds > 1) putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
             putInt(LAST_CHARGE_TIME, seconds)
@@ -516,12 +486,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             putLong(NUMBER_OF_FULL_CHARGES, pref.getLong(NUMBER_OF_FULL_CHARGES, 0) + 1)
             putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
             putInt(PERCENT_ADDED, percentAdded)
-
             if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
-
             apply()
         }
-
         withContext(Dispatchers.Main) {
             if(PremiumInterface.isPremium) {
                 if(residualCapacity > 0) {
@@ -531,66 +498,63 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
                     if(HistoryHelper.isHistoryNotEmpty(applicationContext)) {
                         val historyFragment = HistoryFragment.instance
-                        historyFragment?.binding?.refreshEmptyHistory?.visibility = View.GONE
-                        historyFragment?.binding?.emptyHistoryLayout?.visibility = View.GONE
-                        historyFragment?.binding?.historyRecyclerView?.visibility = View.VISIBLE
-                        historyFragment?.binding?.refreshHistory?.visibility = View.VISIBLE
-                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                            ?.isVisible = false
-                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                            ?.isVisible = true
-
+                        historyFragment?.binding?.apply {
+                            refreshEmptyHistory.visibility = View.GONE
+                            emptyHistoryLayout.visibility = View.GONE
+                            historyRecyclerView.visibility = View.VISIBLE
+                            refreshHistory.visibility = View.VISIBLE
+                        }
+                        MainActivity.instance?.toolbar?.menu?.apply {
+                            findItem(R.id.history_premium).isVisible = false
+                            findItem(R.id.clear_history).isVisible = true
+                        }
                         if(HistoryHelper.getHistoryCount(applicationContext) == 1L) {
                             val historyDB = withContext(Dispatchers.IO) {
                                 HistoryDB(applicationContext)
                             }
-                            historyFragment?.historyAdapter =
-                                HistoryAdapter(withContext(Dispatchers.IO) {
-                                historyDB.readDB()
-                            })
-                            historyFragment?.historyAdapter?.itemCount?.let {
-                                historyFragment.binding?.historyRecyclerView?.setItemViewCacheSize(
-                                    it
-                                )
+                            historyFragment?.apply {
+                                historyAdapter = HistoryAdapter(withContext(Dispatchers.IO) {
+                                        historyDB.readDB()
+                                    })
+                                binding?.apply {
+                                    historyRecyclerView.setItemViewCacheSize(historyAdapter.itemCount)
+                                    historyRecyclerView.adapter = historyAdapter
+                                }
                             }
-                            historyFragment?.binding?.historyRecyclerView?.adapter =
-                                historyFragment?.historyAdapter
                         }
-
                         else HistoryAdapter.instance?.update(applicationContext)
                     }
                     else {
-                        HistoryFragment.instance?.binding?.historyRecyclerView?.visibility =
-                            View.GONE
-                        HistoryFragment.instance?.binding?.refreshHistory?.visibility = View.GONE
-                        HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility =
-                            View.VISIBLE
-                        HistoryFragment.instance?.binding?.refreshEmptyHistory?.visibility =
-                            View.VISIBLE
-                        HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                            resources.getText(R.string.empty_history_text)
-                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                            ?.isVisible = false
-                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)
-                            ?.isVisible = false
+                        HistoryFragment.instance?.binding?.apply {
+                            historyRecyclerView.visibility = View.GONE
+                            refreshHistory.visibility = View.GONE
+                            emptyHistoryLayout.visibility = View.VISIBLE
+                            refreshEmptyHistory.visibility = View.VISIBLE
+                            emptyHistoryText.text = resources.getText(R.string.empty_history_text)
+                        }
+                        MainActivity.instance?.toolbar?.menu?.apply {
+                            findItem(R.id.history_premium).isVisible = false
+                            findItem(R.id.clear_history).isVisible = false
+                        }
                     }
+                    return@withContext
                 }
             }
             else {
-                HistoryFragment.instance?.binding?.historyRecyclerView?.visibility = View.GONE
-                HistoryFragment.instance?.binding?.refreshHistory?.visibility = View.GONE
-                HistoryFragment.instance?.binding?.emptyHistoryLayout?.visibility = View.VISIBLE
-                HistoryFragment.instance?.binding?.refreshEmptyHistory?.visibility = View.VISIBLE
-                HistoryFragment.instance?.binding?.emptyHistoryText?.text =
-                    resources.getText(R.string.history_premium_feature)
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.history_premium)
-                    ?.isVisible = true
-                MainActivity.instance?.toolbar?.menu?.findItem(R.id.clear_history)?.isVisible = false
+                HistoryFragment.instance?.binding?.apply {
+                    historyRecyclerView.visibility = View.GONE
+                    refreshHistory.visibility = View.GONE
+                    emptyHistoryLayout.visibility = View.VISIBLE
+                    refreshEmptyHistory.visibility = View.VISIBLE
+                    emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
+                }
+                MainActivity.instance?.toolbar?.menu?.apply {
+                    findItem(R.id.history_premium).isVisible = true
+                    findItem(R.id.clear_history).isVisible = false
+                }
             }
         }
-
         isSaveNumberOfCharges = false
-
         withContext(Dispatchers.Main) {
             try {
                 onUpdateServiceNotification(applicationContext)
@@ -601,7 +565,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
         }
     }
-
+    
     fun wakeLockRelease() {
         try {
             if(wakeLock?.isHeld == true) wakeLock?.release()

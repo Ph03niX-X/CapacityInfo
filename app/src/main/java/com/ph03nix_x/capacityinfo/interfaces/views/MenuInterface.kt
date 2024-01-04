@@ -15,7 +15,6 @@ import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
 
-
 /**
  * Created by Ph03niX-X on 21.06.2023
  * Ph03niX-X@outlook.com
@@ -24,93 +23,69 @@ import com.ph03nix_x.capacityinfo.utilities.Constants
 interface MenuInterface {
 
     fun MainActivity.inflateMenu() {
-
         if(fragment is HistoryFragment) {
-
-            toolbar.inflateMenu(R.menu.history_menu)
-
-            toolbar.menu.findItem(R.id.clear_history).apply {
-
-                isVisible = PremiumInterface.isPremium && HistoryHelper.isHistoryNotEmpty(
-                    this@inflateMenu)
-
-                setOnMenuItemClickListener {
-
-                    HistoryHelper.clearHistory(this@inflateMenu, this)
-
-                    true
+            with(toolbar) {
+                inflateMenu(R.menu.history_menu)
+                menu.findItem(R.id.clear_history).apply {
+                    isVisible = PremiumInterface.isPremium && HistoryHelper.isHistoryNotEmpty(
+                        this@inflateMenu)
+                    setOnMenuItemClickListener {
+                        HistoryHelper.clearHistory(this@inflateMenu, this)
+                        true
+                    }
                 }
-            }
-
-            toolbar.menu.findItem(R.id.history_premium).apply {
-                isVisible = !PremiumInterface.isPremium
-
-                setOnMenuItemClickListener {
-                    showPremiumDialog()
-
-                    true
-                }
+                menu.findItem(R.id.history_premium).apply {
+                    isVisible = !PremiumInterface.isPremium
+                    setOnMenuItemClickListener {
+                        showPremiumDialog()
+                        true
+                    }
+                }   
             }
         }
-
         else {
-
-            toolbar.inflateMenu(R.menu.main_menu)
-
-            toolbar.menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
-                this) > 0.0 && (fragment is ChargeDischargeFragment || fragment is WearFragment)
-
-            toolbar.menu.findItem(R.id.instruction).setOnMenuItemClickListener {
-
-                showInstruction()
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.faq).setOnMenuItemClickListener {
-
-                showFaq()
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.tips).setOnMenuItemClickListener {
-
-                MaterialAlertDialogBuilder(this).apply {
-
-                    setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
-                    setTitle(getString(R.string.tips_dialog_title))
-                    setMessage(getString(R.string.tip1) + getString(R.string.tip2)
-                            + getString(R.string.tip3) + getString(R.string.tip4))
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                    show()
-                }
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
-
-                try {
-
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONT_KILL_MY_APP_LINK)))
-                }
-                catch(e: ActivityNotFoundException) {
-
-                    Toast.makeText(this, e.message ?: e.toString(), Toast.LENGTH_LONG)
-                        .show()
-                }
-
-                true
-            }
-
-            toolbar.menu.findItem(R.id.premium).isVisible = !PremiumInterface.isPremium
-
-            if(!PremiumInterface.isPremium)
-                toolbar.menu.findItem(R.id.premium).setOnMenuItemClickListener {
-                    showPremiumDialog()
+            with(toolbar) {
+                inflateMenu(R.menu.main_menu)
+                menu.findItem(R.id.instruction).isVisible = getCurrentCapacity(
+                    this@inflateMenu) > 0.0 && (fragment is ChargeDischargeFragment
+                        || fragment is WearFragment)
+                menu.findItem(R.id.instruction).setOnMenuItemClickListener {
+                    showInstruction()
                     true
                 }
+                menu.findItem(R.id.faq).setOnMenuItemClickListener {
+                    showFaq()
+                    true
+                }
+                menu.findItem(R.id.tips).setOnMenuItemClickListener {
+                    MaterialAlertDialogBuilder(this@inflateMenu).apply {
+                        setIcon(R.drawable.ic_tips_for_extending_battery_life_24dp)
+                        setTitle(getString(R.string.tips_dialog_title))
+                        setMessage(getString(R.string.tip1) + getString(R.string.tip2)
+                                + getString(R.string.tip3) + getString(R.string.tip4))
+                        setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                        show()
+                    }
+                    true
+                }
+                menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW,
+                            Uri.parse(Constants.DONT_KILL_MY_APP_LINK)))
+                    }
+                    catch(e: ActivityNotFoundException) {
+                        Toast.makeText(this@inflateMenu, e.message ?: e.toString(),
+                            Toast.LENGTH_LONG).show()
+                    }
+                    true
+                }
+                menu.findItem(R.id.premium).isVisible = !PremiumInterface.isPremium
+                if(!PremiumInterface.isPremium)
+                    menu.findItem(R.id.premium).setOnMenuItemClickListener {
+                        showPremiumDialog()
+                        true
+                    }   
+            }
         }
     }
 
@@ -119,18 +94,14 @@ interface MenuInterface {
     fun MainActivity.showInstruction() {
 
         MaterialAlertDialogBuilder(this).apply {
-
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message)
                     + getString(R.string.instruction_message_enable_fast_charge_option)
                     + getString(R.string.instruction_message_do_not_kill_the_service)
                     + getString(R.string.instruction_message_dont_kill_my_app))
-
             setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-
             setCancelable(false)
-
             show()
         }
     }
@@ -140,7 +111,6 @@ interface MenuInterface {
             showFaqDialog = MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_faq_question_24dp)
                 setTitle(getString(R.string.faq))
-
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
                     setMessage(getString(R.string.faq_how_does_the_app_work)
                             + getString(R.string.faq_capacity_added)
@@ -153,7 +123,6 @@ interface MenuInterface {
                             + getString(R.string.faq_battery_wear_changes_when_charger_is_disconnected)
                             + getString(R.string.faq_battery_wear_not_change)
                             + getString(R.string.faq_with_each_charge_battery_wear_changes))
-
                 else setMessage(getString(R.string.faq_how_does_the_app_work)
                         + getString(R.string.faq_capacity_added)
                         + getString(R.string.faq_where_does_the_app_get_the_ccl)
