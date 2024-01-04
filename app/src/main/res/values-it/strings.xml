@@ -241,7 +241,7 @@
     <string name="error">Errore!</string>
     <string name="history_count">Conteggio della storia</string>
     <string name="get_premium">Ottieni Premium</string>
-    <string name="premium_dialog">Acquistando Premium, otterrai funzionalità aggiuntive dell\'app:\n\• Storia;\n\• Mostra informazioni sulla batteria;\n\• Interruzione del servizio;\n\• Interrompere il servizio quando il caricabatterie è scollegato;\n\• Informazioni sullo stato della batteria;\n\• Carattere del testo;\n\• Ripristina il tempo di utilizzo a qualsiasi livello di carica;\n\• Backup;\n\• Scheda all\'avvio dell\'applicazione;\n\• Sovrapposizione\n\• Capacità in Wh;\n\• Corrente di carica/scarica in Watt\n\nAcquistando Premium sostieni anche l\'ulteriore sviluppo dell\'app e l\'Ucraina nella guerra</string>
+    <string name="premium_dialog">Acquistando Premium, otterrai funzionalità aggiuntive dell\'app:\n\• Storia;\n\• Mostra informazioni sulla batteria;\n\• Mostra notifica estesa;\n\• Interruzione del servizio;\n\• Interrompere il servizio quando il caricabatterie è scollegato;\n\• Informazioni sullo stato della batteria;\n\• Carattere del testo;\n\• Ripristina il tempo di utilizzo a qualsiasi livello di carica;\n\• Backup;\n\• Scheda all\'avvio dell\'applicazione;\n\• Sovrapposizione\n\• Capacità in Wh;\n\• Corrente di carica/scarica in Watt\n\nAcquistando Premium sostieni anche l\'ulteriore sviluppo dell\'app e l\'Ucraina nella guerra</string>
     <string name="premium_feature">Funzionalità Premium</string>
     <string name="purchase_premium">Acquistare</string>
     <string name="premium_features_unlocked">Funzionalità premium sbloccate!</string>
