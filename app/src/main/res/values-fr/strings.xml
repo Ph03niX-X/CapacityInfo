@@ -118,7 +118,7 @@
     <string name="reset_to_zero_the_number_of_cycles">Remettre à zéro le nombre de cycles</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Remettre à zéro le nombre de cycles?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">Le nombre de cycles a été remis à zéro avec succès</string>
-    <string name="overlay">Recouvrir</string>
+    <string name="overlay">Superposition</string>
     <string name="enable_overlay">Activer la superposition</string>
     <string name="size">Taille</string>
     <string name="opacity">Opacité</string>
@@ -241,7 +241,7 @@
     <string name="error">Erreur!</string>
     <string name="history_count">Compte historique</string>
     <string name="get_premium">Obtenez une Premium</string>
-    <string name="premium_dialog">En achetant Premium, vous bénéficierez de fonctionnalités supplémentaires de l\'application:\n\• Histoire;\n\• Afficher les informations sur la batterie;\n\• Aire d\'autoroute;\n\• Arrêtez le service lorsque le chargeur est débranché;\n\• Informations sur l\'état de la batterie;\n\• Police du texte;\n\• Réinitialiser le temps d\'écran à n\'importe quel niveau de charge;\n\• Sauvegarde;\n\• Onglet sur le lancement de l\'application;\n\• Superposition\n\• Capacité en Wh;\n\• Courant de charge/décharge en watts\n\nEn achetant Premium, vous soutenez également le développement ultérieur de l\'application et de l\'Ukraine pendant la guerre</string>
+    <string name="premium_dialog">En achetant Premium, vous bénéficierez de fonctionnalités supplémentaires de l\'application:\n\• Histoire;\n\• Afficher les informations sur la batterie;\n\• Afficher la notification développée;\n\• Aire d\'autoroute;\n\• Arrêtez le service lorsque le chargeur est débranché;\n\• Informations sur l\'état de la batterie;\n\• Police du texte;\n\• Réinitialiser le temps d\'écran à n\'importe quel niveau de charge;\n\• Sauvegarde;\n\• Onglet sur le lancement de l\'application;\n\• Superposition\n\• Capacité en Wh;\n\• Courant de charge/décharge en watts\n\nEn achetant Premium, vous soutenez également le développement ultérieur de l\'application et de l\'Ukraine pendant la guerre</string>
     <string name="premium_feature">Fonctionnalité premium</string>
     <string name="purchase_premium">Achat</string>
     <string name="premium_features_unlocked">Fonctionnalités Premium débloquées!</string>
