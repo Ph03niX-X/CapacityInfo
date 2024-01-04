@@ -241,7 +241,7 @@
     <string name="error">Błąd!</string>
     <string name="history_count">Historia Liczenie</string>
     <string name="get_premium">Uzyskaj Premium</string>
-    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia;\n\• Pokaż informacje o baterii;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay;\n\• Pojemność w Wh;\n\• Prąd ładowania/rozładowania w watach\n\nKupując Premium, wspierasz również dalszy rozwój aplikacji i Ukrainy w wojnie</string>
+    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Historia;\n\• Pokaż informacje o baterii;\n\• Pokaż rozwinięte powiadomienie;\n\• Zatrzymaj Serwis;\n\• Zatrzymaj Serwis po odłączeniu ładowarki;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay;\n\• Pojemność w Wh;\n\• Prąd ładowania/rozładowania w watach\n\nKupując Premium, wspierasz również dalszy rozwój aplikacji i Ukrainy w wojnie</string>
     <string name="premium_feature">Funkcja Premium</string>
     <string name="purchase_premium">Zakup</string>
     <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
