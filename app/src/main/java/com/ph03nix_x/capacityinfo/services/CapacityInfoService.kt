@@ -159,11 +159,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 }
             }
 
-            applicationContext.registerReceiver(PluggedReceiver(), IntentFilter(
-                Intent.ACTION_POWER_CONNECTED))
-
-            applicationContext.registerReceiver(UnpluggedReceiver(), IntentFilter(
-                Intent.ACTION_POWER_DISCONNECTED))
+            registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
+            registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
             onCreateServiceNotification(this@CapacityInfoService)
         }
@@ -266,7 +263,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                                 R.bool.is_notify_battery_is_discharged)) && (getBatteryLevel(
-                                applicationContext) ?: 0) <= pref.getInt(
+                                this@CapacityInfoService) ?: 0) <= pref.getInt(
                                 BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))
                             withContext(Dispatchers.Main) {
 
