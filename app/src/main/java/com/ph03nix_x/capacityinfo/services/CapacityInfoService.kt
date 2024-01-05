@@ -271,26 +271,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             }
 
                         withContext(Dispatchers.Main) {
-                            try {
-                                onUpdateServiceNotification(applicationContext)
-                            }
-                            catch(_: RuntimeException) {
-                                delay(5.seconds)
-                                try {
-                                    onUpdateServiceNotification(applicationContext)
-                                }
-                                catch(_: NullPointerException) {
-                                    delay(2.5.seconds)
-                                    onUpdateServiceNotification(this@CapacityInfoService)
-                                }
-                            }
-                            catch(_: NullPointerException) {
-                                delay(2.5.seconds)
-                                onUpdateServiceNotification(this@CapacityInfoService)
-                            }
-                            finally {
-                                delay(1.495.seconds)
-                            }
+                            updateServiceNotification()
+                            delay(1.495.seconds)
                         }
                     }
                 }
@@ -387,6 +369,28 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         super.onDestroy()
     }
 
+    private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
+        try {
+            onUpdateServiceNotification(applicationContext)
+        }
+        catch(_: RuntimeException) {
+            try {
+                onUpdateServiceNotification(applicationContext)
+            }
+            catch(_: NullPointerException) {
+                onUpdateServiceNotification(this@CapacityInfoService)
+            }
+            finally {
+                if(isBatteryCharged) wakeLockRelease()
+            }
+        }
+        catch(_: NullPointerException) {
+            onUpdateServiceNotification(this@CapacityInfoService)
+        }
+        finally {
+            if(isBatteryCharged) wakeLockRelease()
+        }
+
     private suspend fun batteryCharging() {
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
         withContext(Dispatchers.Main) {
@@ -428,23 +432,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     0.937.seconds else 0.934.seconds)
         seconds++
         withContext(Dispatchers.Main) {
-            try {
-                onUpdateServiceNotification(applicationContext)
-            }
-            catch(_: RuntimeException) {
-                delay(5.seconds)
-                try {
-                    onUpdateServiceNotification(applicationContext)
-                }
-                catch(_: NullPointerException) {
-                    delay(2.5.seconds)
-                    onUpdateServiceNotification(this@CapacityInfoService)
-                }
-            }
-            catch(_: NullPointerException) {
-                delay(2.5.seconds)
-                onUpdateServiceNotification(this@CapacityInfoService)
-            }
+            updateServiceNotification()
         }
     }
 
@@ -581,26 +569,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         isSaveNumberOfCharges = false
         withContext(Dispatchers.Main) {
-            try {
-                onUpdateServiceNotification(applicationContext)
-            }
-            catch(_: RuntimeException) {
-                delay(5.seconds)
-                try {
-                    onUpdateServiceNotification(applicationContext)
-                }
-                catch(_: NullPointerException) {
-                    delay(2.5.seconds)
-                    onUpdateServiceNotification(this@CapacityInfoService)
-                }
-            }
-            catch(_: NullPointerException) {
-                delay(2.5.seconds)
-                onUpdateServiceNotification(this@CapacityInfoService)
-            }
-            finally {
-                wakeLockRelease()
-            }
+            updateServiceNotification(true)
         }
     }
     
