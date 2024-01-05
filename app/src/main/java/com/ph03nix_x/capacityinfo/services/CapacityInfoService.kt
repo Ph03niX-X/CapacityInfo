@@ -272,10 +272,20 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
                         withContext(Dispatchers.Main) {
                             try {
-                                onUpdateServiceNotification(this@CapacityInfoService)
+                                onUpdateServiceNotification(applicationContext)
+                            }
+                            catch(_: RuntimeException) {
+                                delay(5.seconds)
+                                try {
+                                    onUpdateServiceNotification(applicationContext)
+                                }
+                                catch(_: NullPointerException) {
+                                    delay(2.5.seconds)
+                                    onUpdateServiceNotification(this@CapacityInfoService)
+                                }
                             }
                             catch(_: NullPointerException) {
-                                delay(5.seconds)
+                                delay(2.5.seconds)
                                 onUpdateServiceNotification(this@CapacityInfoService)
                             }
                             finally {
@@ -419,14 +429,20 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         seconds++
         withContext(Dispatchers.Main) {
             try {
-                onUpdateServiceNotification(this@CapacityInfoService)
+                onUpdateServiceNotification(applicationContext)
             }
             catch(_: RuntimeException) {
                 delay(5.seconds)
-                onUpdateServiceNotification(this@CapacityInfoService)
+                try {
+                    onUpdateServiceNotification(applicationContext)
+                }
+                catch(_: NullPointerException) {
+                    delay(2.5.seconds)
+                    onUpdateServiceNotification(this@CapacityInfoService)
+                }
             }
             catch(_: NullPointerException) {
-                delay(5.seconds)
+                delay(2.5.seconds)
                 onUpdateServiceNotification(this@CapacityInfoService)
             }
         }
@@ -566,10 +582,20 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         isSaveNumberOfCharges = false
         withContext(Dispatchers.Main) {
             try {
-                onUpdateServiceNotification(this@CapacityInfoService)
+                onUpdateServiceNotification(applicationContext)
+            }
+            catch(_: RuntimeException) {
+                delay(5.seconds)
+                try {
+                    onUpdateServiceNotification(applicationContext)
+                }
+                catch(_: NullPointerException) {
+                    delay(2.5.seconds)
+                    onUpdateServiceNotification(this@CapacityInfoService)
+                }
             }
             catch(_: NullPointerException) {
-                delay(5.seconds)
+                delay(2.5.seconds)
                 onUpdateServiceNotification(this@CapacityInfoService)
             }
             finally {
