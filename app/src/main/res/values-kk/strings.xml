@@ -300,7 +300,7 @@
     <string name="background_activity_control_xiaomi_dialog">Қолданбаның фондық режимде дұрыс жұмыс істеуі үшін келесі терезеге өтіп, \"Шектеу жоқ\" тармағын таңдаңыз</string>
     <string name="battery_health">Батарея денсаулығы: %1$s</string>
     <string name="battery_health_great">Тамаша</string>
-    <string name = "battery_health_very_good">Өте жақсы</string>
+    <string name="battery_health_very_good">Өте жақсы</string>
     <string name="battery_health_good">Жақсы</string>
     <string name="battery_health_bad">Нашар</string>
     <string name="battery_health_very_bad">Өте нашар</string>
@@ -316,8 +316,9 @@
     <string name="check_update">Жаңартуды тексеріңіз</string>
     <string name="update_not_found">Жаңарту табылмады!</string>
     <string name="overlay_location">Орналасқан жері</string>
-    <string name = "do_you_like_the_app">Сізге қолданба ұнай ма?</string>
+    <string name="do_you_like_the_app">Сізге қолданба ұнай ма?</string>
     <string name="premium_purchase_error">Premium сатып алу сәтсіз аяқталды!</string>
-    <string name = "install_the_app_from_gp">Қолданбаны Google Play дүкенінен орнату</string>
-    <string name ="ignoring_battery_optimizations_dialog_message">Қолданба дұрыс жұмыс істеуі үшін қолданбаның фондық режимде жұмыс істеуіне рұқсат беру керек</string>
+    <string name="install_the_app_from_gp">Қолданбаны Google Play дүкенінен орнату</string>
+    <string name="ignoring_battery_optimizations_dialog_message">Қолданба дұрыс жұмыс істеуі үшін қолданбаның фондық режимде жұмыс істеуіне рұқсат беру керек</string>
+    <string name="failed_open_security_miui">Қауіпсіздік қолданбасын ашу мүмкін емес! Don\'t kill my app сайтындағы нұсқауларды орындаңыз</string>
 </resources>
