@@ -373,19 +373,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         try {
             onUpdateServiceNotification(applicationContext)
         }
-        catch(_: RuntimeException) {
-            try {
-                onUpdateServiceNotification(applicationContext)
-            }
-            catch(_: NullPointerException) {
-                onUpdateServiceNotification(this@CapacityInfoService)
-            }
-            finally {
-                if(isBatteryCharged) wakeLockRelease()
-            }
-        }
-        catch(_: NullPointerException) {
-            onUpdateServiceNotification(this@CapacityInfoService)
+        catch(_: Exception) {
+            onUpdateServiceNotification(this)
         }
         finally {
             if(isBatteryCharged) wakeLockRelease()
