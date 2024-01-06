@@ -91,8 +91,7 @@ interface ManufacturerInterface {
                         startActivity(Intent().apply {
                             setClassName("com.miui.powerkeeper",
                                 "com.miui.powerkeeper.ui.HiddenAppsConfigActivity")
-                            putExtra("package_name",
-                                this@showXiaomiBackgroundActivityControlDialog.packageName)
+                            putExtra("package_name", packageName)
                             putExtra("package_label", getText(R.string.app_name))
                         })
                     }
