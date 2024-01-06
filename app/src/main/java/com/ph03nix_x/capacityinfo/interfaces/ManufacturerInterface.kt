@@ -2,11 +2,12 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
-import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import xyz.kumaraswamy.autostart.Autostart
 import xyz.kumaraswamy.autostart.Utils
 import java.util.Locale
@@ -60,10 +61,13 @@ interface ManufacturerInterface {
                         showXiaomiBackgroundActivityControlDialog()
                     }
                     catch (e: ActivityNotFoundException) {
-                        startActivity(Intent().setClassName("com.miui.securitycenter",
-                            "com.miui.permcenter.autostart.AutoStartManagementActivity"))
+                        try {
+                            startActivity(Intent().setClassName("com.miui.securitycenter",
+                                "com.miui.permcenter.autostart.AutoStartManagementActivity"))
 
-                        showXiaomiBackgroundActivityControlDialog()
+                            showXiaomiBackgroundActivityControlDialog()
+                        }
+                        catch (e: ActivityNotFoundException) { showFailedOpenSecurityMIUIDialog() }
                     }
                     finally {
                         showXiaomiAutostartDialog = null
@@ -92,14 +96,29 @@ interface ManufacturerInterface {
                             putExtra("package_label", getText(R.string.app_name))
                         })
                     }
-                    catch (e: ActivityNotFoundException) {
-                        Toast.makeText(this@showXiaomiBackgroundActivityControlDialog,
-                            e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-                    }
+                    catch (e: ActivityNotFoundException) { showFailedOpenSecurityMIUIDialog() }
                 }
                 show()
             }
         }
+    }
+
+    private fun MainActivity.showFailedOpenSecurityMIUIDialog() {
+        if(isXiaomi())
+            MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(R.string.error)
+                setMessage(R.string.failed_open_security_miui)
+                setPositiveButton(android.R.string.ok) { d, _ ->
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW,
+                            Uri.parse("${Constants.DONT_KILL_MY_APP_LINK}/xiaomi")))
+                    }
+                    catch (_: ActivityNotFoundException) { d.dismiss() }
+                }
+                setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+                show()
+            }
     }
 
     private fun MainActivity.showHuaweiInfo() {
