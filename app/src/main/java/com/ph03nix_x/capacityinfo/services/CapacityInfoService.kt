@@ -377,7 +377,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
         try { onUpdateServiceNotification(applicationContext) }
         catch(_: RemoteException) {}
-        catch(_: NullPointerException) { onUpdateServiceNotification(this) }
+        catch(_: NullPointerException) {
+            try {
+                onUpdateServiceNotification(this)
+            }
+            catch(_: RemoteException) {}
+        }
         finally { if(isBatteryCharged) wakeLockRelease() }
 
     private suspend fun batteryCharging() {
