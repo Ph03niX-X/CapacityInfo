@@ -28,6 +28,8 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
     private var github: Preference? = null
     private var betaTester: Preference? = null
 
+    private var isResume = false
+
     lateinit var pref: SharedPreferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -118,7 +120,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
             isVisible = isInstalledGooglePlay
             setOnPreferenceClickListener {
                 try {
-
                     startActivity(Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://play.google.com/apps/testing/${requireContext()
                             .packageName}")))
@@ -135,6 +136,6 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
 
     override fun onResume() {
         super.onResume()
-        betaTester?.isVisible = isInstalledGooglePlay
+        if(isResume) betaTester?.isVisible = isInstalledGooglePlay else isResume = true
     }
 }

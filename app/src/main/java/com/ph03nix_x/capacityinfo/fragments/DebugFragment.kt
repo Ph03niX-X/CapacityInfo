@@ -23,6 +23,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private lateinit var pref: SharedPreferences
 
+    private var isResume = false
+
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
@@ -405,34 +407,26 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     }
 
     override fun onResume() {
-
         super.onResume()
-
-        resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
-
-        addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-
-        historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
-
-        startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null && !ServiceHelper
-            .isStartedCapacityInfoService()
-
-        stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
-
-        restartCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
-
-        stopOverlayService?.isEnabled = OverlayService.instance != null
-
-        restartOverlayService?.isEnabled = OverlayService.instance != null
-
         if(!pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
                 .is_enabled_debug_options)))
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        else {
+            if(isResume) {
+                resetScreenTime?.isEnabled = (CapacityInfoService.instance?.screenTime ?: 0) > 0L
+                addCustomHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+                historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
+                startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null
+                        && !ServiceHelper.isStartedCapacityInfoService()
+                stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
+                restartCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
+                stopOverlayService?.isEnabled = OverlayService.instance != null
+                restartOverlayService?.isEnabled = OverlayService.instance != null
+            }
+            else isResume = true
+        }
     }
 }

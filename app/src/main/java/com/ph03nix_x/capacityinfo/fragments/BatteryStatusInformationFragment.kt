@@ -46,6 +46,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     private lateinit var pref: SharedPreferences
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
+    private var isResume = false
+
     private var batteryStatusInformationSettingsPrefCategory: PreferenceCategory? = null
     private var allowAllAppNotifications: Preference? = null
     private var notifyOverheatOvercool: SwitchPreferenceCompat? = null
@@ -328,70 +330,62 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
     }
 
     override fun onResume() {
-
         super.onResume()
+        if(isResume) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                batteryStatusInformationSettingsPrefCategory?.isEnabled = ContextCompat
+                    .checkSelfPermission(requireContext(),
+                        Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+                allowAllAppNotifications?.isVisible = ContextCompat
+                    .checkSelfPermission(requireContext(),
+                        Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED
+            }
+            fullChargeReminderFrequency?.apply {
+                isEnabled = notifyBatteryIsFullyCharged?.isChecked == true &&
+                        notifyFullChargeReminder?.isChecked == true
+                summary = getFullChargeReminderFrequencySummary()
+            }
+            overheatDegrees?.apply {
+                summary = getOverheatDegreesSummary()
+                isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                    R.bool.is_notify_overheat_overcool))
+            }
+            overcoolDegrees?.apply {
+                summary = getOvercoolDegreesSummary()
+                isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
+                    R.bool.is_notify_overheat_overcool))
+            }
+            notifyOverheatOvercool?.isChecked = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources
+                .getBoolean(R.bool.is_notify_overheat_overcool))
+            notifyBatteryIsFullyCharged?.isChecked =
+                pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
+                    resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
+            notifyFullChargeReminder?.apply {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                isChecked = pref.getBoolean(IS_NOTIFY_FULL_CHARGE_REMINDER,
+                    resources.getBoolean(R.bool.is_notify_full_charge_reminder_default_value))
 
-            batteryStatusInformationSettingsPrefCategory?.isEnabled = ContextCompat
-                .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_GRANTED
-            allowAllAppNotifications?.isVisible = ContextCompat
-                .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_DENIED
+                isEnabled = notifyBatteryIsFullyCharged?.isChecked == true
+            }
+            notifyBatteryIsCharged?.isChecked =
+                pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED,
+                    resources.getBoolean(R.bool.is_notify_battery_is_charged))
+            notifyBatteryIsDischarged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED,
+                resources.getBoolean(R.bool.is_notify_battery_is_discharged))
+            batteryLevelNotifyCharged?.apply {
+
+                summary = getBatteryLevelNotifyChargingSummary()
+                isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
+                    R.bool.is_notify_battery_is_charged))
+            }
+            batteryLevelNotifyDischarged?.apply {
+
+                summary = getBatteryLevelNotifyDischargeSummary()
+                isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
+                    R.bool.is_notify_battery_is_discharged))
+            }
         }
-
-        fullChargeReminderFrequency?.apply {
-            isEnabled = notifyBatteryIsFullyCharged?.isChecked == true &&
-                    notifyFullChargeReminder?.isChecked == true
-            summary = getFullChargeReminderFrequencySummary()
-        }
-
-        overheatDegrees?.apply {
-            summary = getOverheatDegreesSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
-                R.bool.is_notify_overheat_overcool))
-        }
-
-        overcoolDegrees?.apply {
-            summary = getOvercoolDegreesSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
-                R.bool.is_notify_overheat_overcool))
-        }
-
-        notifyOverheatOvercool?.isChecked = pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources
-            .getBoolean(R.bool.is_notify_overheat_overcool))
-
-        notifyBatteryIsFullyCharged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
-            resources.getBoolean(R.bool.is_notify_battery_is_fully_charged))
-
-        notifyFullChargeReminder?.apply {
-
-            isChecked = pref.getBoolean(IS_NOTIFY_FULL_CHARGE_REMINDER,
-                resources.getBoolean(R.bool.is_notify_full_charge_reminder_default_value))
-
-            isEnabled = notifyBatteryIsFullyCharged?.isChecked == true
-        }
-
-       notifyBatteryIsCharged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources
-           .getBoolean(R.bool.is_notify_battery_is_charged))
-
-        notifyBatteryIsDischarged?.isChecked = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED,
-            resources.getBoolean(R.bool.is_notify_battery_is_discharged))
-
-        batteryLevelNotifyCharged?.apply {
-
-            summary = getBatteryLevelNotifyChargingSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_charged))
-        }
-
-        batteryLevelNotifyDischarged?.apply {
-
-            summary = getBatteryLevelNotifyDischargeSummary()
-            isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_discharged))
-        }
+        else isResume = true
     }
 
     private fun getFullChargeReminderFrequencySummary(): String {

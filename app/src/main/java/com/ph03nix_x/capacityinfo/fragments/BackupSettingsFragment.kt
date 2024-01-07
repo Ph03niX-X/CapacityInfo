@@ -24,6 +24,8 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
     private var exportHistory: Preference? = null
     private var importHistory: Preference? = null
 
+    private var isResume = false
+
     private var requestCode = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -89,22 +91,22 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
             true
         }
 
-        exportHistory?.setOnPreferenceClickListener {
-
-            try {
-                requestCode = Constants.EXPORT_HISTORY_REQUEST_CODE
-                getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
+        exportHistory?.apply {
+            isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
+            setOnPreferenceClickListener {
+                try {
+                    requestCode = Constants.EXPORT_HISTORY_REQUEST_CODE
+                    getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
+                }
+                catch(e: ActivityNotFoundException) {
+                    Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
+                        .show()
+                }
+                true
             }
-            catch(e: ActivityNotFoundException) {
-                Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
-                    .show()
-            }
-
-            true
         }
 
         importHistory?.setOnPreferenceClickListener {
-
             try {
                 requestCode = Constants.IMPORT_HISTORY_REQUEST_CODE
                 getResult.launch(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -117,16 +119,14 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
                 Toast.makeText(requireContext(),e.message ?: e.toString(), Toast.LENGTH_LONG)
                     .show()
             }
-
             true
         }
 
     }
 
     override fun onResume() {
-
         super.onResume()
-
-        exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
+        if(isResume) exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
+        else isResume = true
     }
 }

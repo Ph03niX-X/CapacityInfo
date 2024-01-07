@@ -28,6 +28,8 @@ import kotlin.time.Duration.Companion.seconds
 
 class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
+    private var isResume = false
+
     private lateinit var pref: SharedPreferences
     lateinit var historyAdapter: HistoryAdapter
 
@@ -95,46 +97,49 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
     override fun onResume() {
         super.onResume()
-        val historyDB = HistoryDB(requireContext())
-        if(PremiumInterface.isPremium && HistoryHelper.getHistoryCount(requireContext()) > 0) {
-            binding?.apply {
-                refreshEmptyHistory.visibility = View.GONE
-                emptyHistoryLayout.visibility = View.GONE
-                historyRecyclerView.visibility = View.VISIBLE
-                refreshHistory.visibility = View.VISIBLE
+        if(isResume) {
+            val historyDB = HistoryDB(requireContext())
+            if(PremiumInterface.isPremium && HistoryHelper.getHistoryCount(requireContext()) > 0) {
+                binding?.apply {
+                    refreshEmptyHistory.visibility = View.GONE
+                    emptyHistoryLayout.visibility = View.GONE
+                    historyRecyclerView.visibility = View.VISIBLE
+                    refreshHistory.visibility = View.VISIBLE
+                }
+                MainActivity.instance?.toolbar?.menu?.apply {
+                    findItem(R.id.history_premium)?.isVisible = false
+                    findItem(R.id.clear_history)?.isVisible = true
+                }
+                if(HistoryHelper.getHistoryCount(requireContext()) == 1L) {
+                    historyAdapter = HistoryAdapter(historyDB.readDB())
+                    binding?.historyRecyclerView?.apply {
+                        setItemViewCacheSize(historyAdapter.itemCount)
+                        adapter = historyAdapter
+                    }
+                }
+                else historyAdapter.update(requireContext())
+
             }
-            MainActivity.instance?.toolbar?.menu?.apply {
-                findItem(R.id.history_premium)?.isVisible = false
-                findItem(R.id.clear_history)?.isVisible = true
-            }
-            if(HistoryHelper.getHistoryCount(requireContext()) == 1L) {
-                historyAdapter = HistoryAdapter(historyDB.readDB())
-                binding?.historyRecyclerView?.apply {
-                    setItemViewCacheSize(historyAdapter.itemCount)
-                    adapter = historyAdapter
+            else if(PremiumInterface.isPremium) {
+                binding?.apply {
+                    historyRecyclerView.visibility = View.GONE
+                    refreshEmptyHistory.visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.VISIBLE
+                    refreshHistory.visibility = View.GONE
+                    emptyHistoryText.text = resources.getText(R.string.empty_history_text)
                 }
             }
-            else historyAdapter.update(requireContext())
-
-        }
-        else if(PremiumInterface.isPremium) {
-            binding?.apply {
-                historyRecyclerView.visibility = View.GONE
-                refreshEmptyHistory.visibility = View.VISIBLE
-                emptyHistoryLayout.visibility = View.VISIBLE
-                refreshHistory.visibility = View.GONE
-                emptyHistoryText.text = resources.getText(R.string.empty_history_text)
+            else {
+                binding?.apply {
+                    historyRecyclerView.visibility = View.GONE
+                    refreshEmptyHistory.visibility = View.VISIBLE
+                    emptyHistoryLayout.visibility = View.VISIBLE
+                    refreshHistory.visibility = View.GONE
+                    emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
+                }
             }
         }
-        else {
-            binding?.apply {
-                historyRecyclerView.visibility = View.GONE
-                refreshEmptyHistory.visibility = View.VISIBLE
-                emptyHistoryLayout.visibility = View.VISIBLE
-                refreshHistory.visibility = View.GONE
-                emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
-            }
-        }
+        else isResume = true
     }
 
     override fun onDestroy() {

@@ -59,6 +59,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     private lateinit var pref: SharedPreferences
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
+    private var isResume = false
+
     private var dialogRequestOverlayPermission: MaterialAlertDialogBuilder? = null
 
     private var overlayScreen: PreferenceScreen? = null
@@ -480,33 +482,24 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     }
 
     override fun onResume() {
-
         super.onResume()
-
         val chargingCurrentLimit = getChargingCurrentLimit(requireContext())
-
+        val canDrawOverlays = Settings.canDrawOverlays(requireContext())
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
             ServiceHelper.startService(requireContext(), OverlayService::class.java)
-
-        chargingCurrentLimitOverlay?.isVisible = chargingCurrentLimit != null &&
-                chargingCurrentLimit.toInt() > 0
-
-        overlayLocation?.summary = getOverlayLocationSummary()
-
-        overlaySize?.summary = getOverlayTextSizeSummary()
-
-        overlayTextStyle?.summary = getOverlayTextStyleSummary()
-
-        overlayOpacity?.summary = getOverlayOpacitySummary()
-
-        enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(
-            R.bool.is_enabled_overlay)))
-
-        val canDrawOverlays = Settings.canDrawOverlays(requireContext())
-
+        if(isResume) {
+            chargingCurrentLimitOverlay?.isVisible = chargingCurrentLimit != null &&
+                    chargingCurrentLimit.toInt() > 0
+            overlayLocation?.summary = getOverlayLocationSummary()
+            overlaySize?.summary = getOverlayTextSizeSummary()
+            overlayTextStyle?.summary = getOverlayTextStyleSummary()
+            overlayOpacity?.summary = getOverlayOpacitySummary()
+            enableAllOverlay(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(
+                R.bool.is_enabled_overlay)))
+        }
+        else isResume = true
         overlayScreen?.isEnabled = canDrawOverlays
-
         if(dialogRequestOverlayPermission == null && !canDrawOverlays)
             requestOverlayPermission()
     }
@@ -591,7 +584,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
     }
 
     private fun enableAllOverlay(isEnable: Boolean?) {
-
         onlyValuesOverlay?.isEnabled = isEnable ?: onlyValuesOverlay?.isEnabled ?: false
         overlayLocation?.isEnabled = isEnable ?: overlayLocation?.isEnabled ?: false
         appearanceCategory?.isEnabled = isEnable ?: appearanceCategory?.isEnabled ?: false

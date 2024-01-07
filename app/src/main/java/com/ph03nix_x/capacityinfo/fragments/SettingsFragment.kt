@@ -56,6 +56,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     private var premium: Preference? = null
 
+    private var isResume = false
+
     // Service & Notification
     private var stopService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
@@ -675,116 +677,94 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     }
 
     override fun onResume() {
-
         super.onResume()
-
-        if(premium?.isVisible == true) premium?.isVisible = !isPremium
-
-        stopService?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        isStopTheServiceWhenTheCD?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        isShowBatteryInformation?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = getString(if(!isEnabled) R.string.premium_feature
-            else R.string.service_restart_required)
-        }
-
-        isShowExtendedNotification?.apply {
-            isEnabled = premium?.isVisible == false && pref.getBoolean(
-                IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
-                    R.bool.is_show_battery_information))
-            summary = getString(if(premium?.isVisible == true) R.string.premium_feature
-            else R.string.service_restart_required)
-        }
-
-        batteryStatusInformation?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        fastChargeSetting?.isVisible = if(File(Constants.CHARGE_CURRENT_MAX_PATH).exists())
+        if(isResume) {
+            if(premium?.isVisible == true) premium?.isVisible = !isPremium
+            stopService?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            isStopTheServiceWhenTheCD?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            isShowBatteryInformation?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = getString(if(!isEnabled) R.string.premium_feature
+                else R.string.service_restart_required)
+            }
+            isShowExtendedNotification?.apply {
+                isEnabled = premium?.isVisible == false && pref.getBoolean(
+                    IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
+                        R.bool.is_show_battery_information))
+                summary = getString(if(premium?.isVisible == true) R.string.premium_feature
+                else R.string.service_restart_required)
+            }
+            batteryStatusInformation?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            fastChargeSetting?.isVisible = if(File(Constants.CHARGE_CURRENT_MAX_PATH).exists())
                 (getChargingCurrentLimit(requireContext())?.toInt() ?: 0) >=
                         resources.getInteger(R.integer.fast_charge_min) else true
-
-        capacityInWh?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        chargeDischargingCurrentInWatt?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        resetScreenTime?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        backupSettings?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        overlay?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
-            !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
-
-        textSize?.summary = getTextSizeSummary()
-
-        textFont?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(isEnabled) getTextFontSummary() else getString(R.string.premium_feature)
-        }
-
-        textStyle?.summary = getTextStyleSummary()
-
-        tabOnApplicationLaunch?.apply {
-            if(isVisible) {
+            capacityInWh?.apply {
                 isEnabled = premium?.isVisible == false
-                summary = if(!isEnabled) getString(R.string.premium_feature)
-                else getTabOnApplicationLaunchSummary()
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            chargeDischargingCurrentInWatt?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            resetScreenTime?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            backupSettings?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            overlay?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
+                !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
+            textSize?.summary = getTextSizeSummary()
+            textFont?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(isEnabled) getTextFontSummary() else getString(R.string.premium_feature)
+            }
+            textStyle?.summary = getTextStyleSummary()
+            tabOnApplicationLaunch?.apply {
+                if(isVisible) {
+                    isEnabled = premium?.isVisible == false
+                    summary = if(!isEnabled) getString(R.string.premium_feature)
+                    else getTabOnApplicationLaunchSummary()
+                }
+            }
+            unitOfChargeDischargeCurrent?.apply {
+                if(isVisible) summary = getUnitOfChargeDischargeCurrentSummary()
+            }
+            unitOfMeasurementOfCurrentCapacity?.apply {
+                if(isVisible) summary = getUnitOfMeasurementOfCurrentCapacitySummary()
+            }
+            voltageUnit?.apply {
+                if(isVisible) summary = getVoltageUnitSummary()
+            }
+            changeDesignCapacity?.apply {
+                if(isVisible) summary = getString(R.string.change_design_summary,
+                    pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
+            }
+            resetToZeroTheNumberOfCharges?.isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
+            resetToZeroTheNumberOfCycles?.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
+            debug?.apply {
+                isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
+                    PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
+                        R.bool.is_enabled_debug_options))
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }
         }
-
-        unitOfChargeDischargeCurrent?.apply {
-            if(isVisible) summary = getUnitOfChargeDischargeCurrentSummary()
-        }
-
-        unitOfMeasurementOfCurrentCapacity?.apply {
-            if(isVisible) summary = getUnitOfMeasurementOfCurrentCapacitySummary()
-        }
-
-        voltageUnit?.apply {
-            if(isVisible) summary = getVoltageUnitSummary()
-        }
-
-        changeDesignCapacity?.apply {
-            if(isVisible) summary = getString(R.string.change_design_summary,
-                pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
-        }
-
-        resetToZeroTheNumberOfCharges?.isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
-
-        resetToZeroTheNumberOfCycles?.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
-
-        debug?.apply {
-            isVisible = moreOther?.title == getString(R.string.hide) && pref.getBoolean(
-                PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(
-                    R.bool.is_enabled_debug_options))
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
+        else isResume = true
     }
 }
