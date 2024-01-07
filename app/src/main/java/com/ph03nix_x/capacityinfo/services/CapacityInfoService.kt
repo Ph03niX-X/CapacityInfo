@@ -162,7 +162,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
             registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
 
-            onCreateServiceNotification(this@CapacityInfoService)
+            try {
+                onCreateServiceNotification(applicationContext)
+            }
+            catch (e: NullPointerException) {
+                onCreateServiceNotification(this@CapacityInfoService)
+            }
         }
     }
 
@@ -370,15 +375,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
-        try {
-            onUpdateServiceNotification(applicationContext)
-        }
-        catch(_: Exception) {
-            onUpdateServiceNotification(this)
-        }
-        finally {
-            if(isBatteryCharged) wakeLockRelease()
-        }
+        try { onUpdateServiceNotification(applicationContext) }
+        catch(_: RemoteException) {}
+        catch(_: NullPointerException) { onUpdateServiceNotification(this) }
+        finally { if(isBatteryCharged) wakeLockRelease() }
 
     private suspend fun batteryCharging() {
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
