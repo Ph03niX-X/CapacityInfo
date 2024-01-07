@@ -19,6 +19,7 @@ object Constants {
     const val ENABLED_DEBUG_OPTIONS_HOST = "243243622533" // CIDBGENABLED
     const val DISABLED_DEBUG_OPTIONS_HOST = "2432434722533" // CIDBGDISABLED
     const val NUMBER_OF_CYCLES_PATH = "/sys/class/power_supply/battery/cycle_count"
+    const val CHARGE_CURRENT_MAX_PATH = "/sys/class/power_supply/battery/constant_charge_current_max"
     const val EXPORT_SETTINGS_REQUEST_CODE = 0
     const val IMPORT_SETTINGS_REQUEST_CODE = 1
     const val OPEN_APP_REQUEST_CODE = 0

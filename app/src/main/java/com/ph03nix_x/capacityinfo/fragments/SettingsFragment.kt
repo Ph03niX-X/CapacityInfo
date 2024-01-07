@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremiu
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
@@ -307,9 +308,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         debug = findPreference("debug")
 
         fastChargeSetting?.apply {
-            isVisible = if(File("/sys/class/power_supply/battery/constant_charge_current_max").exists())
-                (getChargingCurrentLimit()?.toInt() ?: 0) >=
-                        resources.getInteger(R.integer.fast_charge_min) else true
+            isVisible = if(File(Constants.CHARGE_CURRENT_MAX_PATH).exists())
+                    (getChargingCurrentLimit(requireContext())?.toInt() ?: 0) >=
+                            resources.getInteger(R.integer.fast_charge_min) else true
             setOnPreferenceChangeListener { _, newValue ->
                 if(newValue as? Boolean == true)
                     MaterialAlertDialogBuilder(requireContext()).apply {
@@ -708,10 +709,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
-        fastChargeSetting?.isVisible =
-            if(File("/sys/class/power_supply/battery/constant_charge_current_max").exists())
-                    (getChargingCurrentLimit()?.toInt() ?: 0) >=
-                            resources.getInteger(R.integer.fast_charge_min) else true
+        fastChargeSetting?.isVisible = if(File(Constants.CHARGE_CURRENT_MAX_PATH).exists())
+                (getChargingCurrentLimit(requireContext())?.toInt() ?: 0) >=
+                        resources.getInteger(R.integer.fast_charge_min) else true
 
         capacityInWh?.apply {
             isEnabled = premium?.isVisible == false

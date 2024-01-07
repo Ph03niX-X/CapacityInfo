@@ -9,6 +9,7 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_VOLTAGE_WATT
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
@@ -215,8 +216,7 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val constantChargeCurrentMax = File(
-            "/sys/class/power_supply/battery/constant_charge_current_max")
+        val constantChargeCurrentMax = File(Constants.CHARGE_CURRENT_MAX_PATH)
 
         var chargingCurrentLimit: String? = null
 

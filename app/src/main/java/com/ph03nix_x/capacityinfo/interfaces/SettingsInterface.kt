@@ -24,10 +24,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
-import java.io.IOException
 import java.lang.NumberFormatException
 
 interface SettingsInterface {
@@ -220,24 +216,5 @@ interface SettingsInterface {
                 }
             })
         }
-    }
-
-    fun SettingsFragment.getChargingCurrentLimit(): String? {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val constantChargeCurrentMax =
-            File("/sys/class/power_supply/battery/constant_charge_current_max")
-        var chargingCurrentLimit: String? = null
-        return if(constantChargeCurrentMax.exists()) {
-            try {
-                val bufferReader = BufferedReader(FileReader(constantChargeCurrentMax))
-                chargingCurrentLimit = bufferReader.readLine()
-                bufferReader.close()
-                if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") == "μA")
-                    chargingCurrentLimit = ((chargingCurrentLimit?.toInt() ?: 0) / 1000).toString()
-                chargingCurrentLimit
-            }
-            catch (e: IOException) { chargingCurrentLimit }
-        }
-        else null
     }
 }
