@@ -43,6 +43,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
+import java.io.File
 import kotlin.time.Duration.Companion.seconds
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
@@ -305,17 +306,21 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         debug = findPreference("debug")
 
-        fastChargeSetting?.setOnPreferenceChangeListener { _, newValue ->
-            if(newValue as? Boolean == true)
-                MaterialAlertDialogBuilder(requireContext()).apply {
-                    setTitle(R.string.information)
-                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                    setMessage(R.string.fast_charge_dialog_message)
-                    setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                    show()
-                }
-
-            true
+        fastChargeSetting?.apply {
+            isVisible = if(File("/sys/class/power_supply/battery/constant_charge_current_max").exists())
+                (getChargingCurrentLimit()?.toInt() ?: 0) >=
+                        resources.getInteger(R.integer.fast_charge_min) else true
+            setOnPreferenceChangeListener { _, newValue ->
+                if(newValue as? Boolean == true)
+                    MaterialAlertDialogBuilder(requireContext()).apply {
+                        setTitle(R.string.information)
+                        setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                        setMessage(R.string.fast_charge_dialog_message)
+                        setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                        show()
+                    }
+                true
+            }
         }
 
         capacityInWh?.apply {
@@ -702,6 +707,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
+
+        fastChargeSetting?.isVisible =
+            if(File("/sys/class/power_supply/battery/constant_charge_current_max").exists())
+                    (getChargingCurrentLimit()?.toInt() ?: 0) >=
+                            resources.getInteger(R.integer.fast_charge_min) else true
 
         capacityInWh?.apply {
             isEnabled = premium?.isVisible == false
