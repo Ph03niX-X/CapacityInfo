@@ -102,6 +102,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             super.onCreate()
 
+            cacheDir.deleteRecursively()
+
             instance = this
 
             pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
