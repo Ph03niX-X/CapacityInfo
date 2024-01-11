@@ -79,9 +79,8 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
-
-        if(premiumContext == null) premiumContext = CapacityInfoService.instance
-
+        if(premiumContext == null) premiumContext =
+            MainActivity.instance ?: CapacityInfoService.instance
         if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
             for (purchase in purchases) {
                 CoroutineScope(Dispatchers.Default).launch {
@@ -89,23 +88,25 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 }
             }
         } else if (billingResult.responseCode == BillingResponseCode.ITEM_ALREADY_OWNED) {
-            val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
-            if(purchases != null) pref.edit().putString(TOKEN_PREF,
-                purchases[0].purchaseToken).apply()
-            val tokenPref = pref.getString(TOKEN_PREF, null)
-            isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            if(isPremium) premiumFeaturesUnlocked(premiumContext!!, false)
-            ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
+            CoroutineScope(Dispatchers.IO).launch {
+                val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
+                if(purchases != null) pref.edit().putString(TOKEN_PREF,
+                    purchases[0].purchaseToken).apply()
+                val tokenPref = pref.getString(TOKEN_PREF, null)
+                isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                if(isPremium) premiumFeaturesUnlocked(premiumContext!!, false)
+                withContext(Dispatchers.Main) {
+                    ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
+                }
+            }
         }
     }
 
     fun initiateBilling(isPurchasePremium: Boolean) {
-
-        if(premiumContext == null) premiumContext = CapacityInfoService.instance
-
+        if(premiumContext == null)
+            premiumContext = MainActivity.instance ?: CapacityInfoService.instance
         billingClient = BillingClient.newBuilder(premiumContext!!)
             .setListener(purchasesUpdatedListener()).enablePendingPurchases().build()
-
         if (billingClient?.connectionState == BillingClient.ConnectionState.DISCONNECTED)
             startConnection(isPurchasePremium)
     }
@@ -134,11 +135,9 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     private suspend fun handlePurchase(purchase: Purchase) {
-
-        if(premiumContext == null) premiumContext = CapacityInfoService.instance
-
+        if(premiumContext == null)
+            premiumContext = MainActivity.instance ?: CapacityInfoService.instance
         val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
-
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
@@ -149,8 +148,14 @@ interface PremiumInterface: PurchasesUpdatedListener {
                             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                             val tokenPref = pref.getString(TOKEN_PREF, null)
                             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                            if(isPremium) premiumFeaturesUnlocked(premiumContext!!)
-                            ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
+                            if(isPremium)
+                                launch {
+                                    premiumFeaturesUnlocked(premiumContext!!)
+                                }
+                            launch {
+                                delay(2.5.seconds)
+                                ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
+                            }
                         }
                     }
                 }
@@ -176,36 +181,35 @@ interface PremiumInterface: PurchasesUpdatedListener {
             setProductId(PREMIUM_ID)
             setProductType(ProductType.INAPP)
         }.build())
-
         val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
             .setProductList(productList).build()
-
         billingClient?.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
                                                                              productDetailsList ->
-
             if (billingResult.responseCode == BillingResponseCode.OK)
                 mProductDetailsList = productDetailsList
         }
     }
 
-    private fun premiumFeaturesUnlocked(context: Context, isShowToast: Boolean = true) {
-        if(isShowToast)
-            Toast.makeText(context, R.string.premium_features_unlocked, Toast.LENGTH_LONG).show()
-        val mainActivity = MainActivity.instance
-        val historyFragment = HistoryFragment.instance
-        val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
-        mainActivity?.toolbar?.menu?.apply {
-            findItem(R.id.premium)?.isVisible = false
-            findItem(R.id.history_premium)?.isVisible = false
-            findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
-        }
-        historyFragment?.binding?.apply {
-            refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-            emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-            historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
-            refreshHistory.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
-            emptyHistoryText.text = if(!isHistoryNotEmpty)
-                context.resources?.getText(R.string.empty_history_text) else null
+    private suspend fun premiumFeaturesUnlocked(context: Context, isShowToast: Boolean = true) {
+        withContext(Dispatchers.Main) {
+            if(isShowToast)
+                Toast.makeText(context, R.string.premium_features_unlocked, Toast.LENGTH_LONG).show()
+            val mainActivity = MainActivity.instance
+            val historyFragment = HistoryFragment.instance
+            val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
+            mainActivity?.toolbar?.menu?.apply {
+                findItem(R.id.premium)?.isVisible = false
+                findItem(R.id.history_premium)?.isVisible = false
+                findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
+            }
+            historyFragment?.binding?.apply {
+                refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+                emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+                historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+                refreshHistory.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+                emptyHistoryText.text = if(!isHistoryNotEmpty)
+                    context.resources?.getText(R.string.empty_history_text) else null
+            }
         }
     }
 
@@ -274,44 +278,28 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     fun checkPremium() {
-
-        if(premiumContext == null) premiumContext = CapacityInfoService.instance
-
+        if(premiumContext == null)
+            premiumContext = MainActivity.instance ?: CapacityInfoService.instance
         CoroutineScope(Dispatchers.IO).launch {
-
             val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
-
             var tokenPref = pref.getString(TOKEN_PREF, null)
-
             if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
-
             else if(tokenPref != null && tokenPref.count() != TOKEN_COUNT)
                 pref.edit().remove(TOKEN_PREF).apply()
-
            else if(tokenPref == null || tokenPref.count() != TOKEN_COUNT) {
-
                 if(billingClient?.isReady != true) initiateBilling(false)
-
                 delay(2.5.seconds)
                 if(billingClient?.isReady == true) {
                     val params = QueryPurchaseHistoryParams.newBuilder()
                        .setProductType(ProductType.INAPP)
-
                    val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
-
                    val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
-
                    if(!purchaseHistoryRecordList.isNullOrEmpty()) {
-
                        pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
                            .apply()
-
                        tokenPref = pref.getString(TOKEN_PREF, null)
-
                        isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-
                        if(!isPremium) removePremiumFeatures(premiumContext!!)
-
                        delay(5.seconds)
                        billingClient?.endConnection()
                        billingClient = null
@@ -323,13 +311,9 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     fun CheckPremiumJob.checkPremiumJob() {
-
         CoroutineScope(Dispatchers.IO).launch {
-
             val pref = PreferenceManager.getDefaultSharedPreferences(this@checkPremiumJob)
-
             if(billingClient?.isReady != true) initiateBilling(false)
-
             delay(2.5.seconds)
             if(billingClient?.isReady == true) {
                 val params = QueryPurchaseHistoryParams.newBuilder()
@@ -360,9 +344,7 @@ interface PremiumInterface: PurchasesUpdatedListener {
     }
 
     private suspend fun removePremiumFeatures(context: Context) {
-
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
         arrayListOf(IS_SHOW_STOP_SERVICE, IS_STOP_THE_SERVICE_WHEN_THE_CD,
             IS_SHOW_BATTERY_INFORMATION, IS_SHOW_EXPANDED_NOTIFICATION, IS_BYPASS_DND,
             IS_NOTIFY_OVERHEAT_OVERCOOL, IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
@@ -371,7 +353,6 @@ interface PremiumInterface: PurchasesUpdatedListener {
             IS_CAPACITY_IN_WH, IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
             IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL, TAB_ON_APPLICATION_LAUNCH,
             IS_ENABLED_OVERLAY).forEach {
-
             with(pref) {
                 edit().apply {
                     if(contains(it)) remove(it)
@@ -379,14 +360,10 @@ interface PremiumInterface: PurchasesUpdatedListener {
                 }
             }
             }
-
         if(HistoryHelper.isHistoryNotEmpty(context)) HistoryHelper.clearHistory(context)
-
         withContext(Dispatchers.Main) {
-
             ServiceHelper.cancelJob(context,
                 Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-
             if(OverlayService.instance != null)
                 ServiceHelper.stopService(context, OverlayService::class.java)
         }

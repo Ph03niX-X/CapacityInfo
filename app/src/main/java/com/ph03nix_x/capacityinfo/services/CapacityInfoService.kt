@@ -378,8 +378,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             else onUpdateServiceNotification(this)
         }
         catch(_: RuntimeException) {
-            withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
             delay(2.5.seconds)
+            withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
             seconds += 3
             if(applicationContext != null) onUpdateServiceNotification(applicationContext)
             else onUpdateServiceNotification(this)
