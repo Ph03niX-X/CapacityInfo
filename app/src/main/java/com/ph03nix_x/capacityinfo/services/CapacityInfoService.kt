@@ -372,12 +372,18 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         super.onDestroy()
     }
 
-    private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
+    private suspend fun updateServiceNotification(isBatteryCharged: Boolean = false) =
         try {
             if(applicationContext != null) onUpdateServiceNotification(applicationContext)
             else onUpdateServiceNotification(this)
         }
-        catch(_: RuntimeException) {}
+        catch(_: RuntimeException) {
+            withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
+            delay(2.5.seconds)
+            seconds += 3
+            if(applicationContext != null) onUpdateServiceNotification(applicationContext)
+            else onUpdateServiceNotification(this)
+        }
         finally { if(isBatteryCharged) wakeLockRelease() }
 
     private suspend fun batteryCharging() {
