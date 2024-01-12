@@ -372,15 +372,34 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         super.onDestroy()
     }
 
-    private suspend fun updateServiceNotification(isBatteryCharged: Boolean = false) =
+    private suspend fun updateServiceNotification(isCharging: Boolean = false,
+                                                  isBatteryCharged: Boolean = false) =
         try {
-            onUpdateServiceNotification(if(applicationContext != null) applicationContext else this)
+            onUpdateServiceNotification(this)
         }
         catch(_: RuntimeException) {
-            delay(2.5.seconds)
             withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
-            seconds += 3
-            onUpdateServiceNotification(if(applicationContext != null) applicationContext else this)
+            delay(2.5.seconds)
+            if(isCharging) seconds += 3
+            try {
+                onUpdateServiceNotification(this)
+            }
+            catch(_: RuntimeException) {
+                delay(2.5.seconds)
+                if(isCharging) seconds += 3
+                onUpdateServiceNotification(applicationContext)
+            }
+            catch(_: NullPointerException) {
+                delay(2.5.seconds)
+                if(isCharging) seconds += 3
+                onUpdateServiceNotification(applicationContext)
+            }
+        }
+        catch(_: NullPointerException) {
+            withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
+            delay(2.5.seconds)
+            if(isCharging) seconds += 3
+            onUpdateServiceNotification(this)
         }
         finally { if(isBatteryCharged) wakeLockRelease() }
 
@@ -425,7 +444,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     0.937.seconds else 0.934.seconds)
         seconds++
         withContext(Dispatchers.Main) {
-            updateServiceNotification()
+            updateServiceNotification(isCharging = true)
         }
     }
 
@@ -562,7 +581,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         isSaveNumberOfCharges = false
         withContext(Dispatchers.Main) {
-            updateServiceNotification(true)
+            updateServiceNotification(isBatteryCharged = true)
         }
     }
     
