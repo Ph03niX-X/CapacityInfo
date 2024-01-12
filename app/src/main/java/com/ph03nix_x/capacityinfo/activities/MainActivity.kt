@@ -331,7 +331,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0)
         if((isInstalledGooglePlay && isGooglePlay(this) &&
-                    numberOfFullCharges > 0 && numberOfFullCharges % 3 == 0L) &&
+                    (numberOfFullCharges >= 1 || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
 
