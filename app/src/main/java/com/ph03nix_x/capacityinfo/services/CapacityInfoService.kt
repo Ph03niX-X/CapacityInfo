@@ -102,8 +102,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
             super.onCreate()
 
-            cacheDir.deleteRecursively()
-
             instance = this
 
             pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
@@ -372,35 +370,11 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         super.onDestroy()
     }
 
-    private suspend fun updateServiceNotification(isCharging: Boolean = false,
-                                                  isBatteryCharged: Boolean = false) =
+    private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
         try {
             onUpdateServiceNotification(this)
         }
-        catch(_: RuntimeException) {
-            withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
-            delay(2.5.seconds)
-            if(isCharging) seconds += 3
-            try {
-                onUpdateServiceNotification(this)
-            }
-            catch(_: RuntimeException) {
-                delay(2.5.seconds)
-                if(isCharging) seconds += 3
-                onUpdateServiceNotification(applicationContext)
-            }
-            catch(_: NullPointerException) {
-                delay(2.5.seconds)
-                if(isCharging) seconds += 3
-                onUpdateServiceNotification(applicationContext)
-            }
-        }
-        catch(_: NullPointerException) {
-            withContext(Dispatchers.IO) { cacheDir.deleteRecursively() }
-            delay(2.5.seconds)
-            if(isCharging) seconds += 3
-            onUpdateServiceNotification(this)
-        }
+        catch(_: RuntimeException) {}
         finally { if(isBatteryCharged) wakeLockRelease() }
 
     private suspend fun batteryCharging() {
@@ -444,7 +418,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     0.937.seconds else 0.934.seconds)
         seconds++
         withContext(Dispatchers.Main) {
-            updateServiceNotification(isCharging = true)
+            updateServiceNotification()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
@@ -11,6 +12,7 @@ import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.graphics.Color
 import android.media.AudioAttributes
@@ -75,8 +77,11 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onCreateServiceNotification(context: Context) {
+        if((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
+                .checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_DENIED) ||
+            isNotificationExists(context, NOTIFICATION_SERVICE_ID)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        if(isNotificationExists(context, NOTIFICATION_SERVICE_ID)) return
         channelId = onCreateNotificationChannel(context, SERVICE_CHANNEL_ID)
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
             MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
@@ -163,8 +168,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onUpdateServiceNotification(context: Context) {
-        if(!isNotificationExists(context, NOTIFICATION_SERVICE_ID))
-            onCreateServiceNotification(context)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
+                .checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
+            PackageManager.PERMISSION_DENIED) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as NotificationManager
