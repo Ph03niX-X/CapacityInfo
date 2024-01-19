@@ -272,6 +272,7 @@
     <string name="stop_service">Stop Service</string>
     <string name="stopping_service">Stopping Service&#8230;</string>
     <string name="service_stopped_successfully">Service Stopped Successfully!</string>
+    <string name="service_stop_error">Service Stop Error!</string>
     <string name="text_font">Text Font (Charge/Discharge/Wear/History)</string>
     <string name="font_overlay">Font</string>
     <string name="telegram" translatable="false">Telegram</string>
