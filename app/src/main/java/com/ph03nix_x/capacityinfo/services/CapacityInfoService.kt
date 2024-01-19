@@ -305,12 +305,16 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
         if(displayManager != null)
             for(display in displayManager.displays)
-                if(display.state == Display.STATE_ON)
+                if(display.state == Display.STATE_ON) {
                     delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
                         0.948.seconds else 0.954.seconds)
-                else delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
-                    0.937.seconds else 0.934.seconds)
-        seconds++
+                    seconds++
+                }
+                else {
+                    delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
+                        1.937.seconds else 1.934.seconds)
+                    seconds += 2
+                }
         withContext(Dispatchers.Main) {
             updateServiceNotification()
         }
