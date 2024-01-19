@@ -252,6 +252,7 @@
     <string name="stop_service">Zatrzymaj Serwis</string>
     <string name="stopping_service">Zatrzymywanie Serwis&#8230;</string>
     <string name="service_stopped_successfully">Serwis zatrzymana pomyślnie!</string>
+    <string name="error_stopping_service">Błąd zatrzymania Serwis!</string>
     <string name="text_font">Czcionka tekstu (Ładowarka/Rozładunek/Zużycie/Historia)</string>
     <string name="font_overlay">Czcionka</string>
     <string name="telegram_link_copied">Skopiowano łącze do telegramu</string>
