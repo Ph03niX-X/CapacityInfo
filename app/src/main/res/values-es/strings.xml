@@ -252,6 +252,7 @@
     <string name="stop_service">Detener servicio</string>
     <string name="stopping_service">Deteniendo servicio&#8230;</string>
     <string name="service_stopped_successfully">Servicio detenido con éxito!</string>
+    <string name="error_stopping_service">¡Error al detener el servicio!</string>
     <string name="text_font">Fuente de texto (carga/descarga/desgaste/Historia)</string>
     <string name="font_overlay">Fuente</string>
     <string name="telegram_link_copied">Enlace de Telegram copiado</string>
