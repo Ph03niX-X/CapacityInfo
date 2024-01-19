@@ -278,6 +278,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             onUpdateServiceNotification(this)
         }
         catch(_: RuntimeException) {}
+        catch(_: DeadSystemException) {}
         finally { if(isBatteryCharged) wakeLockRelease() }
 
     private suspend fun batteryCharging() {
