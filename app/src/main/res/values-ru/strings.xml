@@ -252,6 +252,7 @@
     <string name="stop_service">Остановить службу</string>
     <string name="stopping_service">Остановка службы&#8230;</string>
     <string name="service_stopped_successfully">Служба успешно остановлена!</string>
+    <string name="error_stopping_service">Ошибка остановки службы!</string>
     <string name="text_font">Шрифт текста (Зарядка/Разрядка/Износ/История)</string>
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Ссылка на Telegram скопирована</string>
