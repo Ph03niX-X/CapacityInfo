@@ -253,6 +253,14 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     override fun onDestroy() {
+        instance = null
+        isScreenTimeJob = false
+        isJob = false
+        screenTimeJob?.cancel()
+        jobService?.cancel()
+        screenTimeJob = null
+        jobService = null
+        MainApp.isUpdateApp = false
         if(isStopService) {
             ServiceHelper.cancelJob(this@CapacityInfoService,
                 IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
