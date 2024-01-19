@@ -39,8 +39,6 @@ interface BatteryInfoInterface {
         var tempBatteryLevelWith = 0
         var percentAdded = 0
         var residualCapacity = 0.0
-        var batteryLevel = 0
-        var tempBatteryLevel = 0
         var maxChargeCurrent = 0
         var averageChargeCurrent = 0
         var minChargeCurrent = 0

@@ -75,7 +75,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                             R.bool.is_reset_screen_time_at_any_charge_level))))
                     CapacityInfoService.instance?.screenTime = 0L
                 BatteryInfoInterface.apply {
-                    this.batteryLevel = 0
                     maxChargeCurrent = 0
                     averageChargeCurrent = 0
                     minChargeCurrent = 0
