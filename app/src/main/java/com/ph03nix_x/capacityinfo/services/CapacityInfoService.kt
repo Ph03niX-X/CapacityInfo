@@ -28,17 +28,10 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.temp
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.maxChargeCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischarged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryFullyCharged
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isOverheatOvercool
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationBuilder
-import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.notificationManager
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
-import com.ph03nix_x.capacityinfo.utilities.Constants.CHECK_PREMIUM_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_WAKELOCK_TIMEOUT
@@ -97,59 +90,40 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     override fun onBind(p0: Intent?): IBinder? = null
 
     override fun onCreate() {
-
         if(instance == null) {
-
             super.onCreate()
-
             instance = this
-
+            onCreateServiceNotification(this)
             pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
-
             screenTime = if(MainApp.tempScreenTime > 0L) MainApp.tempScreenTime
             else if(MainApp.isUpdateApp) pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)
             else screenTime
-
             MainApp.tempScreenTime = 0L
             MainApp.isUpdateApp = false
-
             pref.apply {
                 if(contains(UPDATE_TEMP_SCREEN_TIME)) edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
             }
-
             batteryIntent = registerReceiver(null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED))
-
             when(batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) {
-
                 BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
                 BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
-
                     isPowerConnected = true
-
                     batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
-
                     tempBatteryLevelWith = batteryLevelWith
-
                     tempCurrentCapacity = getCurrentCapacity(this@CapacityInfoService)
-
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
-
                     if(MainActivity.instance?.fragment != null) {
-
                         if(MainActivity.instance?.fragment is ChargeDischargeFragment)
                             MainActivity.instance?.toolbar?.title = getString(if(status ==
                                 BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge else
                                 R.string.discharge)
-
                         val chargeDischargeNavigation = MainActivity.instance?.navigation
                             ?.menu?.findItem(R.id.charge_discharge_navigation)
-
                         chargeDischargeNavigation?.title = getString(if(status == BatteryManager
                                 .BATTERY_STATUS_CHARGING) R.string.charge else R.string.discharge)
-
                         chargeDischargeNavigation?.icon = MainActivity.instance
                             ?.getChargeDischargeNavigationIcon(status == BatteryManager
                                 .BATTERY_STATUS_CHARGING)?.let {
@@ -158,12 +132,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     }
                 }
             }
-
             registerReceiver(PluggedReceiver(), IntentFilter(Intent.ACTION_POWER_CONNECTED))
             registerReceiver(UnpluggedReceiver(), IntentFilter(Intent.ACTION_POWER_DISCONNECTED))
-
-            if(applicationContext != null) onCreateServiceNotification(applicationContext)
-            else onCreateServiceNotification(this)
         }
     }
 
@@ -283,89 +253,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     override fun onDestroy() {
-
-        instance = null
-        isScreenTimeJob = false
-        isJob = false
-        screenTimeJob?.cancel()
-        jobService?.cancel()
-        screenTimeJob = null
-        jobService = null
-        notificationBuilder = null
-        isOverheatOvercool = false
-        isBatteryFullyCharged = false
-        isBatteryCharged = false
-        isBatteryDischarged = false
-
-        MainApp.isUpdateApp = false
-
-        val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
-
-        if(!isStopService) MainApp.tempScreenTime = screenTime
-
-        val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
-            NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
-            NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
-                batteryLevelWith / 100f)
-
-        notificationManager?.cancelAll()
-
-        if(!::pref.isInitialized)
-            pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
-
-        if(!isFull && seconds > 1) {
-
-            pref.edit().apply {
-
-                putInt(LAST_CHARGE_TIME, seconds)
-
-                putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-
-                putInt(BATTERY_LEVEL_TO, batteryLevel)
-
-                if(capacityAdded > 0) putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
-
-                if(percentAdded > 0) putInt(PERCENT_ADDED, percentAdded)
-
-                if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
-
-                apply()
-            }
-
-            percentAdded = 0
-
-            capacityAdded = 0.0
-        }
-
-        if(BatteryInfoInterface.residualCapacity > 0 && isFull) {
-
-            pref.edit().apply {
-
-                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
-                    == "μAh")
-                    putInt(RESIDUAL_CAPACITY,
-                        (getCurrentCapacity(this@CapacityInfoService) * 1000.0).toInt())
-                else putInt(RESIDUAL_CAPACITY,
-                    (getCurrentCapacity(this@CapacityInfoService) * 100.0).toInt())
-
-                apply()
-            }
-
-            HistoryHelper.addHistory(this@CapacityInfoService,
-                DateHelper.getDate(DateHelper.getCurrentDay(), DateHelper.getCurrentMonth(),
-                    DateHelper.getCurrentYear()), pref.getInt(RESIDUAL_CAPACITY, 0))
-        }
-        BatteryInfoInterface.apply {
-            this.batteryLevel = 0
-            tempBatteryLevel = 0
-        }
-        if(isStopService)
+        if(isStopService) {
+            ServiceHelper.cancelJob(this@CapacityInfoService,
+                IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
             Toast.makeText(this@CapacityInfoService, R.string.service_stopped_successfully,
                 Toast.LENGTH_LONG).show()
-        ServiceHelper.apply {
-            cancelJob(this@CapacityInfoService, IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-            cancelJob(this@CapacityInfoService, CHECK_PREMIUM_JOB_ID)
         }
+        else MainApp.tempScreenTime = screenTime
         wakeLockRelease()
         super.onDestroy()
     }
