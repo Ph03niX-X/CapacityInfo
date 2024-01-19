@@ -23,7 +23,7 @@ class StopCapacityInfoService : Service() {
             stopService(Intent(this, CapacityInfoService::class.java))
             stopService(Intent(this, StopCapacityInfoService::class.java))
         }
-        else Toast.makeText(this, R.string.service_stop_error, Toast.LENGTH_LONG).show()
+        else Toast.makeText(this, R.string.error_stopping_service, Toast.LENGTH_LONG).show()
         return START_NOT_STICKY
     }
 }
