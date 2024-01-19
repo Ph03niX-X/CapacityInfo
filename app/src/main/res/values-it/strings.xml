@@ -252,6 +252,7 @@
     <string name="stop_service">Interrompere il servizio</string>
     <string name="stopping_service">Interruzione del servizio…</string>
     <string name="service_stopped_successfully">Il servizio è stato interrotto con successo!</string>
+    <string name="error_stopping_service">Errore nell\'arresto del servizio!</string>
     <string name="text_font">Carattere testo (Carica/Scarica/Usura/Storia)</string>
     <string name="font_overlay">Carattere</string>
     <string name="telegram_link_copied">Link di Telegram copiato</string>
