@@ -15,17 +15,12 @@ class StopCapacityInfoService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         val capacityInfoService = CapacityInfoService.instance
-
         capacityInfoService?.isStopService = true
-
         Toast.makeText(this, R.string.stopping_service, Toast.LENGTH_LONG).show()
-
+        capacityInfoService?.stopSelf()
         stopService(Intent(this, CapacityInfoService::class.java))
-
         stopService(Intent(this, StopCapacityInfoService::class.java))
-
         return START_NOT_STICKY
     }
 }

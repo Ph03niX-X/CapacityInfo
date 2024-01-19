@@ -269,6 +269,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         else MainApp.tempScreenTime = screenTime
         wakeLockRelease()
+        stopSelf()
         super.onDestroy()
     }
 
