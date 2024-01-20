@@ -316,10 +316,12 @@
     <string name="later_update">Nanti</string>
     <string name="check_update">Cek pembaruan</string>
     <string name="update_not_found">Pembaruan tidak Ditemukan!</string>
+    <string name="update_error">Kesalahan pembaruan!</string>
     <string name="overlay_location">Lokasi</string>
     <string name="do_you_like_the_app">Apakah Anda menyukai aplikasi ini?</string>
     <string name="premium_purchase_error">Kesalahan pembelian Premium!</string>
     <string name="install_the_app_from_gp">Instal aplikasi dari Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Agar aplikasi dapat berfungsi dengan baik, Anda harus mengizinkan aplikasi berjalan di latar belakang</string>
     <string name="failed_open_security_miui">Gagal membuka aplikasi Keamanan! Ikuti petunjuk di situs Don\'t kill my app</string>
+    <string name="error_opening_db">Kesalahan saat membuka database!</string>
 </resources>
