@@ -344,4 +344,5 @@
     <string name="install_the_app_from_gp">Install the app from Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">For the app to work properly, you must allow the app to run in the background</string>
     <string name="failed_open_security_miui">Failed to open the Security app! Follow the instructions on the Don\'t kill my app site</string>
+    <string name="error_opening_db">Error opening database!</string>
 </resources>
