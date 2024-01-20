@@ -252,6 +252,7 @@
     <string name="stop_service">Спыніць службу</string>
     <string name="stopping_service">Прыпынак службы&#8230;</string>
     <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
+    <string name="error_stopping_service">Памылка спынення службы!</string>
     <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>
@@ -315,10 +316,12 @@
     <string name="later_update">Пазней</string>
     <string name="check_update">Праверыць абнаўленне</string>
     <string name="update_not_found">Абнаўленне не знойдзена!</string>
+    <string name="update_error">Памылка абнаўлення!</string>
     <string name="overlay_location">Размяшчэнне</string>
     <string name="do_you_like_the_app">Падабаецца дадатак?</string>
     <string name="premium_purchase_error">Памылка набыцця Premium!</string>
     <string name="install_the_app_from_gp">Усталюйце дадатак з Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Для карэктнай працы дадатка патрабуецца дазволіць дадатку запуск у фонавым рэжыме</string>
     <string name="failed_open_security_miui">Не ўдалося адкрыць дадатак Бяспека! Выконвайце інструкцыі з сайта Don\'t kill my app</string>
+    <string name="error_opening_db">Памылка адкрыцця базы дадзеных!</string>
 </resources>
