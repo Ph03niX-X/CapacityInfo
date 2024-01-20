@@ -147,5 +147,12 @@ interface CheckUpdateInterface {
         }
         catch(_: Exception) {
             Toast.makeText(context, R.string.update_error, Toast.LENGTH_LONG).show()
+            MainActivity.instance?.apply {
+                pref.apply {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME))
+                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                }
+                isCheckUpdateFromGooglePlay = true
+            }
         }
 }
