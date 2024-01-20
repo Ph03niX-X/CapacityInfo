@@ -316,10 +316,12 @@
     <string name="later_update">По-късно</string>
     <string name="check_update">Проверка за актуализации</string>
     <string name="update_not_found">Актуализация не е намерена!</string>
+    <string name="update_error">Грешка при актуализиране!</string>
     <string name="overlay_location">Местоположение</string>
     <string name="do_you_like_the_app">Харесвате ли приложението?</string>
     <string name="premium_purchase_error">Буда при закупуване на Premium!</string>
     <string name="install_the_app_from_gp">Инсталиране на приложението от Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">За да работи приложението правилно, трябва да разрешите на приложението да работи във фонов режим</string>
     <string name="failed_open_security_miui">Приложението за Защита не може да бъде отворено! Следвайте инструкциите от сайта Don\'t kill my app</string>
+    <string name="error_opening_db">Грешка при отваряне на база данни!</string>
 </resources>
