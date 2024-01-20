@@ -214,6 +214,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         }
                     }
 
+                    if(!::pref.isInitialized) pref = PreferenceManager
+                        .getDefaultSharedPreferences(this@CapacityInfoService)
+
                     if(pref.getBoolean(IS_NOTIFY_OVERHEAT_OVERCOOL, resources.getBoolean(
                             R.bool.is_notify_overheat_overcool)) && (temperature >= pref
                                 .getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer
