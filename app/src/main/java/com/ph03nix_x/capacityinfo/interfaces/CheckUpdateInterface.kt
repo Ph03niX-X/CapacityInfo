@@ -146,6 +146,6 @@ interface CheckUpdateInterface {
                     appUpdateOptions)
         }
         catch(_: Exception) {
-            Toast.makeText(context, R.string.update_error, Toast.LENGTH_LONG)
+            Toast.makeText(context, R.string.update_error, Toast.LENGTH_LONG).show()
         }
 }
