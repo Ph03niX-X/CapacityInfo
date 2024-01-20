@@ -316,10 +316,12 @@
     <string name="later_update">Plus tard</string>
     <string name="check_update">Vérifier la mise à jour</string>
     <string name="update_not_found">Mise à jour introuvable!</string>
+    <string name="update_error">Erreur de mise à jour!</string>
     <string name="overlay_location">Emplacement</string>
     <string name="do_you_like_the_app">Aimez-vous l\'application?</string>
     <string name="premium_purchase_error">Erreur d\'achat Premium!</string>
     <string name="install_the_app_from_gp">Installez l\'application depuis Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Pour que l\'application fonctionne correctement, vous devez autoriser l\'exécution de l\'application en arrière-plan</string>
     <string name="failed_open_security_miui">Echec de l\'ouverture de l\'application Sécurité! Suivez les instructions sur le site Don\'t kill my app</string>
+    <string name="error_opening_db">Erreur à l\'ouverture de la base de données!</string>
 </resources>
