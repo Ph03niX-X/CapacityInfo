@@ -316,10 +316,12 @@
     <string name="later_update">Más tarde</string>
     <string name="check_update">Comprobar actualización</string>
     <string name="update_not_found">Actualización no encontrada!</string>
+    <string name="update_error">¡Error de actualización!</string>
     <string name="overlay_location">Ubicación</string>
     <string name="do_you_like_the_app">¿Le gusta la aplicación?</string>
     <string name="premium_purchase_error">¡Error de compra Premium!</string>
     <string name="install_the_app_from_gp">Instala la aplicación desde Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Para que la aplicación funcione correctamente, debes permitir que se ejecute en segundo plano</string>
     <string name="failed_open_security_miui">¡No se pudo abrir la aplicación de seguridad! Siga las instrucciones en el sitio Don\'t kill my app</string>
+    <string name="error_opening_db">¡Error al abrir la base de datos!</string>
 </resources>
