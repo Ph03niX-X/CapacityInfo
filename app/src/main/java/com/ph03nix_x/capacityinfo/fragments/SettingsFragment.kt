@@ -97,9 +97,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         addPreferencesFromResource(R.xml.settings)
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         mainActivity = activity as? MainActivity
 

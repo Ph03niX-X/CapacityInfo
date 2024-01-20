@@ -44,9 +44,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         addPreferencesFromResource(R.xml.debug_settings)
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 

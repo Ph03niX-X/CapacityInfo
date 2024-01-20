@@ -34,9 +34,9 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         addPreferencesFromResource(R.xml.about_settings)
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         developer = findPreference("developer")
 

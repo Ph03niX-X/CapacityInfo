@@ -30,10 +30,9 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-       val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         addPreferencesFromResource(R.xml.feedback_settings)
 
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         // Telegram
         telegramDeveloper = findPreference("telegram_developer")

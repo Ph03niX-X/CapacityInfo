@@ -108,11 +108,11 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
+        addPreferencesFromResource(R.xml.overlay_settings)
+
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val chargingCurrentLimit = getChargingCurrentLimit(requireContext())
-
-        addPreferencesFromResource(R.xml.overlay_settings)
 
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 

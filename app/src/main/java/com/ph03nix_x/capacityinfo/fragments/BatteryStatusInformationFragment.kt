@@ -66,9 +66,9 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         addPreferencesFromResource(R.xml.battery_status_information_settings)
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()

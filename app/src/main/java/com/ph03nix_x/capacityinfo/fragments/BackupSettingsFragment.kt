@@ -30,9 +30,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         addPreferencesFromResource(R.xml.backup_settings)
+
+        pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when(requestCode) {
