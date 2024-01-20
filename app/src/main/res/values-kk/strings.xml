@@ -252,6 +252,7 @@
     <string name="stop_service">Тоқта Қызмет</string>
     <string name="stopping_service">Қызметті тоқтату&#8230;</string>
     <string name="service_stopped_successfully">Қызмет сәтті тоқтатылды!</string>
+    <string name="error_stopping_service">Қызметті тоқтату қатесі!</string>
     <string name="text_font">Мәтін шрифті (Зарядтау/Разрядтау/Тозуы/Тарихы)</string>
     <string name="font_overlay">Шрифті</string>
     <string name="telegram_link_copied">Telegram сілтемесі көшірілді</string>
