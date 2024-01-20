@@ -337,6 +337,7 @@
     <string name="later_update">Later</string>
     <string name="check_update">Check Update</string>
     <string name="update_not_found">Update not Found!</string>
+    <string name="update_error">Update error!</string>
     <string name="overlay_location">Location</string>
     <string name="do_you_like_the_app">Do you like the app?</string>
     <string name="premium_purchase_error">Premium purchase error!</string>

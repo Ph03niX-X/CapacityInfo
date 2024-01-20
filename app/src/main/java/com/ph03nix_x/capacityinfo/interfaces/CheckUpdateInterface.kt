@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
+import android.content.Context
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
@@ -37,7 +38,7 @@ interface CheckUpdateInterface {
                 intentResultStarter()
                 val appUpdateOptions =
                     AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
-                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
+                startUpdate(this, appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
                     appUpdateOptions)
             }
             else if(isUpdateAvailable) {
@@ -66,8 +67,8 @@ interface CheckUpdateInterface {
                 MainActivity.instance?.intentResultStarter()
                 val appUpdateOptions =
                     AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
-                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
-                    appUpdateOptions)
+                startUpdate(requireContext(), appUpdateManager, appUpdateInfo,
+                    updateFlowResultLauncher!!, appUpdateOptions)
             }
             if(isUpdateAvailable) {
                 pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
@@ -76,8 +77,8 @@ interface CheckUpdateInterface {
                 val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
                 val appUpdateOptions =
                     AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
-                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher!!,
-                    appUpdateOptions)
+                startUpdate(requireContext(), appUpdateManager, appUpdateInfo,
+                    updateFlowResultLauncher!!, appUpdateOptions)
             }
             else {
                 pref.apply {
@@ -100,8 +101,8 @@ interface CheckUpdateInterface {
             setPositiveButton(R.string.update) {_, _ ->
                 pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
                     (CapacityInfoService.instance?.screenTime ?: 0L) + 15L).apply()
-                startUpdate(appUpdateManager, appUpdateInfo, updateFlowResultLauncher,
-                    appUpdateOptions)
+                startUpdate(this@updateAvailableDialog, appUpdateManager, appUpdateInfo,
+                    updateFlowResultLauncher, appUpdateOptions)
             }
             setNegativeButton(R.string.later_update) { _, _ ->
                 pref.apply {
@@ -135,9 +136,16 @@ interface CheckUpdateInterface {
         appUpdateInfo.updateAvailability() ==
                 UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
 
-    private fun startUpdate(appUpdateManager: AppUpdateManager, appUpdateInfo: AppUpdateInfo,
+    private fun startUpdate(context: Context, appUpdateManager: AppUpdateManager,
+                            appUpdateInfo: AppUpdateInfo,
                             updateFlowResultLauncher: ActivityResultLauncher<IntentSenderRequest>,
-                            appUpdateOptions: AppUpdateOptions) = appUpdateManager
-                                .startUpdateFlowForResult(appUpdateInfo, updateFlowResultLauncher,
-                                    appUpdateOptions)
+                            appUpdateOptions: AppUpdateOptions) =
+        try {
+            appUpdateManager
+                .startUpdateFlowForResult(appUpdateInfo, updateFlowResultLauncher,
+                    appUpdateOptions)
+        }
+        catch(_: Exception) {
+            Toast.makeText(context, R.string.update_error, Toast.LENGTH_LONG)
+        }
 }
