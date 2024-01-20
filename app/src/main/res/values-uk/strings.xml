@@ -316,10 +316,12 @@
     <string name="later_update">Пізніше</string>
     <string name="check_update">Перевірити оновлення</string>
     <string name="update_not_found">Оновлення не знайдено!</string>
+    <string name="update_error">Помилка оновлення!</string>
     <string name="overlay_location">Розташування</string>
     <string name="do_you_like_the_app">Подобається додаток?</string>
     <string name="premium_purchase_error">Помилка придбання Premium!</string>
     <string name="install_the_app_from_gp">Встановіть додаток з Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Для коректної роботи програми потрібно дозволити програмі запуск у фоновому режимі</string>
     <string name="failed_open_security_miui">Не вдалося відкрити додаток Безпека! Дотримуйтесь інструкції з сайту Don\'t kill my app</string>
+    <string name="error_opening_db">Помилка відкриття бази даних!</string>
 </resources>
