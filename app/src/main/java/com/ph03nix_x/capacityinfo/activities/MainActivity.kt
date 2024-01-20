@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -423,13 +424,15 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     private fun checkBatteryOptimizations() {
-        if(showRequestNotificationPermissionDialog == null) checkManufacturer()
-
-        if(!isIgnoringBatteryOptimizations() && !isShowXiaomiBackgroundActivityControlDialog
-            && isShowRequestIgnoringBatteryOptimizationsDialog &&
-            showRequestIgnoringBatteryOptimizationsDialog == null &&
-            showXiaomiAutostartDialog == null && showHuaweiInformation == null)
-            showRequestIgnoringBatteryOptimizationsDialog()
+        try {
+            if(showRequestNotificationPermissionDialog == null) checkManufacturer()
+            if(!isIgnoringBatteryOptimizations() && !isShowXiaomiBackgroundActivityControlDialog
+                && isShowRequestIgnoringBatteryOptimizationsDialog &&
+                showRequestIgnoringBatteryOptimizationsDialog == null &&
+                showXiaomiAutostartDialog == null && showHuaweiInformation == null)
+                showRequestIgnoringBatteryOptimizationsDialog()
+        }
+        catch(_: WindowManager.BadTokenException) {}
     }
 
     private fun requestRateTheApp() {
