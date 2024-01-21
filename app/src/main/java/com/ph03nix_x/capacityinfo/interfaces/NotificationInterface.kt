@@ -77,10 +77,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onCreateServiceNotification(context: Context) {
-        if((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
-                .checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_DENIED) ||
-            isNotificationExists(context, NOTIFICATION_SERVICE_ID)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         channelId = onCreateNotificationChannel(context, SERVICE_CHANNEL_ID)
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
@@ -168,9 +164,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onUpdateServiceNotification(context: Context) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat
-                .checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
-            PackageManager.PERMISSION_DENIED) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as NotificationManager
