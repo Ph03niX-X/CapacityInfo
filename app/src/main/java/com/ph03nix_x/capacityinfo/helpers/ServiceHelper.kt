@@ -27,27 +27,17 @@ object ServiceHelper {
 
     fun startService(context: Context, serviceName: Class<*>,
                      isStartOverlayServiceFromSettings: Boolean = false) {
-
         CoroutineScope(Dispatchers.Main).launch{
-
             try {
-
                 if(serviceName == CapacityInfoService::class.java) {
-
                     isStartedCapacityInfoService = true
-
-                    delay(2.5.seconds)
                     context.startForegroundService(Intent(context, serviceName))
-
                     delay(1.seconds)
                     isStartedCapacityInfoService = false
                 }
                 else if(serviceName == OverlayService::class.java) {
-
                     isStartedOverlayService = true
-
                     if(!isStartOverlayServiceFromSettings) delay(3.6.seconds)
-
                     context.startService(Intent(context, serviceName))
                     isStartedCapacityInfoService = false
                 }
