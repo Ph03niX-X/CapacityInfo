@@ -323,5 +323,5 @@
     <string name="install_the_app_from_gp">Усталюйце дадатак з Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Для карэктнай працы дадатка патрабуецца дазволіць дадатку запуск у фонавым рэжыме</string>
     <string name="failed_open_security_miui">Не ўдалося адкрыць дадатак Бяспека! Выконвайце інструкцыі з сайта Don\'t kill my app</string>
-    <string name="error_opening_db">Памылка адкрыцця базы дадзеных!</string>
+    <string name="error_opening_db">Памылка адкрыцця базы даных!</string>
 </resources>
