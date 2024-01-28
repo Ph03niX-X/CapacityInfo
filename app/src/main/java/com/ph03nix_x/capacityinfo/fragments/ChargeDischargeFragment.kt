@@ -76,6 +76,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         isJob = true
         isChargingDischargeCurrentInWatt = pref.getBoolean(IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
             resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
+        chargingTime = CapacityInfoService.instance?.seconds ?: 0
         chargeDischargeInformationJob()
     }
 
@@ -139,8 +140,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         binding.batteryLevel.text = getString(R.string.battery_level,
                             "${getBatteryLevel(requireContext())}%")
-                        if(chargingTime == 0)
-                            chargingTime = CapacityInfoService.instance?.seconds ?: -1
+                        if(CapacityInfoService.instance != null && chargingTime == 0)
+                            chargingTime = CapacityInfoService.instance?.seconds ?: 0
                         if(chargingTime > 0) {
                             binding.chargingTime.apply {
                                 visibility = View.VISIBLE
@@ -267,7 +268,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                         getCapacityAdded(requireContext())
                                 }
                                 getSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
-                                    if(chargingTime > 0) chargingTime = 0
+                                    if(CapacityInfoService.instance != null && chargingTime > 0)
+                                        chargingTime = 0
                                     if(binding.capacityAddedChargeDischarge.visibility == View.GONE)
                                         binding.capacityAddedChargeDischarge.visibility =
                                             View.VISIBLE
@@ -296,7 +298,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     when(status) {
                         BatteryManager.BATTERY_STATUS_CHARGING -> {
-                            chargingTime++
+                            if(CapacityInfoService.instance != null) chargingTime++
                             if(binding.chargeCurrent.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
                                     binding.chargeCurrent.visibility = View.VISIBLE }
