@@ -321,6 +321,7 @@
     <string name="premium_purchase_error">Erro de compra Premium!</string>
     <string name="install_the_app_from_gp">Instale o aplicativo do Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Para que a aplicação funcione corretamente, tem de permitir que a aplicação seja executada em segundo plano</string>
-    <string name="failed_open_security_miui">Falhou ao abrir o aplicativo Segurança! Siga as instruções no site  Don\'t kill my app</string>
+    <string name="failed_open_security_miui">Falha ao abrir o aplicativo Segurança! Siga as instruções no site  Don\'t kill my app</string>
     <string name="error_opening_db">Erro ao abrir banco de dados!</string>
+    <string name="failed_request_permission">Falha ao solicitar permissão! Siga as instruções no site  Don\'t kill my app</string>
 </resources>
