@@ -324,4 +324,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Для корректной работы приложения требуется разрешить приложению запуск в фоновом режиме</string>
     <string name="failed_open_security_miui">Не удалось открыть приложение Безопасность! Следуйте инструкции с сайта Don\'t kill my app</string>
     <string name="error_opening_db">Ошибка открытия базы данных!</string>
+    <string name="failed_request_permission">Не удалось запросить разрешение! Следуйте инструкции с сайта Don\'t kill my app</string>
 </resources>
