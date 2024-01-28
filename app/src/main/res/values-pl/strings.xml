@@ -322,6 +322,7 @@
     <string name="premium_purchase_error">Błąd zakupu Premium!</string>
     <string name="install_the_app_from_gp">Zainstaluj aplikację z Google Play</string>
     <string name="ignoring_battery_optimizations_dialog_message">Aby aplikacja działała poprawnie, należy zezwolić jej na działanie w tle</string>
-    <string name="failed_open_security_miui">Nie udało się otworzyć aplikacji Security! Postępuj zgodnie z instrukcjami na stronie  Don\'t kill my app</string>
+    <string name="failed_open_security_miui">Nie udało się otworzyć aplikacji Security! Postępuj zgodnie z instrukcjami na stronie Don\'t kill my app</string>
     <string name="error_opening_db">Błąd podczas otwierania bazy danych!</string>
+    <string name="failed_request_permission">Nie udało się poprosić o pozwolenie! Postępuj zgodnie z instrukcjami na stronie Don\'t kill my app</string>
 </resources>
