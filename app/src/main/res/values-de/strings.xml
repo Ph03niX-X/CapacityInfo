@@ -323,4 +323,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Damit die App richtig funktioniert, müssen Sie ihr erlauben, im Hintergrund zu laufen</string>
     <string name="failed_open_security_miui">Die Sicherheits-App konnte nicht geöffnet werden! Folgen Sie den Anweisungen auf der Seite Don\'t kill my app</string>
     <string name="error_opening_db">Fehler beim Öffnen der Datenbank!</string>
+    <string name="failed_request_permission">Die Erlaubnis konnte nicht angefordert werden! Folgen Sie den Anweisungen auf der Seite Don\'t kill my app</string>
 </resources>
