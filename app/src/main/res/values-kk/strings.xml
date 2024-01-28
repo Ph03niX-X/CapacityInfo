@@ -324,4 +324,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Қолданба дұрыс жұмыс істеуі үшін қолданбаның фондық режимде жұмыс істеуіне рұқсат беру керек</string>
     <string name="failed_open_security_miui">Қауіпсіздік қолданбасын ашу мүмкін емес! Don\'t kill my app сайтындағы нұсқауларды орындаңыз</string>
     <string name="error_opening_db">Дерекқорды ашу қатесі!</string>
+    <string name="failed_request_permission">Рұқсат сұрау мүмкін болмады! Don\'t kill my app сайтындағы нұсқауларды орындаңыз</string>
 </resources>
