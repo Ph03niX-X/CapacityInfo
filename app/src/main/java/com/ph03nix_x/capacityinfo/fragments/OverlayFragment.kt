@@ -14,6 +14,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
@@ -54,7 +55,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import java.io.File
 import java.text.DecimalFormat
 
-class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
+class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, OverlayInterface {
 
     private lateinit var pref: SharedPreferences
     private lateinit var getResult: ActivityResultLauncher<Intent>
@@ -298,9 +299,11 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface {
 
         chargingTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
-            if(newValue as? Boolean == true && OverlayService.instance == null)
+            if(newValue as? Boolean == true && OverlayService.instance == null) {
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)
-
+                OverlayInterface.chargingTime = CapacityInfoService.instance?.seconds ?: 0
+            }
+            else OverlayInterface.chargingTime = 0
             true
         }
 

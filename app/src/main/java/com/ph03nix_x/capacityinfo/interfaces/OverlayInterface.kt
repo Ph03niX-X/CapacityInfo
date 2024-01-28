@@ -83,6 +83,8 @@ interface OverlayInterface : BatteryInfoInterface {
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
 
+        var chargingTime = 0
+
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             with(pref) {
@@ -361,7 +363,7 @@ interface OverlayInterface : BatteryInfoInterface {
     private fun onUpdateChargingTimeOverlay() {
         if((pref.getBoolean(IS_CHARGING_TIME_OVERLAY, binding.chargingTimeOverlay.context.resources
                 .getBoolean(R.bool.is_charging_time_overlay))
-                    && (CapacityInfoService.instance?.seconds ?: 0) > 1) ||
+                    && CapacityInfoService.instance != null && chargingTime > 1) ||
             binding.chargingTimeOverlay.visibility == View.VISIBLE)
             binding.chargingTimeOverlay.apply {
             TextAppearanceHelper.setTextAppearance(context, this,
@@ -373,8 +375,9 @@ interface OverlayInterface : BatteryInfoInterface {
                 true, pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
                     R.bool.is_only_values_overlay)))
                 visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_charging_time_overlay)) && (
-                        CapacityInfoService.instance?.seconds ?: 0) > 1) View.VISIBLE else View.GONE
+                    .getBoolean(R.bool.is_charging_time_overlay)) &&
+                    CapacityInfoService.instance != null && chargingTime > 1) View.VISIBLE
+                else View.GONE
         }
     }
 

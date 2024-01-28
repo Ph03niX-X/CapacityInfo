@@ -20,42 +20,34 @@ class OverlayService : Service(), OverlayInterface {
     private var isJob = false
 
     companion object {
-
         var instance: OverlayService? = null
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
-
         super.onCreate()
-
         instance = this
-
         onCreateOverlay(this)
-
         isJob = !isJob
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         if(jobService == null)
             jobService = CoroutineScope(Dispatchers.Default).launch {
-
                 while(isJob) {
-
                     batteryIntent = registerReceiver(null,
                         IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
                     val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                         BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
                         .BATTERY_STATUS_UNKNOWN
-
-                    delay(if(status == BatteryManager.BATTERY_STATUS_CHARGING) 0.991.seconds
-                    else 1.499.seconds)
-
+                    if(status == BatteryManager.BATTERY_STATUS_CHARGING) {
+                        if(CapacityInfoService.instance != null) OverlayInterface.chargingTime++
+                        delay(if(getCurrentCapacity(this@OverlayService) > 0.0)
+                            0.944.seconds else 0.950.seconds)
+                    }
+                    else delay(1.499.seconds)
                     withContext(Dispatchers.Main) {
-
                         if(isEnabledOverlay(this@OverlayService))
                             onUpdateOverlay(this@OverlayService)
                         else ServiceHelper.stopService(this@OverlayService,
@@ -68,17 +60,12 @@ class OverlayService : Service(), OverlayInterface {
     }
 
     override fun onDestroy() {
-
         isJob = false
-
         instance = null
-
         jobService?.cancel()
-
         jobService = null
-
+        OverlayInterface.chargingTime = 0
         if(linearLayout?.windowToken != null) windowManager?.removeView(linearLayout)
-
         super.onDestroy()
     }
 }
