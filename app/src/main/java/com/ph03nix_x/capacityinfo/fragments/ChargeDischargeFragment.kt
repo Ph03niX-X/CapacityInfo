@@ -42,8 +42,11 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
     private var mainContext: MainActivity? = null
     private var job: Job? = null
+    private var screenTime: Long? = null
+
     private var isJob = false
     private var isChargingDischargeCurrentInWatt = false
+    private var isScreenTimeCount = false
 
     private var chargingTime = 0
 
@@ -67,35 +70,30 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     }
 
     override fun onResume() {
-
         super.onResume()
-
         batteryIntent = requireContext().registerReceiver(null,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-
         isJob = true
-
         isChargingDischargeCurrentInWatt = pref.getBoolean(IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
             resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
-
         chargeDischargeInformationJob()
     }
 
     override fun onStop() {
-
         super.onStop()
-
         isJob = false
         job?.cancel()
         job = null
+        isScreenTimeCount = false
+        screenTime = null
     }
 
     override fun onDestroy() {
-
         isJob = false
         job?.cancel()
         job = null
-
+        isScreenTimeCount = false
+        screenTime = null
         super.onDestroy()
     }
 
@@ -104,6 +102,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         if(job == null)
             job = CoroutineScope(Dispatchers.Default).launch {
                 while(isJob) {
+
+                    if(CapacityInfoService.instance != null && screenTime == null)
+                        screenTime = CapacityInfoService.instance?.screenTime
 
                     withContext(Dispatchers.Main) {
 
@@ -187,16 +188,22 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         binding.apply {
                             this.status.text = getString(R.string.status,
                                 getStatus(requireContext(), status))
-                            
                             if(getSourceOfPower(requireContext(), sourceOfPower) != "N/A") {
-
                                 if(this.sourceOfPower.visibility == View.GONE)
                                     this.sourceOfPower.visibility = View.VISIBLE
-
                                 this.sourceOfPower.text =
                                     getSourceOfPower(requireContext(), sourceOfPower)
+                                if(CapacityInfoService.instance != null
+                                    && this@ChargeDischargeFragment.screenTime == null)
+                                    this@ChargeDischargeFragment.screenTime =
+                                        CapacityInfoService.instance?.screenTime
                             }
-                            else this.sourceOfPower.visibility = View.GONE
+                            else {
+                                this.sourceOfPower.visibility = View.GONE
+                                if(CapacityInfoService.instance != null && isScreenTimeCount)
+                                    this@ChargeDischargeFragment.screenTime =
+                                        (this@ChargeDischargeFragment.screenTime ?: 0) + 1
+                            }
                         }
                     }
 
@@ -479,19 +486,22 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             .binding.chargingCurrentLimit.visibility = View.GONE
 
                         binding.screenTime.text = getString(R.string.screen_time, TimeHelper
-                            .getTime(CapacityInfoService.instance
-                                ?.screenTime ?: if(MainApp.tempScreenTime > 0) MainApp.tempScreenTime
-                            else if(MainApp.isUpdateApp)
+                            .getTime(screenTime ?: if(MainApp.tempScreenTime > 0)
+                                MainApp.tempScreenTime else if(MainApp.isUpdateApp)
                                 pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L) else 0L))
                     }
 
                     when(status) {
-
                         BatteryManager.BATTERY_STATUS_CHARGING ->
                             delay(if(getCurrentCapacity(requireContext()) > 0.0) 0.972.seconds
                             else 0.979.seconds)
-
-                        else -> delay(1.5.seconds)
+                        else -> {
+                            delay(1.seconds)
+                            if(CapacityInfoService.instance != null && !isScreenTimeCount) {
+                                isScreenTimeCount = true
+                                screenTime = CapacityInfoService.instance?.screenTime
+                            }
+                        }
                     }
                 }
             }
