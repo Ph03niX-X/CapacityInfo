@@ -10,6 +10,7 @@ import android.provider.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.utilities.Constants
 
 /**
  * Created by Ph03niX-X on 05.12.2023
@@ -45,6 +46,32 @@ interface BatteryOptimizationsInterface {
                 startActivity(this)
             }
         }
-        catch (_: ActivityNotFoundException) {}
+        catch (_: ActivityNotFoundException) {
+            if(showFailedRequestIgnoringBatteryOptimizationsDialog == null)
+                showFailedRequestIgnoringBatteryOptimizationsDialog()
+        }
+    }
+
+    private fun MainActivity.showFailedRequestIgnoringBatteryOptimizationsDialog() {
+        showFailedRequestIgnoringBatteryOptimizationsDialog =
+            MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(R.string.error)
+                setMessage(R.string.failed_request_permission)
+                setPositiveButton(android.R.string.ok) { d, _ ->
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW,
+                            Uri.parse(Constants.DONT_KILL_MY_APP_LINK)))
+                    }
+                    catch (_: ActivityNotFoundException) { d.dismiss() }
+                    finally {
+                        showFailedRequestIgnoringBatteryOptimizationsDialog = null
+                    }
+                }
+                setNegativeButton(android.R.string.cancel) { _, _ ->
+                    showFailedRequestIgnoringBatteryOptimizationsDialog = null
+                }
+                show()
+            }
     }
 }

@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     var showXiaomiAutostartDialog: MaterialAlertDialogBuilder? = null
     var showHuaweiInformation: MaterialAlertDialogBuilder? = null
     var showRequestIgnoringBatteryOptimizationsDialog: MaterialAlertDialogBuilder? = null
+    var showFailedRequestIgnoringBatteryOptimizationsDialog: MaterialAlertDialogBuilder? = null
     lateinit var toolbar: CenteredToolbar
     lateinit var navigation: BottomNavigationView
 
