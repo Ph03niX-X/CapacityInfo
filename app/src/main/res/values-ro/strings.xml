@@ -324,4 +324,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Pentru ca aplicația să funcționeze corect, trebuie să permiteți ca aplicația să ruleze în fundal</string>
     <string name="failed_open_security_miui">Nu s-a reușit deschiderea aplicației Securitate! Urmați instrucțiunile de pe site-ul Don\t kill my app</string>
     <string name="error_opening_db">Eroare la deschiderea bazei de date!</string>
+    <string name="failed_request_permission">Nu s-a putut solicita permisiunea! Urmați instrucțiunile de pe site-ul Don\t kill my app</string>
 </resources>
