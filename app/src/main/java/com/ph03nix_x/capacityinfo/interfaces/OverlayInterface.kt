@@ -376,9 +376,9 @@ interface OverlayInterface : BatteryInfoInterface {
                 pref.getString(OVERLAY_FONT, "6"),
                 pref.getString(OVERLAY_SIZE, "2"))
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
-                text = getChargingTime(context, (CapacityInfoService.instance?.seconds ?: 0),
-                true, pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
-                    R.bool.is_only_values_overlay)))
+                text = getChargingTime(context, chargingTime, true,
+                    pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources.getBoolean(
+                        R.bool.is_only_values_overlay)))
                 visibility = if(pref.getBoolean(IS_CHARGING_TIME_OVERLAY, context.resources
                     .getBoolean(R.bool.is_charging_time_overlay)) &&
                     CapacityInfoService.instance != null && chargingTime > 1) View.VISIBLE
