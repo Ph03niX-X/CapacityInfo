@@ -324,4 +324,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Agar aplikasi dapat berfungsi dengan baik, Anda harus mengizinkan aplikasi berjalan di latar belakang</string>
     <string name="failed_open_security_miui">Gagal membuka aplikasi Keamanan! Ikuti petunjuk di situs Don\'t kill my app</string>
     <string name="error_opening_db">Kesalahan saat membuka database!</string>
+    <string name="failed_request_permission">Gagal meminta izin! Ikuti petunjuk di situs Don\'t kill my app</string>
 </resources>
