@@ -45,6 +45,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private var isJob = false
     private var isChargingDischargeCurrentInWatt = false
 
+    private var chargingTime = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -136,12 +138,12 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         binding.batteryLevel.text = getString(R.string.battery_level,
                             "${getBatteryLevel(requireContext())}%")
-                        if((CapacityInfoService.instance?.seconds ?: 0) > 1) {
+                        if(chargingTime == 0)
+                            chargingTime = CapacityInfoService.instance?.seconds ?: -1
+                        if(chargingTime > 0) {
                             binding.chargingTime.apply {
                                 visibility = View.VISIBLE
-
-                                text = getChargingTime(requireContext(),
-                                    CapacityInfoService.instance?.seconds ?: 0)
+                                text = getChargingTime(requireContext(), chargingTime)
                             }
                         }
                         else if(binding.chargingTime.visibility == View.VISIBLE)
@@ -154,22 +156,17 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         if(sourceOfPower == BatteryManager.BATTERY_PLUGGED_AC
                             && status == BatteryManager.BATTERY_STATUS_CHARGING) {
-
                             binding.apply {
                                 if(chargingTimeRemaining.visibility == View.GONE)
                                     chargingTimeRemaining.visibility = View.VISIBLE
-
                                 if(remainingBatteryTime.visibility == View.VISIBLE)
                                     remainingBatteryTime.visibility = View.GONE
-
                                 chargingTimeRemaining.text =
                                     getString(R.string.charging_time_remaining,
                                         getChargingTimeRemaining(requireContext()))
                             }
                         }
-
                         else {
-
                             if(binding.chargingTimeRemaining.visibility == View.VISIBLE)
                                 binding.chargingTimeRemaining.visibility = View.GONE
 
@@ -263,7 +260,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                         getCapacityAdded(requireContext())
                                 }
                                 getSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
-
+                                    if(chargingTime > 0) chargingTime = 0
                                     if(binding.capacityAddedChargeDischarge.visibility == View.GONE)
                                         binding.capacityAddedChargeDischarge.visibility =
                                             View.VISIBLE
@@ -291,15 +288,12 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     }
 
                     when(status) {
-
                         BatteryManager.BATTERY_STATUS_CHARGING -> {
-
+                            chargingTime++
                             if(binding.chargeCurrent.visibility == View.GONE)
                                 withContext(Dispatchers.Main) {
                                     binding.chargeCurrent.visibility = View.VISIBLE }
-
                             withContext(Dispatchers.Main) {
-
                                 binding.chargeCurrent.text = if(isChargingDischargeCurrentInWatt)
                                     getString(R.string.charge_current_watt,
                                         DecimalFormat("#.##").format(
