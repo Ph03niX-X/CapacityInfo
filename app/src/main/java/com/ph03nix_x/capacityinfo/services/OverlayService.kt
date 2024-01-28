@@ -50,7 +50,7 @@ class OverlayService : Service(), OverlayInterface {
                         delay(if(getCurrentCapacity(this@OverlayService) > 0.0)
                             0.944.seconds else 0.950.seconds)
                     }
-                    else delay(1.499.seconds)
+                    else delay(1.seconds)
                     withContext(Dispatchers.Main) {
                         if(CapacityInfoService.instance != null &&
                             OverlayInterface.screenTime == null) {
