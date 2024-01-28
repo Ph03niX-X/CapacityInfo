@@ -15,6 +15,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
@@ -82,6 +83,10 @@ interface OverlayInterface : BatteryInfoInterface {
         private lateinit var pref: SharedPreferences
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
+
+        var screenTime: Long? = null
+
+        var isScreenTimeCount = false
 
         var chargingTime = 0
 
@@ -425,8 +430,9 @@ interface OverlayInterface : BatteryInfoInterface {
     }
 
     private fun onUpdateScreenTimeOverlay() {
-        if(pref.getBoolean(IS_SCREEN_TIME_OVERLAY, binding.screenTimeOverlay.context.resources
-                .getBoolean(R.bool.is_screen_time_overlay)) ||
+        if((CapacityInfoService.instance != null && pref.getBoolean(IS_SCREEN_TIME_OVERLAY,
+                binding.screenTimeOverlay.context.resources.getBoolean(
+                    R.bool.is_screen_time_overlay))) ||
             binding.screenTimeOverlay.visibility == View.VISIBLE)
             binding.screenTimeOverlay.apply {
                 TextAppearanceHelper.setTextAppearance(context, this,
@@ -437,9 +443,12 @@ interface OverlayInterface : BatteryInfoInterface {
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
                         context.resources.getBoolean(R.bool.is_only_values_overlay)))
                     R.string.screen_time else R.string.screen_time_overlay_only_values,
-                    TimeHelper.getTime(CapacityInfoService.instance?.screenTime ?: 0L))
-                visibility = if(pref.getBoolean(IS_SCREEN_TIME_OVERLAY, context.resources
-                        .getBoolean(R.bool.is_screen_time_overlay))) View.VISIBLE else View.GONE
+                    TimeHelper.getTime(screenTime ?: if(MainApp.tempScreenTime > 0)
+                        MainApp.tempScreenTime else if(MainApp.isUpdateApp)
+                        pref.getLong(PreferencesKeys.UPDATE_TEMP_SCREEN_TIME, 0L) else 0L))
+                visibility = if(CapacityInfoService.instance != null && pref.getBoolean(
+                        IS_SCREEN_TIME_OVERLAY, context.resources.getBoolean(
+                            R.bool.is_screen_time_overlay))) View.VISIBLE else View.GONE
             }
     }
 
