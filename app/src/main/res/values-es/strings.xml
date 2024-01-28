@@ -324,4 +324,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Para que la aplicación funcione correctamente, debes permitir que se ejecute en segundo plano</string>
     <string name="failed_open_security_miui">¡No se pudo abrir la aplicación de seguridad! Siga las instrucciones en el sitio Don\'t kill my app</string>
     <string name="error_opening_db">¡Error al abrir la base de datos!</string>
+    <string name="failed_request_permission">¡No se pudo solicitar permiso! Siga las instrucciones en el sitio Don\'t kill my app</string>
 </resources>
