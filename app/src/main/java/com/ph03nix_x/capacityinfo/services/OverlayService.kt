@@ -29,6 +29,7 @@ class OverlayService : Service(), OverlayInterface {
         super.onCreate()
         instance = this
         onCreateOverlay(this)
+        OverlayInterface.chargingTime = CapacityInfoService.instance?.seconds ?: 0
         isJob = !isJob
     }
 
@@ -48,9 +49,9 @@ class OverlayService : Service(), OverlayInterface {
                             getSourceOfPower(this@OverlayService, sourceOfPower) != "N/A")
                             OverlayInterface.chargingTime++
                         delay(if(getCurrentCapacity(this@OverlayService) > 0.0)
-                            0.944.seconds else 0.950.seconds)
+                            0.99.seconds else 1.seconds)
                     }
-                    else delay(1.1.seconds)
+                    else delay(1.seconds)
                     withContext(Dispatchers.Main) {
                         if(CapacityInfoService.instance != null &&
                             OverlayInterface.screenTime == null) {
@@ -60,7 +61,8 @@ class OverlayService : Service(), OverlayInterface {
                         }
                         else if(CapacityInfoService.instance != null &&
                             OverlayInterface.isScreenTimeCount &&
-                            getSourceOfPower(this@OverlayService, sourceOfPower) == "N/A")
+                            getSourceOfPower(this@OverlayService, sourceOfPower) == "N/A"
+                            && status == BatteryManager.BATTERY_STATUS_DISCHARGING)
                             OverlayInterface.screenTime = (OverlayInterface.screenTime ?: 0) + 1
                         if(isEnabledOverlay(this@OverlayService))
                             onUpdateOverlay(this@OverlayService)

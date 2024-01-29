@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.percentAdded
+import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -30,7 +31,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 
-class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterface {
+class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterface,
+    OverlayInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -74,6 +76,10 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL, context.resources.getBoolean(
                             R.bool.is_reset_screen_time_at_any_charge_level))))
                     CapacityInfoService.instance?.screenTime = 0L
+                OverlayInterface.apply {
+                    chargingTime = 0
+                    screenTime = CapacityInfoService.instance?.screenTime
+                }
                 BatteryInfoInterface.apply {
                     maxChargeCurrent = 0
                     averageChargeCurrent = 0
