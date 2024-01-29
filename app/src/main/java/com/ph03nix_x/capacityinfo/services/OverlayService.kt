@@ -90,6 +90,7 @@ class OverlayService : Service(), OverlayInterface {
         jobService = null
         OverlayInterface.screenTime = null
         OverlayInterface.chargingTime = 0
+        OverlayInterface.isScreenTimeCount = false
         if(linearLayout?.windowToken != null) windowManager?.removeView(linearLayout)
         super.onDestroy()
     }
