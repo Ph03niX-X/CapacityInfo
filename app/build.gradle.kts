@@ -16,14 +16,12 @@ android {
         namespace = applicationId
         minSdk = 26
         targetSdk = 34
-        versionCode = 1506
-        versionName = "7.5.3.1"
+        versionCode = 1515
+        versionName = "7.5.4.1"
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resourceConfigurations += listOf(
-            "en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
-            "bg", "kk", "ru", "uk"
-        )
+        resourceConfigurations += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
+            "bg", "kk", "ru", "uk")
     }
     tasks {
         withType<KotlinCompile> {
