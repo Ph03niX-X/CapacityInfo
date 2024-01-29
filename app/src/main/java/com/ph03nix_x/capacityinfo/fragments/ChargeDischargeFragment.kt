@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
@@ -58,22 +57,18 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         binding = ChargeDischargeFragmentBinding.inflate(inflater, container, false)
-
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         instance = this
-
         return binding.root.rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-
         mainContext = context as? MainActivity
-
+        screenTime = if(MainApp.tempScreenTime > 0L) MainApp.tempScreenTime
+        else if(MainApp.isUpdateApp) pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)
+        else CapacityInfoService.instance?.screenTime
         updateTextAppearance()
     }
 
