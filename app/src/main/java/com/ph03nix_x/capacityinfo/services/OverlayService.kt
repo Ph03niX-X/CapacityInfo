@@ -50,7 +50,7 @@ class OverlayService : Service(), OverlayInterface {
                         delay(if(getCurrentCapacity(this@OverlayService) > 0.0)
                             0.944.seconds else 0.950.seconds)
                     }
-                    else delay(1.seconds)
+                    else delay(1.1.seconds)
                     withContext(Dispatchers.Main) {
                         if(CapacityInfoService.instance != null &&
                             OverlayInterface.screenTime == null) {
@@ -59,8 +59,8 @@ class OverlayService : Service(), OverlayInterface {
                                 OverlayInterface.isScreenTimeCount = true
                         }
                         else if(CapacityInfoService.instance != null &&
-                            getSourceOfPower(this@OverlayService, sourceOfPower) == "N/A"
-                            && OverlayInterface.isScreenTimeCount)
+                            OverlayInterface.isScreenTimeCount &&
+                            getSourceOfPower(this@OverlayService, sourceOfPower) == "N/A")
                             OverlayInterface.screenTime = (OverlayInterface.screenTime ?: 0) + 1
                         if(isEnabledOverlay(this@OverlayService))
                             onUpdateOverlay(this@OverlayService)
