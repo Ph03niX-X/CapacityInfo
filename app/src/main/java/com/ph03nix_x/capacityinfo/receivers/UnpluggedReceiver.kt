@@ -80,6 +80,10 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                     chargingTime = 0
                     screenTime = CapacityInfoService.instance?.screenTime
                 }
+                ChargeDischargeFragment.instance?.apply {
+                    chargingTime = 0
+                    screenTime = CapacityInfoService.instance?.screenTime
+                }
                 BatteryInfoInterface.apply {
                     maxChargeCurrent = 0
                     averageChargeCurrent = 0

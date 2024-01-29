@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
@@ -42,13 +43,18 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
     private var mainContext: MainActivity? = null
     private var job: Job? = null
-    private var screenTime: Long? = null
 
     private var isJob = false
     private var isChargingDischargeCurrentInWatt = false
     private var isScreenTimeCount = false
 
-    private var chargingTime = 0
+    var screenTime: Long? = null
+
+    var chargingTime = 0
+
+    companion object {
+        var instance: ChargeDischargeFragment? = null
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,11 +63,13 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
+        instance = this
+
         return binding.root.rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        
+
         super.onViewCreated(view, savedInstanceState)
 
         mainContext = context as? MainActivity
@@ -185,7 +193,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     }
 
                     withContext(Dispatchers.Main) {
-                        
+
                         binding.apply {
                             this.status.text = getString(R.string.status,
                                 getStatus(requireContext(), status))
@@ -356,7 +364,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             }
 
                             withContext(Dispatchers.Main) {
-                                
+
                                 binding.apply {
                                     if(maxChargeDischargeCurrent.visibility == View.GONE)
                                         maxChargeDischargeCurrent.visibility = View.VISIBLE
@@ -395,14 +403,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                                         BatteryInfoInterface.minChargeCurrent,
                                                         true)))
                                         else getString(R.string.min_charge_current,
-                                            BatteryInfoInterface.minChargeCurrent)   
+                                            BatteryInfoInterface.minChargeCurrent)
                                 }
                             }
                         }
 
                         BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
                             .BATTERY_STATUS_NOT_CHARGING -> withContext(Dispatchers.Main) {
-                                
+
                                 binding.apply {
                                     if(fastCharge.visibility == View.VISIBLE)
                                         fastCharge.visibility = View.GONE
@@ -441,14 +449,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                                     getChargeDischargeCurrentInWatt(
                                                         BatteryInfoInterface.minDischargeCurrent)))
                                         else getString(R.string.min_discharge_current,
-                                            BatteryInfoInterface.minDischargeCurrent)   
+                                            BatteryInfoInterface.minDischargeCurrent)
                                 }
                         }
 
                         else -> {
 
                             withContext(Dispatchers.Main) {
-                                
+
                                 binding.apply {
                                     if(maxChargeDischargeCurrent.visibility == View.VISIBLE)
                                         maxChargeDischargeCurrent.visibility = View.GONE
@@ -457,7 +465,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                         averageChargeDischargeCurrent.visibility = View.GONE
 
                                     if(minChargeDischargeCurrent.visibility == View.VISIBLE)
-                                        minChargeDischargeCurrent.visibility = View.GONE   
+                                        minChargeDischargeCurrent.visibility = View.GONE
                                 }
                             }
                         }
