@@ -348,4 +348,5 @@
     <string name="failed_request_permission">Failed to request permission! Follow the instructions from the Don\'t kill my app site</string>
     <string name="show_battery_level_in_status_bar">Show Battery Level in Status Bar</string>
     <string name="support_and_unlock_premium_features">Support &amp; Unlock Premium features</string>
+    <string name="add_number_of_cycles">Add Number of Cycles</string>
 </resources>

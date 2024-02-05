@@ -54,6 +54,12 @@
                 android:key="reset_settings"/>
 
         <Preference
+            android:title="@string/add_number_of_cycles"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_add_number_of_cycles"
+            android:key="add_number_of_cycles"/>
+
+        <Preference
             android:title="@string/reset_screen_time"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_reset_screen_time_at_any_charge_level"

@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.AddCustomHistoryDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.AddNumberOfCyclesDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangePrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
@@ -579,6 +580,50 @@ interface DebugOptionsInterface {
             }
             setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
             show()
+        }
+    }
+    fun DebugFragment.addNumberOfCyclesDialog() {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val numberOfCyclesPref = pref.getFloat(NUMBER_OF_CYCLES, 0f)
+        val numberOfCycles = (numberOfCyclesPref * 100.0f).toInt()
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val binding = AddNumberOfCyclesDialogBinding.inflate(LayoutInflater.from(context),
+            null, false)
+        dialog.setView(binding.root.rootView)
+        binding.addNumberOfCyclesEdit.setText("$numberOfCycles")
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+            pref.edit().putFloat(NUMBER_OF_CYCLES,
+                binding.addNumberOfCyclesEdit.text.toString().toFloat() / 100.0f).apply()
+        }
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+        val dialogCreate = dialog.create()
+        addNumberOfCyclesCreateDialogCreateShowListener(requireContext(), dialogCreate,
+            binding.addNumberOfCyclesEdit, pref)
+        dialogCreate.show()
+    }
+
+    private fun addNumberOfCyclesCreateDialogCreateShowListener(context: Context,
+                                                             dialogCreate: AlertDialog,
+                                                             addNumberOfCycles: TextInputEditText,
+                                                             pref: SharedPreferences) {
+        dialogCreate.setOnShowListener {
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+            addNumberOfCycles.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
+                        s.isNotEmpty() && (s.toString().toFloat() / 100.0f) !=
+                                pref.getFloat(NUMBER_OF_CYCLES, 0f)
+                    }
+                    catch (e: NumberFormatException) {
+                        Toast.makeText(context, e.message ?: e.toString(),
+                            Toast.LENGTH_LONG).show()
+                        false
+                    }
+                }
+            })
         }
     }
 
