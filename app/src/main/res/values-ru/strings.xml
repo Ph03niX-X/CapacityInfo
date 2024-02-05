@@ -140,7 +140,7 @@
     <string name="voltage_overlay">Напряжение</string>
     <string name="last_charge_time_overlay">Время последней зарядки</string>
     <string name="battery_wear_overlay">Износ аккумулятора</string>
-    <string name="overlay_permission_dialog_message">Для работы оверлея требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
+    <string name="overlay_permission_dialog_message">Для работы наложения требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
     <string name="text_style_overlay">Стиль текста</string>
     <string name="text_size">Размер текста (Зарядка/Разрядка/Износ/История)</string>
     <string name="text_style">Стиль текста (Зарядка/Разрядка/Износ/История)</string>
