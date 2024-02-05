@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_SETTI
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
@@ -62,6 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var stopService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
     private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
+    private var isShowBatteryLevelInStatusBar: SwitchPreferenceCompat? = null
     private var isShowBatteryInformation: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var batteryStatusInformation: Preference? = null
@@ -123,6 +125,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         serviceTime = findPreference(IS_SERVICE_TIME)
 
         isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
+        
+        isShowBatteryLevelInStatusBar = findPreference(IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR)
 
         isShowBatteryInformation = findPreference(IS_SHOW_BATTERY_INFORMATION)
 
@@ -134,6 +138,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         isStopTheServiceWhenTheCD?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+        }
+
+        isShowBatteryLevelInStatusBar?.apply {
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
@@ -685,6 +694,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }
             isStopTheServiceWhenTheCD?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            isShowBatteryLevelInStatusBar?.apply {
                 isEnabled = premium?.isVisible == false
                 summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }

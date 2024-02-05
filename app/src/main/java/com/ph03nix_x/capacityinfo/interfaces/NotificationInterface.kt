@@ -45,6 +45,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
@@ -795,108 +796,114 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 isNotificationExists = notification.id == notificationID
         return isNotificationExists
     }
-
-    private fun getSmallIcon(context: Context) = when((getBatteryLevel(context) ?: 0)) {
-        0 -> R.mipmap.ic_battery_level_0
-        1 -> R.mipmap.ic_battery_level_1
-        2 -> R.mipmap.ic_battery_level_2
-        3 -> R.mipmap.ic_battery_level_3
-        4 -> R.mipmap.ic_battery_level_4
-        5 -> R.mipmap.ic_battery_level_5
-        6 -> R.mipmap.ic_battery_level_6
-        7 -> R.mipmap.ic_battery_level_7
-        8 -> R.mipmap.ic_battery_level_8
-        9 -> R.mipmap.ic_battery_level_9
-        11 -> R.mipmap.ic_battery_level_11
-        12 -> R.mipmap.ic_battery_level_12
-        13 -> R.mipmap.ic_battery_level_13
-        14 -> R.mipmap.ic_battery_level_14
-        15 -> R.mipmap.ic_battery_level_15
-        16 -> R.mipmap.ic_battery_level_16
-        17 -> R.mipmap.ic_battery_level_17
-        18 -> R.mipmap.ic_battery_level_18
-        19 -> R.mipmap.ic_battery_level_19
-        20 -> R.mipmap.ic_battery_level_20
-        21 -> R.mipmap.ic_battery_level_21
-        22 -> R.mipmap.ic_battery_level_22
-        23 -> R.mipmap.ic_battery_level_23
-        24 -> R.mipmap.ic_battery_level_24
-        25 -> R.mipmap.ic_battery_level_25
-        26 -> R.mipmap.ic_battery_level_26
-        27 -> R.mipmap.ic_battery_level_27
-        28 -> R.mipmap.ic_battery_level_28
-        29 -> R.mipmap.ic_battery_level_29
-        30 -> R.mipmap.ic_battery_level_30
-        31 -> R.mipmap.ic_battery_level_31
-        32 -> R.mipmap.ic_battery_level_32
-        33 -> R.mipmap.ic_battery_level_33
-        34 -> R.mipmap.ic_battery_level_34
-        35 -> R.mipmap.ic_battery_level_35
-        36 -> R.mipmap.ic_battery_level_36
-        37 -> R.mipmap.ic_battery_level_37
-        38 -> R.mipmap.ic_battery_level_38
-        39 -> R.mipmap.ic_battery_level_39
-        40 -> R.mipmap.ic_battery_level_40
-        41 -> R.mipmap.ic_battery_level_41
-        42 -> R.mipmap.ic_battery_level_42
-        43 -> R.mipmap.ic_battery_level_43
-        44 -> R.mipmap.ic_battery_level_44
-        45 -> R.mipmap.ic_battery_level_45
-        46 -> R.mipmap.ic_battery_level_46
-        47 -> R.mipmap.ic_battery_level_47
-        48 -> R.mipmap.ic_battery_level_48
-        49 -> R.mipmap.ic_battery_level_49
-        50 -> R.mipmap.ic_battery_level_50
-        51 -> R.mipmap.ic_battery_level_51
-        52 -> R.mipmap.ic_battery_level_52
-        53 -> R.mipmap.ic_battery_level_53
-        54 -> R.mipmap.ic_battery_level_54
-        55 -> R.mipmap.ic_battery_level_55
-        56 -> R.mipmap.ic_battery_level_56
-        57 -> R.mipmap.ic_battery_level_57
-        58 -> R.mipmap.ic_battery_level_58
-        59 -> R.mipmap.ic_battery_level_59
-        60 -> R.mipmap.ic_battery_level_60
-        61 -> R.mipmap.ic_battery_level_61
-        62 -> R.mipmap.ic_battery_level_62
-        63 -> R.mipmap.ic_battery_level_63
-        64 -> R.mipmap.ic_battery_level_64
-        65 -> R.mipmap.ic_battery_level_65
-        66 -> R.mipmap.ic_battery_level_66
-        67 -> R.mipmap.ic_battery_level_67
-        68 -> R.mipmap.ic_battery_level_68
-        69 -> R.mipmap.ic_battery_level_69
-        70 -> R.mipmap.ic_battery_level_70
-        71 -> R.mipmap.ic_battery_level_71
-        72 -> R.mipmap.ic_battery_level_72
-        73 -> R.mipmap.ic_battery_level_73
-        74 -> R.mipmap.ic_battery_level_74
-        75 -> R.mipmap.ic_battery_level_75
-        76 -> R.mipmap.ic_battery_level_76
-        77 -> R.mipmap.ic_battery_level_77
-        78 -> R.mipmap.ic_battery_level_78
-        79 -> R.mipmap.ic_battery_level_79
-        80 -> R.mipmap.ic_battery_level_80
-        81 -> R.mipmap.ic_battery_level_81
-        82 -> R.mipmap.ic_battery_level_82
-        83 -> R.mipmap.ic_battery_level_83
-        84 -> R.mipmap.ic_battery_level_84
-        85 -> R.mipmap.ic_battery_level_85
-        86 -> R.mipmap.ic_battery_level_86
-        87 -> R.mipmap.ic_battery_level_87
-        88 -> R.mipmap.ic_battery_level_88
-        89 -> R.mipmap.ic_battery_level_89
-        90 -> R.mipmap.ic_battery_level_90
-        91 -> R.mipmap.ic_battery_level_91
-        92 -> R.mipmap.ic_battery_level_92
-        93 -> R.mipmap.ic_battery_level_93
-        94 -> R.mipmap.ic_battery_level_94
-        95 -> R.mipmap.ic_battery_level_95
-        96 -> R.mipmap.ic_battery_level_96
-        97 -> R.mipmap.ic_battery_level_97
-        98 -> R.mipmap.ic_battery_level_98
-        99 -> R.mipmap.ic_battery_level_99
-        100 -> R.mipmap.ic_battery_level_100
-        else -> R.drawable.ic_service_small_icon
+    
+    private fun getSmallIcon(context: Context): Int {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+     return if(pref.getBoolean(IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR,
+             context.resources.getBoolean(R.bool.is_show_battery_level_in_status_bar)))
+         when((getBatteryLevel(context) ?: 0)) {
+             0 -> R.mipmap.ic_battery_level_0
+             1 -> R.mipmap.ic_battery_level_1
+             2 -> R.mipmap.ic_battery_level_2
+             3 -> R.mipmap.ic_battery_level_3
+             4 -> R.mipmap.ic_battery_level_4
+             5 -> R.mipmap.ic_battery_level_5
+             6 -> R.mipmap.ic_battery_level_6
+             7 -> R.mipmap.ic_battery_level_7
+             8 -> R.mipmap.ic_battery_level_8
+             9 -> R.mipmap.ic_battery_level_9
+             11 -> R.mipmap.ic_battery_level_11
+             12 -> R.mipmap.ic_battery_level_12
+             13 -> R.mipmap.ic_battery_level_13
+             14 -> R.mipmap.ic_battery_level_14
+             15 -> R.mipmap.ic_battery_level_15
+             16 -> R.mipmap.ic_battery_level_16
+             17 -> R.mipmap.ic_battery_level_17
+             18 -> R.mipmap.ic_battery_level_18
+             19 -> R.mipmap.ic_battery_level_19
+             20 -> R.mipmap.ic_battery_level_20
+             21 -> R.mipmap.ic_battery_level_21
+             22 -> R.mipmap.ic_battery_level_22
+             23 -> R.mipmap.ic_battery_level_23
+             24 -> R.mipmap.ic_battery_level_24
+             25 -> R.mipmap.ic_battery_level_25
+             26 -> R.mipmap.ic_battery_level_26
+             27 -> R.mipmap.ic_battery_level_27
+             28 -> R.mipmap.ic_battery_level_28
+             29 -> R.mipmap.ic_battery_level_29
+             30 -> R.mipmap.ic_battery_level_30
+             31 -> R.mipmap.ic_battery_level_31
+             32 -> R.mipmap.ic_battery_level_32
+             33 -> R.mipmap.ic_battery_level_33
+             34 -> R.mipmap.ic_battery_level_34
+             35 -> R.mipmap.ic_battery_level_35
+             36 -> R.mipmap.ic_battery_level_36
+             37 -> R.mipmap.ic_battery_level_37
+             38 -> R.mipmap.ic_battery_level_38
+             39 -> R.mipmap.ic_battery_level_39
+             40 -> R.mipmap.ic_battery_level_40
+             41 -> R.mipmap.ic_battery_level_41
+             42 -> R.mipmap.ic_battery_level_42
+             43 -> R.mipmap.ic_battery_level_43
+             44 -> R.mipmap.ic_battery_level_44
+             45 -> R.mipmap.ic_battery_level_45
+             46 -> R.mipmap.ic_battery_level_46
+             47 -> R.mipmap.ic_battery_level_47
+             48 -> R.mipmap.ic_battery_level_48
+             49 -> R.mipmap.ic_battery_level_49
+             50 -> R.mipmap.ic_battery_level_50
+             51 -> R.mipmap.ic_battery_level_51
+             52 -> R.mipmap.ic_battery_level_52
+             53 -> R.mipmap.ic_battery_level_53
+             54 -> R.mipmap.ic_battery_level_54
+             55 -> R.mipmap.ic_battery_level_55
+             56 -> R.mipmap.ic_battery_level_56
+             57 -> R.mipmap.ic_battery_level_57
+             58 -> R.mipmap.ic_battery_level_58
+             59 -> R.mipmap.ic_battery_level_59
+             60 -> R.mipmap.ic_battery_level_60
+             61 -> R.mipmap.ic_battery_level_61
+             62 -> R.mipmap.ic_battery_level_62
+             63 -> R.mipmap.ic_battery_level_63
+             64 -> R.mipmap.ic_battery_level_64
+             65 -> R.mipmap.ic_battery_level_65
+             66 -> R.mipmap.ic_battery_level_66
+             67 -> R.mipmap.ic_battery_level_67
+             68 -> R.mipmap.ic_battery_level_68
+             69 -> R.mipmap.ic_battery_level_69
+             70 -> R.mipmap.ic_battery_level_70
+             71 -> R.mipmap.ic_battery_level_71
+             72 -> R.mipmap.ic_battery_level_72
+             73 -> R.mipmap.ic_battery_level_73
+             74 -> R.mipmap.ic_battery_level_74
+             75 -> R.mipmap.ic_battery_level_75
+             76 -> R.mipmap.ic_battery_level_76
+             77 -> R.mipmap.ic_battery_level_77
+             78 -> R.mipmap.ic_battery_level_78
+             79 -> R.mipmap.ic_battery_level_79
+             80 -> R.mipmap.ic_battery_level_80
+             81 -> R.mipmap.ic_battery_level_81
+             82 -> R.mipmap.ic_battery_level_82
+             83 -> R.mipmap.ic_battery_level_83
+             84 -> R.mipmap.ic_battery_level_84
+             85 -> R.mipmap.ic_battery_level_85
+             86 -> R.mipmap.ic_battery_level_86
+             87 -> R.mipmap.ic_battery_level_87
+             88 -> R.mipmap.ic_battery_level_88
+             89 -> R.mipmap.ic_battery_level_89
+             90 -> R.mipmap.ic_battery_level_90
+             91 -> R.mipmap.ic_battery_level_91
+             92 -> R.mipmap.ic_battery_level_92
+             93 -> R.mipmap.ic_battery_level_93
+             94 -> R.mipmap.ic_battery_level_94
+             95 -> R.mipmap.ic_battery_level_95
+             96 -> R.mipmap.ic_battery_level_96
+             97 -> R.mipmap.ic_battery_level_97
+             98 -> R.mipmap.ic_battery_level_98
+             99 -> R.mipmap.ic_battery_level_99
+             100 -> R.mipmap.ic_battery_level_100
+             else -> R.drawable.ic_service_small_icon
+         }
+     else R.drawable.ic_service_small_icon
     }
 }

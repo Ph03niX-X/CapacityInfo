@@ -39,6 +39,13 @@
             android:key="is_stop_the_service_when_the_cd"/>
 
         <SwitchPreferenceCompat
+            android:title="@string/show_battery_level_in_status_bar"
+            android:defaultValue="@bool/is_show_battery_level_in_status_bar"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_show_battery_status_bar"
+            android:key="is_show_battery_level_in_status_bar"/>
+
+        <SwitchPreferenceCompat
             android:title="@string/show_battery_information"
             android:defaultValue="@bool/is_show_battery_information"
             app:singleLineTitle="false"
