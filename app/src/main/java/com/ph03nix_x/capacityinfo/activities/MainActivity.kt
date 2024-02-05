@@ -46,6 +46,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryOptimizationsInterface
 import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.ManufacturerInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumActivity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.interfaces.SettingsInterface
@@ -331,7 +332,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if (isInstalledGooglePlay && isGooglePlay(this) && isCheckUpdateFromGooglePlay)
             checkUpdateFromGooglePlay()
 
+        val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0L)
+        if(isInstalledGooglePlay && isGooglePlay(this) && !isPremium
+            && numberOfFullCharges > 0 && numberOfCharges % 2 == 0L) requestPurchasePremium()
         if((isInstalledGooglePlay && isGooglePlay(this) &&
                     (numberOfFullCharges == 1L || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
@@ -439,7 +443,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private fun requestRateTheApp() {
         Snackbar.make(toolbar, getString(R.string.do_you_like_the_app),
             Snackbar.LENGTH_LONG).apply {
-            setAction(getString(R.string.rate_the_app)) {
+            setAction(getString(R.string.support_and_unlock_premium_features)) {
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW,
                         Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
@@ -449,6 +453,16 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     Toast.makeText(this@MainActivity, getString(
                         R.string.unknown_error), Toast.LENGTH_LONG).show()
                 }
+            }
+            show()
+        }
+    }
+
+    private fun requestPurchasePremium() {
+        Snackbar.make(toolbar, getString(R.string.support_and_unlock_premium_features),
+            Snackbar.LENGTH_LONG).apply {
+            setAction(getString(R.string.get_premium)) {
+                showPremiumDialog()
             }
             show()
         }
