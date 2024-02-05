@@ -118,8 +118,8 @@
     <string name="reset_to_zero_the_number_of_cycles">Абнуліць колькасць цыклаў</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Абнуліць колькасць цыклаў?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">Колькасць цыклаў было паспяхова скінута да нуля</string>
-    <string name="overlay">Аверлэй</string>
-    <string name="enable_overlay">Уключыць аверлэй</string>
+    <string name="overlay">Накладання</string>
+    <string name="enable_overlay">Уключыць накладанне</string>
     <string name="size">Памер</string>
     <string name="opacity">Непразрыстасць</string>
     <string name="show_hide">Паказаць/Схаваць</string>
@@ -140,7 +140,7 @@
     <string name="voltage_overlay">Напружанне</string>
     <string name="last_charge_time_overlay">Час апошняй зарадкі</string>
     <string name="battery_wear_overlay">Знос акумулятара</string>
-    <string name="overlay_permission_dialog_message">Для працы авэрлэю патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
+    <string name="overlay_permission_dialog_message">Для працы накладання патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
     <string name="text_style_overlay">Стыль тэксту</string>
     <string name="text_size">Памер тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
     <string name="text_style">Стыль тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
@@ -241,7 +241,7 @@
     <string name="error">Памылка!</string>
     <string name="history_count">Колькасць гісторыі</string>
     <string name="get_premium">Атрымаць Premium</string>
-    <string name="premium_dialog">Набывая Premium, вы атрымліваеце дадатковыя функцыі дадатка:\n\• Гісторыя;\n\• Паказваць інфармацыю аб акумулятары;\n\• Паказваць пашыранае апавяшчэнне;\n\• Спыніць службу;\n\• Спыняць службу пры адключэнні зараднай прылады;\n\• Інфармацыя аб стане акумулятара;\n\• Шрыфт тэксту;\n\• Абнуленне часу экрана пры любым узроўні зарада;\n\• Рэзервовае капіраванне;\n\• Ўкладка пры запуску дадатка;\n\• Аверлэй;\n\• Ёмістасць у Втг;\n\• Ток зарадкі/разрадкі ў Вт\n\nНабываючы Premium вы так жа падтрымліваеце далейшую распрацоўку дадатка і Узброеныя сілы Украіны</string>
+    <string name="premium_dialog">Набывая Premium, вы атрымліваеце дадатковыя функцыі дадатка:\n\• Гісторыя;\n\• Паказваць інфармацыю аб акумулятары;\n\• Паказваць пашыранае апавяшчэнне;\n\• Спыніць службу;\n\• Спыняць службу пры адключэнні зараднай прылады;\n\• Інфармацыя аб стане акумулятара;\n\• Шрыфт тэксту;\n\• Абнуленне часу экрана пры любым узроўні зарада;\n\• Рэзервовае капіраванне;\n\• Ўкладка пры запуску дадатка;\n\• Накладання;\n\• Ёмістасць у Втг;\n\• Ток зарадкі/разрадкі ў Вт\n\nНабываючы Premium вы так жа падтрымліваеце далейшую распрацоўку дадатка і Узброеныя сілы Украіны</string>
     <string name="premium_feature">Premium функцыя</string>
     <string name="purchase_premium">Набыць</string>
     <string name="premium_features_unlocked">Premium функцыі разблакаваны!</string>
@@ -324,4 +324,5 @@
     <string name="ignoring_battery_optimizations_dialog_message">Для карэктнай працы дадатка патрабуецца дазволіць дадатку запуск у фонавым рэжыме</string>
     <string name="failed_open_security_miui">Не ўдалося адкрыць дадатак Бяспека! Выконвайце інструкцыі з сайта Don\'t kill my app</string>
     <string name="error_opening_db">Памылка адкрыцця базы даных!</string>
+    <string name="failed_request_permission">Немагчыма запытаць дазвол! Выконвайце інструкцыі з сайта Don\'t kill my app</string>
 </resources>
