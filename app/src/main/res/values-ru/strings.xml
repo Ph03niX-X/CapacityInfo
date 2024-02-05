@@ -118,8 +118,8 @@
     <string name="reset_to_zero_the_number_of_cycles">Обнулить количество циклов</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Обнулить количество циклов?</string>
     <string name="number_of_cycles_was_success_reset_to_zero">Количество циклов было успешно сброшено до нуля</string>
-    <string name="overlay">Оверлей</string>
-    <string name="enable_overlay">Включить оверлей</string>
+    <string name="overlay">Наложение</string>
+    <string name="enable_overlay">Включить наложение</string>
     <string name="size">Размер</string>
     <string name="opacity">Непрозрачность</string>
     <string name="show_hide">Показать/Скрыть</string>
@@ -241,7 +241,7 @@
     <string name="error">Ошибка!</string>
     <string name="history_count">Количество истории</string>
     <string name="get_premium">Получить Premium</string>
-    <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• История;\n\• Показывать информацию об аккумуляторе;\n\• Показывать расширенное уведомление;\n\• Остановить службу;\n\• Останавливать службу при отключении зарядного устройства;\n\• Информация о состоянии аккумулятора;\n\• Шрифт текста;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Оверлей\n\• Ёмкость в Втч;\n\• Ток зарядки/разрядки в Вт\n\nПриобретая Premium вы так же поддерживаете дальнейшую разработку приложения и ВСУ</string>
+    <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• История;\n\• Показывать информацию об аккумуляторе;\n\• Показывать расширенное уведомление;\n\• Остановить службу;\n\• Останавливать службу при отключении зарядного устройства;\n\• Информация о состоянии аккумулятора;\n\• Шрифт текста;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Наложение\n\• Ёмкость в Втч;\n\• Ток зарядки/разрядки в Вт\n\nПриобретая Premium вы так же поддерживаете дальнейшую разработку приложения и ВСУ</string>
     <string name="premium_feature">Premium функция</string>
     <string name="purchase_premium">Приобрести</string>
     <string name="premium_features_unlocked">Premium функции разблокированы!</string>
