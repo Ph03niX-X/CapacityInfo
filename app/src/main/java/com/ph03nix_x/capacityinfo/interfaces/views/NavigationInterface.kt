@@ -12,10 +12,13 @@ import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.fragments.FeedbackFragment
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
+import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
+import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 
 /**
  * Created by Ph03niX-X on 21.06.2023
@@ -49,6 +52,28 @@ interface NavigationInterface : BatteryInfoInterface {
                             clearMenu()
                             inflateMenu()
                             loadFragment(fragment ?: ChargeDischargeFragment())
+                        }
+                    }
+                    R.id.last_charge_navigation -> {
+                        if(fragment !is LastChargeNoPremiumFragment &&
+                            fragment !is LastChargeFragment) {
+                            fragment = if(PremiumInterface.isPremium) LastChargeFragment()
+                            else LastChargeNoPremiumFragment()
+                            toolbar.apply {
+                                title = getString(R.string.last_charge)
+                                navigationIcon = null
+                            }
+                            MainActivity.apply {
+                                isLoadChargeDischarge = false
+                                isLoadWear = false
+                                isLoadHistory = false
+                                isLoadSettings = false
+                                isLoadDebug = false
+                            }
+                            clearMenu()
+                            inflateMenu()
+                            loadFragment(fragment ?: if(PremiumInterface.isPremium)
+                                LastChargeFragment() else LastChargeNoPremiumFragment())
                         }
                     }
                     R.id.wear_navigation -> {
@@ -126,11 +151,14 @@ interface NavigationInterface : BatteryInfoInterface {
                 commit()
         }
         when {
-            fragment !is BatteryStatusInformationFragment && fragment !is OverlayFragment
-                    && fragment !is AboutFragment && fragment !is DebugFragment
-                    && fragment !is FeedbackFragment && fragment !is BackupSettingsFragment -> {
+            fragment !is BatteryStatusInformationFragment
+                    && fragment !is OverlayFragment && fragment !is AboutFragment &&
+                    fragment !is DebugFragment && fragment !is FeedbackFragment &&
+                    fragment !is BackupSettingsFragment -> {
                 navigation.selectedItemId = when(fragment) {
                     is ChargeDischargeFragment -> R.id.charge_discharge_navigation
+                    is LastChargeNoPremiumFragment, is LastChargeFragment ->
+                        R.id.last_charge_navigation
                     is WearFragment -> R.id.wear_navigation
                     is HistoryFragment -> R.id.history_navigation
                     is SettingsFragment -> R.id.settings_navigation

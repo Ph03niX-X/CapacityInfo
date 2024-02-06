@@ -97,12 +97,28 @@ object PreferencesKeys {
 
     // Battery Information
     const val NUMBER_OF_CHARGES = "number_of_charges"
-    const val CAPACITY_ADDED = "capacity_added"
-    const val PERCENT_ADDED = "percent_added"
     const val RESIDUAL_CAPACITY = "residual_capacity"
-    const val LAST_CHARGE_TIME = "last_charge_time"
-    const val BATTERY_LEVEL_WITH = "battery_level_with"
-    const val BATTERY_LEVEL_TO = "battery_level_to"
     const val NUMBER_OF_CYCLES = "number_of_cycles"
     const val NUMBER_OF_FULL_CHARGES = "number_of_full_charges"
+
+    // Last Charge
+    const val CAPACITY_ADDED = "capacity_added"
+    const val PERCENT_ADDED = "percent_added"
+    const val BATTERY_LEVEL_WITH = "battery_level_with"
+    const val BATTERY_LEVEL_TO = "battery_level_to"
+    const val STATUS_LAST_CHARGE = "capacity_added_last_charge"
+    const val SOURCE_OF_POWER_LAST_CHARGE = "source_of_power_last_charge"
+    const val FAST_CHARGE_WATTS_LAST_CHARGE = "fast_charge_watts_last_charge"
+    const val IS_FAST_CHARGE_LAST_CHARGE = "is_fast_charge_last_charge"
+    const val MAX_CHARGE_LAST_CHARGE = "max_charge_last_charge"
+    const val AVERAGE_CHARGE_LAST_CHARGE = "average_charge_last_charge"
+    const val MIN_CHARGE_LAST_CHARGE = "min_charge_last_charge"
+    const val MAX_TEMP_CELSIUS_LAST_CHARGE = "max_temp_celsius_last_charge"
+    const val MAX_TEMP_FAHRENHEIT_LAST_CHARGE = "max_temp_fahrenheit_last_charge"
+    const val AVERAGE_TEMP_CELSIUS_LAST_CHARGE = "average_temp_celsius_last_charge"
+    const val AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE = "average_temp_fahrenheit_last_charge"
+    const val MIN_TEMP_CELSIUS_LAST_CHARGE = "min_temp_celsius_last_charge"
+    const val MIN_TEMP_FAHRENHEIT_LAST_CHARGE = "min_temp_fahrenheit_last_charge"
+    const val VOLTAGE_LAST_CHARGE = "voltage_last_charge"
+    const val LAST_CHARGE_TIME = "last_charge_time"
 }

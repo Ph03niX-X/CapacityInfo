@@ -30,8 +30,11 @@ import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
+import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
+import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -66,7 +69,7 @@ import kotlin.time.Duration.Companion.seconds
  */
 
 @SuppressLint("StaticFieldLeak")
-interface PremiumInterface: PurchasesUpdatedListener {
+interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
 
     companion object {
 
@@ -198,18 +201,24 @@ interface PremiumInterface: PurchasesUpdatedListener {
             val mainActivity = MainActivity.instance
             val historyFragment = HistoryFragment.instance
             val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
-            mainActivity?.toolbar?.menu?.apply {
-                findItem(R.id.premium)?.isVisible = false
-                findItem(R.id.history_premium)?.isVisible = false
-                findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
-            }
-            historyFragment?.binding?.apply {
-                refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-                emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-                historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
-                refreshHistory.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
-                emptyHistoryText.text = if(!isHistoryNotEmpty)
-                    context.resources?.getText(R.string.empty_history_text) else null
+            mainActivity?.apply {
+                if(fragment is LastChargeNoPremiumFragment) {
+                    loadFragment(LastChargeFragment())
+                    fragment = LastChargeFragment()
+                }
+                toolbar.menu?.apply {
+                    findItem(R.id.premium)?.isVisible = false
+                    findItem(R.id.history_premium)?.isVisible = false
+                    findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
+                }
+                historyFragment?.binding?.apply {
+                    refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+                    emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
+                    historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+                    refreshHistory.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+                    emptyHistoryText.text = if(!isHistoryNotEmpty)
+                        context.resources?.getText(R.string.empty_history_text) else null
+                }
             }
         }
     }

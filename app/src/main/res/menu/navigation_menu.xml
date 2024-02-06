@@ -9,10 +9,17 @@
             app:showAsAction="always"/>
 
     <item
+        android:id="@+id/last_charge_navigation"
+        android:title="@string/last_charge"
+        android:icon="@drawable/ic_last_charge_navigation"
+        app:showAsAction="always"/>
+
+    <item
             android:id="@+id/wear_navigation"
             android:title="@string/wear"
             android:icon="@drawable/ic_battery_wear_navigation_24dp"
             app:showAsAction="always"/>
+
 
     <item
         android:id="@+id/history_navigation"

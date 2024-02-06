@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="false">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginEnd="@dimen/margin_end"
+            app:cardElevation="@dimen/card_elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/capacity_added_last_charge"
+                    android:text="@string/capacity_added"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/status_last_charge"
+                    android:visibility="visible"
+                    android:text="@string/status"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/capacity_added_last_charge"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/source_of_power_last_charge"
+                    android:visibility="visible"
+                    android:text="@string/source_of_power"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/status_last_charge"
+                    android:fontFamily="@font/google_sans"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginEnd="@dimen/margin_end"
+            app:cardElevation="@dimen/card_elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fast_charge_last_charge"
+                    android:visibility="visible"
+                    android:text="@string/fast_charge_no"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/max_charge_current_last_charge"
+                    android:text="@string/max_charge_current"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/fast_charge_last_charge"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/average_charge_current_last_charge"
+                    android:text="@string/average_charge_current"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/max_charge_current_last_charge"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/min_charge_current_last_charge"
+                    android:text="@string/min_charge_current"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/average_charge_current_last_charge"
+                    android:fontFamily="@font/google_sans"/>
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginEnd="@dimen/margin_end"
+            app:cardElevation="@dimen/card_elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/maximum_temperature_last_charge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:text="@string/maximum_temperature"
+                    android:textSize="@dimen/medium_text_size"
+                    android:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/average_temperature_last_charge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:layout_below="@id/maximum_temperature_last_charge"
+                    android:text="@string/average_temperature"
+                    android:textSize="@dimen/medium_text_size"
+                    android:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/minimum_temperature_last_charge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:layout_below="@id/average_temperature_last_charge"
+                    android:text="@string/minimum_temperature"
+                    android:textSize="@dimen/medium_text_size"
+                    android:visibility="visible"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/voltage_last_charge"
+                    android:visibility="visible"
+                    android:text="@string/voltage"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:layout_below="@id/minimum_temperature_last_charge"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/last_charge_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/voltage_last_charge"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="center"
+                    android:text="@string/last_charge_time"
+                    android:textSize="@dimen/medium_text_size"/>
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</ScrollView>

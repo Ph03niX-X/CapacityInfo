@@ -147,7 +147,7 @@ interface BatteryInfoInterface {
         else context.resources.getString(R.string.fast_charge_no_overlay_only_values)
     }
 
-    private fun isFastCharge(context: Context) =
+    fun isFastCharge(context: Context) =
         maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
 
     fun isTurboCharge(context: Context): Boolean {
@@ -158,6 +158,8 @@ interface BatteryInfoInterface {
 
     private fun getFastChargeWatt() = DecimalFormat("#.#").format(
         (maxChargeCurrent.toDouble() * CHARGING_VOLTAGE_WATT) / 1000.0)
+
+    fun getFastChargeWattLastCharge() = maxChargeCurrent.toDouble() * CHARGING_VOLTAGE_WATT / 1000.0
     
     fun getMaxAverageMinChargeDischargeCurrent(status: Int?, chargeCurrent: Int) {
         
@@ -241,13 +243,10 @@ interface BatteryInfoInterface {
     }
 
     fun getTemperatureInCelsius(context: Context): Double {
-
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent
             .ACTION_BATTERY_CHANGED))
-
         val temperatureInCelsius = batteryIntent?.getIntExtra(BatteryManager
             .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0
-
         return temperatureInCelsius / 10.0
     }
 
@@ -258,13 +257,10 @@ interface BatteryInfoInterface {
         (temperatureInCelsius * 1.8) + 32.0
 
     fun getMaximumTemperature(context: Context, temperature: Double): Double {
-
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent
             .ACTION_BATTERY_CHANGED))
-
         val temperatureInCelsius = (batteryIntent?.getIntExtra(BatteryManager
             .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0) / 10.0
-
         return if(temperatureInCelsius >= temperature || temperature == 0.0) temperatureInCelsius
         else temperature
     }
@@ -273,13 +269,10 @@ interface BatteryInfoInterface {
         (temperatureMax + temperatureMin) / 2.0
 
     fun getMinimumTemperature(context: Context, temperature: Double): Double {
-
         batteryIntent = context.registerReceiver(null, IntentFilter(Intent
             .ACTION_BATTERY_CHANGED))
-
         val temperatureInCelsius = (batteryIntent?.getIntExtra(BatteryManager
             .EXTRA_TEMPERATURE, 0)?.toDouble() ?: 0.0) / 10.0
-
         return if(temperatureInCelsius <= temperature || temperature == 0.0) temperatureInCelsius
         else temperature
     }
@@ -366,17 +359,12 @@ interface BatteryInfoInterface {
     }
 
     fun getVoltage(context: Context): Double {
-
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
         batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
-
         var voltage = batteryIntent?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0)
             ?.toDouble() ?: 0.0
-
         if(pref.getString(VOLTAGE_UNIT, "mV") == "μV") voltage /= 1000.0.pow(2.0)
-
         return voltage
     }
 
@@ -431,9 +419,7 @@ interface BatteryInfoInterface {
     }
 
     fun getStatus(context: Context, extraStatus: Int): String {
-
         return when(extraStatus) {
-
             BatteryManager.BATTERY_STATUS_DISCHARGING -> context.getString(R.string.discharging)
             BatteryManager.BATTERY_STATUS_NOT_CHARGING -> context.getString(R.string.not_charging)
             BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(R.string.charging)
@@ -462,6 +448,16 @@ interface BatteryInfoInterface {
                     R.string.source_of_power else R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_wireless)
             )
+            else -> "N/A"
+        }
+    }
+
+    fun getSourceOfPower(context: Context, extraPlugged: Int): String {
+        return when(extraPlugged) {
+            BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.source_of_power_ac)
+            BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.source_of_power_usb)
+            BatteryManager.BATTERY_PLUGGED_WIRELESS ->
+                context.getString(R.string.source_of_power_wireless)
             else -> "N/A"
         }
     }

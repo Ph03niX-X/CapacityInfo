@@ -77,6 +77,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var isStopService = false
     var isSaveNumberOfCharges = true
     var isPluggedOrUnplugged = false
+    var sourceOfPower: Int = -1
     var batteryLevelWith = -1
     var seconds = 0
     var screenTime = 0L
@@ -109,6 +110,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 BatteryManager.BATTERY_PLUGGED_AC, BatteryManager.BATTERY_PLUGGED_USB,
                 BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
                     isPowerConnected = true
+                    sourceOfPower = batteryIntent?.getIntExtra(
+                        BatteryManager.EXTRA_PLUGGED, -1) ?: -1
                     batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
                     tempBatteryLevelWith = batteryLevelWith
                     tempCurrentCapacity = getCurrentCapacity(this@CapacityInfoService)

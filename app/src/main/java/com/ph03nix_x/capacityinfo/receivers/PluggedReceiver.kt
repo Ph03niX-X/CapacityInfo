@@ -29,6 +29,8 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
                 batteryIntent = context.registerReceiver(null, IntentFilter(Intent
                     .ACTION_BATTERY_CHANGED))
+                CapacityInfoService.instance?.sourceOfPower =
+                    batteryIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
                 val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
                     BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
                 CapacityInfoService.instance?.batteryLevelWith = CapacityInfoService.instance
