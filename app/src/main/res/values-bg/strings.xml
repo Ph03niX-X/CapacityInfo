@@ -310,7 +310,6 @@
     <string name="request_notification_message">Известията трябва да са разрешени, за да работи приложението правилно. Това е необходимо за услугата, която отговаря за по-голямата част от работата на приложението, включително за изчисляване на оставащия капацитет на батерията</string>
     <string name="not_installed_google_play_dialog">Не е възможно да се закупи Premium. Причина: Google Play не е инсталиран</string>
     <string name="history_premium_feature">За да получите достъп до тази функция, е необходимо закупуване на Premium</string>
-    <string name="update_available_dialog_title">Налична е актуализация</string>
     <string name="update_available">Налична е нова версия на приложението. Актуализация?</string>
     <string name="update">Актуализация</string>
     <string name="later_update">По-късно</string>

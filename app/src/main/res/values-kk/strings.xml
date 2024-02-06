@@ -310,7 +310,6 @@
     <string name="request_notification_message">Қолданба дұрыс жұмыс істеуі үшін хабарландырулар қосулы болуы керек. Бұл қолданба жұмысының көп бөлігіне, соның ішінде батареяның қалған сыйымдылығын есептеуге жауапты қызмет үшін қажет</string>
     <string name="not_installed_google_play_dialog">Premium сатып алу мүмкін емес. Себебі: Google Play орнатылмаған</string>
     <string name="history_premium_feature">Бұл мүмкіндікке қол жеткізу үшін Premium сатып алу қажет</string>
-    <string name="update_available_dialog_title">Жаңарту қолжетімді</string>
     <string name="update_available">Қолданбаның жаңа нұсқасы қолжетімді. Жаңарту?</string>
     <string name="update">Жаңарту</string>
     <string name="later_update">Кейінірек</string>

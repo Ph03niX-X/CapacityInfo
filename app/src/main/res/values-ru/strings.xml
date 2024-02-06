@@ -310,7 +310,6 @@
     <string name="request_notification_message">Для корректной работы приложения требуется разрешить уведомления. Это нужно для службы, которая отвечает за большую часть работы приложения в том числе и для вычисления оставшейся ёмкости аккумулятора</string>
     <string name="not_installed_google_play_dialog">Приобретение Premium невозможно. Причина: не установлен Google Play</string>
     <string name="history_premium_feature">Для получения доступа к этой функции требуется приобрести Premium</string>
-    <string name="update_available_dialog_title">Доступно обновление</string>
     <string name="update_available">Доступна новая версия приложения. Обновить?</string>
     <string name="update">Обновить</string>
     <string name="later_update">Позже</string>
