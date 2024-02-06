@@ -422,6 +422,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     override fun onResume() {
         super.onResume()
         batteryWearNew?.summary = getBatteryWearNew()
+        historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
         if(!pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
                 .is_enabled_debug_options)))
             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -432,7 +433,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                 addHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                 addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
                 addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
-                historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
                 startCapacityInfoService?.isEnabled = CapacityInfoService.instance == null
                         && !ServiceHelper.isStartedCapacityInfoService()
                 stopCapacityInfoService?.isEnabled = CapacityInfoService.instance != null
