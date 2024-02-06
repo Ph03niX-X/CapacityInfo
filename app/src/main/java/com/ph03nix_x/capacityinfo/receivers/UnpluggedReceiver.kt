@@ -41,9 +41,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
             Intent.ACTION_POWER_DISCONNECTED -> {
                 isPowerConnected = false
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
-                val isCheckedUpdateFromGooglePlay =
-                    MainActivity.instance?.isCheckUpdateFromGooglePlay ?: false
-                MainActivity.instance?.isCheckUpdateFromGooglePlay = !isCheckedUpdateFromGooglePlay
                 val isPremium = PremiumInterface.isPremium
                 val seconds = CapacityInfoService.instance?.seconds ?: 0
                 val batteryLevel = CapacityInfoService.instance?.getBatteryLevel(context) ?: 0

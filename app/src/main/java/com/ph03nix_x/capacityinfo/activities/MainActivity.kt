@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     val updateFlowResultLauncher = registerForActivityResult(ActivityResultContracts
         .StartIntentSenderForResult()) { _ -> }
 
-    var isCheckUpdateFromGooglePlay = true
     var isShowRequestIgnoringBatteryOptimizationsDialog = true
     var isShowXiaomiBackgroundActivityControlDialog = false
 
@@ -325,22 +324,19 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 requestNotificationPermission()
             else checkBatteryOptimizations()
 
-        if (pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
+        if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
             ServiceHelper.startService(this, OverlayService::class.java)
-
-        if (isInstalledGooglePlay && isGooglePlay(this) && isCheckUpdateFromGooglePlay)
-            checkUpdateFromGooglePlay()
 
         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0L)
         if(isInstalledGooglePlay && isGooglePlay(this) && !isPremium
-            && numberOfFullCharges > 0 && numberOfCharges % 2 == 0L) requestPurchasePremium()
+            && numberOfFullCharges > 0L && numberOfCharges % 2 == 0L) requestPurchasePremium()
         if((isInstalledGooglePlay && isGooglePlay(this) &&
                     (numberOfFullCharges == 1L || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
-
+        if(isInstalledGooglePlay && isGooglePlay(this)) checkUpdateFromGooglePlay()
         isShowRequestIgnoringBatteryOptimizationsDialog = true
     }
 

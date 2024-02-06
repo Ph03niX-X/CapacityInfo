@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -19,6 +19,11 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Created by Ph03niX-X on 30.07.2023
@@ -49,8 +54,7 @@ interface CheckUpdateInterface {
                 intentResultStarter()
                 val appUpdateOptions =
                     AppUpdateOptions.newBuilder(updateType).setAllowAssetPackDeletion(false).build()
-                isCheckUpdateFromGooglePlay = false
-                updateAvailableDialog(appUpdateManager, appUpdateInfo, appUpdateOptions)
+                updateAvailable(appUpdateManager, appUpdateInfo, appUpdateOptions)
             }
         }
     }
@@ -85,34 +89,33 @@ interface CheckUpdateInterface {
                     if(contains(UPDATE_TEMP_SCREEN_TIME))
                         edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
                 }
-                MainActivity.instance?.isCheckUpdateFromGooglePlay = true
                 Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private fun MainActivity.updateAvailableDialog(appUpdateManager: AppUpdateManager,
+    private fun MainActivity.updateAvailable(appUpdateManager: AppUpdateManager,
                                                    appUpdateInfo: AppUpdateInfo,
                                                    appUpdateOptions: AppUpdateOptions) {
-        MaterialAlertDialogBuilder(this).apply {
-            setIcon(R.drawable.ic_check_update_24dp)
-            setTitle(R.string.update_available_dialog_title)
-            setMessage(R.string.update_available_dialog_message)
-            setPositiveButton(R.string.update) {_, _ ->
+        var isUpdate = false
+        Snackbar.make(toolbar, getString(R.string.update_available_dialog_message),
+            Snackbar.LENGTH_LONG).apply {
+            setAction(getString(R.string.update)) {
+                isUpdate = true
                 pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
                     (CapacityInfoService.instance?.screenTime ?: 0L) + 15L).apply()
-                startUpdate(this@updateAvailableDialog, appUpdateManager, appUpdateInfo,
+                startUpdate(this@updateAvailable, appUpdateManager, appUpdateInfo,
                     updateFlowResultLauncher, appUpdateOptions)
             }
-            setNegativeButton(R.string.later_update) { _, _ ->
+            show()
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(3.seconds)
+            if(!isUpdate)
                 pref.apply {
                     if(contains(UPDATE_TEMP_SCREEN_TIME))
                         edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
                 }
-                isCheckUpdateFromGooglePlay = true
-            }
-            setCancelable(false)
-            show()
         }
     }
 
@@ -152,7 +155,6 @@ interface CheckUpdateInterface {
                     if(contains(UPDATE_TEMP_SCREEN_TIME))
                         edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
                 }
-                isCheckUpdateFromGooglePlay = true
             }
         }
 }

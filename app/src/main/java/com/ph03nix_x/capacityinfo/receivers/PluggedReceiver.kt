@@ -27,9 +27,6 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
             Intent.ACTION_POWER_CONNECTED -> {
                 isPowerConnected = true
                 CapacityInfoService.instance?.isPluggedOrUnplugged = true
-                val isCheckedUpdateFromGooglePlay =
-                    MainActivity.instance?.isCheckUpdateFromGooglePlay ?: false
-                MainActivity.instance?.isCheckUpdateFromGooglePlay = !isCheckedUpdateFromGooglePlay
                 batteryIntent = context.registerReceiver(null, IntentFilter(Intent
                     .ACTION_BATTERY_CHANGED))
                 val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
