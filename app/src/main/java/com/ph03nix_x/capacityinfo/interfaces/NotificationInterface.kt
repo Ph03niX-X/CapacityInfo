@@ -801,7 +801,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
      return if(pref.getBoolean(IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR,
              context.resources.getBoolean(R.bool.is_show_battery_level_in_status_bar)))
-         when((getBatteryLevel(context) ?: 0)) {
+         when(val batteryLevel = (getBatteryLevel(context) ?: 0)) {
              0 -> R.mipmap.ic_battery_level_0
              1 -> R.mipmap.ic_battery_level_1
              2 -> R.mipmap.ic_battery_level_2
@@ -902,7 +902,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
              98 -> R.mipmap.ic_battery_level_98
              99 -> R.mipmap.ic_battery_level_99
              100 -> R.mipmap.ic_battery_level_100
-             else -> R.drawable.ic_service_small_icon
+             else -> {
+                 if(batteryLevel > 100) R.mipmap.ic_battery_level_100 else R.mipmap.ic_battery_level_0
+             }
          }
      else R.drawable.ic_service_small_icon
     }
