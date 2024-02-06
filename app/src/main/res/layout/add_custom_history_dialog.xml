@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/history_count_edit"
-            android:maxLength="3"
+            android:maxLength="4"
             android:inputType="number"
             android:digits="0123456789"
             tools:text="100"/>
