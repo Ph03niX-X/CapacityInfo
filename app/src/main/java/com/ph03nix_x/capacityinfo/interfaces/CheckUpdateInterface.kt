@@ -98,7 +98,7 @@ interface CheckUpdateInterface {
                                                    appUpdateInfo: AppUpdateInfo,
                                                    appUpdateOptions: AppUpdateOptions) {
         var isUpdate = false
-        Snackbar.make(toolbar, getString(R.string.update_available_dialog_message),
+        Snackbar.make(toolbar, getString(R.string.update_available),
             Snackbar.LENGTH_LONG).apply {
             setAction(getString(R.string.update)) {
                 isUpdate = true

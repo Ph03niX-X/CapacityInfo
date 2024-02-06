@@ -310,7 +310,7 @@
     <string name="not_installed_google_play_dialog">Não é possível adquirir o Premium. Motivo: não está instalado o Google Play</string>
     <string name="history_premium_feature">A compra do Premium é necessária para acessar este recurso</string>
     <string name="update_available_dialog_title">Atualização disponível</string>
-    <string name="update_available_dialog_message">Uma nova versão do aplicativo está disponível. Atualizar?</string>
+    <string name="update_available">Uma nova versão do aplicativo está disponível. Atualizar?</string>
     <string name="update">Atualizar</string>
     <string name="later_update">Mais tarde</string>
     <string name="check_update">Verificar atualização</string>

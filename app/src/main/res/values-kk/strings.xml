@@ -311,7 +311,7 @@
     <string name="not_installed_google_play_dialog">Premium сатып алу мүмкін емес. Себебі: Google Play орнатылмаған</string>
     <string name="history_premium_feature">Бұл мүмкіндікке қол жеткізу үшін Premium сатып алу қажет</string>
     <string name="update_available_dialog_title">Жаңарту қолжетімді</string>
-    <string name="update_available_dialog_message">Қолданбаның жаңа нұсқасы қолжетімді. Жаңарту?</string>
+    <string name="update_available">Қолданбаның жаңа нұсқасы қолжетімді. Жаңарту?</string>
     <string name="update">Жаңарту</string>
     <string name="later_update">Кейінірек</string>
     <string name="check_update">Жаңартуды тексеріңіз</string>

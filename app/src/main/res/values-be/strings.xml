@@ -311,7 +311,7 @@
     <string name="not_installed_google_play_dialog">Набыццё Premium немагчыма. Чыннік: не ўсталяваны Google Play</string>
     <string name="history_premium_feature">Для атрымання доступу да гэтай функцыі трэба набыць Premium</string>
     <string name="update_available_dialog_title">Даступна абнаўленне</string>
-    <string name="update_available_dialog_message">Даступна новая версія дадатка. Абнавіць?</string>
+    <string name="update_available">Даступна новая версія дадатка. Абнавіць?</string>
     <string name="update">Абнавіць</string>
     <string name="later_update">Пазней</string>
     <string name="check_update">Праверыць абнаўленне</string>
