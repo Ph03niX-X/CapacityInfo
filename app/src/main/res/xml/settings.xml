@@ -52,15 +52,23 @@
             app:icon="@drawable/ic_show_battery_information_24"
             android:key="is_show_battery_information"/>
 
+        <Preference
+            android:title="@string/more"
+            app:icon="@drawable/ic_more_24dp"
+            app:singleLineTitle="false"
+            android:key="more_service_and_notification"/>
+
         <SwitchPreferenceCompat
             android:title="@string/show_expanded_notification"
             android:summary="@string/service_restart_required"
+            app:isPreferenceVisible="false"
             android:defaultValue="@bool/is_show_expanded_notification"
             app:singleLineTitle="false"
             android:key="is_show_expanded_notification"/>
 
         <Preference
             android:title="@string/battery_status_information"
+            app:isPreferenceVisible="false"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_notification_charge_discharge_24dp"
             android:key="battery_status_information"/>
