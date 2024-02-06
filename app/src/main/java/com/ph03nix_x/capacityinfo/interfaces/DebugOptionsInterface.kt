@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.databinding.AddCustomHistoryDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddNumberOfCyclesDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
@@ -34,6 +35,7 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
@@ -67,8 +69,9 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_T
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
 import java.lang.NumberFormatException
+import java.text.DecimalFormat
 
-interface DebugOptionsInterface {
+interface DebugOptionsInterface: BatteryInfoInterface {
 
     companion object {
 
@@ -625,6 +628,70 @@ interface DebugOptionsInterface {
                 }
             })
         }
+    }
+
+    fun DebugFragment.getBatteryWearNew(): String {
+        val historyList = HistoryDB(requireContext()).readDB()
+        return if(historyList.count() >= 5) {
+            var residualCapacity = 0
+            for(i in 0..Constants.BATTERY_WEAR_NEW_COUNT) {
+                residualCapacity += historyList[i].residualCapacity
+            }
+            residualCapacity /= Constants.BATTERY_WEAR_NEW_COUNT
+            getBatteryWearNew(requireContext(), residualCapacity)
+        }
+        else getBatteryWearPref(requireContext())
+    }
+
+    private fun getBatteryWearNew(context: Context, residualCapacity: Int): String {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources
+            .getInteger(R.integer.min_design_capacity)).toDouble()
+        val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
+            context.resources.getBoolean(R.bool.is_capacity_in_wh))
+        var newResidualCapacity = residualCapacity.toDouble() / if(pref.getString(
+                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
+        else 100.0
+        if(newResidualCapacity < 0.0) newResidualCapacity /= -1.0
+        return if(isCapacityInWh) context.getString(R.string.battery_wear_new_wh_summary,
+            if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
+                "${DecimalFormat("#.#").format(
+                    100 - (newResidualCapacity / designCapacity) * 100)}%" else "0%",
+            if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
+                DecimalFormat("#.#").format(
+                    getCapacityInWh(designCapacity - newResidualCapacity)) else "0")
+        else context.getString(R.string.battery_wear_new_summary, if (newResidualCapacity > 0 &&
+            newResidualCapacity < designCapacity) "${DecimalFormat("#.#").format(
+            100 - ((newResidualCapacity / designCapacity) * 100))}%" else "0%",
+            if (newResidualCapacity > 0 && newResidualCapacity < designCapacity) DecimalFormat(
+                "#.#").format(designCapacity - newResidualCapacity) else "0"
+        )
+    }
+
+    private fun getBatteryWearPref(context: Context): String {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        val designCapacity = pref.getInt(DESIGN_CAPACITY, context.resources
+            .getInteger(R.integer.min_design_capacity)).toDouble()
+        val residualCapacity = pref.getInt(RESIDUAL_CAPACITY, 0)
+        val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
+            context.resources.getBoolean(R.bool.is_capacity_in_wh))
+        var newResidualCapacity = residualCapacity.toDouble() / if(pref.getString(
+                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
+        else 100.0
+        if(newResidualCapacity < 0.0) newResidualCapacity /= -1.0
+        return if(isCapacityInWh) context.getString(R.string.battery_wear_new_wh_summary,
+            if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
+                "${DecimalFormat("#.#").format(
+                    100 - (newResidualCapacity / designCapacity) * 100)}%" else "0%",
+            if(newResidualCapacity > 0 && newResidualCapacity < designCapacity)
+                DecimalFormat("#.#").format(
+                    getCapacityInWh(designCapacity - newResidualCapacity)) else "0")
+        else context.getString(R.string.battery_wear_new_summary, if (newResidualCapacity > 0 &&
+            newResidualCapacity < designCapacity) "${DecimalFormat("#.#").format(
+            100 - ((newResidualCapacity / designCapacity) * 100))}%" else "0%",
+            if (newResidualCapacity > 0 && newResidualCapacity < designCapacity) DecimalFormat(
+                "#.#").format(designCapacity - newResidualCapacity) else "0"
+        )
     }
 
     fun DebugFragment.onAddCustomHistory(pref: SharedPreferences,

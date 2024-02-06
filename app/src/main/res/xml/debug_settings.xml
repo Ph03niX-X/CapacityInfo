@@ -66,6 +66,13 @@
             android:key="reset_screen_time"/>
 
         <Preference
+            android:title="@string/battery_wear_new"
+            android:summary="@string/battery_wear_new_summary"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_battery_wear_new"
+            android:key="battery_wear_new"/>
+
+        <Preference
             android:title="@string/add_custom_history"
             app:singleLineTitle="false"
             android:key="add_custom_history"/>

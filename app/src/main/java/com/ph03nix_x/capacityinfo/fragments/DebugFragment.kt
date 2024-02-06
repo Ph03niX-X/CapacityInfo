@@ -32,6 +32,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var resetSettings: Preference? = null
     private var addNumberOfCycles: Preference? = null
     private var resetScreenTime: Preference? = null
+    private var batteryWearNew: Preference? = null
     private var addCustomHistory: Preference? = null
     private var addHistory: Preference? = null
     private var addTenHistory: Preference? = null
@@ -60,6 +61,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetSettings = findPreference("reset_settings")
 
         resetScreenTime = findPreference("reset_screen_time")
+
+        batteryWearNew = findPreference("battery_wear_new")
 
         addNumberOfCycles = findPreference("add_number_of_cycles")
 
@@ -94,6 +97,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addTenHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
+
+        batteryWearNew?.summary = getString(R.string.battery_wear_new_summary, "0%", "0")
 
         addNumberOfCycles?.setOnPreferenceClickListener {
             addNumberOfCyclesDialog()
@@ -416,6 +421,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     override fun onResume() {
         super.onResume()
+        batteryWearNew?.summary = getBatteryWearNew()
         if(!pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
                 .is_enabled_debug_options)))
             requireActivity().onBackPressedDispatcher.onBackPressed()
