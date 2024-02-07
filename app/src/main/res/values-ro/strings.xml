@@ -240,7 +240,7 @@
     <string name="error">Eroare!</string>
     <string name="history_count">Numărătoarea Istorie</string>
     <string name="get_premium">Obțineți Premium</string>
-    <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Istorie;\n\• Afișați informații despre baterie;\n\• Afișare notificare extinsă;\n\• Oprire serviciu;\n\• Se oprește serviciul atunci când încărcătorul este deconectat;\n\• Informații despre starea bateriei;\n\• Font;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere;\n\• Capacitate în Wh;\n\• Curent de încărcare/descărcare în wați\n\nPrin achiziționarea Premium, sprijiniți, de asemenea, dezvoltarea în continuare a aplicației și a Ucrainei în război</string>
+    <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Ultima încărcare;\n\• Istorie;\n\• Afișați informații despre baterie;\n\• Afișați nivelul bateriei în bara de stare;\n\• Afișare notificare extinsă;\n\• Oprire serviciu;\n\• Se oprește serviciul atunci când încărcătorul este deconectat;\n\• Informații despre starea bateriei;\n\• Font;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere;\n\• Capacitate în Wh;\n\• Curent de încărcare/descărcare în wați\n\nPrin achiziționarea Premium, sprijiniți, de asemenea, dezvoltarea în continuare a aplicației și a Ucrainei în război</string>
     <string name="premium_feature">Caracteristica Premium</string>
     <string name="purchase_premium">Cumpărare</string>
     <string name="premium_features_unlocked">Caracteristici premium deblocate!</string>
@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">Nu s-a reușit deschiderea aplicației Securitate! Urmați instrucțiunile de pe site-ul Don\t kill my app</string>
     <string name="error_opening_db">Eroare la deschiderea bazei de date!</string>
     <string name="failed_request_permission">Nu s-a putut solicita permisiunea! Urmați instrucțiunile de pe site-ul Don\t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Afișați nivelul bateriei în bara de stare</string>
+    <string name="support_and_unlock_premium_features">Asistență și amp; Deblocați funcții Premium</string>
+    <string name="add_number_of_cycles">Adăugați numărul de cicluri</string>
+    <string name="battery_wear_new">Uzura bateriei (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Ultima încărcare</string>
+    <string name="status_last_charge">Stare: %1$s</string>
 </resources>

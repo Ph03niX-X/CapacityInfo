@@ -73,8 +73,9 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Încărcare/Descărcare (Implicit)</item>
+        <item>Ultima încărcare</item>
         <item>Uzură</item>
-        <item>History</item>
+        <item>Istorie</item>
     </string-array>
 
     <string-array name="overlay_location_list">
