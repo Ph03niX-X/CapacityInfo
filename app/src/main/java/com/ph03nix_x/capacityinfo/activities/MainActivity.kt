@@ -113,6 +113,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         var instance: MainActivity? = null
         var tempFragment: Fragment? = null
         var isLoadChargeDischarge = false
+        var isLoadLastCharge = false
         var isLoadWear = false
         var isLoadHistory = false
         var isLoadSettings = false
@@ -160,32 +161,30 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if (fragment == null)
             fragment = when {
-
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
-                        != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2"
-                        && prefArrays == null && !isLoadWear && !isLoadHistory && !isLoadSettings
-                        && !isLoadDebug) -> ChargeDischargeFragment()
-
-                isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1" &&
-                        prefArrays == null && !isLoadChargeDischarge && !isLoadHistory &&
-                        !isLoadSettings && !isLoadDebug) -> WearFragment()
-
-                isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2"
-                        && HistoryHelper.isHistoryNotEmpty(this))
-                        && prefArrays == null && !isLoadChargeDischarge && !isLoadHistory &&
-                        !isLoadSettings && !isLoadDebug -> HistoryFragment()
-
-                !isLoadChargeDischarge && !isLoadWear && !isLoadHistory && !isLoadSettings &&
-                        !isLoadDebug && prefArrays != null -> BackupSettingsFragment()
-
-                isLoadDebug && !isLoadChargeDischarge && !isLoadWear && !isLoadHistory &&
-                        isLoadSettings && prefArrays == null -> DebugFragment()
-
+                        != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2" &&
+                        pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "3"
+                        && prefArrays == null && !isLoadLastCharge && !isLoadWear && !isLoadHistory
+                        && !isLoadSettings && !isLoadDebug) -> ChargeDischargeFragment()
+                isLoadLastCharge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1"
+                        && prefArrays == null && !isLoadChargeDischarge && !isLoadWear &&
+                        !isLoadHistory && !isLoadSettings && !isLoadDebug) ->
+                            if(!isPremium) LastChargeNoPremiumFragment() else LastChargeFragment()
+                isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" &&
+                        prefArrays == null && !isLoadChargeDischarge && !isLoadLastCharge &&
+                        !isLoadHistory && !isLoadSettings && !isLoadDebug) -> WearFragment()
+                isLoadHistory || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "3")
+                        && prefArrays == null && !isLoadChargeDischarge && !isLoadLastCharge &&
+                        !isLoadHistory && !isLoadSettings && !isLoadDebug -> HistoryFragment()
+                !isLoadChargeDischarge && !isLoadLastCharge && !isLoadWear && !isLoadHistory &&
+                        !isLoadSettings && !isLoadDebug && prefArrays != null ->
+                            BackupSettingsFragment()
+                isLoadDebug && !isLoadChargeDischarge && !isLoadLastCharge && !isLoadWear &&
+                        !isLoadHistory && isLoadSettings && prefArrays == null -> DebugFragment()
                 else -> SettingsFragment()
             }
 
         toolbar.title = when (fragment) {
-
             is ChargeDischargeFragment -> getString(
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
                 else R.string.discharge)
@@ -393,6 +392,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             tempFragment = null
 
             isLoadChargeDischarge = false
+            isLoadLastCharge = false
             isLoadWear = false
             isLoadHistory = false
             isLoadSettings = false

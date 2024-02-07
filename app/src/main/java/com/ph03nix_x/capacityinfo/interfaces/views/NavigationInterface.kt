@@ -44,6 +44,7 @@ interface NavigationInterface : BatteryInfoInterface {
                             toolbar.navigationIcon = null
                             MainActivity.apply {
                                 isLoadChargeDischarge = true
+                                isLoadLastCharge = false
                                 isLoadWear = false
                                 isLoadHistory = false
                                 isLoadSettings = false
@@ -65,6 +66,7 @@ interface NavigationInterface : BatteryInfoInterface {
                             }
                             MainActivity.apply {
                                 isLoadChargeDischarge = false
+                                isLoadLastCharge = true
                                 isLoadWear = false
                                 isLoadHistory = false
                                 isLoadSettings = false
@@ -85,6 +87,7 @@ interface NavigationInterface : BatteryInfoInterface {
                             }
                             MainActivity.apply {
                                 isLoadChargeDischarge = false
+                                isLoadLastCharge = false
                                 isLoadWear = true
                                 isLoadHistory = false
                                 isLoadSettings = false
@@ -104,13 +107,10 @@ interface NavigationInterface : BatteryInfoInterface {
                             }
                             MainActivity.apply {
                                 isLoadChargeDischarge = false
-
+                                isLoadLastCharge = false
                                 isLoadWear = false
-
                                 isLoadHistory = true
-
                                 isLoadSettings = false
-
                                 isLoadDebug = false
                             }
                             clearMenu()
@@ -129,6 +129,7 @@ interface NavigationInterface : BatteryInfoInterface {
                                 }
                                 MainActivity.apply {
                                     isLoadChargeDischarge = false
+                                    isLoadLastCharge = false
                                     isLoadWear = false
                                     isLoadSettings = true
                                     isLoadDebug = false

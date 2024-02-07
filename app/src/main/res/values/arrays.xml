@@ -154,6 +154,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Charge/Discharge (Default)</item>
+        <item>Last Charge</item>
         <item>Wear</item>
         <item>History</item>
     </string-array>
@@ -162,6 +163,7 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="overlay_location_list">
