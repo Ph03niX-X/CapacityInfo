@@ -462,7 +462,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     refreshHistory.visibility = View.GONE
                     emptyHistoryLayout.visibility = View.VISIBLE
                     refreshEmptyHistory.visibility = View.VISIBLE
-                    emptyHistoryText.text = resources.getText(R.string.history_premium_feature)
+                    emptyHistoryText.text = resources.getText(R.string.required_to_access_premium_feature)
                 }
                 MainActivity.instance?.toolbar?.menu?.apply {
                     findItem(R.id.history_premium)?.isVisible = true

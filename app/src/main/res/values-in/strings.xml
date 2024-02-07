@@ -308,7 +308,7 @@
     <string name="battery_health_overlay">Kesehatan Baterai</string>
     <string name="request_notification_message">Agar aplikasi berfungsi dengan benar, Anda perlu mengaktifkan notifikasi. Hal ini diperlukan untuk layanan yang bertanggung jawab atas sebagian besar pengoperasian aplikasi, termasuk menghitung sisa kapasitas baterai</string>
     <string name="not_installed_google_play_dialog">Tidak mungkin membeli Premium. Alasan: Google Play tidak diinstal</string>
-    <string name="history_premium_feature">Pembelian premium diperlukan untuk mengakses fitur ini</string>
+    <string name="required_to_access_premium_feature">Pembelian premium diperlukan untuk mengakses fitur ini</string>
     <string name="update_available">Versi baru aplikasi telah tersedia. Memperbarui?</string>
     <string name="update">Pembaruan</string>
     <string name="later_update">Nanti</string>

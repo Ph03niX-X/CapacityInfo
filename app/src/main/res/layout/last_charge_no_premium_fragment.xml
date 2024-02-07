@@ -8,5 +8,5 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="@dimen/large_text_size"
-        android:text="@string/history_premium_feature"/>
+        android:text="@string/required_to_access_premium_feature"/>
 </RelativeLayout>

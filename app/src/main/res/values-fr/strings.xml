@@ -308,7 +308,7 @@
     <string name="battery_health_overlay">Santé de la batterie</string>
     <string name="request_notification_message">Pour que l\'application fonctionne correctement, vous devez activer les notifications. Ceci est nécessaire pour le service responsable de la majeure partie du fonctionnement de l\'application, y compris le calcul de la capacité résiduelle de la batterie.</string>
     <string name="not_installed_google_play_dialog">Il n\'est pas possible d\'acheter Premium. Raison: Google Play non installé</string>
-    <string name="history_premium_feature">Un achat Premium est requis pour accéder à cette fonctionnalité</string>
+    <string name="required_to_access_premium_feature">Un achat Premium est requis pour accéder à cette fonctionnalité</string>
     <string name="update_available">Une nouvelle version de l\'application est disponible. Mise à jour?</string>
     <string name="update">Mise à jour</string>
     <string name="later_update">Plus tard</string>
