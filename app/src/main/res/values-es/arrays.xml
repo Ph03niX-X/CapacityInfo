@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Carga/descarga (por defecto)</item>
+        <item>Último cargo</item>
         <item>Desgaste</item>
         <item>History</item>
     </string-array>

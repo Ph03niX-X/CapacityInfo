@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">¡No se pudo abrir la aplicación de seguridad! Siga las instrucciones en el sitio Don\'t kill my app</string>
     <string name="error_opening_db">¡Error al abrir la base de datos!</string>
     <string name="failed_request_permission">¡No se pudo solicitar permiso! Siga las instrucciones en el sitio Don\'t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Mostrar nivel de batería en la barra de estado</string>
+    <string name="support_and_unlock_premium_features">Soporte &amp; desbloqueo de funciones Premium</string>
+    <string name="add_number_of_cycles">Agregar número de ciclos</string>
+    <string name="battery_wear_new">Desgaste de la batería (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Último cargo</string>
+    <string name="status_last_charge">Estado: %1$s</string>
 </resources>
