@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Pengisian/Pengosongan Minimum Saat Ini</string>
     <string name="temperature_overlay">Suhu</string>
     <string name="voltage_overlay">Tegangan</string>
-    <string name="last_charge_time_overlay">Waktu Pengisian Terakhir</string>
     <string name="battery_wear_overlay">Keausan Baterai</string>
     <string name="overlay_permission_dialog_message">Izin diperlukan agar overlay dapat berfungsi. Silakan buka jendela berikutnya dan berikan izin</string>
     <string name="text_style_overlay">Gaya Teks</string>

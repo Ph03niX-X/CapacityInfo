@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Carga mínima/descarga actual</string>
     <string name="temperature_overlay">Temperatura</string>
     <string name="voltage_overlay">Voltaje</string>
-    <string name="last_charge_time_overlay">Última hora de carga</string>
     <string name="battery_wear_overlay">Desgaste de Batería</string>
     <string name="overlay_permission_dialog_message">Se requiere permiso para que la capa funcione. Por favor, ve a la siguiente ventana y proporciona permiso</string>
     <string name="text_style_overlay">Estilo de texto</string>

@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Мінімальний струм зарядки</string>
     <string name="temperature_overlay">Температура</string>
     <string name="voltage_overlay">Напруга</string>
-    <string name="last_charge_time_overlay">Час останньої зарядки</string>
     <string name="battery_wear_overlay">Знос акумулятора</string>
     <string name="overlay_permission_dialog_message">Для роботи накладання потрібен дозвіл. Будь ласка, перейдіть до наступного вікна і надайте дозвіл</string>
     <string name="text_style_overlay">Стиль тексту</string>

@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Minimalny prąd ładowania/rozładowania</string>
     <string name="temperature_overlay">Temperatura</string>
     <string name="voltage_overlay">Napięcie</string>
-    <string name="last_charge_time_overlay">Czas ostatniego ładowania</string>
     <string name="battery_wear_overlay">Zużycie baterii</string>
     <string name="overlay_permission_dialog_message">Aby overlay mogła działać, wymagane jest zezwolenie. Przejdź do następnego okna i udziel zgody</string>
     <string name="text_style_overlay">Styl tekstu</string>

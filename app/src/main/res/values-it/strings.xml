@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Corrente minima di carica/scarica</string>
     <string name="temperature_overlay">Temperatura</string>
     <string name="voltage_overlay">Voltaggio</string>
-    <string name="last_charge_time_overlay">Orario dell\'ultima ricarica</string>
     <string name="battery_wear_overlay">Usura della batteria</string>
     <string name="overlay_permission_dialog_message">È necessaria l\'autorizzazione affinché l\'overlay funzioni. Vai alla finestra successiva e fornisci l\'autorizzazione</string>
     <string name="text_style_overlay">Stile del testo</string>

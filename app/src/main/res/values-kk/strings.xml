@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Минималды заряд тогы/разрядтау</string>
     <string name="temperature_overlay">Температура</string>
     <string name="voltage_overlay">Вольтаж</string>
-    <string name="last_charge_time_overlay">Соңғы зарядтау уақыты</string>
     <string name="battery_wear_overlay">Батареяның тозуы</string>
     <string name="overlay_permission_dialog_message">Қабаттасу жұмыс істеуге рұқсатты қажет етеді. Келесі терезеге өтіп, рұқсат беріңіз</string>
     <string name="text_style_overlay">Мәтін стилі</string>

@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Минимальный ток зарядки/разрядки</string>
     <string name="temperature_overlay">Температура</string>
     <string name="voltage_overlay">Напряжение</string>
-    <string name="last_charge_time_overlay">Время последней зарядки</string>
     <string name="battery_wear_overlay">Износ аккумулятора</string>
     <string name="overlay_permission_dialog_message">Для работы наложения требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
     <string name="text_style_overlay">Стиль текста</string>

@@ -137,7 +137,6 @@
     <string name="min_charge_discharge_current_overlay">Minimaler Lade-/Entladestrom</string>
     <string name="temperature_overlay">Temperatur</string>
     <string name="voltage_overlay">Spannung</string>
-    <string name="last_charge_time_overlay">Letzte Ladezeit</string>
     <string name="battery_wear_overlay">Akkuverschleiß</string>
     <string name="overlay_permission_dialog_message">Damit das Overlay funktioniert, ist eine Berechtigung erforderlich. Bitte gehen Sie zum nächsten Fenster und erteilen Sie die Berechtigung.</string>
     <string name="text_style_overlay">Text-Stil</string>

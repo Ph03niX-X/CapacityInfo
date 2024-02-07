@@ -85,7 +85,6 @@ object PreferencesKeys {
     const val IS_AVERAGE_TEMPERATURE_OVERLAY = "is_average_temperature_overlay"
     const val IS_MINIMUM_TEMPERATURE_OVERLAY = "is_minimum_temperature_overlay"
     const val IS_VOLTAGE_OVERLAY = "is_voltage_overlay"
-    const val IS_LAST_CHARGE_TIME_OVERLAY = "is_last_charge_time_overlay"
     const val IS_BATTERY_WEAR_OVERLAY = "is_battery_wear_overlay"
 
     // Debug

@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Минимален заряден ток/разряден</string>
     <string name="temperature_overlay">Температура</string>
     <string name="voltage_overlay">Волтаж</string>
-    <string name="last_charge_time_overlay">Време за последно зареждане</string>
     <string name="battery_wear_overlay">Износване на батерията</string>
     <string name="overlay_permission_dialog_message">Наслагването изисква разрешение за работа. Моля, отидете на следващия прозорец и дайте разрешение</string>
     <string name="text_style_overlay">Стил на текста</string>

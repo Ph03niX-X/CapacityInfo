@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Courant minimum de charge/décharge</string>
     <string name="temperature_overlay">Température</string>
     <string name="voltage_overlay">Tension</string>
-    <string name="last_charge_time_overlay">Temps de dernière charge</string>
     <string name="battery_wear_overlay">L\'usure de la batterie</string>
     <string name="overlay_permission_dialog_message">Une autorisation est requise pour que la superposition fonctionne. Veuillez passer à la fenêtre suivante et donner votre autorisation</string>
     <string name="text_style_overlay">Style de texte</string>

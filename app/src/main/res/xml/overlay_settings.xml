@@ -281,13 +281,6 @@
                 app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
-                android:defaultValue="@bool/is_last_charge_time_overlay"
-                android:key="is_last_charge_time_overlay"
-                android:title="@string/last_charge_time_overlay"
-                app:iconSpaceReserved="false"
-                app:singleLineTitle="false"/>
-
-        <SwitchPreferenceCompat
                 android:defaultValue="@bool/is_battery_wear_overlay"
                 android:key="is_battery_wear_overlay"
                 android:title="@string/battery_wear_overlay"

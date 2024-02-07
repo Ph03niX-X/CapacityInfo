@@ -19,30 +19,19 @@ import kotlinx.coroutines.launch
 class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
     override fun onReceive(context: Context, intent: Intent) {
-
         when(intent.action) {
-
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
-
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
-                
                 MainApp.isUpdateApp = true
-
                 PremiumInterface.premiumContext = context
-
                 removeOldPreferences(context)
-
                 if(!pref.getBoolean(IS_AUTO_START_UPDATE_APP, context.resources.getBoolean(
                         R.bool.is_auto_start_update_app))) return
-
                 ServiceHelper.cancelAllJobs(context)
-
                 ServiceHelper.checkPremiumJobSchedule(context)
-
                 if(CapacityInfoService.instance == null &&
                     !ServiceHelper.isStartedCapacityInfoService()) ServiceHelper.startService(
                     context, CapacityInfoService::class.java)
-
                 if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context)
                     && !ServiceHelper.isStartedOverlayService())
                     ServiceHelper.startService(context, OverlayService::class.java)
@@ -52,11 +41,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
     @Deprecated("Will be removed in 8.0")
     private fun removeOldPreferences(context: Context) {
-
         CoroutineScope(Dispatchers.IO).launch {
-
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
             arrayListOf("temperature_in_fahrenheit", "voltage_in_mv", "is_fps_overlay",
                 "is_show_faq", "is_show_donate_message", "is_show_premium_info_dialog",
                 "is_supported", "is_show_not_supported_dialog", "language",
@@ -74,14 +60,10 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 "battery_notify_discharged_voltage", "is_notify_charging_current",
                 "charging_current_level_notify", "is_notify_discharge_current",
                 "discharge_current_level_notify", "is_fast_charge_debug",
-                "is_battery_health_android_overlay").forEach {
-
+                "is_battery_health_android_overlay", "is_last_charge_time_overlay").forEach {
                 with(pref) {
-
                     edit().apply {
-
                         if(contains(it)) this.remove(it)
-
                         apply()
                     }
                 }

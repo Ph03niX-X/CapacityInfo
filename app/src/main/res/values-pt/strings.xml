@@ -137,7 +137,6 @@
     <string name="min_charge_discharge_current_overlay">Corrente Mínima Carga/Descarga</string>
     <string name="temperature_overlay">Temperatura</string>
     <string name="voltage_overlay">Tensão</string>
-    <string name="last_charge_time_overlay">Última Carga</string>
     <string name="battery_wear_overlay">Desgaste da Bateria</string>
     <string name="overlay_permission_dialog_message">É necessária a permissão para que a sobreposição funcione. Vá para a próxima janela e forneça a permissão</string>
     <string name="text_style_overlay">Estilo do Texto</string>

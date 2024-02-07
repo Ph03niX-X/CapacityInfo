@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Мінімальны ток зарадкі/разрадкі</string>
     <string name="temperature_overlay">Тэмпература</string>
     <string name="voltage_overlay">Напружанне</string>
-    <string name="last_charge_time_overlay">Час апошняй зарадкі</string>
     <string name="battery_wear_overlay">Знос акумулятара</string>
     <string name="overlay_permission_dialog_message">Для працы накладання патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
     <string name="text_style_overlay">Стыль тэксту</string>

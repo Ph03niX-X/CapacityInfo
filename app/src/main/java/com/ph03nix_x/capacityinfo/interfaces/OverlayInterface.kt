@@ -21,8 +21,6 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_LEVEL_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_WEAR_OVERLAY
@@ -31,7 +29,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGE_DISCHARGE_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_LAST_CHARGE_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
@@ -143,8 +140,6 @@ interface OverlayInterface : BatteryInfoInterface {
                         IS_MINIMUM_TEMPERATURE_OVERLAY, context.resources.getBoolean(
                             R.bool.is_minimum_temperature_overlay)), getBoolean(IS_VOLTAGE_OVERLAY,
                         context.resources.getBoolean(R.bool.is_voltage_overlay)), getBoolean(
-                        IS_LAST_CHARGE_TIME_OVERLAY, context.resources.getBoolean(
-                            R.bool.is_last_charge_time_overlay)), getBoolean(
                         IS_BATTERY_WEAR_OVERLAY, context.resources.getBoolean(
                             R.bool.is_battery_wear_overlay)))
                 overlayArray.forEach {
@@ -246,7 +241,6 @@ interface OverlayInterface : BatteryInfoInterface {
             onUpdateAverageTemperatureOverlay()
             onUpdateMinimumTemperatureOverlay()
             onUpdateVoltageOverlay()
-            onUpdateLastChargeTimeOverlay()
             onUpdateBatteryWearOverlay()
         }
         catch(e: Exception) { return }
@@ -922,27 +916,6 @@ interface OverlayInterface : BatteryInfoInterface {
                     getVoltage(context)))
             visibility = if(pref.getBoolean(IS_VOLTAGE_OVERLAY, this.resources.getBoolean(
                     R.bool.is_voltage_overlay))) View.VISIBLE else View.GONE
-        }
-    }
-
-    private fun onUpdateLastChargeTimeOverlay() {
-        if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, binding.lastChargeTimeOverlay.context
-                .resources.getBoolean(R.bool.is_last_charge_time_overlay))
-            || binding.lastChargeTimeOverlay.visibility == View.VISIBLE)
-            binding.lastChargeTimeOverlay.apply {
-                TextAppearanceHelper.setTextAppearance(context, this,
-                    pref.getString(OVERLAY_TEXT_STYLE, "0"),
-                    pref.getString(OVERLAY_FONT, "6"),
-                    pref.getString(OVERLAY_SIZE, "2"))
-                setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
-                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                    .getBoolean(R.bool.is_only_values_overlay))) R.string.last_charge_time else
-                R.string.last_charge_time_overlay_only_values, getLastChargeTime(context),
-                    "${pref.getInt(BATTERY_LEVEL_WITH, 0)}%", "${pref.getInt(BATTERY_LEVEL_TO, 
-                    0)}%")
-                visibility = if(pref.getBoolean(IS_LAST_CHARGE_TIME_OVERLAY, context
-                    .resources.getBoolean(R.bool.is_last_charge_time_overlay))) View.VISIBLE else
-                        View.GONE
         }
     }
 

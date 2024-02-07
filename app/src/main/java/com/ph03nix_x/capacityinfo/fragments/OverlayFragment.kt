@@ -28,7 +28,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CURRENT_CAPACITY_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_OVERLAY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_LAST_CHARGE_TIME_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MAX_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MIN_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES_OVERLAY
@@ -104,7 +103,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
     private var averageTemperatureOverlay: SwitchPreferenceCompat? = null
     private var minimumTemperatureOverlay: SwitchPreferenceCompat? = null
     private var voltageOverlay: SwitchPreferenceCompat? = null
-    private var lastChargeTimeOverlay: SwitchPreferenceCompat? = null
     private var batteryWearOverlay: SwitchPreferenceCompat? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -245,7 +243,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         averageTemperatureOverlay = findPreference(IS_AVERAGE_TEMPERATURE_OVERLAY)
         minimumTemperatureOverlay = findPreference(IS_MINIMUM_TEMPERATURE_OVERLAY)
         voltageOverlay = findPreference(IS_VOLTAGE_OVERLAY)
-        lastChargeTimeOverlay = findPreference(IS_LAST_CHARGE_TIME_OVERLAY)
         batteryWearOverlay = findPreference(IS_BATTERY_WEAR_OVERLAY)
 
         numberOfCyclesAndroidOverlay?.isVisible =
@@ -461,14 +458,6 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         }
 
         voltageOverlay?.setOnPreferenceChangeListener { _, newValue ->
-
-            if(newValue as? Boolean == true && OverlayService.instance == null)
-                ServiceHelper.startService(requireContext(), OverlayService::class.java)
-
-            true
-        }
-
-        lastChargeTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
 
             if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)

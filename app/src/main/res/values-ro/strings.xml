@@ -138,7 +138,6 @@
     <string name="min_charge_discharge_current_overlay">Curent minim de încărcare/descărcare</string>
     <string name="temperature_overlay">Temperatură</string>
     <string name="voltage_overlay">Tensiune</string>
-    <string name="last_charge_time_overlay">Ultima dată de încărcare</string>
     <string name="battery_wear_overlay">Uzura bateriei</string>
     <string name="overlay_permission_dialog_message">Permisiunea este necesară pentru ca funcția de suprapunere să funcționeze. Mergeți la fereastra următoare și să acordați permisiunea</string>
     <string name="text_style_overlay">Stil text</string>
