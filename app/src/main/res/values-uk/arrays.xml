@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Зарядка/Розрядка (За замовчуванням)</item>
+        <item>Остання зарядка</item>
         <item>Знос</item>
         <item>Історія</item>
     </string-array>

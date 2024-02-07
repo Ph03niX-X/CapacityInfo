@@ -20,7 +20,7 @@
     <string name="instruction_message_do_not_kill_the_service">УВАГА! Не вбивайте службу. Якщо оболонка вашого пристрою любить \"вбивати\" додатки, або ж повністю \"вбиває\" додатки при очищенні останніх запущених додатків або при прибиранні додатка з останніх запущених додатків, або ви використовуєте енергозбереження, додайте цей додаток в усі можливі винятки. Якщо у вашій прошивці є настройка автозавантаження додатків, обов\'язково переконайтеся, що цей додаток може запускатися після завантаження ОС, якщо хочете, щоб додаток автоматично запускався після завантаження ОС.\n\n</string>
     <string name="instruction_message_dont_kill_my_app">Якщо не знаєте що і де налаштовувати, щоб додаток не було \"вбито\" системою, скористайтеся сервісом \"Don\'t kill my app!\", вибравши виробника свого пристрою.\n\n</string>
     <string name="huawei_honor_information">УВАГА! На Huawei &amp; Honor може некоректно відображатися поточна ємність. На жаль з цим нічого не можна зробити</string>
-    <string name="status">Стан: %1$s</string>
+    <string name="status">Статус: %1$s</string>
     <string name="source_of_power">Джерело живлення: %1$s</string>
     <string name="discharging">Розряджається</string>
     <string name="not_charging">Не заряджається</string>
@@ -130,7 +130,7 @@
     <string name="current_capacity_overlay">Поточна ємність</string>
     <string name="capacity_added_overlay">Додалося ємності</string>
     <string name="residual_capacity_overlay">Залишкова ємність</string>
-    <string name="status_overlay">Стан</string>
+    <string name="status_overlay">Статус</string>
     <string name="source_of_power_overlay">Джерело живлення</string>
     <string name="charge_discharge_current_overlay">Струм зарядки/розрядки</string>
     <string name="max_charge_discharge_current_overlay">Максимальний струм зарядки</string>
@@ -323,4 +323,11 @@
     <string name="failed_open_security_miui">Не вдалося відкрити додаток Безпека! Дотримуйтесь інструкції з сайту Don\'t kill my app</string>
     <string name="error_opening_db">Помилка відкриття бази даних!</string>
     <string name="failed_request_permission">Не вдалося запросити дозвіл! Дотримуйтесь інструкції з сайту Don\'t kill my app</string>
+    <string name="support_and_unlock_premium_features">Підтримати &amp; Розблокувати Premium функції</string>
+    <string name="add_number_of_cycles">Додаті кількість циклів</string>
+    <string name="battery_wear_new">Знос акумулятора (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s мАг)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Втг)</string>
+    <string name="last_charge">Остання зарядка</string>
+    <string name="status_last_charge">Статус: %1$s</string>
 </resources>
