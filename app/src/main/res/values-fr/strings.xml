@@ -30,7 +30,7 @@
     <string name="source_of_power_ac">CA</string>
     <string name="source_of_power_wireless">Sans fil</string>
     <string name="battery_level">Niveau de batterie: %1$s</string>
-    <string name="last_charge_time">Heure de la dernière charge: %1$s (%2$s - %3$s)</string>
+    <string name="last_charge_time">Temps de la dernière charge: %1$s (%2$s - %3$s)</string>
     <string name="service">Service</string>
     <string name="charging_time">Temps de charge: %1$s</string>
     <string name="apply">Appliquer</string>
@@ -240,7 +240,7 @@
     <string name="error">Erreur!</string>
     <string name="history_count">Compte historique</string>
     <string name="get_premium">Obtenez une Premium</string>
-    <string name="premium_dialog">En achetant Premium, vous bénéficierez de fonctionnalités supplémentaires de l\'application:\n\• Histoire;\n\• Afficher les informations sur la batterie;\n\• Afficher la notification développée;\n\• Aire d\'autoroute;\n\• Arrêtez le service lorsque le chargeur est débranché;\n\• Informations sur l\'état de la batterie;\n\• Police du texte;\n\• Réinitialiser le temps d\'écran à n\'importe quel niveau de charge;\n\• Sauvegarde;\n\• Onglet sur le lancement de l\'application;\n\• Superposition\n\• Capacité en Wh;\n\• Courant de charge/décharge en watts\n\nEn achetant Premium, vous soutenez également le développement ultérieur de l\'application et de l\'Ukraine pendant la guerre</string>
+    <string name="premium_dialog">En achetant Premium, vous bénéficierez de fonctionnalités supplémentaires de l\'application:\n\• Dernière charge;\n\• Histoire;\n\• Afficher le niveau de batterie dans la barre d\'état;\n\• Afficher les informations sur la batterie;\n\• Afficher la notification développée;\n\• Aire d\'autoroute;\n\• Arrêtez le service lorsque le chargeur est débranché;\n\• Informations sur l\'état de la batterie;\n\• Police du texte;\n\• Réinitialiser le temps d\'écran à n\'importe quel niveau de charge;\n\• Sauvegarde;\n\• Onglet sur le lancement de l\'application;\n\• Superposition\n\• Capacité en Wh;\n\• Courant de charge/décharge en watts\n\nEn achetant Premium, vous soutenez également le développement ultérieur de l\'application et de l\'Ukraine pendant la guerre</string>
     <string name="premium_feature">Fonctionnalité premium</string>
     <string name="purchase_premium">Achat</string>
     <string name="premium_features_unlocked">Fonctionnalités Premium débloquées!</string>
@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">Échec de l\'ouverture de l\'application Sécurité! Suivez les instructions sur le site Don\'t kill my app</string>
     <string name="error_opening_db">Erreur à l\'ouverture de la base de données!</string>
     <string name="failed_request_permission">Échec de la demande d\'autorisation! Suivez les instructions sur le site Don\'t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Afficher le niveau de batterie dans la barre d\'état</string>
+    <string name="support_and_unlock_premium_features">Assistance et &amp; Débloquez les fonctionnalités Premium</string>
+    <string name="add_number_of_cycles">Ajouter un nombre de cycles</string>
+    <string name="battery_wear_new">Usure de la batterie (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Dernière charge</string>
+    <string name="status_last_charge">Statut: %1$s</string>
 </resources>
