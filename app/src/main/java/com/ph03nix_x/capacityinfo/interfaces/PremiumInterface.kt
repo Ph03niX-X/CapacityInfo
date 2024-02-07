@@ -152,10 +152,12 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                             val tokenPref = pref.getString(TOKEN_PREF, null)
                             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                            if(isPremium)
+                            if(isPremium) {
+                                MainApp.isRequestPurchasePremium = false
                                 launch {
                                     premiumFeaturesUnlocked(premiumContext!!)
                                 }
+                            }
                             launch {
                                 delay(2.5.seconds)
                                 ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
@@ -167,7 +169,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
                 val tokenPref = pref.getString(TOKEN_PREF, null)
                 isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                if(isPremium) premiumFeaturesUnlocked(premiumContext!!)
+                if(isPremium) {
+                    MainApp.isRequestPurchasePremium = false
+                    premiumFeaturesUnlocked(premiumContext!!)
+                }
                 ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
             }
 
@@ -175,7 +180,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
             val tokenPref = pref.getString(TOKEN_PREF, null)
             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-            if(isPremium) premiumFeaturesUnlocked(premiumContext!!)
+            if(isPremium) {
+                MainApp.isRequestPurchasePremium = false
+                premiumFeaturesUnlocked(premiumContext!!)
+            }
             ServiceHelper.checkPremiumJobSchedule(premiumContext!!)
         }
     }
