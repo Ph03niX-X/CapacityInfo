@@ -30,7 +30,7 @@
     <string name="source_of_power_ac">AC</string>
     <string name="source_of_power_wireless">senza fili</string>
     <string name="battery_level">Livello della batteria: %1$s</string>
-    <string name="last_charge_time">Ora dell\'ultima ricarica: %1$s (%2$s - %3$s)</string>
+    <string name="last_charge_time">Ora dell\'ultima carica: %1$s (%2$s - %3$s)</string>
     <string name="service">Servizio</string>
     <string name="charging_time">Tempo di ricarica: %1$s</string>
     <string name="apply">Fare domanda a</string>
@@ -240,7 +240,7 @@
     <string name="error">Errore!</string>
     <string name="history_count">Conteggio della storia</string>
     <string name="get_premium">Ottieni Premium</string>
-    <string name="premium_dialog">Acquistando Premium, otterrai funzionalità aggiuntive dell\'app:\n\• Storia;\n\• Mostra informazioni sulla batteria;\n\• Mostra notifica estesa;\n\• Interruzione del servizio;\n\• Interrompere il servizio quando il caricabatterie è scollegato;\n\• Informazioni sullo stato della batteria;\n\• Carattere del testo;\n\• Ripristina il tempo di utilizzo a qualsiasi livello di carica;\n\• Backup;\n\• Scheda all\'avvio dell\'applicazione;\n\• Sovrapposizione\n\• Capacità in Wh;\n\• Corrente di carica/scarica in Watt\n\nAcquistando Premium sostieni anche l\'ulteriore sviluppo dell\'app e l\'Ucraina nella guerra</string>
+    <string name="premium_dialog">Acquistando Premium, otterrai funzionalità aggiuntive dell\'app:\n\• Ultima carica;\n\• Storia;\n\• Mostra il livello della batteria nella barra di stato;\n\• Mostra informazioni sulla batteria;\n\• Mostra notifica estesa;\n\• Interruzione del servizio;\n\• Interrompere il servizio quando il caricabatterie è scollegato;\n\• Informazioni sullo stato della batteria;\n\• Carattere del testo;\n\• Ripristina il tempo di utilizzo a qualsiasi livello di carica;\n\• Backup;\n\• Scheda all\'avvio dell\'applicazione;\n\• Sovrapposizione\n\• Capacità in Wh;\n\• Corrente di carica/scarica in Watt\n\nAcquistando Premium sostieni anche l\'ulteriore sviluppo dell\'app e l\'Ucraina nella guerra</string>
     <string name="premium_feature">Funzionalità Premium</string>
     <string name="purchase_premium">Acquistare</string>
     <string name="premium_features_unlocked">Funzionalità premium sbloccate!</string>
@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">Non è stato possibile aprire l\'app Sicurezza! Seguire le istruzioni sul sito Don\'t kill my app</string>
     <string name="error_opening_db">Errore nell\'apertura del database!</string>
     <string name="failed_request_permission">Impossibile richiedere l\'autorizzazione! Seguire le istruzioni sul sito Don\'t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Mostra il livello della batteria nella barra di stato</string>
+    <string name="support_and_unlock_premium_features">Supporto &amp; Sblocca funzionalità Premium</string>
+    <string name="add_number_of_cycles">Aggiungi numero di cicli</string>
+    <string name="battery_wear_new">Usura batteria (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Ultima carica</string>
+    <string name="status_last_charge">Stato: %1$s</string>
 </resources>

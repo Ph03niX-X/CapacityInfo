@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Carica/Scarica (predefinito)</item>
+        <item>Ultima carica</item>
         <item>Usura dell</item>
         <item>Storia</item>
     </string-array>
