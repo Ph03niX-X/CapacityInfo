@@ -239,7 +239,7 @@
     <string name="error">Erro!</string>
     <string name="history_count">Contagem de histórico</string>
     <string name="get_premium">Obter Premium</string>
-    <string name="premium_dialog">Ao adquirir o Premium, você receberá recursos adicionais do aplicativo:\n\• Histórico;\n\• Mostrar informações da bateria;\n\• Mostrar notificação expandida;\n\• Parar serviço;\n\• Parar o serviço quando o carregador for desconectado;\n\• Informações sobre o status da bateria;\n\• Fonte de texto;\n\• Reiniciar o tempo de tela em qualquer nível de carga;\n\• Backup;\n\• Guia no lançamento do aplicativo;\n\• Sobreposição;\n\• Capacidade em Wh;\n\• Corrente de carga/descarga em Watt\n\nAo adquirir o Premium, você também apoia o desenvolvimento futuro do aplicativo e da Ucrânia na Guerra</string>
+    <string name="premium_dialog">Ao adquirir o Premium, você receberá recursos adicionais do aplicativo:\n\• Última cobrança;\n\• Histórico;\n\• Mostrar informações da bateria;\n\• Mostrar o nível da bateria na barra de status;\n\•  Mostrar notificação expandida;\n\• Parar serviço;\n\• Parar o serviço quando o carregador for desconectado;\n\• Informações sobre o status da bateria;\n\• Fonte de texto;\n\• Reiniciar o tempo de tela em qualquer nível de carga;\n\• Backup;\n\• Aba na inicialização do aplicativo;\n\• Sobreposição;\n\• Capacidade em Wh;\n\• Corrente de carga/descarga em Watt\n\nAo adquirir o Premium, você também apoia o desenvolvimento futuro do aplicativo e da Ucrânia na Guerra</string>
     <string name="premium_feature">Recurso Premium</string>
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Recursos Premium desbloqueados!</string>
@@ -322,4 +322,12 @@
     <string name="failed_open_security_miui">Falha ao abrir o aplicativo Segurança! Siga as instruções no site  Don\'t kill my app</string>
     <string name="error_opening_db">Erro ao abrir banco de dados!</string>
     <string name="failed_request_permission">Falha ao solicitar permissão! Siga as instruções no site  Don\'t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Mostrar o nível da bateria na barra de status</string>
+    <string name="support_and_unlock_premium_features">Apoie &amp; desbloquear recursos Premium</string>
+    <string name="add_number_of_cycles">Adicionar número de ciclos</string>
+    <string name="battery_wear_new">Desgaste da bateria (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Última cobrança</string>
+    <string name="status_last_charge">Status: %1$s</string>
 </resources>

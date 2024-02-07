@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Carga/Descarga (Padrão)</item>
+        <item>Última cobrança</item>
         <item>Info</item>
         <item>Histórico</item>
     </string-array>
