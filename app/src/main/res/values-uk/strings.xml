@@ -309,7 +309,7 @@
     <string name="request_notification_message">Для коректної роботи застосунка потрібно дозволити сповіщення. Це потрібно для служби, яка відповідає за більшу частину роботи застосунку, зокрема й для обчислення залишкової ємності акумулятора</string>
     <string name="not_installed_google_play_dialog">Придбання Premium неможливе. Причина: не встановлено Google Play</string>
     <string name="required_to_access_premium_feature">Для отримання доступу до цієї функції потрібно придбати Premium</string>
-    <string name="update_available">Доступна нова версія програми. Оновити?</string>
+    <string name="update_available">Доступна нова версія програми</string>
     <string name="update">Оновити</string>
     <string name="later_update">Пізніше</string>
     <string name="check_update">Перевірити оновлення</string>
