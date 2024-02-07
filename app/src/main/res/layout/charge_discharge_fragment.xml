@@ -268,16 +268,6 @@
                         android:gravity="center"
                         android:layout_below="@id/minimum_temperature"
                         android:fontFamily="@font/google_sans"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/last_charge_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/voltage"
-                    android:fontFamily="@font/google_sans"
-                    android:gravity="center"
-                    android:text="@string/last_charge_time"
-                    android:textSize="@dimen/medium_text_size" />
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>

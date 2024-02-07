@@ -154,11 +154,6 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         else if(binding.chargingTime.visibility == View.VISIBLE)
                             binding.chargingTime.visibility = View.GONE
 
-                        binding.lastChargeTime.text = getString(R.string.last_charge_time,
-                            getLastChargeTime(requireContext()),
-                            "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH, 0)}%",
-                            "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO, 0)}%")
-
                         if(sourceOfPower == BatteryManager.BATTERY_PLUGGED_AC
                             && status == BatteryManager.BATTERY_STATUS_CHARGING) {
                             binding.apply {
@@ -262,23 +257,16 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                             when {
                                 getSourceOfPower(requireContext(), sourceOfPower) != "N/A" -> {
-
                                     if(binding.capacityAddedChargeDischarge.visibility == View.GONE)
                                         binding.capacityAddedChargeDischarge.visibility =
                                             View.VISIBLE
-
                                     binding.capacityAddedChargeDischarge.text =
                                         getCapacityAdded(requireContext())
                                 }
                                 getSourceOfPower(requireContext(), sourceOfPower) == "N/A" -> {
-                                    if(CapacityInfoService.instance != null && chargingTime > 0)
-                                        chargingTime = 0
-                                    if(binding.capacityAddedChargeDischarge.visibility == View.GONE)
-                                        binding.capacityAddedChargeDischarge.visibility =
-                                            View.VISIBLE
-
-                                    binding.capacityAddedChargeDischarge.text =
-                                        getCapacityAdded(requireContext())
+                                    if(binding.capacityAddedChargeDischarge.visibility ==
+                                        View.VISIBLE)
+                                        binding.capacityAddedChargeDischarge.visibility = View.GONE
                                 }
                             }
                         }
@@ -519,8 +507,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                 capacityAddedChargeDischarge, status, sourceOfPower, chargeCurrent, fastCharge,
                 maxChargeDischargeCurrent, averageChargeDischargeCurrent, minChargeDischargeCurrent,
                 chargingCurrentLimit, temperature, maximumTemperature, averageTemperature,
-                minimumTemperature, voltage, lastChargeTime)
-
+                minimumTemperature, voltage)
             TextAppearanceHelper.setTextAppearance(requireContext(), textViewArrayList,
                 pref.getString(TEXT_STYLE, "0"),
                 pref.getString(TEXT_FONT, "6"), pref.getString(TEXT_SIZE, "2"))   
