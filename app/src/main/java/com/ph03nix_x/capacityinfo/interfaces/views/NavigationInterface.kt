@@ -120,7 +120,8 @@ interface NavigationInterface : BatteryInfoInterface {
                     }
                     R.id.settings_navigation -> {
                         when(fragment) {
-                            null, is ChargeDischargeFragment, is WearFragment,is HistoryFragment -> {
+                            null, is ChargeDischargeFragment, is LastChargeNoPremiumFragment,
+                            is LastChargeFragment, is WearFragment, is HistoryFragment -> {
                                 fragment = SettingsFragment()
                                 toolbar.apply {
                                     title = getString(R.string.settings)
