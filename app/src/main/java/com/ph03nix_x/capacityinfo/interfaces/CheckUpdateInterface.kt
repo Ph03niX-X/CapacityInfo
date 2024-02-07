@@ -99,7 +99,7 @@ interface CheckUpdateInterface {
                                                    appUpdateOptions: AppUpdateOptions) {
         var isUpdate = false
         Snackbar.make(toolbar, getString(R.string.update_available),
-            Snackbar.LENGTH_LONG).apply {
+            5.seconds.inWholeMilliseconds.toInt()).apply {
             setAction(getString(R.string.update)) {
                 isUpdate = true
                 pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
