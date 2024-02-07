@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Ładowanie/Rozładowywanie (Domyślnie)</item>
+        <item>Ostatni ładunek</item>
         <item>Zużycie</item>
         <item>Historia</item>
     </string-array>
