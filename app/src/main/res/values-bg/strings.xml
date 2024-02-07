@@ -91,7 +91,7 @@
     <string name="faq_battery_wear_not_change" formatted="false">Въпрос: Износването на батерията не се променя дори след няколко месеца\nОтговор: Понякога текущият капацитет може да не се показва правилно и поради това износването на батерията ще бъде неправилно. За да избегнете това, калибрирайте текущия капацитет веднъж на месец или два. За да калибрирате текущия капацитет, трябва да разредите батерията до 10% или по-малко и да я заредите до 100% (състояние: \"Напълно заредена\")\n\n</string>
     <string name="faq_with_each_charge_battery_wear_changes">Въпрос: С всяко зареждане износването на батерията се променя, след това се увеличава, след това намалява\nОтговор: Това е нормално, тъй като в батерията протичат химически процеси\n\n</string>
     <string name="faq_where_does_the_app_get_the_number_of_cycles_android">Въпрос: Къде получава приложението \"Броят цикли (Android)\"?\nОтговор: Приложението получава данни от файла на ядрото \"cycles_count\" по пътя: /sys/class/power_supply/battery\n\n</string>
-    <string name="faq_not_displayed_number_of_cycles_android">Въпрос: \"Брой цикли (Android)\"\nОтговор: Ако \"Брой цикли (Android)\" не се показва, тогава не е възможно да се прочете файла, в който е записан броят цикли на зареждане поради фактът, че достъпът за четене е затворен\n\n</string>
+    <string name="faq_not_displayed_number_of_cycles_android">Въпрос: \"Брой цикли (Android)\"\nОтговор: Ако \"брой цикли (Android)\" не се показва, тогава не е възможно да се прочете файла, в който е записан броят цикли на зареждане поради фактът, че достъпът за четене е затворен\n\n</string>
     <string name="import_settings_3dots">Импортиранеиране на настройки&#8230;</string>
     <string name="become_a_beta_tester">Станете бета тестер</string>
     <string name="become_a_beta_tester_summary">Бъдете първите, които получават актуализации</string>
@@ -107,7 +107,7 @@
     <string name="tip2">Съвет №2: Не преохлаждайте (0°C/32°F и по-ниско) и не прегрявайте акумулатора (40+°C/104+°F). Преохлаждането и прегряването негативно влияят на срока на служба на акумулатора.\n\n</string>
     <string name="tip3">Съвет №3: Опитайте се да не зареждате напълно заредена батерия за дълго време. Колкото по-дълго държите заредена напълно заредена батерия, толкова по-често се зарежда батерията и всяко презареждане намалява броя на циклите.\n\n</string>
     <string name="tip4">Съвет №4: Опитайте се да не използвате устройството, когато е напълно заредено, докато зарядното устройство е свързано. Ако използвате устройството си с напълно заредена батерия, докато сте свързани към зарядното устройство, тогава се случват 2 неща - нагряване, което се отразява негативно на живота на батерията, и често презареждане, което намалява броя на циклите</string>
-    <string name="number_of_cycles">Броят на циклите: %1$s</string>
+    <string name="number_of_cycles">Брой цикли: %1$s</string>
     <string name="add_setting">Добавете настройка</string>
     <string name="add">Добавете</string>
     <string name="setting_added_successfully">Настройката \"%1$s\" е добавена успешно!</string>
@@ -117,7 +117,7 @@
     <string name="number_of_charges_was_success_reset_to_zero">Брой заряди беше успешно нулиран</string>
     <string name="reset_to_zero_the_number_of_cycles">Нулирайте броя на циклите</string>
     <string name="reset_to_zero_the_number_of_cycles_dialog_message">Нулирайте броя на циклите?</string>
-    <string name="number_of_cycles_was_success_reset_to_zero">Броят на циклите беше успешно нулиран</string>
+    <string name="number_of_cycles_was_success_reset_to_zero">Брой цикли беше успешно нулиран</string>
     <string name="overlay">Наслагване</string>
     <string name="enable_overlay">Активирайте наслагването</string>
     <string name="size">Размер</string>
@@ -125,7 +125,7 @@
     <string name="show_hide">Покажи/Крия</string>
     <string name="battery_level_overlay">Ниво на зареждане</string>
     <string name="number_of_charges_overlay">Брой заряди</string>
-    <string name="number_of_cycles_overlay">Броят на циклите</string>
+    <string name="number_of_cycles_overlay">Брой цикли</string>
     <string name="charging_time_overlay">Време за зареждане</string>
     <string name="current_capacity_overlay">Текущ капацитет</string>
     <string name="capacity_added_overlay">Добавен капацитет</string>
@@ -197,8 +197,8 @@
     <string name="ma_hint">mA</string>
     <string name="overheat">Прегряване</string>
     <string name="overcool">Преохлаждане</string>
-    <string name="number_of_cycles_android">Броят на циклите (Android): %1$d</string>
-    <string name="number_of_cycles_android_overlay">Броят на циклите (Android)</string>
+    <string name="number_of_cycles_android">Брой цикли (Android): %1$d</string>
+    <string name="number_of_cycles_android_overlay">Брой цикли (Android)</string>
     <string name="discharge_current_ma">Разряден ток: %1$d mA</string>
     <string name="auto_start_boot">Автоматично стартиране (След стартиране на ОС)</string>
     <string name="auto_start_open_app">Автоматично стартиране (При отваряне на приложението)</string>
@@ -240,7 +240,7 @@
     <string name="error">Грешка!</string>
     <string name="history_count">Брой историята</string>
     <string name="get_premium">Получете Premium</string>
-    <string name="premium_dialog">При закупуване на Premium получавате допълнителни функции на приложението:\n\• История;\n\• Показване на информация за батерията;\n\• Показване на разширено известие;\n\• Спиране на услугата;\n\• Спиране на услугата, когато зарядното устройство е изключено;\n\• Информация за състоянието на батерията;\n\• Шрифт на текста;\n\• Нулиране на времето на екрана при всяко ниво на зареждане;\n\• Резервното копие;\n\• Раздел при стартиране на приложението;\n\• Наслагване\n\• Капацитет в Wh;\n\• Ток на зареждане/разреждане във W\n\nЧрез закупуването на Premium вие също така подкрепяте по-нататъшното развитие на приложение и Въоръжените Сили на Украйна</string>
+    <string name="premium_dialog">При закупуване на Premium получавате допълнителни функции на приложението:\n\• Показване на нивото на батерията в лентата на състоянието;\n\• Последно зареждане;\n\• Показване на информация за батерията;\n\• Показване на разширено известие;\n\• Спиране на услугата;\n\• Спиране на услугата, когато зарядното устройство е изключено;\n\• Информация за състоянието на батерията;\n\• Шрифт на текста;\n\• Нулиране на времето на екрана при всяко ниво на зареждане;\n\• Резервното копие;\n\• Раздел при стартиране на приложението;\n\• Наслагване\n\• Капацитет в Wh;\n\• Ток на зареждане/разреждане във W\n\nЧрез закупуването на Premium вие също така подкрепяте по-нататъшното развитие на приложение и Въоръжените Сили на Украйна</string>
     <string name="premium_feature">Premium функция</string>
     <string name="purchase_premium">Купува</string>
     <string name="premium_features_unlocked">Premium функциите са отключени!</string>
@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">Приложението за Защита не може да бъде отворено! Следвайте инструкциите от сайта Don\'t kill my app</string>
     <string name="error_opening_db">Грешка при отваряне на база данни!</string>
     <string name="failed_request_permission">Неуспешна заявка за разрешение! Следвайте инструкциите от сайта Don\'t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Показване на нивото на батерията в лентата на състоянието</string>
+    <string name="support_and_unlock_premium_features">Поддръжка &amp; Отключете Premium функции</string>
+    <string name="add_number_of_cycles">Добавяне на брой цикли</string>
+    <string name="battery_wear_new">Износване на батерията (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Последно зареждане</string>
+    <string name="status_last_charge">Състояние: %1$s</string>
 </resources>

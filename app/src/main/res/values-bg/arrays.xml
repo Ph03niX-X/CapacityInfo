@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Зареждане/Разреждане (По подразбиране)</item>
+        <item>Последно зареждане</item>
         <item>Износване</item>
         <item>Историята</item>
     </string-array>
