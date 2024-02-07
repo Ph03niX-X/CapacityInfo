@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Pengisian/Pengosongan (Bawaan)</item>
+        <item>Tagihan Terakhir</item>
         <item>Keausan</item>
         <item>Sejarah</item>
     </string-array>
