@@ -291,6 +291,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
         if(premiumContext == null)
             premiumContext = MainActivity.instance ?: CapacityInfoService.instance
         CoroutineScope(Dispatchers.IO).launch {
+            MainApp.isRequestPurchasePremium = false
             val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
             var tokenPref = pref.getString(TOKEN_PREF, null)
             if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
@@ -309,12 +310,18 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                            .apply()
                        tokenPref = pref.getString(TOKEN_PREF, null)
                        isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                       if(!isPremium) removePremiumFeatures(premiumContext!!)
+                       if(!isPremium) {
+                           removePremiumFeatures(premiumContext!!)
+                           MainApp.isRequestPurchasePremium = true
+                       }
                        delay(5.seconds)
                        billingClient?.endConnection()
                        billingClient = null
                    }
-                    if(!isPremium) removePremiumFeatures(premiumContext!!)
+                    if(!isPremium) {
+                        removePremiumFeatures(premiumContext!!)
+                        MainApp.isRequestPurchasePremium = true
+                    }
                 }
            }
         }

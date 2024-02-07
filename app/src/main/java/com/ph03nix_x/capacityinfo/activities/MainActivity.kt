@@ -40,7 +40,6 @@ import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
-import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
@@ -329,8 +328,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0L)
-        if(isInstalledGooglePlay && isGooglePlay(this) && !isPremium
-            && numberOfFullCharges > 0L && numberOfCharges % 2 == 0L) requestPurchasePremium()
+        if(MainApp.isRequestPurchasePremium && isInstalledGooglePlay && !isGooglePlay(this)
+            && !isPremium && numberOfFullCharges > 0L && numberOfCharges % 2 == 0L)
+            requestPurchasePremium()
         if((isInstalledGooglePlay && isGooglePlay(this) &&
                     (numberOfFullCharges == 1L || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
@@ -456,7 +456,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun requestPurchasePremium() {
         Snackbar.make(toolbar, getString(R.string.support_and_unlock_premium_features),
-            Snackbar.LENGTH_LONG).apply {
+            5.seconds.inWholeMilliseconds.toInt()).apply {
             setAction(getString(R.string.get_premium)) {
                 showPremiumDialog()
             }

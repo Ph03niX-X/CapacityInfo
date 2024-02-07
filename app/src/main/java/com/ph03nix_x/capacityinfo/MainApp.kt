@@ -22,6 +22,7 @@ class MainApp : Application(), PremiumInterface {
     companion object {
 
         var batteryIntent: Intent? = null
+        var isRequestPurchasePremium = true
         var isPowerConnected = false
         var isUpdateApp = false
         var isInstalledGooglePlay = true
