@@ -634,7 +634,8 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         val historyList = HistoryDB(requireContext()).readDB()
         return if(historyList.count() >= 5) {
             var residualCapacity = 0
-            for(i in 0..Constants.BATTERY_WEAR_NEW_COUNT) {
+            for(i in historyList.lastIndex downTo historyList.lastIndex -
+                    Constants.BATTERY_WEAR_NEW_COUNT + 1) {
                 residualCapacity += historyList[i].residualCapacity
             }
             residualCapacity /= Constants.BATTERY_WEAR_NEW_COUNT
