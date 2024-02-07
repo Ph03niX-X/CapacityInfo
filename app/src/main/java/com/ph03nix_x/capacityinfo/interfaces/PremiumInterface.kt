@@ -336,16 +336,14 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             if(billingClient?.isReady == true) {
                 val params = QueryPurchaseHistoryParams.newBuilder()
                     .setProductType(ProductType.INAPP)
-
                 val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
-
                 val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
-
                 if(!purchaseHistoryRecordList.isNullOrEmpty()) {
                     pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
                         .apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                    MainApp.isRequestPurchasePremium = isPremium
                     delay(5.seconds)
                     billingClient?.endConnection()
                     billingClient = null
@@ -354,8 +352,8 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                    MainApp.isRequestPurchasePremium = isPremium
                 }
-
                 if(!isPremium) removePremiumFeatures(this@checkPremiumJob)
             }
         }
