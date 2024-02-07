@@ -456,7 +456,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     private fun requestPurchasePremium() {
         Snackbar.make(toolbar, getString(R.string.support_and_unlock_premium_features),
-            5.seconds.inWholeMilliseconds.toInt()).apply {
+            10.seconds.inWholeMilliseconds.toInt()).apply {
             setAction(getString(R.string.get_premium)) {
                 showPremiumDialog()
             }
