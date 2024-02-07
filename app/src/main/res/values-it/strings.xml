@@ -309,7 +309,7 @@
     <string name="request_notification_message">Affinché l\'applicazione funzioni correttamente, è necessario abilitare le notifiche. Ciò è necessario per il servizio responsabile della maggior parte del funzionamento dell\'applicazione, compreso il calcolo della capacità residua della batteria</string>
     <string name="not_installed_google_play_dialog">Non è possibile acquistare Premium. Motivo: Google Play non installato</string>
     <string name="required_to_access_premium_feature">Per accedere a questa funzionalità è necessario l\'acquisto di Premium</string>
-    <string name="update_available">È disponibile una nuova versione dell\'app. Aggiornamento?</string>
+    <string name="update_available">È disponibile una nuova versione dell\'app</string>
     <string name="update">Aggiornamento</string>
     <string name="later_update">Dopo</string>
     <string name="check_update">Controlla aggiornamento</string>
