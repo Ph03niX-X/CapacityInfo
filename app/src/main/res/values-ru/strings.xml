@@ -240,7 +240,7 @@
     <string name="error">Ошибка!</string>
     <string name="history_count">Количество истории</string>
     <string name="get_premium">Получить Premium</string>
-    <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• История;\n\• Показывать информацию об аккумуляторе;\n\• Показывать расширенное уведомление;\n\• Остановить службу;\n\• Останавливать службу при отключении зарядного устройства;\n\• Информация о состоянии аккумулятора;\n\• Шрифт текста;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Наложение\n\• Ёмкость в Втч;\n\• Ток зарядки/разрядки в Вт\n\nПриобретая Premium вы так же поддерживаете дальнейшую разработку приложения и ВСУ</string>
+    <string name="premium_dialog">Приобретая Premium, вы получаете дополнительные функции приложения:\n\• Показывать уровень заряда в строке состояния;\n\• Последняя зарядка;\n\• История;\n\• Показывать информацию об аккумуляторе;\n\• Показывать расширенное уведомление;\n\• Остановить службу;\n\• Останавливать службу при отключении зарядного устройства;\n\• Информация о состоянии аккумулятора;\n\• Шрифт текста;\n\• Обнуление времени экрана при любом уровне заряда;\n\• Резервное копирование;\n\• Вкладка при запуске приложения;\n\• Наложение\n\• Ёмкость в Втч;\n\• Ток зарядки/разрядки в Вт\n\nПриобретая Premium вы так же поддерживаете дальнейшую разработку приложения и ВСУ</string>
     <string name="premium_feature">Premium функция</string>
     <string name="purchase_premium">Приобрести</string>
     <string name="premium_features_unlocked">Premium функции разблокированы!</string>
@@ -323,7 +323,7 @@
     <string name="failed_open_security_miui">Не удалось открыть приложение Безопасность! Следуйте инструкции с сайта Don\'t kill my app</string>
     <string name="error_opening_db">Ошибка открытия базы данных!</string>
     <string name="failed_request_permission">Не удалось запросить разрешение! Следуйте инструкции с сайта Don\'t kill my app</string>
-    <string name="show_battery_level_in_status_bar">Show Battery Level in Status Bar</string>
+    <string name="show_battery_level_in_status_bar">Показывать уровень заряда в строке состояния</string>
     <string name="support_and_unlock_premium_features">Поддержать &amp; Разблокировать Premium функции</string>
     <string name="add_number_of_cycles">Добавить количество циклов</string>
     <string name="battery_wear_new">Износ аккумулятора (NEW)</string>
