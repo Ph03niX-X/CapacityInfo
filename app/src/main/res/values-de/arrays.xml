@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Aufladen/Entladen (Standard)</item>
+        <item>Letzte Aufladen</item>
         <item>Verschleiß</item>
         <item>Verlauf</item>
     </string-array>
