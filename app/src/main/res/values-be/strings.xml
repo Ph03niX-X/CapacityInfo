@@ -309,7 +309,7 @@
     <string name="request_notification_message">Для карэктнай працы прыкладання патрабуецца дазволіць апавяшчэнні. Гэта трэба для службы, якая адказвае за большую частку працы прыкладання ў тым ліку і для вылічэння пакінутай ёмістасці акумулятара</string>
     <string name="not_installed_google_play_dialog">Набыццё Premium немагчыма. Чыннік: не ўсталяваны Google Play</string>
     <string name="required_to_access_premium_feature">Для атрымання доступу да гэтай функцыі трэба набыць Premium</string>
-    <string name="update_available">Даступна новая версія дадатка. Абнавіць?</string>
+    <string name="update_available">Даступна новая версія дадатка</string>
     <string name="update">Абнавіць</string>
     <string name="later_update">Пазней</string>
     <string name="check_update">Праверыць абнаўленне</string>
