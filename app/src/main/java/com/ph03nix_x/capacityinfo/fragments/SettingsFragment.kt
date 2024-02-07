@@ -453,13 +453,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         tabOnApplicationLaunch?.setOnPreferenceChangeListener { preference, newValue ->
-
-            val tab = if(HistoryHelper.isHistoryNotEmpty(requireContext()))
-                        (newValue as? String)?.toInt() ?: 0 else 0
-
+            val tab = (newValue as? String)?.toInt() ?: 0
             preference.summary = resources.getStringArray(R.array.tab_on_application_launch_list)[tab]
-
-           HistoryHelper.isHistoryNotEmpty(requireContext())
+            true
         }
 
         unitOfChargeDischargeCurrent?.apply {
