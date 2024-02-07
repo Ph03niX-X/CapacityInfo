@@ -96,14 +96,16 @@ object PreferencesKeys {
     const val IS_AUTO_START_UPDATE_APP = "is_auto_start_update_app"
 
     // Battery Information
+    const val CAPACITY_ADDED = "capacity_added"
+    const val PERCENT_ADDED = "percent_added"
     const val NUMBER_OF_CHARGES = "number_of_charges"
     const val RESIDUAL_CAPACITY = "residual_capacity"
     const val NUMBER_OF_CYCLES = "number_of_cycles"
     const val NUMBER_OF_FULL_CHARGES = "number_of_full_charges"
 
     // Last Charge
-    const val CAPACITY_ADDED = "capacity_added"
-    const val PERCENT_ADDED = "percent_added"
+    const val CAPACITY_ADDED_LAST_CHARGE = "capacity_added_last_charge"
+    const val PERCENT_ADDED_LAST_CHARGE = "percent_added_last_charge"
     const val BATTERY_LEVEL_WITH = "battery_level_with"
     const val BATTERY_LEVEL_TO = "battery_level_to"
     const val STATUS_LAST_CHARGE = "status_last_charge"

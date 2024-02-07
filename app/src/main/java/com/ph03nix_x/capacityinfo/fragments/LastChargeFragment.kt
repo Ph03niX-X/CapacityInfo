@@ -127,8 +127,9 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
             requireContext().resources.getBoolean(R.bool.is_capacity_in_wh))
-        val capacityAddedPref = pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f).toDouble()
-        val percentAddedPref = pref.getInt(PreferencesKeys.PERCENT_ADDED, 0)
+        val capacityAddedPref = pref.getFloat(PreferencesKeys.CAPACITY_ADDED_LAST_CHARGE,
+            0f).toDouble()
+        val percentAddedPref = pref.getInt(PreferencesKeys.PERCENT_ADDED_LAST_CHARGE, 0)
         return if(isCapacityInWh)
             requireContext().getString(R.string.capacity_added_wh, DecimalFormat("#.#")
                 .format(getCapacityInWh(capacityAddedPref)), "$percentAddedPref%")
