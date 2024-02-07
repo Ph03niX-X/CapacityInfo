@@ -240,7 +240,7 @@
     <string name="error">Қате!</string>
     <string name="history_count">Саны тарихы</string>
     <string name="get_premium">Premium алыңыз</string>
-    <string name="premium_dialog">Premium сатып алу арқылы сіз қолданбаның қосымша мүмкіндіктеріне ие боласыз:\n\• Тарихтар;\n\• Батарея туралы ақпаратты көрсету;\n\• Кеңейтілген хабарландыруды көрсету;\n\•Қызметті тоқтату;\n\• Зарядтағыш ажыратылған кезде қызметті тоқтату;\n\• Батарея күйі туралы ақпарат;\n\• Мәтіндік шрифті;\n\• Кез келген заряд деңгейінде экран уақытын қалпына келтіру;\n\ • Сақтық көшірме;\n\• Қолданбаны іске қосудағы қойынды;\n\• Қабаттасу\n\• Сыйымдылық Вт-пен;\n\• Зарядтау/разрядтау тогы ваттпен\n\nПремиум сатып алу арқылы сіз сондай-ақ оның әрі қарай дамуына қолдау көрсетесіз және Украина Қарулы Күштері</string>
+    <string name="premium_dialog">Premium сатып алу арқылы сіз қолданбаның қосымша мүмкіндіктеріне ие боласыз:\n\• Күй жолағында батарея деңгейін көрсету;\n\• Соңғы заряд;\n\• Тарихтар;\n\• Батарея туралы ақпаратты көрсету;\n\• Кеңейтілген хабарландыруды көрсету;\n\•Қызметті тоқтату;\n\• Зарядтағыш ажыратылған кезде қызметті тоқтату;\n\• Батарея күйі туралы ақпарат;\n\• Мәтіндік шрифті;\n\• Кез келген заряд деңгейінде экран уақытын қалпына келтіру;\n\ • Сақтық көшірме;\n\• Қолданбаны іске қосудағы қойынды;\n\• Қабаттасу\n\• Сыйымдылық Вт-пен;\n\• Зарядтау/разрядтау тогы ваттпен\n\nПремиум сатып алу арқылы сіз сондай-ақ оның әрі қарай дамуына қолдау көрсетесіз және Украина Қарулы Күштері</string>
     <string name="premium_feature">Premium функциясы</string>
     <string name="purchase_premium">Сатып алу</string>
     <string name="premium_features_unlocked">Premium мүмкіндіктерінің құлпы ашылды!</string>
@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">Қауіпсіздік қолданбасын ашу мүмкін емес! Don\'t kill my app сайтындағы нұсқауларды орындаңыз</string>
     <string name="error_opening_db">Дерекқорды ашу қатесі!</string>
     <string name="failed_request_permission">Рұқсат сұрау мүмкін болмады! Don\'t kill my app сайтындағы нұсқауларды орындаңыз</string>
+    <string name="show_battery_level_in_status_bar">Күй жолағында батарея деңгейін көрсету</string>
+    <string name="support_and_unlock_premium_features">Қолдау &amp; Premium мүмкіндіктерін ашыңыз</string>
+    <string name="add_number_of_cycles">Цикл санын қосу</string>
+    <string name="battery_wear_new">Батареяның тозуы (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
+    <string name="last_charge">Соңғы заряд</string>
+    <string name="status_last_charge">Күй: %1$s</string>
 </resources>

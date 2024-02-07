@@ -73,6 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Зарядтау/Разрядтау (Әдепкі)</item>
+        <item>Соңғы заряд</item>
         <item>Тозуы</item>
         <item>Тарихы</item>
     </string-array>
