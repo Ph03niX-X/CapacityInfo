@@ -323,6 +323,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                         MainApp.isRequestPurchasePremium = true
                     }
                 }
+                else MainApp.isRequestPurchasePremium = true
            }
         }
     }
