@@ -323,4 +323,12 @@
     <string name="failed_open_security_miui">Не удалось открыть приложение Безопасность! Следуйте инструкции с сайта Don\'t kill my app</string>
     <string name="error_opening_db">Ошибка открытия базы данных!</string>
     <string name="failed_request_permission">Не удалось запросить разрешение! Следуйте инструкции с сайта Don\'t kill my app</string>
+    <string name="show_battery_level_in_status_bar">Show Battery Level in Status Bar</string>
+    <string name="support_and_unlock_premium_features">Поддержать &amp; Разблокировать Premium функции</string>
+    <string name="add_number_of_cycles">Добавить количество циклов</string>
+    <string name="battery_wear_new">Износ аккумулятора (NEW)</string>
+    <string name="battery_wear_new_summary">%1$s (%2$s мАч)</string>
+    <string name="battery_wear_new_wh_summary">%1$s (%2$s Втч)</string>
+    <string name="last_charge">Последняя зарядка</string>
+    <string name="status_last_charge">Статус: %1$s</string>
 </resources>
