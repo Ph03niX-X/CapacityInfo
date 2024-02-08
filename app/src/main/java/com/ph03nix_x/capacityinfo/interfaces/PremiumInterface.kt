@@ -286,6 +286,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
 
     fun purchasePremium() {
         if(!mProductDetailsList.isNullOrEmpty()) {
+            MainApp.isRequestPurchasePremium = false
             val productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams
                 .newBuilder().setProductDetails(mProductDetailsList!![0]).build())
             val billingFlowParams = BillingFlowParams.newBuilder()
