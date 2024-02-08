@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Износ аккумулятора</string>
     <string name="overlay_permission_dialog_message">Для работы наложения требуется разрешение. Пожалуйста, перейдите к следующему окну и предоставьте разрешение</string>
     <string name="text_style_overlay">Стиль текста</string>
-    <string name="text_size">Размер текста (Зарядка/Разрядка/Износ/История)</string>
-    <string name="text_style">Стиль текста (Зарядка/Разрядка/Износ/История)</string>
+    <string name="text_size">Размер текста (Зарядка/Разрядка/Последняя зарядка/Износ/История)</string>
+    <string name="text_style">Стиль текста (Зарядка/Разрядка/Последняя зарядка/Износ/История)</string>
     <string name="battery_status_information">Информация о состоянии аккумулятора</string>
     <string name="battery_is_fully_charged">Аккумулятор полностью заряжен</string>
     <string name="battery_is_charged">Аккумулятор заряжен</string>
@@ -252,7 +252,7 @@
     <string name="stopping_service">Остановка службы&#8230;</string>
     <string name="service_stopped_successfully">Служба успешно остановлена!</string>
     <string name="error_stopping_service">Ошибка остановки службы!</string>
-    <string name="text_font">Шрифт текста (Зарядка/Разрядка/Износ/История)</string>
+    <string name="text_font">Шрифт текста (Зарядка/Разрядка/Последняя зарядка/Износ/История)</string>
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Ссылка на Telegram скопирована</string>
     <string name="telegram_developer">Разработчик</string>
