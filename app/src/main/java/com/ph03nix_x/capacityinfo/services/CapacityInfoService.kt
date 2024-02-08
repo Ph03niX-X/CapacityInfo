@@ -275,10 +275,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             Toast.makeText(this@CapacityInfoService, R.string.service_stopped_successfully,
                 Toast.LENGTH_LONG).show()
         }
-        else {
-            pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME, screenTime).apply()
-            MainApp.tempScreenTime = screenTime
-        }
+        else MainApp.tempScreenTime = screenTime
         wakeLockRelease()
         stopSelf()
         super.onDestroy()
