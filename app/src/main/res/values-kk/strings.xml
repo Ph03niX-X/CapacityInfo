@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Батареяның тозуы</string>
     <string name="overlay_permission_dialog_message">Қабаттасу жұмыс істеуге рұқсатты қажет етеді. Келесі терезеге өтіп, рұқсат беріңіз</string>
     <string name="text_style_overlay">Мәтін стилі</string>
-    <string name="text_size">Өлшем текста (Зарядтау/Разрядтау/Тозуы/Тарихы)</string>
-    <string name="text_style">Мәтін стилі (Зарядтау/Разрядтау/Тозуы/Тарихы)</string>
+    <string name="text_size">Өлшем текста (Зарядтау/Разрядтау/Соңғы заряд/Тозуы/Тарихы)</string>
+    <string name="text_style">Мәтін стилі (Зарядтау/Разрядтау/Соңғы заряд/Тозуы/Тарихы)</string>
     <string name="battery_status_information">Батарея күйі туралы ақпарат</string>
     <string name="battery_is_fully_charged">Батарея толығымен зарядталған</string>
     <string name="battery_is_charged">Батарея зарядталған</string>
@@ -252,7 +252,7 @@
     <string name="stopping_service">Қызметті тоқтату&#8230;</string>
     <string name="service_stopped_successfully">Қызмет сәтті тоқтатылды!</string>
     <string name="error_stopping_service">Қызметті тоқтату қатесі!</string>
-    <string name="text_font">Мәтін шрифті (Зарядтау/Разрядтау/Тозуы/Тарихы)</string>
+    <string name="text_font">Мәтін шрифті (Зарядтау/Разрядтау/Соңғы заряд/Тозуы/Тарихы)</string>
     <string name="font_overlay">Шрифті</string>
     <string name="telegram_link_copied">Telegram сілтемесі көшірілді</string>
     <string name="telegram_developer">Әзірлеуші</string>
