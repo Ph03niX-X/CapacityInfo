@@ -73,7 +73,7 @@
 
     <string-array name="tab_on_application_launch_list">
         <item>Chargé/Décharge (par défaut)</item>
-        <item>Afficher le niveau de batterie dans la barre d\'état</item>
+        <item>Dernière charge</item>
         <item>Usure de la</item>
         <item>Histoire</item>
     </string-array>
