@@ -10,12 +10,14 @@ import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.databinding.LastChargeFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
+import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_TIME_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_CHARGE_LAST_CHARGE
@@ -77,9 +79,9 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
 
     private fun updateTextAppearance() {
         with(binding) {
-            val textViewArrayList = arrayListOf(batteryLevelLastCharge, capacityAddedLastCharge,
-                statusLastCharge, sourceOfPowerLastCharge, fastChargeLastCharge,
-                maxChargeCurrentLastCharge, averageChargeCurrentLastCharge,
+            val textViewArrayList = arrayListOf(batteryLevelLastCharge, chargingTimeLastCharge,
+                capacityAddedLastCharge, statusLastCharge, sourceOfPowerLastCharge,
+                fastChargeLastCharge, maxChargeCurrentLastCharge, averageChargeCurrentLastCharge,
                 minChargeCurrentLastCharge, maximumTemperatureLastCharge,
                 averageTemperatureLastCharge, minimumTemperatureLastCharge, voltageLastCharge,
                 lastChargeTime)
@@ -95,6 +97,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
             binding.apply {
                 batteryLevelLastCharge.text = getString(R.string.battery_level,
                     "${pref.getInt(BATTERY_LEVEL_LAST_CHARGE, 0)}%")
+                chargingTimeLastCharge.text = getString(R.string.charging_time,
+                    TimeHelper.getTime(pref.getInt(CHARGING_TIME_LAST_CHARGE, 0).toLong()))
                 capacityAddedLastCharge.text = getCapacityAddedLastCharge()
                 statusLastCharge.text = getString(R.string.status,
                     getString(STATUS_LAST_CHARGE, getString(R.string.unknown)))
