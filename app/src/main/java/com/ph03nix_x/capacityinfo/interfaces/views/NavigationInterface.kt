@@ -58,7 +58,7 @@ interface NavigationInterface : BatteryInfoInterface {
                     R.id.last_charge_navigation -> {
                         if(fragment !is LastChargeNoPremiumFragment &&
                             fragment !is LastChargeFragment) {
-                            fragment = if(!PremiumInterface.isPremium) LastChargeFragment()
+                            fragment = if(PremiumInterface.isPremium) LastChargeFragment()
                             else LastChargeNoPremiumFragment()
                             toolbar.apply {
                                 title = getString(R.string.last_charge)
