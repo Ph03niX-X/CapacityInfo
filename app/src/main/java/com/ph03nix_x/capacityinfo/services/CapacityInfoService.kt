@@ -84,6 +84,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var secondsFullCharge = 0
     var voltageLastCharge = 0f
     var statusLastCharge = BatteryManager.BATTERY_STATUS_UNKNOWN
+    var currentCapacityLastCharge = 0
 
     companion object {
 
@@ -294,6 +295,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+        currentCapacityLastCharge = (getCurrentCapacity(this@CapacityInfoService) *
+                if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
+                    1000.0 else 100.0).toInt()
         withContext(Dispatchers.Main) {
             val mainActivity = MainActivity.instance
             val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
@@ -368,9 +372,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         isFull = true
         if(currentCapacity == 0)
-            currentCapacity = (getCurrentCapacity(this@CapacityInfoService) * if(pref.getString(
-                    UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
-            else 100.0).toInt()
+            currentCapacity = (getCurrentCapacity(this@CapacityInfoService) *
+                    if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
+                        == "μAh") 1000.0 else 100.0).toInt()
+        currentCapacityLastCharge = currentCapacity
         val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
             R.integer.min_design_capacity)).toDouble() * if(pref.getString(
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0

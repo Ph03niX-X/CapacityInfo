@@ -40,6 +40,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_FAHRENH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_TIME_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
@@ -88,6 +89,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putInt(CHARGING_TIME_LAST_CHARGE, seconds)
                         putFloat(CAPACITY_ADDED_LAST_CHARGE, capacityAdded.toFloat())
                         putInt(PERCENT_ADDED_LAST_CHARGE, percentAdded)
+                        putInt(CURRENT_CAPACITY_LAST_CHARGE,
+                            CapacityInfoService.instance?.currentCapacityLastCharge ?: 0)
                         putString(PreferencesKeys.STATUS_LAST_CHARGE, getStatus(context,
                                 CapacityInfoService.instance?.statusLastCharge ?:
                                 BatteryManager.BATTERY_STATUS_UNKNOWN))

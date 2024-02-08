@@ -93,12 +93,19 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
     }
 
     fun lastCharge() {
+        val isCapacityInWh = pref.getBoolean(PreferencesKeys.IS_CAPACITY_IN_WH,
+            resources.getBoolean(R.bool.is_capacity_in_wh))
         with(pref) {
             binding.apply {
                 batteryLevelLastCharge.text = getString(R.string.battery_level,
                     "${pref.getInt(BATTERY_LEVEL_LAST_CHARGE, 0)}%")
                 chargingTimeLastCharge.text = getString(R.string.charging_time,
                     TimeHelper.getTime(pref.getInt(CHARGING_TIME_LAST_CHARGE, 0).toLong()))
+                currentCapacityLastCharge.text = getString(if(isCapacityInWh)
+                    R.string.current_capacity_wh else R.string.current_capacity,
+                    DecimalFormat("#.#").format(if(isCapacityInWh) getCapacityInWh(
+                        getCurrentCapacityLastCharge(requireContext())) else
+                            getCurrentCapacityLastCharge(requireContext())))
                 capacityAddedLastCharge.text = getCapacityAddedLastCharge()
                 statusLastCharge.text = getString(R.string.status,
                     getString(STATUS_LAST_CHARGE, getString(R.string.unknown)))

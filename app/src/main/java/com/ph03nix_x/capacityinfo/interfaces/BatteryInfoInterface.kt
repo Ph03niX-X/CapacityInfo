@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_VOLTAGE_WATT
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
@@ -302,8 +303,15 @@ interface BatteryInfoInterface {
 
       catch (e: RuntimeException) { 0.001 }
 
-    fun getCapacityInWh(capacity: Double) =
-        (capacity * NOMINAL_BATTERY_VOLTAGE) / 1000.0
+    fun getCurrentCapacityLastCharge(context: Context): Double {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        var currentCapacity = pref.getInt(CURRENT_CAPACITY_LAST_CHARGE, 0).toDouble()
+        currentCapacity /= if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                "μAh") == "μAh") 1000.0 else 100.0
+        return currentCapacity
+    }
+
+    fun getCapacityInWh(capacity: Double) = (capacity * NOMINAL_BATTERY_VOLTAGE) / 1000.0
 
     fun getCapacityAdded(context: Context, isOverlay: Boolean = false,
                            isOnlyValues: Boolean = false): String {

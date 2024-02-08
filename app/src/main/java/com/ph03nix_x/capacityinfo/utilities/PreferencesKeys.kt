@@ -105,6 +105,7 @@ object PreferencesKeys {
     // Last Charge
     const val BATTERY_LEVEL_LAST_CHARGE = "battery_level_last_charge"
     const val CHARGING_TIME_LAST_CHARGE = "charging_time_last_charge"
+    const val CURRENT_CAPACITY_LAST_CHARGE = "current_capacity_last_charge"
     const val CAPACITY_ADDED_LAST_CHARGE = "capacity_added_last_charge"
     const val PERCENT_ADDED_LAST_CHARGE = "percent_added_last_charge"
     const val BATTERY_LEVEL_WITH = "battery_level_with"
