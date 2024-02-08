@@ -119,15 +119,9 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
                 maxChargeCurrentLastCharge.text = getMaxChargeCurrentLastCharge()
                 averageChargeCurrentLastCharge.text = getAverageChargeCurrentLastCharge()
                 minChargeCurrentLastCharge.text = getMinChargeCurrentLastCharge()
-                maximumTemperatureLastCharge.text = getString(R.string.maximum_temperature,
-                    "${getFloat(MAX_TEMP_CELSIUS_LAST_CHARGE, 0f)}",
-                    "${getFloat(MAX_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)}")
-                averageTemperatureLastCharge.text = getString(R.string.average_temperature,
-                    "${getFloat(AVERAGE_TEMP_CELSIUS_LAST_CHARGE, 0f)}",
-                    "${getFloat(AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)}")
-                minimumTemperatureLastCharge.text = getString(R.string.minimum_temperature,
-                    "${getFloat(MIN_TEMP_CELSIUS_LAST_CHARGE, 0f)}",
-                    "${getFloat(MIN_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)}")
+                maximumTemperatureLastCharge.text = getMaxTemperatureLastCharge()
+                averageTemperatureLastCharge.text = getAverageTemperatureLastCharge()
+                minimumTemperatureLastCharge.text = getMinTemperatureLastCharge()
                 voltageLastCharge.text = getString(R.string.voltage,
                     "${getFloat(VOLTAGE_LAST_CHARGE, 0f)}")
                 lastChargeTime.text = getString(R.string.last_charge_time,
@@ -188,4 +182,25 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
                         pref.getInt(MIN_CHARGE_LAST_CHARGE, 0))}"))
         else getString(R.string.min_charge_current, pref.getInt(MIN_CHARGE_LAST_CHARGE, 0))
     }
+
+    private fun getMaxTemperatureLastCharge() =
+        getString(R.string.maximum_temperature,
+            DecimalFormat("#.#").format(pref.getFloat(
+                MAX_TEMP_CELSIUS_LAST_CHARGE, 0f)),
+            DecimalFormat("#.#").format(pref.getFloat(
+                MAX_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)))
+
+    private fun getAverageTemperatureLastCharge() =
+        getString(R.string.average_temperature,
+            DecimalFormat("#.#").format(pref.getFloat(
+                AVERAGE_TEMP_CELSIUS_LAST_CHARGE, 0f)),
+            DecimalFormat("#.#").format(pref.getFloat(
+                AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)))
+
+    private fun getMinTemperatureLastCharge() =
+        getString(R.string.minimum_temperature,
+            DecimalFormat("#.#").format(pref.getFloat(
+                MIN_TEMP_CELSIUS_LAST_CHARGE, 0f)),
+            DecimalFormat("#.#").format(pref.getFloat(
+                MIN_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)))
 }
