@@ -140,8 +140,8 @@
     <string name="battery_wear_overlay">Desgaste da Bateria</string>
     <string name="overlay_permission_dialog_message">É necessária a permissão para que a sobreposição funcione. Vá para a próxima janela e forneça a permissão</string>
     <string name="text_style_overlay">Estilo do Texto</string>
-    <string name="text_size">Tamanho do Texto (Carga/Descarga/Desgaste/Histórico)</string>
-    <string name="text_style">Estilo do Texto (Carga/Descarga/Desgaste/Histórico)</string>
+    <string name="text_size">Tamanho do Texto (Carga/Descarga/Última cobrança/Desgaste/Histórico)</string>
+    <string name="text_style">Estilo do Texto (Carga/Descarga/Última cobrança/Desgaste/Histórico)</string>
     <string name="battery_status_information">Informações do Estado da Bateria</string>
     <string name="battery_is_fully_charged">A bateria está completamente carregada</string>
     <string name="battery_is_charged">A bateria está carregada</string>
@@ -251,7 +251,7 @@
     <string name="stopping_service">Parando o serviço…</string>
     <string name="service_stopped_successfully">Serviço interrompido com sucesso!</string>
     <string name="error_stopping_service">Erro ao parar o serviço!</string>
-    <string name="text_font">Fonte do Texto (Carga/Descarga/Desgaste/Histórico)</string>
+    <string name="text_font">Fonte do Texto (Carga/Descarga/Última cobrança/Desgaste/Histórico)</string>
     <string name="font_overlay">Fonte</string>
     <string name="telegram_link_copied">Link do Telegram copiado</string>
     <string name="telegram_developer">Desenvolvedor</string>
