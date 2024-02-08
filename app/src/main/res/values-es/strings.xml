@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Desgaste de Batería</string>
     <string name="overlay_permission_dialog_message">Se requiere permiso para que la capa funcione. Por favor, ve a la siguiente ventana y proporciona permiso</string>
     <string name="text_style_overlay">Estilo de texto</string>
-    <string name="text_size">Tamaño del texto (carga/descarga/desgaste)</string>
-    <string name="text_style">Estilo de texto (Carga/Descarga/Desgaste)</string>
+    <string name="text_size">Tamaño del texto (Carga/Descarga/Último cargo/Desgaste/Historia)</string>
+    <string name="text_style">Estilo de texto (Carga/Descarga/Último cargo/Desgaste/Historia)</string>
     <string name="battery_status_information">Información del estado de la batería</string>
     <string name="battery_is_fully_charged">La batería está totalmente cargada</string>
     <string name="battery_is_charged">Batería cargada</string>

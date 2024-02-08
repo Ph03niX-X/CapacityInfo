@@ -75,7 +75,7 @@
         <item>Carga/descarga (por defecto)</item>
         <item>Último cargo</item>
         <item>Desgaste</item>
-        <item>History</item>
+        <item>Historia</item>
     </string-array>
 
     <string-array name="overlay_location_list">
