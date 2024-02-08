@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Keausan Baterai</string>
     <string name="overlay_permission_dialog_message">Izin diperlukan agar overlay dapat berfungsi. Silakan buka jendela berikutnya dan berikan izin</string>
     <string name="text_style_overlay">Gaya Teks</string>
-    <string name="text_size">Ukuran Teks (Pengisian/Pengosongan/Keausan/Sejarah)</string>
-    <string name="text_style">Gaya Teks (Pengisian/Pengosongan/Keausan/Sejarah)</string>
+    <string name="text_size">Ukuran Teks (Pengisian/Pengosongan/Tagihan Terakhir/Keausan/Sejarah)</string>
+    <string name="text_style">Gaya Teks (Pengisian/Pengosongan/Tagihan Terakhir/Keausan/Sejarah)</string>
     <string name="battery_status_information">Informasi Status Baterai</string>
     <string name="battery_is_fully_charged">Baterai dibebankan penuh</string>
     <string name="battery_is_charged">Baterai dibebankan</string>
@@ -252,7 +252,7 @@
     <string name="stopping_service">Menghentikan Layanan…</string>
     <string name="service_stopped_successfully">Layanan Berhasil Dihentikan!</string>
     <string name="error_stopping_service">Error stopping Service!</string>
-    <string name="text_font">Font Teks (Pengisian/Pengosongan/Keausan/Sejarah)</string>
+    <string name="text_font">Font Teks (Pengisian/Pengosongan/Tagihan Terakhir/Keausan/Sejarah)</string>
     <string name="font_overlay">huruf</string>
     <string name="telegram_link_copied">Tautan Telegram disalin</string>
     <string name="telegram_developer">Pengembang</string>
