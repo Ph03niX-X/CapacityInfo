@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Знос акумулятара</string>
     <string name="overlay_permission_dialog_message">Для працы накладання патрабуецца дазвол. Калі ласка, перайдзіце да наступнага акна і падайце дазвол</string>
     <string name="text_style_overlay">Стыль тэксту</string>
-    <string name="text_size">Памер тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
-    <string name="text_style">Стыль тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
+    <string name="text_size">Памер тэксту (Зарадка/Разрадка/Апошняя зарадка/Знос/Гісторыя)</string>
+    <string name="text_style">Стыль тэксту (Зарадка/Разрадка/Апошняя зарадка/Знос/Гісторыя)</string>
     <string name="battery_status_information">Інфармацыя пра стан акумулятара</string>
     <string name="battery_is_fully_charged">Акумулятар цалкам зараджаны</string>
     <string name="battery_is_charged">Акумулятар зараджаны</string>
@@ -252,7 +252,7 @@
     <string name="stopping_service">Прыпынак службы&#8230;</string>
     <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
     <string name="error_stopping_service">Памылка спынення службы!</string>
-    <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Знос/Гісторыя)</string>
+    <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Апошняя зарадка/Знос/Гісторыя)</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>
     <string name="telegram_developer">Распрацоўшчык</string>
