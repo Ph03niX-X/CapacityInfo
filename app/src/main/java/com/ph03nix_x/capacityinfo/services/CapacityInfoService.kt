@@ -82,6 +82,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var seconds = 0
     var screenTime = 0L
     var secondsFullCharge = 0
+    var voltageLastCharge = 0f
 
     companion object {
 
@@ -392,6 +393,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
                 batteryLevelWith / 100f)
+        voltageLastCharge = getVoltage(this@CapacityInfoService).toFloat()
         pref.edit().apply {
             val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
             if(seconds > 1) putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()

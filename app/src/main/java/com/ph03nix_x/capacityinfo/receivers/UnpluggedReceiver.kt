@@ -73,6 +73,7 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         batteryLevelWith / 100f)
                 batteryIntent = context.registerReceiver(null, IntentFilter(Intent
                     .ACTION_BATTERY_CHANGED))
+                val voltage = CapacityInfoService.instance?.voltageLastCharge ?: 0f
                 pref.edit().apply {
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
                         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
@@ -104,13 +105,15 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putFloat(MIN_TEMP_CELSIUS_LAST_CHARGE, minimumTemperature.toFloat())
                         putFloat(MIN_TEMP_FAHRENHEIT_LAST_CHARGE,
                             getTemperatureInFahrenheit(minimumTemperature).toFloat())
-                        putFloat(VOLTAGE_LAST_CHARGE, getVoltage(context).toFloat())
+                        putFloat(VOLTAGE_LAST_CHARGE, if(voltage > 0f) voltage else
+                            getVoltage(context).toFloat())
                         putInt(LAST_CHARGE_TIME, seconds)
                         putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance
                             ?.batteryLevelWith ?: 0)
                         putInt(BATTERY_LEVEL_TO, batteryLevel)
                         percentAdded = 0
                         capacityAdded = 0.0
+                        CapacityInfoService.instance?.voltageLastCharge = 0f
                     }
                     apply()
                 }
