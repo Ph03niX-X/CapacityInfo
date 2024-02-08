@@ -140,8 +140,8 @@
     <string name="battery_wear_overlay">Akkuverschleiß</string>
     <string name="overlay_permission_dialog_message">Damit das Overlay funktioniert, ist eine Berechtigung erforderlich. Bitte gehen Sie zum nächsten Fenster und erteilen Sie die Berechtigung.</string>
     <string name="text_style_overlay">Text-Stil</string>
-    <string name="text_size">Textgröße (Ladung/Entladung/Verschleiß/Geschichte)</string>
-    <string name="text_style">Text-Stil (Ladung/Entladung/Verschleiß/Geschichte)</string>
+    <string name="text_size">Textgröße (Ladung/Entladung/Letzte Aufladen/Verschleiß/Geschichte)</string>
+    <string name="text_style">Text-Stil (Ladung/Entladung/Letzte Aufladen/Verschleiß/Geschichte)</string>
     <string name="battery_status_information">Informationen zum Akkustatus</string>
     <string name="battery_is_fully_charged">Der Akku ist vollständig geladen</string>
     <string name="battery_is_charged">Akku ist geladen</string>
@@ -251,7 +251,7 @@
     <string name="stopping_service">Anhaltender Dienst&#8230;</string>
     <string name="service_stopped_successfully">Dienst erfolgreich gestoppt!</string>
     <string name="error_stopping_service">Fehler beim Anhalten des Dienstes</string>
-    <string name="text_font">Schriftart (Aufladen/Entladen/Verschleiß/Geschichte)</string>
+    <string name="text_font">Schriftart (Aufladen/Entladen/Letzte Aufladen/Verschleiß/Geschichte)</string>
     <string name="font_overlay">Schriftart</string>
     <string name="telegram_link_copied">Telegram-Link kopiert</string>
     <string name="telegram_developer">Entwickler</string>
