@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.BatteryManager
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
@@ -18,7 +17,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
-import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -74,8 +72,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                     NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
                     NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
                         batteryLevelWith / 100f)
-                batteryIntent = context.registerReceiver(null, IntentFilter(Intent
-                    .ACTION_BATTERY_CHANGED))
                 val voltage = CapacityInfoService.instance?.voltageLastCharge ?: 0f
                 pref.edit().apply {
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
@@ -94,7 +90,7 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putString(PreferencesKeys.STATUS_LAST_CHARGE, getStatus(context,
                                 CapacityInfoService.instance?.statusLastCharge ?:
                                 BatteryManager.BATTERY_STATUS_UNKNOWN))
-                        putString(SOURCE_OF_POWER_LAST_CHARGE, getSourceOfPower(context,
+                        putString(SOURCE_OF_POWER_LAST_CHARGE, getSourceOfPowerLastCharge(context,
                             CapacityInfoService.instance?.sourceOfPower ?: -1))
                         putBoolean(IS_FAST_CHARGE_LAST_CHARGE, isFastCharge(context))
                         if(isFastCharge(context)) putFloat(FAST_CHARGE_WATTS_LAST_CHARGE,

@@ -438,29 +438,25 @@ interface BatteryInfoInterface {
 
     fun getSourceOfPower(context: Context, extraPlugged: Int, isOverlay: Boolean = false,
                            isOnlyValues: Boolean = false): String {
-
         return when(extraPlugged) {
-
             BatteryManager.BATTERY_PLUGGED_AC -> context.getString(
-                if (!isOverlay || !isOnlyValues)
-                    R.string.source_of_power else R.string.source_of_power_overlay_only_values,
-                context.getString(R.string.source_of_power_ac)
-            )
+                if(!isOverlay || !isOnlyValues)
+                    R.string.source_of_power else
+                        R.string.source_of_power_overlay_only_values,
+                context.getString(R.string.source_of_power_ac))
             BatteryManager.BATTERY_PLUGGED_USB -> context.getString(
-                if (!isOverlay || !isOnlyValues)
-                    R.string.source_of_power else R.string.source_of_power_overlay_only_values,
-                context.getString(R.string.source_of_power_usb)
-            )
+                if(!isOverlay || !isOnlyValues) R.string.source_of_power else
+                    R.string.source_of_power_overlay_only_values,
+                context.getString(R.string.source_of_power_usb))
             BatteryManager.BATTERY_PLUGGED_WIRELESS -> context.getString(
-                if (!isOverlay || !isOnlyValues)
-                    R.string.source_of_power else R.string.source_of_power_overlay_only_values,
-                context.getString(R.string.source_of_power_wireless)
-            )
+                if(!isOverlay || !isOnlyValues) R.string.source_of_power else
+                    R.string.source_of_power_overlay_only_values,
+                context.getString(R.string.source_of_power_wireless))
             else -> "N/A"
         }
     }
 
-    fun getSourceOfPower(context: Context, extraPlugged: Int): String {
+    fun getSourceOfPowerLastCharge(context: Context, extraPlugged: Int): String {
         return when(extraPlugged) {
             BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.source_of_power_ac)
             BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.source_of_power_usb)
