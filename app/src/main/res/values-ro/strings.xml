@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Uzura bateriei</string>
     <string name="overlay_permission_dialog_message">Permisiunea este necesară pentru ca funcția de suprapunere să funcționeze. Mergeți la fereastra următoare și să acordați permisiunea</string>
     <string name="text_style_overlay">Stil text</string>
-    <string name="text_size">Dimensiunea textului (încărcare/descărcare/uzură)</string>
-    <string name="text_style">Stilul textului (încărcare/descărcare/uzură)</string>
+    <string name="text_size">Dimensiunea textului (încărcare/Descărcare/Ultima încărcare/Uzură/Istoriee)</string>
+    <string name="text_style">Stilul textului (încărcare/Descărcare/Ultima încărcare/Uzură/Istorie)</string>
     <string name="battery_status_information">Informații despre starea bateriei</string>
     <string name="battery_is_fully_charged">Informații despre starea bateriei</string>
     <string name="battery_is_charged">Bateria este încărcată</string>
@@ -252,7 +252,7 @@
     <string name="stopping_service">Se oprește serviciul&#8230;</string>
     <string name="service_stopped_successfully">Serviciu oprit cu succes!</string>
     <string name="error_stopping_service">Eroare la oprirea serviciului!</string>
-    <string name="text_font">Font (încărcare/descărcare/uzură/Istorie)</string>
+    <string name="text_font">Font (încărcare/Descărcare/Ultima încărcare/Uzură/Istorie)</string>
     <string name="font_overlay">Font</string>
     <string name="telegram_link_copied">Link Telegram copiat</string>
     <string name="telegram_developer">Dezvoltator</string>
