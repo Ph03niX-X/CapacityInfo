@@ -152,9 +152,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
             resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
         return if(isChargingDischargeCurrentInWatt)
             getString(R.string.max_charge_current_watt,
-                DecimalFormat("#.##").format(
-                    "${getChargeDischargeCurrentInWatt(
-                        pref.getInt(MAX_CHARGE_LAST_CHARGE, 0))}"))
+                DecimalFormat("#.##").format(getChargeDischargeCurrentInWatt(
+                    pref.getInt(MAX_CHARGE_LAST_CHARGE, 0))))
         else getString(R.string.max_charge_current, pref.getInt(MAX_CHARGE_LAST_CHARGE, 0))
     }
 
@@ -164,9 +163,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
             resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
         return if(isChargingDischargeCurrentInWatt)
             getString(R.string.average_charge_current_watt,
-                DecimalFormat("#.##").format(
-                    "${getChargeDischargeCurrentInWatt(
-                        pref.getInt(AVERAGE_CHARGE_LAST_CHARGE, 0))}"))
+                DecimalFormat("#.##").format(getChargeDischargeCurrentInWatt(
+                    pref.getInt(AVERAGE_CHARGE_LAST_CHARGE, 0))))
         else getString(R.string.average_charge_current,
             pref.getInt(AVERAGE_CHARGE_LAST_CHARGE, 0))
     }
@@ -177,9 +175,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
             resources.getBoolean(R.bool.is_charging_discharge_current_in_watt))
         return if(isChargingDischargeCurrentInWatt)
             getString(R.string.min_charge_current_watt,
-                DecimalFormat("#.##").format(
-                    "${getChargeDischargeCurrentInWatt(
-                        pref.getInt(MIN_CHARGE_LAST_CHARGE, 0))}"))
+                DecimalFormat("#.##").format(getChargeDischargeCurrentInWatt(
+                    pref.getInt(MIN_CHARGE_LAST_CHARGE, 0))))
         else getString(R.string.min_charge_current, pref.getInt(MIN_CHARGE_LAST_CHARGE, 0))
     }
 
