@@ -103,6 +103,7 @@ object PreferencesKeys {
     const val NUMBER_OF_FULL_CHARGES = "number_of_full_charges"
 
     // Last Charge
+    const val BATTERY_LEVEL_LAST_CHARGE = "battery_level_last_charge"
     const val CAPACITY_ADDED_LAST_CHARGE = "capacity_added_last_charge"
     const val PERCENT_ADDED_LAST_CHARGE = "percent_added_last_charge"
     const val BATTERY_LEVEL_WITH = "battery_level_with"

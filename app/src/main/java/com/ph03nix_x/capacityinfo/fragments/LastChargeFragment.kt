@@ -15,6 +15,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_CHARGE_LAST_CHARGE
@@ -76,11 +77,12 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
 
     private fun updateTextAppearance() {
         with(binding) {
-            val textViewArrayList = arrayListOf(capacityAddedLastCharge, statusLastCharge,
-                sourceOfPowerLastCharge, fastChargeLastCharge, maxChargeCurrentLastCharge,
-                averageChargeCurrentLastCharge, minChargeCurrentLastCharge,
-                maximumTemperatureLastCharge, averageTemperatureLastCharge,
-                minimumTemperatureLastCharge, voltageLastCharge, lastChargeTime)
+            val textViewArrayList = arrayListOf(batteryLevelLastCharge, capacityAddedLastCharge,
+                statusLastCharge, sourceOfPowerLastCharge, fastChargeLastCharge,
+                maxChargeCurrentLastCharge, averageChargeCurrentLastCharge,
+                minChargeCurrentLastCharge, maximumTemperatureLastCharge,
+                averageTemperatureLastCharge, minimumTemperatureLastCharge, voltageLastCharge,
+                lastChargeTime)
             TextAppearanceHelper.setTextAppearance(requireContext(), textViewArrayList,
                 pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
                 pref.getString(PreferencesKeys.TEXT_FONT, "6"),
@@ -91,6 +93,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
     fun lastCharge() {
         with(pref) {
             binding.apply {
+                batteryLevelLastCharge.text = getString(R.string.battery_level,
+                    "${pref.getInt(BATTERY_LEVEL_LAST_CHARGE, 0)}%")
                 capacityAddedLastCharge.text = getCapacityAddedLastCharge()
                 statusLastCharge.text = getString(R.string.status,
                     getString(STATUS_LAST_CHARGE, getString(R.string.unknown)))

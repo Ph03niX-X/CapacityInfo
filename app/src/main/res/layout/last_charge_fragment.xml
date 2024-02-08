@@ -28,11 +28,21 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/battery_level_last_charge"
+                    android:text="@string/battery_level"
+                    android:textSize="@dimen/medium_text_size"
+                    android:gravity="center"
+                    android:fontFamily="@font/google_sans"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/capacity_added_last_charge"
                     android:text="@string/capacity_added"
                     android:textSize="@dimen/medium_text_size"
                     android:gravity="center"
                     android:visibility="visible"
+                    android:layout_below="@id/battery_level_last_charge"
                     android:fontFamily="@font/google_sans"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
