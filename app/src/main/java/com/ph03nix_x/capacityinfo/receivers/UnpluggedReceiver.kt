@@ -89,9 +89,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putFloat(CAPACITY_ADDED_LAST_CHARGE, capacityAdded.toFloat())
                         putInt(PERCENT_ADDED_LAST_CHARGE, percentAdded)
                         putString(PreferencesKeys.STATUS_LAST_CHARGE, getStatus(context,
-                            batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
-                            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager
-                                .BATTERY_STATUS_UNKNOWN))
+                                CapacityInfoService.instance?.statusLastCharge ?:
+                                BatteryManager.BATTERY_STATUS_UNKNOWN))
                         putString(SOURCE_OF_POWER_LAST_CHARGE, getSourceOfPower(context,
                             CapacityInfoService.instance?.sourceOfPower ?: -1))
                         putBoolean(IS_FAST_CHARGE_LAST_CHARGE, isFastCharge(context))

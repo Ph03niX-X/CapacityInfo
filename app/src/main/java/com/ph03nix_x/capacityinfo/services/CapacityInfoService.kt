@@ -83,6 +83,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var screenTime = 0L
     var secondsFullCharge = 0
     var voltageLastCharge = 0f
+    var statusLastCharge = BatteryManager.BATTERY_STATUS_UNKNOWN
 
     companion object {
 
@@ -293,6 +294,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     private suspend fun batteryCharging() {
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
         withContext(Dispatchers.Main) {
             val mainActivity = MainActivity.instance
             val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
@@ -341,6 +345,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     private suspend fun batteryCharged() {
+        batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
+            BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
         withContext(Dispatchers.Main) {
             val mainActivity = MainActivity.instance
             val chargeDischargeNavigation = mainActivity?.navigation?.menu?.findItem(
