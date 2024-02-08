@@ -145,8 +145,8 @@
     <string name="battery_wear_overlay">Battery Wear</string>
     <string name="overlay_permission_dialog_message">Permission is required for the overlay to work. Please go to the next window and provide permission</string>
     <string name="text_style_overlay">Text Style</string>
-    <string name="text_size">Text Size (Charge/Discharge/Wear/History)</string>
-    <string name="text_style">Text Style (Charge/Discharge/Wear/History)</string>
+    <string name="text_size">Text Size (Charge/Discharge/Last Charge/Wear/History)</string>
+    <string name="text_style">Text Style (Charge/Discharge/Last Charge/Wear/History)</string>
     <string name="battery_status_information">Battery Status Information</string>
     <string name="battery_is_fully_charged">Battery is fully charged</string>
     <string name="battery_is_charged">Battery is charged</string>
@@ -271,7 +271,7 @@
     <string name="stopping_service">Stopping Service&#8230;</string>
     <string name="service_stopped_successfully">Service Stopped Successfully!</string>
     <string name="error_stopping_service">Error stopping Service!</string>
-    <string name="text_font">Text Font (Charge/Discharge/Wear/History)</string>
+    <string name="text_font">Text Font (Charge/Discharge/Last Charge/Wear/History)</string>
     <string name="font_overlay">Font</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="telegram_link_copied">Telegram link copied</string>
