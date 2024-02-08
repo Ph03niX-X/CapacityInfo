@@ -141,8 +141,8 @@
     <string name="battery_wear_overlay">Usura della batteria</string>
     <string name="overlay_permission_dialog_message">È necessaria l\'autorizzazione affinché l\'overlay funzioni. Vai alla finestra successiva e fornisci l\'autorizzazione</string>
     <string name="text_style_overlay">Stile del testo</string>
-    <string name="text_size">Dimensioni del testo (Carica/Scarica/Usura/Storia)</string>
-    <string name="text_style">Stile testo (Carica/Scarica/Usura/Storia)</string>
+    <string name="text_size">Dimensioni del testo (Carica/Scarica/Ultima carica/Usura/Storia)</string>
+    <string name="text_style">Stile testo (Carica/Scarica/Ultima carica/Usura/Storia)</string>
     <string name="battery_status_information">Informazioni sullo stato della batteria</string>
     <string name="battery_is_fully_charged">La batteria è completamente carica</string>
     <string name="battery_is_charged">La batteria è carica</string>
@@ -252,7 +252,7 @@
     <string name="stopping_service">Interruzione del servizio…</string>
     <string name="service_stopped_successfully">Il servizio è stato interrotto con successo!</string>
     <string name="error_stopping_service">Errore nell\'arresto del servizio!</string>
-    <string name="text_font">Carattere testo (Carica/Scarica/Usura/Storia)</string>
+    <string name="text_font">Carattere testo (Carica/Scarica/Ultima carica/Usura/Storia)</string>
     <string name="font_overlay">Carattere</string>
     <string name="telegram_link_copied">Link di Telegram copiato</string>
     <string name="telegram_developer">Sviluppatore</string>
