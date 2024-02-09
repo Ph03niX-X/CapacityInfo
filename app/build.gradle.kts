@@ -16,8 +16,8 @@ android {
         namespace = applicationId
         minSdk = 26
         targetSdk = 34
-        versionCode = 1555
-        versionName = "7.6.0.3"
+        versionCode = 1558
+        versionName = "7.6.0.4"
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
