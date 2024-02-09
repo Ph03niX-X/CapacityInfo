@@ -320,12 +320,9 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         }
 
         screenTimeOverlay?.setOnPreferenceChangeListener { _, newValue ->
-            if(newValue as? Boolean == true && OverlayService.instance == null) {
+            if(newValue as? Boolean == true && OverlayService.instance == null)
                 ServiceHelper.startService(requireContext(), OverlayService::class.java)
-                if(CapacityInfoService.instance != null && OverlayInterface.screenTime == null)
-                    OverlayInterface.screenTime = CapacityInfoService.instance?.screenTime
-            }
-            else OverlayInterface.screenTime = null
+
             true
         }
 

@@ -81,10 +81,6 @@ interface OverlayInterface : BatteryInfoInterface {
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
 
-        var screenTime: Long? = null
-
-        var isScreenTimeCount = false
-
         var chargingTime = 0
 
         fun isEnabledOverlay(context: Context, isEnabledOverlay: Boolean = false): Boolean {
@@ -437,9 +433,7 @@ interface OverlayInterface : BatteryInfoInterface {
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
                         context.resources.getBoolean(R.bool.is_only_values_overlay)))
                     R.string.screen_time else R.string.screen_time_overlay_only_values,
-                    TimeHelper.getTime(screenTime ?: if(MainApp.tempScreenTime > 0)
-                        MainApp.tempScreenTime else if(MainApp.isUpdateApp)
-                        pref.getLong(PreferencesKeys.UPDATE_TEMP_SCREEN_TIME, 0L) else 0L))
+                    TimeHelper.getTime(CapacityInfoService.instance?.screenTime ?: 0L))
                 visibility = if(CapacityInfoService.instance != null && pref.getBoolean(
                         IS_SCREEN_TIME_OVERLAY, context.resources.getBoolean(
                             R.bool.is_screen_time_overlay))) View.VISIBLE else View.GONE

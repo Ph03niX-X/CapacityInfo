@@ -127,7 +127,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                     CapacityInfoService.instance?.screenTime = 0L
                 OverlayInterface.apply {
                     chargingTime = 0
-                    screenTime = CapacityInfoService.instance?.screenTime
                 }
                 ChargeDischargeFragment.instance?.apply {
                     chargingTime = 0

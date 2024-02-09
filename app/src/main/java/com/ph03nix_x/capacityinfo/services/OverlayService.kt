@@ -5,15 +5,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.IBinder
-import androidx.preference.PreferenceManager
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.isEnabledOverlay
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.linearLayout
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.windowManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.seconds
 
@@ -30,13 +27,8 @@ class OverlayService : Service(), OverlayInterface {
 
     override fun onCreate() {
         super.onCreate()
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
         instance = this
         onCreateOverlay(this)
-        OverlayInterface.screenTime = if(MainApp.tempScreenTime > 0L) MainApp.tempScreenTime
-        else if(MainApp.isUpdateApp)
-            pref.getLong(PreferencesKeys.UPDATE_TEMP_SCREEN_TIME, 0L) else
-                CapacityInfoService.instance?.screenTime
         OverlayInterface.chargingTime = CapacityInfoService.instance?.seconds ?: 0
         isJob = !isJob
     }
@@ -61,17 +53,6 @@ class OverlayService : Service(), OverlayInterface {
                     }
                     else delay(1.seconds)
                     withContext(Dispatchers.Main) {
-                        if(CapacityInfoService.instance != null &&
-                            OverlayInterface.screenTime == null) {
-                            OverlayInterface.screenTime = CapacityInfoService.instance?.screenTime
-                            if(!OverlayInterface.isScreenTimeCount)
-                                OverlayInterface.isScreenTimeCount = true
-                        }
-                        else if(CapacityInfoService.instance != null &&
-                            OverlayInterface.isScreenTimeCount &&
-                            getSourceOfPower(this@OverlayService, sourceOfPower) == "N/A"
-                            && status == BatteryManager.BATTERY_STATUS_DISCHARGING)
-                            OverlayInterface.screenTime = (OverlayInterface.screenTime ?: 0) + 1
                         if(isEnabledOverlay(this@OverlayService))
                             onUpdateOverlay(this@OverlayService)
                         else ServiceHelper.stopService(this@OverlayService,
@@ -88,9 +69,7 @@ class OverlayService : Service(), OverlayInterface {
         instance = null
         jobService?.cancel()
         jobService = null
-        OverlayInterface.screenTime = null
         OverlayInterface.chargingTime = 0
-        OverlayInterface.isScreenTimeCount = false
         if(linearLayout?.windowToken != null) windowManager?.removeView(linearLayout)
         super.onDestroy()
     }
