@@ -240,7 +240,7 @@
     <string name="error">Fallo!</string>
     <string name="history_count">Recuento de la historia</string>
     <string name="get_premium">Conseguir Premium</string>
-    <string name="premium_dialog">Al comprar Premium, obtendrá funciones adicionales de la aplicación:\n\• Historial;\n\• Mostrar información de la batería;\n\• Mostrar notificación ampliada;\n\• Detener servicio;\n\• Detener el servicio cuando el cargador está desconectado;\n\• Información del estado de la batería;\n\• Fuente de texto;\n\• Restablecer el tiempo de pantalla en cualquier nivel de carga;\n\• Guardar;\n\• Pestaña al iniciar la aplicación;\n\• Overlay;\n\• Capacidad en Wh;\n\• Corriente de carga/descarga en vatios\n\nComprando Premium también apoyas el desarrollo de la aplicación y a Ucrania en la guerra</string>
+    <string name="premium_dialog">Al comprar Premium, obtendrá funciones adicionales de la aplicación:\n\• Historial;\n\• Mostrar información de la batería;\n\• Mostrar notificación ampliada;\n\• Detener servicio;\n\• Detener el servicio cuando el cargador está desconectado;\n\• Información del estado de la batería;\n\• Fuente de texto;\n\• Restablecer el tiempo de pantalla en cualquier nivel de carga;\n\• Guardar;\n\• Pestaña al iniciar la aplicación;\n\• Overlay;\n\• Capacidad en Wh;\n\• Corriente de carga/descarga en vatios\n\nComprando Premium también apoyas el desarrollo de la aplicación</string>
     <string name="premium_feature">Función Premium</string>
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Funciones premium desbloqueadas!</string>
