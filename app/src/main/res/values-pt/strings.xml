@@ -239,7 +239,7 @@
     <string name="error">Erro!</string>
     <string name="history_count">Contagem de histórico</string>
     <string name="get_premium">Obter Premium</string>
-    <string name="premium_dialog">Ao adquirir o Premium, você receberá recursos adicionais do aplicativo:\n\• Última cobrança;\n\• Histórico;\n\• Mostrar informações da bateria;\n\• Mostrar o nível da bateria na barra de status;\n\•  Mostrar notificação expandida;\n\• Parar serviço;\n\• Parar o serviço quando o carregador for desconectado;\n\• Informações sobre o status da bateria;\n\• Fonte de texto;\n\• Reiniciar o tempo de tela em qualquer nível de carga;\n\• Backup;\n\• Aba na inicialização do aplicativo;\n\• Sobreposição;\n\• Capacidade em Wh;\n\• Corrente de carga/descarga em Watt\n\nAo adquirir o Premium, você também apoia o desenvolvimento futuro do aplicativo e da Ucrânia na Guerra</string>
+    <string name="premium_dialog">Ao adquirir o Premium, você receberá recursos adicionais do aplicativo:\n\• Última cobrança;\n\• Histórico;\n\• Mostrar informações da bateria;\n\• Mostrar o nível da bateria na barra de status;\n\•  Mostrar notificação expandida;\n\• Parar serviço;\n\• Parar o serviço quando o carregador for desconectado;\n\• Informações sobre o status da bateria;\n\• Fonte de texto;\n\• Reiniciar o tempo de tela em qualquer nível de carga;\n\• Backup;\n\• Aba na inicialização do aplicativo;\n\• Sobreposição;\n\• Capacidade em Wh;\n\• Corrente de carga/descarga em Watt\n\nAo adquirir o Premium, você também apoia o desenvolvimento futuro do aplicativo</string>
     <string name="premium_feature">Recurso Premium</string>
     <string name="purchase_premium">Comprar</string>
     <string name="premium_features_unlocked">Recursos Premium desbloqueados!</string>
