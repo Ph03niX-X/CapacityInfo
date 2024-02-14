@@ -140,8 +140,8 @@
     <string name="battery_wear_overlay">Akkuverschleiß</string>
     <string name="overlay_permission_dialog_message">Damit das Overlay funktioniert, ist eine Berechtigung erforderlich. Bitte gehen Sie zum nächsten Fenster und erteilen Sie die Berechtigung.</string>
     <string name="text_style_overlay">Text-Stil</string>
-    <string name="text_size">Textgröße (Ladung/Entladung/Letzte Aufladen/Verschleiß/Geschichte)</string>
-    <string name="text_style">Text-Stil (Ladung/Entladung/Letzte Aufladen/Verschleiß/Geschichte)</string>
+    <string name="text_size">Textgröße (Ladung/Entladung/Letztes Aufladen/Verschleiß/Geschichte)</string>
+    <string name="text_style">Text-Stil (Ladung/Entladung/Letztes Aufladen/Verschleiß/Geschichte)</string>
     <string name="battery_status_information">Informationen zum Akkustatus</string>
     <string name="battery_is_fully_charged">Der Akku ist vollständig geladen</string>
     <string name="battery_is_charged">Akku ist geladen</string>
@@ -239,7 +239,7 @@
     <string name="error">Fehler!</string>
     <string name="history_count">Geschichte zählen</string>
     <string name="get_premium">Erhalten Premium</string>
-    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Letzte Aufladen;\n\• Geschichte;\n\• Akkustand in der Statusleiste anzeigen;\n\• Batterieinformationen anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Kauf von Premium unterstützen Sie auch die weitere Entwicklung der App und die Ukraine im Krieg</string>
+    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Letztes Aufladen;\n\• Geschichte;\n\• Akkustand in der Statusleiste anzeigen;\n\• Batterieinformationen anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• Dienst anhalten;\n\• Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Registerkarte beim Start der Anwendung;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Kauf von Premium unterstützen Sie auch die weitere Entwicklung der App und die Ukraine im Krieg</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
@@ -251,7 +251,7 @@
     <string name="stopping_service">Anhaltender Dienst&#8230;</string>
     <string name="service_stopped_successfully">Dienst erfolgreich gestoppt!</string>
     <string name="error_stopping_service">Fehler beim Anhalten des Dienstes</string>
-    <string name="text_font">Schriftart (Aufladen/Entladen/Letzte Aufladen/Verschleiß/Geschichte)</string>
+    <string name="text_font">Schriftart (Aufladen/Entladen/Letztes Aufladen/Verschleiß/Geschichte)</string>
     <string name="font_overlay">Schriftart</string>
     <string name="telegram_link_copied">Telegram-Link kopiert</string>
     <string name="telegram_developer">Entwickler</string>
@@ -328,6 +328,6 @@
     <string name="battery_wear_new">Akkuverschleiß (NEW)</string>
     <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
-    <string name="last_charge">Letzte Aufladen</string>
+    <string name="last_charge">Letztes Aufladen</string>
     <string name="status_last_charge">Status: %1$s</string>
 </resources>
