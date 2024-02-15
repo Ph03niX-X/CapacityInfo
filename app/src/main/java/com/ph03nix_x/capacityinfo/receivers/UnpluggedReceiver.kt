@@ -36,6 +36,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_TIME_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE
@@ -110,9 +112,9 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putFloat(VOLTAGE_LAST_CHARGE, if(voltage > 0f) voltage else
                             getVoltage(context).toFloat())
                         putInt(LAST_CHARGE_TIME, seconds)
-                        putInt(BATTERY_LEVEL_WITH, CapacityInfoService.instance
+                        putInt(BATTERY_LEVEL_WITH_LAST_CHARGE, CapacityInfoService.instance
                             ?.batteryLevelWith ?: 0)
-                        putInt(BATTERY_LEVEL_TO, batteryLevel)
+                        putInt(BATTERY_LEVEL_TO_LAST_CHARGE, batteryLevel)
                         percentAdded = 0
                         capacityAdded = 0.0
                         CapacityInfoService.instance?.voltageLastCharge = 0f
