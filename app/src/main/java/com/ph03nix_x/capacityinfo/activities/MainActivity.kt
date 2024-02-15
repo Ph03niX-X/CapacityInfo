@@ -328,15 +328,15 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0L)
-        if(MainApp.isRequestPurchasePremium && isInstalledGooglePlay && !isGooglePlay(this)
-            && !isPremium && numberOfFullCharges > 0L && numberOfCharges % 2 == 0L)
-            requestPurchasePremium()
         if((isInstalledGooglePlay && isGooglePlay(this) &&
                     (numberOfFullCharges == 1L || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
         if(isInstalledGooglePlay && isGooglePlay(this)) checkUpdateFromGooglePlay()
         isShowRequestIgnoringBatteryOptimizationsDialog = true
+        if(MainApp.isRequestPurchasePremium && isInstalledGooglePlay && !isGooglePlay(this)
+            && !isPremium && numberOfFullCharges > 0L && numberOfCharges % 2 == 0L)
+            requestPurchasePremium()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
