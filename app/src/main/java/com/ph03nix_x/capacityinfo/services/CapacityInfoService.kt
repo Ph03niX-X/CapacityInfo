@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
+import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -515,6 +516,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         isSaveNumberOfCharges = false
         withContext(Dispatchers.Main) {
+            LastChargeFragment.instance?.lastCharge()
             updateServiceNotification(isBatteryCharged = true)
         }
     }
