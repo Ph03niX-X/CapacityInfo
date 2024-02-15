@@ -28,6 +28,8 @@ import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.TOKEN_COUNT
+import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
 import com.ph03nix_x.capacityinfo.fragments.BackupSettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.BatteryStatusInformationFragment
@@ -334,9 +336,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
         if(isInstalledGooglePlay && isGooglePlay(this)) checkUpdateFromGooglePlay()
         isShowRequestIgnoringBatteryOptimizationsDialog = true
-        if(MainApp.isRequestPurchasePremium && isInstalledGooglePlay && !isGooglePlay(this)
-            && !isPremium && numberOfFullCharges > 0L && numberOfCharges % 2 == 0L)
-            requestPurchasePremium()
+        if(numberOfFullCharges > 0L && numberOfCharges % 2 == 0L && isInstalledGooglePlay &&
+            !isGooglePlay(this) &&
+            (!isPremium || pref.getString(TOKEN_PREF, null)?.length != TOKEN_COUNT)
+            && MainApp.isRequestPurchasePremium) requestPurchasePremium()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
