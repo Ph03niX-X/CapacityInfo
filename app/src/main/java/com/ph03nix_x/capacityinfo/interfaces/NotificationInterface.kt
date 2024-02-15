@@ -812,6 +812,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
              7 -> R.mipmap.ic_battery_level_7
              8 -> R.mipmap.ic_battery_level_8
              9 -> R.mipmap.ic_battery_level_9
+             10 -> R.mipmap.ic_battery_level_10
              11 -> R.mipmap.ic_battery_level_11
              12 -> R.mipmap.ic_battery_level_12
              13 -> R.mipmap.ic_battery_level_13
