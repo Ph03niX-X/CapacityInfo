@@ -79,8 +79,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
                         if(CapacityInfoService.instance?.isSaveNumberOfCharges != false)
                             putFloat(NUMBER_OF_CYCLES, numberOfCycles)
-                    }
-                    if(seconds > 1) {
                         putInt(BATTERY_LEVEL_LAST_CHARGE, batteryLevel)
                         putInt(CHARGING_TIME_LAST_CHARGE, seconds)
                         putFloat(CAPACITY_ADDED_LAST_CHARGE, capacityAdded.toFloat())
@@ -88,8 +86,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         putInt(CURRENT_CAPACITY_LAST_CHARGE,
                             CapacityInfoService.instance?.currentCapacityLastCharge ?: 0)
                         putString(PreferencesKeys.STATUS_LAST_CHARGE, getStatus(context,
-                                CapacityInfoService.instance?.statusLastCharge ?:
-                                BatteryManager.BATTERY_STATUS_UNKNOWN))
+                            CapacityInfoService.instance?.statusLastCharge ?:
+                            BatteryManager.BATTERY_STATUS_UNKNOWN))
                         putString(SOURCE_OF_POWER_LAST_CHARGE, getSourceOfPowerLastCharge(context,
                             CapacityInfoService.instance?.sourceOfPower ?: -1))
                         putBoolean(IS_FAST_CHARGE_LAST_CHARGE, isFastCharge(context))
@@ -117,6 +115,9 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                         capacityAdded = 0.0
                         CapacityInfoService.instance?.voltageLastCharge = 0f
                     }
+                    percentAdded = 0
+                    capacityAdded = 0.0
+                    CapacityInfoService.instance?.voltageLastCharge = 0f
                     apply()
                 }
                 LastChargeFragment.instance?.lastCharge()

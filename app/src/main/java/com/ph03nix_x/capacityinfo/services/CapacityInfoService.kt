@@ -35,6 +35,7 @@ import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_WAKELOCK_TIMEOUT
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
@@ -400,20 +401,51 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
         val numberOfCycles = if(batteryLevel == batteryLevelWith) pref.getFloat(
             NUMBER_OF_CYCLES, 0f) + 0.01f else pref.getFloat(
-            NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (
-                batteryLevelWith / 100f)
+            NUMBER_OF_CYCLES, 0f) + (batteryLevel / 100f) - (batteryLevelWith / 100f)
         voltageLastCharge = getVoltage(this@CapacityInfoService).toFloat()
         pref.edit().apply {
             val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
             if(seconds > 1) putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
-            putInt(LAST_CHARGE_TIME, seconds)
             putInt(RESIDUAL_CAPACITY, residualCapacity)
-            putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
-            putInt(BATTERY_LEVEL_TO, batteryLevel)
             putLong(NUMBER_OF_FULL_CHARGES, pref.getLong(NUMBER_OF_FULL_CHARGES, 0) + 1)
             putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
             putInt(PERCENT_ADDED, percentAdded)
             if(isSaveNumberOfCharges) putFloat(NUMBER_OF_CYCLES, numberOfCycles)
+            putInt(PreferencesKeys.BATTERY_LEVEL_LAST_CHARGE, batteryLevel)
+            putInt(PreferencesKeys.CHARGING_TIME_LAST_CHARGE, seconds)
+            putFloat(PreferencesKeys.CAPACITY_ADDED_LAST_CHARGE, capacityAdded.toFloat())
+            putInt(PreferencesKeys.PERCENT_ADDED_LAST_CHARGE, percentAdded)
+            putInt(PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE, currentCapacityLastCharge)
+            putString(PreferencesKeys.STATUS_LAST_CHARGE,
+                getStatus(this@CapacityInfoService, statusLastCharge))
+            putString(PreferencesKeys.SOURCE_OF_POWER_LAST_CHARGE,
+                getSourceOfPowerLastCharge(this@CapacityInfoService, sourceOfPower))
+            putBoolean(PreferencesKeys.IS_FAST_CHARGE_LAST_CHARGE,
+                isFastCharge(this@CapacityInfoService))
+            if(isFastCharge(this@CapacityInfoService))
+                putFloat(PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE,
+                    getFastChargeWattLastCharge().toFloat())
+            putInt(PreferencesKeys.MAX_CHARGE_LAST_CHARGE, maxChargeCurrent)
+            putInt(PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE,
+                BatteryInfoInterface.averageChargeCurrent)
+            putInt(PreferencesKeys.MIN_CHARGE_LAST_CHARGE, BatteryInfoInterface.minChargeCurrent)
+            putFloat(PreferencesKeys.MAX_TEMP_CELSIUS_LAST_CHARGE,
+                BatteryInfoInterface.maximumTemperature.toFloat())
+            putFloat(PreferencesKeys.MAX_TEMP_FAHRENHEIT_LAST_CHARGE,
+                getTemperatureInFahrenheit(BatteryInfoInterface.maximumTemperature).toFloat())
+            putFloat(PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE,
+                BatteryInfoInterface.averageTemperature.toFloat())
+            putFloat(PreferencesKeys.AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE,
+                getTemperatureInFahrenheit(BatteryInfoInterface.averageTemperature).toFloat())
+            putFloat(PreferencesKeys.MIN_TEMP_CELSIUS_LAST_CHARGE,
+                BatteryInfoInterface.minimumTemperature.toFloat())
+            putFloat(PreferencesKeys.MIN_TEMP_FAHRENHEIT_LAST_CHARGE,
+                getTemperatureInFahrenheit(BatteryInfoInterface.minimumTemperature).toFloat())
+            putFloat(PreferencesKeys.VOLTAGE_LAST_CHARGE, if(voltageLastCharge > 0f) voltageLastCharge
+            else getVoltage(this@CapacityInfoService).toFloat())
+            putInt(LAST_CHARGE_TIME, seconds)
+            putInt(BATTERY_LEVEL_WITH, batteryLevelWith)
+            putInt(BATTERY_LEVEL_TO, batteryLevel)
             apply()
         }
         withContext(Dispatchers.Main) {
