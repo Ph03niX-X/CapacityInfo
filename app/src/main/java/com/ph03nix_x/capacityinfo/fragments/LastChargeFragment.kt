@@ -126,8 +126,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
                     "${getFloat(VOLTAGE_LAST_CHARGE, 0f)}")
                 lastChargeTime.text = getString(R.string.last_charge_time,
                     getLastChargeTime(requireContext()),
-                    "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH_LAST_CHARGE, 0)}%",
-                    "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO_LAST_CHARGE, 0)}%")
+                    "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_WITH, 0)}%",
+                    "${pref.getInt(PreferencesKeys.BATTERY_LEVEL_TO, 0)}%")
             }
         }
     }
