@@ -36,18 +36,32 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CHARGING_TIME_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_CHARGE_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_TEMP_CELSIUS_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_TEMP_FAHRENHEIT_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MIN_CHARGE_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MIN_TEMP_CELSIUS_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MIN_TEMP_FAHRENHEIT_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
@@ -58,7 +72,10 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_COLOR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.SOURCE_OF_POWER_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.STATUS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
@@ -66,6 +83,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UPDATE_TEMP_SCREEN_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
 import kotlinx.coroutines.*
 import java.lang.NumberFormatException
@@ -264,14 +282,21 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_LOCATION, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
                 OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
-                FULL_CHARGE_REMINDER_FREQUENCY -> addChangeSetting(pref, key, value.toString())
+                FULL_CHARGE_REMINDER_FREQUENCY, STATUS_LAST_CHARGE, SOURCE_OF_POWER_LAST_CHARGE ->
+                    addChangeSetting(pref, key, value.toString())
 
                 DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                 RESIDUAL_CAPACITY, PERCENT_ADDED, BATTERY_LEVEL_NOTIFY_CHARGED,
-                BATTERY_LEVEL_NOTIFY_DISCHARGED ->
+                BATTERY_LEVEL_NOTIFY_DISCHARGED, BATTERY_LEVEL_LAST_CHARGE,
+                CHARGING_TIME_LAST_CHARGE, PERCENT_ADDED_LAST_CHARGE, CURRENT_CAPACITY_LAST_CHARGE,
+                MAX_CHARGE_LAST_CHARGE, AVERAGE_CHARGE_LAST_CHARGE, MIN_CHARGE_LAST_CHARGE ->
                     addChangeSetting(pref, key, value.toString().toInt())
 
-                CAPACITY_ADDED, NUMBER_OF_CYCLES -> addChangeSetting(pref, key,
+                CAPACITY_ADDED, NUMBER_OF_CYCLES, FAST_CHARGE_WATTS_LAST_CHARGE,
+                CAPACITY_ADDED_LAST_CHARGE, VOLTAGE_LAST_CHARGE, MAX_TEMP_CELSIUS_LAST_CHARGE,
+                MAX_TEMP_FAHRENHEIT_LAST_CHARGE, AVERAGE_TEMP_CELSIUS_LAST_CHARGE,
+                AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE, MIN_TEMP_CELSIUS_LAST_CHARGE,
+                MIN_TEMP_FAHRENHEIT_LAST_CHARGE -> addChangeSetting(pref, key,
                     value.toString().toFloat())
 
                 NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES, UPDATE_TEMP_SCREEN_TIME ->
@@ -306,20 +331,27 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                         UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_LOCATION,
                         OVERLAY_SIZE, OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE,
-                        TAB_ON_APPLICATION_LAUNCH, FULL_CHARGE_REMINDER_FREQUENCY ->
+                        TAB_ON_APPLICATION_LAUNCH, FULL_CHARGE_REMINDER_FREQUENCY,
+                        STATUS_LAST_CHARGE, SOURCE_OF_POWER_LAST_CHARGE ->
                             setValueType("string", changePrefValue, pref,
                                 prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         DESIGN_CAPACITY, LAST_CHARGE_TIME, BATTERY_LEVEL_WITH, BATTERY_LEVEL_TO,
                         RESIDUAL_CAPACITY, PERCENT_ADDED, NUMBER_OF_CHARGES, NUMBER_OF_FULL_CHARGES,
                         OVERLAY_OPACITY, OVERLAY_TEXT_COLOR, BATTERY_LEVEL_NOTIFY_CHARGED,
-                        BATTERY_LEVEL_NOTIFY_DISCHARGED, UPDATE_TEMP_SCREEN_TIME ->
-                            setValueType("int|long", changePrefValue, pref,
-                                prefValueInputTypeDef, prefValueKeyListenerDef)
+                        BATTERY_LEVEL_NOTIFY_DISCHARGED, UPDATE_TEMP_SCREEN_TIME,
+                        BATTERY_LEVEL_LAST_CHARGE, CHARGING_TIME_LAST_CHARGE,
+                        PERCENT_ADDED_LAST_CHARGE, CURRENT_CAPACITY_LAST_CHARGE,
+                        MAX_CHARGE_LAST_CHARGE, AVERAGE_CHARGE_LAST_CHARGE, MIN_CHARGE_LAST_CHARGE
+                        -> setValueType("int|long", changePrefValue, pref,
+                            prefValueInputTypeDef, prefValueKeyListenerDef)
 
-                        CAPACITY_ADDED, NUMBER_OF_CYCLES ->
-                            setValueType("float", changePrefValue, pref,
-                                prefValueInputTypeDef, prefValueKeyListenerDef)
+                        CAPACITY_ADDED, NUMBER_OF_CYCLES, FAST_CHARGE_WATTS_LAST_CHARGE,
+                        CAPACITY_ADDED_LAST_CHARGE, VOLTAGE_LAST_CHARGE, MAX_TEMP_CELSIUS_LAST_CHARGE,
+                        MAX_TEMP_FAHRENHEIT_LAST_CHARGE, AVERAGE_TEMP_CELSIUS_LAST_CHARGE,
+                        AVERAGE_TEMP_FAHRENHEIT_LAST_CHARGE, MIN_TEMP_CELSIUS_LAST_CHARGE,
+                        MIN_TEMP_FAHRENHEIT_LAST_CHARGE -> setValueType("float",
+                            changePrefValue, pref, prefValueInputTypeDef, prefValueKeyListenerDef)
 
                         TOKEN_PREF -> return
 
