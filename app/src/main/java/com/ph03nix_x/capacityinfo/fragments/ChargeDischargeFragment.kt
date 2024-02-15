@@ -1,10 +1,13 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.hardware.display.DisplayManager
 import android.os.BatteryManager
 import android.os.Bundle
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -184,7 +187,6 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                     }
 
                     withContext(Dispatchers.Main) {
-
                         binding.apply {
                             this.status.text = getString(R.string.status,
                                 getStatus(requireContext(), status))
@@ -200,9 +202,24 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             }
                             else {
                                 this.sourceOfPower.visibility = View.GONE
-                                if(CapacityInfoService.instance != null && isScreenTimeCount)
-                                    this@ChargeDischargeFragment.screenTime =
-                                        (this@ChargeDischargeFragment.screenTime ?: 0) + 1
+                                if(CapacityInfoService.instance != null && isScreenTimeCount
+                                    && (status == BatteryManager.BATTERY_STATUS_DISCHARGING ||
+                                            status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
+                                    && !MainApp.isPowerConnected) {
+                                    val displayManager =
+                                        requireContext().getSystemService(Context.DISPLAY_SERVICE)
+                                                as? DisplayManager
+                                    if(displayManager != null) {
+                                        display@for(display in displayManager.displays)
+                                            if(display.state == Display.STATE_ON) {
+                                                this@ChargeDischargeFragment.screenTime =
+                                                    (this@ChargeDischargeFragment.screenTime ?: 0) + 1
+                                                break@display
+                                            }
+                                    }
+                                    else this@ChargeDischargeFragment.screenTime =
+                                        CapacityInfoService.instance?.screenTime ?: 0
+                                }
                             }
                         }
                     }
@@ -489,10 +506,10 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     when(status) {
                         BatteryManager.BATTERY_STATUS_CHARGING ->
-                            delay(if(getCurrentCapacity(requireContext()) > 0.0) 0.944.seconds
-                            else 0.950.seconds)
+                            delay(if(getCurrentCapacity(requireContext()) > 0.0) 0.945.seconds
+                            else 0.951.seconds)
                         else -> {
-                            delay(1.seconds)
+                            delay(1.01.seconds)
                             if(CapacityInfoService.instance != null && !isScreenTimeCount) {
                                 isScreenTimeCount = true
                                 screenTime = CapacityInfoService.instance?.screenTime
