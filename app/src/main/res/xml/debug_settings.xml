@@ -19,6 +19,13 @@
                 android:key="is_forcibly_show_rate_the_app"/>
 
         <SwitchPreferenceCompat
+            android:title="@string/enable_wakelock"
+            android:defaultValue="@bool/is_enable_wakelock"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_enable_wakelock"
+            android:key="is_enable_wakelock"/>
+
+        <SwitchPreferenceCompat
             android:title="@string/auto_start_boot"
             android:defaultValue="@bool/is_auto_start_boot"
             app:singleLineTitle="false"
@@ -35,13 +42,6 @@
             android:defaultValue="@bool/is_auto_start_update_app"
             app:singleLineTitle="false"
             android:key="is_auto_start_update_app"/>
-
-        <SwitchPreferenceCompat
-            android:title="@string/enable_wakelock"
-            android:defaultValue="@bool/is_enable_wakelock"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_enable_wakelock"
-            android:key="is_enable_wakelock"/>
 
         <Preference
                 android:title="@string/add_setting"
