@@ -73,6 +73,12 @@
             android:key="add_number_of_cycles"/>
 
         <Preference
+            android:title="@string/change_screen_time"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_change_screen_time"
+            android:key="change_screen_time"/>
+
+        <Preference
             android:title="@string/reset_screen_time"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_reset_screen_time_at_any_charge_level"

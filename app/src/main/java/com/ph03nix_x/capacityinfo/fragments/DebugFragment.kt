@@ -34,6 +34,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var resetSetting: Preference? = null
     private var resetSettings: Preference? = null
     private var addNumberOfCycles: Preference? = null
+    private var changeScreenTime: Preference? = null
     private var resetScreenTime: Preference? = null
     private var batteryWearNew: Preference? = null
     private var addCustomHistory: Preference? = null
@@ -64,6 +65,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetSetting = findPreference("reset_setting")
 
         resetSettings = findPreference("reset_settings")
+
+        changeScreenTime = findPreference("change_screen_time")
 
         resetScreenTime = findPreference("reset_screen_time")
 
@@ -109,6 +112,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addNumberOfCycles?.setOnPreferenceClickListener {
             addNumberOfCyclesDialog()
+            true
+        }
+
+        changeScreenTime?.setOnPreferenceClickListener {
+            onChangeScreenTime()
             true
         }
 

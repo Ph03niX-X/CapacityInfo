@@ -353,4 +353,6 @@
     <string name="status_last_charge">Status: %1$s</string>
     <string name="enable_wakelock">Enable Wakelock</string>
     <string name="enable_check_update">Enable Check Update</string>
+    <string name="change_screen_time">Change Screen Time</string>
+    <string name="screen_time_debug">Screen Time</string>
 </resources>

@@ -27,12 +27,14 @@ import com.ph03nix_x.capacityinfo.databinding.AddCustomHistoryDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddNumberOfCyclesDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangePrefKeyDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.ChangeScreenTimeDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -657,6 +659,48 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                             Toast.LENGTH_LONG).show()
                         false
                     }
+                }
+            })
+        }
+    }
+    
+    fun DebugFragment.onChangeScreenTime() {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val binding = ChangeScreenTimeDialogBinding.inflate(LayoutInflater.from(requireContext()),
+            null, false)
+        dialog.setView(binding.root.rootView)
+        binding.changeScreenTimeEdit.setText((CapacityInfoService.instance?.screenTime ?: 0)
+            .toString())
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+            CapacityInfoService.instance?.screenTime =
+                binding.changeScreenTimeEdit.text.toString().toLong()
+        }
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+        val dialogCreate = dialog.create()
+        changeScreenTimeDialogCreateShowListener(requireContext(), dialogCreate,
+            binding.changeScreenTimeEdit)
+        dialogCreate.show()
+    }
+
+    private fun changeScreenTimeDialogCreateShowListener(context: Context, dialogCreate: AlertDialog,
+                                                         changeScreeTime: TextInputEditText) {
+        dialogCreate.setOnShowListener {
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+            changeScreeTime.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
+                        s.isNotEmpty() && s.toString().toLong() >= 0L &&
+                                s.toString().toLong() < Long.MAX_VALUE
+                    }
+                    catch (e: NumberFormatException) {
+                        Toast.makeText(context, e.message ?: e.toString(),
+                            Toast.LENGTH_LONG).show()
+                        false
+                    }
+
                 }
             })
         }
