@@ -351,4 +351,5 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Last Charge</string>
     <string name="status_last_charge">Status: %1$s</string>
+    <string name="enable_wakelock">Enable Wakelock</string>
 </resources>

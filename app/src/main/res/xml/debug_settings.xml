@@ -29,6 +29,12 @@
             app:singleLineTitle="false"
             android:key="is_auto_start_update_app"/>
 
+        <SwitchPreferenceCompat
+            android:title="@string/enable_wakelock"
+            android:defaultValue="@bool/is_enable_wakelock"
+            app:singleLineTitle="false"
+            android:key="is_enable_wakelock"/>
+
         <Preference
                 android:title="@string/add_setting"
                 app:singleLineTitle="false"

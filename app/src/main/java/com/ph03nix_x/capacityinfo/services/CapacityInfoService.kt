@@ -44,6 +44,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_WAKELOCK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_SETTING
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
@@ -178,24 +179,21 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
         if(jobService == null)
             jobService = CoroutineScope(Dispatchers.Default).launch {
-
                 isJob = !isJob
-
                 while (isJob && !isStopService) {
-
                     if(instance == null) instance = this@CapacityInfoService
-
-                    if(wakeLock == null) {
-
+                    if(pref.getBoolean(IS_ENABLE_WAKELOCK,
+                            resources.getBoolean(R.bool.is_enable_wakelock)) && wakeLock == null) {
                         if(powerManager == null) powerManager = getSystemService(Context
                             .POWER_SERVICE) as PowerManager
-
                         wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                             "${packageName}:service_wakelock")
                     }
-
-                    if(wakeLock?.isHeld != true && !isFull && isPowerConnected)
+                    if(pref.getBoolean(IS_ENABLE_WAKELOCK,
+                            resources.getBoolean(R.bool.is_enable_wakelock)) &&
+                        wakeLock?.isHeld != true && !isFull && isPowerConnected)
                         wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
+                    else if(wakeLock?.isHeld == true) wakeLockRelease()
 
                     if((getBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
