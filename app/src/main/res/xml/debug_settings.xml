@@ -40,6 +40,7 @@
             android:title="@string/enable_wakelock"
             android:defaultValue="@bool/is_enable_wakelock"
             app:singleLineTitle="false"
+            app:icon="@drawable/ic_enable_wakelock"
             android:key="is_enable_wakelock"/>
 
         <Preference
