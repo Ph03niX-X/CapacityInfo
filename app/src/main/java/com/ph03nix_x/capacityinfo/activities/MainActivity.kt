@@ -73,6 +73,7 @@ import com.ph03nix_x.capacityinfo.views.CenteredToolbar
 import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_CHECK_UPDATE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_REQUEST_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 import kotlinx.coroutines.CoroutineScope
@@ -334,7 +335,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     (numberOfFullCharges == 1L || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
-        if(isInstalledGooglePlay && isGooglePlay(this)) checkUpdateFromGooglePlay()
+        if(pref.getBoolean(IS_ENABLE_CHECK_UPDATE, resources.getBoolean(
+                R.bool.is_enable_check_update)) && isInstalledGooglePlay &&
+            isGooglePlay(this)) checkUpdateFromGooglePlay()
         isShowRequestIgnoringBatteryOptimizationsDialog = true
         if(numberOfFullCharges > 0L && numberOfCharges % 2 == 0L && isInstalledGooglePlay &&
             !isGooglePlay(this) &&

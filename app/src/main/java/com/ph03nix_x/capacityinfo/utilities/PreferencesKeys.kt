@@ -89,6 +89,7 @@ object PreferencesKeys {
 
     // Debug
     const val IS_ENABLED_DEBUG_OPTIONS = "is_enabled_debug_options"
+    const val IS_ENABLE_CHECK_UPDATE = "is_enable_check_update"
     const val IS_FORCIBLY_SHOW_RATE_THE_APP = "is_forcibly_show_rate_the_app"
     const val IS_AUTO_START_BOOT = "is_auto_start_boot"
     const val IS_AUTO_START_OPEN_APP = "is_auto_start_open_app"

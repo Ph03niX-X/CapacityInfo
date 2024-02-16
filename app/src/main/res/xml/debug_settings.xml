@@ -5,6 +5,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <SwitchPreferenceCompat
+            android:title="@string/enable_check_update"
+            android:defaultValue="@bool/is_enable_check_update"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_check_update_24dp"
+            android:key="is_enable_check_update"/>
+
+        <SwitchPreferenceCompat
                 android:title="@string/forcibly_show_rate_the_app"
                 android:defaultValue="@bool/is_forcibly_show_rate_the_app"
                 app:singleLineTitle="false"
