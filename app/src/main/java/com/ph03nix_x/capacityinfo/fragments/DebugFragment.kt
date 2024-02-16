@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.*
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
@@ -15,6 +16,7 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_CHECK_UPDATE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.seconds
@@ -25,6 +27,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     private var isResume = false
 
+    private var enableCheckUpdate: SwitchPreferenceCompat? = null
     private var forciblyShowRateTheApp: SwitchPreferenceCompat? = null
     private var addSetting: Preference? = null
     private var changeSetting: Preference? = null
@@ -49,6 +52,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         addPreferencesFromResource(R.xml.debug_settings)
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        enableCheckUpdate = findPreference(IS_ENABLE_CHECK_UPDATE)
 
         forciblyShowRateTheApp = findPreference(IS_FORCIBLY_SHOW_RATE_THE_APP)
 
@@ -85,6 +90,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         stopOverlayService = findPreference("stop_overlay_service")
 
         restartOverlayService = findPreference("restart_overlay_service")
+
+        enableCheckUpdate?.isVisible = isInstalledGooglePlay && isGooglePlay(requireContext())
 
         forciblyShowRateTheApp?.isVisible = !isGooglePlay(requireContext())
 
