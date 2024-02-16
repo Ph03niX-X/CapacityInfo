@@ -38,5 +38,5 @@ object Constants {
     const val BATTERY_WEAR_NEW_COUNT = 5
 
     val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 12.hours.inWholeMilliseconds
-    val SERVICE_WAKELOCK_TIMEOUT = 1.minutes.inWholeMilliseconds
+    val SERVICE_WAKELOCK_TIMEOUT = 30.minutes.inWholeMilliseconds
 }
