@@ -10,7 +10,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.setTheme
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
-import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
