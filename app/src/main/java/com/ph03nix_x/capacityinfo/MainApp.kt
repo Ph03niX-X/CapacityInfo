@@ -71,20 +71,15 @@ class MainApp : Application(), PremiumInterface {
     }
 
     override fun onCreate() {
-
         super.onCreate()
-
-        premiumContext = this
-
-        isInstalledGooglePlay = isInstalledGooglePlay()
-
         ThemeHelper.setTheme(this)
-
-        if(isInstalledGooglePlay) checkPremium()
-
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
-
-        if(isInstalledGooglePlay) ServiceHelper.checkPremiumJobSchedule(this)
+        isInstalledGooglePlay = isInstalledGooglePlay()
+        premiumContext = this
+        if(isInstalledGooglePlay) {
+            checkPremium()
+            ServiceHelper.checkPremiumJobSchedule(this)
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
