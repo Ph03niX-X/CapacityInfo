@@ -342,6 +342,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                         setIcon(R.drawable.ic_instruction_not_supported_24dp)
                         setMessage(R.string.fast_charge_dialog_message)
                         setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                        setNegativeButton(android.R.string.cancel) { _, _ ->
+                            isChecked = false
+                            pref.apply {
+                                if(contains(IS_FAST_CHARGE_SETTING))
+                                    edit().remove(IS_FAST_CHARGE_SETTING).apply()
+                            }
+                        }
                         show()
                     }
                 true
