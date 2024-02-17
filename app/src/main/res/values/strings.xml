@@ -355,4 +355,6 @@
     <string name="enable_check_update">Enable Check Update</string>
     <string name="change_screen_time">Change Screen Time</string>
     <string name="screen_time_debug">Screen Time</string>
+    <string name="change_nominal_battery_voltage">Change Nominal Battery Voltage</string>
+    <string name="voltage_debug">Voltage</string>
 </resources>

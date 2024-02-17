@@ -16,4 +16,7 @@
     <integer name="overlay_opacity_default">127</integer>
     <integer name="overlay_opacity_max">255</integer>
     <integer name="fast_charge_min">2500</integer>
+    <integer name="nominal_battery_voltage_min">380</integer>
+    <integer name="nominal_battery_voltage_default">387</integer>
+    <integer name="nominal_battery_voltage_max">390</integer>
 </resources>

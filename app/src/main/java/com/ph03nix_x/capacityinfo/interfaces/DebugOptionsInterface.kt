@@ -19,6 +19,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.ph03nix_x.capacityinfo.services.CapacityInfoService.Companion.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -26,6 +27,7 @@ import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.databinding.AddCustomHistoryDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddNumberOfCyclesDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.ChangeNominalBatteryVoltageDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangePrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangeScreenTimeDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
@@ -64,6 +66,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_TEMP_FAHRENHEIT_
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MIN_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MIN_TEMP_CELSIUS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MIN_TEMP_FAHRENHEIT_LAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NOMINAL_BATTERY_VOLTAGE_PREF
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
@@ -694,6 +697,58 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
                         s.isNotEmpty() && s.toString().toLong() >= 0L &&
                                 s.toString().toLong() < Long.MAX_VALUE
+                    }
+                    catch (e: NumberFormatException) {
+                        Toast.makeText(context, e.message ?: e.toString(),
+                            Toast.LENGTH_LONG).show()
+                        false
+                    }
+
+                }
+            })
+        }
+    }
+
+    fun DebugFragment.onChangeNominalBatteryVoltage() {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val binding = ChangeNominalBatteryVoltageDialogBinding.inflate(LayoutInflater.from(
+            requireContext()), null, false)
+        dialog.setView(binding.root.rootView)
+        binding.changeNominalBatteryVoltageEdit.setText("${pref.getInt(NOMINAL_BATTERY_VOLTAGE_PREF,
+            resources.getInteger(R.integer.nominal_battery_voltage_default))}")
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+            pref.edit().putInt(NOMINAL_BATTERY_VOLTAGE_PREF,
+                binding.changeNominalBatteryVoltageEdit.text.toString().toInt()).apply()
+            NOMINAL_BATTERY_VOLTAGE =
+                binding.changeNominalBatteryVoltageEdit.text.toString().toDouble() / 100.0
+            Toast.makeText(requireContext(), "$NOMINAL_BATTERY_VOLTAGE",
+                Toast.LENGTH_LONG).show()
+        }
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+        val dialogCreate = dialog.create()
+        changeNominalBatteryVoltageDialogCreateShowListener(requireContext(), dialogCreate,
+            binding.changeNominalBatteryVoltageEdit, pref)
+        dialogCreate.show()
+    }
+
+    private fun changeNominalBatteryVoltageDialogCreateShowListener(context: Context,
+                                                              dialogCreate: AlertDialog,
+                                                              nominalBatteryVoltage: TextInputEditText,
+                                                                    pref: SharedPreferences) {
+        dialogCreate.setOnShowListener {
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+            nominalBatteryVoltage.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
+                        s.isNotEmpty() && s.toString().toInt() !=
+                                pref.getInt(NOMINAL_BATTERY_VOLTAGE_PREF, context.resources
+                                    .getInteger(R.integer.nominal_battery_voltage_default)) &&
+                                s.toString().toInt() >= context.resources.getInteger(
+                            R.integer.nominal_battery_voltage_min) && s.toString().toInt() <=
+                                context.resources.getInteger(R.integer.nominal_battery_voltage_max)
                     }
                     catch (e: NumberFormatException) {
                         Toast.makeText(context, e.message ?: e.toString(),

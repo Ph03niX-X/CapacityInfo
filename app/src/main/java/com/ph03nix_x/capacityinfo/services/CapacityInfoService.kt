@@ -34,7 +34,6 @@ import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_WAKELOCK_TIMEOUT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY_CHARGED
@@ -51,6 +50,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_OVERHEAT_OVERCOOL
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NOMINAL_BATTERY_VOLTAGE_PREF
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
@@ -90,7 +90,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     var currentCapacityLastCharge = 0
 
     companion object {
-
+        var NOMINAL_BATTERY_VOLTAGE = 3.87
         var instance: CapacityInfoService? = null
     }
 
@@ -102,6 +102,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             instance = this
             onCreateServiceNotification(this)
             pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
+            NOMINAL_BATTERY_VOLTAGE = pref.getInt(NOMINAL_BATTERY_VOLTAGE_PREF,
+                resources.getInteger(R.integer.nominal_battery_voltage_default)).toDouble() / 100.0
             screenTime = if(MainApp.tempScreenTime > 0L) MainApp.tempScreenTime
             else if(MainApp.isUpdateApp) pref.getLong(UPDATE_TEMP_SCREEN_TIME, 0L)
             else screenTime

@@ -18,12 +18,13 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_CHECK_UPDATE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NOMINAL_BATTERY_VOLTAGE_PREF
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.seconds
 
 class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
-    private lateinit var pref: SharedPreferences
+    lateinit var pref: SharedPreferences
 
     private var isResume = false
 
@@ -36,6 +37,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var addNumberOfCycles: Preference? = null
     private var changeScreenTime: Preference? = null
     private var resetScreenTime: Preference? = null
+    private var changeNominalBatteryVoltage: Preference? = null
     private var batteryWearNew: Preference? = null
     private var addCustomHistory: Preference? = null
     private var addHistory: Preference? = null
@@ -69,6 +71,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         changeScreenTime = findPreference("change_screen_time")
 
         resetScreenTime = findPreference("reset_screen_time")
+
+        changeNominalBatteryVoltage = findPreference(NOMINAL_BATTERY_VOLTAGE_PREF)
 
         batteryWearNew = findPreference("battery_wear_new")
 
@@ -137,6 +141,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             else Toast.makeText(requireContext(), getString(R.string.error),
                 Toast.LENGTH_LONG).show()
 
+            true
+        }
+
+        changeNominalBatteryVoltage?.setOnPreferenceClickListener {
+            onChangeNominalBatteryVoltage()
             true
         }
 

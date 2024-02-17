@@ -86,6 +86,12 @@
             android:key="reset_screen_time"/>
 
         <Preference
+            android:title="@string/change_nominal_battery_voltage"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_change_nominal_battery_voltage"
+            android:key="nominal_battery_voltage"/>
+
+        <Preference
             android:title="@string/battery_wear_new"
             android:summary="@string/battery_wear_new_summary"
             app:singleLineTitle="false"
