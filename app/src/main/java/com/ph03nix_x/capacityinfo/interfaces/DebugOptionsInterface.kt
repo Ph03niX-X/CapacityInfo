@@ -695,8 +695,9 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                                                after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
-                        s.isNotEmpty() && s.toString().toLong() >= 0L &&
-                                s.toString().toLong() < Long.MAX_VALUE
+                        s.isNotEmpty() && s.toString().toLong() !=
+                                CapacityInfoService.instance?.screenTime &&
+                                s.toString().toLong() >= 0L && s.toString().toLong() < Long.MAX_VALUE
                     }
                     catch (e: NumberFormatException) {
                         Toast.makeText(context, e.message ?: e.toString(),
