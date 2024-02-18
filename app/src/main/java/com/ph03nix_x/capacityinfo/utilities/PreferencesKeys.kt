@@ -96,6 +96,7 @@ object PreferencesKeys {
     const val IS_AUTO_START_UPDATE_APP = "is_auto_start_update_app"
     const val IS_ENABLE_WAKELOCK = "is_enable_wakelock"
     const val NOMINAL_BATTERY_VOLTAGE_PREF = "nominal_battery_voltage"
+    const val NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW = "number_of_history_for_battery_wear_new"
 
     // Battery Information
     const val CAPACITY_ADDED = "capacity_added"

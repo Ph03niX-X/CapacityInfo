@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_CHECK_UPDATE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NOMINAL_BATTERY_VOLTAGE_PREF
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.seconds
 
@@ -39,6 +40,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var resetScreenTime: Preference? = null
     private var changeNominalBatteryVoltage: Preference? = null
     private var batteryWearNew: Preference? = null
+    private var numberOfHistoryForBatteryWearNew: Preference? = null
     private var addCustomHistory: Preference? = null
     private var addHistory: Preference? = null
     private var addTenHistory: Preference? = null
@@ -75,6 +77,8 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         changeNominalBatteryVoltage = findPreference(NOMINAL_BATTERY_VOLTAGE_PREF)
 
         batteryWearNew = findPreference("battery_wear_new")
+
+        numberOfHistoryForBatteryWearNew = findPreference(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW)
 
         addNumberOfCycles = findPreference("add_number_of_cycles")
 
@@ -146,6 +150,11 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         changeNominalBatteryVoltage?.setOnPreferenceClickListener {
             onChangeNominalBatteryVoltage()
+            true
+        }
+
+        numberOfHistoryForBatteryWearNew?.setOnPreferenceClickListener {
+            onNumberOfHHistoryForBatterWearNew(batteryWearNew)
             true
         }
 

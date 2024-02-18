@@ -357,4 +357,6 @@
     <string name="screen_time_debug">Screen Time</string>
     <string name="change_nominal_battery_voltage">Change Nominal Battery Voltage</string>
     <string name="voltage_debug">Voltage</string>
+    <string name="number_of_history_for_battery_wear_new">Number of History for Battery Wear (NEW)</string>
+    <string name="number_of_history">Number of History</string>
 </resources>

@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.databinding.AddPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangeNominalBatteryVoltageDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangePrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ChangeScreenTimeDialogBinding
+import com.ph03nix_x.capacityinfo.databinding.NumberOfHistoryForBatteryWearNewDialogBinding
 import com.ph03nix_x.capacityinfo.databinding.ResetPrefKeyDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
@@ -70,6 +71,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NOMINAL_BATTERY_VOLT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
@@ -764,13 +766,17 @@ interface DebugOptionsInterface: BatteryInfoInterface {
 
     fun DebugFragment.getBatteryWearNew(): String {
         val historyList = HistoryDB(requireContext()).readDB()
-        return if(historyList.count() >= 5) {
+        val numberOfHistoryForBatteryWearNew = pref.getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+            resources.getInteger(R.integer.number_of_history_for_battery_wear_new_default))
+        return if(historyList.count() >= numberOfHistoryForBatteryWearNew &&
+            numberOfHistoryForBatteryWearNew >= resources.getInteger(
+                R.integer.number_of_history_for_battery_wear_new_min)) {
             var residualCapacity = 0
             for(i in historyList.lastIndex downTo historyList.lastIndex -
-                    Constants.BATTERY_WEAR_NEW_COUNT + 1) {
+                    numberOfHistoryForBatteryWearNew + 1) {
                 residualCapacity += historyList[i].residualCapacity
             }
-            residualCapacity /= Constants.BATTERY_WEAR_NEW_COUNT
+            residualCapacity /= numberOfHistoryForBatteryWearNew
             getBatteryWearNew(requireContext(), residualCapacity)
         }
         else getBatteryWearPref(requireContext())
@@ -825,6 +831,61 @@ interface DebugOptionsInterface: BatteryInfoInterface {
             if (newResidualCapacity > 0 && newResidualCapacity < designCapacity) DecimalFormat(
                 "#.#").format(designCapacity - newResidualCapacity) else "0"
         )
+    }
+
+    fun DebugFragment.onNumberOfHHistoryForBatterWearNew(batteryWearNew: Preference?) {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val binding = NumberOfHistoryForBatteryWearNewDialogBinding.inflate(LayoutInflater.from(
+            requireContext()), null, false)
+        dialog.setView(binding.root.rootView)
+        binding.numberOfHistoryForBatteryWearNewEdit.setText("${pref.getInt(
+            NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+            resources.getInteger(R.integer.number_of_history_for_battery_wear_new_default))}")
+        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+            pref.edit().putInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+                binding.numberOfHistoryForBatteryWearNewEdit.text.toString().toInt()).apply()
+            batteryWearNew?.summary = getBatteryWearNew()
+            Toast.makeText(requireContext(),
+                "${pref.getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW, resources.getInteger(
+                    R.integer.number_of_history_for_battery_wear_new_default))}",
+                Toast.LENGTH_LONG).show()
+        }
+        dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+        val dialogCreate = dialog.create()
+        numberOfHHistoryForBatterWearNewDialogCreateShowListener(requireContext(), dialogCreate,
+            binding.numberOfHistoryForBatteryWearNewEdit, pref)
+        dialogCreate.show()
+    }
+
+    private fun numberOfHHistoryForBatterWearNewDialogCreateShowListener(context: Context,
+                                                                         dialogCreate: AlertDialog,
+                                                                         numberOfHistoryForBatteryWearNew: TextInputEditText,
+                                                                         pref: SharedPreferences) {
+        dialogCreate.setOnShowListener {
+            dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = false
+            numberOfHistoryForBatteryWearNew.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                               after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    dialogCreate.getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
+                        s.isNotEmpty() && s.toString().toInt() !=
+                                pref.getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+                                    context.resources.getInteger(
+                                        R.integer.number_of_history_for_battery_wear_new_default))
+                                && s.toString().toInt() >= context.resources.getInteger(
+                            R.integer.number_of_history_for_battery_wear_new_min) &&
+                                s.toString().toInt() <= Constants.HISTORY_COUNT_MAX
+                    }
+                    catch (e: NumberFormatException) {
+                        Toast.makeText(context, e.message ?: e.toString(),
+                            Toast.LENGTH_LONG).show()
+                        false
+                    }
+
+                }
+            })
+        }
     }
 
     fun DebugFragment.onAddCustomHistory(pref: SharedPreferences,

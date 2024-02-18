@@ -99,6 +99,12 @@
             android:key="battery_wear_new"/>
 
         <Preference
+            android:title="@string/number_of_history_for_battery_wear_new"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_number_of_history_for_battery_wear_new"
+            android:key="number_of_history_for_battery_wear_new"/>
+
+        <Preference
             android:title="@string/add_custom_history"
             app:singleLineTitle="false"
             android:key="add_custom_history"/>
