@@ -331,4 +331,13 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Dernière charge</string>
     <string name="status_last_charge">Statut: %1$s</string>
+    <string name="enable_wakelock">Activer Wakelock</string>
+    <string name="enable_check_update">Activer la vérification de la mise à jour</string>
+    <string name="change_screen_time">Modifier Temps d\'écran</string>
+    <string name="screen_time_debug">Temps d\'écran</string>
+    <string name="change_nominal_battery_voltage">Modifier la tension nominale de la batterie</string>
+    <string name="voltage_debug">Tension</string>
+    <string name="number_of_history_for_battery_wear_new">Numéro d\'historique d\'usure de la batterie (NEW)</string>
+    <string name="number_of_history">Numéro de l\'historique</string>
+    <string name="lock_overlay_location">Emplacement de verrouillage</string>
 </resources>
