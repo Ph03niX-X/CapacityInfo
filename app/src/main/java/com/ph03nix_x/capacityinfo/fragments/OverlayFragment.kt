@@ -34,6 +34,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_LOCK_OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MAXIMUM_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MINIMUM_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
@@ -66,6 +67,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
     private var overlayScreen: PreferenceScreen? = null
     private var enableOverlay: SwitchPreferenceCompat? = null
     private var onlyValuesOverlay: SwitchPreferenceCompat? = null
+    private var lockOverlayLocation: SwitchPreferenceCompat? = null
     private var overlayLocation: ListPreference? = null
 
     // Appearance
@@ -123,6 +125,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
         onlyValuesOverlay = findPreference(IS_ONLY_VALUES_OVERLAY)
 
+        lockOverlayLocation = findPreference(IS_LOCK_OVERLAY_LOCATION)
+
         overlayLocation = findPreference(OVERLAY_LOCATION)
 
         enableOverlay?.setOnPreferenceChangeListener { _, newValue ->
@@ -145,6 +149,11 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
             enableAllOverlay(newValue as? Boolean)
 
+            true
+        }
+
+        lockOverlayLocation?.setOnPreferenceChangeListener { _, newValue ->
+            if((newValue as? Boolean) == true) windowManagerLayoutParamsGravity(requireContext(), true)
             true
         }
 
@@ -575,6 +584,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
     private fun enableAllOverlay(isEnable: Boolean?) {
         onlyValuesOverlay?.isEnabled = isEnable ?: onlyValuesOverlay?.isEnabled ?: false
+        lockOverlayLocation?.isEnabled = isEnable ?: lockOverlayLocation?.isEnabled ?: false
         overlayLocation?.isEnabled = isEnable ?: overlayLocation?.isEnabled ?: false
         appearanceCategory?.isEnabled = isEnable ?: appearanceCategory?.isEnabled ?: false
         overlayCategory?.isEnabled = isEnable ?: overlayCategory?.isEnabled ?: false

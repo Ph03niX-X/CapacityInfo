@@ -12,6 +12,7 @@ import android.os.BatteryManager
 import android.os.Build
 import android.provider.Settings
 import android.view.*
+import android.view.WindowManager.LayoutParams
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
@@ -53,6 +54,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BATTERY_HEALTH_OV
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_CURRENT_LIMIT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_TIME_REMAINING_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_OVERLAY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_LOCK_OVERLAY_LOCATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MAXIMUM_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_MINIMUM_TEMPERATURE_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NUMBER_OF_CYCLES_ANDROID_OVERLAY
@@ -78,6 +80,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
         private lateinit var layoutParams: ViewGroup.LayoutParams
         private lateinit var pref: SharedPreferences
+        lateinit var parameters: LayoutParams
         var linearLayout: LinearLayoutCompat? = null
         var windowManager: WindowManager? = null
 
@@ -153,28 +156,10 @@ interface OverlayInterface : BatteryInfoInterface {
         if(isEnabledOverlay(context)) {
             pref = PreferenceManager.getDefaultSharedPreferences(context)
             windowManager = context.getSystemService(WINDOW_SERVICE) as? WindowManager
-            val parameters = WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams
-                    .TYPE_APPLICATION_OVERLAY, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            parameters = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+                LayoutParams.TYPE_APPLICATION_OVERLAY, LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT)
-            val overlayLocation = pref.getString(OVERLAY_LOCATION,
-                "${context.resources.getInteger(R.integer.overlay_location_default)}")
-            parameters.apply {
-                gravity = when(overlayLocation?.toInt()) {
-                    0 -> Gravity.TOP
-                    1 -> Gravity.TOP or Gravity.START
-                    2 -> Gravity.TOP or Gravity.END
-                    3 -> Gravity.CENTER
-                    4 -> Gravity.CENTER or Gravity.START
-                    5 -> Gravity.CENTER or Gravity.END
-                    6 -> Gravity.BOTTOM
-                    7 -> Gravity.BOTTOM or Gravity.START
-                    8 -> Gravity.BOTTOM or Gravity.END
-                    else -> Gravity.TOP
-                }
-                x = 0
-                y = 0
-            }
+            windowManagerLayoutParamsGravity(context)
             layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
             onCreateViews(context)
@@ -196,6 +181,28 @@ interface OverlayInterface : BatteryInfoInterface {
             false)
         linearLayout = binding.overlayLinearLayout
         onUpdateOverlay(context)
+    }
+
+    fun windowManagerLayoutParamsGravity(context: Context, isUpdateView: Boolean = false) {
+        val overlayLocation = pref.getString(OVERLAY_LOCATION,
+            "${context.resources.getInteger(R.integer.overlay_location_default)}")
+        parameters.apply {
+            gravity = when(overlayLocation?.toInt()) {
+                0 -> Gravity.TOP
+                1 -> Gravity.TOP or Gravity.START
+                2 -> Gravity.TOP or Gravity.END
+                3 -> Gravity.CENTER
+                4 -> Gravity.CENTER or Gravity.START
+                5 -> Gravity.CENTER or Gravity.END
+                6 -> Gravity.BOTTOM
+                7 -> Gravity.BOTTOM or Gravity.START
+                8 -> Gravity.BOTTOM or Gravity.END
+                else -> Gravity.TOP
+            }
+            x = 0
+            y = 0
+        }
+        if(isUpdateView) windowManager?.updateViewLayout(linearLayout, parameters)
     }
 
     fun onUpdateOverlay(context: Context) {
@@ -952,7 +959,7 @@ interface OverlayInterface : BatteryInfoInterface {
         return numberOfCycles
     }
 
-    private fun onLinearLayoutOnTouchListener(parameters: WindowManager.LayoutParams) =
+    private fun onLinearLayoutOnTouchListener(parameters: LayoutParams) =
         object : View.OnTouchListener {
             var updatedParameters = parameters
             var x = 0.0
@@ -962,6 +969,8 @@ interface OverlayInterface : BatteryInfoInterface {
 
             @SuppressLint("ClickableViewAccessibility")
             override fun onTouch(v: View, event: MotionEvent): Boolean {
+                if(!pref.getBoolean(IS_LOCK_OVERLAY_LOCATION,
+                        v.context.resources.getBoolean(R.bool.is_lock_overlay_location)))
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         x = updatedParameters.x.toDouble()

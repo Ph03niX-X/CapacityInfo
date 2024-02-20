@@ -35,6 +35,7 @@
     <!--Overlay-->
     <bool name="is_enabled_overlay">false</bool>
     <bool name="is_only_values_overlay">false</bool>
+    <bool name="is_lock_overlay_location">false</bool>
     <bool name="is_battery_level_overlay">false</bool>
     <bool name="is_number_of_charges_overlay">false</bool>
     <bool name="is_number_of_full_charges_overlay">false</bool>
