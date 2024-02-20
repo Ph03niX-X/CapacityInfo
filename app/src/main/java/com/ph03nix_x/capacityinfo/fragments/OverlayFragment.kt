@@ -160,9 +160,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         overlayLocation?.apply {
             summary = getOverlayLocationSummary()
             setOnPreferenceChangeListener { preference, newValue ->
-                if(OverlayService.instance != null && OverlayInterface.isEnabledOverlay(
-                        requireContext(), enableOverlay?.isEnabled == true))
-                    ServiceHelper.restartService(context, OverlayService::class.java)
+                windowManagerLayoutParamsGravity(requireContext(), true,
+                    newValue as? String)
                 preference.summary = resources.getStringArray(R.array.overlay_location_list)[
                     (newValue as? String)?.toInt() ?: resources.getInteger(
                         R.integer.overlay_location_default)]

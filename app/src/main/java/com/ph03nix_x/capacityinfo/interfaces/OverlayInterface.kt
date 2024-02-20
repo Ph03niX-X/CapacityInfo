@@ -182,9 +182,11 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateOverlay(context)
     }
 
-    fun windowManagerLayoutParamsGravity(context: Context, isUpdateView: Boolean = false) {
-        val overlayLocation = pref.getString(OVERLAY_LOCATION,
+    fun windowManagerLayoutParamsGravity(context: Context, isUpdateView: Boolean = false,
+                                         location: String? = null) {
+        val overlayLocation = if(location == null) pref.getString(OVERLAY_LOCATION,
             "${context.resources.getInteger(R.integer.overlay_location_default)}")
+        else location
         parameters.apply {
             gravity = when(overlayLocation?.toInt()) {
                 0 -> Gravity.TOP
