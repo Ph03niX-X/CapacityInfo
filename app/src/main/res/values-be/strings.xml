@@ -331,4 +331,13 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Втг)</string>
     <string name="last_charge">Апошняя зарадка</string>
     <string name="status_last_charge">Статус: %1$s</string>
+    <string name="enable_wakelock">Уключыць Wakelock</string>
+    <string name="enable_check_update">Уключыць праверку абнаўлення</string>
+    <string name="change_screen_time">Змяніць час экрана</string>
+    <string name="screen_time_debug">Час экрана</string>
+    <string name="change_nominal_battery_voltage">Змяніць намінальную напругу акумулятара</string>
+    <string name="voltage_debug">Напружанне</string>
+    <string name="number_of_history_for_battery_wear_new">Колькасць гісторыі для Зносу акумулятара (NEW)</string>
+    <string name="number_of_history">Колькасць гісторыі</string>
+    <string name="lock_overlay_location">Заблакаваць размяшчэнне</string>
 </resources>
