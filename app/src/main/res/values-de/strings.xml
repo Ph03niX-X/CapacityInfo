@@ -330,4 +330,13 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Letztes Aufladen</string>
     <string name="status_last_charge">Status: %1$s</string>
+    <string name="enable_wakelock">Wakelock aktivieren</string>
+    <string name="enable_check_update">Check-Update aktivieren</string>
+    <string name="change_screen_time">Bildschirmzeit ändern</string>
+    <string name="screen_time_debug">Bildschirmzeit</string>
+    <string name="change_nominal_battery_voltage">Nennspannung der Batterie ändern</string>
+    <string name="voltage_debug">Spannung</string>
+    <string name="number_of_history_for_battery_wear_new">Anzahl der Historien für Akkuverschleiß (NEW)</string>
+    <string name="number_of_history">Anzahl der Historie</string>
+    <string name="lock_overlay_location">Standort sperren</string>
 </resources>
