@@ -331,4 +331,13 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Последно зареждане</string>
     <string name="status_last_charge">Състояние: %1$s</string>
+    <string name="enable_wakelock">Активиране на Wakelock</string>
+    <string name="enable_check_update">Активиране на проверка за актуализиране</string>
+    <string name="change_screen_time">Промяна на времето на екрана</string>
+    <string name="screen_time_debug">Време на екрана</string>
+    <string name="change_nominal_battery_voltage">Промяна на номиналното напрежение на батерията</string>
+    <string name="voltage_debug">Напрежение</string>
+    <string name="number_of_history_for_battery_wear_new">Брой история за Износване на батерията (NEW)</string>
+    <string name="number_of_history">Брой история</string>
+    <string name="lock_overlay_location">Заключване на местоположение</string>
 </resources>
