@@ -331,4 +331,13 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Tagihan Terakhir</string>
     <string name="status_last_charge">Status: %1$s</string>
+    <string name="enable_wakelock">Aktifkan Wakelock</string>
+    <string name="enable_check_update">Aktifkan Periksa Pembaruan</string>
+    <string name="change_screen_time">Ubah Durasi Layar</string>
+    <string name="screen_time_debug">Waktu Layar</string>
+    <string name="change_nominal_battery_voltage">Ubah Tegangan Baterai Nominal</string>
+    <string name="voltage_debug">Tegangan</string>
+    <string name="number_of_history_for_battery_wear_new">Jumlah Sejarah Keausan Baterai (NEW)</string>
+    <string name="number_of_history">Jumlah Sejarah</string>
+    <string name="lock_overlay_location">Lokasi Kunci</string>
 </resources>
