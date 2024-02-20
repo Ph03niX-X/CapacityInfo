@@ -153,14 +153,15 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         }
 
         lockOverlayLocation?.setOnPreferenceChangeListener { _, newValue ->
-            if((newValue as? Boolean) == true) windowManagerLayoutParamsGravity(requireContext(), true)
+            if((newValue as? Boolean) == true)
+                updateOverlayLocation(requireContext(), true)
             true
         }
 
         overlayLocation?.apply {
             summary = getOverlayLocationSummary()
             setOnPreferenceChangeListener { preference, newValue ->
-                windowManagerLayoutParamsGravity(requireContext(), true,
+                updateOverlayLocation(requireContext(), true,
                     newValue as? String)
                 preference.summary = resources.getStringArray(R.array.overlay_location_list)[
                     (newValue as? String)?.toInt() ?: resources.getInteger(

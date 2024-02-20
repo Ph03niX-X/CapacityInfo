@@ -158,7 +158,7 @@ interface OverlayInterface : BatteryInfoInterface {
             parameters = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
                 LayoutParams.TYPE_APPLICATION_OVERLAY, LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT)
-            windowManagerLayoutParamsGravity(context)
+            updateOverlayLocation(context)
             layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
             onCreateViews(context)
@@ -182,11 +182,10 @@ interface OverlayInterface : BatteryInfoInterface {
         onUpdateOverlay(context)
     }
 
-    fun windowManagerLayoutParamsGravity(context: Context, isUpdateView: Boolean = false,
+    fun updateOverlayLocation(context: Context, isUpdateViewLayout: Boolean = false,
                                          location: String? = null) {
-        val overlayLocation = if(location == null) pref.getString(OVERLAY_LOCATION,
+        val overlayLocation = location ?: pref.getString(OVERLAY_LOCATION,
             "${context.resources.getInteger(R.integer.overlay_location_default)}")
-        else location
         parameters.apply {
             gravity = when(overlayLocation?.toInt()) {
                 0 -> Gravity.TOP
@@ -203,7 +202,7 @@ interface OverlayInterface : BatteryInfoInterface {
             x = 0
             y = 0
         }
-        if(isUpdateView) windowManager?.updateViewLayout(linearLayout, parameters)
+        if(isUpdateViewLayout) windowManager?.updateViewLayout(linearLayout, parameters)
     }
 
     fun onUpdateOverlay(context: Context) {
