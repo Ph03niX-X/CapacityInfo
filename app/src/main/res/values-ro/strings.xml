@@ -202,7 +202,7 @@
     <string name="discharge_current_ma">Descărcare curent: %1$d mA</string>
     <string name="auto_start_boot">Pornire automată (Boot)</string>
     <string name="auto_start_open_app">Pornire automată (Deschidere aplicație)</string>
-    <string name="auto_start_update_app">Pornire automată (Actualizarea aplicației)</string>
+    <string name="auto_start_update_app">Pornire automată (Actualizare aplicației)</string>
     <string name="start_capacity_info_service">Începeți Capacity Info Service</string>
     <string name="stop_capacity_info_service">Opriți Capacity Info Service</string>
     <string name="restart_capacity_info_service">Reporniți Capacity Info Service</string>
@@ -312,7 +312,7 @@
     <string name="update_available">Este disponibilă o nouă versiune a aplicației</string>
     <string name="update">Actualizare</string>
     <string name="later_update">Mai târziu</string>
-    <string name="check_update">Verificarea actualizării</string>
+    <string name="check_update">Verificarea Actualizare</string>
     <string name="update_not_found">Actualizare nedescoperită!</string>
     <string name="update_error">Eroare de actualizare!</string>
     <string name="overlay_location">Locația</string>
@@ -331,4 +331,13 @@
     <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Ultima încărcare</string>
     <string name="status_last_charge">Stare: %1$s</string>
+    <string name="enable_wakelock">Activați Wakelock</string>
+    <string name="enable_check_update">Activați actualizare verificării</string>
+    <string name="change_screen_time">Schimbați Timp de ecran</string>
+    <string name="screen_time_debug">Timp de ecran</string>
+    <string name="change_nominal_battery_voltage">Schimbați tensiunea nominală a bateriei</string>
+    <string name="voltage_debug">Tensiune</string>
+    <string name="number_of_history_for_battery_wear_new">Număr de istoric pentru uzura bateriei (NEW)</string>
+    <string name="number_of_history">Număr de istoric</string>
+    <string name="lock_overlay_location">Blocați locația</string>
 </resources>
