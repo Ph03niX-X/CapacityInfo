@@ -311,7 +311,6 @@
     <string name="required_to_access_premium_feature">Бұл мүмкіндікке қол жеткізу үшін Premium сатып алу қажет</string>
     <string name="update_available">Қолданбаның жаңа нұсқасы қолжетімді</string>
     <string name="update">Жаңарту</string>
-    <string name="later_update">Кейінірек</string>
     <string name="check_update">Жаңартуды тексеріңіз</string>
     <string name="update_not_found">Жаңарту табылмады!</string>
     <string name="update_error">Жаңарту қатесі!</string>

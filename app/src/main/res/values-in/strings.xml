@@ -311,7 +311,6 @@
     <string name="required_to_access_premium_feature">Pembelian premium diperlukan untuk mengakses fitur ini</string>
     <string name="update_available">Versi baru aplikasi telah tersedia</string>
     <string name="update">Pembaruan</string>
-    <string name="later_update">Nanti</string>
     <string name="check_update">Cek pembaruan</string>
     <string name="update_not_found">Pembaruan tidak Ditemukan!</string>
     <string name="update_error">Kesalahan pembaruan!</string>

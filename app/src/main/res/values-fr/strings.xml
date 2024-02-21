@@ -311,7 +311,6 @@
     <string name="required_to_access_premium_feature">Un achat Premium est requis pour accéder à cette fonctionnalité</string>
     <string name="update_available">Une nouvelle version de l\'application est disponible</string>
     <string name="update">Mise à jour</string>
-    <string name="later_update">Plus tard</string>
     <string name="check_update">Vérifier la mise à jour</string>
     <string name="update_not_found">Mise à jour introuvable!</string>
     <string name="update_error">Erreur de mise à jour!</string>

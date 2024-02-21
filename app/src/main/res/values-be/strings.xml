@@ -311,7 +311,6 @@
     <string name="required_to_access_premium_feature">Для атрымання доступу да гэтай функцыі трэба набыць Premium</string>
     <string name="update_available">Даступна новая версія дадатка</string>
     <string name="update">Абнавіць</string>
-    <string name="later_update">Пазней</string>
     <string name="check_update">Праверыць абнаўленне</string>
     <string name="update_not_found">Абнаўленне не знойдзена!</string>
     <string name="update_error">Памылка абнаўлення!</string>

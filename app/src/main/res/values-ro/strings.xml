@@ -311,7 +311,6 @@
     <string name="required_to_access_premium_feature">Achiziția Premium este necesară pentru a accesa această funcție</string>
     <string name="update_available">Este disponibilă o nouă versiune a aplicației</string>
     <string name="update">Actualizare</string>
-    <string name="later_update">Mai târziu</string>
     <string name="check_update">Verificarea Actualizare</string>
     <string name="update_not_found">Actualizare nedescoperită!</string>
     <string name="update_error">Eroare de actualizare!</string>

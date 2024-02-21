@@ -331,7 +331,6 @@
     <string name="required_to_access_premium_feature">Premium purchase is required to access this feature</string>
     <string name="update_available">A new version of the app is available</string>
     <string name="update">Update</string>
-    <string name="later_update">Later</string>
     <string name="check_update">Check Update</string>
     <string name="update_not_found">Update not Found!</string>
     <string name="update_error">Update error!</string>

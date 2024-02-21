@@ -311,7 +311,6 @@
     <string name="required_to_access_premium_feature">Для получения доступа к этой функции требуется приобрести Premium</string>
     <string name="update_available">Доступна новая версия приложения</string>
     <string name="update">Обновить</string>
-    <string name="later_update">Позже</string>
     <string name="check_update">Проверить обновление</string>
     <string name="update_not_found">Обновление не найдено!</string>
     <string name="update_error">Ошибка обновления!</string>
