@@ -634,8 +634,10 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         dialog.setView(binding.root.rootView)
         binding.addNumberOfCyclesEdit.setText("$numberOfCycles")
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
-            pref.edit().putFloat(NUMBER_OF_CYCLES,
-                binding.addNumberOfCyclesEdit.text.toString().toFloat() / 100.0f).apply()
+            with(pref) {
+                edit().putFloat(NUMBER_OF_CYCLES, getFloat(NUMBER_OF_CYCLES, 0f) +
+                        (binding.addNumberOfCyclesEdit.text.toString().toFloat() / 100.0f)).apply()
+            }
         }
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         val dialogCreate = dialog.create()
