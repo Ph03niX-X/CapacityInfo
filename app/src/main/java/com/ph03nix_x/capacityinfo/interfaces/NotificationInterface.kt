@@ -792,8 +792,9 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         val notifications = notificationManager?.activeNotifications
         var isNotificationExists = false
         if(notifications != null)
-            for(notification in notifications)
-                isNotificationExists = notification.id == notificationID
+            for(notification in notifications) {
+                if(notification.id == notificationID) isNotificationExists = true
+            }
         return isNotificationExists
     }
     

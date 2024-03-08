@@ -55,10 +55,10 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
                     notificationManager?.cancel(NOTIFICATION_FULLY_CHARGED_ID)
                     notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
                     notificationManager?.cancel(NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)
-                    isOverheatOvercool = true
-                    isBatteryFullyCharged = true
-                    isBatteryCharged = true
-                    isBatteryDischarged = true
+                    isOverheatOvercool = false
+                    isBatteryFullyCharged = false
+                    isBatteryCharged = false
+                    isBatteryDischarged = false
                 }
                 if(MainActivity.instance?.fragment != null) {
                     if(MainActivity.instance?.fragment is ChargeDischargeFragment)
