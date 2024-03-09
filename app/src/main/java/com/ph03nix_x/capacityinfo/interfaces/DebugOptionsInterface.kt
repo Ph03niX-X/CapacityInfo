@@ -633,7 +633,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
             null, false)
         dialog.setView(binding.root.rootView)
         binding.addNumberOfCyclesEdit.setText("$numberOfCycles")
-        dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
+        dialog.setPositiveButton(requireContext().getString(R.string.add)) { _, _ ->
             with(pref) {
                 edit().putFloat(NUMBER_OF_CYCLES, getFloat(NUMBER_OF_CYCLES, 0f) +
                         (binding.addNumberOfCyclesEdit.text.toString().toFloat() / 100.0f)).apply()
