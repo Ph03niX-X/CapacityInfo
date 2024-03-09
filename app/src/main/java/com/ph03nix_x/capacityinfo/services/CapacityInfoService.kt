@@ -29,6 +29,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.temp
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.maxChargeCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
@@ -323,7 +324,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         val displayManager = getSystemService(Context.DISPLAY_SERVICE)
                 as? DisplayManager
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
-                R.bool.is_notify_battery_is_charged)) &&
+                R.bool.is_notify_battery_is_charged)) && !isBatteryCharged &&
             (getBatteryLevel(this@CapacityInfoService) ?: 0) >=
             pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80))
             withContext(Dispatchers.Main) {
