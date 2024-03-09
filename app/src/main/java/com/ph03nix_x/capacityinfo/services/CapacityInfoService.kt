@@ -30,6 +30,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.maxChargeCurrent
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryCharged
+import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface.Companion.isBatteryDischarged
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
@@ -243,16 +244,13 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         !isFull && !isStopService) batteryCharged()
 
                     else if(!isStopService) {
-
                         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
-                                R.bool.is_notify_battery_is_discharged)) && (getBatteryLevel(
-                                this@CapacityInfoService) ?: 0) <= pref.getInt(
+                                R.bool.is_notify_battery_is_discharged)) && !isBatteryDischarged &&
+                            (getBatteryLevel(this@CapacityInfoService) ?: 0) <= pref.getInt(
                                 BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))
                             withContext(Dispatchers.Main) {
-
                                 onNotifyBatteryDischarged(this@CapacityInfoService)
                             }
-
                         withContext(Dispatchers.Main) {
                             updateServiceNotification()
                             delay(1.495.seconds)
