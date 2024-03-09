@@ -199,15 +199,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getBatteryLevelNotifyChargingSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged))
-
             setOnPreferenceChangeListener { preference, newValue ->
-
                 preference.summary = "${((newValue as? Int) ?: pref.getInt(
                     BATTERY_LEVEL_NOTIFY_CHARGED, 80))}%"
-
-                NotificationInterface.notificationManager?.cancel(
-                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
+                NotificationInterface.apply {
+                    isBatteryCharged = false
+                    notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
+                }
                 true
             }
         }
@@ -216,15 +214,13 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             summary = getBatteryLevelNotifyDischargeSummary()
             isEnabled = pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_discharged))
-
             setOnPreferenceChangeListener { preference, newValue ->
-
                 preference.summary = "${((newValue as? Int) ?: pref.getInt(
                     BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))}%"
-
-                NotificationInterface.notificationManager?.cancel(
-                    NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
+                NotificationInterface.apply {
+                    isBatteryDischarged = false
+                    notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
+                }
                 true
             }
         }
@@ -294,22 +290,20 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         }
 
         notifyBatteryIsCharged?.setOnPreferenceChangeListener { _, newValue ->
-
             batteryLevelNotifyCharged?.isEnabled = newValue as? Boolean == true
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
+            NotificationInterface.apply {
+                isBatteryCharged = false
+                notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
+            }
             true
         }
 
         notifyBatteryIsDischarged?.setOnPreferenceChangeListener { _, newValue ->
-
             batteryLevelNotifyDischarged?.isEnabled = newValue as? Boolean == true
-
-            NotificationInterface.notificationManager?.cancel(
-                NotificationInterface.NOTIFICATION_BATTERY_STATUS_ID)
-
+            NotificationInterface.apply {
+                isBatteryDischarged = false
+                notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)
+            }
             true
         }
 
