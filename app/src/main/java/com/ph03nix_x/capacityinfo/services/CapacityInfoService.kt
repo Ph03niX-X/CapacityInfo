@@ -337,7 +337,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 }
                 else {
                     delay(if(getCurrentCapacity(this@CapacityInfoService) > 0.0)
-                        1.939.seconds else 1.936.seconds)
+                        1.936.seconds else 1.933.seconds)
                     seconds += 2
                 }
         withContext(Dispatchers.Main) {
