@@ -534,8 +534,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         voltageUnit?.apply {
             setOnPreferenceClickListener {
-                Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
-                    Toast.LENGTH_LONG).show()
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(0.5.seconds)
+                    MaterialAlertDialogBuilder(requireContext()).apply {
+                        setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                        setTitle(R.string.information)
+                        setMessage(R.string.setting_is_intended_to_correct)
+                        setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                        show()
+                    }
+                }
+
                 true
             }
 
