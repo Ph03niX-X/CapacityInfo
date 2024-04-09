@@ -408,6 +408,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     isVisible = true
                     summary = getUnitOfMeasurementOfCurrentCapacitySummary()
                 }
+                voltageUnit?.apply {
+                    isVisible = true
+                    summary = getVoltageUnitSummary()
+                }
                 changeDesignCapacity?.apply {
                     isVisible = true
                     summary = getString(R.string.change_design_summary,
@@ -466,7 +470,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         unitOfChargeDischargeCurrent?.apply {
             setOnPreferenceClickListener {
-
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(0.5.seconds)
                     MaterialAlertDialogBuilder(requireContext()).apply {
@@ -482,7 +485,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             }
 
             setOnPreferenceChangeListener { preference, newValue ->
-
                 if((newValue as? String) == "μA")
                     preference.summary = resources.getStringArray(R.array
                         .unit_of_charge_discharge_current_list)[0]
@@ -505,7 +507,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         unitOfMeasurementOfCurrentCapacity?.apply {
             setOnPreferenceClickListener {
-
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(0.5.seconds)
                     MaterialAlertDialogBuilder(requireContext()).apply {
@@ -521,7 +522,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             }
 
             setOnPreferenceChangeListener { preference, newValue ->
-
                 if((newValue as? String) == "μAh")
                     preference.summary = resources.getStringArray(R.array
                         .unit_of_measurement_of_current_capacity_list)[0]
@@ -533,21 +533,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         voltageUnit?.apply {
-
             setOnPreferenceClickListener {
-
                 Toast.makeText(requireContext(), getString(R.string.setting_is_intended_to_correct),
                     Toast.LENGTH_LONG).show()
-
                 true
             }
 
             setOnPreferenceChangeListener { preference, newValue ->
-
                 if((newValue as? String) == "μV")
                     preference.summary = resources.getStringArray(R.array.voltage_unit_list)[0]
                 else preference.summary = resources.getStringArray(R.array.voltage_unit_list)[1]
-
                 true
             }
         }
