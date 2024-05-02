@@ -227,6 +227,29 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
+        if(!isGooglePlay(this)) {
+            ServiceHelper.cancelAllJobs(this@MainActivity)
+            pref.edit().clear().apply()
+            MaterialAlertDialogBuilder(this).apply {
+                setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                setTitle(getString(R.string.error))
+                setMessage(R.string.not_intalled_from_gp)
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW,
+                            Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+                        finishAffinity()
+                    }
+                    catch(e: ActivityNotFoundException) {
+                        finishAffinity()
+                    }
+                }
+                setCancelable(false)
+                show()
+            }
+            return
+        }
+
         tempFragment = null
 
         if (isRecreate) isRecreate = false
@@ -309,7 +332,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if (prefArrays != null) importSettings(prefArrays)
 
-        ServiceHelper.startService(this, CapacityInfoService::class.java)
+        if(isGooglePlay(this))
+            ServiceHelper.startService(this, CapacityInfoService::class.java)
 
         if (pref.getBoolean(
                 IS_AUTO_START_OPEN_APP, resources.getBoolean(
@@ -326,7 +350,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             else checkBatteryOptimizations()
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
-            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService())
+            && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService() &&
+            isGooglePlay(this))
             ServiceHelper.startService(this, OverlayService::class.java)
 
         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)

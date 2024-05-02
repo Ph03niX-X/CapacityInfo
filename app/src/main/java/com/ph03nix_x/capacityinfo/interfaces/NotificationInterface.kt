@@ -24,6 +24,7 @@ import androidx.core.app.NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
@@ -76,6 +77,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onCreateServiceNotification(context: Context) {
+        if(!isGooglePlay(context)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         channelId = onCreateNotificationChannel(context, SERVICE_CHANNEL_ID)
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
@@ -163,6 +165,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     @SuppressLint("RestrictedApi")
     fun onUpdateServiceNotification(context: Context) {
+        if(!isGooglePlay(context)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as NotificationManager

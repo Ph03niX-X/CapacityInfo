@@ -44,6 +44,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_OPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.databinding.OverlayLayoutBinding
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
@@ -152,7 +153,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
     @SuppressLint("ClickableViewAccessibility")
     fun onCreateOverlay(context: Context) {
-        if(isEnabledOverlay(context)) {
+        if(isEnabledOverlay(context) && isGooglePlay(context)) {
             pref = PreferenceManager.getDefaultSharedPreferences(context)
             windowManager = context.getSystemService(WINDOW_SERVICE) as? WindowManager
             parameters = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
@@ -176,6 +177,7 @@ interface OverlayInterface : BatteryInfoInterface {
     }
 
     private fun onCreateViews(context: Context) {
+        if(!isGooglePlay(context)) return
         binding = OverlayLayoutBinding.inflate(LayoutInflater.from(context), null,
             false)
         linearLayout = binding.overlayLinearLayout
@@ -206,6 +208,7 @@ interface OverlayInterface : BatteryInfoInterface {
     }
 
     fun onUpdateOverlay(context: Context) {
+        if(!isGooglePlay(context)) return
         try {
             batteryIntent = context.registerReceiver(null, IntentFilter(Intent
                 .ACTION_BATTERY_CHANGED))

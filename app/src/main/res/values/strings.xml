@@ -359,4 +359,5 @@
     <string name="number_of_history_for_battery_wear_new">Number of History for Battery Wear (NEW)</string>
     <string name="number_of_history">Number of History</string>
     <string name="lock_overlay_location">Lock Location</string>
+    <string name="not_intalled_from_gp">Application was not installed from Google Play. Please install the application from Google Play</string>
 </resources>

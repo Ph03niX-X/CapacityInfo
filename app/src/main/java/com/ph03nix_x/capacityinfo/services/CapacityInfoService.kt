@@ -14,6 +14,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.capacityAdded
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
@@ -101,6 +102,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     override fun onCreate() {
         if(instance == null) {
             super.onCreate()
+            if(!isGooglePlay(this)) return
             instance = this
             onCreateServiceNotification(this)
             pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
@@ -285,7 +287,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
         try {
-            onUpdateServiceNotification(this)
+            if(isGooglePlay(this)) onUpdateServiceNotification(this) else {}
         }
         catch(_: RuntimeException) {}
         catch(_: DeadSystemException) {}

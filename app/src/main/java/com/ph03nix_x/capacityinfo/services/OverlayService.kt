@@ -11,6 +11,7 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.isEnable
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.linearLayout
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.windowManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.seconds
 
@@ -27,6 +28,7 @@ class OverlayService : Service(), OverlayInterface {
 
     override fun onCreate() {
         super.onCreate()
+        if(!isGooglePlay(this)) return
         instance = this
         onCreateOverlay(this)
         OverlayInterface.chargingTime = CapacityInfoService.instance?.seconds ?: 0
