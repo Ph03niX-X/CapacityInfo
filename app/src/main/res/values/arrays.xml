@@ -107,6 +107,9 @@
         <item>Ysabeau SC</item>
         <item>Ysabeau Office</item>
         <item>Ysabeau Infant</item>
+        <item>DM Sans</item>
+        <item>Poetsen One</item>
+        <item>Sedan SC</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -150,6 +153,9 @@
         <item>37</item>
         <item>38</item>
         <item>39</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
