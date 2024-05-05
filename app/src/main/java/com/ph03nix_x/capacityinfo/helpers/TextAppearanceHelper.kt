@@ -120,11 +120,11 @@ object TextAppearanceHelper : PremiumInterface {
 
             39 -> ResourcesCompat.getFont(context, R.font.ysabeau_infant)
 
-            41 -> ResourcesCompat.getFont(context, R.font.dm_sans)
+            40 -> ResourcesCompat.getFont(context, R.font.dm_sans)
 
-            42 -> ResourcesCompat.getFont(context, R.font.poetsen_one)
+            41 -> ResourcesCompat.getFont(context, R.font.poetsen_one)
 
-            43 -> ResourcesCompat.getFont(context, R.font.sedan_sc)
+            42 -> ResourcesCompat.getFont(context, R.font.sedan_sc)
 
             else -> null
         }
