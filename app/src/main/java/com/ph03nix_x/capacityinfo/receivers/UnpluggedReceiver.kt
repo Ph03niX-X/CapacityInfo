@@ -30,7 +30,10 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.perc
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
+import com.ph03nix_x.capacityinfo.services.FastChargeJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_JOB_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_JOB_SERVICE_PERIODIC
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
@@ -178,6 +181,8 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                     isPluggedOrUnplugged = false
                     wakeLockRelease()
                 }
+                ServiceHelper.jobSchedule(context, FastChargeJobService::class.java,
+                    FAST_CHARGE_JOB_ID, FAST_CHARGE_JOB_SERVICE_PERIODIC)
             }
         }
     }

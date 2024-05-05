@@ -16,6 +16,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
@@ -148,11 +149,18 @@ interface BatteryInfoInterface {
         else context.resources.getString(R.string.fast_charge_no_overlay_only_values)
     }
 
-    fun isFastCharge(context: Context) =
-        maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
+    fun isFastCharge(context: Context): Boolean {
+        val isFastCharge =
+            maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
+        if(isFastCharge) PreferenceManager.getDefaultSharedPreferences(context).edit()
+            .putBoolean(IS_FAST_CHARGE, true).apply()
+        return isFastCharge
+    }
+
 
     fun isTurboCharge(context: Context): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
         return maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
             context.resources.getInteger(R.integer.min_design_capacity) - 250)
     }

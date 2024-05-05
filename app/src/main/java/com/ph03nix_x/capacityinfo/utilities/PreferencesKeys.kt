@@ -5,6 +5,7 @@ object PreferencesKeys {
     //Other
     const val IS_REQUEST_RATE_THE_APP = "is_request_rate_the_app"
     const val UPDATE_TEMP_SCREEN_TIME = "update_temp_screen_time"
+    const val IS_FAST_CHARGE = "is_fast_charge"
 
     // Service & Notification
     const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
@@ -35,7 +36,6 @@ object PreferencesKeys {
     const val TEXT_STYLE = "text_style"
 
     // Misc
-    const val IS_FAST_CHARGE_SETTING = "is_fast_charge_setting"
     const val IS_CAPACITY_IN_WH = "is_capacity_in_wh"
     const val IS_CHARGING_DISCHARGE_CURRENT_IN_WATT = "is_charging_discharge_current_in_watt"
     const val IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL = "is_reset_screen_time_at_any_charge_level"

@@ -137,12 +137,6 @@
                 app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
-            android:title="@string/fast_charge"
-            android:defaultValue="@bool/is_fast_charge_setting"
-            app:singleLineTitle="false"
-            android:key="is_fast_charge_setting"/>
-
-        <SwitchPreferenceCompat
             android:title="@string/capacity_in_wh"
             app:singleLineTitle="false"
             app:defaultValue="@bool/is_capacity_in_wh"
@@ -166,6 +160,16 @@
             app:singleLineTitle="false"
             app:icon="@drawable/ic_backup"
             android:key="backup_settings"/>
+
+        <ListPreference
+            android:title="@string/tab_on_application_launch"
+            app:icon="@drawable/ic_tab_on_application_launch"
+            android:dialogIcon="@drawable/ic_tab_on_application_launch"
+            app:defaultValue="0"
+            android:entries="@array/tab_on_application_launch_list"
+            android:entryValues="@array/tab_on_application_launch_values"
+            app:singleLineTitle="false"
+            android:key="tab_on_application_launch"/>
 
         <Preference
                 android:title="@string/more"

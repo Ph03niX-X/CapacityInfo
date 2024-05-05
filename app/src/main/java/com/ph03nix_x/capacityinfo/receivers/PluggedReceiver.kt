@@ -14,10 +14,12 @@ import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempBatteryLevelWith
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface.Companion.tempCurrentCapacity
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants.FAST_CHARGE_JOB_ID
 
 class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterface {
 
@@ -77,6 +79,7 @@ class PluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInterfa
                         }
                 }
                 CapacityInfoService.instance?.isPluggedOrUnplugged = false
+                ServiceHelper.cancelJob(context, FAST_CHARGE_JOB_ID)
             }
         }
     }
