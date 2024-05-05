@@ -80,11 +80,11 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
     private fun updateTextAppearance() {
         with(binding) {
             val textViewArrayList = arrayListOf(batteryLevelLastCharge, chargingTimeLastCharge,
-                capacityAddedLastCharge, statusLastCharge, sourceOfPowerLastCharge,
-                fastChargeLastCharge, maxChargeCurrentLastCharge, averageChargeCurrentLastCharge,
-                minChargeCurrentLastCharge, maximumTemperatureLastCharge,
-                averageTemperatureLastCharge, minimumTemperatureLastCharge, voltageLastCharge,
-                lastChargeTime)
+                currentCapacityLastCharge, capacityAddedLastCharge, statusLastCharge,
+                sourceOfPowerLastCharge, fastChargeLastCharge, maxChargeCurrentLastCharge,
+                averageChargeCurrentLastCharge, minChargeCurrentLastCharge,
+                maximumTemperatureLastCharge, averageTemperatureLastCharge,
+                minimumTemperatureLastCharge, voltageLastCharge, lastChargeTime)
             TextAppearanceHelper.setTextAppearance(requireContext(), textViewArrayList,
                 pref.getString(PreferencesKeys.TEXT_STYLE, "0"),
                 pref.getString(PreferencesKeys.TEXT_FONT, "6"),
