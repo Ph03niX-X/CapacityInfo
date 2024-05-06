@@ -339,5 +339,5 @@
     <string name="number_of_history_for_battery_wear_new">Брой история за Износване на батерията (NEW)</string>
     <string name="number_of_history">Брой история</string>
     <string name="lock_overlay_location">Заключване на местоположение</string>
-    <string name="not_intalled_from_gp">Приложението не е инсталирано от Google Play. Моля, инсталирайте приложението от Google Play</string>
+    <string name="not_installed_from_gp">Приложението не е инсталирано от Google Play. Моля, инсталирайте приложението от Google Play</string>
 </resources>

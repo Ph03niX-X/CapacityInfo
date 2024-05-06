@@ -339,5 +339,5 @@
     <string name="number_of_history_for_battery_wear_new">Numero di Storia di usura batteria (NEW)</string>
     <string name="number_of_history">Numero di Storia</string>
     <string name="lock_overlay_location">Blocca posizione</string>
-    <string name="not_intalled_from_gp">L\'applicazione non è stata installata da Google Play. Installare l\'applicazione da Google Play</string>
+    <string name="not_installed_from_gp">L\'applicazione non è stata installata da Google Play. Installare l\'applicazione da Google Play</string>
     </resources>

@@ -233,7 +233,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             MaterialAlertDialogBuilder(this).apply {
                 setIcon(R.drawable.ic_instruction_not_supported_24dp)
                 setTitle(getString(R.string.error))
-                setMessage(R.string.not_intalled_from_gp)
+                setMessage(R.string.not_installed_from_gp)
                 setPositiveButton(android.R.string.ok) { _, _ ->
                     try {
                         startActivity(Intent(Intent.ACTION_VIEW,

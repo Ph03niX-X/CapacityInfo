@@ -339,5 +339,5 @@
     <string name="number_of_history_for_battery_wear_new">Количество истории для Износа аккумулятора (NEW)</string>
     <string name="number_of_history">Количество истории</string>
     <string name="lock_overlay_location">Заблокировать расположение</string>
-    <string name="not_intalled_from_gp">Приложение было установлено не из Google Play. Пожалуйста, установите приложение из Google Play</string>
+    <string name="not_installed_from_gp">Приложение было установлено не из Google Play. Пожалуйста, установите приложение из Google Play</string>
 </resources>

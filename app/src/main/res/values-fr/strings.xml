@@ -339,5 +339,5 @@
     <string name="number_of_history_for_battery_wear_new">Numéro d\'historique d\'usure de la batterie (NEW)</string>
     <string name="number_of_history">Numéro de l\'historique</string>
     <string name="lock_overlay_location">Emplacement de verrouillage</string>
-    <string name="not_intalled_from_gp">L\'application n\'a pas été installée depuis Google Play. Veuillez installer l\'application à partir de Google Play</string>
+    <string name="not_installed_from_gp">L\'application n\'a pas été installée depuis Google Play. Veuillez installer l\'application à partir de Google Play</string>
     </resources>
