@@ -100,7 +100,6 @@ interface MenuInterface {
             setIcon(R.drawable.ic_instruction_not_supported_24dp)
             setTitle(getString(R.string.instruction))
             setMessage(getString(R.string.instruction_message)
-                    + getString(R.string.instruction_message_enable_fast_charge_option)
                     + getString(R.string.instruction_message_do_not_kill_the_service)
                     + getString(R.string.instruction_message_dont_kill_my_app))
             setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
