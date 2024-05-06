@@ -11,6 +11,7 @@ plugins {
 android {
     compileSdk = 34
     buildToolsVersion = "34.0.0"
+    val appName = "Capacity Info"
     defaultConfig {
         applicationId = "com.ph03nix_x.capacityinfo"
         namespace = applicationId
@@ -18,6 +19,7 @@ android {
         targetSdk = 34
         versionCode = 1594
         versionName = "7.7.3.1"
+        setProperty("archivesBaseName", "$appName $versionName (Build $versionCode)")
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
