@@ -38,18 +38,6 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro")
         }
-
-        applicationVariants.all {
-            val variant = this
-            variant.outputs
-                .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
-                .forEach { output ->
-                    val appName = "Capacity Info"
-                    val outputFileName = "$appName ${variant.versionName} (Build " +
-                            "${variant.versionCode}).apk"
-                    output.outputFileName = outputFileName
-                }
-        }
     }
     buildFeatures {
         viewBinding = true
