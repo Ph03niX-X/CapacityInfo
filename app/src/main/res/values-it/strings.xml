@@ -257,7 +257,6 @@
     <string name="telegram_link_copied">Link di Telegram copiato</string>
     <string name="telegram_developer">Sviluppatore</string>
     <string name="fast_charge">Ricarica veloce</string>
-    <string name="fast_charge_dialog_message">Questa opzione è progettata per calcolare più correttamente l\'usura della batteria quando si utilizza la ricarica rapida. Abilita questa opzione solo se stai caricando il tuo dispositivo con un caricabatterie rapido</string>
     <string name="fast_charge_yes">Ricarica rapida: sì (%1$sW)</string>
     <string name="fast_charge_no">Ricarica rapida: no</string>
     <string name="fast_charge_yes_overlay_only_values">Sì (%1$sW)</string>

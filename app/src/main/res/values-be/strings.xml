@@ -257,7 +257,6 @@
     <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>
     <string name="telegram_developer">Распрацоўшчык</string>
     <string name="fast_charge">Хуткая зарадка</string>
-    <string name="fast_charge_dialog_message">Гэтая опцыя прызначана для больш правільнага разліку зносу акумулятара пры выкарыстанні хуткай зарадкі. Уключыце гэтую опцыю толькі калі вы зараджаеце прыладу з дапамогай хуткай зараднай прылады</string>
     <string name="fast_charge_yes">Хуткая зарадка: Так (%1$s Вт)</string>
     <string name="fast_charge_no">Хуткая зарадка: Не</string>
     <string name="fast_charge_yes_overlay_only_values">Так (%1$s Вт)</string>

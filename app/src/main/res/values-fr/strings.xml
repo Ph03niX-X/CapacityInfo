@@ -257,7 +257,6 @@
     <string name="telegram_link_copied">Lien de télégramme copié</string>
     <string name="telegram_developer">Développeur</string>
     <string name="fast_charge">Charge rapide</string>
-    <string name="fast_charge_dialog_message">Cette option est conçue pour calculer plus correctement l\'usure de la batterie lors de l\'utilisation d\'une charge rapide. Activez cette option uniquement si vous chargez votre appareil avec un chargeur rapide</string>
     <string name="fast_charge_yes">Charge rapide: oui (%1$sW)</string>
     <string name="fast_charge_no">Charge rapide: non</string>
     <string name="fast_charge_yes_overlay_only_values">Oui (%1$sW)</string>

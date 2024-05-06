@@ -257,7 +257,6 @@
     <string name="telegram_link_copied">Ссылка на Telegram скопирована</string>
     <string name="telegram_developer">Разработчик</string>
     <string name="fast_charge">Быстрая зарядка</string>
-    <string name="fast_charge_dialog_message">Эта опция предназначена для более правильного расчёта износа аккумулятора при использовании быстрой зарядки. Включайте эту опцию только в том случае, если вы заряжаете своё устройство с помощью быстрого зарядного устройства</string>
     <string name="fast_charge_yes">Быстрая зарядка: Да (%1$s Вт)</string>
     <string name="fast_charge_no">Быстрая зарядка: Нет</string>
     <string name="fast_charge_yes_overlay_only_values">Да (%1$s Вт)</string>

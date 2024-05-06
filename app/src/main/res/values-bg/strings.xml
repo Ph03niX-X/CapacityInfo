@@ -257,7 +257,6 @@
     <string name="telegram_link_copied">Връзката към Telegram е копирана</string>
     <string name="telegram_developer">Разработчик</string>
     <string name="fast_charge">Бързо зареждане</string>
-    <string name="fast_charge_dialog_message">Тази опция е предназначена за по-правилно изчисляване на износването на батерията при използване на бързо зареждане. Разрешете тази опция само ако зареждате устройството си с бързо зарядно устройство</string>
     <string name="fast_charge_yes">Бързо зареждане: Да (%1$sW)</string>
     <string name="fast_charge_no">Бързо зареждане: Не</string>
     <string name="fast_charge_yes_overlay_only_values">Да (%1$sW)</string>

@@ -277,7 +277,6 @@
     <string name="telegram_link_copied">Telegram link copied</string>
     <string name="telegram_developer">Developer</string>
     <string name="fast_charge">Fast Charge</string>
-    <string name="fast_charge_dialog_message">This option is designed to more correctly calculate battery wear when using fast charging. Only enable this option if you are charging your device with a fast charger</string>
     <string name="fast_charge_yes">Fast Charge: Yes (%1$sW)</string>
     <string name="fast_charge_no">Fast Charge: No</string>
     <string name="fast_charge_yes_overlay_only_values">Yes (%1$sW)</string>

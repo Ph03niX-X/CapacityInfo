@@ -257,7 +257,6 @@
     <string name="telegram_link_copied">Tautan Telegram disalin</string>
     <string name="telegram_developer">Pengembang</string>
     <string name="fast_charge">Pengisian cepat</string>
-    <string name="fast_charge_dialog_message">Opsi ini dirancang untuk menghitung keausan baterai dengan lebih tepat saat menggunakan pengisian cepat. Aktifkan opsi ini hanya jika Anda mengisi daya perangkat dengan pengisi daya cepat</string>
     <string name="fast_charge_yes">Pengisian Daya Cepat: Ya (%1$sW)</string>
     <string name="fast_charge_no">Pengisian Cepat: Tidak</string>
     <string name="fast_charge_yes_overlay_only_values">Ya (%1$sB)</string>
