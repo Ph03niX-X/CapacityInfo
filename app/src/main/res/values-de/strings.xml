@@ -338,4 +338,5 @@
     <string name="number_of_history_for_battery_wear_new">Anzahl der Historien für Akkuverschleiß (NEW)</string>
     <string name="number_of_history">Anzahl der Historie</string>
     <string name="lock_overlay_location">Standort sperren</string>
+    <string name="not_intalled_from_gp">Die Anwendung wurde nicht von Google Play installiert. Bitte installieren Sie die Anwendung von Google Play</string>
 </resources>
