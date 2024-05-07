@@ -373,6 +373,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     .inWholeMilliseconds)
         }
         isFull = true
+        if(isTurboCharge(this) || isFastCharge(this))
+            pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
         if(currentCapacity == 0)
             currentCapacity = (getCurrentCapacity(this@CapacityInfoService) *
                     if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")

@@ -149,18 +149,12 @@ interface BatteryInfoInterface {
         else context.resources.getString(R.string.fast_charge_no_overlay_only_values)
     }
 
-    fun isFastCharge(context: Context): Boolean {
-        val isFastCharge =
-            maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
-        if(isFastCharge) PreferenceManager.getDefaultSharedPreferences(context).edit()
-            .putBoolean(IS_FAST_CHARGE, true).apply()
-        return isFastCharge
-    }
+    fun isFastCharge(context: Context) =
+        maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
 
 
     fun isTurboCharge(context: Context): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
         return maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
             context.resources.getInteger(R.integer.min_design_capacity) - 250)
     }
