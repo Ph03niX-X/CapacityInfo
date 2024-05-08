@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.NotificationInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.FullChargeReminderJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -79,7 +80,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
                         POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE -> {
                             allowAllAppNotifications?.isVisible = !it.value
-                            batteryStatusInformationSettingsPrefCategory?.isEnabled = it.value
+                            batteryStatusInformationSettingsPrefCategory?.isEnabled = isPremium
+                                    && it.value
                         }
                     }
                 }
@@ -114,7 +116,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
                 requestCode = POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE
                 requestPermissionLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
             }
-            batteryStatusInformationSettingsPrefCategory?.isEnabled = ContextCompat
+            batteryStatusInformationSettingsPrefCategory?.isEnabled = isPremium && ContextCompat
                 .checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED
             allowAllAppNotifications?.apply {
@@ -327,7 +329,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         super.onResume()
         if(isResume) {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                batteryStatusInformationSettingsPrefCategory?.isEnabled = ContextCompat
+                batteryStatusInformationSettingsPrefCategory?.isEnabled = isPremium && ContextCompat
                     .checkSelfPermission(requireContext(),
                         Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
                 allowAllAppNotifications?.isVisible = ContextCompat

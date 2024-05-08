@@ -189,8 +189,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 }
                 batteryStatusInformation?.apply {
                     isVisible = true
-                    isEnabled = premium?.isVisible == false
-                    summary = if(!isEnabled) getString(R.string.premium_feature) else null
+                    if(isVisible) summary = if(premium?.isVisible == true)
+                        getString(R.string.premium_feature) else null
                 }
             }
             else {
@@ -704,10 +704,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 }
             }
             batteryStatusInformation?.apply {
-                if(isVisible) {
-                    isEnabled = premium?.isVisible == false
-                    summary = if(!isEnabled) getString(R.string.premium_feature) else null
-                }
+                if(isVisible) summary = if(premium?.isVisible == true)
+                    getString(R.string.premium_feature) else null
             }
             capacityInWh?.apply {
                 isEnabled = premium?.isVisible == false
