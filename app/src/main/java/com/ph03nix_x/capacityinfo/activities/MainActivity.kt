@@ -238,9 +238,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     try {
                         startActivity(Intent(Intent.ACTION_VIEW,
                             Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
-                        finishAffinity()
                     }
-                    catch(e: ActivityNotFoundException) {
+                    catch(_: ActivityNotFoundException) {}
+                    finally {
                         finishAffinity()
                     }
                 }
