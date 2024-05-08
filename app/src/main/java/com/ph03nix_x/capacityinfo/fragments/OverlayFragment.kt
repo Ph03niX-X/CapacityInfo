@@ -14,6 +14,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
@@ -119,7 +120,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
         overlayScreen = findPreference("overlay_screen")
 
-        overlayScreen?.isEnabled = Settings.canDrawOverlays(requireContext())
+        overlayScreen?.isEnabled = isPremium && Settings.canDrawOverlays(requireContext())
 
         enableOverlay = findPreference(IS_ENABLED_OVERLAY)
 
@@ -498,8 +499,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
                 R.bool.is_enabled_overlay)))
         }
         else isResume = true
-        overlayScreen?.isEnabled = canDrawOverlays
-        if(dialogRequestOverlayPermission == null && !canDrawOverlays)
+        overlayScreen?.isEnabled = isPremium && canDrawOverlays
+        if(isPremium && dialogRequestOverlayPermission == null && !canDrawOverlays)
             requestOverlayPermission()
     }
 
@@ -583,10 +584,15 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
     }
 
     private fun enableAllOverlay(isEnable: Boolean?) {
-        onlyValuesOverlay?.isEnabled = isEnable ?: onlyValuesOverlay?.isEnabled ?: false
-        lockOverlayLocation?.isEnabled = isEnable ?: lockOverlayLocation?.isEnabled ?: false
-        overlayLocation?.isEnabled = isEnable ?: overlayLocation?.isEnabled ?: false
-        appearanceCategory?.isEnabled = isEnable ?: appearanceCategory?.isEnabled ?: false
-        overlayCategory?.isEnabled = isEnable ?: overlayCategory?.isEnabled ?: false
+        onlyValuesOverlay?.isEnabled =
+            isPremium && isEnable ?: onlyValuesOverlay?.isEnabled ?: false
+        lockOverlayLocation?.isEnabled =
+            isPremium && isEnable ?: lockOverlayLocation?.isEnabled ?: false
+        overlayLocation?.isEnabled =
+            isPremium && isEnable ?: overlayLocation?.isEnabled ?: false
+        appearanceCategory?.isEnabled =
+            isPremium && isEnable ?: appearanceCategory?.isEnabled ?: false
+        overlayCategory?.isEnabled =
+            isPremium && isEnable ?: overlayCategory?.isEnabled ?: false
     }
 }

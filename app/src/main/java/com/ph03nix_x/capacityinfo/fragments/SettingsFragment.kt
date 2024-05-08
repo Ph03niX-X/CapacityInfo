@@ -387,7 +387,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     summary = getString(R.string.change_design_summary,
                         pref.getInt(DESIGN_CAPACITY, resources.getInteger(R.integer.min_design_capacity)))
                 }
-                overlay?.isVisible = true
+                overlay?.apply {
+                    isVisible = true
+                    if(isVisible) summary = if(premium?.isVisible == true)
+                        getString(R.string.premium_feature) else null
+                }
                 resetToZeroTheNumberOfCharges?.apply {
 
                     isVisible = true
@@ -531,11 +535,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         overlay?.apply {
-
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-
-            if(isEnabled)
+            summary = if(premium?.isVisible == true) getString(R.string.premium_feature) else null
+            if(premium?.isVisible == false)
                 setOnPreferenceClickListener {
                     mainActivity?.apply {
                         fragment = OverlayFragment()
@@ -724,8 +725,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }
             overlay?.apply {
-                isEnabled = premium?.isVisible == false
-                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+                summary = if(premium?.isVisible == true)
+                    getString(R.string.premium_feature) else null
             }
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
                 !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
