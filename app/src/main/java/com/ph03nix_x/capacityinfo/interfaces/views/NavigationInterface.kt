@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces.views
 import android.os.BatteryManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
@@ -36,112 +37,113 @@ interface NavigationInterface : BatteryInfoInterface {
             menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat.getDrawable(
                 this@bottomNavigation, getChargeDischargeNavigationIcon(status ==
                         BatteryManager.BATTERY_STATUS_CHARGING))
-            setOnItemSelectedListener {
-                when(it.itemId) {
-                    R.id.charge_discharge_navigation -> {
-                        if(fragment !is ChargeDischargeFragment) {
-                            fragment = ChargeDischargeFragment()
-                            toolbar.navigationIcon = null
-                            MainActivity.apply {
-                                isLoadChargeDischarge = true
-                                isLoadLastCharge = false
-                                isLoadWear = false
-                                isLoadHistory = false
-                                isLoadSettings = false
-                                isLoadDebug = false
+            if(MainApp.isGooglePlay(this@bottomNavigation))
+                setOnItemSelectedListener {
+                    when(it.itemId) {
+                        R.id.charge_discharge_navigation -> {
+                            if(fragment !is ChargeDischargeFragment) {
+                                fragment = ChargeDischargeFragment()
+                                toolbar.navigationIcon = null
+                                MainActivity.apply {
+                                    isLoadChargeDischarge = true
+                                    isLoadLastCharge = false
+                                    isLoadWear = false
+                                    isLoadHistory = false
+                                    isLoadSettings = false
+                                    isLoadDebug = false
+                                }
+                                clearMenu()
+                                inflateMenu()
+                                loadFragment(fragment ?: ChargeDischargeFragment())
                             }
-                            clearMenu()
-                            inflateMenu()
-                            loadFragment(fragment ?: ChargeDischargeFragment())
                         }
-                    }
-                    R.id.last_charge_navigation -> {
-                        if(fragment !is LastChargeNoPremiumFragment &&
-                            fragment !is LastChargeFragment) {
-                            fragment = if(PremiumInterface.isPremium) LastChargeFragment()
-                            else LastChargeNoPremiumFragment()
-                            toolbar.apply {
-                                title = getString(R.string.last_charge)
-                                navigationIcon = null
-                            }
-                            MainActivity.apply {
-                                isLoadChargeDischarge = false
-                                isLoadLastCharge = true
-                                isLoadWear = false
-                                isLoadHistory = false
-                                isLoadSettings = false
-                                isLoadDebug = false
-                            }
-                            clearMenu()
-                            inflateMenu()
-                            loadFragment(fragment ?: if(PremiumInterface.isPremium)
-                                LastChargeFragment() else LastChargeNoPremiumFragment())
-                        }
-                    }
-                    R.id.wear_navigation -> {
-                        if(fragment !is WearFragment) {
-                            fragment = WearFragment()
-                            toolbar.apply {
-                                title = getString(R.string.wear)
-                                navigationIcon = null  
-                            }
-                            MainActivity.apply {
-                                isLoadChargeDischarge = false
-                                isLoadLastCharge = false
-                                isLoadWear = true
-                                isLoadHistory = false
-                                isLoadSettings = false
-                                isLoadDebug = false
-                            }
-                            clearMenu()
-                            inflateMenu()
-                            loadFragment(fragment ?: WearFragment())
-                        }
-                    }
-                    R.id.history_navigation -> {
-                        if(fragment !is HistoryFragment) {
-                            fragment = HistoryFragment()
-                            toolbar.apply {
-                                title = getString(R.string.history)
-                                navigationIcon = null
-                            }
-                            MainActivity.apply {
-                                isLoadChargeDischarge = false
-                                isLoadLastCharge = false
-                                isLoadWear = false
-                                isLoadHistory = true
-                                isLoadSettings = false
-                                isLoadDebug = false
-                            }
-                            clearMenu()
-                            inflateMenu()
-                            loadFragment(fragment ?: HistoryFragment())
-                        }
-                    }
-                    R.id.settings_navigation -> {
-                        when(fragment) {
-                            null, is ChargeDischargeFragment, is LastChargeNoPremiumFragment,
-                            is LastChargeFragment, is WearFragment, is HistoryFragment -> {
-                                fragment = SettingsFragment()
+                        R.id.last_charge_navigation -> {
+                            if(fragment !is LastChargeNoPremiumFragment &&
+                                fragment !is LastChargeFragment) {
+                                fragment = if(PremiumInterface.isPremium) LastChargeFragment()
+                                else LastChargeNoPremiumFragment()
                                 toolbar.apply {
-                                    title = getString(R.string.settings)
+                                    title = getString(R.string.last_charge)
+                                    navigationIcon = null
+                                }
+                                MainActivity.apply {
+                                    isLoadChargeDischarge = false
+                                    isLoadLastCharge = true
+                                    isLoadWear = false
+                                    isLoadHistory = false
+                                    isLoadSettings = false
+                                    isLoadDebug = false
+                                }
+                                clearMenu()
+                                inflateMenu()
+                                loadFragment(fragment ?: if(PremiumInterface.isPremium)
+                                    LastChargeFragment() else LastChargeNoPremiumFragment())
+                            }
+                        }
+                        R.id.wear_navigation -> {
+                            if(fragment !is WearFragment) {
+                                fragment = WearFragment()
+                                toolbar.apply {
+                                    title = getString(R.string.wear)
+                                    navigationIcon = null
+                                }
+                                MainActivity.apply {
+                                    isLoadChargeDischarge = false
+                                    isLoadLastCharge = false
+                                    isLoadWear = true
+                                    isLoadHistory = false
+                                    isLoadSettings = false
+                                    isLoadDebug = false
+                                }
+                                clearMenu()
+                                inflateMenu()
+                                loadFragment(fragment ?: WearFragment())
+                            }
+                        }
+                        R.id.history_navigation -> {
+                            if(fragment !is HistoryFragment) {
+                                fragment = HistoryFragment()
+                                toolbar.apply {
+                                    title = getString(R.string.history)
                                     navigationIcon = null
                                 }
                                 MainActivity.apply {
                                     isLoadChargeDischarge = false
                                     isLoadLastCharge = false
                                     isLoadWear = false
-                                    isLoadSettings = true
+                                    isLoadHistory = true
+                                    isLoadSettings = false
                                     isLoadDebug = false
                                 }
                                 clearMenu()
-                                loadFragment(fragment ?: SettingsFragment())
+                                inflateMenu()
+                                loadFragment(fragment ?: HistoryFragment())
+                            }
+                        }
+                        R.id.settings_navigation -> {
+                            when(fragment) {
+                                null, is ChargeDischargeFragment, is LastChargeNoPremiumFragment,
+                                is LastChargeFragment, is WearFragment, is HistoryFragment -> {
+                                    fragment = SettingsFragment()
+                                    toolbar.apply {
+                                        title = getString(R.string.settings)
+                                        navigationIcon = null
+                                    }
+                                    MainActivity.apply {
+                                        isLoadChargeDischarge = false
+                                        isLoadLastCharge = false
+                                        isLoadWear = false
+                                        isLoadSettings = true
+                                        isLoadDebug = false
+                                    }
+                                    clearMenu()
+                                    loadFragment(fragment ?: SettingsFragment())
+                                }
                             }
                         }
                     }
+                    true
                 }
-                true
-            }
         }
     }
 

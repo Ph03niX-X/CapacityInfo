@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             HashMap::class.java
         )
 
-        if (fragment == null)
+        if(isGooglePlay(this) && fragment == null)
             fragment = when {
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
                         != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2" &&
@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         bottomNavigation(status)
 
-        if (!isRecreate || fragment !is SettingsFragment)
+        if(isGooglePlay(this) && (!isRecreate || fragment !is SettingsFragment))
             loadFragment(
                 fragment ?: ChargeDischargeFragment(), fragment is
                         BatteryStatusInformationFragment || fragment is BackupSettingsFragment
