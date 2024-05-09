@@ -536,7 +536,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         overlay?.apply {
             summary = if(premium?.isVisible == true) getString(R.string.premium_feature) else null
-            if(premium?.isVisible == false)
                 setOnPreferenceClickListener {
                     mainActivity?.apply {
                         fragment = OverlayFragment()
