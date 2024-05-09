@@ -190,18 +190,16 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(instance == null) instance = this@CapacityInfoService
                     if(!isGooglePlay(this@CapacityInfoService) ||
                         (pref.getBoolean(IS_ENABLE_WAKELOCK, resources.getBoolean(
-                            R.bool.is_enable_wakelock)) && wakeLock == null)) {
+                            R.bool.is_enable_wakelock)) && wakeLock == null && !isFull
+                                && isPowerConnected)) {
                         if(powerManager == null) powerManager = getSystemService(Context
                             .POWER_SERVICE) as PowerManager
                         wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                             "${packageName}:service_wakelock")
+                        if(wakeLock?.isHeld != true) wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
+                        else if(isGooglePlay(this@CapacityInfoService) &&
+                            wakeLock?.isHeld == true) wakeLockRelease()
                     }
-                    if(!isGooglePlay(this@CapacityInfoService) ||
-                        (pref.getBoolean(IS_ENABLE_WAKELOCK, resources.getBoolean(
-                            R.bool.is_enable_wakelock)) && wakeLock?.isHeld != true && !isFull
-                                && isPowerConnected))
-                        wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
-                    else if(wakeLock?.isHeld == true) wakeLockRelease()
 
                     if((getBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
                         batteryLevelWith = getBatteryLevel(this@CapacityInfoService) ?: 0
