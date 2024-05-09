@@ -14,7 +14,6 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import java.io.Serializable
-import kotlin.collections.HashMap
 import kotlin.system.exitProcess
 
 class MainApp : Application(), PremiumInterface {

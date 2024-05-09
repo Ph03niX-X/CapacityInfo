@@ -11,7 +11,6 @@ import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.utilities.Constants
-import java.lang.Exception
 
 object HistoryHelper {
 

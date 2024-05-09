@@ -1,6 +1,8 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -12,11 +14,11 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.BuildConfig
 import com.ph03nix_x.capacityinfo.MainApp
-import com.ph03nix_x.capacityinfo.R
-import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isInstalledGooglePlay
+import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 
 class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateInterface {
 
