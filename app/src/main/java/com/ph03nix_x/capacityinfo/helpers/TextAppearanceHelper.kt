@@ -126,6 +126,10 @@ object TextAppearanceHelper : PremiumInterface {
 
             42 -> ResourcesCompat.getFont(context, R.font.sedan_sc)
 
+            43 -> ResourcesCompat.getFont(context, R.font.lora)
+
+            44 -> ResourcesCompat.getFont(context, R.font.mulish)
+
             else -> null
         }
     }
