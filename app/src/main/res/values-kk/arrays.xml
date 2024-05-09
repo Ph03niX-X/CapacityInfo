@@ -72,6 +72,8 @@
         <item>DM Sans</item>
         <item>Poetsen One</item>
         <item>Sedan SC</item>
+        <item>Lato</item>
+        <item>Mulish</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
