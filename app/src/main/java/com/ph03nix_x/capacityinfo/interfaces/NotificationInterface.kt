@@ -230,7 +230,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     fun onNotifyOverheatOvercool(context: Context, temperature: Double) {
-        if(isNotificationExists(context, NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)) return
+        if(!isGooglePlay(context) || isNotificationExists(context,
+                NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val temperatureInFahrenheit = getTemperatureInFahrenheit(context)
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
@@ -286,7 +287,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
     
     fun onNotifyBatteryFullyCharged(context: Context, isReminder: Boolean = false) {
-        if(!isReminder && isNotificationExists(context, NOTIFICATION_FULLY_CHARGED_ID)) return
+        if(!isGooglePlay(context) || (!isReminder &&
+                    isNotificationExists(context, NOTIFICATION_FULLY_CHARGED_ID))) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
                 as? NotificationManager
@@ -329,7 +331,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     fun onNotifyBatteryCharged(context: Context) {
-        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
+        if(!isGooglePlay(context) ||
+            isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val batteryLevel = getBatteryLevel(context)
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
@@ -382,7 +385,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     fun onNotifyBatteryDischarged(context: Context) {
-        if(isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
+        if(!isGooglePlay(context) ||
+            isNotificationExists(context, NOTIFICATION_BATTERY_STATUS_ID)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val batteryLevel = getBatteryLevel(context) ?: 0
         notificationManager = context.getSystemService(NOTIFICATION_SERVICE)
@@ -508,6 +512,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     private fun getNotificationMessage(context: Context, status: Int?, remoteViews: RemoteViews) {
+        if(!isGooglePlay(context)) return
         when(status) {
             BatteryManager.BATTERY_STATUS_CHARGING -> getBatteryStatusCharging(context,
                 batteryIntent, remoteViews)
@@ -525,6 +530,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
 
     private fun getBatteryStatusCharging(context: Context, batteryIntent: Intent?,
                                            remoteViews: RemoteViews) {
+        if(!isGooglePlay(context)) return
         val capacityInfoServiceContext = CapacityInfoService.instance
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
@@ -581,6 +587,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     private fun getBatteryStatusNotCharging(context: Context, remoteViews: RemoteViews) {
+        if(!isGooglePlay(context)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val capacityInfoServiceContext = CapacityInfoService.instance
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
@@ -635,6 +642,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     private fun getBatteryStatusFull(context: Context, remoteViews: RemoteViews) {
+        if(!isGooglePlay(context)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val capacityInfoServiceContext = CapacityInfoService.instance
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
@@ -689,6 +697,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     private fun getBatteryStatusDischarging(context: Context, remoteViews: RemoteViews) {
+        if(!isGooglePlay(context)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val isCapacityInWh = pref.getBoolean(IS_CAPACITY_IN_WH, context.resources.getBoolean(
             R.bool.is_capacity_in_wh))
@@ -739,6 +748,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
 
     private fun getBatteryStatusUnknown(context: Context, remoteViews: RemoteViews) {
+        if(!isGooglePlay(context)) return
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         val capacityInfoServiceContext = CapacityInfoService.instance
         val isChargingDischargeCurrentInWatt = pref.getBoolean(
@@ -802,6 +812,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
     }
     
     private fun getSmallIcon(context: Context): Int {
+        if(!isGooglePlay(context)) return R.mipmap.ic_battery_level_0
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
      return if(pref.getBoolean(IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR,
              context.resources.getBoolean(R.bool.is_show_battery_level_in_status_bar)))
