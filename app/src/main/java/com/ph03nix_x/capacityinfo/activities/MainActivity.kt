@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private var isRestoreImportSettings = false
 
     private var prefArrays: HashMap<*, *>? = null
+    private var showNotInstalledFromGPDialog: MaterialAlertDialogBuilder? = null
     private var showRequestNotificationPermissionDialog: MaterialAlertDialogBuilder? = null
 
     val updateFlowResultLauncher = registerForActivityResult(ActivityResultContracts
@@ -230,23 +231,25 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(!isGooglePlay(this)) {
             ServiceHelper.cancelAllJobs(this@MainActivity)
             pref.edit().clear().apply()
-            MaterialAlertDialogBuilder(this).apply {
-                setIcon(R.drawable.ic_instruction_not_supported_24dp)
-                setTitle(getString(R.string.error))
-                setMessage(R.string.not_installed_from_gp)
-                setPositiveButton(android.R.string.ok) { _, _ ->
-                    try {
-                        startActivity(Intent(Intent.ACTION_VIEW,
-                            Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+            if(showNotInstalledFromGPDialog == null)
+                showNotInstalledFromGPDialog = MaterialAlertDialogBuilder(this).apply {
+                    setIcon(R.drawable.ic_instruction_not_supported_24dp)
+                    setTitle(getString(R.string.error))
+                    setMessage(R.string.not_installed_from_gp)
+                    setPositiveButton(android.R.string.ok) { _, _ ->
+                        try {
+                            startActivity(Intent(Intent.ACTION_VIEW,
+                                Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+                        }
+                        catch(_: ActivityNotFoundException) {}
+                        finally {
+                            showNotInstalledFromGPDialog = null
+                            finishAffinity()
+                        }
                     }
-                    catch(_: ActivityNotFoundException) {}
-                    finally {
-                        finishAffinity()
-                    }
+                    setCancelable(false)
+                    show()
                 }
-                setCancelable(false)
-                show()
-            }
             return
         }
 
@@ -410,18 +413,13 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     }
 
     override fun onDestroy() {
-
         instance = null
-
         fragment = null
-
         premiumActivity = null
+        showNotInstalledFromGPDialog = null
         showFaqDialog = null
-
         if (!isRecreate) {
-
             tempFragment = null
-
             isLoadChargeDischarge = false
             isLoadLastCharge = false
             isLoadWear = false
@@ -429,7 +427,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             isLoadSettings = false
             isLoadDebug = false
         }
-
         super.onDestroy()
     }
 
