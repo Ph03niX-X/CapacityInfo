@@ -306,6 +306,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     private suspend fun batteryCharging() {
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
+        withContext(Dispatchers.IO) {
+            if(!pref.getBoolean(IS_FAST_CHARGE, resources.getBoolean(R.bool.is_fast_charge)) &&
+                (isTurboCharge(this@CapacityInfoService) ||
+                        isFastCharge(this@CapacityInfoService)))
+                pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
+        }
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
@@ -384,8 +390,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     .inWholeMilliseconds)
         }
         isFull = true
-        if(isTurboCharge(this) || isFastCharge(this))
-            pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
         if(currentCapacity == 0)
             currentCapacity = (getCurrentCapacity(this@CapacityInfoService) *
                     if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
