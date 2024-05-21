@@ -16,6 +16,7 @@ import com.android.billingclient.api.BillingClient.ProductType
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -110,7 +111,8 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
         if(premiumContext == null)
             premiumContext = MainActivity.instance ?: CapacityInfoService.instance
         billingClient = BillingClient.newBuilder(premiumContext!!)
-            .setListener(purchasesUpdatedListener()).enablePendingPurchases().build()
+            .setListener(purchasesUpdatedListener()).enablePendingPurchases(
+                PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()).build()
         if (billingClient?.connectionState == BillingClient.ConnectionState.DISCONNECTED)
             startConnection(isPurchasePremium)
     }
