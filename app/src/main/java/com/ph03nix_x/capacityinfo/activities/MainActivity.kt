@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     BatteryOptimizationsInterface {
 
     lateinit var pref: SharedPreferences
-
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
 
@@ -98,6 +97,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     val updateFlowResultLauncher = registerForActivityResult(ActivityResultContracts
         .StartIntentSenderForResult()) { _ -> }
 
+    var isGooglePlay = false
     var isShowRequestIgnoringBatteryOptimizationsDialog = true
     var isShowXiaomiBackgroundActivityControlDialog = false
 
@@ -127,6 +127,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        isGooglePlay = isGooglePlay(this)
         pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         super.onCreate(savedInstanceState)
@@ -162,7 +163,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             HashMap::class.java
         )
 
-        if(isGooglePlay(this) && fragment == null)
+        if(isGooglePlay && fragment == null)
             fragment = when {
                 isLoadChargeDischarge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0")
                         != "1" && pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") != "2" &&
@@ -209,7 +210,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         bottomNavigation(status)
 
-        if(isGooglePlay(this) && (!isRecreate || fragment !is SettingsFragment))
+        if(isGooglePlay && (!isRecreate || fragment !is SettingsFragment))
             loadFragment(
                 fragment ?: ChargeDischargeFragment(), fragment is
                         BatteryStatusInformationFragment || fragment is BackupSettingsFragment
@@ -228,7 +229,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onResume()
 
-        if(!isGooglePlay(this)) {
+        if(!isGooglePlay) {
             ServiceHelper.cancelAllJobs(this@MainActivity)
             pref.edit().clear().apply()
             if(showNotInstalledFromGPDialog == null)
@@ -335,7 +336,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if (prefArrays != null) importSettings(prefArrays)
 
-        if(isGooglePlay(this))
+        if(isGooglePlay)
             ServiceHelper.startService(this, CapacityInfoService::class.java)
 
         if (pref.getBoolean(
@@ -354,21 +355,21 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(pref.getBoolean(IS_ENABLED_OVERLAY, resources.getBoolean(R.bool.is_enabled_overlay))
             && OverlayService.instance == null && !ServiceHelper.isStartedOverlayService() &&
-            isGooglePlay(this))
+            isGooglePlay)
             ServiceHelper.startService(this, OverlayService::class.java)
 
         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0L)
-        if((isInstalledGooglePlay && isGooglePlay(this) &&
+        if((isInstalledGooglePlay && isGooglePlay &&
                     (numberOfFullCharges == 1L || numberOfFullCharges % 3 == 0L)) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
         if(pref.getBoolean(IS_ENABLE_CHECK_UPDATE, resources.getBoolean(
                 R.bool.is_enable_check_update)) && isInstalledGooglePlay &&
-            isGooglePlay(this)) checkUpdateFromGooglePlay()
+            isGooglePlay) checkUpdateFromGooglePlay()
         isShowRequestIgnoringBatteryOptimizationsDialog = true
         if(numberOfFullCharges > 0L && numberOfCharges % 2 == 0L && isInstalledGooglePlay &&
-            !isGooglePlay(this) &&
+            !isGooglePlay &&
             (!isPremium || pref.getString(TOKEN_PREF, null)?.length != TOKEN_COUNT)
             && MainApp.isRequestPurchasePremium) requestPurchasePremium()
     }

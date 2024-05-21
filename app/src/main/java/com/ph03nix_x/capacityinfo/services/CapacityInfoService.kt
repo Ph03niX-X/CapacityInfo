@@ -86,6 +86,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private var jobService: Job? = null
     private var powerManager: PowerManager? = null
     private var wakeLock: PowerManager.WakeLock? = null
+    private var isGooglePlay = false
     private var isScreenTimeJob = false
     private var isJob = false
     private var currentCapacity = 0
@@ -113,7 +114,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     override fun onCreate() {
         if(instance == null) {
             super.onCreate()
-            if(!isGooglePlay(this)) return
+            isGooglePlay = isGooglePlay(this)
+            if(!isGooglePlay) return
             instance = this
             onCreateServiceNotification(this)
             pref = PreferenceManager.getDefaultSharedPreferences(this@CapacityInfoService)
@@ -199,8 +201,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 isJob = !isJob
                 while (isJob && !isStopService) {
                     if(instance == null) instance = this@CapacityInfoService
-                    if(!isGooglePlay(this@CapacityInfoService) ||
-                        (pref.getBoolean(IS_ENABLE_WAKELOCK, resources.getBoolean(
+                    if(!isGooglePlay || (pref.getBoolean(IS_ENABLE_WAKELOCK, resources.getBoolean(
                             R.bool.is_enable_wakelock)) && wakeLock == null && !isFull
                                 && isPowerConnected)) {
                         if(powerManager == null) powerManager = getSystemService(Context
@@ -208,8 +209,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                         wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                             "${packageName}:service_wakelock")
                         if(wakeLock?.isHeld != true) wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
-                        else if(isGooglePlay(this@CapacityInfoService) &&
-                            wakeLock?.isHeld == true) wakeLockRelease()
+                        else if(isGooglePlay && wakeLock?.isHeld == true) wakeLockRelease()
                     }
 
                     if((getBatteryLevel(this@CapacityInfoService) ?: 0) < batteryLevelWith)
@@ -298,7 +298,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
 
     private fun updateServiceNotification(isBatteryCharged: Boolean = false) =
         try {
-            if(isGooglePlay(this)) onUpdateServiceNotification(this) else {}
+            if(isGooglePlay) onUpdateServiceNotification(this) else {}
         }
         catch(_: RuntimeException) {}
         catch(_: DeadSystemException) {}

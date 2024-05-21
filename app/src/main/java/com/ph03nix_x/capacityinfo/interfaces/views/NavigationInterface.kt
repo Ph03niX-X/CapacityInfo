@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.interfaces.views
 import android.os.BatteryManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
@@ -37,7 +36,7 @@ interface NavigationInterface : BatteryInfoInterface {
             menu.findItem(R.id.charge_discharge_navigation).icon = ContextCompat.getDrawable(
                 this@bottomNavigation, getChargeDischargeNavigationIcon(status ==
                         BatteryManager.BATTERY_STATUS_CHARGING))
-            if(MainApp.isGooglePlay(this@bottomNavigation))
+            if(isGooglePlay)
                 setOnItemSelectedListener {
                     when(it.itemId) {
                         R.id.charge_discharge_navigation -> {
