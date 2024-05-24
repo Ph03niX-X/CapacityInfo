@@ -40,6 +40,10 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context)
                     && !ServiceHelper.isStartedOverlayService())
                     ServiceHelper.startService(context, OverlayService::class.java)
+                with(pref) {
+                    if(contains("is_fast_charge_setting"))
+                        edit().remove("is_fast_charge_setting").apply()
+                }
             }
         }
     }
