@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -25,9 +25,11 @@ android {
         resourceConfigurations += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
             "bg", "kk", "ru", "uk")
     }
-    tasks {
-        withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = "1.8"
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
         }
     }
     buildTypes {
