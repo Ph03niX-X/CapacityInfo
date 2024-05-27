@@ -24,7 +24,7 @@
     <string name="discharging">Décharge</string>
     <string name="not_charging">Pas de charge</string>
     <string name="charging">Mise en charge</string>
-    <string name="full">Accusé</string>
+    <string name="full">Plein</string>
     <string name="unknown">Inconnu</string>
     <string name="source_of_power_ac">CA</string>
     <string name="source_of_power_wireless">Sans fil</string>
@@ -33,7 +33,7 @@
     <string name="service">Service</string>
     <string name="charging_time">Temps de charge: %1$s</string>
     <string name="apply">Appliquer</string>
-    <string name="service_and_notification">Service et service Notification</string>
+    <string name="service_and_notification">Service et Notification</string>
     <string name="appearance">Apparence</string>
     <string name="misc">Divers</string>
     <string name="service_time">Temps de service</string>
@@ -50,7 +50,7 @@
     <string name="email_copied">E-mail copié</string>
     <string name="auto_dark_mode">Mode sombre automatique</string>
     <string name="auto_dark_mode_summary">Activer le mode sombre en fonction du système</string>
-    <string name="number_of_charges">Nombre de frais: %1$d</string>
+    <string name="number_of_charges">Nombre de charges: %1$d</string>
     <string name="debug">Déboguer</string>
     <string name="change_setting">Modifier le paramètre</string>
     <string name="pref_key">Clé</string>
@@ -61,7 +61,7 @@
     <string name="reset">Réinitialiser</string>
     <string name="key_successfully_reset">Le paramètre \"%1$s\" Réinitialisation réussie</string>
     <string name="reset_settings">Réinitialiser tous les réglages</string>
-    <string name="are_you_sure">Es-tu sûr?</string>
+    <string name="are_you_sure">Etes-vous sûr?</string>
     <string name="settings_reset_successfully">Les paramètres ont été réinitialisés avec succès</string>
     <string name="forcibly_show_rate_the_app">Afficher de force \"Évaluer l\'application\"</string>
     <string name="export_settings">Paramètres d\'exportation</string>
@@ -147,8 +147,8 @@
     <string name="battery_is_charged">La batterie est chargée</string>
     <string name="battery_is_discharged">La batterie est déchargée</string>
     <string name="battery_level_charge_discharge">Niveau de batterie</string>
-    <string name="fully_charged">Complètement chargé</string>
-    <string name="charged">Accusé</string>
+    <string name="fully_charged">Charge terminée</string>
+    <string name="charged">Chargée</string>
     <string name="discharged">Déchargé</string>
     <string name="battery_is_charged_notification">La batterie est chargée. Niveau de batterie: %1$d</string>
     <string name="battery_is_discharged_notification">La batterie est déchargée. Niveau de batterie: %1$d</string>
@@ -195,7 +195,7 @@
     <string name="ma">%1$d mA</string>
     <string name="ma_hint">mA</string>
     <string name="overheat">Surchauffer</string>
-    <string name="overcool">Trop refroidi</string>
+    <string name="overcool">Temperature trip basse</string>
     <string name="number_of_cycles_android">Nombre de cycles (Android): %1$d</string>
     <string name="number_of_cycles_android_overlay">Nombre de cycles (Android)</string>
     <string name="discharge_current_ma">Courant de décharge: %1$d mA</string>
@@ -216,7 +216,7 @@
     <string name="history_cleared_successfully">Historique effacé avec succès!</string>
     <string name="error_clearing_history">Erreur lors de la suppression de l\'historique!</string>
     <string name="clear_the_history_dialog_message">Effacer l\'historique?</string>
-    <string name="export_history">Historique des exportations</string>
+    <string name="export_history">Exporter l\'historique</string>
     <string name="history_exported_successfully">Historique exporté avec succès!</string>
     <string name="error_exporting_history">Erreur lors de l\'exportation de l\'historique!</string>
     <string name="history_is_empty">L\'histoire est vide!</string>
@@ -247,7 +247,7 @@
     <string name="show_battery_information">Afficher les informations sur la batterie</string>
     <string name="service_is_running">Le service est en cours d\'exécution</string>
     <string name="stop_the_service_when_the_cd">Arrêter le service lorsque le chargeur est débranché</string>
-    <string name="stop_service">Aire d\'autoroute</string>
+    <string name="stop_service">Arrêter le service</string>
     <string name="stopping_service">Arrêt du service…</string>
     <string name="service_stopped_successfully">Le service s\'est arrêté avec succès!</string>
     <string name="error_stopping_service">Erreur lors de l\'arrêt du service!</string>
