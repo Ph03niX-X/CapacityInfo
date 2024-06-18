@@ -5,16 +5,6 @@ alt="Get it on Google Play" width="323" height="125" border="10"/></p></a>
 
 ---
 <p align="center">
- <b>Download Latest Beta Version from Google Drive:</b>
-</p>
-
-<a href="https://drive.google.com/file/d/16KDMzGBH8NGuhmQK7gKLDA0SCNXIwIKI">
-<p align="center">
-<img src="https://github.com/Ph03niX-X/CapacityInfo/blob/master/images/GDrive.png"
-alt="Get it on Google Drive" width="300" border="10"/></p></a>
-
----
-<p align="center">
 <b>Screenshots:</b>
 </p>
 
