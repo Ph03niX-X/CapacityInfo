@@ -605,24 +605,18 @@ interface BatteryInfoInterface {
     }
 
     fun getRemainingBatteryTime(context: Context): String {
-
         val currentCapacity = getCurrentCapacity(context)
-
-        return if(averageDischargeCurrent > 0.0) {
-
-            val remainingBatteryTime = ((currentCapacity / averageDischargeCurrent) * 3600.0).toLong()
-
+        val dischargeCurrent = getChargeDischargeCurrent(context)
+        return if(dischargeCurrent > 0.0) {
+            val remainingBatteryTime = ((currentCapacity / dischargeCurrent) * 3600.0).toLong()
             TimeHelper.getTime(remainingBatteryTime)
         }
-
         else context.getString(R.string.unknown)
     }
 
     fun getLastChargeTime(context: Context): String {
-        
         val seconds = PreferenceManager.getDefaultSharedPreferences(context).getInt(
             LAST_CHARGE_TIME, 0).toLong()
-
         return TimeHelper.getTime(seconds)
     }
 }

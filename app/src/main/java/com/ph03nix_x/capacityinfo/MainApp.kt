@@ -27,16 +27,15 @@ class MainApp : Application(), PremiumInterface {
         var isInstalledGooglePlay = true
 
         var currentTheme = -1
+        var remainingBatteryTimeSeconds = 0
 
         var tempScreenTime = 0L
 
         @Suppress("DEPRECATION")
         fun isGooglePlay(context: Context) =
-
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
                 Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
                     context.packageName).installingPackageName
-
             else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
                 .getInstallerPackageName(context.packageName)
 

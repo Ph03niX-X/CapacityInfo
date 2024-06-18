@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.MainApp.Companion.remainingBatteryTimeSeconds
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databinding.ChargeDischargeFragmentBinding
@@ -25,6 +27,7 @@ import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
+import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
@@ -54,6 +57,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
     private var isJob = false
     private var isChargingDischargeCurrentInWatt = false
     private var isScreenTimeCount = false
+    private var isGetRemainingBatteryTime = true
 
     var screenTime: Long? = null
 
@@ -98,6 +102,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         job = null
         isScreenTimeCount = false
         screenTime = null
+        isGetRemainingBatteryTime = true
+        if(OverlayService.instance == null) remainingBatteryTimeSeconds = 0
     }
 
     override fun onDestroy() {
@@ -106,6 +112,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
         job = null
         isScreenTimeCount = false
         screenTime = null
+        isGetRemainingBatteryTime = true
+        if(OverlayService.instance == null) remainingBatteryTimeSeconds = 0
         super.onDestroy()
     }
 
@@ -182,9 +190,15 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             if(getCurrentCapacity(requireContext()) > 0.0) {
                                 binding.remainingBatteryTime.apply {
                                     if(visibility == View.GONE) visibility = View.VISIBLE
-
-                                    text = getString(R.string.remaining_battery_time,
-                                        getRemainingBatteryTime(requireContext()))
+                                    if(remainingBatteryTimeSeconds % 15 == 0 ||
+                                        isGetRemainingBatteryTime) {
+                                        text = getString(R.string.remaining_battery_time,
+                                            getRemainingBatteryTime(requireContext()))
+                                        if(isGetRemainingBatteryTime)
+                                            isGetRemainingBatteryTime = false
+                                    }
+                                    if(OverlayService.instance == null && !isPowerConnected)
+                                        remainingBatteryTimeSeconds++
                                 }
                                 return@withContext
                             }
@@ -210,7 +224,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                 if(CapacityInfoService.instance != null && isScreenTimeCount
                                     && (status == BatteryManager.BATTERY_STATUS_DISCHARGING ||
                                             status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
-                                    && !MainApp.isPowerConnected) {
+                                    && !isPowerConnected) {
                                     val displayManager =
                                         requireContext().getSystemService(Context.DISPLAY_SERVICE)
                                                 as? DisplayManager

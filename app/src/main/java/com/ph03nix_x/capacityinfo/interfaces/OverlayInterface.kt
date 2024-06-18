@@ -23,6 +23,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
+import com.ph03nix_x.capacityinfo.MainApp.Companion.remainingBatteryTimeSeconds
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.databinding.OverlayLayoutBinding
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
@@ -427,12 +428,18 @@ interface OverlayInterface : BatteryInfoInterface {
                     pref.getString(OVERLAY_FONT, "6"),
                     pref.getString(OVERLAY_SIZE, "2"))
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
-                text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY, context.resources
-                        .getBoolean(R.bool.is_only_values_overlay))) R.string.remaining_battery_time
-                else R.string.remaining_battery_time_overlay_only_values, getRemainingBatteryTime(
-                    context))
+                if(remainingBatteryTimeSeconds % 15 == 0 ||
+                    OverlayService.instance?.isGetRemainingBatteryTime == true) {
+                    text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
+                            context.resources.getBoolean(R.bool.is_only_values_overlay)))
+                        R.string.remaining_battery_time else
+                        R.string.remaining_battery_time_overlay_only_values,
+                        getRemainingBatteryTime(context))
+                    if(OverlayService.instance?.isGetRemainingBatteryTime == true)
+                        OverlayService.instance?.isGetRemainingBatteryTime = false
+                }
                 visibility = if(pref.getBoolean(IS_REMAINING_BATTERY_TIME_OVERLAY, context
-                        .resources.getBoolean(R.bool.is_remaining_battery_time_overlay)) &&
+                    .resources.getBoolean(R.bool.is_remaining_battery_time_overlay)) &&
                     status != BatteryManager.BATTERY_STATUS_CHARGING) View.VISIBLE else View.GONE
             }
     }

@@ -7,6 +7,9 @@ import android.os.BatteryManager
 import android.os.IBinder
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.MainApp.Companion.isGooglePlay
+import com.ph03nix_x.capacityinfo.MainApp.Companion.isPowerConnected
+import com.ph03nix_x.capacityinfo.MainApp.Companion.remainingBatteryTimeSeconds
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface.Companion.isEnabledOverlay
@@ -24,6 +27,8 @@ class OverlayService : Service(), OverlayInterface {
 
     private var jobService: Job? = null
     private var isJob = false
+
+    var isGetRemainingBatteryTime = true
 
     companion object {
         var instance: OverlayService? = null
@@ -58,7 +63,11 @@ class OverlayService : Service(), OverlayInterface {
                         delay(if(getCurrentCapacity(this@OverlayService) > 0.0)
                             0.99.seconds else 1.seconds)
                     }
-                    else delay(1.seconds)
+                    else {
+                        delay(1.seconds)
+                        if(!isGetRemainingBatteryTime && !isPowerConnected)
+                            remainingBatteryTimeSeconds++
+                    }
                     withContext(Dispatchers.Main) {
                         if(isEnabledOverlay(this@OverlayService))
                             onUpdateOverlay(this@OverlayService)
@@ -72,12 +81,14 @@ class OverlayService : Service(), OverlayInterface {
     }
 
     override fun onDestroy() {
+        isGetRemainingBatteryTime = true
         isJob = false
         instance = null
         jobService?.cancel()
         jobService = null
         OverlayInterface.chargingTime = 0
         if(linearLayout?.windowToken != null) windowManager?.removeView(linearLayout)
+        if(MainActivity.instance == null) remainingBatteryTimeSeconds = 0
         super.onDestroy()
     }
 }
