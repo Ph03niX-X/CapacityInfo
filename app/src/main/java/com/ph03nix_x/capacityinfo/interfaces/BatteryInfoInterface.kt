@@ -608,7 +608,8 @@ interface BatteryInfoInterface {
         val currentCapacity = getCurrentCapacity(context)
         val dischargeCurrent = getChargeDischargeCurrent(context)
         return if(dischargeCurrent > 0.0) {
-            val remainingBatteryTime = ((currentCapacity / dischargeCurrent) * 3600.0).toLong()
+            val remainingBatteryTime = ((currentCapacity / ((dischargeCurrent +
+                    averageDischargeCurrent + minDischargeCurrent) / 3)) * 3600).toLong()
             TimeHelper.getTime(remainingBatteryTime)
         }
         else context.getString(R.string.unknown)
