@@ -46,7 +46,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     private var changeScreenTime: Preference? = null
     private var resetScreenTime: Preference? = null
     private var changeNominalBatteryVoltage: Preference? = null
-    private var batteryWearNew: Preference? = null
     private var numberOfHistoryForBatteryWearNew: Preference? = null
     private var addCustomHistory: Preference? = null
     private var addHistory: Preference? = null
@@ -82,8 +81,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         resetScreenTime = findPreference("reset_screen_time")
 
         changeNominalBatteryVoltage = findPreference(NOMINAL_BATTERY_VOLTAGE_PREF)
-
-        batteryWearNew = findPreference("battery_wear_new")
 
         numberOfHistoryForBatteryWearNew = findPreference(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW)
 
@@ -123,8 +120,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
         addFiftyHistory?.isEnabled = !HistoryHelper.isHistoryMax(requireContext())
 
-        batteryWearNew?.summary = getString(R.string.battery_wear_new_summary, "0%", "0")
-
         addNumberOfCycles?.setOnPreferenceClickListener {
             addNumberOfCyclesDialog()
             true
@@ -161,7 +156,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
         }
 
         numberOfHistoryForBatteryWearNew?.setOnPreferenceClickListener {
-            onNumberOfHHistoryForBatterWearNew(batteryWearNew)
+            onNumberOfHHistoryForBatterWearNew()
             true
         }
 
@@ -461,7 +456,6 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
 
     override fun onResume() {
         super.onResume()
-        batteryWearNew?.summary = getBatteryWearNew()
         historyCount?.summary = "${HistoryHelper.getHistoryCount(requireContext())}"
         if(!pref.getBoolean(PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS, resources.getBoolean(R.bool
                 .is_enabled_debug_options)))

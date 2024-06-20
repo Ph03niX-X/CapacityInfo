@@ -323,9 +323,6 @@
     <string name="show_battery_level_in_status_bar">Күй жолағында батарея деңгейін көрсету</string>
     <string name="support_and_unlock_premium_features">Қолдау &amp; Premium мүмкіндіктерін ашыңыз</string>
     <string name="add_number_of_cycles">Цикл санын қосу</string>
-    <string name="battery_wear_new">Батареяның тозуы (NEW)</string>
-    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
-    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Соңғы заряд</string>
     <string name="status_last_charge">Күй: %1$s</string>
     <string name="enable_wakelock">Wakelock қосу</string>

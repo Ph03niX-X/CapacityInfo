@@ -92,13 +92,6 @@
             android:key="nominal_battery_voltage"/>
 
         <Preference
-            android:title="@string/battery_wear_new"
-            android:summary="@string/battery_wear_new_summary"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_battery_wear_new"
-            android:key="battery_wear_new"/>
-
-        <Preference
             android:title="@string/number_of_history_for_battery_wear_new"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_number_of_history_for_battery_wear_new"

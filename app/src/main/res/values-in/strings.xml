@@ -323,9 +323,6 @@
     <string name="show_battery_level_in_status_bar">Tampilkan Tingkat Baterai di Bilah Status</string>
     <string name="support_and_unlock_premium_features">Dukungan &amp; Buka fitur Premium</string>
     <string name="add_number_of_cycles">Tambahkan Jumlah Siklus</string>
-    <string name="battery_wear_new">Keausan Baterai (NEW)</string>
-    <string name="battery_wear_new_summary">%1$s (%2$s mAh)</string>
-    <string name="battery_wear_new_wh_summary">%1$s (%2$s Wh)</string>
     <string name="last_charge">Tagihan Terakhir</string>
     <string name="status_last_charge">Status: %1$s</string>
     <string name="enable_wakelock">Aktifkan Wakelock</string>

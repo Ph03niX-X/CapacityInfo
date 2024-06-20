@@ -323,9 +323,6 @@
     <string name="show_battery_level_in_status_bar">Показувати рівень заряду в рядку стану</string>
     <string name="support_and_unlock_premium_features">Підтримати &amp; Розблокувати Premium функції</string>
     <string name="add_number_of_cycles">Додаті кількість циклів</string>
-    <string name="battery_wear_new">Знос акумулятора (NEW)</string>
-    <string name="battery_wear_new_summary">%1$s (%2$s мАг)</string>
-    <string name="battery_wear_new_wh_summary">%1$s (%2$s Втг)</string>
     <string name="last_charge">Остання зарядка</string>
     <string name="status_last_charge">Статус: %1$s</string>
     <string name="enable_wakelock">Увімкнути Wakelock</string>
