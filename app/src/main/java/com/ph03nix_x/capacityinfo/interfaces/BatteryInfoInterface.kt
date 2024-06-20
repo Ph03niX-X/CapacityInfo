@@ -8,6 +8,8 @@ import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService.Companion.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -18,6 +20,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
@@ -425,6 +428,22 @@ interface BatteryInfoInterface {
             R.string.residual_capacity_overlay_only_values, DecimalFormat("#.#").format(
             residualCapacity), "${DecimalFormat("#.#").format((
                 residualCapacity / designCapacity) * 100.0)}%")
+    }
+
+    fun getResidualCapacityAverage(context: Context, residualCapacity: Int): Int {
+        if(HistoryHelper.getHistoryCount(context) < context.resources.getInteger(
+                R.integer.number_of_history_for_battery_wear_new_default)) return residualCapacity
+        val historyList = HistoryDB(context).readDB()
+        val numberOfHistoryForBatteryWearNew = PreferenceManager.getDefaultSharedPreferences(context)
+            .getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+            context.resources.getInteger(R.integer.number_of_history_for_battery_wear_new_default))
+        var residualCapacityAverage = residualCapacity
+        for(i in historyList.lastIndex downTo historyList.lastIndex -
+                numberOfHistoryForBatteryWearNew + 1) {
+            residualCapacityAverage += historyList[i].residualCapacity
+        }
+        residualCapacityAverage /= numberOfHistoryForBatteryWearNew
+        return residualCapacityAverage
     }
 
     fun getStatus(context: Context, extraStatus: Int): String {

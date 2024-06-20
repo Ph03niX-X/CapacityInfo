@@ -404,6 +404,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     (currentCapacity.toDouble() +
                             ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
+        val residualCapacityAverage = getResidualCapacityAverage(this, residualCapacity)
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
@@ -419,7 +420,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         pref.edit().apply {
             val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
             if(seconds > 1) putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
-            putInt(RESIDUAL_CAPACITY, residualCapacity)
+            putInt(RESIDUAL_CAPACITY, residualCapacityAverage)
             putLong(NUMBER_OF_FULL_CHARGES, pref.getLong(NUMBER_OF_FULL_CHARGES, 0) + 1)
             putFloat(CAPACITY_ADDED, capacityAdded.toFloat())
             putInt(PERCENT_ADDED, percentAdded)
@@ -463,10 +464,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         withContext(Dispatchers.Main) {
             if(PremiumInterface.isPremium) {
-                if(residualCapacity > 0) {
+                if(residualCapacityAverage > 0) {
                     withContext(Dispatchers.IO) {
                         HistoryHelper.addHistory(this@CapacityInfoService, currentDate,
-                            residualCapacity)
+                            residualCapacityAverage)
                     }
                     if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
                         val historyFragment = HistoryFragment.instance
