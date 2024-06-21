@@ -72,6 +72,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
@@ -360,9 +361,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0L)
         val numberOfFullCharges = pref.getLong(NUMBER_OF_FULL_CHARGES, 0L)
+        val numberOfHistoryForBatteryWearNew = pref.getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+            resources.getInteger(R.integer.number_of_history_for_battery_wear_new_default))
         if((isInstalledGooglePlay && isGooglePlay &&
                     (numberOfFullCharges == 1L || (numberOfFullCharges > 0 &&
-                            numberOfFullCharges % 3 == 0L))) &&
+                            numberOfFullCharges % numberOfHistoryForBatteryWearNew == 0L))) &&
             pref.getBoolean(IS_REQUEST_RATE_THE_APP,
                 resources.getBoolean(R.bool.is_request_rate_the_app))) requestRateTheApp()
         if(pref.getBoolean(IS_ENABLE_CHECK_UPDATE, resources.getBoolean(
