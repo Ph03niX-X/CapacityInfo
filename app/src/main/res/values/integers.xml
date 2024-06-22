@@ -16,7 +16,7 @@
     <integer name="overlay_opacity_default">127</integer>
     <integer name="overlay_opacity_max">255</integer>
     <integer name="fast_charge_min">4500</integer>
-    <integer name="number_of_history_for_battery_wear_new_min">3</integer>
+    <integer name="number_of_history_for_battery_wear_new_min">2</integer>
     <integer name="number_of_history_for_battery_wear_new_default">4</integer>
     <integer name="nominal_battery_voltage_min">380</integer>
     <integer name="nominal_battery_voltage_default">387</integer>
