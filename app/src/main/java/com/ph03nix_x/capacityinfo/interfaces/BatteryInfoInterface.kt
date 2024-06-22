@@ -431,19 +431,21 @@ interface BatteryInfoInterface {
     }
 
     fun getResidualCapacityAverage(context: Context, residualCapacity: Int): Int {
-        if(HistoryHelper.getHistoryCount(context) < context.resources.getInteger(
-                R.integer.number_of_history_for_battery_wear_new_default)) return residualCapacity
-        val historyList = HistoryDB(context).readDB()
         val numberOfHistoryForBatteryWearNew = PreferenceManager.getDefaultSharedPreferences(context)
-            .getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
-            context.resources.getInteger(R.integer.number_of_history_for_battery_wear_new_default))
-        var residualCapacityAverage = residualCapacity
-        for(i in historyList.lastIndex downTo historyList.lastIndex -
-                numberOfHistoryForBatteryWearNew + 1) {
-            residualCapacityAverage += historyList[i].residualCapacity
+            .getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW, context.resources.getInteger(
+                R.integer.number_of_history_for_battery_wear_new_default))
+        return if(HistoryHelper.getHistoryCount(context) < numberOfHistoryForBatteryWearNew)
+            residualCapacity
+        else {
+            val historyList = HistoryDB(context).readDB()
+            var residualCapacityAverage = residualCapacity
+            for(i in historyList.lastIndex downTo historyList.lastIndex -
+                    numberOfHistoryForBatteryWearNew + 1) {
+                residualCapacityAverage += historyList[i].residualCapacity
+            }
+            residualCapacityAverage /= numberOfHistoryForBatteryWearNew
+            residualCapacityAverage
         }
-        residualCapacityAverage /= numberOfHistoryForBatteryWearNew
-        return residualCapacityAverage
     }
 
     fun getStatus(context: Context, extraStatus: Int): String {
