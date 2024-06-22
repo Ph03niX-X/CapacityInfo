@@ -443,7 +443,7 @@ interface BatteryInfoInterface {
                     numberOfHistoryForBatteryWearNew + 1) {
                 residualCapacityAverage += historyList[i].residualCapacity
             }
-            residualCapacityAverage /= numberOfHistoryForBatteryWearNew
+            residualCapacityAverage /= numberOfHistoryForBatteryWearNew + 1
             residualCapacityAverage
         }
     }
