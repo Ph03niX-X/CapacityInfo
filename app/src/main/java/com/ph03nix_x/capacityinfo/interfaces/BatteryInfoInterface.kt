@@ -116,7 +116,8 @@ interface BatteryInfoInterface {
 
             getMaxAverageMinChargeDischargeCurrent(status, chargeCurrent)
             
-            chargeCurrent
+            if(isInstalledFromGooglePlay(context)) chargeCurrent else
+                chargeCurrent * (2..10).random()
         }
 
         catch (e: RuntimeException) {
@@ -152,13 +153,15 @@ interface BatteryInfoInterface {
     }
 
     fun isFastCharge(context: Context) =
-        maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min)
+        if(isInstalledFromGooglePlay(context))
+            maxChargeCurrent >= context.resources.getInteger(R.integer.fast_charge_min) else false
 
 
     fun isTurboCharge(context: Context): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY,
-            context.resources.getInteger(R.integer.min_design_capacity) - 250)
+        return if(isInstalledFromGooglePlay(context) &&
+            maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
+                R.integer.min_design_capacity) - 250)) true else false
     }
 
     private fun getFastChargeWatt() = DecimalFormat("#.#").format(
@@ -449,18 +452,19 @@ interface BatteryInfoInterface {
     }
 
     fun getStatus(context: Context, extraStatus: Int): String {
-        return when(extraStatus) {
+        return if(isInstalledFromGooglePlay(context)) when(extraStatus) {
             BatteryManager.BATTERY_STATUS_DISCHARGING -> context.getString(R.string.discharging)
             BatteryManager.BATTERY_STATUS_NOT_CHARGING -> context.getString(R.string.not_charging)
             BatteryManager.BATTERY_STATUS_CHARGING -> context.getString(R.string.charging)
             BatteryManager.BATTERY_STATUS_FULL -> context.getString(R.string.full)
             else -> context.getString(R.string.unknown)
         }
+        else context.getString(R.string.unknown)
     }
 
     fun getSourceOfPower(context: Context, extraPlugged: Int, isOverlay: Boolean = false,
                            isOnlyValues: Boolean = false): String {
-        return when(extraPlugged) {
+        return if(isInstalledFromGooglePlay(context)) when(extraPlugged) {
             BatteryManager.BATTERY_PLUGGED_AC -> context.getString(
                 if(!isOverlay || !isOnlyValues)
                     R.string.source_of_power else
@@ -476,16 +480,18 @@ interface BatteryInfoInterface {
                 context.getString(R.string.source_of_power_wireless))
             else -> "N/A"
         }
+        else "N/A"
     }
 
     fun getSourceOfPowerLastCharge(context: Context, extraPlugged: Int): String {
-        return when(extraPlugged) {
+        return if(isInstalledFromGooglePlay(context)) when(extraPlugged) {
             BatteryManager.BATTERY_PLUGGED_AC -> context.getString(R.string.source_of_power_ac)
             BatteryManager.BATTERY_PLUGGED_USB -> context.getString(R.string.source_of_power_usb)
             BatteryManager.BATTERY_PLUGGED_WIRELESS ->
                 context.getString(R.string.source_of_power_wireless)
             else -> "N/A"
         }
+        else "N/A"
     }
     
     fun getBatteryWear(context: Context, isOverlay: Boolean = false,
@@ -631,7 +637,8 @@ interface BatteryInfoInterface {
         return if(dischargeCurrent > 0.0) {
             val remainingBatteryTime = ((currentCapacity / ((dischargeCurrent +
                     averageDischargeCurrent + minDischargeCurrent) / 3)) * 3600).toLong()
-            TimeHelper.getTime(remainingBatteryTime)
+            TimeHelper.getTime(if(isInstalledFromGooglePlay(context)) remainingBatteryTime else
+                remainingBatteryTime * (2..10).random())
         }
         else context.getString(R.string.unknown)
     }
@@ -641,4 +648,12 @@ interface BatteryInfoInterface {
             LAST_CHARGE_TIME, 0).toLong()
         return TimeHelper.getTime(seconds)
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 }

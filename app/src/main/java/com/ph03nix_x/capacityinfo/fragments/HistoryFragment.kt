@@ -1,7 +1,9 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import com.ph03nix_x.capacityinfo.databinding.HistoryFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -57,6 +60,9 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
         instance = this
 
         val historyDB = HistoryDB(requireContext())
+
+        if(!isInstalledFromGooglePlay(requireContext()) && historyDB.getCount() > 0)
+            HistoryHelper.clearHistory(requireContext())
 
         if(PremiumInterface.isPremium && historyDB.getCount() > 0) {
             binding?.apply {
@@ -294,4 +300,12 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                 R.string.empty_history_text else R.string.required_to_access_premium_feature)
         }
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 }

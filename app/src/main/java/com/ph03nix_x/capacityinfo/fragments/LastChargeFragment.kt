@@ -1,6 +1,8 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import com.ph03nix_x.capacityinfo.databinding.LastChargeFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
@@ -47,6 +50,8 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        if(!isInstalledFromGooglePlay(requireContext()))
+            throw RuntimeException("Application not installed from Google Play")
         binding = LastChargeFragmentBinding.inflate(inflater, container, false)
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         instance = this
@@ -200,4 +205,13 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
                 MIN_TEMP_CELSIUS_LAST_CHARGE, 0f)),
             DecimalFormat("#.#").format(pref.getFloat(
                 MIN_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)))
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
+
 }

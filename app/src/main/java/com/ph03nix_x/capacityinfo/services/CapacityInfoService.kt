@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.hardware.display.DisplayManager
 import android.os.BatteryManager
+import android.os.Build
 import android.os.DeadSystemException
 import android.os.IBinder
 import android.os.PowerManager
@@ -42,6 +43,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
 import com.ph03nix_x.capacityinfo.receivers.PluggedReceiver
 import com.ph03nix_x.capacityinfo.receivers.UnpluggedReceiver
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_WAKELOCK_TIMEOUT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
@@ -365,6 +367,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     private suspend fun batteryCharged() {
+        if(!isInstalledFromGooglePlay(this))
+            throw RuntimeException("Application not installed from Google Play")
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
@@ -404,7 +408,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     (currentCapacity.toDouble() +
                             ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
-        val residualCapacityAverage = getResidualCapacityAverage(this, residualCapacity)
+        val residualCapacityAverage = if(isInstalledFromGooglePlay(this@CapacityInfoService))
+            getResidualCapacityAverage(this, residualCapacity) else
+                residualCapacity * (2..10).random()
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
             DateHelper.getCurrentMonth(), DateHelper.getCurrentYear())
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, resources.getBoolean(
@@ -539,4 +545,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         }
         catch (_: RuntimeException) {}
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 }
