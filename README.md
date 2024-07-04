@@ -54,7 +54,7 @@ P.S If you have any suggestions for improving the application or you have found 
 </p>
 
 1.In order for the application to show the residual capacity, discharge the battery to 10% or lower and put the device on charge, while the service must be turned on.<br/>
-2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed.<br/>
+2.For a more accurate display of the remaining capacity, charge the device fully until "Status: Charged" is displayed at least 5 times.<br/>
 3.If charging occurs after reaching 100%, then this is normal. Modern devices continue to charge for some time after reaching 100%.<br/>
 4.If the design capacity is incorrect, change it in the application settings.<br/>
 5.If the current capacity and/or charge/discharge current and/or voltage is not displayed correctly, then change the unit in the application settings
