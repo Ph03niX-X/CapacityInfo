@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -104,7 +103,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        if(!isInstalledFromGooglePlay(requireContext()))
+        if(!isInstalledFromGooglePlay())
             throw RuntimeException("Application not installed from Google Play")
 
         addPreferencesFromResource(R.xml.settings)
@@ -779,10 +778,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     }
 
     @Suppress("DEPRECATION")
-    private fun isInstalledFromGooglePlay(context: Context) =
+    private fun isInstalledFromGooglePlay() =
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
-                context.packageName).installingPackageName
-        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
-            .getInstallerPackageName(context.packageName)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+                .getInstallSourceInfo(requireContext().packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+            .getInstallerPackageName(requireContext().packageName)
 }

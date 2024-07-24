@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -61,7 +60,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
         val historyDB = HistoryDB(requireContext())
 
-        if(!isInstalledFromGooglePlay(requireContext()) && PremiumInterface.isPremium &&
+        if(!isInstalledFromGooglePlay() && PremiumInterface.isPremium &&
             historyDB.getCount() > 0)
             throw RuntimeException("Application not installed from Google Play")
 
@@ -303,10 +302,10 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
     }
 
     @Suppress("DEPRECATION")
-    private fun isInstalledFromGooglePlay(context: Context) =
+    private fun isInstalledFromGooglePlay() =
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
-                context.packageName).installingPackageName
-        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
-            .getInstallerPackageName(context.packageName)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+                .getInstallSourceInfo(requireContext().packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+            .getInstallerPackageName(requireContext().packageName)
 }

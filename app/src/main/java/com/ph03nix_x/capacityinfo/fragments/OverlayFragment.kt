@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -120,7 +119,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
         addPreferencesFromResource(R.xml.overlay_settings)
 
-        if(!isInstalledFromGooglePlay(requireContext()))
+        if(!isInstalledFromGooglePlay())
             throw RuntimeException("Application not installed from Google Play")
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -516,12 +515,12 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
     }
 
     @Suppress("DEPRECATION")
-    private fun isInstalledFromGooglePlay(context: Context) =
+    private fun isInstalledFromGooglePlay() =
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
-                context.packageName).installingPackageName
-        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
-            .getInstallerPackageName(context.packageName)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+                .getInstallSourceInfo(requireContext().packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+            .getInstallerPackageName(requireContext().packageName)
 
     private fun getOverlayLocationSummary(): CharSequence? {
         if(pref.getString(OVERLAY_LOCATION, "${resources.getInteger(

@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.fragments
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -50,7 +49,7 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        if(!isInstalledFromGooglePlay(requireContext()))
+        if(!isInstalledFromGooglePlay())
             throw RuntimeException("Application not installed from Google Play")
         binding = LastChargeFragmentBinding.inflate(inflater, container, false)
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -207,11 +206,11 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
                 MIN_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)))
 
     @Suppress("DEPRECATION")
-    private fun isInstalledFromGooglePlay(context: Context) =
+    private fun isInstalledFromGooglePlay() =
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
-                context.packageName).installingPackageName
-        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
-            .getInstallerPackageName(context.packageName)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+                .getInstallSourceInfo(requireContext().packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
+            .getInstallerPackageName(requireContext().packageName)
 
 }

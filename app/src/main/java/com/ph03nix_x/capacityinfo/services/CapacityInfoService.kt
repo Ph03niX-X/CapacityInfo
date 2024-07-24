@@ -367,7 +367,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     private suspend fun batteryCharged() {
-        if(!isInstalledFromGooglePlay(this))
+        if(!isInstalledFromGooglePlay())
             throw RuntimeException("Application not installed from Google Play")
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
@@ -408,7 +408,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     (currentCapacity.toDouble() +
                             ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
             else currentCapacity
-        val residualCapacityAverage = if(isInstalledFromGooglePlay(this@CapacityInfoService))
+        val residualCapacityAverage = if(isInstalledFromGooglePlay())
             getResidualCapacityAverage(this, residualCapacity) else
                 residualCapacity * (2..10).random()
         val currentDate = DateHelper.getDate(DateHelper.getCurrentDay(),
@@ -547,10 +547,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     }
 
     @Suppress("DEPRECATION")
-    private fun isInstalledFromGooglePlay(context: Context) =
+    private fun isInstalledFromGooglePlay() =
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
-                context.packageName).installingPackageName
-        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
-            .getInstallerPackageName(context.packageName)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == packageManager.getInstallSourceInfo(packageName)
+                .installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == packageManager.getInstallerPackageName(packageName)
 }
