@@ -1,6 +1,8 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.Preference
@@ -17,6 +19,7 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.DebugOptionsInterface
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_CHECK_UPDATE
@@ -61,6 +64,9 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.debug_settings)
+
+        if(!isInstalledFromGooglePlay(requireContext()))
+            throw RuntimeException("Application not installed from Google Play")
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -477,4 +483,12 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
             else isResume = true
         }
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 }

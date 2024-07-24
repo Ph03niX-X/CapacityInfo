@@ -2,8 +2,10 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -33,6 +35,9 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.backup_settings)
+
+        if(!isInstalledFromGooglePlay(requireContext()))
+            throw RuntimeException("Application not installed from Google Play")
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -131,4 +136,12 @@ class BackupSettingsFragment : PreferenceFragmentCompat(), BackupSettingsInterfa
         if(isResume) exportHistory?.isEnabled = HistoryHelper.isHistoryNotEmpty(requireContext())
         else isResume = true
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 }

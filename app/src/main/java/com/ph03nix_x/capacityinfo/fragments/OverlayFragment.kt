@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -23,6 +24,7 @@ import com.ph03nix_x.capacityinfo.interfaces.OverlayInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.Constants.NUMBER_OF_CYCLES_PATH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_CHARGE_DISCHARGE_CURRENT_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AVERAGE_TEMPERATURE_OVERLAY
@@ -117,6 +119,9 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.overlay_settings)
+
+        if(!isInstalledFromGooglePlay(requireContext()))
+            throw RuntimeException("Application not installed from Google Play")
 
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
@@ -509,6 +514,14 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         if(isPremium && dialogRequestOverlayPermission == null && !canDrawOverlays)
             requestOverlayPermission()
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 
     private fun getOverlayLocationSummary(): CharSequence? {
         if(pref.getString(OVERLAY_LOCATION, "${resources.getInteger(

@@ -2,12 +2,14 @@ package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.TypefaceCompat
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
 
 object TextAppearanceHelper : PremiumInterface {
 
@@ -17,16 +19,26 @@ object TextAppearanceHelper : PremiumInterface {
         val isPremium = PremiumInterface.isPremium
         textViewArrayList.forEach {
             setTextSize(context, it, textSizePref)
-            val fontFamily = setTextFont(it.context, if(isPremium) textFontPref else "6")
+            val fontFamily = setTextFont(it.context,
+                if(isInstalledFromGooglePlay(context) && isPremium) textFontPref else "6")
             it.typeface = setTextStyle(it, textStylePref, fontFamily)
         }
     }
+
+    @Suppress("DEPRECATION")
+    private fun isInstalledFromGooglePlay(context: Context) =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager.getInstallSourceInfo(
+                context.packageName).installingPackageName
+        else Constants.GOOGLE_PLAY_PACKAGE_NAME == context.packageManager
+            .getInstallerPackageName(context.packageName)
 
     fun setTextAppearance(context: Context, textView: AppCompatTextView, textStylePref: String?,
                           textFontPref: String?, textSizePref: String?) {
         setTextSize(context, textView, textSizePref)
         val isPremium = PremiumInterface.isPremium
-        val fontFamily = setTextFont(textView.context, if(isPremium) textFontPref else "6")
+        val fontFamily = setTextFont(textView.context,
+            if(isInstalledFromGooglePlay(context) && isPremium) textFontPref else "6")
         textView.typeface = setTextStyle(textView, textStylePref, fontFamily)
     }
 

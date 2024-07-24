@@ -61,8 +61,9 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
         val historyDB = HistoryDB(requireContext())
 
-        if(!isInstalledFromGooglePlay(requireContext()) && historyDB.getCount() > 0)
-            HistoryHelper.clearHistory(requireContext())
+        if(!isInstalledFromGooglePlay(requireContext()) && PremiumInterface.isPremium &&
+            historyDB.getCount() > 0)
+            throw RuntimeException("Application not installed from Google Play")
 
         if(PremiumInterface.isPremium && historyDB.getCount() > 0) {
             binding?.apply {
