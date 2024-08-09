@@ -335,4 +335,9 @@
     <string name="number_of_history">Брой история</string>
     <string name="lock_overlay_location">Заключване на местоположение</string>
     <string name="not_installed_from_gp">Приложението не е инсталирано от Google Play. Моля, инсталирайте приложението от Google Play</string>
+    <string name="replace_of_device_battery">Смяна на устройство/батерия</string>
+    <string name="replace_of_device_battery_dialog">ВНИМАНИЕ! Някои данни от приложението ще бъдат изтрити. Използвайте тази опция само ако сте сменили устройството или батерията</string>
+    <string name="replace_of_device_battery_continue_dialog">Продължи</string>
+    <string name="replace_of_device_battery_success_dialog">Успешна смяна на устройството/батерията!</string>
+    <string name="replace_of_device_battery_error_dialog">Грешка \"Смяна на устройство/батерия\"!</string>
 </resources>
