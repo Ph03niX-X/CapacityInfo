@@ -335,4 +335,9 @@
     <string name="number_of_history">Тарих саны</string>
     <string name="lock_overlay_location">Құлыптау Орналасқан жері</string>
     <string name="not_installed_from_gp">Қолданба Google Play дүкенінен орнатылмаған. Қолданбаны Google Play дүкенінен орнатыңыз</string>
+    <string name="replace_of_device_battery">Құрылғыны/батареяны ауыстыру</ string>
+    <string name="replace_of_device_battery_dialog">НАЗАР АУДАРЫҢЫЗ! Кейбір қолданба деректері жойылады. Бұл опцияны құрылғыны немесе батареяны ауыстырған болсаңыз ғана пайдаланыңыз</string>
+    <string name="replace_of_device_battery_continue_dialog">Жалғастыру</string>
+    <string name="replace_of_device_battery_success_dialog">Құрылғыны/батареяны сәтті ауыстырыңыз!</string>
+    <string name="replace_of_device_battery_error_dialog">\"Құрылғыны/батареяны ауыстыру\" қатесі!</string>
 </resources>
