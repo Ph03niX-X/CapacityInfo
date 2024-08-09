@@ -334,4 +334,9 @@
     <string name="number_of_history">Anzahl der Historie</string>
     <string name="lock_overlay_location">Standort sperren</string>
     <string name="not_installed_from_gp">Die Anwendung wurde nicht von Google Play installiert. Bitte installieren Sie die Anwendung von Google Play</string>
+    <string name="replace_of_device_battery">Gerät/Batterie ersetzen</string>
+    <string name="replace_of_device_battery_dialog">WARNUNG! Einige Anwendungsdaten werden gelöscht. Verwenden Sie diese Option nur, wenn Sie das Gerät oder die Batterie ersetzt haben</string>
+    <string name="replace_of_device_battery_continue_dialog">Fortfahren</string>
+    <string name="replace_of_device_battery_success_dialog">Erfolg \"Gerät/Batterie ersetzen!"</string>
+    <string name="replace_of_device_battery_error_dialog">Fehler \"Gerät/Batterie ersetzen!"</string>
 </resources>
