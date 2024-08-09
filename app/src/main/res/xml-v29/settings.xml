@@ -236,6 +236,13 @@
                 android:key="overlay"/>
 
         <Preference
+            android:title="@string/replace_of_device_battery"
+            app:isPreferenceVisible="false"
+            android:icon="@drawable/ic_replace_of_device_battery_24"
+            app:singleLineTitle="false"
+            android:key="replace_of_device_battery"/>
+
+        <Preference
                 android:title="@string/reset_to_zero_the_number_of_charges"
                 app:isPreferenceVisible="false"
                 app:singleLineTitle="false"

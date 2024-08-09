@@ -13,10 +13,19 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.databases.History
+import com.ph03nix_x.capacityinfo.databases.HistoryDB
+import com.ph03nix_x.capacityinfo.databases.RESIDUAL_CAPACITY
 import com.ph03nix_x.capacityinfo.databinding.ChangeDesignCapacityDialogBinding
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.PERCENT_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_SIZE
@@ -135,6 +144,37 @@ interface SettingsInterface {
         }
     }
 
+    fun SettingsFragment.replaceOfDeviceBatteryDialog() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setIcon(R.drawable.ic_instruction_not_supported_24dp)
+            setTitle(R.string.information)
+            setMessage(R.string.replace_of_device_battery_dialog)
+            setPositiveButton(R.string.replace_of_device_battery_continue_dialog) { _, _ ->
+                replaceOfDeviceBattery()
+            }
+            setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
+            show()
+        }
+    }
+
+    private fun SettingsFragment.replaceOfDeviceBattery() {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val prefArrays = arrayOf(CAPACITY_ADDED, PERCENT_ADDED, NUMBER_OF_CHARGES,
+            RESIDUAL_CAPACITY, NUMBER_OF_CYCLES, NUMBER_OF_FULL_CHARGES)
+        var isRemovePref = false
+        HistoryHelper.clearHistory(requireContext())
+        val isClearHistory = HistoryHelper.isHistoryEmpty(requireContext())
+        with(pref) {
+            prefArrays.forEach {
+                if(contains(it)) edit().remove(it).apply()
+                isRemovePref = !contains(it)
+            }
+        }
+        Toast.makeText(requireContext(), if(isClearHistory && isRemovePref)
+            R.string.replace_of_device_battery_success_dialog else
+                R.string.replace_of_device_battery_error_dialog, Toast.LENGTH_LONG).show()
+    }
+
     fun SettingsFragment.onChangeDesignCapacity(designCapacity: Preference? = null) {
 
         onChangeDesignCapacity(requireContext(), designCapacity)
@@ -211,7 +251,6 @@ interface SettingsInterface {
                             Toast.LENGTH_LONG).show()
                         false
                     }
-
                 }
             })
         }

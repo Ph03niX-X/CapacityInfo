@@ -92,6 +92,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var moreOther: Preference? = null
     private var changeDesignCapacity: Preference? = null
     private var overlay: Preference? = null
+    private var replaceOfDeviceBattery: Preference? = null
     private var resetToZeroTheNumberOfCharges: Preference? = null
     private var resetToZeroTheNumberOfCycles: Preference? = null
     private var resetTheNumberOfFullChargesToZero: Preference? = null
@@ -327,6 +328,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         overlay = findPreference("overlay")
 
+        replaceOfDeviceBattery = findPreference("replace_of_device_battery")
+
         resetToZeroTheNumberOfCharges = findPreference("reset_to_zero_the_number_of_charges")
 
         resetToZeroTheNumberOfCycles = findPreference("reset_to_zero_the_number_of_cycles")
@@ -403,18 +406,22 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     if(isVisible) summary = if(premium?.isVisible == true)
                         getString(R.string.premium_feature) else null
                 }
+                replaceOfDeviceBattery?.apply {
+                    isVisible = true
+                    setOnPreferenceClickListener {
+                        replaceOfDeviceBatteryDialog()
+                        true
+                    }
+                }
                 resetToZeroTheNumberOfCharges?.apply {
-
                     isVisible = true
                     isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
                 }
                 resetToZeroTheNumberOfCycles?.apply {
-
                     isVisible = true
                     isEnabled = pref.getFloat(NUMBER_OF_CYCLES,0f) > 0f
                 }
                 resetTheNumberOfFullChargesToZero?.apply {
-
                     isVisible = true
                     isEnabled = pref.getLong(NUMBER_OF_FULL_CHARGES, 0) > 0
                 }
@@ -437,6 +444,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 voltageUnit?.isVisible = false
                 changeDesignCapacity?.isVisible = false
                 overlay?.isVisible = false
+                replaceOfDeviceBattery?.isVisible = false
                 resetToZeroTheNumberOfCharges?.isVisible = false
                 resetToZeroTheNumberOfCycles?.isVisible = false
                 resetTheNumberOfFullChargesToZero?.isVisible = false
