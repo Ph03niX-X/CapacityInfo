@@ -335,4 +335,9 @@
     <string name="number_of_history">Колькасць гісторыі</string>
     <string name="lock_overlay_location">Заблакаваць размяшчэнне</string>
     <string name="not_installed_from_gp">Прыкладанне было ўстаноўлена не з Google Play. Калі ласка, усталюйце дадатак з Google Play</string>
+    <string name="replace_of_device_battery">Замена прылады/акумулятара</string>
+    <string name="replace_of_device_battery_dialog">УВАГА! Будуць выдалены некаторыя дадзеныя прыкладання. Выкарыстоўвайце гэтую опцыю толькі калі вы замянілі прыладу ці акумулятар</string>
+    <string name="replace_of_device_battery_continue_dialog">Працягнуць</string>
+    <string name="replace_of_device_battery_success_dialog">Поспех \"Замена прылады/акумулятара\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Памылка \"Замена прылады/акумулятара\"!</string>
 </resources>
