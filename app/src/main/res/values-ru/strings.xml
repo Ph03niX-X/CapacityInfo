@@ -335,4 +335,9 @@
     <string name="number_of_history">Количество истории</string>
     <string name="lock_overlay_location">Заблокировать расположение</string>
     <string name="not_installed_from_gp">Приложение было установлено не из Google Play. Пожалуйста, установите приложение из Google Play</string>
+    <string name="replace_of_device_battery">Замена устройства/аккумулятора</string>
+    <string name="replace_of_device_battery_dialog">ВНИМАНИЕ! Будут удалены некоторые данные приложения. Используйте эту опцию только если вы заменили устройство или аккумулятор</string>
+    <string name="replace_of_device_battery_continue_dialog">Продолжить</string>
+    <string name="replace_of_device_battery_success_dialog">Успех \"Замена устройства/аккумулятора\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Ошибка \"Замена устройства/аккумулятора\"!</string>
 </resources>
