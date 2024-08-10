@@ -335,4 +335,9 @@
     <string name="number_of_history">Numéro de l\'historique</string>
     <string name="lock_overlay_location">Emplacement de verrouillage</string>
     <string name="not_installed_from_gp">L\'application n\'a pas été installée depuis Google Play. Veuillez installer l\'application à partir de Google Play</string>
+    <string name="replace_of_device_battery">Remplacement de l\'appareil/de la batterie</string>
+    <string name="replace_of_device_battery_dialog">ATTENTION! Certaines données de l\'application seront supprimées. Utilisez cette option uniquement si vous avez remplacé l\'appareil ou la batterie!</string>
+    <string name="replace_of_device_battery_continue_dialog">Continuer</string>
+    <string name="replace_of_device_battery_success_dialog">Succès \"Remplacement de l\'appareil/de la batterie\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Erreur \"Remplacement de l\'appareil/de la batterie\"!</string>
     </resources>
