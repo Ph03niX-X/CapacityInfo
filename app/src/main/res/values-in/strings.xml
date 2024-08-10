@@ -335,4 +335,9 @@
     <string name="number_of_history">Jumlah Sejarah</string>
     <string name="lock_overlay_location">Lokasi Kunci</string>
     <string name="not_installed_from_gp">Aplikasi tidak terinstal dari Google Play. Silakan instal aplikasi dari Google Play</string>
+    <string name="replace_of_device_battery">Ganti Perangkat/Baterai</string>
+    <string name="replace_of_device_battery_dialog">PERINGATAN! Beberapa data aplikasi akan dihapus. Gunakan opsi ini hanya jika Anda telah mengganti perangkat atau baterai!</string>
+    <string name="replace_of_device_battery_continue_dialog">Lanjutkan</string>
+    <string name="replace_of_device_battery_success_dialog">Berhasil \"Ganti Perangkat/Baterai\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Kesalahan \"Ganti Perangkat/Baterai\"!</string>
     </resources>
