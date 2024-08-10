@@ -335,4 +335,9 @@
     <string name="number_of_history">Numero di Storia</string>
     <string name="lock_overlay_location">Blocca posizione</string>
     <string name="not_installed_from_gp">L\'applicazione non è stata installata da Google Play. Installare l\'applicazione da Google Play</string>
+    <string name="replace_of_device_battery">Sostituzione del dispositivo/batteria</string>
+    <string name="replace_of_device_battery_dialog">ATTENZIONE! Alcuni dati dell\'app verranno eliminati. Utilizza questa opzione solo se hai sostituito il dispositivo o la batteria!</string>
+    <string name="replace_of_device_battery_continue_dialog">Continua</string>
+    <string name="replace_of_device_battery_success_dialog">Riuscito \"Sostituzione del dispositivo/batteria\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Errore \"Sostituzione del dispositivo/batteria\"!</string>
     </resources>
