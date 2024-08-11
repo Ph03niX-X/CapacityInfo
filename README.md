@@ -69,7 +69,7 @@ If you charge your device with fast charging, enable the "Fast Charge" option in
 </p>
 
 Question: How does the app work?<br/>
-Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged". The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the kernel itself.
+Answer: Residual capacity is formed on the basis of the current capacity upon reaching 100% and the status of "Charged" (up to the last 5 charges). The current capacity is taken from the kernel of the OS, by the Android API itself, which allows you to get the current capacity without root rights. The kernel takes the current capacity from the battery itself and writes it to the "charge_counter" file (file path: /sys/class/power_supply/battery). On how accurate the current capacity depends on the battery and the kernel itself.
 
 Question: What is considered to be "Capacity Added"?<br/>
 Answer: "Capacity Added" is considered very simple: the current capacity - capacity, which was before you connected the charging.
