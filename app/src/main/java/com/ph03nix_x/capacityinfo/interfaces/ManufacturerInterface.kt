@@ -8,9 +8,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import xyz.kumaraswamy.autostart.Autostart
 import xyz.kumaraswamy.autostart.Utils
 import java.util.Locale
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Created by Ph03niX-X on 21.06.2023
@@ -20,12 +25,15 @@ import java.util.Locale
 interface ManufacturerInterface {
 
     fun MainActivity.checkManufacturer() {
-        try {
-            if(showXiaomiAutostartDialog == null && isXiaomi()
-                && !Autostart.isAutoStartEnabled(this)) showXiaomiAutoStartDialog()
-            else if(isHuawei()) showHuaweiInfo()
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                delay(3.seconds)
+                if(showXiaomiAutostartDialog == null && !isXiaomi()
+                    && !Autostart.isAutoStartEnabled(this@checkManufacturer)) showXiaomiAutoStartDialog()
+                else if(isHuawei()) showHuaweiInfo()
+            }
+            catch (_: Exception) { return@launch }
         }
-        catch (_: Exception) { return }
     }
 
     private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
@@ -45,7 +53,7 @@ interface ManufacturerInterface {
     }
 
     private fun MainActivity.showXiaomiAutoStartDialog() {
-        if(showXiaomiAutostartDialog == null && isXiaomi()
+        if(showXiaomiAutostartDialog == null && !isXiaomi()
             && !Autostart.isAutoStartEnabled(this)) {
             isShowXiaomiBackgroundActivityControlDialog = true
             showXiaomiAutostartDialog = MaterialAlertDialogBuilder(this).apply {
