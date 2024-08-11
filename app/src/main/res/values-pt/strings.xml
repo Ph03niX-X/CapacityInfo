@@ -334,4 +334,9 @@
     <string name="number_of_history">Número do histórico</string>
     <string name="lock_overlay_location">Trancar localização</string>
     <string name="not_installed_from_gp">A aplicação não foi instalada a partir do Google Play. Por favor, instale a aplicação a partir do Google Play</string>
+    <string name="replace_of_device_battery">Substituir dispositivo/bateria</string>
+    <string name="replace_of_device_battery_dialog">AVISO! Alguns dados da aplicação serão eliminados. Use esta opção apenas se tiver substituído o dispositivo ou a bateria!</string>
+    <string name="replace_of_device_battery_continue_dialog">Continuar</string>
+    <string name="replace_of_device_battery_success_dialog">Sucesso \"Substituir dispositivo/bateria\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Erro \"Substituir dispositivo/bateria\"!</string>
     </resources>
