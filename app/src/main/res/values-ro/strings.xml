@@ -335,4 +335,9 @@
     <string name="number_of_history">Număr de istoric</string>
     <string name="lock_overlay_location">Blocați locația</string>
     <string name="not_installed_from_gp">Aplicația nu a fost instalată din Google Play. Vă rugăm să instalați aplicația din Google Play</string>
+    <string name="replace_of_device_battery">Înlocuirea dispozitivului/bateriei</string>
+    <string name="replace_of_device_battery_dialog">ATENȚIE! Unele date ale aplicației vor fi șterse. Utilizați această opțiune numai dacă ați înlocuit dispozitivul sau bateria!</string>
+    <string name="replace_of_device_battery_continue_dialog">Continue</string>
+    <string name="replace_of_device_battery_success_dialog">Succes \"Înlocuirea dispozitivului/bateriei\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Error \"Înlocuirea dispozitivului/bateriei\"!</string>
     </resources>
