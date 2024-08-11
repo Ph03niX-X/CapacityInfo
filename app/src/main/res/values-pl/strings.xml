@@ -335,4 +335,9 @@
     <string name="number_of_history">Liczba historii</string>
     <string name="lock_overlay_location">Zablokuj Położenie</string>
     <string name="not_installed_from_gp">Aplikacja nie została zainstalowana z Google Play. Zainstaluj aplikację z Google Play</string>
+    <string name="replace_of_device_battery">Wymiana urządzenia/baterii</string>
+    <string name="replace_of_device_battery_dialog">OSTRZEŻENIE! Niektóre dane aplikacji zostaną usunięte. Użyj tej opcji tylko po wymianie urządzenia lub baterii!</string>
+    <string name="replace_of_device_battery_continue_dialog">Kontynuuj</string>
+    <string name="replace_of_device_battery_success_dialog">Success \"Wymiana urządzenia/baterii\"!</string>
+    <string name="replace_of_device_battery_error_dialog">Błąd \"Wymiana urządzenia/baterii\"!</string>
     </resources>
