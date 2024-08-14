@@ -406,13 +406,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     if(isVisible) summary = if(premium?.isVisible == true)
                         getString(R.string.premium_feature) else null
                 }
-                replaceOfDeviceBattery?.apply {
-                    isVisible = true
-                    setOnPreferenceClickListener {
-                        replaceOfDeviceBatteryDialog()
-                        true
-                    }
-                }
+                replaceOfDeviceBattery?.isVisible = true
                 resetToZeroTheNumberOfCharges?.apply {
                     isVisible = true
                     isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
@@ -565,6 +559,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                     }
                     true
                 }
+        }
+
+        replaceOfDeviceBattery?.setOnPreferenceClickListener {
+            replaceOfDeviceBatteryDialog()
+            true
         }
 
         resetToZeroTheNumberOfCharges?.setOnPreferenceClickListener {
