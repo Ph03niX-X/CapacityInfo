@@ -333,9 +333,17 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     if(!isPremium) {
                         removePremiumFeatures(premiumContext!!)
                         MainApp.isRequestPurchasePremium = true
+                        delay(5.seconds)
+                        billingClient?.endConnection()
+                        billingClient = null
                     }
                 }
-                else MainApp.isRequestPurchasePremium = false
+                else {
+                    MainApp.isRequestPurchasePremium = false
+                    delay(5.seconds)
+                    billingClient?.endConnection()
+                    billingClient = null
+                }
            }
         }
     }
@@ -365,6 +373,9 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                     MainApp.isRequestPurchasePremium = !isPremium
+                    delay(5.seconds)
+                    billingClient?.endConnection()
+                    billingClient = null
                 }
                 if(!isPremium) removePremiumFeatures(this@checkPremiumJob)
             }
