@@ -36,6 +36,7 @@ import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
+import com.ph03nix_x.capacityinfo.receivers.CheckPremiumReceiver
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CheckPremiumJob
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -367,6 +368,45 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 }
                 if(!isPremium) removePremiumFeatures(this@checkPremiumJob)
             }
+        }
+    }
+
+    fun CheckPremiumReceiver.checkPremium(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            Toast.makeText(context, context.getString(R.string.checking_premium),
+                Toast.LENGTH_LONG).show()
+            val pref = PreferenceManager.getDefaultSharedPreferences(context)
+            if(billingClient?.isReady != true) initiateBilling(false)
+            delay(2.5.seconds)
+            if(billingClient?.isReady == true) {
+                val params = QueryPurchaseHistoryParams.newBuilder()
+                    .setProductType(ProductType.INAPP)
+                val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
+                val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+                if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+                    pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
+                        .apply()
+                    val tokenPref = pref.getString(TOKEN_PREF, null)
+                    isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                    MainApp.isRequestPurchasePremium = !isPremium
+                    delay(5.seconds)
+                    billingClient?.endConnection()
+                    billingClient = null
+                }
+                else {
+                    if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
+                    val tokenPref = pref.getString(TOKEN_PREF, null)
+                    isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
+                    MainApp.isRequestPurchasePremium = !isPremium
+                    delay(5.seconds)
+                    billingClient?.endConnection()
+                    billingClient = null
+                }
+                Toast.makeText(context, context.getString(R.string.successful_premium_check,
+                    "$isPremium"), Toast.LENGTH_LONG).show()
+            }
+            else Toast.makeText(context, context.getString(R.string.premium_check_error),
+                Toast.LENGTH_LONG).show()
         }
     }
 

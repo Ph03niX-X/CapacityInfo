@@ -136,6 +136,18 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.CheckPremiumReceiver" android:exported="true">
+
+            <intent-filter>
+
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+
+                <!--CICHECKPREMIUM-->
+                <data android:scheme="android_secret_code"/>
+                <data android:host="24243257736486"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
