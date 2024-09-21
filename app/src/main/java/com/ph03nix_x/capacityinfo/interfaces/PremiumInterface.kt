@@ -390,8 +390,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
 
     fun CheckPremiumReceiver.checkPremium(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            Toast.makeText(context, context.getString(R.string.checking_premium),
-                Toast.LENGTH_LONG).show()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, context.getString(R.string.checking_premium),
+                    Toast.LENGTH_LONG).show()
+            }
             val pref = PreferenceManager.getDefaultSharedPreferences(context)
             if(billingClient?.isReady != true) initiateBilling(false)
             delay(2.5.seconds)
@@ -423,11 +425,17 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     billingClient?.endConnection()
                     billingClient = null
                 }
-                Toast.makeText(context, context.getString(R.string.successful_premium_check,
-                    "$isPremium"), Toast.LENGTH_LONG).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, context.getString(R.string.successful_premium_check,
+                        "$isPremium"), Toast.LENGTH_LONG).show()
+                }
             }
-            else Toast.makeText(context, context.getString(R.string.premium_check_error),
-                Toast.LENGTH_LONG).show()
+            else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, context.getString(R.string.premium_check_error),
+                        Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
