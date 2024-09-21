@@ -53,7 +53,7 @@ fun getBuildDate(): String {
 }
 dependencies {
     val kotlinVersion = rootProject.extra.get("kotlin_version") as String
-    val coroutinesVersion = "1.8.1"
+    val coroutinesVersion = "1.9.0"
     val billingVersion = "7.0.0"
     val miuiAutoStart = "v1.3"
 
