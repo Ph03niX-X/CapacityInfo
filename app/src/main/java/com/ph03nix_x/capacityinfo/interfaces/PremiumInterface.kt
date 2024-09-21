@@ -322,8 +322,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                            .apply()
                        tokenPref = pref.getString(TOKEN_PREF, null)
                        isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                       MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
-                           isPremium
+                       withContext(Dispatchers.Main) {
+                           MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
+                               isPremium
+                       }
                        if(!isPremium) {
                            removePremiumFeatures(premiumContext!!)
                            MainApp.isRequestPurchasePremium = true
@@ -365,8 +367,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                         .apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
-                        isPremium
+                    withContext(Dispatchers.Main) {
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
+                            isPremium
+                    }
                     MainApp.isRequestPurchasePremium = !isPremium
                     delay(5.seconds)
                     billingClient?.endConnection()
@@ -376,8 +380,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
-                        isPremium
+                    withContext(Dispatchers.Main) {
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
+                            isPremium
+                    }
                     MainApp.isRequestPurchasePremium = !isPremium
                     delay(5.seconds)
                     billingClient?.endConnection()
@@ -407,8 +413,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                         .apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
-                        isPremium
+                    withContext(Dispatchers.Main) {
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
+                            isPremium
+                    }
                     MainApp.isRequestPurchasePremium = !isPremium
                     delay(5.seconds)
                     billingClient?.endConnection()
@@ -418,8 +426,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
-                    MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
-                        isPremium
+                    withContext(Dispatchers.Main) {
+                        MainActivity.instance?.toolbar?.menu?.findItem(R.id.premium)?.isVisible =
+                            isPremium
+                    }
                     MainApp.isRequestPurchasePremium = !isPremium
                     delay(5.seconds)
                     billingClient?.endConnection()
