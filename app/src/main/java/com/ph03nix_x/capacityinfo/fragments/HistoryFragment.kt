@@ -287,6 +287,7 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
     }
 
     fun emptyHistory() {
+        MainActivity.instance?.toolbar?.title = getString(R.string.history)
         MainActivity.instance?.toolbar?.menu?.apply {
             findItem(R.id.history_premium)?.isVisible = false
             findItem(R.id.clear_history)?.isVisible = false

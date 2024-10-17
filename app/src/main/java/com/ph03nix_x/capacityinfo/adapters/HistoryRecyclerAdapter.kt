@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.databinding.HistoryRecyclerListItemBinding
@@ -16,6 +17,7 @@ import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
+import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import java.text.DecimalFormat
 
@@ -130,9 +132,7 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
     }
 
     fun update(context: Context) {
-
         pref = PreferenceManager.getDefaultSharedPreferences(context)
-
         if(HistoryHelper.getHistoryCount(context) > historyList.count()) {
             historyList = HistoryDB(context).readDB()
             notifyItemInserted(0)
@@ -142,12 +142,18 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             historyList = HistoryDB(context).readDB()
             notifyItemRangeChanged(0, itemCount - 1)
         }
+        MainActivity.instance?.toolbar?.title = context.getString(if(isPremium &&
+            historyList.isNotEmpty()) R.string.history_title else R.string.history,
+            historyList.count(), Constants.HISTORY_COUNT_MAX)
     }
 
     fun remove(context: Context, position: Int) {
         if(position >= 0) {
             historyList.removeAt(itemCount - 1 - position)
             notifyItemRemoved(position)
+            MainActivity.instance?.toolbar?.title = context.getString(if(isPremium &&
+                historyList.isNotEmpty()) R.string.history_title else R.string.history,
+                historyList.count(), Constants.HISTORY_COUNT_MAX)
             if(HistoryHelper.isHistoryEmpty(context)) {
                 HistoryFragment.instance?.emptyHistory()
             }
@@ -158,6 +164,9 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
         if(position >= 0) {
             historyList = HistoryDB(context).readDB()
             notifyItemInserted(position)
+            MainActivity.instance?.toolbar?.title = context.getString(if(isPremium &&
+                historyList.isNotEmpty()) R.string.history_title else R.string.history,
+                historyList.count(), Constants.HISTORY_COUNT_MAX)
         }
     }
 }

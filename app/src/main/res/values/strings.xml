@@ -226,6 +226,7 @@
     <string name="stop_overlay_service">Stop Overlay Service</string>
     <string name="restart_overlay_service">Restart Overlay Service</string>
     <string name="history">History</string>
+    <string name="history_title">History (%1$d/%2$d)</string>
     <string name="add_custom_history">Add Custom History</string>
     <string name="add_history">Add History</string>
     <string name="add_ten_history">Add 10 History</string>

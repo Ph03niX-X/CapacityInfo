@@ -42,6 +42,7 @@ import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
@@ -195,7 +196,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else R.string.discharge)
             is LastChargeFragment -> getString(R.string.last_charge)
             is WearFragment -> getString(R.string.wear)
-            is HistoryFragment -> getString(R.string.history)
+            is HistoryFragment -> getString(if(isPremium && HistoryHelper.isHistoryNotEmpty(this))
+                R.string.history_title else R.string.history, HistoryHelper.getHistoryCount(this),
+                Constants.HISTORY_COUNT_MAX)
             is SettingsFragment -> getString(R.string.settings)
             is DebugFragment -> getString(R.string.debug)
             else -> getString(R.string.app_name)
@@ -296,7 +299,9 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else R.string.discharge)
             is WearFragment -> getString(R.string.wear)
             is LastChargeNoPremiumFragment, is LastChargeFragment -> getString(R.string.last_charge)
-            is HistoryFragment -> getString(R.string.history)
+            is HistoryFragment -> getString(if(isPremium && HistoryHelper.isHistoryNotEmpty(this))
+                R.string.history_title else R.string.history, HistoryHelper.getHistoryCount(this),
+                Constants.HISTORY_COUNT_MAX)
             is SettingsFragment -> getString(R.string.settings)
             is BatteryStatusInformationFragment -> getString(R.string.battery_status_information)
             is OverlayFragment -> getString(R.string.overlay)

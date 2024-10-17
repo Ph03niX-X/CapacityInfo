@@ -6,10 +6,12 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
+import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.adapters.HistoryAdapter
 import com.ph03nix_x.capacityinfo.databases.History
 import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
+import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
 
 object HistoryHelper {
@@ -39,19 +41,14 @@ object HistoryHelper {
     fun isHistoryNotEmpty(context: Context) = !isHistoryEmpty(context)
 
     fun clearHistory(context: Context, clearHistoryToolbarMenu: MenuItem) {
-
         if(HistoryAdapter.instance?.getHistoryList().isNullOrEmpty())
             Toast.makeText(context, context.getString(R.string.error_clearing_history),
                 Toast.LENGTH_LONG).show()
         else if(isHistoryNotEmpty(context))
             MaterialAlertDialogBuilder(context).apply {
-
                 setMessage(context.getString(R.string.clear_the_history_dialog_message))
-
                 setPositiveButton(context.getString(android.R.string.ok)) { _, _ ->
-
                     try {
-
                         clearHistory(context)
                         val isHistoryNotEmpty = isHistoryNotEmpty(context)
                         clearHistoryToolbarMenu.isVisible = isHistoryNotEmpty
@@ -84,8 +81,13 @@ object HistoryHelper {
                             .error_clearing_history)}\n${e.message ?: e.toString()}",
                             Toast.LENGTH_LONG).show()
                     }
+                    finally {
+                        MainActivity.instance?.toolbar?.title = context.getString(
+                            if(PremiumInterface.isPremium && isHistoryNotEmpty(context))
+                                R.string.history_title else R.string.history,
+                            getHistoryCount(context), Constants.HISTORY_COUNT_MAX)
+                    }
                 }
-
                 setNegativeButton(context.getString(android.R.string.cancel)) { d, _ -> d.dismiss() }
                 show()
             }

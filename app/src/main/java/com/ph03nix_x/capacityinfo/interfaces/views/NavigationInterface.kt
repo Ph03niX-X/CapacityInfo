@@ -17,8 +17,10 @@ import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
+import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
+import com.ph03nix_x.capacityinfo.utilities.Constants
 
 /**
  * Created by Ph03niX-X on 21.06.2023
@@ -103,7 +105,11 @@ interface NavigationInterface : BatteryInfoInterface {
                             if(fragment !is HistoryFragment) {
                                 fragment = HistoryFragment()
                                 toolbar.apply {
-                                    title = getString(R.string.history)
+                                    title = getString(if(PremiumInterface.isPremium &&
+                                        HistoryHelper.isHistoryNotEmpty(this@bottomNavigation))
+                                        R.string.history_title else R.string.history, HistoryHelper
+                                            .getHistoryCount(this@bottomNavigation),
+                                        Constants.HISTORY_COUNT_MAX)
                                     navigationIcon = null
                                 }
                                 MainActivity.apply {
