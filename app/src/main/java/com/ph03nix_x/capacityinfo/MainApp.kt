@@ -109,6 +109,6 @@ class MainApp : Application(), PremiumInterface {
             true
         }
 
-        catch(e: PackageManager.NameNotFoundException) { false }
+        catch(_: PackageManager.NameNotFoundException) { false }
     }
 }

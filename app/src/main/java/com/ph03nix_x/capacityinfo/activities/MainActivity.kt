@@ -482,7 +482,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
                     pref.edit().putBoolean(IS_REQUEST_RATE_THE_APP, false).apply()
                 }
-                catch(e: ActivityNotFoundException) {
+                catch(_: ActivityNotFoundException) {
                     Toast.makeText(this@MainActivity, getString(
                         R.string.unknown_error), Toast.LENGTH_LONG).show()
                 }
