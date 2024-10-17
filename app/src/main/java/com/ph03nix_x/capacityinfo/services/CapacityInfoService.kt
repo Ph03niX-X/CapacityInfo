@@ -251,8 +251,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             onNotifyOverheatOvercool(this@CapacityInfoService, temperature)
                         }
 
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING
-                        && !isStopService && secondsFullCharge < 3600) batteryCharging()
+                    if(status == BatteryManager.BATTERY_STATUS_CHARGING && !isStopService &&
+                        secondsFullCharge < 3600 && secondsFullCharge >= 0) batteryCharging()
+                    else if(status == BatteryManager.BATTERY_STATUS_CHARGING && !isStopService &&
+                        secondsFullCharge >= 3600) batteryCharged()
 
                     else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected &&
                         !isFull && !isStopService) batteryCharged()
@@ -333,11 +335,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
         }
         if(batteryLevel == 100) {
-            if(secondsFullCharge >= 3600) batteryCharged()
             currentCapacity = (getCurrentCapacity(this@CapacityInfoService) * if(pref.getString(
                     UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
                 1000.0 else 100.0).toInt()
-            secondsFullCharge++
+            if(secondsFullCharge >= 0) secondsFullCharge++
         }
         val displayManager = getSystemService(DISPLAY_SERVICE)
                 as? DisplayManager
@@ -368,6 +369,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
     private suspend fun batteryCharged() {
         if(!isInstalledFromGooglePlay())
             throw RuntimeException("Application not installed from Google Play")
+        secondsFullCharge = -1
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN
