@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.services
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
@@ -183,7 +182,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                                 status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
                         && !isPowerConnected) {
 
-                        val displayManager = getSystemService(Context.DISPLAY_SERVICE)
+                        val displayManager = getSystemService(DISPLAY_SERVICE)
                                 as? DisplayManager
 
                         if(displayManager != null)
@@ -206,8 +205,8 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(!isGooglePlay || (pref.getBoolean(IS_ENABLE_WAKELOCK, resources.getBoolean(
                             R.bool.is_enable_wakelock)) && wakeLock == null && !isFull
                                 && isPowerConnected)) {
-                        if(powerManager == null) powerManager = getSystemService(Context
-                            .POWER_SERVICE) as PowerManager
+                        if(powerManager == null) powerManager = getSystemService(POWER_SERVICE) as
+                                PowerManager
                         wakeLock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                             "${packageName}:service_wakelock")
                         if(wakeLock?.isHeld != true) wakeLock?.acquire(SERVICE_WAKELOCK_TIMEOUT)
@@ -340,7 +339,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 1000.0 else 100.0).toInt()
             secondsFullCharge++
         }
-        val displayManager = getSystemService(Context.DISPLAY_SERVICE)
+        val displayManager = getSystemService(DISPLAY_SERVICE)
                 as? DisplayManager
         if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_CHARGED, resources.getBoolean(
                 R.bool.is_notify_battery_is_charged)) && !isBatteryCharged &&
