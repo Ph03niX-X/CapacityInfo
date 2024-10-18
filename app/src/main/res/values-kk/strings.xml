@@ -208,6 +208,7 @@
     <string name="stop_overlay_service">Тоқта Overlay Service</string>
     <string name="restart_overlay_service">Қайтадан қосу Overlay Service</string>
     <string name="history">Тарихы</string>
+    <string name="history_title">>Тарихы (%1$d/%2$d)</string>
     <string name="add_custom_history">Арнаулы тарихты қосыңыз</string>
     <string name="add_history">Қосу тарих</string>
     <string name="add_ten_history">Қосу 10 тарих</string>
