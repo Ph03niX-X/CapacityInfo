@@ -207,6 +207,7 @@
     <string name="stop_overlay_service">Parar Serviço de Sobreposição</string>
     <string name="restart_overlay_service">Reiniciar Serviço de Sobreposição</string>
     <string name="history">Histórico</string>
+    <string name="history_title">Histórico (%1$d/%2$d)</string>
     <string name="add_custom_history">Adicionar Histórico Customizado</string>
     <string name="add_history">Adicionar Histórico</string>
     <string name="add_ten_history">Adicionar 10 Históricos</string>
