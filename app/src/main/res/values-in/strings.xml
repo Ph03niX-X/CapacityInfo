@@ -208,6 +208,7 @@
     <string name="stop_overlay_service">Hentikan Layanan Hamparan</string>
     <string name="restart_overlay_service">Mulai ulang Layanan Overlay</string>
     <string name="history">Sejarah</string>
+    <string name="history_title">Sejarah (%1$d/%2$d)</string>
     <string name="add_custom_history">Tambahkan Sejarah Kustom</string>
     <string name="add_history">Tambahkan Sejarah</string>
     <string name="add_ten_history">Tambahkan 10 Sejarah</string>
