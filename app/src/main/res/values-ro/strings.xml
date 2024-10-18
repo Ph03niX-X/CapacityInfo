@@ -208,6 +208,7 @@
     <string name="stop_overlay_service">Opriți Overlay Service</string>
     <string name="restart_overlay_service">Reporniți Overlay Service</string>
     <string name="history">Istorie</string>
+    <string name="history_title">Istorie (%1$d/%2$d)</string>
     <string name="add_custom_history">Adăugați istoric personalizat</string>
     <string name="add_history">Adăugați istorie</string>
     <string name="add_ten_history">Adăugați 10 istorie</string>
