@@ -89,6 +89,10 @@ object TextAppearanceHelper : PremiumInterface {
             42 -> ResourcesCompat.getFont(context, R.font.sedan_sc)
             43 -> ResourcesCompat.getFont(context, R.font.lora)
             44 -> ResourcesCompat.getFont(context, R.font.mulish)
+            45 -> ResourcesCompat.getFont(context, R.font.agdasima)
+            46 -> ResourcesCompat.getFont(context, R.font.arima)
+            47 -> ResourcesCompat.getFont(context, R.font.prociono)
+            48 -> ResourcesCompat.getFont(context, R.font.rethink_sans)
             else -> null
         }
     }

@@ -74,6 +74,10 @@
         <item>Sedan SC</item>
         <item>Lato</item>
         <item>Mulish</item>
+        <item>Agdasima</item>
+        <item>Arima</item>
+        <item>Prociono</item>
+        <item>Rethink Sans</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
