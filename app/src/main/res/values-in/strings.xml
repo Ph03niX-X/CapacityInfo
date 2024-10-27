@@ -341,4 +341,7 @@
     <string name="replace_of_device_battery_continue_dialog">Lanjutkan</string>
     <string name="replace_of_device_battery_success_dialog">Berhasil \"Ganti Perangkat/Baterai\"!</string>
     <string name="replace_of_device_battery_error_dialog">Kesalahan \"Ganti Perangkat/Baterai\"!</string>
+    <string name="checking_premium">Pemeriksaan Premium&#8230;</string>
+    <string name="successful_premium_check">Cek Premium Berhasil!\nPremium is %1$s</string>
+    <string name="premium_check_error">Kesalahan Pemeriksaan Premium!</string>
     </resources>
