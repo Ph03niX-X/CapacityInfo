@@ -90,8 +90,7 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
                     Uri.parse("market://search?q=pub:${developer?.summary}")))
 
                 else startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/developer?id=${developer
-                        ?.summary}")))
+                    Uri.parse("https://play.google.com/store/apps/dev?id=8987494467330776667")))
             }
 
             catch(e: ActivityNotFoundException) {
