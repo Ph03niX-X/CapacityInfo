@@ -149,7 +149,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
     private suspend fun getNumberOfCyclesAndroid(): Int {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-            return batteryIntent?.getStringExtra(BatteryManager.EXTRA_CYCLE_COUNT)?.toInt() ?: 0
+            return batteryIntent?.getIntExtra(BatteryManager.EXTRA_CYCLE_COUNT, 0) ?: 0
 
         if(!File(NUMBER_OF_CYCLES_PATH).exists()) return 0
 
