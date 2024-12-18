@@ -476,7 +476,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     private fun requestRateTheApp() {
         Snackbar.make(toolbar, getString(R.string.do_you_like_the_app),
             Snackbar.LENGTH_LONG).apply {
-            setAction(getString(R.string.support_and_unlock_premium_features)) {
+            setAction(getString(R.string.rate_the_app)) {
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW,
                         Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
