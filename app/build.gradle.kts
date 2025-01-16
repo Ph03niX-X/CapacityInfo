@@ -10,7 +10,7 @@ plugins {
 
 android {
     compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "35.0.1"
     val appName = "Capacity Info"
     defaultConfig {
         applicationId = "com.ph03nix_x.capacityinfo"
