@@ -22,7 +22,10 @@ android {
         setProperty("archivesBaseName", "$appName $versionName (Build $versionCode)")
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resourceConfigurations += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
+    }
+
+    androidResources {
+        localeFilters += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
             "bg", "kk", "ru", "uk")
     }
 
