@@ -17,8 +17,8 @@ android {
         namespace = applicationId
         minSdk = 26
         targetSdk = 35
-        versionCode = 1687
-        versionName = "8.2.2.1"
+        versionCode = 1690
+        versionName = "8.2.2.2"
         setProperty("archivesBaseName", "$appName $versionName (Build $versionCode)")
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
