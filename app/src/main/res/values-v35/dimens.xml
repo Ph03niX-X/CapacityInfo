@@ -13,7 +13,7 @@
     <dimen name="toolbar_margin_start">10dp</dimen>
     <dimen name="toolbar_margin_end">10dp</dimen>
     <dimen name="toolbar_margin_bottom">5dp</dimen>
-    <dimen name="toolbar_margin_top">16dp</dimen>
+    <dimen name="toolbar_margin_top">24dp</dimen>
     <dimen name="toolbar_corner_radius">9dp</dimen>
     <dimen name="card_toolbar_elevation">0dp</dimen>
     <dimen name="card_elevation">10dp</dimen>
