@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -36,7 +35,7 @@ class CenteredToolbar : MaterialToolbar {
 
     override fun setSubtitle(subtitle: CharSequence) {
         tvSubtitle?.apply {
-            visibility = View.VISIBLE
+            visibility = VISIBLE
             text = subtitle
         }
     }
@@ -63,7 +62,7 @@ class CenteredToolbar : MaterialToolbar {
             setSingleLine()
             ellipsize = TextUtils.TruncateAt.END
             setTextAppearance(R.style.SubtitleTheme)
-            visibility = View.GONE
+            visibility = GONE
         }
         addView(linear)
     }
