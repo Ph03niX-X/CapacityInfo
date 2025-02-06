@@ -681,8 +681,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         val binding = ChangeScreenTimeDialogBinding.inflate(LayoutInflater.from(requireContext()),
             null, false)
         dialog.setView(binding.root.rootView)
-        binding.changeScreenTimeEdit.setText((CapacityInfoService.instance?.screenTime ?: 0)
-            .toString())
+        binding.changeScreenTimeEdit.setText("${(CapacityInfoService.instance?.screenTime ?: 0)}")
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
             CapacityInfoService.instance?.screenTime =
                 binding.changeScreenTimeEdit.text.toString().toLong()
@@ -841,16 +840,15 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                 val oldHistoryCount = HistoryHelper.getHistoryCount(requireContext())
                 var addHistoryCount = 0L
                 CoroutineScope(Dispatchers.Default).launch {
-                    for(count in 1..(
-                            binding.historyCountEdit.text?.toString()?.toInt() ?: 1)) {
+                    (1..(binding.historyCountEdit.text?.toString()?.toInt() ?: 1)).forEach { count ->
                         val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
                             R.integer.min_design_capacity))
                         val date =  DateHelper.getDate((1..31).random(),
                             (1..12).random(), DateHelper.getCurrentYear())
                         val residualCapacity = if(pref.getString(
                                 UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh")
-                                ((designCapacity * 0.01).toInt() * 1000..(designCapacity + (
-                                (designCapacity / 1000) * 5)) * 1000).random()
+                            ((designCapacity * 0.01).toInt() * 1000..(designCapacity + (
+                                    (designCapacity / 1000) * 5)) * 1000).random()
                         else ((designCapacity * 0.01).toInt() * 100..(designCapacity + (
                                 (designCapacity / 1000) * 5)) * 100).random()
                         HistoryHelper.addHistory(requireContext(), date, residualCapacity)
@@ -883,7 +881,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                 getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = try {
                     historyCount.text?.toString()!!.toInt() > 0 && !HistoryHelper.isHistoryMax(context)
                 }
-                catch (e: NumberFormatException) { false }
+                catch (_: NumberFormatException) { false }
                 catch (e: Exception) { Toast.makeText(context, e.message ?: e.toString(),
                     Toast.LENGTH_LONG).show()
                     getButton(DialogInterface.BUTTON_POSITIVE).isEnabled
@@ -905,7 +903,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                                         .getHistoryCount(context) + s.toString().toInt() <=
                                     Constants.HISTORY_COUNT_MAX)
                         }
-                        catch (e: NumberFormatException) { false }
+                        catch (_: NumberFormatException) { false }
                         catch (e: Exception) { Toast.makeText(context,
                             e.message ?: e.toString(), Toast.LENGTH_LONG).show()
                             getButton(DialogInterface.BUTTON_POSITIVE).isEnabled
