@@ -638,7 +638,11 @@ interface DebugOptionsInterface: BatteryInfoInterface {
             with(pref) {
                 edit().putFloat(NUMBER_OF_CYCLES, getFloat(NUMBER_OF_CYCLES, 0f) +
                         (binding.addNumberOfCyclesEdit.text.toString().toFloat() / 100.0f)).apply()
+                Toast.makeText(requireContext(), "${getFloat(NUMBER_OF_CYCLES, 0f)}",
+                    Toast.LENGTH_LONG).show()
             }
+
+
         }
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         val dialogCreate = dialog.create()
