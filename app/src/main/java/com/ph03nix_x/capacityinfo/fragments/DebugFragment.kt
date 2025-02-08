@@ -144,7 +144,7 @@ class DebugFragment : PreferenceFragmentCompat(), DebugOptionsInterface {
                     Toast.makeText(requireContext(), getString(R.string.success),
                         Toast.LENGTH_LONG).show()
                 }
-                catch (e: KotlinNullPointerException) {
+                catch (_: KotlinNullPointerException) {
                     Toast.makeText(requireContext(), getString(R.string.error),
                         Toast.LENGTH_LONG).show()
                 }

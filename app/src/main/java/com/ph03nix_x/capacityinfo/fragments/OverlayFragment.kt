@@ -146,9 +146,8 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
                 true -> {
 
-                    if(OverlayService.instance == null
-                        && OverlayInterface.isEnabledOverlay(requireContext(),
-                            newValue as? Boolean == true))
+                    if(OverlayService.instance == null &&
+                        OverlayInterface.isEnabledOverlay(requireContext(), newValue))
                         ServiceHelper.startService(requireContext(), OverlayService::class.java,
                             true)
                 }
@@ -603,14 +602,13 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
     private fun enableAllOverlay(isEnable: Boolean?) {
         onlyValuesOverlay?.isEnabled =
-            isPremium && isEnable ?: onlyValuesOverlay?.isEnabled ?: false
+            isPremium && (isEnable ?: onlyValuesOverlay?.isEnabled) == true
         lockOverlayLocation?.isEnabled =
-            isPremium && isEnable ?: lockOverlayLocation?.isEnabled ?: false
+            isPremium && (isEnable ?: lockOverlayLocation?.isEnabled) == true
         overlayLocation?.isEnabled =
-            isPremium && isEnable ?: overlayLocation?.isEnabled ?: false
-        appearanceCategory?.isEnabled =
-            isPremium && isEnable ?: appearanceCategory?.isEnabled ?: false
-        overlayCategory?.isEnabled =
-            isPremium && isEnable ?: overlayCategory?.isEnabled ?: false
+            isPremium && (isEnable ?: overlayLocation?.isEnabled) == true
+        appearanceCategory?.isEnabled = isPremium &&
+                (isEnable ?: appearanceCategory?.isEnabled) == true
+        overlayCategory?.isEnabled = isPremium && (isEnable ?: overlayCategory?.isEnabled) == true
     }
 }

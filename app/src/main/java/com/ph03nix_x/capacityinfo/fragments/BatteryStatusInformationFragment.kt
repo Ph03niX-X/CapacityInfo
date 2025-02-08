@@ -182,7 +182,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
             setOnPreferenceChangeListener { _, newValue ->
 
-                val isChecked = (newValue as? Boolean) ?: false
+                val isChecked = (newValue as? Boolean) == true
 
                 fullChargeReminderFrequency?.isEnabled = isChecked
 
@@ -250,7 +250,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             NotificationInterface.notificationManager?.cancel(
                 NotificationInterface.NOTIFICATION_FULLY_CHARGED_ID)
 
-            val isChecked = (newValue as? Boolean) ?: false
+            val isChecked = (newValue as? Boolean) == true
 
             notifyFullChargeReminder?.isEnabled = isChecked
             fullChargeReminderFrequency?.isEnabled = isChecked &&

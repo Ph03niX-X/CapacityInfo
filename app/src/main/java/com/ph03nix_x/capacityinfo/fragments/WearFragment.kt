@@ -167,7 +167,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                         BufferedReader(FileReader(cycleCount))
                     }
-                    catch (e: FileNotFoundException) { null }
+                    catch (_: FileNotFoundException) { null }
                 }
 
                 kotlin.runCatching { numberOfCycles = br?.readLine()?.toInt() ?: 0 }
@@ -175,7 +175,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                 kotlin.runCatching { br?.close() }
 
 
-            } catch (e: IOException) { numberOfCycles = 0 }
+            } catch (_: IOException) { numberOfCycles = 0 }
         }
 
         return numberOfCycles

@@ -83,10 +83,10 @@ interface BatteryInfoInterface {
             BatteryManager.BATTERY_PROPERTY_CAPACITY)
     }
 
-    catch (e: RuntimeException) {
+    catch (_: RuntimeException) {
 
         val batteryIntent = try { context.registerReceiver(null, IntentFilter(
-            Intent.ACTION_BATTERY_CHANGED)) } catch (e: RuntimeException) { null }
+            Intent.ACTION_BATTERY_CHANGED)) } catch (_: RuntimeException) { null }
 
         batteryIntent?.getStringExtra(BatteryManager.EXTRA_LEVEL)?.toInt() ?: 0
     }
@@ -120,7 +120,7 @@ interface BatteryInfoInterface {
                 chargeCurrent * (2..10).random()
         }
 
-        catch (e: RuntimeException) {
+        catch (_: RuntimeException) {
 
             val status = batteryIntent?.getIntExtra(
                 BatteryManager.EXTRA_STATUS,
@@ -159,9 +159,9 @@ interface BatteryInfoInterface {
 
     fun isTurboCharge(context: Context): Boolean {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return if(isInstalledFromGooglePlay(context) &&
+        return isInstalledFromGooglePlay(context) &&
             maxChargeCurrent >= pref.getInt(DESIGN_CAPACITY, context.resources.getInteger(
-                R.integer.min_design_capacity) - 250)) true else false
+                R.integer.min_design_capacity) - 250)
     }
 
     private fun getFastChargeWatt() = DecimalFormat("#.#").format(
@@ -244,7 +244,7 @@ interface BatteryInfoInterface {
                 chargingCurrentLimit
             }
 
-            catch (e: IOException) { chargingCurrentLimit }
+            catch (_: IOException) { chargingCurrentLimit }
         }
 
         else null
@@ -308,7 +308,7 @@ interface BatteryInfoInterface {
           }
       }
 
-      catch (e: RuntimeException) { 0.001 }
+      catch (_: RuntimeException) { 0.001 }
 
     fun getCurrentCapacityLastCharge(context: Context): Double {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)

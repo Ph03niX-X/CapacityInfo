@@ -68,14 +68,14 @@ interface ManufacturerInterface {
 
                         showXiaomiBackgroundActivityControlDialog()
                     }
-                    catch (e: ActivityNotFoundException) {
+                    catch (_: ActivityNotFoundException) {
                         try {
                             startActivity(Intent().setClassName("com.miui.securitycenter",
                                 "com.miui.permcenter.autostart.AutoStartManagementActivity"))
 
                             showXiaomiBackgroundActivityControlDialog()
                         }
-                        catch (e: ActivityNotFoundException) { showFailedOpenSecurityMIUIDialog() }
+                        catch (_: ActivityNotFoundException) { showFailedOpenSecurityMIUIDialog() }
                     }
                     finally {
                         showXiaomiAutostartDialog = null
@@ -103,7 +103,7 @@ interface ManufacturerInterface {
                             putExtra("package_label", getText(R.string.app_name))
                         })
                     }
-                    catch (e: ActivityNotFoundException) { showFailedOpenSecurityMIUIDialog() }
+                    catch (_: ActivityNotFoundException) { showFailedOpenSecurityMIUIDialog() }
                 }
                 show()
             }

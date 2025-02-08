@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.utilities
 
 import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 object Constants {

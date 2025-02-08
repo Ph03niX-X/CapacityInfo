@@ -258,7 +258,7 @@ interface OverlayInterface : BatteryInfoInterface {
             onUpdateVoltageOverlay()
             onUpdateBatteryWearOverlay()
         }
-        catch(e: Exception) { return }
+        catch(_: Exception) { return }
     }
 
     private fun onSetBackgroundLinearLayout(context: Context) =
@@ -968,11 +968,11 @@ interface OverlayInterface : BatteryInfoInterface {
                     br = try {
                         BufferedReader(FileReader(cycleCount))
                     }
-                    catch (e: FileNotFoundException) { null }
+                    catch (_: FileNotFoundException) { null }
                 }
                 kotlin.runCatching { numberOfCycles = br?.readLine()?.toInt() ?: 0 }
                 kotlin.runCatching { br?.close() }
-            } catch (e: IOException) { numberOfCycles = 0 }
+            } catch (_: IOException) { numberOfCycles = 0 }
         }
         return numberOfCycles
     }
@@ -985,7 +985,7 @@ interface OverlayInterface : BatteryInfoInterface {
             var pressedX = 0.0
             var pressedY = 0.0
 
-            @SuppressLint("ClickableViewAccessibility")
+            @SuppressLint("ClickableViewAccessibility", "SuspiciousIndentation")
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 if(!pref.getBoolean(IS_LOCK_OVERLAY_LOCATION,
                         v.context.resources.getBoolean(R.bool.is_lock_overlay_location)))

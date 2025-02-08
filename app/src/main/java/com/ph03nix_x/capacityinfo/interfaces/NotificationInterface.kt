@@ -554,7 +554,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 R.string.battery_level, try {
                     "${getBatteryLevel(context)}%"
                 }
-                catch(e: RuntimeException)  { R.string.unknown }))
+                catch(_: RuntimeException)  { R.string.unknown }))
             setTextViewText(R.id.charging_time_service_notification, getChargingTime(context,
                     capacityInfoServiceContext?.seconds ?: 0))
             setTextViewText(R.id.source_of_power_service_notification, getSourceOfPower(context,
@@ -609,7 +609,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 R.string.battery_level, try {
                     "${getBatteryLevel(context)}%"
                 }
-                catch(e: RuntimeException)  { R.string.unknown }))
+                catch(_: RuntimeException)  { R.string.unknown }))
             setTextViewText(R.id.number_of_cycles_service_notification, context.getString(
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
@@ -664,7 +664,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 R.string.battery_level, try {
                     "${getBatteryLevel(context)}%"
                 }
-                catch(e: RuntimeException)  { R.string.unknown }))
+                catch(_: RuntimeException)  { R.string.unknown }))
             setTextViewText(R.id.number_of_cycles_service_notification, context.getString(
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
@@ -717,7 +717,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 R.string.battery_level, try {
                     "${getBatteryLevel(context)}%"
                 }
-                catch(e: RuntimeException)  { R.string.unknown }))
+                catch(_: RuntimeException)  { R.string.unknown }))
             setTextViewText(R.id.number_of_cycles_service_notification, context.getString(
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))
@@ -768,7 +768,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 R.string.battery_level, try {
                     "${getBatteryLevel(context)}%"
                 }
-                catch(e: RuntimeException)  { R.string.unknown }))
+                catch(_: RuntimeException)  { R.string.unknown }))
             setTextViewText(R.id.number_of_cycles_service_notification, context.getString(
                 R.string.number_of_cycles, DecimalFormat("#.##").format(pref.getFloat(
                     NUMBER_OF_CYCLES, 0f))))

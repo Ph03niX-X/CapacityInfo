@@ -21,7 +21,7 @@ interface BatteryOptimizationsInterface {
 
     fun MainActivity.isIgnoringBatteryOptimizations(): Boolean {
         val powerManager = getSystemService(Context.POWER_SERVICE) as? PowerManager
-        return powerManager?.isIgnoringBatteryOptimizations(packageName) ?: false
+        return powerManager?.isIgnoringBatteryOptimizations(packageName) == true
     }
 
     fun MainActivity.showRequestIgnoringBatteryOptimizationsDialog() {

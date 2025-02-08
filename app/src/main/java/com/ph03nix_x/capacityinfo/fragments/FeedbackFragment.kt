@@ -45,7 +45,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
             try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_DEVELOPER_LINK))) }
 
-            catch(e: ActivityNotFoundException) {
+            catch(_: ActivityNotFoundException) {
 
                 val clipboardManager = requireContext()
                     .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -90,7 +90,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     ?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}")))
             }
 
-            catch(e: ActivityNotFoundException) {
+            catch(_: ActivityNotFoundException) {
 
                 val clipboardManager = requireContext().getSystemService(
                     Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -114,7 +114,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     requireContext().startActivity(Intent(Intent.ACTION_VIEW,
                         Uri.parse(GOOGLE_PLAY_APP_LINK)))
                 }
-                catch(e: ActivityNotFoundException) {
+                catch(_: ActivityNotFoundException) {
                     Toast.makeText(requireContext(), requireContext().getString(
                         R.string.unknown_error), Toast.LENGTH_LONG).show()
                 }
