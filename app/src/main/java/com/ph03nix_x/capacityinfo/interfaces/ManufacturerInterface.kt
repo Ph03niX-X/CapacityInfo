@@ -29,8 +29,10 @@ interface ManufacturerInterface {
             try {
                 delay(3.seconds)
                 if(showXiaomiAutostartDialog == null && !isXiaomi()
-                    && !Autostart.isAutoStartEnabled(this@checkManufacturer)) showXiaomiAutoStartDialog()
-                else if(isHuawei()) showHuaweiInfo()
+                    && !Autostart.isAutoStartEnabled(this@checkManufacturer))
+                    showXiaomiAutoStartDialog()
+                else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE && isHuawei())
+                    showHuaweiInfo()
             }
             catch (_: Exception) { return@launch }
         }
