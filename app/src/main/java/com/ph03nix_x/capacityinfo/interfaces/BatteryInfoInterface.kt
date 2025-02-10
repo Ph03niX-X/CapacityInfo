@@ -478,9 +478,11 @@ interface BatteryInfoInterface {
                 if(!isOverlay || !isOnlyValues) R.string.source_of_power else
                     R.string.source_of_power_overlay_only_values,
                 context.getString(R.string.source_of_power_wireless))
-            else -> "N/A"
+            else -> context.getString(if(!isOverlay || !isOnlyValues) R.string.source_of_power else
+                R.string.source_of_power_overlay_only_values, "N/A")
         }
-        else "N/A"
+        else context.getString(if(!isOverlay || !isOnlyValues) R.string.source_of_power else
+            R.string.source_of_power_overlay_only_values, "N/A")
     }
 
     fun getSourceOfPowerLastCharge(context: Context, extraPlugged: Int): String {
