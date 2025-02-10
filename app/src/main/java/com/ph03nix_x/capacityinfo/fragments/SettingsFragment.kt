@@ -1,9 +1,13 @@
 package com.ph03nix_x.capacityinfo.fragments
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -79,6 +83,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var textSize: ListPreference? = null
     private var textFont: ListPreference? = null
     private var textStyle: ListPreference? = null
+    private var changeAppLanguage: Preference? = null
 
     // Misc
     private var capacityInWh: SwitchPreferenceCompat? = null
@@ -104,8 +109,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        if(!isInstalledFromGooglePlay())
-            throw RuntimeException("Application not installed from Google Play")
+//        if(!isInstalledFromGooglePlay())
+//            throw RuntimeException("Application not installed from Google Play")
 
         addPreferencesFromResource(R.xml.settings)
 
@@ -253,6 +258,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle = findPreference(TEXT_STYLE)
 
+        changeAppLanguage = findPreference("change_app_language")
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
@@ -302,6 +309,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             preference.summary = resources.getStringArray(R.array.text_style_list)[
                     (newValue as? String)?.toInt() ?: 0]
 
+            true
+        }
+
+        changeAppLanguage?.setOnPreferenceClickListener { it ->
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
+                    Uri.parse("package:${requireContext().packageName}")))
+            else it.isVisible = false
             true
         }
 
