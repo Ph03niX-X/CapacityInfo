@@ -248,10 +248,6 @@
     <string name="show_battery_information">Показывать информацию об аккумуляторе</string>
     <string name="service_is_running">Служба запущена</string>
     <string name="stop_the_service_when_the_cd">Останавливать службу при отключении зарядного устройства</string>
-    <string name="stop_service">Остановить службу</string>
-    <string name="stopping_service">Остановка службы&#8230;</string>
-    <string name="service_stopped_successfully">Служба успешно остановлена!</string>
-    <string name="error_stopping_service">Ошибка остановки службы!</string>
     <string name="text_font">Шрифт текста (Зарядка/Разрядка/Последняя зарядка/Износ/История)</string>
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Ссылка на Telegram скопирована</string>

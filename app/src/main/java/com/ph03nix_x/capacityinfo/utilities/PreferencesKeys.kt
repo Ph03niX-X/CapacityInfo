@@ -8,7 +8,6 @@ object PreferencesKeys {
     const val IS_FAST_CHARGE = "is_fast_charge"
 
     // Service & Notification
-    const val IS_SHOW_STOP_SERVICE = "is_show_stop_service"
     const val IS_SERVICE_TIME = "is_service_time"
     const val IS_STOP_THE_SERVICE_WHEN_THE_CD = "is_stop_the_service_when_the_cd"
     const val IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR = "is_show_battery_level_in_status_bar"

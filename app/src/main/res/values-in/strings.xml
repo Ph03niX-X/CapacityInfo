@@ -248,10 +248,6 @@
     <string name="show_battery_information">Tampilkan Informasi Baterai</string>
     <string name="service_is_running">Layanan sedang berjalan</string>
     <string name="stop_the_service_when_the_cd">Hentikan layanan saat pengisi daya dicabut</string>
-    <string name="stop_service">Hentikan Layanan</string>
-    <string name="stopping_service">Menghentikan Layanan…</string>
-    <string name="service_stopped_successfully">Layanan Berhasil Dihentikan!</string>
-    <string name="error_stopping_service">Error stopping Service!</string>
     <string name="text_font">Font Teks (Pengisian/Pengosongan/Tagihan Terakhir/Keausan/Sejarah)</string>
     <string name="font_overlay">huruf</string>
     <string name="telegram_link_copied">Tautan Telegram disalin</string>

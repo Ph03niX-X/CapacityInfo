@@ -248,10 +248,6 @@
     <string name="show_battery_information">Mostra informazioni sulla batteria</string>
     <string name="service_is_running">Il servizio è in esecuzione</string>
     <string name="stop_the_service_when_the_cd">Interrompere il servizio quando il caricabatterie è scollegato</string>
-    <string name="stop_service">Interrompere il servizio</string>
-    <string name="stopping_service">Interruzione del servizio…</string>
-    <string name="service_stopped_successfully">Il servizio è stato interrotto con successo!</string>
-    <string name="error_stopping_service">Errore nell\'arresto del servizio!</string>
     <string name="text_font">Carattere testo (Carica/Scarica/Ultima carica/Usura/Storia)</string>
     <string name="font_overlay">Carattere</string>
     <string name="telegram_link_copied">Link di Telegram copiato</string>

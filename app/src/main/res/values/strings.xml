@@ -267,10 +267,6 @@
     <string name="show_battery_information">Show Battery Information</string>
     <string name="service_is_running">Service is running</string>
     <string name="stop_the_service_when_the_cd">Stop the service when the charger is disconnected</string>
-    <string name="stop_service">Stop Service</string>
-    <string name="stopping_service">Stopping Service&#8230;</string>
-    <string name="service_stopped_successfully">Service Stopped Successfully!</string>
-    <string name="error_stopping_service">Error stopping Service!</string>
     <string name="text_font">Text Font (Charge/Discharge/Last Charge/Wear/History)</string>
     <string name="font_overlay">Font</string>
     <string name="telegram" translatable="false">Telegram</string>

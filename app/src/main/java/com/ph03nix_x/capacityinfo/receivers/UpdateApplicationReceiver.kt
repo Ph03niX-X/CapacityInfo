@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
@@ -40,9 +41,17 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 if(OverlayService.instance == null && OverlayInterface.isEnabledOverlay(context)
                     && !ServiceHelper.isStartedOverlayService())
                     ServiceHelper.startService(context, OverlayService::class.java)
-                with(pref) {
-                    if(contains("is_fast_charge_setting"))
-                        edit().remove("is_fast_charge_setting").apply()
+                removeOldPref(pref)
+            }
+        }
+    }
+
+    private fun removeOldPref(pref: SharedPreferences) {
+        arrayListOf("is_fast_charge_setting", "is_show_stop_service").forEach {
+            with(pref) {
+                edit().apply {
+                    if(contains(it)) remove(it)
+                    apply()
                 }
             }
         }

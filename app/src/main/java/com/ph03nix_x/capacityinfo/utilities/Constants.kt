@@ -34,7 +34,6 @@ object Constants {
     const val EXPORT_HISTORY_REQUEST_CODE = 2
     const val IMPORT_HISTORY_REQUEST_CODE = 3
     const val EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE = 0
-    const val STOP_SERVICE_REQUEST_CODE = 1
     const val CHARGING_VOLTAGE_WATT = 5.0
 
     val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 2.days.inWholeMilliseconds

@@ -248,10 +248,6 @@
     <string name="show_battery_information">Паказваць інфармацыю аб акумулятары</string>
     <string name="service_is_running">Служба запушчана</string>
     <string name="stop_the_service_when_the_cd">Спыняць службу пры адключэнні зараднай прылады</string>
-    <string name="stop_service">Спыніць службу</string>
-    <string name="stopping_service">Прыпынак службы&#8230;</string>
-    <string name="service_stopped_successfully">Служба паспяхова спынена!</string>
-    <string name="error_stopping_service">Памылка спынення службы!</string>
     <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Апошняя зарадка/Знос/Гісторыя)</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>

@@ -248,10 +248,6 @@
     <string name="show_battery_information">Afficher les informations sur la batterie</string>
     <string name="service_is_running">Le service est en cours d\'exécution</string>
     <string name="stop_the_service_when_the_cd">Arrêter le service lorsque le chargeur est débranché</string>
-    <string name="stop_service">Arrêter le service</string>
-    <string name="stopping_service">Arrêt du service…</string>
-    <string name="service_stopped_successfully">Le service s\'est arrêté avec succès!</string>
-    <string name="error_stopping_service">Erreur lors de l\'arrêt du service!</string>
     <string name="text_font">Police de texte (Chargé/Décharge/Dernière charge/Usure/Historique)</string>
     <string name="font_overlay">Police de caractère</string>
     <string name="telegram_link_copied">Lien de télégramme copié</string>

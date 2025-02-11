@@ -31,7 +31,6 @@ import com.ph03nix_x.capacityinfo.helpers.ThemeHelper.isSystemDarkMode
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CloseNotificationBatteryStatusInformationService
 import com.ph03nix_x.capacityinfo.services.DisableNotificationBatteryStatusInformationService
-import com.ph03nix_x.capacityinfo.services.StopCapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.CLOSE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.DISABLE_NOTIFICATION_BATTERY_STATUS_INFORMATION_REQUEST_CODE
@@ -40,7 +39,6 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.FULLY_CHARGED_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.OPEN_APP_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.Constants.OVERHEAT_OVERCOOL_CHANNEL_ID
 import com.ph03nix_x.capacityinfo.utilities.Constants.SERVICE_CHANNEL_ID
-import com.ph03nix_x.capacityinfo.utilities.Constants.STOP_SERVICE_REQUEST_CODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_BYPASS_DND
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
@@ -48,7 +46,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_STOP_SERVICE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
@@ -65,7 +62,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         const val NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID = 104
 
         private lateinit var channelId: String
-        private lateinit var stopService: PendingIntent
 
         var notificationBuilder: NotificationCompat.Builder? = null
         var notificationManager: NotificationManager? = null
@@ -82,8 +78,6 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
         channelId = onCreateNotificationChannel(context, SERVICE_CHANNEL_ID)
         val openApp = PendingIntent.getActivity(context, OPEN_APP_REQUEST_CODE, Intent(context,
             MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
-        stopService = PendingIntent.getService(context, STOP_SERVICE_REQUEST_CODE, Intent(context,
-            StopCapacityInfoService::class.java), PendingIntent.FLAG_IMMUTABLE)
         batteryIntent = context.registerReceiver(null, IntentFilter(
             Intent.ACTION_BATTERY_CHANGED))
         val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
@@ -98,13 +92,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                         if(isSystemDarkMode(context.resources.configuration)) R.color.red
                         else R.color.blue)
             setContentIntent(openApp)
-            if(PremiumInterface.isPremium) {
-                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) && mActions.isEmpty())
-                    addAction(0, context.getString(R.string.stop_service), stopService)
-                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
-        }
+
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
             val isShowBatteryInformation = pref.getBoolean(IS_SHOW_BATTERY_INFORMATION,
@@ -180,13 +168,7 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                 ContextCompat.getColor(context,
                     if(isSystemDarkMode(context.resources.configuration)) R.color.red
                     else R.color.blue)
-            if(PremiumInterface.isPremium) {
-                if(pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) && mActions.isEmpty())
-                    addAction(0, context.getString(R.string.stop_service), stopService)
-                else if(!pref.getBoolean(IS_SHOW_STOP_SERVICE, context.resources.getBoolean(
-                        R.bool.is_show_stop_service)) && mActions.isNotEmpty()) mActions.clear()
-            }
+
             val remoteViewsServiceContent = RemoteViews(context.packageName,
                 R.layout.notification_content)
 

@@ -247,10 +247,6 @@
     <string name="show_battery_information">Batterieinformationen anzeigen</string>
     <string name="service_is_running">Dienst läuft</string>
     <string name="stop_the_service_when_the_cd">Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist</string>
-    <string name="stop_service">Dienst anhalten</string>
-    <string name="stopping_service">Anhaltender Dienst&#8230;</string>
-    <string name="service_stopped_successfully">Dienst erfolgreich gestoppt!</string>
-    <string name="error_stopping_service">Fehler beim Anhalten des Dienstes</string>
     <string name="text_font">Schriftart (Aufladen/Entladen/Letztes Aufladen/Verschleiß/Geschichte)</string>
     <string name="font_overlay">Schriftart</string>
     <string name="telegram_link_copied">Telegram-Link kopiert</string>

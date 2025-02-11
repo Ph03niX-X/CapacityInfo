@@ -247,10 +247,6 @@
     <string name="show_battery_information">Mostrar informações da bateria</string>
     <string name="service_is_running">O serviço está em execução</string>
     <string name="stop_the_service_when_the_cd">Parar o serviço quando o carregador for desconectado</string>
-    <string name="stop_service">Parar serviço</string>
-    <string name="stopping_service">Parando o serviço…</string>
-    <string name="service_stopped_successfully">Serviço interrompido com sucesso!</string>
-    <string name="error_stopping_service">Erro ao parar o serviço!</string>
     <string name="text_font">Fonte do Texto (Carga/Descarga/Última cobrança/Desgaste/Histórico)</string>
     <string name="font_overlay">Fonte</string>
     <string name="telegram_link_copied">Link do Telegram copiado</string>

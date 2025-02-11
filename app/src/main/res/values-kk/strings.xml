@@ -248,10 +248,6 @@
     <string name="show_battery_information">Батарея туралы ақпаратты көрсету</string>
     <string name="service_is_running">Қызмет іске қосылды</string>
     <string name="stop_the_service_when_the_cd">Зарядтағыш ажыратылған кезде қызметті тоқтатыңыз</string>
-    <string name="stop_service">Тоқта Қызмет</string>
-    <string name="stopping_service">Қызметті тоқтату&#8230;</string>
-    <string name="service_stopped_successfully">Қызмет сәтті тоқтатылды!</string>
-    <string name="error_stopping_service">Қызметті тоқтату қатесі!</string>
     <string name="text_font">Мәтін шрифті (Зарядтау/Разрядтау/Соңғы заряд/Тозуы/Тарихы)</string>
     <string name="font_overlay">Шрифті</string>
     <string name="telegram_link_copied">Telegram сілтемесі көшірілді</string>
