@@ -55,7 +55,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TAB_ON_APPLICATION_LAUNCH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_FONT
 import kotlinx.coroutines.CoroutineScope
@@ -451,13 +450,13 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
 
     private suspend fun removePremiumFeatures(context: Context) {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        arrayListOf(IS_STOP_THE_SERVICE_WHEN_THE_CD, IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR,
-            IS_SHOW_BATTERY_INFORMATION, IS_SHOW_EXPANDED_NOTIFICATION, IS_BYPASS_DND,
-            IS_NOTIFY_OVERHEAT_OVERCOOL, IS_NOTIFY_BATTERY_IS_FULLY_CHARGED,
-            IS_NOTIFY_FULL_CHARGE_REMINDER, IS_NOTIFY_BATTERY_IS_CHARGED,
-            IS_NOTIFY_BATTERY_IS_DISCHARGED, TEXT_FONT, IS_CAPACITY_IN_WH,
-            IS_CHARGING_DISCHARGE_CURRENT_IN_WATT, IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL,
-            TAB_ON_APPLICATION_LAUNCH, IS_ENABLED_OVERLAY).forEach {
+        arrayListOf(IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR, IS_SHOW_BATTERY_INFORMATION,
+            IS_SHOW_EXPANDED_NOTIFICATION, IS_BYPASS_DND, IS_NOTIFY_OVERHEAT_OVERCOOL,
+            IS_NOTIFY_BATTERY_IS_FULLY_CHARGED, IS_NOTIFY_FULL_CHARGE_REMINDER,
+            IS_NOTIFY_BATTERY_IS_CHARGED, IS_NOTIFY_BATTERY_IS_DISCHARGED,
+            TEXT_FONT, IS_CAPACITY_IN_WH, IS_CHARGING_DISCHARGE_CURRENT_IN_WATT,
+            IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL, TAB_ON_APPLICATION_LAUNCH,
+            IS_ENABLED_OVERLAY).forEach {
             with(pref) {
                 edit().apply {
                     if(contains(it)) remove(it)

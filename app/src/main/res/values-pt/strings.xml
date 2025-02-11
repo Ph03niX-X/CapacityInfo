@@ -246,7 +246,6 @@
     <string name="empty_history_text">O histórico de carregamentos está vazio! Por favor, carregue a bateria até 100% (Status: Carregada)</string>
     <string name="show_battery_information">Mostrar informações da bateria</string>
     <string name="service_is_running">O serviço está em execução</string>
-    <string name="stop_the_service_when_the_cd">Parar o serviço quando o carregador for desconectado</string>
     <string name="text_font">Fonte do Texto (Carga/Descarga/Última cobrança/Desgaste/Histórico)</string>
     <string name="font_overlay">Fonte</string>
     <string name="telegram_link_copied">Link do Telegram copiado</string>

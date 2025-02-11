@@ -247,7 +247,6 @@
     <string name="empty_history_text">Зарядтау тарихы бос! Батареяны 100% толық зарядтаңыз (Күй: Зарядталған)</string>
     <string name="show_battery_information">Батарея туралы ақпаратты көрсету</string>
     <string name="service_is_running">Қызмет іске қосылды</string>
-    <string name="stop_the_service_when_the_cd">Зарядтағыш ажыратылған кезде қызметті тоқтатыңыз</string>
     <string name="text_font">Мәтін шрифті (Зарядтау/Разрядтау/Соңғы заряд/Тозуы/Тарихы)</string>
     <string name="font_overlay">Шрифті</string>
     <string name="telegram_link_copied">Telegram сілтемесі көшірілді</string>

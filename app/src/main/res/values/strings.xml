@@ -266,7 +266,6 @@
     <string name="empty_history_text">History of charges is empty! Please, charge the battery to full 100% (Status: Charged)</string>
     <string name="show_battery_information">Show Battery Information</string>
     <string name="service_is_running">Service is running</string>
-    <string name="stop_the_service_when_the_cd">Stop the service when the charger is disconnected</string>
     <string name="text_font">Text Font (Charge/Discharge/Last Charge/Wear/History)</string>
     <string name="font_overlay">Font</string>
     <string name="telegram" translatable="false">Telegram</string>

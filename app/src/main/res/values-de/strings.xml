@@ -246,7 +246,6 @@
     <string name="empty_history_text">Aufladungsverlauf ist leer! Bitte laden Sie den Akku zu 100% auf (Status: Geladen)</string>
     <string name="show_battery_information">Batterieinformationen anzeigen</string>
     <string name="service_is_running">Dienst läuft</string>
-    <string name="stop_the_service_when_the_cd">Stoppen Sie den Dienst, wenn das Ladegerät nicht angeschlossen ist</string>
     <string name="text_font">Schriftart (Aufladen/Entladen/Letztes Aufladen/Verschleiß/Geschichte)</string>
     <string name="font_overlay">Schriftart</string>
     <string name="telegram_link_copied">Telegram-Link kopiert</string>

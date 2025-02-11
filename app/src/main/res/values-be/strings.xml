@@ -247,7 +247,6 @@
     <string name="empty_history_text"> Гісторыя зарадкі пустая! Калі ласка, зарадзіце акумулятар да поўных 100% (Статус: зараджана)</string>
     <string name="show_battery_information">Паказваць інфармацыю аб акумулятары</string>
     <string name="service_is_running">Служба запушчана</string>
-    <string name="stop_the_service_when_the_cd">Спыняць службу пры адключэнні зараднай прылады</string>
     <string name="text_font">Шрыфт тэксту (Зарадка/Разрадка/Апошняя зарадка/Знос/Гісторыя)</string>
     <string name="font_overlay">Шрыфт</string>
     <string name="telegram_link_copied">Спасылка на Telegram скапіявана</string>

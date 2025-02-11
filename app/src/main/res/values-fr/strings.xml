@@ -247,7 +247,6 @@
     <string name="empty_history_text">L\'historique est vide! Veuillez charger la batterie jusqu\'à 100% (Sétat: Chargé)</string>
     <string name="show_battery_information">Afficher les informations sur la batterie</string>
     <string name="service_is_running">Le service est en cours d\'exécution</string>
-    <string name="stop_the_service_when_the_cd">Arrêter le service lorsque le chargeur est débranché</string>
     <string name="text_font">Police de texte (Chargé/Décharge/Dernière charge/Usure/Historique)</string>
     <string name="font_overlay">Police de caractère</string>
     <string name="telegram_link_copied">Lien de télégramme copié</string>

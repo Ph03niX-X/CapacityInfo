@@ -47,7 +47,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
     }
 
     private fun removeOldPref(pref: SharedPreferences) {
-        arrayListOf("is_fast_charge_setting", "is_show_stop_service").forEach {
+        arrayListOf("is_fast_charge_setting", "is_show_stop_service",
+            "is_stop_the_service_when_the_cd").forEach {
             with(pref) {
                 edit().apply {
                     if(contains(it)) remove(it)

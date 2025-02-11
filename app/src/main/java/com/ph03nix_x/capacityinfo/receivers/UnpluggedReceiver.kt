@@ -43,7 +43,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.MAX_TEMP_CELSIUS_LAST_CHARGE
@@ -152,9 +151,6 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                     sourceOfPower = -1
                     isFull = false
                 }
-                if(isPremium && pref.getBoolean(IS_STOP_THE_SERVICE_WHEN_THE_CD,
-                        context.resources.getBoolean(R.bool.is_stop_the_service_when_the_cd)))
-                    ServiceHelper.stopService(context, CapacityInfoService::class.java)
                 NotificationInterface.apply {
                     notificationManager?.cancel(NOTIFICATION_FULLY_CHARGED_ID)
                     notificationManager?.cancel(NOTIFICATION_BATTERY_STATUS_ID)

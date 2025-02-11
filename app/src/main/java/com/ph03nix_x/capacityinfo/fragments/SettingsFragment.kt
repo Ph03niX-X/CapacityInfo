@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -38,7 +37,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SERVICE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_INFORMATION
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_EXPANDED_NOTIFICATION
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_STOP_THE_SERVICE_WHEN_THE_CD
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
@@ -69,7 +67,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     // Service & Notification
     private var stopService: SwitchPreferenceCompat? = null
     private var serviceTime: SwitchPreferenceCompat? = null
-    private var isStopTheServiceWhenTheCD: SwitchPreferenceCompat? = null
     private var isShowBatteryLevelInStatusBar: SwitchPreferenceCompat? = null
     private var isShowBatteryInformation: SwitchPreferenceCompat? = null
     private var moreServiceAndNotification: Preference? = null
@@ -108,8 +105,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-//        if(!isInstalledFromGooglePlay())
-//            throw RuntimeException("Application not installed from Google Play")
+        if(!isInstalledFromGooglePlay())
+            throw RuntimeException("Application not installed from Google Play")
 
         addPreferencesFromResource(R.xml.settings)
 
@@ -134,8 +131,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Service & Notification
         serviceTime = findPreference(IS_SERVICE_TIME)
 
-        isStopTheServiceWhenTheCD = findPreference(IS_STOP_THE_SERVICE_WHEN_THE_CD)
-        
         isShowBatteryLevelInStatusBar = findPreference(IS_SHOW_BATTERY_LEVEL_IN_STATUS_BAR)
 
         isShowBatteryInformation = findPreference(IS_SHOW_BATTERY_INFORMATION)
@@ -147,11 +142,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         batteryStatusInformation = findPreference("battery_status_information")
 
         stopService?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-        }
-
-        isStopTheServiceWhenTheCD?.apply {
             isEnabled = premium?.isVisible == false
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
@@ -708,10 +698,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         if(isResume) {
             if(premium?.isVisible == true) premium?.isVisible = !isPremium
             stopService?.apply {
-                isEnabled = premium?.isVisible == false
-                summary = if(!isEnabled) getString(R.string.premium_feature) else null
-            }
-            isStopTheServiceWhenTheCD?.apply {
                 isEnabled = premium?.isVisible == false
                 summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }

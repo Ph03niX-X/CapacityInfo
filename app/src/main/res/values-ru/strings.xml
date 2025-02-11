@@ -247,7 +247,6 @@
     <string name="empty_history_text">История зарядки пустая! Пожалуйста, зарядите аккумулятор до полных 100% (Статус: Заряжено)</string>
     <string name="show_battery_information">Показывать информацию об аккумуляторе</string>
     <string name="service_is_running">Служба запущена</string>
-    <string name="stop_the_service_when_the_cd">Останавливать службу при отключении зарядного устройства</string>
     <string name="text_font">Шрифт текста (Зарядка/Разрядка/Последняя зарядка/Износ/История)</string>
     <string name="font_overlay">Шрифт</string>
     <string name="telegram_link_copied">Ссылка на Telegram скопирована</string>

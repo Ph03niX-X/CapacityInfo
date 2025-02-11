@@ -247,7 +247,6 @@
     <string name="empty_history_text">Sejarah kosong! Harap isi daya baterai hingga penuh 100% (Status: Dibebankan)</string>
     <string name="show_battery_information">Tampilkan Informasi Baterai</string>
     <string name="service_is_running">Layanan sedang berjalan</string>
-    <string name="stop_the_service_when_the_cd">Hentikan layanan saat pengisi daya dicabut</string>
     <string name="text_font">Font Teks (Pengisian/Pengosongan/Tagihan Terakhir/Keausan/Sejarah)</string>
     <string name="font_overlay">huruf</string>
     <string name="telegram_link_copied">Tautan Telegram disalin</string>

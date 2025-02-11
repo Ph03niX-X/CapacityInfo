@@ -247,7 +247,6 @@
     <string name="empty_history_text">Historia ładowań jest pusta! Proszę naładować baterię do pełna w 100% (Stan: Naładowany)</string>
     <string name="show_battery_information">Pokaż informacje o baterii</string>
     <string name="service_is_running">Serwis jest uruchomiona</string>
-    <string name="stop_the_service_when_the_cd">Zatrzymaj Serwis po odłączeniu ładowarki</string>
     <string name="text_font">Czcionka tekstu (Ładowarka/Rozładunek/Ostatni ładunek/Zużycie/Historia)</string>
     <string name="font_overlay">Czcionka</string>
     <string name="telegram_link_copied">Skopiowano łącze do telegramu</string>

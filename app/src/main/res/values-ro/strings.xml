@@ -247,7 +247,6 @@
     <string name="empty_history_text">Historia taxelor este goală! Vă rugăm să încărcați bateria până la 100% (Stare: Încărcată)</string>
     <string name="show_battery_information">Afișați informații despre baterie</string>
     <string name="service_is_running">Serviciul rulează</string>
-    <string name="stop_the_service_when_the_cd">Se oprește serviciul atunci când încărcătorul este deconectat</string>
     <string name="text_font">Font (încărcare/Descărcare/Ultima încărcare/Uzură/Istorie)</string>
     <string name="font_overlay">Font</string>
     <string name="telegram_link_copied">Link Telegram copiat</string>
