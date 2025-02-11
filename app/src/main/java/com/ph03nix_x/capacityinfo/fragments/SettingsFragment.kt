@@ -71,6 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var isShowBatteryInformation: SwitchPreferenceCompat? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var batteryStatusInformation: Preference? = null
+    private var openTheAppNotificationSettings: Preference? = null
 
     // Appearance
     private var autoDarkMode: SwitchPreferenceCompat? = null
@@ -137,6 +138,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
         batteryStatusInformation = findPreference("battery_status_information")
+
+        openTheAppNotificationSettings = findPreference("open_the_app_notification_settings")
 
         stopService?.apply {
             isEnabled = premium?.isVisible == false
@@ -207,6 +210,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 }
                 true
             }
+        }
+        openTheAppNotificationSettings?.setOnPreferenceClickListener {
+            startActivity(Intent().apply {
+                action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            })
+
+            true
         }
 
         // Appearance
