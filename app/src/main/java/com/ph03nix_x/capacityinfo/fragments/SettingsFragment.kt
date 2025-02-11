@@ -69,7 +69,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var serviceTime: SwitchPreferenceCompat? = null
     private var isShowBatteryLevelInStatusBar: SwitchPreferenceCompat? = null
     private var isShowBatteryInformation: SwitchPreferenceCompat? = null
-    private var moreServiceAndNotification: Preference? = null
     private var isShowExtendedNotification: SwitchPreferenceCompat? = null
     private var batteryStatusInformation: Preference? = null
 
@@ -105,8 +104,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        if(!isInstalledFromGooglePlay())
-            throw RuntimeException("Application not installed from Google Play")
+//        if(!isInstalledFromGooglePlay())
+//            throw RuntimeException("Application not installed from Google Play")
 
         addPreferencesFromResource(R.xml.settings)
 
@@ -135,8 +134,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         isShowBatteryInformation = findPreference(IS_SHOW_BATTERY_INFORMATION)
 
-        moreServiceAndNotification = findPreference("more_service_and_notification")
-
         isShowExtendedNotification = findPreference(IS_SHOW_EXPANDED_NOTIFICATION)
 
         batteryStatusInformation = findPreference("battery_status_information")
@@ -153,15 +150,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         isShowBatteryInformation?.apply {
             isEnabled = premium?.isVisible == false
-
             summary = getString(if(!isEnabled) R.string.premium_feature
             else R.string.service_restart_required)
-
-            setOnPreferenceChangeListener { preference, value ->
-
-                preference.isEnabled = false
+            setOnPreferenceChangeListener { preference, value -> preference.isEnabled = false
                 isShowExtendedNotification?.isEnabled = false
-
                 try {
                     ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
                         preference)
@@ -169,69 +161,52 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
              catch (e: Exception) {
                  Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
              }
-
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(3.5.seconds)
                     isShowExtendedNotification?.isEnabled = (value as? Boolean) == true
                 }
-
                 true
             }
         }
 
-        moreServiceAndNotification?.setOnPreferenceClickListener {
-            if(it.title == requireContext().getString(R.string.more)) {
-                it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
-                it.title = getString(R.string.hide)
-                isShowExtendedNotification?.apply {
-                    isVisible = true
-                    isEnabled = premium?.isVisible == false && pref.getBoolean(
-                        IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
-                            R.bool.is_show_battery_information))
-                    summary = getString(if(premium?.isVisible == true) R.string.premium_feature
-                    else R.string.service_restart_required)
+        isShowExtendedNotification?.apply {
+            isEnabled = premium?.isVisible == false && pref.getBoolean(
+                IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
+                    R.bool.is_show_battery_information))
+            summary = getString(if(premium?.isVisible == true) R.string.premium_feature
+            else R.string.service_restart_required)
+            if(isEnabled) setOnPreferenceChangeListener { preference, _ ->
+                preference.isEnabled = false
+                isShowBatteryInformation?.isEnabled = false
+                try {
+                    ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
+                        preference)
                 }
-                batteryStatusInformation?.apply {
-                    isVisible = true
-                    if(isVisible) summary = if(premium?.isVisible == true)
-                        getString(R.string.premium_feature) else null
+                catch (e: Exception) {
+                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
                 }
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(3.5.seconds)
+                    isShowBatteryInformation?.isEnabled = true
+                }
+                true
             }
-            else {
-                it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
-                it.title = requireContext().getString(R.string.more)
-                isShowExtendedNotification?.isVisible = false
-                batteryStatusInformation?.isVisible = false
-            }
-            true
         }
-        isShowExtendedNotification?.setOnPreferenceChangeListener { preference, _ ->
-            preference.isEnabled = false
-            isShowBatteryInformation?.isEnabled = false
-            try {
-                ServiceHelper.restartService(requireContext(), CapacityInfoService::class.java,
-                    preference)
+        batteryStatusInformation?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            if(isEnabled) setOnPreferenceClickListener {
+                mainActivity?.apply {
+                    fragment = BatteryStatusInformationFragment()
+                    toolbar.title = requireContext().getString(
+                        R.string.battery_status_information)
+                    toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
+                        R.drawable.ic_arrow_back_24dp)
+                    loadFragment(fragment ?: BatteryStatusInformationFragment(),
+                        true)
+                }
+                true
             }
-            catch (e: Exception) {
-                Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
-            }
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(3.5.seconds)
-                isShowBatteryInformation?.isEnabled = true
-            }
-            true
-        }
-        batteryStatusInformation?.setOnPreferenceClickListener {
-            mainActivity?.apply {
-                fragment = BatteryStatusInformationFragment()
-                toolbar.title = requireContext().getString(
-                    R.string.battery_status_information)
-                toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(),
-                    R.drawable.ic_arrow_back_24dp)
-                loadFragment(fragment ?: BatteryStatusInformationFragment(),
-                    true)
-            }
-            true
         }
 
         // Appearance
@@ -711,17 +686,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 else R.string.service_restart_required)
             }
             isShowExtendedNotification?.apply {
-                if(isVisible) {
-                    isEnabled = premium?.isVisible == false && pref.getBoolean(
-                        IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
-                            R.bool.is_show_battery_information))
-                    summary = getString(if(premium?.isVisible == true) R.string.premium_feature
-                    else R.string.service_restart_required)
-                }
+                isEnabled = premium?.isVisible == false && pref.getBoolean(
+                    IS_SHOW_BATTERY_INFORMATION, requireContext().resources.getBoolean(
+                        R.bool.is_show_battery_information))
+                summary = getString(if(premium?.isVisible == true) R.string.premium_feature
+                else R.string.service_restart_required)
             }
             batteryStatusInformation?.apply {
-                if(isVisible) summary = if(premium?.isVisible == true)
-                    getString(R.string.premium_feature) else null
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }
             capacityInWh?.apply {
                 isEnabled = premium?.isVisible == false
