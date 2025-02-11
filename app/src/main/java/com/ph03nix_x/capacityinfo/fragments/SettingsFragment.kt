@@ -79,7 +79,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var textSize: ListPreference? = null
     private var textFont: ListPreference? = null
     private var textStyle: ListPreference? = null
-    private var changeAppLanguage: Preference? = null
+    private var applicationLanguage: Preference? = null
 
     // Misc
     private var capacityInWh: SwitchPreferenceCompat? = null
@@ -105,8 +105,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-//        if(!isInstalledFromGooglePlay())
-//            throw RuntimeException("Application not installed from Google Play")
+        if(!isInstalledFromGooglePlay())
+            throw RuntimeException("Application not installed from Google Play")
 
         addPreferencesFromResource(R.xml.settings)
 
@@ -231,7 +231,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle = findPreference(TEXT_STYLE)
 
-        changeAppLanguage = findPreference("change_app_language")
+        applicationLanguage = findPreference("application_language")
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
             !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
@@ -285,7 +285,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
-        changeAppLanguage?.setOnPreferenceClickListener { it ->
+        applicationLanguage?.setOnPreferenceClickListener { it ->
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
                     Uri.parse("package:${requireContext().packageName}")))

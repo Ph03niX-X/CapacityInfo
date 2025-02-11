@@ -112,10 +112,10 @@
             android:key="text_style"/>
 
         <Preference
-            android:title="@string/change_app_language"
+            android:title="@string/application_language"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_change_language_24dp"
-            android:key="change_app_language"/>
+            android:key="application_language"/>
 
     </PreferenceCategory>
 
