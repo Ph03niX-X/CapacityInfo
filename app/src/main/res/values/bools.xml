@@ -66,8 +66,9 @@
     <bool name="is_enabled_debug_options">false</bool>
     <bool name="is_enable_check_update">true</bool>
     <bool name="is_forcibly_show_rate_the_app">false</bool>
+    <bool name="is_enable_wakelock">true</bool>
     <bool name="is_auto_start_boot">true</bool>
     <bool name="is_auto_start_open_app">true</bool>
     <bool name="is_auto_start_update_app">true</bool>
-    <bool name="is_enable_wakelock">true</bool>
+    <bool name="is_fast_charge_dbg">false</bool>
 </resources>

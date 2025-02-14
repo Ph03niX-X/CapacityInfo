@@ -43,6 +43,12 @@
             app:singleLineTitle="false"
             android:key="is_auto_start_update_app"/>
 
+        <SwitchPreferenceCompat
+            android:title="@string/fast_charge"
+            android:defaultValue="@bool/is_fast_charge_dbg"
+            app:singleLineTitle="false"
+            android:key="is_fast_charge_dbg"/>
+
         <Preference
                 android:title="@string/add_setting"
                 app:singleLineTitle="false"

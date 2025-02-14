@@ -54,6 +54,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_WAKELOCK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE_DBG
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_CHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_DISCHARGED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_BATTERY_IS_FULLY_CHARGED
@@ -303,8 +304,9 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         val batteryLevel = getBatteryLevel(this@CapacityInfoService) ?: 0
         withContext(Dispatchers.IO) {
             if(!pref.getBoolean(IS_FAST_CHARGE, resources.getBoolean(R.bool.is_fast_charge)) &&
-                (isTurboCharge(this@CapacityInfoService) ||
-                        isFastCharge(this@CapacityInfoService)))
+                (isTurboCharge(this@CapacityInfoService) || isFastCharge(this@CapacityInfoService)
+                        || pref.getBoolean(IS_FAST_CHARGE_DBG, resources.getBoolean(
+                    R.bool.is_fast_charge_dbg))))
                 pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
         }
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
