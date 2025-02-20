@@ -247,7 +247,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                         else getCurrentCapacity(requireContext())))
 
                                     when {
-                                        getSourceOfPower(requireContext(), sourceOfPower) != "N/A"
+                                        getSourceOfPower(requireContext(), sourceOfPower).contains("N/A")
                                         -> {
 
                                             if(capacityAddedWear.visibility == View.GONE)
