@@ -48,7 +48,6 @@
     <string name="license">Licencja: Apache 2.0</string>
     <string name="feedback">Informacje zwrotne</string>
     <string name="email_copied">E-mail skopiowany</string>
-    <string name="auto_dark_mode">Automatyczny tryb przyciemniania</string>
     <string name="auto_dark_mode_summary">Włączanie trybu ciemnego w zależności od systemu</string>
     <string name="number_of_charges">Liczba opłat: %1$d</string>
     <string name="debug">Debug</string>

@@ -48,7 +48,6 @@
     <string name="license">Лицензия: Apache 2.0</string>
     <string name="feedback">Обратная связь</string>
     <string name="email_copied">E-mail скопирован</string>
-    <string name="auto_dark_mode">Автоматическая тёмная тема</string>
     <string name="auto_dark_mode_summary">Включать тёмную тему в зависимости от системы</string>
     <string name="number_of_charges">Количество зарядок: %1$d</string>
     <string name="debug">Отладка</string>

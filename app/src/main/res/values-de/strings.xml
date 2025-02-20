@@ -47,7 +47,6 @@
     <string name="license">Lizenz: Apache 2.0</string>
     <string name="feedback">Feedback</string>
     <string name="email_copied">E-Mail kopiert</string>
-    <string name="auto_dark_mode">Automatischer Dunkelmodus</string>
     <string name="auto_dark_mode_summary">Einschalten des Dunkelmodus je nach System</string>
     <string name="number_of_charges">Anzahl der Ladungen: %1$d</string>
     <string name="debug">Debuggen</string>

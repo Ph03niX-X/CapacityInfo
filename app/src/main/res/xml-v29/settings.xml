@@ -66,21 +66,6 @@
                 app:allowDividerAbove="false"
                 app:allowDividerBelow="false">
 
-        <SwitchPreferenceCompat
-                android:title="@string/auto_dark_mode"
-                app:singleLineTitle="false"
-                app:summary="@string/auto_dark_mode_summary"
-                app:defaultValue="@bool/is_auto_dark_mode"
-                app:icon="@drawable/ic_auto_dark_mode_24dp"
-                android:key="is_auto_dark_mode"/>
-
-        <SwitchPreferenceCompat
-                android:title="@string/dark_mode"
-                app:singleLineTitle="false"
-                app:defaultValue="@bool/is_dark_mode"
-                app:icon="@drawable/ic_dark_mode_24dp"
-                android:key="is_dark_mode"/>
-
         <ListPreference
                 android:title="@string/text_size"
                 app:singleLineTitle="false"

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
@@ -48,10 +49,11 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
     private fun removeOldPref(pref: SharedPreferences) {
         arrayListOf("is_fast_charge_setting", "is_show_stop_service",
-            "is_stop_the_service_when_the_cd").forEach {
+            "is_stop_the_service_when_the_cd", "is_auto_dark_mode", "is_dark_mode").forEach {
             with(pref) {
                 edit().apply {
-                    if(contains(it)) remove(it)
+                    if((it == "is_dark_mode" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                        && contains(it)) || (it != "is_dark_mode" && contains(it))) remove(it)
                     apply()
                 }
             }

@@ -48,7 +48,6 @@
     <string name="license">Lisensi: Apache 2.0</string>
     <string name="feedback">Masukan</string>
     <string name="email_copied">Email disalin</string>
-    <string name="auto_dark_mode">Mode Gelap Otomatis</string>
     <string name="auto_dark_mode_summary">Aktifkan mode gelap tergantung pada sistem</string>
     <string name="number_of_charges">Jumlah Tagihan: %1$d</string>
     <string name="debug">Men-debug</string>

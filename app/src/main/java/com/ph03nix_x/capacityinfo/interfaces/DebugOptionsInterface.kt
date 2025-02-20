@@ -55,7 +55,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
@@ -543,9 +542,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
     private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String,
                                  value: Boolean) {
         pref.edit().putBoolean(key, value).apply()
-        if(key == IS_AUTO_DARK_MODE || key == IS_DARK_MODE)
-            ThemeHelper.setTheme(context)
-        else if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
+        if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
             MainActivity.apply {
                 tempFragment = instance?.fragment
                 isRecreate = !isRecreate
@@ -571,7 +568,6 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         dialog.setPositiveButton(getString(R.string.reset)) { _, _ ->
             pref.edit().remove(key).apply()
             when (key) {
-                IS_AUTO_DARK_MODE, IS_DARK_MODE -> ThemeHelper.setTheme(requireContext())
                 IS_FORCIBLY_SHOW_RATE_THE_APP -> {
                     MainActivity.apply {
                         tempFragment = instance?.fragment

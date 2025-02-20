@@ -48,7 +48,6 @@
     <string name="license">Ліцэнзія: Apache 2.0</string>
     <string name="feedback">Зваротная сувязь</string>
     <string name="email_copied">E-mail скапіяваны</string>
-    <string name="auto_dark_mode">Аўтаматычная цёмная тэма</string>
     <string name="auto_dark_mode_summary">Уключаць цёмную тэму ў залежнасці ад сістэмы</string>
     <string name="number_of_charges">Колькасць зарадак: %1$d</string>
     <string name="debug">Адладка</string>

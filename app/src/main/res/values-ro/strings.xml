@@ -48,7 +48,6 @@
     <string name="license">Licență: Apache 2.0</string>
     <string name="feedback">Opinii</string>
     <string name="email_copied">E-mail copiat</string>
-    <string name="auto_dark_mode">Modul întunecat automat</string>
     <string name="auto_dark_mode_summary">Se activează modul întunecat în funcție de sistem</string>
     <string name="number_of_charges">Numărul încărcărilor: %1$d</string>
     <string name="debug">Depanare</string>

@@ -28,7 +28,6 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CHARGING_DISCHARGE_CURRENT_IN_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
@@ -74,7 +73,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var openTheAppNotificationSettings: Preference? = null
 
     // Appearance
-    private var autoDarkMode: SwitchPreferenceCompat? = null
     private var darkMode: SwitchPreferenceCompat? = null
     private var textSize: ListPreference? = null
     private var textFont: ListPreference? = null
@@ -221,8 +219,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         }
 
         // Appearance
-        autoDarkMode = findPreference(IS_AUTO_DARK_MODE)
-
         darkMode = findPreference(IS_DARK_MODE)
 
         textSize = findPreference(TEXT_SIZE)
@@ -232,9 +228,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         textStyle = findPreference(TEXT_STYLE)
 
         applicationLanguage = findPreference("application_language")
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
-            !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
 
         textSize?.summary = getTextSizeSummary()
 
@@ -253,19 +246,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         textStyle?.summary = getTextStyleSummary()
 
-        autoDarkMode?.setOnPreferenceChangeListener { _, newValue ->
-
-            darkMode?.isEnabled = (newValue as? Boolean) == false
-
-            setTheme(requireContext(), isAutoDarkMode = newValue as? Boolean == true)
-
-            true
-        }
-
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
-
             setTheme(requireContext(), isDarkMode = newValue as? Boolean == true)
-
             true
         }
 
@@ -726,8 +708,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 summary = if(premium?.isVisible == true)
                     getString(R.string.premium_feature) else null
             }
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) darkMode?.isEnabled =
-                !pref.getBoolean(IS_AUTO_DARK_MODE, resources.getBoolean(R.bool.is_auto_dark_mode))
             textSize?.summary = getTextSizeSummary()
             textFont?.apply {
                 isEnabled = premium?.isVisible == false

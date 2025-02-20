@@ -48,7 +48,6 @@
     <string name="license">Licence: Apache 2.0</string>
     <string name="feedback">Retour</string>
     <string name="email_copied">E-mail copié</string>
-    <string name="auto_dark_mode">Mode sombre automatique</string>
     <string name="auto_dark_mode_summary">Activer le mode sombre en fonction du système</string>
     <string name="number_of_charges">Nombre de charges: %1$d</string>
     <string name="debug">Déboguer</string>
