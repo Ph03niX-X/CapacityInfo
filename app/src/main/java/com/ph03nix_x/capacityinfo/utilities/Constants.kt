@@ -30,7 +30,7 @@ object Constants {
     const val IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID = 0
     const val CHECK_PREMIUM_JOB_ID = 1
     const val FAST_CHARGE_JOB_ID = 2
-    const val HISTORY_COUNT_MAX = 2500
+    const val HISTORY_COUNT_MAX = 3600
     const val EXPORT_HISTORY_REQUEST_CODE = 2
     const val IMPORT_HISTORY_REQUEST_CODE = 3
     const val EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE = 0
