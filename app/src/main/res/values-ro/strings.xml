@@ -239,7 +239,7 @@
     <string name="error">Eroare!</string>
     <string name="history_count">Numărătoarea Istorie</string>
     <string name="get_premium">Obțineți Premium</string>
-    <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Ultima încărcare;\n\• Istorie;\n\• Afișați informații despre baterie;\n\• Afișați nivelul bateriei în bara de stare;\n\• Afișare notificare extinsă;\n\• Oprire serviciu;\n\• Se oprește serviciul atunci când încărcătorul este deconectat;\n\• Informații despre starea bateriei;\n\• Font;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere;\n\• Capacitate în Wh;\n\• Curent de încărcare/descărcare în wați\n\nPrin achiziționarea Premium, sprijiniți, de asemenea, dezvoltarea în continuare a aplicației</string>
+    <string name="premium_dialog">Prin achiziționarea Premium, veți obține caracteristici suplimentare ale aplicației:\n\• Ultima încărcare;\n\• Istorie;\n\• Afișați informații despre baterie;\n\• Afișați nivelul bateriei în bara de stare;\n\• Afișare notificare extinsă;\n\• Informații despre starea bateriei;\n\• Font;\n\• Resetarea timpului de ecran la orice nivel de încărcare;\n\• Copie de rezervă;\n\• Fila la lansarea aplicației;\n\• Suprapunere;\n\• Capacitate în Wh;\n\• Curent de încărcare/descărcare în wați\n\nPrin achiziționarea Premium, sprijiniți, de asemenea, dezvoltarea în continuare a aplicației</string>
     <string name="premium_feature">Caracteristica Premium</string>
     <string name="purchase_premium">Cumpărare</string>
     <string name="premium_features_unlocked">Caracteristici premium deblocate!</string>

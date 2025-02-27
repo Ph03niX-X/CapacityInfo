@@ -258,7 +258,7 @@
     <string name="error">Error!</string>
     <string name="history_count">History Count</string>
     <string name="get_premium">Get Premium</string>
-    <string name="premium_dialog">By purchasing Premium, you will get additional features of the app:\n\• Last Charge;\n\• History;\n\• Show Battery Information;\n\• Show Battery Level in Status Bar;\n\• Show expanded notification;\n\• Stop Service;\n\• Stop the service when the charger is disconnected;\n\• Battery Status Information;\n\• Text Font;\n\• Reset Screen Time at any charge level;\n\• Backup;\n\• Tab on application launch;\n\• Overlay\n\• Capacity in Wh;\n\• Charging/Discharge Current in Watt\n\nBy purchasing Premium you also support the further development of the app</string>
+    <string name="premium_dialog">By purchasing Premium, you will get additional features of the app:\n\• Last Charge;\n\• History;\n\• Show Battery Information;\n\• Show Battery Level in Status Bar;\n\• Show expanded notification;\n\• Battery Status Information;\n\• Text Font;\n\• Reset Screen Time at any charge level;\n\• Backup;\n\• Tab on application launch;\n\• Overlay\n\• Capacity in Wh;\n\• Charging/Discharge Current in Watt\n\nBy purchasing Premium you also support the further development of the app</string>
     <string name="premium_feature">Premium feature</string>
     <string name="purchase_premium">Purchase</string>
     <string name="premium_features_unlocked">Premium features unlocked!</string>
