@@ -236,7 +236,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if(!isGooglePlay) {
             ServiceHelper.cancelAllJobs(this@MainActivity)
             pref.edit().clear().apply()
-            if(showNotInstalledFromGPDialog == null)
+            if(!isInstalledGooglePlay && showNotInstalledFromGPDialog == null)
                 showNotInstalledFromGPDialog = MaterialAlertDialogBuilder(this).apply {
                     setIcon(R.drawable.ic_instruction_not_supported_24dp)
                     setTitle(getString(R.string.error))
