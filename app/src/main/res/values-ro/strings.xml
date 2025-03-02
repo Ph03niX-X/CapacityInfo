@@ -338,4 +338,6 @@
     <string name="checking_premium">Verificarea Premium&#8230;</string>
     <string name="successful_premium_check">Verificare reușită a Premium!\nPremium is %1$s</string>
     <string name="premium_check_error">Erorile verificării Premium!</string>
+    <string name="application_language">Limba aplicației</string>
+    <string name="open_the_app_notification_settings">Deschideți setările de notificare ale aplicației</string>
     </resources>
