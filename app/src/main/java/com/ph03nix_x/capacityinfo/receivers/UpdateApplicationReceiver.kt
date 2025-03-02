@@ -49,7 +49,8 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
     private fun removeOldPref(pref: SharedPreferences) {
         arrayListOf("is_fast_charge_setting", "is_show_stop_service",
-            "is_stop_the_service_when_the_cd", "is_auto_dark_mode", "is_dark_mode").forEach {
+            "is_stop_the_service_when_the_cd", "is_auto_dark_mode", "is_dark_mode",
+            "is_request_rate_the_app").forEach {
             with(pref) {
                 edit().apply {
                     if((it == "is_dark_mode" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
