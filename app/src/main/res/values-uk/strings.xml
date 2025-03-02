@@ -338,4 +338,6 @@
     <string name="checking_premium">Перевірка Premium&#8230;</string>
     <string name="successful_premium_check">Успішна перевірка Premium!\nPremium is %1$s</string>
     <string name="premium_check_error">Помилка перевірки Premium!</string>
+    <string name="application_language">Мова додатка</string>
+    <string name="open_the_app_notification_settings">Відкрити налаштування сповіщень додатка</string>
 </resources>
