@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabaseLockedException
 import android.net.Uri
 import android.view.View
 import android.widget.Toast
@@ -464,18 +463,11 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 }
             }
             }
-
-        try {
-            if(HistoryHelper.isHistoryNotEmpty(context)) HistoryHelper.clearHistory(context)
-        }
-        catch (_: SQLiteDatabaseLockedException) {}
-        finally {
-            withContext(Dispatchers.Main) {
-                ServiceHelper.cancelJob(context,
-                    Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
-                if(OverlayService.instance != null)
-                    ServiceHelper.stopService(context, OverlayService::class.java)
-            }
+        withContext(Dispatchers.Main) {
+            ServiceHelper.cancelJob(context,
+                Constants.IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID)
+            if(OverlayService.instance != null)
+                ServiceHelper.stopService(context, OverlayService::class.java)
         }
     }
 }
