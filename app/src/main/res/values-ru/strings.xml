@@ -338,4 +338,6 @@
     <string name="checking_premium">Проверка Premium&#8230;</string>
     <string name="successful_premium_check">Успешная проверка Premium!\nPremium is %1$s</string>
     <string name="premium_check_error">Ошибка проверки Premium!</string>
+    <string name="application_language">Язык приложения</string>
+    <string name="open_the_app_notification_settings">Открыть настройки уведомлений приложения</string>
 </resources>
