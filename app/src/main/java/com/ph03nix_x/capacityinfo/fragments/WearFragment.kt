@@ -251,26 +251,18 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                         else getCurrentCapacity(requireContext())))
 
                                     when {
-                                        getSourceOfPower(requireContext(), sourceOfPower).contains("N/A")
-                                        -> {
-
+                                        !getSourceOfPower(requireContext(), sourceOfPower)
+                                            .contains("N/A") -> {
                                             if(capacityAddedWear.visibility == View.GONE)
                                                 capacityAddedWear.visibility = View.VISIBLE
-
                                             capacityAddedWear.text =
                                                 getCapacityAdded(requireContext())
                                         }
-                                        getSourceOfPower(requireContext(), sourceOfPower) == "N/A"
-                                        -> {
-
-                                            if(capacityAddedWear.visibility == View.GONE)
-                                                capacityAddedWear.visibility = View.VISIBLE
-
-                                            capacityAddedWear.text =
-                                                getCapacityAdded(requireContext())
+                                        getSourceOfPower(requireContext(), sourceOfPower)
+                                            .contains("N/A") -> {
+                                            if(capacityAddedWear.visibility == View.VISIBLE)
+                                                capacityAddedWear.visibility = View.GONE
                                         }
-                                        capacityAddedWear.visibility == View.VISIBLE ->
-                                            capacityAddedWear.visibility = View.GONE
                                     }
                                 }   
                             }

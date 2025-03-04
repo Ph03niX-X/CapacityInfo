@@ -568,7 +568,7 @@ interface OverlayInterface : BatteryInfoInterface {
 
     private fun onUpdateSourceOfPowerOverlay(sourceOfPower: String) {
         if((pref.getBoolean(IS_SOURCE_OF_POWER, binding.sourceOfPowerOverlay.context.resources
-                .getBoolean(R.bool.is_source_of_power_overlay)) && sourceOfPower.contains("N/A"))
+                .getBoolean(R.bool.is_source_of_power_overlay)) && !sourceOfPower.contains("N/A"))
             || binding.sourceOfPowerOverlay.visibility == View.VISIBLE)
             binding.sourceOfPowerOverlay.apply {
             TextAppearanceHelper.setTextAppearance(context, this,
@@ -578,8 +578,8 @@ interface OverlayInterface : BatteryInfoInterface {
                 setTextColor(pref.getInt(OVERLAY_TEXT_COLOR, Color.WHITE))
                 text = sourceOfPower
                 visibility = if(pref.getBoolean(IS_SOURCE_OF_POWER, context.resources.getBoolean(
-                    R.bool.is_source_of_power_overlay)) && sourceOfPower.contains("N/A")) View.VISIBLE
-                else View.GONE
+                    R.bool.is_source_of_power_overlay)) && !sourceOfPower.contains("N/A"))
+                    View.VISIBLE else View.GONE
         }
     }
 

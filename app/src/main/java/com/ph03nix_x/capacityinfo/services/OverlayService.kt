@@ -58,7 +58,7 @@ class OverlayService : Service(), OverlayInterface {
                         BatteryManager.EXTRA_PLUGGED, -1) ?: -1
                     if(status == BatteryManager.BATTERY_STATUS_CHARGING) {
                         if(CapacityInfoService.instance != null &&
-                            getSourceOfPower(this@OverlayService, sourceOfPower).contains("N/A"))
+                            !getSourceOfPower(this@OverlayService, sourceOfPower).contains("N/A"))
                             OverlayInterface.chargingTime++
                         delay(if(getCurrentCapacity(this@OverlayService) > 0.0)
                             0.99.seconds else 1.seconds)
