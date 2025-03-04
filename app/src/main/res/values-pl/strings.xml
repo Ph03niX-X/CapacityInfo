@@ -338,4 +338,6 @@
     <string name="checking_premium">Sprawdzenie Premium&#8230;</string>
     <string name="successful_premium_check">Sprawdzenie Premium zakończone sukcesem!\nPremium is %1$s</string>
     <string name="premium_check_error">Błąd sprawdzania Premium!</string>
+    <string name="application_language">Język aplikacji</string>
+    <string name="open_the_app_notification_settings">Otwórz ustawienia powiadomień aplikacji</string>
     </resources>
