@@ -209,7 +209,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         binding.apply {
                             this.status.text = getString(R.string.status,
                                 getStatus(requireContext(), status))
-                            if(getSourceOfPower(requireContext(), sourceOfPower).contains("N/A")) {
+                            if(!getSourceOfPower(requireContext(), sourceOfPower).contains("N/A")) {
                                 if(this.sourceOfPower.visibility == View.GONE)
                                     this.sourceOfPower.visibility = View.VISIBLE
                                 this.sourceOfPower.text =
