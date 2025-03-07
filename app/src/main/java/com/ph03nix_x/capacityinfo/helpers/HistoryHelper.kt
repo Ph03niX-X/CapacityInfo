@@ -2,8 +2,8 @@ package com.ph03nix_x.capacityinfo.helpers
 
 import android.content.Context
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
@@ -54,10 +54,10 @@ object HistoryHelper {
                         clearHistoryToolbarMenu.isVisible = isHistoryNotEmpty
                         if(!isHistoryNotEmpty) {
                             HistoryFragment.instance?.binding?.apply {
-                                historyRecyclerView.visibility = View.GONE
-                                refreshHistory.visibility = View.GONE
-                                refreshEmptyHistory.visibility = View.VISIBLE
-                                emptyHistoryLayout.visibility = View.VISIBLE
+                                historyRecyclerView.isVisible = false
+                                refreshHistory.isVisible = false
+                                refreshEmptyHistory.isVisible = true
+                                emptyHistoryLayout.isVisible = true
                                 emptyHistoryText.text =
                                     context.resources.getText(R.string.empty_history_text)
                             }
@@ -66,10 +66,10 @@ object HistoryHelper {
                         }
                         else {
                             HistoryFragment.instance?.binding?.apply {
-                                refreshEmptyHistory.visibility = View.GONE
-                                refreshHistory.visibility = View.VISIBLE
-                                emptyHistoryLayout.visibility = View.GONE
-                                historyRecyclerView.visibility = View.VISIBLE
+                                refreshEmptyHistory.isVisible = false
+                                refreshHistory.isVisible = true
+                                emptyHistoryLayout.isVisible = false
+                                historyRecyclerView.isVisible = true
                             }
                             HistoryAdapter.instance?.update(context)
                             Toast.makeText(context, context.getString(R.string

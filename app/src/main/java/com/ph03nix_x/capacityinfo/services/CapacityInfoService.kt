@@ -13,6 +13,7 @@ import android.os.PowerManager
 import android.view.Display
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
@@ -473,10 +474,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 if(HistoryHelper.isHistoryNotEmpty(this@CapacityInfoService)) {
                     val historyFragment = HistoryFragment.instance
                     historyFragment?.binding?.apply {
-                        refreshEmptyHistory.visibility = View.GONE
-                        emptyHistoryLayout.visibility = View.GONE
-                        historyRecyclerView.visibility = View.VISIBLE
-                        refreshHistory.visibility = View.VISIBLE
+                        refreshEmptyHistory.isVisible = false
+                        emptyHistoryLayout.isVisible = false
+                        historyRecyclerView.isVisible = true
+                        refreshHistory.isVisible = true
                     }
                     MainActivity.instance?.toolbar?.menu?.apply {
                         findItem(R.id.history_premium)?.isVisible = false
@@ -500,10 +501,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 }
                 else {
                     HistoryFragment.instance?.binding?.apply {
-                        historyRecyclerView.visibility = View.GONE
-                        refreshHistory.visibility = View.GONE
-                        emptyHistoryLayout.visibility = View.VISIBLE
-                        refreshEmptyHistory.visibility = View.VISIBLE
+                        historyRecyclerView.isVisible = false
+                        refreshHistory.isVisible = false
+                        emptyHistoryLayout.isVisible = true
+                        refreshEmptyHistory.isVisible = true
                         emptyHistoryText.text = resources.getText(R.string.empty_history_text)
                     }
                     MainActivity.instance?.toolbar?.menu?.apply {
@@ -515,10 +516,10 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             }
             else {
                 HistoryFragment.instance?.binding?.apply {
-                    historyRecyclerView.visibility = View.GONE
-                    refreshHistory.visibility = View.GONE
-                    emptyHistoryLayout.visibility = View.VISIBLE
-                    refreshEmptyHistory.visibility = View.VISIBLE
+                    historyRecyclerView.isVisible = false
+                    refreshHistory.isVisible = false
+                    emptyHistoryLayout.isVisible = true
+                    refreshEmptyHistory.isVisible = true
                     emptyHistoryText.text = resources.getText(R.string.required_to_access_premium_feature)
                 }
                 MainActivity.instance?.toolbar?.menu?.apply {

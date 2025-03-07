@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
@@ -221,10 +222,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     findItem(R.id.clear_history)?.isVisible = isHistoryNotEmpty
                 }
                 historyFragment?.binding?.apply {
-                    refreshEmptyHistory.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-                    emptyHistoryLayout.visibility = if(isHistoryNotEmpty) View.GONE else View.VISIBLE
-                    historyRecyclerView.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
-                    refreshHistory.visibility = if(!isHistoryNotEmpty) View.GONE else View.VISIBLE
+                    refreshEmptyHistory.isVisible = !isHistoryNotEmpty
+                    emptyHistoryLayout.isVisible = !isHistoryNotEmpty
+                    historyRecyclerView.isVisible = isHistoryNotEmpty
+                    refreshHistory.isVisible = isHistoryNotEmpty
                     emptyHistoryText.text = if(!isHistoryNotEmpty)
                         context.resources?.getText(R.string.empty_history_text) else null
                 }

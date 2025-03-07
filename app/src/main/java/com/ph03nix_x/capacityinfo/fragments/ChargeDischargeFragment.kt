@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
@@ -164,32 +165,32 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         if(!getSourceOfPower(requireContext(), sourceOfPower).contains("N/A")
                             && chargingTime > 0) {
                             binding.chargingTime.apply {
-                                visibility = View.VISIBLE
+                                isVisible = true
                                 text = getChargingTime(requireContext(), chargingTime)
                             }
                         }
-                        else if(binding.chargingTime.visibility == View.VISIBLE)
-                            binding.chargingTime.visibility = View.GONE
+                        else if(binding.chargingTime.isVisible)
+                            binding.chargingTime.isVisible = false
 
                         if(sourceOfPower == BatteryManager.BATTERY_PLUGGED_AC
                             && status == BatteryManager.BATTERY_STATUS_CHARGING) {
                             binding.apply {
-                                if(chargingTimeRemaining.visibility == View.GONE)
-                                    chargingTimeRemaining.visibility = View.VISIBLE
-                                if(remainingBatteryTime.visibility == View.VISIBLE)
-                                    remainingBatteryTime.visibility = View.GONE
+                                if(!chargingTimeRemaining.isVisible)
+                                    chargingTimeRemaining.isVisible = true
+                                if(remainingBatteryTime.isVisible)
+                                    remainingBatteryTime.isVisible = false
                                 chargingTimeRemaining.text =
                                     getString(R.string.charging_time_remaining,
                                         getChargingTimeRemaining(requireContext()))
                             }
                         }
                         else {
-                            if(binding.chargingTimeRemaining.visibility == View.VISIBLE)
-                                binding.chargingTimeRemaining.visibility = View.GONE
+                            if(binding.chargingTimeRemaining.isVisible)
+                                binding.chargingTimeRemaining.isVisible = false
 
                             if(getCurrentCapacity(requireContext()) > 0.0) {
                                 binding.remainingBatteryTime.apply {
-                                    if(visibility == View.GONE) visibility = View.VISIBLE
+                                    if(!isVisible) isVisible = true
                                     if(remainingBatteryTimeSeconds % 15 == 0 ||
                                         isGetRemainingBatteryTime) {
                                         text = getString(R.string.remaining_battery_time,
@@ -210,8 +211,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             this.status.text = getString(R.string.status,
                                 getStatus(requireContext(), status))
                             if(!getSourceOfPower(requireContext(), sourceOfPower).contains("N/A")) {
-                                if(this.sourceOfPower.visibility == View.GONE)
-                                    this.sourceOfPower.visibility = View.VISIBLE
+                                if(!this.sourceOfPower.isVisible)
+                                    this.sourceOfPower.isVisible = true
                                 this.sourceOfPower.text =
                                     getSourceOfPower(requireContext(), sourceOfPower)
                                 if(CapacityInfoService.instance != null
@@ -220,7 +221,7 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                                         CapacityInfoService.instance?.screenTime
                             }
                             else {
-                                this.sourceOfPower.visibility = View.GONE
+                                this.sourceOfPower.isVisible = false
                                 if(CapacityInfoService.instance != null && isScreenTimeCount
                                     && (status == BatteryManager.BATTERY_STATUS_DISCHARGING ||
                                             status == BatteryManager.BATTERY_STATUS_NOT_CHARGING)
@@ -276,9 +277,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     if(getCurrentCapacity(requireContext()) > 0.0) {
 
-                        if(binding.currentCapacityChargeDischarge.visibility == View.GONE)
+                        if(!binding.currentCapacityChargeDischarge.isVisible)
                             withContext(Dispatchers.Main) {
-                                binding.currentCapacityChargeDischarge.visibility = View.VISIBLE }
+                                binding.currentCapacityChargeDischarge.isVisible = true }
 
                         withContext(Dispatchers.Main) {
 
@@ -295,17 +296,15 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             when {
                                 !getSourceOfPower(requireContext(), sourceOfPower)
                                     .contains("N/A") -> {
-                                        if(binding.capacityAddedChargeDischarge.visibility ==
-                                            View.GONE) binding.capacityAddedChargeDischarge
-                                                .visibility = View.VISIBLE
+                                        if(!binding.capacityAddedChargeDischarge.isVisible)
+                                            binding.capacityAddedChargeDischarge.isVisible = true
                                     binding.capacityAddedChargeDischarge.text =
                                         getCapacityAdded(requireContext())
                                 }
                                 getSourceOfPower(requireContext(), sourceOfPower)
                                     .contains("N/A") -> {
-                                        if(binding.capacityAddedChargeDischarge.visibility ==
-                                        View.VISIBLE) binding.capacityAddedChargeDischarge
-                                            .visibility = View.GONE
+                                        if(binding.capacityAddedChargeDischarge.isVisible)
+                                            binding.capacityAddedChargeDischarge.isVisible = false
                                 }
                             }
                         }
@@ -313,17 +312,17 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                     else {
 
-                        if(binding.currentCapacityChargeDischarge.visibility == View.VISIBLE)
+                        if(binding.currentCapacityChargeDischarge.isVisible)
                             withContext(Dispatchers.Main) {
-                                binding.currentCapacityChargeDischarge.visibility = View.GONE }
+                                binding.currentCapacityChargeDischarge.isVisible = false }
 
-                        if(binding.capacityAddedChargeDischarge.visibility == View.GONE
-                            && pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
+                        if(!binding.capacityAddedChargeDischarge.isVisible &&
+                            pref.getFloat(PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
                             withContext(Dispatchers.Main) {
-                                binding.capacityAddedChargeDischarge.visibility = View.VISIBLE }
+                                binding.capacityAddedChargeDischarge.isVisible = true }
 
                         else withContext(Dispatchers.Main) {
-                            binding.capacityAddedChargeDischarge.visibility = View.GONE }
+                            binding.capacityAddedChargeDischarge.isVisible = false }
                     }
 
                     when(status) {
@@ -331,9 +330,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             if(CapacityInfoService.instance != null &&
                                 !getSourceOfPower(requireContext(), sourceOfPower).contains("N/A"))
                                 chargingTime++
-                            if(binding.chargeCurrent.visibility == View.GONE)
+                            if(!binding.chargeCurrent.isVisible)
                                 withContext(Dispatchers.Main) {
-                                    binding.chargeCurrent.visibility = View.VISIBLE }
+                                    binding.chargeCurrent.isVisible = true }
                             withContext(Dispatchers.Main) {
                                 binding.chargeCurrent.text = if(isChargingDischargeCurrentInWatt)
                                     getString(R.string.charge_current_watt,
@@ -349,9 +348,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         BatteryManager.BATTERY_STATUS_DISCHARGING, BatteryManager
                             .BATTERY_STATUS_FULL, BatteryManager.BATTERY_STATUS_NOT_CHARGING -> {
 
-                            if(binding.chargeCurrent.visibility == View.GONE)
+                            if(!binding.chargeCurrent.isVisible)
                                 withContext(Dispatchers.Main) {
-                                    binding.chargeCurrent.visibility = View.VISIBLE }
+                                    binding.chargeCurrent.isVisible = true }
 
                             withContext(Dispatchers.Main) {
 
@@ -367,9 +366,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         else -> {
 
-                            if(binding.chargeCurrent.visibility == View.VISIBLE)
+                            if(binding.chargeCurrent.isVisible)
                                 withContext(Dispatchers.Main) {
-                                    binding.chargeCurrent.visibility = View.GONE }
+                                    binding.chargeCurrent.isVisible = false }
                         }
                     }
 
@@ -378,9 +377,9 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         BatteryManager.BATTERY_STATUS_CHARGING, BatteryManager.BATTERY_STATUS_FULL
                         -> {
 
-                            if(binding.fastCharge.visibility == View.GONE) {
+                            if(!binding.fastCharge.isVisible) {
                                 withContext(Dispatchers.Main) {
-                                    binding.fastCharge.visibility = View.VISIBLE }
+                                    binding.fastCharge.isVisible = true }
                             }
 
                             withContext(Dispatchers.Main) {
@@ -390,14 +389,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             withContext(Dispatchers.Main) {
 
                                 binding.apply {
-                                    if(maxChargeDischargeCurrent.visibility == View.GONE)
-                                        maxChargeDischargeCurrent.visibility = View.VISIBLE
+                                    if(!maxChargeDischargeCurrent.isVisible)
+                                        maxChargeDischargeCurrent.isVisible = true
 
-                                    if(averageChargeDischargeCurrent.visibility == View.GONE)
-                                        averageChargeDischargeCurrent.visibility = View.VISIBLE
+                                    if(!averageChargeDischargeCurrent.isVisible)
+                                        averageChargeDischargeCurrent.isVisible = true
 
-                                    if(minChargeDischargeCurrent.visibility == View.GONE)
-                                        minChargeDischargeCurrent.visibility = View.VISIBLE
+                                    if(!minChargeDischargeCurrent.isVisible)
+                                        minChargeDischargeCurrent.isVisible = true
 
                                     maxChargeDischargeCurrent.text =
                                         if(isChargingDischargeCurrentInWatt)
@@ -436,17 +435,17 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             .BATTERY_STATUS_NOT_CHARGING -> withContext(Dispatchers.Main) {
 
                                 binding.apply {
-                                    if(fastCharge.visibility == View.VISIBLE)
-                                        fastCharge.visibility = View.GONE
+                                    if(fastCharge.isVisible)
+                                        fastCharge.isVisible = false
 
-                                    if(maxChargeDischargeCurrent.visibility == View.GONE)
-                                        maxChargeDischargeCurrent.visibility = View.VISIBLE
+                                    if(!maxChargeDischargeCurrent.isVisible)
+                                        maxChargeDischargeCurrent.isVisible = true
 
-                                    if(averageChargeDischargeCurrent.visibility == View.GONE)
-                                        averageChargeDischargeCurrent.visibility = View.VISIBLE
+                                    if(!averageChargeDischargeCurrent.isVisible)
+                                        averageChargeDischargeCurrent.isVisible = true
 
-                                    if(minChargeDischargeCurrent.visibility == View.GONE)
-                                        minChargeDischargeCurrent.visibility = View.VISIBLE
+                                    if(!minChargeDischargeCurrent.isVisible)
+                                        minChargeDischargeCurrent.isVisible = true
 
                                     maxChargeDischargeCurrent.text =
                                         if(isChargingDischargeCurrentInWatt)
@@ -482,14 +481,14 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                             withContext(Dispatchers.Main) {
 
                                 binding.apply {
-                                    if(maxChargeDischargeCurrent.visibility == View.VISIBLE)
-                                        maxChargeDischargeCurrent.visibility = View.GONE
+                                    if(maxChargeDischargeCurrent.isVisible)
+                                        maxChargeDischargeCurrent.isVisible = false
 
-                                    if(averageChargeDischargeCurrent.visibility == View.VISIBLE)
-                                        averageChargeDischargeCurrent.visibility = View.GONE
+                                    if(averageChargeDischargeCurrent.isVisible)
+                                        averageChargeDischargeCurrent.isVisible = false
 
-                                    if(minChargeDischargeCurrent.visibility == View.VISIBLE)
-                                        minChargeDischargeCurrent.visibility = View.GONE
+                                    if(minChargeDischargeCurrent.isVisible)
+                                        minChargeDischargeCurrent.isVisible = false
                                 }
                             }
                         }
@@ -501,9 +500,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
 
                         if(chargingCurrentLimit != null && chargingCurrentLimit.toInt() > 0) {
 
-                            if(binding.chargingCurrentLimit
-                                    .visibility == View.GONE) this@ChargeDischargeFragment
-                                .binding.chargingCurrentLimit.visibility = View.VISIBLE
+                            if(!binding.chargingCurrentLimit.isVisible) this@ChargeDischargeFragment
+                                .binding.chargingCurrentLimit.isVisible = true
 
                             if(isChargingDischargeCurrentInWatt)
                                 binding.chargingCurrentLimit.text = getString(
@@ -516,8 +514,8 @@ class ChargeDischargeFragment : Fragment(R.layout.charge_discharge_fragment),
                         }
 
                         else if(binding.chargingCurrentLimit
-                                .visibility == View.VISIBLE) this@ChargeDischargeFragment
-                            .binding.chargingCurrentLimit.visibility = View.GONE
+                                .isVisible) this@ChargeDischargeFragment
+                            .binding.chargingCurrentLimit.isVisible = false
 
                         binding.screenTime.text = getString(R.string.screen_time, TimeHelper
                             .getTime(screenTime ?: if(MainApp.tempScreenTime > 0)

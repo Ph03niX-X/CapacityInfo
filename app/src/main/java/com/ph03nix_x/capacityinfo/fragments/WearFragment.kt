@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp.Companion.batteryIntent
@@ -83,12 +84,12 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         super.onResume()
         with(binding) {
             designCapacity.text = getDesignCapacity()
-            numberOfCyclesAndroid.visibility =
+            numberOfCyclesAndroid.isVisible =
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-                    || File(NUMBER_OF_CYCLES_PATH).exists()) View.VISIBLE else View.GONE
+                    || File(NUMBER_OF_CYCLES_PATH).exists()) true else false
             batteryHealth.apply {
                 if(getBatteryHealth(requireContext()) != null) {
-                    visibility = View.VISIBLE
+                    isVisible = true
                     text = getString(R.string.battery_health, getString(
                         getBatteryHealth(requireContext()) ?: R.string.battery_health_great))
                 }
@@ -211,7 +212,7 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                     PreferencesKeys.NUMBER_OF_CYCLES, 0f)))
 
                             numberOfCyclesAndroid.apply {
-                                if(visibility == View.VISIBLE) text = getString(R.string
+                                if(isVisible) text = getString(R.string
                                     .number_of_cycles_android, getNumberOfCyclesAndroid())
                             }
                         }
@@ -235,9 +236,9 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                         if(getCurrentCapacity(requireContext()) > 0.0) {
                             
                             binding.apply {
-                                if(currentCapacityWear.visibility == View.GONE)
+                                if(!currentCapacityWear.isVisible)
                                     withContext(Dispatchers.Main) {
-                                        currentCapacityWear.visibility = View.VISIBLE }
+                                        currentCapacityWear.isVisible = true }
 
                                 withContext(Dispatchers.Main) {
 
@@ -253,15 +254,15 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                                     when {
                                         !getSourceOfPower(requireContext(), sourceOfPower)
                                             .contains("N/A") -> {
-                                            if(capacityAddedWear.visibility == View.GONE)
-                                                capacityAddedWear.visibility = View.VISIBLE
+                                            if(!capacityAddedWear.isVisible)
+                                                capacityAddedWear.isVisible = true
                                             capacityAddedWear.text =
                                                 getCapacityAdded(requireContext())
                                         }
                                         getSourceOfPower(requireContext(), sourceOfPower)
                                             .contains("N/A") -> {
-                                            if(capacityAddedWear.visibility == View.VISIBLE)
-                                                capacityAddedWear.visibility = View.GONE
+                                            if(capacityAddedWear.isVisible)
+                                                capacityAddedWear.isVisible = false
                                         }
                                     }
                                 }   
@@ -270,27 +271,27 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
 
                         else {
                             binding.apply {
-                                if(currentCapacityWear.visibility == View.VISIBLE)
+                                if(currentCapacityWear.isVisible)
                                     withContext(Dispatchers.Main) {
-                                        currentCapacityWear.visibility = View.GONE }
+                                        currentCapacityWear.isVisible = false }
 
-                                if(capacityAddedWear.visibility == View.GONE && pref.getFloat(
+                                if(!capacityAddedWear.isVisible && pref.getFloat(
                                         PreferencesKeys.CAPACITY_ADDED, 0f) > 0f)
                                     withContext(Dispatchers.Main) {
-                                        capacityAddedWear.visibility = View.VISIBLE }
+                                        capacityAddedWear.isVisible = true }
                                 else withContext(Dispatchers.Main) {
-                                    capacityAddedWear.visibility = View.GONE }
+                                    capacityAddedWear.isVisible = false }
                             }
                         }
                     }
                     else {
                         binding.apply {
-                            if(currentCapacityWear.visibility == View.VISIBLE)
+                            if(currentCapacityWear.isVisible)
                                 withContext(Dispatchers.Main) {
-                                    currentCapacityWear.visibility = View.GONE }
-                            if(capacityAddedWear.visibility == View.VISIBLE)
+                                    currentCapacityWear.isVisible = false }
+                            if(capacityAddedWear.isVisible)
                                 withContext(Dispatchers.Main) {
-                                    capacityAddedWear.visibility = View.GONE }
+                                    capacityAddedWear.isVisible = false }
                             if(pref.contains(PreferencesKeys.CAPACITY_ADDED)) pref.edit().remove(
                                 PreferencesKeys.CAPACITY_ADDED).apply()
                             if(pref.contains(PreferencesKeys.PERCENT_ADDED)) pref.edit().remove(

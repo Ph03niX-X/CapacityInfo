@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -66,10 +67,10 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
 
         if(PremiumInterface.isPremium && historyDB.getCount() > 0) {
             binding?.apply {
-                emptyHistoryLayout.visibility = View.GONE
-                refreshEmptyHistory.visibility = View.GONE
-                historyRecyclerView.visibility = View.VISIBLE
-                refreshHistory.visibility = View.VISIBLE
+                emptyHistoryLayout.isVisible = false
+                refreshEmptyHistory.isVisible = false
+                historyRecyclerView.isVisible = true
+                refreshHistory.isVisible = true
                 historyAdapter = HistoryAdapter(historyDB.readDB())
                 historyRecyclerView.setItemViewCacheSize(historyAdapter.itemCount)
                 historyRecyclerView.adapter = historyAdapter
@@ -77,19 +78,19 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
         }
         else if(PremiumInterface.isPremium) {
             binding?.apply {
-                historyRecyclerView.visibility = View.GONE
-                refreshEmptyHistory.visibility = View.VISIBLE
-                emptyHistoryLayout.visibility = View.VISIBLE
-                refreshHistory.visibility = View.GONE
+                historyRecyclerView.isVisible = false
+                refreshEmptyHistory.isVisible = true
+                emptyHistoryLayout.isVisible = true
+                refreshHistory.isVisible = false
                 emptyHistoryText.text = resources.getText(R.string.empty_history_text)
             }
         }
         else {
             binding?.apply {
-                historyRecyclerView.visibility = View.GONE
-                refreshEmptyHistory.visibility = View.VISIBLE
-                emptyHistoryLayout.visibility = View.VISIBLE
-                refreshHistory.visibility = View.GONE
+                historyRecyclerView.isVisible = false
+                refreshEmptyHistory.isVisible = true
+                emptyHistoryLayout.isVisible = true
+                refreshHistory.isVisible = false
                 emptyHistoryText.text = resources.getText(R.string.required_to_access_premium_feature)
             }
         }
@@ -107,10 +108,10 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
             val historyDB = HistoryDB(requireContext())
             if(PremiumInterface.isPremium && HistoryHelper.getHistoryCount(requireContext()) > 0) {
                 binding?.apply {
-                    refreshEmptyHistory.visibility = View.GONE
-                    emptyHistoryLayout.visibility = View.GONE
-                    historyRecyclerView.visibility = View.VISIBLE
-                    refreshHistory.visibility = View.VISIBLE
+                    refreshEmptyHistory.isVisible = false
+                    emptyHistoryLayout.isVisible = false
+                    historyRecyclerView.isVisible = true
+                    refreshHistory.isVisible = true
                 }
                 MainActivity.instance?.toolbar?.menu?.apply {
                     findItem(R.id.history_premium)?.isVisible = false
@@ -128,19 +129,19 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
             }
             else if(PremiumInterface.isPremium) {
                 binding?.apply {
-                    historyRecyclerView.visibility = View.GONE
-                    refreshEmptyHistory.visibility = View.VISIBLE
-                    emptyHistoryLayout.visibility = View.VISIBLE
-                    refreshHistory.visibility = View.GONE
+                    historyRecyclerView.isVisible = false
+                    refreshEmptyHistory.isVisible = true
+                    emptyHistoryLayout.isVisible = true
+                    refreshHistory.isVisible = false
                     emptyHistoryText.text = resources.getText(R.string.empty_history_text)
                 }
             }
             else {
                 binding?.apply {
-                    historyRecyclerView.visibility = View.GONE
-                    refreshEmptyHistory.visibility = View.VISIBLE
-                    emptyHistoryLayout.visibility = View.VISIBLE
-                    refreshHistory.visibility = View.GONE
+                    historyRecyclerView.isVisible = false
+                    refreshEmptyHistory.isVisible = true
+                    emptyHistoryLayout.isVisible = true
+                    refreshHistory.isVisible = false
                     emptyHistoryText.text = resources.getText(R.string.required_to_access_premium_feature)
                 }
             }
@@ -224,28 +225,28 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                     if(PremiumInterface.isPremium &&
                         HistoryHelper.isHistoryNotEmpty(requireContext())) {
                         historyAdapter.update(requireContext())
-                        visibility = View.GONE
-                        refreshHistory.visibility = View.VISIBLE
-                        emptyHistoryLayout.visibility = View.GONE
-                        historyRecyclerView.visibility = View.VISIBLE
+                        isVisible = false
+                        refreshHistory.isVisible = true
+                        emptyHistoryLayout.isVisible = false
+                        historyRecyclerView.isVisible = true
                         MainActivity.instance?.toolbar?.menu?.apply {
                             findItem(R.id.history_premium)?.isVisible = false
                             findItem(R.id.clear_history)?.isVisible = true
                         }
                     }
                     else if(PremiumInterface.isPremium) {
-                        historyRecyclerView.visibility = View.GONE
-                        visibility = View.VISIBLE
-                        refreshHistory.visibility = View.GONE
-                        emptyHistoryLayout.visibility = View.VISIBLE
+                        historyRecyclerView.isVisible = false
+                        isVisible = true
+                        refreshHistory.isVisible = false
+                        emptyHistoryLayout.isVisible = true
                         emptyHistoryText.text = resources.getText(R.string.empty_history_text)
                         MainActivity.instance?.clearMenu()
                     }
                     else {
-                        historyRecyclerView.visibility = View.GONE
-                        visibility = View.VISIBLE
-                        refreshHistory.visibility = View.GONE
-                        emptyHistoryLayout.visibility = View.VISIBLE
+                        historyRecyclerView.isVisible = false
+                        isVisible = true
+                        refreshHistory.isVisible = false
+                        emptyHistoryLayout.isVisible = true
                         emptyHistoryText.text = resources.getText(R.string.required_to_access_premium_feature)
                         MainActivity.instance?.toolbar?.menu?.apply {
                             findItem(R.id.history_premium)?.isVisible = true
@@ -270,10 +271,10 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
                     if(PremiumInterface.isPremium &&
                         HistoryHelper.isHistoryNotEmpty(requireContext())) {
                         historyAdapter.update(requireContext())
-                        refreshEmptyHistory.visibility = View.GONE
-                        visibility = View.VISIBLE
-                        emptyHistoryLayout.visibility = View.GONE
-                        historyRecyclerView.visibility = View.VISIBLE
+                        refreshEmptyHistory.isVisible = false
+                        isVisible = true
+                        emptyHistoryLayout.isVisible = false
+                        historyRecyclerView.isVisible = true
                         MainActivity.instance?.toolbar?.menu?.apply {
                             findItem(R.id.history_premium)?.isVisible = false
                             findItem(R.id.clear_history)?.isVisible = true
@@ -293,10 +294,10 @@ class HistoryFragment : Fragment(R.layout.history_fragment), MenuInterface {
             findItem(R.id.clear_history)?.isVisible = false
         }
         binding?.apply {
-            historyRecyclerView.visibility = View.GONE
-            refreshHistory.visibility = View.GONE
-            refreshEmptyHistory.visibility = View.VISIBLE
-            emptyHistoryLayout.visibility = View.VISIBLE
+            historyRecyclerView.isVisible = false
+            refreshHistory.isVisible = false
+            refreshEmptyHistory.isVisible = true
+            emptyHistoryLayout.isVisible = true
             emptyHistoryText.text = getText(if(PremiumInterface.isPremium)
                 R.string.empty_history_text else R.string.required_to_access_premium_feature)
         }
