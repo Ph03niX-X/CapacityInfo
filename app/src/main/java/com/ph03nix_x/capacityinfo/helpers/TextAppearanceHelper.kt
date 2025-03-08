@@ -93,6 +93,11 @@ object TextAppearanceHelper : PremiumInterface {
             46 -> ResourcesCompat.getFont(context, R.font.arima)
             47 -> ResourcesCompat.getFont(context, R.font.prociono)
             48 -> ResourcesCompat.getFont(context, R.font.rethink_sans)
+            49 -> ResourcesCompat.getFont(context, R.font.big_shoulders)
+            50 -> ResourcesCompat.getFont(context, R.font.big_shoulders_inline)
+            51 -> ResourcesCompat.getFont(context, R.font.big_shoulders_stencil)
+            52 -> ResourcesCompat.getFont(context, R.font.gentium_plus)
+            53 -> ResourcesCompat.getFont(context, R.font.ponomar)
             else -> null
         }
     }

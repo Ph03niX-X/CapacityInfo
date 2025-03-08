@@ -78,6 +78,11 @@
         <item>Arima</item>
         <item>Prociono</item>
         <item>Rethink Sans</item>
+        <item>Big Shoulders</item>
+        <item>Big Shoulders Inline</item>
+        <item>Big Shoulders Stencil</item>
+        <item>Gentium Plus</item>
+        <item>Ponomar</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">

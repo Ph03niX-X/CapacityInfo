@@ -116,6 +116,11 @@
         <item>Arima</item>
         <item>Prociono</item>
         <item>Rethink Sans</item>
+        <item>Big Shoulders</item>
+        <item>Big Shoulders Inline</item>
+        <item>Big Shoulders Stencil</item>
+        <item>Gentium Plus</item>
+        <item>Ponomar</item>
     </string-array>
 
     <string-array name="fonts_values"> // Do Not Translation
@@ -168,6 +173,11 @@
         <item>46</item>
         <item>47</item>
         <item>48</item>
+        <item>49</item>
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
