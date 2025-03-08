@@ -520,7 +520,7 @@ interface OverlayInterface : BatteryInfoInterface {
                 text = context.getString(if(!pref.getBoolean(IS_ONLY_VALUES_OVERLAY,
                         context.resources.getBoolean(R.bool.is_only_values_overlay)))
                     R.string.battery_health else R.string.battery_health_overlay_only_values,
-                    getBatteryHealth(context))
+                    context.getString(getBatteryHealth(context) ?: R.string.battery_health_great))
                 isVisible = pref.getBoolean(IS_BATTERY_HEALTH_OVERLAY, context.resources
                         .getBoolean(R.bool.is_battery_health_overlay)) &&
                     getBatteryHealth(context) != null
