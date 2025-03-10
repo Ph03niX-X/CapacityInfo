@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.helpers
 
+import android.annotation.SuppressLint
 import android.app.ForegroundServiceStartNotAllowedException
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
@@ -57,6 +58,7 @@ object ServiceHelper {
 
     fun isStartedOverlayService() = isStartedOverlayService
 
+    @SuppressLint("ImplicitSamInstance")
     fun stopService(context: Context, serviceName: Class<*>) =
         context.stopService(Intent(context, serviceName))
 

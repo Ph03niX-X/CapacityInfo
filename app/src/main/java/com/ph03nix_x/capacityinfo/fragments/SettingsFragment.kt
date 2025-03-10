@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -51,6 +50,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.net.toUri
+import androidx.core.content.edit
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
     BatteryInfoInterface, PremiumInterface, NavigationInterface {
@@ -270,7 +271,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         applicationLanguage?.setOnPreferenceClickListener { it ->
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
-                    Uri.parse("package:${requireContext().packageName}")))
+                    "package:${requireContext().packageName}".toUri()))
             else it.isVisible = false
             true
         }
@@ -545,7 +546,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                     setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
-                        pref.edit().remove(NUMBER_OF_CHARGES).apply()
+                        pref.edit { remove(NUMBER_OF_CHARGES) }
 
                         it.isEnabled = pref.getLong(NUMBER_OF_CHARGES, 0) > 0
 
@@ -574,7 +575,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                     setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
-                        pref.edit().remove(NUMBER_OF_CYCLES).apply()
+                        pref.edit { remove(NUMBER_OF_CYCLES) }
 
                         it.isEnabled = pref.getFloat(NUMBER_OF_CYCLES, 0f) > 0f
 
@@ -603,7 +604,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
                     setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
-                        pref.edit().remove(NUMBER_OF_FULL_CHARGES).apply()
+                        pref.edit { remove(NUMBER_OF_FULL_CHARGES) }
 
                         it.isEnabled = pref.getLong(NUMBER_OF_FULL_CHARGES, 0) > 0
 

@@ -35,7 +35,6 @@ import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.helpers.DateHelper
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
-import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.CapacityInfoService.Companion.NOMINAL_BATTERY_VOLTAGE
 import com.ph03nix_x.capacityinfo.services.OverlayService
@@ -55,7 +54,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FAST_CHARGE_WATTS_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DARK_MODE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLED_DEBUG_OPTIONS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -94,6 +92,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.core.content.edit
 
 interface DebugOptionsInterface: BatteryInfoInterface {
 
@@ -528,20 +527,21 @@ interface DebugOptionsInterface: BatteryInfoInterface {
     }
 
     private fun addChangeSetting(pref: SharedPreferences, key: String, value: String) =
-        pref.edit().putString(key, value).apply()
+        pref.edit { putString(key, value) }
 
     private fun addChangeSetting(pref: SharedPreferences, key: String, value: Int) =
-        pref.edit().putInt(key, value).apply()
+        pref.edit {putInt(key, value)}
 
     private fun addChangeSetting(pref: SharedPreferences, key: String, value: Long) =
-        pref.edit().putLong(key, value).apply()
+        pref.edit {putLong(key, value)}
 
     private fun addChangeSetting(pref: SharedPreferences, key: String, value: Float) =
-        pref.edit().putFloat(key, value).apply()
+        pref.edit { putFloat(key, value) }
 
     private fun addChangeSetting(context: Context, pref: SharedPreferences, key: String,
-                                 value: Boolean) {
-        pref.edit().putBoolean(key, value).apply()
+                                 value: Boolean
+    ) {
+        pref.edit { putBoolean(key, value) }
         if(key == IS_FORCIBLY_SHOW_RATE_THE_APP) {
             MainActivity.apply {
                 tempFragment = instance?.fragment
@@ -566,7 +566,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         var key = ""
         dialog.setView(binding.root.rootView)
         dialog.setPositiveButton(getString(R.string.reset)) { _, _ ->
-            pref.edit().remove(key).apply()
+            pref.edit { remove(key) }
             when (key) {
                 IS_FORCIBLY_SHOW_RATE_THE_APP -> {
                     MainActivity.apply {
@@ -611,7 +611,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
             setTitle(getString(R.string.reset_settings))
             setMessage(getString(R.string.are_you_sure))
             setPositiveButton(getString(R.string.reset)) { _, _ ->
-                pref.edit().clear().apply()
+                pref.edit { clear() }
                 Toast.makeText(context, R.string.settings_reset_successfully,
                     Toast.LENGTH_LONG).show()
                 (context as? MainActivity)?.recreate()
@@ -631,14 +631,12 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         dialog.setView(binding.root.rootView)
         binding.addNumberOfCyclesEdit.setText("$numberOfCycles")
         dialog.setPositiveButton(requireContext().getString(R.string.add)) { _, _ ->
-            with(pref) {
-                edit().putFloat(NUMBER_OF_CYCLES, getFloat(NUMBER_OF_CYCLES, 0f) +
+            pref.apply {
+                edit { putFloat(NUMBER_OF_CYCLES, getFloat(NUMBER_OF_CYCLES, 0f) +
                         (binding.addNumberOfCyclesEdit.text.toString().toFloat() / 100.0f)).apply()
-                Toast.makeText(requireContext(), "${getFloat(NUMBER_OF_CYCLES, 0f)}",
-                    Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "${getFloat(NUMBER_OF_CYCLES, 0f)}",
+                        Toast.LENGTH_LONG).show() }
             }
-
-
         }
         dialog.setNegativeButton(android.R.string.cancel) { d, _ -> d.dismiss() }
         val dialogCreate = dialog.create()
@@ -723,8 +721,8 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         binding.changeNominalBatteryVoltageEdit.setText("${pref.getInt(NOMINAL_BATTERY_VOLTAGE_PREF,
             resources.getInteger(R.integer.nominal_battery_voltage_default))}")
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
-            pref.edit().putInt(NOMINAL_BATTERY_VOLTAGE_PREF,
-                binding.changeNominalBatteryVoltageEdit.text.toString().toInt()).apply()
+            pref.edit { putInt(NOMINAL_BATTERY_VOLTAGE_PREF,
+                binding.changeNominalBatteryVoltageEdit.text.toString().toInt()) }
             NOMINAL_BATTERY_VOLTAGE =
                 binding.changeNominalBatteryVoltageEdit.text.toString().toDouble() / 100.0
             Toast.makeText(requireContext(), "$NOMINAL_BATTERY_VOLTAGE",
@@ -777,8 +775,8 @@ interface DebugOptionsInterface: BatteryInfoInterface {
             NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
             resources.getInteger(R.integer.number_of_history_for_battery_wear_new_default))}")
         dialog.setPositiveButton(requireContext().getString(R.string.change)) { _, _ ->
-            pref.edit().putInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
-                binding.numberOfHistoryForBatteryWearNewEdit.text.toString().toInt()).apply()
+            pref.edit { putInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW,
+                binding.numberOfHistoryForBatteryWearNewEdit.text.toString().toInt()) }
             Toast.makeText(requireContext(),
                 "${pref.getInt(NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW, resources.getInteger(
                     R.integer.number_of_history_for_battery_wear_new_default))}",

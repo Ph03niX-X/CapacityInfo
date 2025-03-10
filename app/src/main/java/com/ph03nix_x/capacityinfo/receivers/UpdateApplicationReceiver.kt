@@ -15,6 +15,7 @@ import com.ph03nix_x.capacityinfo.services.CapacityInfoService
 import com.ph03nix_x.capacityinfo.services.OverlayService
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_AUTO_START_UPDATE_APP
+import androidx.core.content.edit
 
 class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
 
@@ -27,11 +28,10 @@ class UpdateApplicationReceiver : BroadcastReceiver(), PremiumInterface {
                 MainApp.isUpdateApp = true
                 PremiumInterface.premiumContext = context
                 if(tabOnAppLaunch in 1..2) {
-                    pref.edit().putString(PreferencesKeys.TAB_ON_APPLICATION_LAUNCH,
-                        (tabOnAppLaunch + 1).toString()).apply()
-                    }
+                    pref.edit { putString(PreferencesKeys.TAB_ON_APPLICATION_LAUNCH,
+                        (tabOnAppLaunch + 1).toString()) } }
                    context.resources.getStringArray(R.array.tab_on_application_launch_values)
-                    pref.edit().putString(PreferencesKeys.TAB_ON_APPLICATION_LAUNCH, "0").apply()
+                    pref.edit { putString(PreferencesKeys.TAB_ON_APPLICATION_LAUNCH, "0") }
                 if(!pref.getBoolean(IS_AUTO_START_UPDATE_APP, context.resources.getBoolean(
                         R.bool.is_auto_start_update_app))) return
                 ServiceHelper.cancelAllJobs(context)

@@ -31,6 +31,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.TEXT_STYLE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_CHARGE_DISCHARGE_CURRENT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.VOLTAGE_UNIT
+import androidx.core.content.edit
 
 interface SettingsInterface {
 
@@ -40,7 +41,7 @@ interface SettingsInterface {
 
         if(pref.getString(TEXT_SIZE, "2") !in
             resources.getStringArray(R.array.text_size_values))
-            pref.edit().putString(TEXT_SIZE, "2").apply()
+            pref.edit { putString(TEXT_SIZE, "2") }
 
         return resources.getStringArray(R.array.text_size_list)[
                 (pref.getString(TEXT_SIZE, "2") ?: "2").toInt()]
@@ -52,7 +53,7 @@ interface SettingsInterface {
 
         if(pref.getString(TEXT_FONT, "6") !in
             resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(TEXT_FONT, "6").apply()
+            pref.edit { putString(TEXT_FONT, "6") }
 
         return resources.getStringArray(R.array.fonts_list)[
                 (pref.getString(TEXT_FONT, "6") ?: "6").toInt()]
@@ -64,7 +65,7 @@ interface SettingsInterface {
 
         if(pref.getString(TEXT_STYLE, "0") !in
             resources.getStringArray(R.array.text_style_values))
-            pref.edit().putString(TEXT_STYLE, "0").apply()
+            pref.edit { putString(TEXT_STYLE, "0") }
 
         return resources.getStringArray(R.array.text_style_list)[
                 (pref.getString(TEXT_STYLE, "0") ?: "0").toInt()]
@@ -76,7 +77,7 @@ interface SettingsInterface {
 
         if(pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") !in
             resources.getStringArray(R.array.tab_on_application_launch_values))
-            pref.edit().putString(TAB_ON_APPLICATION_LAUNCH, "0").apply()
+            pref.edit { putString(TAB_ON_APPLICATION_LAUNCH, "0") }
 
         return resources.getStringArray(R.array.tab_on_application_launch_list)[
                 (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") ?: "0").toInt()]
@@ -88,7 +89,7 @@ interface SettingsInterface {
 
         if(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")
             !in resources.getStringArray(R.array.unit_of_charge_discharge_current_values))
-            pref.edit().putString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA").apply()
+            pref.edit { putString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA") }
 
         return when(pref.getString(UNIT_OF_CHARGE_DISCHARGE_CURRENT, "μA")) {
 
@@ -109,7 +110,7 @@ interface SettingsInterface {
         if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
             !in resources.getStringArray(
                 R.array.unit_of_measurement_of_current_capacity_values))
-            pref.edit().putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh").apply()
+            pref.edit { putString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") }
 
         return when(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")) {
 
@@ -130,7 +131,7 @@ interface SettingsInterface {
         if(pref.getString(VOLTAGE_UNIT, "mV")
             !in resources.getStringArray(
                 R.array.voltage_unit_values))
-            pref.edit().putString(VOLTAGE_UNIT, "mV").apply()
+            pref.edit { putString(VOLTAGE_UNIT, "mV") }
 
         return when(pref.getString(VOLTAGE_UNIT, "mV")) {
 
@@ -164,7 +165,7 @@ interface SettingsInterface {
         val isClearHistory = HistoryHelper.isHistoryEmpty(requireContext())
         with(pref) {
             prefArrays.forEach {
-                if(contains(it)) edit().remove(it).apply()
+                if(contains(it)) edit { remove(it) }
                 isRemovePref = !contains(it)
             }
         }
@@ -203,8 +204,8 @@ interface SettingsInterface {
 
         dialog.setPositiveButton(context.getString(R.string.change)) { _, _ ->
 
-            pref.edit().putInt(DESIGN_CAPACITY, binding.changeDesignCapacityEdit.text.toString()
-                .toInt()).apply()
+            pref.edit { putInt(DESIGN_CAPACITY,
+                binding.changeDesignCapacityEdit.text.toString().toInt()) }
 
             designCapacity?.summary = binding.changeDesignCapacityEdit.text.toString()
         }

@@ -47,6 +47,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 import kotlin.time.Duration.Companion.minutes
+import androidx.core.content.edit
 
 class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
@@ -394,8 +395,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
         if(pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
                 "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}") !in
             resources.getStringArray(R.array.full_charge_reminder_frequency_values))
-            pref.edit().putString(FULL_CHARGE_REMINDER_FREQUENCY,
-                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}").apply()
+            pref.edit { putString(FULL_CHARGE_REMINDER_FREQUENCY,
+                "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}") }
 
         val fullChargeReminderFrequencyPref = pref.getString(FULL_CHARGE_REMINDER_FREQUENCY,
             "${resources.getInteger(R.integer.full_charge_reminder_frequency_default)}")
@@ -416,8 +417,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             > resources.getInteger(R.integer.overheat_degrees_max) ||
             pref.getInt(OVERHEAT_DEGREES, resources.getInteger(R.integer.overheat_degrees_default))
             < resources.getInteger(R.integer.overheat_degrees_min))
-            pref.edit().putInt(OVERHEAT_DEGREES, resources.getInteger(R
-                .integer.overheat_degrees_default)).apply()
+            pref.edit { putInt(OVERHEAT_DEGREES, resources.getInteger(
+                R.integer.overheat_degrees_default)) }
 
         val temperature = pref.getInt(OVERHEAT_DEGREES,
             resources.getInteger(R.integer.overheat_degrees_default))
@@ -432,8 +433,8 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
             > resources.getInteger(R.integer.overcool_degrees_max) ||
             pref.getInt(OVERCOOL_DEGREES, resources.getInteger(R.integer.overcool_degrees_default))
             < resources.getInteger(R.integer.overcool_degrees_min))
-            pref.edit().putInt(OVERCOOL_DEGREES, resources.getInteger(R
-                .integer.overcool_degrees_default)).apply()
+            pref.edit { putInt(OVERCOOL_DEGREES, resources.getInteger(
+                R.integer.overcool_degrees_default)) }
 
         val temperature = pref.getInt(OVERCOOL_DEGREES,
             resources.getInteger(R.integer.overcool_degrees_default))
@@ -446,7 +447,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         if(pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) > 100 ||
                 pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) < 1)
-            pref.edit().putInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80).apply()
+            pref.edit { putInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) }
 
         return "${pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 1)}%"
     }
@@ -455,7 +456,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
         if(pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) > 99 ||
             pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) < 1)
-            pref.edit().putInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20).apply()
+            pref.edit { putInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) }
 
         return "${pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)}%"
     }

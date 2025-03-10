@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
@@ -81,6 +80,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.net.toUri
+import androidx.core.content.edit
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
     MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface,
@@ -233,7 +234,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if(!isGooglePlay) {
             ServiceHelper.cancelAllJobs(this@MainActivity)
-            pref.edit().clear().apply()
+            pref.edit { clear() }
             if(!isInstalledGooglePlay && showNotInstalledFromGPDialog == null)
                 showNotInstalledFromGPDialog = MaterialAlertDialogBuilder(this).apply {
                     setIcon(R.drawable.ic_instruction_not_supported_24dp)
@@ -242,7 +243,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                     setPositiveButton(android.R.string.ok) { _, _ ->
                         try {
                             startActivity(Intent(Intent.ACTION_VIEW,
-                                Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+                                Constants.GOOGLE_PLAY_APP_LINK.toUri()))
                         }
                         catch(_: ActivityNotFoundException) {}
                         finally {
@@ -508,10 +509,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                                             .apply()
 
                                     CAPACITY_ADDED, NUMBER_OF_CYCLES ->
-                                        pref.edit().putFloat(
-                                            it.key as String,
-                                            it.value as Float
-                                        ).apply()
+                                        pref.edit { putFloat(it.key as String, it.value as Float)
+                                            .apply() }
                                 }
                             }
                         }

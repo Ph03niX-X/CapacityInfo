@@ -6,7 +6,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -20,6 +19,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.utilities.Constants.GOOGLE_PLAY_APP_LINK
 import com.ph03nix_x.capacityinfo.utilities.Constants.TELEGRAM_DEVELOPER_LINK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FORCIBLY_SHOW_RATE_THE_APP
+import androidx.core.net.toUri
 
 class FeedbackFragment : PreferenceFragmentCompat() {
 
@@ -43,7 +43,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
         telegramDeveloper?.setOnPreferenceClickListener {
 
-            try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_DEVELOPER_LINK))) }
+            try { startActivity(Intent(Intent.ACTION_VIEW, TELEGRAM_DEVELOPER_LINK.toUri())) }
 
             catch(_: ActivityNotFoundException) {
 
@@ -86,8 +86,8 @@ class FeedbackFragment : PreferenceFragmentCompat() {
                     requireContext().packageManager?.getPackageInfo(requireContext().packageName,
                         0)?.let { PackageInfoCompat.getLongVersionCode(it).toString() }
                 }
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email
-                    ?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}")))
+                startActivity(Intent(Intent.ACTION_VIEW,
+                    "mailto:${email?.summary}?subject=Capacity Info $version (Build $build). ${requireContext().getString(R.string.feedback)}".toUri()))
             }
 
             catch(_: ActivityNotFoundException) {
@@ -112,7 +112,7 @@ class FeedbackFragment : PreferenceFragmentCompat() {
 
                 try {
                     requireContext().startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse(GOOGLE_PLAY_APP_LINK)))
+                        GOOGLE_PLAY_APP_LINK.toUri()))
                 }
                 catch(_: ActivityNotFoundException) {
                     Toast.makeText(requireContext(), requireContext().getString(

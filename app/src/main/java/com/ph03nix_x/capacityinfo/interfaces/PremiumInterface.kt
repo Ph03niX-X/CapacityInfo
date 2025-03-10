@@ -5,8 +5,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
@@ -63,6 +61,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.content.edit
+import androidx.core.net.toUri
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -95,8 +95,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
         } else if (billingResult.responseCode == BillingResponseCode.ITEM_ALREADY_OWNED) {
             CoroutineScope(Dispatchers.IO).launch {
                 val pref = PreferenceManager.getDefaultSharedPreferences(premiumContext!!)
-                if(purchases != null) pref.edit().putString(TOKEN_PREF,
-                    purchases[0].purchaseToken).apply()
+                if(purchases != null) pref.edit { putString(TOKEN_PREF, purchases[0].purchaseToken) }
                 val tokenPref = pref.getString(TOKEN_PREF, null)
                 isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                 if(isPremium) premiumFeaturesUnlocked(premiumContext!!, false)
@@ -151,7 +150,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 withContext(Dispatchers.IO) {
                     billingClient?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
                         if (it.responseCode == BillingResponseCode.OK) {
-                            pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
+                            pref.edit { putString(TOKEN_PREF, purchase.purchaseToken) }
                             val tokenPref = pref.getString(TOKEN_PREF, null)
                             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                             if(isPremium) {
@@ -168,7 +167,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     }
                 }
             } else {
-                pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
+                pref.edit { putString(TOKEN_PREF, purchase.purchaseToken) }
                 val tokenPref = pref.getString(TOKEN_PREF, null)
                 isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                 if(isPremium) {
@@ -179,7 +178,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             }
 
         } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
-            pref.edit().putString(TOKEN_PREF, purchase.purchaseToken).apply()
+            pref.edit { putString(TOKEN_PREF, purchase.purchaseToken) }
             val tokenPref = pref.getString(TOKEN_PREF, null)
             isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
             if(isPremium) {
@@ -267,7 +266,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             setPositiveButton(android.R.string.ok) { _, _ ->
                 try {
                     context.startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse(Constants.GOOGLE_PLAY_APP_LINK)))
+                        Constants.GOOGLE_PLAY_APP_LINK.toUri()))
                 }
                 catch(_: ActivityNotFoundException) {}
             }
@@ -307,7 +306,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             var tokenPref = pref.getString(TOKEN_PREF, null)
             if(tokenPref != null && tokenPref.count() == TOKEN_COUNT) isPremium = true
             else if(tokenPref != null && tokenPref.count() != TOKEN_COUNT)
-                pref.edit().remove(TOKEN_PREF).apply()
+                pref.edit { remove(TOKEN_PREF) }
            else if(tokenPref == null || tokenPref.count() != TOKEN_COUNT) {
                 if(billingClient?.isReady != true) initiateBilling(false)
                 delay(2.5.seconds)
@@ -317,8 +316,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                    val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
                    val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
                    if(!purchaseHistoryRecordList.isNullOrEmpty()) {
-                       pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
-                           .apply()
+                       pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                        tokenPref = pref.getString(TOKEN_PREF, null)
                        isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                        withContext(Dispatchers.Main) {
@@ -362,8 +360,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
                 val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
                 if(!purchaseHistoryRecordList.isNullOrEmpty()) {
-                    pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
-                        .apply()
+                    pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                     withContext(Dispatchers.Main) {
@@ -376,7 +373,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     billingClient = null
                 }
                 else {
-                    if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
+                    if(pref.contains(TOKEN_PREF)) pref.edit { remove(TOKEN_PREF) }
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                     withContext(Dispatchers.Main) {
@@ -408,8 +405,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
                 val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
                 if(!purchaseHistoryRecordList.isNullOrEmpty()) {
-                    pref.edit().putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken)
-                        .apply()
+                    pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                     withContext(Dispatchers.Main) {
@@ -422,7 +418,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                     billingClient = null
                 }
                 else {
-                    if(pref.contains(TOKEN_PREF)) pref.edit().remove(TOKEN_PREF).apply()
+                    if(pref.contains(TOKEN_PREF)) pref.edit { remove(TOKEN_PREF) }
                     val tokenPref = pref.getString(TOKEN_PREF, null)
                     isPremium = tokenPref != null && tokenPref.count() == TOKEN_COUNT
                     withContext(Dispatchers.Main) {

@@ -78,7 +78,7 @@ class UnpluggedReceiver : BroadcastReceiver(), PremiumInterface, NavigationInter
                 pref.edit().apply {
                     if((CapacityInfoService.instance?.isFull != true) && seconds > 1) {
                         val numberOfCharges = pref.getLong(NUMBER_OF_CHARGES, 0)
-                        putLong(NUMBER_OF_CHARGES, numberOfCharges + 1).apply()
+                        putLong(NUMBER_OF_CHARGES, numberOfCharges + 1)
                         if(CapacityInfoService.instance?.isSaveNumberOfCharges != false)
                             putFloat(NUMBER_OF_CYCLES, numberOfCycles)
                         putInt(BATTERY_LEVEL_LAST_CHARGE, batteryLevel)

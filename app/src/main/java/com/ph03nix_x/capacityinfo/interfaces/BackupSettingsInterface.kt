@@ -27,6 +27,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.content.edit
 
 /**
  * Created by Ph03niX-X on 15.05.2021
@@ -76,7 +77,7 @@ interface BackupSettingsInterface {
                     Toast.makeText(requireContext(),
                         getString(R.string.successful_export_of_settings, prefName),
                         Toast.LENGTH_LONG).show()
-                    pref.edit().putString(TOKEN_PREF, tokenPref).apply()
+                    pref.edit { putString(TOKEN_PREF, tokenPref) }
                 }
             }
             catch(e: Exception) {

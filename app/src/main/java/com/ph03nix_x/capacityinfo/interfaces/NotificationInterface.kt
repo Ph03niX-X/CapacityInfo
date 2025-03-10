@@ -14,7 +14,6 @@ import android.content.IntentFilter
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.graphics.Color
 import android.media.AudioAttributes
-import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
 import android.view.View
@@ -50,6 +49,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CYCLES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERCOOL_DEGREES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERHEAT_DEGREES
 import java.text.DecimalFormat
+import androidx.core.net.toUri
 
 @SuppressLint("StaticFieldLeak")
 interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
@@ -261,8 +261,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             setCustomContentView(remoteViewsContent)
             setStyle(NotificationCompat.DecoratedCustomViewStyle())
             setShowWhen(true)
-            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                    "${context.packageName}/${R.raw.overheat_overcool}"))
+            setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.overheat_overcool}").toUri())
         }
         notificationManager?.notify(NOTIFICATION_BATTERY_OVERHEAT_OVERCOOL_ID,
             notificationBuilder.build())
@@ -306,8 +306,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             setCustomContentView(remoteViewsContent)
             setStyle(NotificationCompat.DecoratedCustomViewStyle())
             setShowWhen(true)
-            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                    "${context.packageName}/${R.raw.battery_is_fully_charged}"))
+            setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_fully_charged}").toUri())
         }
         notificationManager?.notify(NOTIFICATION_FULLY_CHARGED_ID, notificationBuilder.build())
     }
@@ -360,8 +360,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             setStyle(NotificationCompat.DecoratedCustomViewStyle())
             setShowWhen(true)
             setLights(Color.GREEN, 1500, 500)
-            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                    "${context.packageName}/${R.raw.battery_is_charged}"))
+            setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_charged}").toUri())
         }
         notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
     }
@@ -416,8 +416,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
             setStyle(NotificationCompat.DecoratedCustomViewStyle())
             setShowWhen(true)
             setLights(Color.RED, 1000, 500)
-            setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                    "${context.packageName}/${R.raw.battery_is_discharged}"))
+            setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                    "${context.packageName}/${R.raw.battery_is_discharged}").toUri())
         }
         notificationManager?.notify(NOTIFICATION_BATTERY_STATUS_ID, notificationBuilder.build())
     }
@@ -446,8 +446,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                         notificationChannelId, channelName,
                         NotificationManager.IMPORTANCE_HIGH).apply {
                         setShowBadge(true)
-                        setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                                "${context.packageName}/${R.raw.overheat_overcool}"),
+                        setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                                "${context.packageName}/${R.raw.overheat_overcool}").toUri(),
                             soundAttributes.build())
                     })
                 }
@@ -457,8 +457,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                         notificationChannelId, channelName,
                         NotificationManager.IMPORTANCE_HIGH).apply {
                         setShowBadge(true)
-                        setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                                "${context.packageName}/${R.raw.battery_is_fully_charged}"),
+                        setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                                "${context.packageName}/${R.raw.battery_is_fully_charged}").toUri(),
                             soundAttributes.build())
                     })
                 }
@@ -470,8 +470,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                         setShowBadge(true)
                         enableLights(true)
                         lightColor = Color.GREEN
-                        setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                                "${context.packageName}/${R.raw.battery_is_charged}"),
+                        setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                                "${context.packageName}/${R.raw.battery_is_charged}").toUri(),
                             soundAttributes.build())
                     })
                 }
@@ -483,8 +483,8 @@ interface NotificationInterface : BatteryInfoInterface, PremiumInterface {
                         setShowBadge(true)
                         enableLights(true)
                         lightColor = Color.RED
-                        setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
-                                "${context.packageName}/${R.raw.battery_is_discharged}"),
+                        setSound(("${ContentResolver.SCHEME_ANDROID_RESOURCE}://" +
+                                "${context.packageName}/${R.raw.battery_is_discharged}").toUri(),
                             soundAttributes.build())
                     })
                 }   

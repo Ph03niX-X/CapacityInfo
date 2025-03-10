@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -19,6 +18,7 @@ import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
+import androidx.core.net.toUri
 
 class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateInterface {
 
@@ -87,10 +87,10 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
 
                 if(isInstalledGooglePlay)
                 startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("market://search?q=pub:${developer?.summary}")))
+                    "market://search?q=pub:${developer?.summary}".toUri()))
 
                 else startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/dev?id=8987494467330776667")))
+                    "https://play.google.com/store/apps/dev?id=8987494467330776667".toUri()))
             }
 
             catch(e: ActivityNotFoundException) {
@@ -106,7 +106,7 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
 
             try {
 
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LINK)))
+                startActivity(Intent(Intent.ACTION_VIEW, GITHUB_LINK.toUri()))
             }
             catch(e: ActivityNotFoundException) {
 
@@ -122,8 +122,7 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
             setOnPreferenceClickListener {
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/apps/testing/${requireContext()
-                            .packageName}")))
+                        "https://play.google.com/apps/testing/${requireContext().packageName}".toUri()))
                 }
                 catch(e: ActivityNotFoundException) {
                     Toast.makeText(requireContext(), e.message ?: e.toString(),

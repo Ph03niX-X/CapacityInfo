@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.content.edit
 
 /**
  * Created by Ph03niX-X on 30.07.2023
@@ -47,9 +48,8 @@ interface CheckUpdateInterface {
                     appUpdateOptions)
             }
             else if(isUpdateAvailable) {
-                pref.apply {
-                    if(contains(UPDATE_TEMP_SCREEN_TIME))
-                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                with(pref) {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME)) edit { remove(UPDATE_TEMP_SCREEN_TIME) }
                 }
                 intentResultStarter()
                 val appUpdateOptions =
@@ -75,8 +75,8 @@ interface CheckUpdateInterface {
                     updateFlowResultLauncher!!, appUpdateOptions)
             }
             if(isUpdateAvailable) {
-                pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
-                    (CapacityInfoService.instance?.screenTime ?: 0L) + 15L).apply()
+                pref.edit { putLong(UPDATE_TEMP_SCREEN_TIME,
+                    (CapacityInfoService.instance?.screenTime ?: 0L) + 15L) }
                 MainActivity.instance?.intentResultStarter()
                 val updateFlowResultLauncher = MainActivity.instance?.updateFlowResultLauncher
                 val appUpdateOptions =
@@ -85,9 +85,8 @@ interface CheckUpdateInterface {
                     updateFlowResultLauncher!!, appUpdateOptions)
             }
             else {
-                pref.apply {
-                    if(contains(UPDATE_TEMP_SCREEN_TIME))
-                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                with(pref) {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME)) edit { remove(UPDATE_TEMP_SCREEN_TIME) }
                 }
                 Toast.makeText(requireContext(), R.string.update_not_found, Toast.LENGTH_LONG).show()
             }
@@ -102,8 +101,8 @@ interface CheckUpdateInterface {
             5.seconds.inWholeMilliseconds.toInt()).apply {
             setAction(getString(R.string.update)) {
                 isUpdate = true
-                pref.edit().putLong(UPDATE_TEMP_SCREEN_TIME,
-                    (CapacityInfoService.instance?.screenTime ?: 0L) + 15L).apply()
+                pref.edit { putLong(UPDATE_TEMP_SCREEN_TIME,
+                    (CapacityInfoService.instance?.screenTime ?: 0L) + 15L) }
                 startUpdate(this@updateAvailable, appUpdateManager, appUpdateInfo,
                     updateFlowResultLauncher, appUpdateOptions)
             }
@@ -113,8 +112,7 @@ interface CheckUpdateInterface {
             delay(3.seconds)
             if(!isUpdate)
                 pref.apply {
-                    if(contains(UPDATE_TEMP_SCREEN_TIME))
-                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                    if(contains(UPDATE_TEMP_SCREEN_TIME)) edit { (UPDATE_TEMP_SCREEN_TIME) }
                 }
         }
     }
@@ -151,9 +149,8 @@ interface CheckUpdateInterface {
         catch(_: Exception) {
             Toast.makeText(context, R.string.update_error, Toast.LENGTH_LONG).show()
             MainActivity.instance?.apply {
-                pref.apply {
-                    if(contains(UPDATE_TEMP_SCREEN_TIME))
-                        edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                with(pref) {
+                    if(contains(UPDATE_TEMP_SCREEN_TIME)) edit { remove(UPDATE_TEMP_SCREEN_TIME) }
                 }
             }
         }

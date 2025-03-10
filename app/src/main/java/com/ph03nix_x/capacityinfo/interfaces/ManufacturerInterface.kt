@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
@@ -16,6 +15,7 @@ import xyz.kumaraswamy.autostart.Autostart
 import xyz.kumaraswamy.autostart.Utils
 import java.util.Locale
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.net.toUri
 
 /**
  * Created by Ph03niX-X on 21.06.2023
@@ -121,7 +121,7 @@ interface ManufacturerInterface {
                 setPositiveButton(android.R.string.ok) { d, _ ->
                     try {
                         startActivity(Intent(Intent.ACTION_VIEW,
-                            Uri.parse("${Constants.DONT_KILL_MY_APP_LINK}/xiaomi")))
+                            "${Constants.DONT_KILL_MY_APP_LINK}/xiaomi".toUri()))
                     }
                     catch (_: ActivityNotFoundException) { d.dismiss() }
                 }

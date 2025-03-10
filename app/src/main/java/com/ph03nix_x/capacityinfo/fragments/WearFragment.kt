@@ -42,6 +42,7 @@ import java.io.FileReader
 import java.io.IOException
 import java.text.DecimalFormat
 import kotlin.time.Duration.Companion.seconds
+import androidx.core.content.edit
 
 class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, BatteryInfoInterface,
     PremiumInterface {
@@ -85,8 +86,8 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
         with(binding) {
             designCapacity.text = getDesignCapacity()
             numberOfCyclesAndroid.isVisible =
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-                    || File(NUMBER_OF_CYCLES_PATH).exists()) true else false
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE || File(
+                    NUMBER_OF_CYCLES_PATH).exists())
             batteryHealth.apply {
                 if(getBatteryHealth(requireContext()) != null) {
                     isVisible = true
@@ -292,10 +293,10 @@ class WearFragment : Fragment(R.layout.wear_fragment), SettingsInterface, Batter
                             if(capacityAddedWear.isVisible)
                                 withContext(Dispatchers.Main) {
                                     capacityAddedWear.isVisible = false }
-                            if(pref.contains(PreferencesKeys.CAPACITY_ADDED)) pref.edit().remove(
-                                PreferencesKeys.CAPACITY_ADDED).apply()
-                            if(pref.contains(PreferencesKeys.PERCENT_ADDED)) pref.edit().remove(
-                                PreferencesKeys.PERCENT_ADDED).apply()
+                            if(pref.contains(PreferencesKeys.CAPACITY_ADDED))
+                                pref.edit { remove(PreferencesKeys.CAPACITY_ADDED) }
+                            if(pref.contains(PreferencesKeys.PERCENT_ADDED))
+                                pref.edit { remove(PreferencesKeys.PERCENT_ADDED) }
                         }
                     }
                     withContext(Dispatchers.Main) {

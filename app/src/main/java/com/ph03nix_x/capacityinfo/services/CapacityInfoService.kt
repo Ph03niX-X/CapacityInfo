@@ -11,8 +11,8 @@ import android.os.DeadSystemException
 import android.os.IBinder
 import android.os.PowerManager
 import android.view.Display
-import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import com.ph03nix_x.capacityinfo.MainApp
@@ -128,7 +128,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
             MainApp.tempScreenTime = 0L
             MainApp.isUpdateApp = false
             pref.apply {
-                if(contains(UPDATE_TEMP_SCREEN_TIME)) edit().remove(UPDATE_TEMP_SCREEN_TIME).apply()
+                if(contains(UPDATE_TEMP_SCREEN_TIME)) edit { remove(UPDATE_TEMP_SCREEN_TIME) }
             }
             batteryIntent = registerReceiver(null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED))
@@ -308,7 +308,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                 (isTurboCharge(this@CapacityInfoService) || isFastCharge(this@CapacityInfoService)
                         || pref.getBoolean(IS_FAST_CHARGE_DBG, resources.getBoolean(
                     R.bool.is_fast_charge_dbg))))
-                pref.edit().putBoolean(IS_FAST_CHARGE, true).apply()
+                pref.edit { putBoolean(IS_FAST_CHARGE, true) }
         }
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
