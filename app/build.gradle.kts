@@ -9,14 +9,14 @@ plugins {
 }
 
 android {
-    compileSdk = 35
-    buildToolsVersion = "35.0.1"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
     val appName = "Capacity Info"
     defaultConfig {
         applicationId = "com.ph03nix_x.capacityinfo"
         namespace = applicationId
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1714
         versionName = "9.0.0.2"
         setProperty("archivesBaseName", "$appName $versionName (Build $versionCode)")
