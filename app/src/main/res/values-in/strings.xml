@@ -43,7 +43,7 @@
     <string name="developer">Pengembang</string>
     <string name="version">Versi: kapan</string>
     <string name="build">Membangun</string>
-    <string name="build_date">Tanggal Pembuatan (GMT+2)</string>
+    <string name="build_date">Tanggal Pembuatan (GMT+3)</string>
     <string name="rate_the_app">Nilai aplikasinya</string>
     <string name="license">Lisensi: Apache 2.0</string>
     <string name="feedback">Masukan</string>

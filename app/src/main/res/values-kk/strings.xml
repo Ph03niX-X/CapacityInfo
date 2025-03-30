@@ -43,7 +43,7 @@
     <string name="developer">Әзірлеуші</string>
     <string name="version">Нұсқасы</string>
     <string name="build">Кұрастыру</string>
-    <string name="build_date">Құрылған күні (GMT+2)</string>
+    <string name="build_date">Құрылған күні (GMT+3)</string>
     <string name="rate_the_app">Қолданбаны бағалаңыз</string>
     <string name="license">Лицензия: Apache 2.0</string>
     <string name="feedback">Кері байланыс</string>
