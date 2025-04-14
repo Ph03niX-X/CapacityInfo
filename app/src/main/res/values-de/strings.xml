@@ -200,9 +200,9 @@
     <string name="auto_start_boot">Automatischer Start (Boot)</string>
     <string name="auto_start_open_app">Automatischer Start (App öffnen)</string>
     <string name="auto_start_update_app">Automatischer Start (App aktualisieren)</string>
-    <string name="start_capacity_info_service">Capacity Info-Dienste starten</string>
-    <string name="stop_capacity_info_service">Capacity Info-Dienste stoppen</string>
-    <string name="restart_capacity_info_service">Capacity Info-Dienste neustarten</string>
+    <string name="start_capacity_info_service">Capacity Info-Dienst starten</string>
+    <string name="stop_capacity_info_service">Capacity Info-Dienst stoppen</string>
+    <string name="restart_capacity_info_service">Capacity Info-Dienst neustarten</string>
     <string name="stop_overlay_service">Überlagerung-Dienst stoppen</string>
     <string name="restart_overlay_service">Überlagerung-Dienst neustarten</string>
     <string name="history">Verlauf</string>
