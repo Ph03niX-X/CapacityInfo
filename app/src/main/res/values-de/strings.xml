@@ -1,5 +1,5 @@
 <resources>
-    <string name="design_capacity">Entwurfskapazität: %1$s mAh</string>
+    <string name="design_capacity">Designkapazität: %1$s mAh</string>
     <string name="residual_capacity">Verbleibende Kapazität: %1$s mAh (%2$s)</string>
     <string name="current_capacity">Aktuelle Kapazität: %1$s mAh</string>
     <string name="battery_wear">Akkuverschleiß: %1$s (%2$s mAh)</string>
@@ -10,11 +10,11 @@
     <string name="temperature">Temperatur: %1$s°C/%2$s°F</string>
     <string name="settings">Einstellungen</string>
     <string name="instruction">Anleitung</string>
-    <string name="change_design_capacity">Entwurfskapazität ändern</string>
+    <string name="change_design_capacity">Designkapazität ändern</string>
     <string name="change">Ändern</string>
     <string name="information">Informationen</string>
     <string name="battery_technology">Akku-Technologie: %1$s</string>
-    <string name="instruction_message" formatted="false">1.Damit die App die verbleibende Kapazität anzeigt, der Akku auf 10% oder weniger entladen und laden Sie das Gerät auf, während der Dienst eingeschaltet sein muss.\n2.Um eine genauere Anzeige der verbleibenden Kapazität zu erhalten, laden Sie das Gerät vollständig auf, bis \"Status: Aufgeladen\" angezeigt wird mindestens 5 Mal.\n3.Wenn der Ladevorgang nach Erreichen von 100 % abbricht, ist das normal. Moderne Geräte laden auch nach Erreichen von 100 % noch einige Zeit weiter.\n4.Wenn die Entwurfskapazität falsch ist, ändern Sie sie in den App-Einstellungen.\n5.Wenn die aktuelle Kapazität und/oder der Lade-/Entladestrom und/oder die Spannung nicht korrekt angezeigt werden, ändern Sie die Einheit in den App-Einstellungen.\n\n</string>
+    <string name="instruction_message" formatted="false">1. Damit die App die verbleibende Kapazität anzeigt, der Akku auf 10% oder weniger entladen und laden Sie das Gerät auf, während der Dienst eingeschaltet sein muss.\n2. Um eine genauere Anzeige der verbleibenden Kapazität zu erhalten, laden Sie das Gerät vollständig auf, bis \"Status: Aufgeladen\" angezeigt wird mindestens 5 Mal.\n3. Wenn der Ladevorgang nach Erreichen von 100 % abbricht, ist das normal. Moderne Geräte laden auch nach Erreichen von 100 % noch einige Zeit weiter.\n4. Wenn die Designkapazität falsch ist, ändern Sie sie in den App-Einstellungen.\n5. Wenn die aktuelle Kapazität und/oder der Lade-/Entladestrom und/oder die Spannung nicht korrekt angezeigt werden, ändern Sie die Einheit in den App-Einstellungen.\n\n</string>
     <string name="instruction_message_do_not_kill_the_service">ACHTUNG! Beenden Sie den Dienst nicht. Wenn die Shell Ihres Geräts gerne Apps \"killt\" oder vollständig \"killt\", wenn Sie die zuletzt gestarteten Apps bereinigen oder eine App aus den zuletzt gestarteten Apps entfernen, oder wenn Sie den Energiesparmodus verwenden, fügen Sie diese App zu allen möglichen Ausnahmen hinzu. Wenn Ihre Firmware über eine Einstellung zum Starten von Apps verfügt, stellen Sie sicher, dass diese App nach dem Laden des Betriebssystems gestartet werden kann, wenn Sie möchten, dass die App automatisch nach dem Laden des Betriebssystems startet.&#160;</string>
     <string name="instruction_message_dont_kill_my_app">Wenn Sie nicht wissen, was Sie wo konfigurieren müssen, damit die App nicht vom System \"gekillt\" wird, verwenden Sie den \"Don\'t kill my app!\" Service, und wählen Sie den Hersteller Ihres Geräts aus.\n\n</string>
     <string name="huawei_honor_information">ACHTUNG! Bei Huawei &amp; Honor wird die aktuelle Kapazität möglicherweise nicht korrekt angezeigt. Leider kann nichts dagegen getan werden.</string>
@@ -23,11 +23,11 @@
     <string name="discharging">Wird entladen</string>
     <string name="not_charging">Wird nicht aufgeladen</string>
     <string name="charging">Wird aufgeladen</string>
-    <string name="full">Vollständig geladen</string>
+    <string name="full">Vollständig aufgeladen</string>
     <string name="unknown">Unbekannt</string>
     <string name="source_of_power_ac">AC</string>
     <string name="source_of_power_wireless">Drahtlos</string>
-    <string name="battery_level">Akkuladestand: %1$s</string>
+    <string name="battery_level">Akkuladezustand: %1$s</string>
     <string name="last_charge_time">Letzte Ladezeit: %1$s (%2$s - %3$s)</string>
     <string name="service">Dienst</string>
     <string name="charging_time">Aufladezeit: %1$s</string>
@@ -47,7 +47,7 @@
     <string name="license">Lizenz: Apache 2.0</string>
     <string name="feedback">Feedback</string>
     <string name="email_copied">E-Mail kopiert</string>
-    <string name="auto_dark_mode_summary">Dunkelmodus einschalten je nach System</string>
+    <string name="auto_dark_mode_summary">Dunklen Modus einschalten je nach System</string>
     <string name="number_of_charges">Anzahl der Ladungen: %1$d</string>
     <string name="debug">Debuggen</string>
     <string name="change_setting">Einstellung ändern</string>
@@ -74,12 +74,12 @@
     <string name="hide">Ausblenden</string>
     <string name="change_design_summary">%1$d mAh</string>
     <string name="unit_of_charge_discharge_current">Einheit von Lade-/Entladestrom</string>
-    <string name="unit_of_measurement_of_current_capacity">Maßeinheit für die aktuelle Kapazität</string>
+    <string name="unit_of_measurement_of_current_capacity">Maßeinheit für aktuelle Kapazität</string>
     <string name="voltage_unit">Spannungseinheit</string>
     <string name="faq_how_does_the_app_work" formatted="false">Frage: Wie funktioniert die App?\nAntwort: Die Restkapazität wird auf der Grundlage der aktuellen Kapazität bei Erreichen von 100 % und dem Status \"Geladen\" gebildet (bis zu den letzten 5 Gebühren). Die aktuelle Kapazität wird dem Kernel des Betriebssystems entnommen, und zwar durch die Android-API selbst, die es ermöglicht, die aktuelle Kapazität ohne Root-Rechte zu erhalten. Der Kernel entnimmt die aktuelle Kapazität des Akkus selbst und schreibt sie in die Datei \"charge_counter\" (Dateipfad: /sys/class/power_supply/battery). Wie genau die aktuelle Kapazität ist, hängt vom Akku und dem Kernel selbst ab.\n\n</string>
     <string name="faq_capacity_added">Frage: Was versteht man unter \"Hinzugefügte Kapazität\"?\nAntwort: \"Hinzugefügte Kapazität\" wird als sehr einfach angesehen: die aktuelle Kapazität - die Kapazität, die vor dem Anschließen des Ladegeräts war.\n\n</string>
-    <string name="faq_where_does_the_app_get_the_ccl">Frage: Woher bezieht die App die \"Ladestrombegrenzung\"?\nAntwort: Die App entnimmt die \"Charging Current Limit\" aus der Kernel-Datei \"constant_charge_current_max\" unter dem Pfad /sys/class/power_supply/battery.\n\n</string>
-    <string name="faq_why_is_ccl_not_displayed">Frage: Warum wird \"Charging Current Limit\" nicht angezeigt?\nAntwort: Die Anzeige \"Charging Current Limit\" hängt davon ab, ob die Datei \"constant_charge_current_max\" lesbar ist oder nicht. Nicht alle Kernel erlauben das \"Lesen\" dieser Datei, und auch nicht alle Kernel haben diese Datei.\n\n</string>
+    <string name="faq_where_does_the_app_get_the_ccl">Frage: Woher bezieht die App die \"Ladestrombegrenzung\"?\nAntwort: Die App entnimmt die \"Ladestrombegrenzung\" aus der Kernel-Datei \"constant_charge_current_max\" unter dem Pfad /sys/class/power_supply/battery.\n\n</string>
+    <string name="faq_why_is_ccl_not_displayed">Frage: Warum wird \"Ladestrombegrenzung\" nicht angezeigt?\nAntwort: Die Anzeige \"Ladestrombegrenzung\" hängt davon ab, ob die Datei \"constant_charge_current_max\" lesbar ist oder nicht. Nicht alle Kernel erlauben das \"Lesen\" dieser Datei, und auch nicht alle Kernel haben diese Datei.\n\n</string>
     <string name="faq_i_have_everything_in_zeros" formatted="false">Frage: Ich habe alles (oder fast alles) in Nullen. Warum?\nAntwort: Weil der Hersteller deines Geräts an verschiedenen Sensoren gespart hat. Und da der Kernel den Wert nicht erhalten kann, gibt er 0 zurück.\n\n</string>
     <string name="faq_units">Frage: Sehr große oder kleine Zahlen werden bei der aktuellen Kapazität, dem Lade/Entladestrom und der Spannung angezeigt.\nAntwort: Gehen Sie zu den Einstellungen, im Abschnitt \"Verschiedenes\", erweitern Sie alle Einstellungen und ändern Sie die Maßeinheit.\n\n</string>
     <string name="faq_current_capacity">Frage: Die aktuelle Kapazität wird nicht mehr angezeigt, obwohl sie vorher angezeigt wurde (oder angezeigt wird, aber nicht immer)\nAntwort: Das bedeutet, dass der Akku bald leer ist oder bereits leer ist. Wenn mit dem Akku alles in Ordnung ist, dann kann der Firmware-Kern oder der Controller, der die aktuelle Kapazität anzeigt, fehlerhaft sein..\n\n</string>
@@ -140,7 +140,7 @@
     <string name="text_style_overlay">Text-Stil</string>
     <string name="text_size">Textgröße (Ladung/Entladung/Letztes Aufladen/Verschleiß/Verlauf)</string>
     <string name="text_style">Text-Stil (Ladung/Entladung/Letztes Aufladen/Verschleiß/Verlauf)</string>
-    <string name="battery_status_information">Informationen zum Akkustatus</string>
+    <string name="battery_status_information">Infos zum Akkustatus</string>
     <string name="battery_is_fully_charged">Akku vollständig geladen</string>
     <string name="battery_is_charged">Akku geladen</string>
     <string name="battery_is_discharged">Akku entladen</string>
@@ -263,7 +263,7 @@
     <string name="history_removed">Verlauf entfernt</string>
     <string name="undo">Rückgängig machen</string>
     <string name="capacity_in_wh">Kapazität in Wh</string>
-    <string name="design_capacity_wh">Entwurfskapazität: %1$s Wh</string>
+    <string name="design_capacity_wh">Designkapazität: %1$s Wh</string>
     <string name="current_capacity_wh">Aktuelle Kapazität: %1$s Wh</string>
     <string name="current_capacity_wh_overlay_only_values">%1$s Wh</string>
     <string name="residual_capacity_wh">Verbleibende Kapazität: %1$s Wh (%2$s)</string>
