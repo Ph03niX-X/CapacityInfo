@@ -237,7 +237,7 @@
     <string name="overlay_text_color">Textfarbe</string>
     <string name="pref_key">Schlüssel</string>
     <string name="pref_value">Wert</string>
-    <string name="premium_check_error">Fehler Premiumprüfung!</string>
+    <string name="premium_check_error">Fehler Premiumüberprüfung!</string>
     <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Letztes Aufladen;\n\• Verlauf;\n\• Akkustand in der Statusleiste anzeigen;\n\• Akku-Informationen anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Tab beim App-Start;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Kauf von Premium unterstützen Sie auch die weitere Entwicklung der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
