@@ -91,7 +91,7 @@
     <string name="charging_time_remaining">Verbleibende Ladedauer: %1$s</string>
     <string name="charging_time_remaining_overlay">Verbleibende Ladedauer</string>
     <string name="check_update">Update prüfen</string>
-    <string name="checking_premium">Prämie prüfen&#8230;</string>
+    <string name="checking_premium">Auf Premium überprüfen&#8230;</string>
     <string name="clear_history">Verlauf löschen</string>
     <string name="clear_the_history_dialog_message">Verlauf löschen?</string>
     <string name="close">Schließen</string>
@@ -160,7 +160,7 @@
     <string name="full_charge_reminder">Erinnerung an volle Ladung</string>
     <string name="full_charge_reminder_frequency">Erinnerungshäufigkeit für volle Ladung</string>
     <string name="fully_charged">Vollständig aufgeladen</string>
-    <string name="get_premium">Erhalten Premium</string>
+    <string name="get_premium">Premium erhalten</string>
     <string name="hide">Ausblenden</string>
     <string name="history">Verlauf</string>
     <string name="history_cleared_successfully">Verlauf erfolgreich bereinigt!</string>
@@ -237,11 +237,11 @@
     <string name="overlay_text_color">Textfarbe</string>
     <string name="pref_key">Schlüssel</string>
     <string name="pref_value">Wert</string>
-    <string name="premium_check_error">Fehler Premiumüberprüfung!</string>
+    <string name="premium_check_error">Fehler Premium-Überprüfung!</string>
     <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Letztes Aufladen;\n\• Verlauf;\n\• Akkustand in der Statusleiste anzeigen;\n\• Akku-Informationen anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Tab beim App-Start;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Kauf von Premium unterstützen Sie auch die weitere Entwicklung der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
-    <string name="premium_purchase_error">Fehler beim Premiumkauf!</string>
+    <string name="premium_purchase_error">Fehler beim Premium-Kauf!</string>
     <string name="press_the_back_button_again">Drücken Sie zum Beenden erneut die Zurück-Taste</string>
     <string name="purchase_premium">Kaufen Sie</string>
     <string name="rate_the_app">App bewerten</string>
@@ -305,7 +305,7 @@
     <string name="success_change_key">Einstellung \"%1$s\" wurde erfolgreich geändert</string>
     <string name="successful_export_of_notification_sounds">Benachrichtigungstöne wurden erfolgreich exportiert!</string>
     <string name="successful_export_of_settings">Einstellungen wurden erfolgreich exportiert!\n\nDateiname: \"%1$s\"</string>
-    <string name="successful_premium_check">Premiumüberprüfung erfolgreich!\nPremium ist %1$s</string>
+    <string name="successful_premium_check">Premium-Überprüfung erfolgreich!\nPremium ist %1$s</string>
     <string name="support_and_unlock_premium_features">Unterstützung &amp; Premium-Funktionen freischalten</string>
     <string name="tab_on_application_launch">Tab beim App-Start</string>
     <string name="telegram_developer">Entwickler</string>
