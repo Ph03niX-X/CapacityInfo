@@ -292,7 +292,7 @@
     <string name="show_hide">Anzeigen/Ausblenden</string>
     <string name="size">Größe</string>
     <string name="source_of_power">Energiequelle: %1$s</string>
-    <string name="source_of_power_ac">AC</string>
+    <string name="source_of_power_ac">Ladegerät</string>
     <string name="source_of_power_overlay">Energiequelle</string>
     <string name="source_of_power_wireless">Drahtlos</string>
     <string name="start_capacity_info_service">Capacity Info-Dienst starten</string>
