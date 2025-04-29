@@ -84,12 +84,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
     private var capacityInWh: SwitchPreferenceCompat? = null
     private var chargeDischargingCurrentInWatt: SwitchPreferenceCompat? = null
     private var resetScreenTime: SwitchPreferenceCompat? = null
+    private var backupSettings: Preference? = null
+    private var moreOther: Preference? = null
     private var tabOnApplicationLaunch: ListPreference? = null
     private var unitOfChargeDischargeCurrent: ListPreference? = null
     private var unitOfMeasurementOfCurrentCapacity: ListPreference? = null
     private var voltageUnit: ListPreference? = null
-    private var backupSettings: Preference? = null
-    private var moreOther: Preference? = null
     private var changeDesignCapacity: Preference? = null
     private var overlay: Preference? = null
     private var replaceOfDeviceBattery: Preference? = null
@@ -283,9 +283,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
         resetScreenTime = findPreference(IS_RESET_SCREEN_TIME_AT_ANY_CHARGE_LEVEL)
 
-        moreOther = findPreference("more_other")
-
         backupSettings = findPreference("backup_settings")
+
+        moreOther = findPreference("more_other")
 
         tabOnApplicationLaunch = findPreference(TAB_ON_APPLICATION_LAUNCH)
 
