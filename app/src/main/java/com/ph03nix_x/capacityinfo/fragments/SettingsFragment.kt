@@ -343,17 +343,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 }
         }
 
-        tabOnApplicationLaunch?.apply {
-            isVisible = true
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature)
-            else getTabOnApplicationLaunchSummary()
-        }
-
         moreOther?.setOnPreferenceClickListener {
             if(it.title == requireContext().getString(R.string.more)) {
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
+
+                tabOnApplicationLaunch?.apply {
+                    isVisible = true
+                    isEnabled = premium?.isVisible == false
+                    summary = if(!isEnabled) getString(R.string.premium_feature)
+                    else getTabOnApplicationLaunchSummary()
+                }
 
                 unitOfChargeDischargeCurrent?.apply {
                     isVisible = true
@@ -404,6 +404,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
+                tabOnApplicationLaunch?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false
                 voltageUnit?.isVisible = false
