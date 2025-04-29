@@ -17,6 +17,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants.CHARGING_VOLTAGE_WATT
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ALT_CALC_CHARGING_TIME_REMAINING
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
@@ -534,7 +535,11 @@ interface BatteryInfoInterface {
 
     fun getChargingTimeRemaining(context: Context): String {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P &&
+            !pref.getBoolean(IS_ALT_CALC_CHARGING_TIME_REMAINING,
+                context.resources.getBoolean(R.bool.is_alt_calc_charging_time_remaining))) {
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             val chargingTimeRemaining = batteryManager.computeChargeTimeRemaining() / 1000
             return TimeHelper.getTime(chargingTimeRemaining)
@@ -543,8 +548,6 @@ interface BatteryInfoInterface {
         var chargingTimeRemaining: Double
 
         val batteryLevel = getBatteryLevel(context) ?: 0
-
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         val currentCapacity = getCurrentCapacity(context)
 

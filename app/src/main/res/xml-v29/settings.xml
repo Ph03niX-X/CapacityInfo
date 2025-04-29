@@ -118,6 +118,14 @@
             android:key="is_charging_discharge_current_in_watt"/>
 
         <SwitchPreferenceCompat
+            android:title="@string/alt_calc_charging_time_remaining"
+            android:summary="@string/alt_calc_charging_time_remaining_summary"
+            app:singleLineTitle="false"
+            app:defaultValue="@bool/is_alt_calc_charging_time_remaining"
+            app:icon="@drawable/ic_alt_calc_charging_time_remaining_24dp"
+            android:key="is_alt_calc_charging_time_remaining"/>
+
+        <SwitchPreferenceCompat
             android:title="@string/reset_screen_time_at_any_charge_level"
             app:singleLineTitle="false"
             app:defaultValue="@bool/is_reset_screen_time_at_any_charge_level"
