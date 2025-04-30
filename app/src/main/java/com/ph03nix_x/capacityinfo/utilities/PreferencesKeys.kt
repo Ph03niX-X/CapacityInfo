@@ -32,6 +32,7 @@ object PreferencesKeys {
     const val TEXT_STYLE = "text_style"
 
     // Misc
+    const val IS_DUAL_CELL_BATTERY = "is_dual_cell_battery"
     const val IS_CAPACITY_IN_WH = "is_capacity_in_wh"
     const val IS_CHARGING_DISCHARGE_CURRENT_IN_WATT = "is_charging_discharge_current_in_watt"
     const val IS_ALT_CALC_CHARGING_TIME_REMAINING = "is_alt_calc_charging_time_remaining"

@@ -362,4 +362,5 @@
     <string name="open_the_app_notification_settings">Open the app notification settings</string>
     <string name="alt_calc_charging_time_remaining">Alternative Calculation of the Charging Time Remaining</string>
     <string name="alt_calc_charging_time_remaining_summary">Corrects Display of Charging Time Remaining</string>
+    <string name="dual_cell_battery">Dual-Cell Battery</string>
 </resources>

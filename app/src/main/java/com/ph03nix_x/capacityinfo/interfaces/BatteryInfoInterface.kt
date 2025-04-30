@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CURRENT_CAPACITY_LAS
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ALT_CALC_CHARGING_TIME_REMAINING
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_CAPACITY_IN_WH
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_DUAL_CELL_BATTERY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ONLY_VALUES_OVERLAY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.LAST_CHARGE_TIME
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_HISTORY_FOR_BATTERY_WEAR_NEW
@@ -295,8 +296,12 @@ interface BatteryInfoInterface {
           val batteryManager = context.getSystemService(Context.BATTERY_SERVICE)
                   as BatteryManager
 
-          val currentCapacity = batteryManager.getIntProperty(
-              BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
+            val isDualCellBattery = pref.getBoolean(IS_DUAL_CELL_BATTERY,
+                context.resources.getBoolean(R.bool.is_dual_cell_battery))
+
+          val currentCapacity = if(isDualCellBattery) batteryManager.getIntProperty(
+              BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble() * 2 else batteryManager
+                  .getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER).toDouble()
 
           when {
 
