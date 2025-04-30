@@ -34,7 +34,7 @@ object Constants {
     const val EXPORT_HISTORY_REQUEST_CODE = 2
     const val IMPORT_HISTORY_REQUEST_CODE = 3
     const val EXPORT_NOTIFICATION_SOUNDS_REQUEST_CODE = 0
-    const val CHARGING_VOLTAGE_WATT = 5.0
+    const val CHARGING_VOLTAGE_WATT = 5.2
 
     val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 7.days.inWholeMilliseconds
     val SERVICE_WAKELOCK_TIMEOUT = 30.minutes.inWholeMilliseconds
