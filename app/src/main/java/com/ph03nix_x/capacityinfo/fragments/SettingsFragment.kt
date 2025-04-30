@@ -325,16 +325,23 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             summary = if(!isEnabled) getString(R.string.premium_feature) else null
         }
 
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            backupSettings?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+
         moreOther?.setOnPreferenceClickListener {
             if(it.title == requireContext().getString(R.string.more)) {
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_less_24dp)
                 it.title = getString(R.string.hide)
 
-                backupSettings?.apply {
-                    isVisible = true
-                    isEnabled = premium?.isVisible == false
-                    summary = if(!isEnabled) getString(R.string.premium_feature) else null
-                }
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    backupSettings?.apply {
+                        isVisible = true
+                        isEnabled = premium?.isVisible == false
+                        summary = if(!isEnabled) getString(R.string.premium_feature) else null
+                    }
                 tabOnApplicationLaunch?.apply {
                     isVisible = true
                     isEnabled = premium?.isVisible == false
@@ -390,7 +397,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 it.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_more_24dp)
                 it.title = requireContext().getString(R.string.more)
 
-                backupSettings?.isVisible = false
+                backupSettings?.isVisible = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
                 tabOnApplicationLaunch?.isVisible = false
                 unitOfChargeDischargeCurrent?.isVisible = false
                 unitOfMeasurementOfCurrentCapacity?.isVisible = false

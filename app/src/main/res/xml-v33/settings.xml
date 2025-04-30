@@ -153,6 +153,7 @@
         <Preference
             android:title="@string/backup"
             app:singleLineTitle="false"
+            app:isPreferenceVisible="false"
             app:icon="@drawable/ic_backup"
             android:key="backup_settings"/>
 
