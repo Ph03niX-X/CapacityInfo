@@ -145,16 +145,16 @@
             android:key="is_reset_screen_time_at_any_charge_level"/>
 
         <Preference
-            android:title="@string/backup"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_backup"
-            android:key="backup_settings"/>
-
-        <Preference
             android:title="@string/more"
             app:icon="@drawable/ic_more_24dp"
             app:singleLineTitle="false"
             android:key="more_other"/>
+
+        <Preference
+            android:title="@string/backup"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_backup"
+            android:key="backup_settings"/>
 
         <ListPreference
             android:title="@string/tab_on_application_launch"
