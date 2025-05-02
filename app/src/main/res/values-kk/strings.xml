@@ -340,4 +340,7 @@
     <string name="premium_check_error">Premium тексеру қатесі!</string>
     <string name="application_language">Қолданба тілі</string>
     <string name="open_the_app_notification_settings">Қолданбаның хабарландыру параметрлерін ашу</string>
+    <string name="alt_calc_charging_time_remaining">Зарядтаудың қалған уақытын балама есептеу</string>
+    <string name="alt_calc_charging_time_remaining_summary">Зарядтаудың қалған уақытының көрсетілуін түзету</string>
+    <string name="dual_cell_battery">Қос элементті аккумулятор</string>
 </resources>
