@@ -340,4 +340,7 @@
     <string name="premium_check_error">Помилка перевірки Premium!</string>
     <string name="application_language">Мова додатка</string>
     <string name="open_the_app_notification_settings">Відкрити налаштування сповіщень додатка</string>
+    <string name="alt_calc_charging_time_remaining">Альтернативний розрахунок залишкового часу заряджання</string>
+    <string name="alt_calc_charging_time_remaining_summary">Виправлення відображення залишкового часу заряджання</string>
+    <string name="dual_cell_battery">Двоелементний акумулятор</string>
 </resources>
