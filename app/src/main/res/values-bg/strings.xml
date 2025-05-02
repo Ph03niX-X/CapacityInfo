@@ -340,4 +340,7 @@
     <string name="premium_check_error">Грешка при проверка на Premium!</string>
     <string name="application_language">Език на приложението</string>
     <string name="open_the_app_notification_settings">Отваряне на настройките за известия на приложението</string>
+    <string name="alt_calc_charging_time_remaining">Алтернативно изчисляване на оставащото време за зареждане</string>
+    <string name="alt_calc_charging_time_remaining_summary">Коригиране на показването на оставащото време за зареждане</string>
+    <string name="dual_cell_battery">Двуклетъчна батерия</string>
 </resources>
