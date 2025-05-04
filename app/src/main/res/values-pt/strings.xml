@@ -339,4 +339,7 @@
     <string name="premium_check_error">Erro na verificação do Premium!</string>
     <string name="application_language">Idioma do aplicativo</string>
     <string name="open_the_app_notification_settings">Abrir as configurações de notificação do aplicativo</string>
+    <string name="alt_calc_charging_time_remaining">Cálculo Alternativo do Tempo Restante de Carregamento</string>
+    <string name="alt_calc_charging_time_remaining_summary">Corrige a Exibição do Tempo Restante de Carregamento</string>
+    <string name="dual_cell_battery">Bateria de Célula Dupla</string>
     </resources>
