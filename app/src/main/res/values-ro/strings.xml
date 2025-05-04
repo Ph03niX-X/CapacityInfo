@@ -340,4 +340,7 @@
     <string name="premium_check_error">Erorile verificării Premium!</string>
     <string name="application_language">Limba aplicației</string>
     <string name="open_the_app_notification_settings">Deschideți setările de notificare ale aplicației</string>
+    <string name="alt_calc_charging_time_remaining">Calcul Alternativ al Timpului de Încărcare Rămas</string>
+    <string name="alt_calc_charging_time_remaining_summary">Corectează Afișarea Timpului de Încărcare Rămas</string>
+    <string name="dual_cell_battery">Baterie cu Celule Duble</string>
     </resources>
