@@ -340,4 +340,7 @@
     <string name="premium_check_error">Kesalahan Pemeriksaan Premium!</string>
     <string name="application_language">Bahasa aplikasi</string>
     <string name="open_the_app_notification_settings">Buka pengaturan notifikasi aplikasi</string>
+    <string name="alt_calc_charging_time_remaining">Perhitungan Alternatif Sisa Waktu Pengisian Daya</string>
+    <string name="alt_calc_charging_time_remaining_summary">Koreksi Tampilan Sisa Waktu Pengisian Daya</string>
+    <string name="dual_cell_battery">Baterai Sel Ganda</string>
     </resources>
