@@ -340,4 +340,7 @@
     <string name="premium_check_error">Błąd sprawdzania Premium!</string>
     <string name="application_language">Język aplikacji</string>
     <string name="open_the_app_notification_settings">Otwórz ustawienia powiadomień aplikacji</string>
+    <string name="alt_calc_charging_time_remaining">Alternatywne Obliczanie Pozostałego Czasu Ładowania</string>
+    <string name="alt_calc_charging_time_remaining_summary">Poprawia Wyświetlanie Pozostałego Czasu Ładowania</string>
+    <string name="dual_cell_battery">Bateria Dwukomorowa</string>
     </resources>
