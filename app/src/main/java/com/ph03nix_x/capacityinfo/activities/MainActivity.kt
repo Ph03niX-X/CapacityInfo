@@ -82,10 +82,11 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 import androidx.core.net.toUri
 import androidx.core.content.edit
+import com.ph03nix_x.capacityinfo.interfaces.AdsInterface
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
     MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface,
-    BatteryOptimizationsInterface {
+    BatteryOptimizationsInterface, AdsInterface {
 
     lateinit var pref: SharedPreferences
     private var isDoubleBackToExitPressedOnce = false
@@ -213,13 +214,14 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         bottomNavigation(status)
 
-        if(isGooglePlay && (!isRecreate || fragment !is SettingsFragment))
+        if(isGooglePlay && (!isRecreate || fragment !is SettingsFragment)) {
             loadFragment(
                 fragment ?: ChargeDischargeFragment(), fragment is
                         BatteryStatusInformationFragment || fragment is BackupSettingsFragment
                         || fragment is OverlayFragment || fragment is DebugFragment ||
-                        fragment is AboutFragment || fragment is FeedbackFragment
-            )
+                        fragment is AboutFragment || fragment is FeedbackFragment)
+            showAds()
+        }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
