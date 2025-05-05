@@ -3,6 +3,7 @@ package com.ph03nix_x.capacityinfo.interfaces.views
 import android.os.BatteryManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
@@ -18,6 +19,7 @@ import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
+import com.ph03nix_x.capacityinfo.interfaces.AdsInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
@@ -27,7 +29,7 @@ import com.ph03nix_x.capacityinfo.utilities.Constants
  * Ph03niX-X@outlook.com
  */
 
-interface NavigationInterface : BatteryInfoInterface {
+interface NavigationInterface : BatteryInfoInterface, AdsInterface {
     
     fun MainActivity.bottomNavigation(status: Int) {
         
@@ -82,6 +84,7 @@ interface NavigationInterface : BatteryInfoInterface {
                             }
                         }
                         R.id.wear_navigation -> {
+                            showAds()
                             if(fragment !is WearFragment) {
                                 fragment = WearFragment()
                                 toolbar.apply {
