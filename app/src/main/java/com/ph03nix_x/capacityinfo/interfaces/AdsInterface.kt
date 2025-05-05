@@ -1,6 +1,5 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
-import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -21,9 +20,7 @@ interface AdsInterface {
         InterstitialAd.load(
             this, AD_UNIT_ID, adRequest,
             object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    Toast.makeText(this@loadAds, "$adError", Toast.LENGTH_LONG).show()
-                }
+                override fun onAdFailedToLoad(adError: LoadAdError) {}
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     interstitialAd.show(this@loadAds)
                 }
