@@ -57,6 +57,7 @@ fun getBuildDate(): String {
 dependencies {
     val kotlinVersion = rootProject.extra.get("kotlin_version") as String
     val coroutinesVersion = "1.10.2"
+    val adMobVersion = "24.2.0"
     val billingVersion = "7.1.1"
     val miuiAutoStart = "v1.3"
 
@@ -74,6 +75,9 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("com.google.android.play:app-update-ktx:2.1.0")
+
+    // Ads
+    implementation("com.google.android.gms:play-services-ads:$adMobVersion")
 
     // Premium
     implementation("com.android.billingclient:billing-ktx:$billingVersion")
