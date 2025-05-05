@@ -44,6 +44,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                     when(it.itemId) {
                         R.id.charge_discharge_navigation -> {
                             if(fragment !is ChargeDischargeFragment) {
+                                showAds()
                                 fragment = ChargeDischargeFragment()
                                 toolbar.navigationIcon = null
                                 MainActivity.apply {
