@@ -83,8 +83,8 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                             }
                         }
                         R.id.wear_navigation -> {
-                            showAds()
                             if(fragment !is WearFragment) {
+                                showAds()
                                 fragment = WearFragment()
                                 toolbar.apply {
                                     title = getString(R.string.wear)
