@@ -241,7 +241,7 @@
     <string name="pref_key">Schlüssel</string>
     <string name="pref_value">Wert</string>
     <string name="premium_check_error">Fehler Premium-Überprüfung!</string>
-    <string name="premium_dialog">Durch den Kauf von Premium erhalten Sie zusätzliche App-Funktionen:\n\• Anzeigenentfernung;\n\• Letzte Ladung;\n\• Verlauf;\n\• Akku-Infos anzeigen;\n\• Ladezustand in Statusleiste anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• AkkuStatusinfos;\n\• Schriftart;\n\• Bildschirmzeit bei jedem Ladezustand zurücksetzen;\n\• Sicherung;\n\• Tab beim Starten der App;\n\• Überlagerung\n\• Kapazität in Wh;\n\• Lade-/Entladestrom in W\n\nDurch den Kauf von Premium unterstützen Sie auch die Weiterentwicklung der App</string>
+    <string name="premium_dialog">Durch den Kauf von Premium erhalten Sie zusätzliche App-Funktionen:\n\• Anzeigenentfernung;\n\• Letztes Aufladen;\n\• Verlauf;\n\• Akku-Infos anzeigen;\n\• Ladezustand in Statusleiste anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• AkkuStatusinfos;\n\• Schriftart;\n\• Bildschirmzeit bei jedem Ladezustand zurücksetzen;\n\• Sicherung;\n\• Tab beim Starten der App;\n\• Überlagerung\n\• Kapazität in Wh;\n\• Lade-/Entladestrom in W\n\nDurch den Kauf von Premium unterstützen Sie auch die Weiterentwicklung der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
     <string name="premium_purchase_error">Fehler bei Premium-Kauf!</string>
