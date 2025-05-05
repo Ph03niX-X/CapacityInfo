@@ -137,17 +137,18 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
         }
 
         privacyPolicy?.apply {
-            try {
+            setOnPreferenceClickListener {
+                try {
 
-                startActivity(Intent(Intent.ACTION_VIEW, PRIVACY_POLICY_LINK.toUri()))
+                    startActivity(Intent(Intent.ACTION_VIEW, PRIVACY_POLICY_LINK.toUri()))
+                }
+                catch(e: ActivityNotFoundException) {
+
+                    Toast.makeText(requireContext(), e.message ?: e.toString(),
+                        Toast.LENGTH_LONG).show()
+                }
+                true
             }
-            catch(e: ActivityNotFoundException) {
-
-                Toast.makeText(requireContext(), e.message ?: e.toString(),
-                    Toast.LENGTH_LONG).show()
-            }
-
-            true
         }
     }
 
