@@ -9,6 +9,7 @@ object Constants {
     const val GOOGLE_PLAY_APP_LINK = "https://play.google.com/store/apps/details?id=com.ph03nix_x.capacityinfo"
     const val GITHUB_LINK = "https://github.com/Ph03niX-X/CapacityInfo"
     const val TELEGRAM_DEVELOPER_LINK = "https://t.me/Ph03niX_X"
+    const val PRIVACY_POLICY_LINK = "https://doc-hosting.flycricket.io/capacity-info-privacy-policy/74d025f3-caef-4eb7-b09f-e09ac0d8b4da/privacy"
     const val DONT_KILL_MY_APP_LINK = "https://dontkillmyapp.com"
     const val GOOGLE_PLAY_PACKAGE_NAME = "com.android.vending"
     const val SERVICE_CHANNEL_ID = "service_channel"

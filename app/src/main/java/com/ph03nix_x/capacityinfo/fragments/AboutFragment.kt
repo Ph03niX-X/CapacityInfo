@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.interfaces.CheckUpdateInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import androidx.core.net.toUri
+import com.ph03nix_x.capacityinfo.utilities.Constants.PRIVACY_POLICY_LINK
 
 class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateInterface {
 
@@ -29,6 +30,7 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
     private var buildDate: Preference? = null
     private var github: Preference? = null
     private var betaTester: Preference? = null
+    private var privacyPolicy: Preference? = null
 
     private var isResume = false
 
@@ -53,6 +55,8 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
         github = findPreference("github")
 
         betaTester = findPreference("become_a_beta_tester")
+
+        privacyPolicy = findPreference("privacy_policy")
 
         checkUpdate?.apply {
             isVisible = isInstalledGooglePlay && MainApp.isGooglePlay(requireContext())
@@ -132,6 +136,19 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
             }
         }
 
+        privacyPolicy?.apply {
+            try {
+
+                startActivity(Intent(Intent.ACTION_VIEW, PRIVACY_POLICY_LINK.toUri()))
+            }
+            catch(e: ActivityNotFoundException) {
+
+                Toast.makeText(requireContext(), e.message ?: e.toString(),
+                    Toast.LENGTH_LONG).show()
+            }
+
+            true
+        }
     }
 
     override fun onResume() {
