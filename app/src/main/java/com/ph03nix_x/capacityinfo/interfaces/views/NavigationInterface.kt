@@ -3,7 +3,6 @@ package com.ph03nix_x.capacityinfo.interfaces.views
 import android.os.BatteryManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
