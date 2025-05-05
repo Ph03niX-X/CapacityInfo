@@ -9,6 +9,8 @@
     <string name="add_setting">Einstellung hinzufügen</string>
     <string name="add_ten_history">10x Verlauf hinzufügen</string>
     <string name="allow_all_app_notifications">ALLE APP-BENACHRICHTIGUNGEN ZULASSEN</string>
+    <string name="alt_calc_charging_time_remaining">Alternative Berechnung der Restladezeit</string>
+    <string name="alt_calc_charging_time_remaining_summary">Anzeige der verbleibenden Ladezeit korrigiert</string>
     <string name="appearance">Erscheinungsbild</string>
     <string name="application_language">App-Sprache</string>
     <string name="apply">Anwenden</string>
@@ -239,11 +241,12 @@
     <string name="pref_key">Schlüssel</string>
     <string name="pref_value">Wert</string>
     <string name="premium_check_error">Fehler Premium-Überprüfung!</string>
-    <string name="premium_dialog">Wenn Sie Premium kaufen, erhalten Sie zusätzliche Funktionen der App:\n\• Letztes Aufladen;\n\• Verlauf;\n\• Akkustand in der Statusleiste anzeigen;\n\• Akku-Informationen anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• Informationen zum Akkustatus;\n\• Schriftart;\n\• Zurücksetzen der Bildschirmzeit bei jedem Ladezustand;\n\• Sicherung;\n\• Tab beim App-Start;\n\• Overlay;\n\• Kapazität in Wh;\n\• Wird aufgeladen/Wird entladen Aktuelle in Watt\n\nMit dem Kauf von Premium unterstützen Sie auch die weitere Entwicklung der App</string>
+    <string name="premium_dialog">Durch den Kauf von Premium erhalten Sie zusätzliche App-Funktionen:\n\• Anzeigenentfernung;\n\• Letztes Aufladen;\n\• Verlauf;\n\• Akku-Infos anzeigen;\n\• Ladezustand in Statusleiste anzeigen;\n\• Erweiterte Benachrichtigung anzeigen;\n\• AkkuStatusinfos;\n\• Schriftart;\n\• Bildschirmzeit bei jedem Ladezustand zurücksetzen;\n\• Sicherung;\n\• Tab beim Starten der App;\n\• Überlagerung\n\• Kapazität in Wh;\n\• Lade-/Entladestrom in W\n\nDurch den Kauf von Premium unterstützen Sie auch die Weiterentwicklung der App</string>
     <string name="premium_feature">Premium-Funktion</string>
     <string name="premium_features_unlocked">Premium-Funktionen freigeschaltet!</string>
     <string name="premium_purchase_error">Fehler bei Premium-Kauf!</string>
     <string name="press_the_back_button_again">Zum Beenden erneut die Zurück-Taste antippen</string>
+    <string name="privacy_policy">Datenschutzrichtlinie</string>
     <string name="purchase_premium">Kaufen</string>
     <string name="rate_the_app">App bewerten</string>
     <string name="remaining_battery_time">Verbleibende Nutzungsdauer: %1$s</string>
@@ -288,7 +291,7 @@
     <string name="settings_reset_successfully">Einstellungen erfolgreich zurückgesetzt</string>
     <string name="share_the_app">App teilen</string>
     <string name="show_battery_information">Akku-Infos anzeigen</string>
-    <string name="show_battery_level_in_status_bar">Akkustand in der Statusleiste anzeigen</string>
+    <string name="show_battery_level_in_status_bar">Akkustand in Statusleiste anzeigen</string>
     <string name="show_expanded_notification">Erweiterte Benachrichtigung anzeigen</string>
     <string name="show_hide">Anzeigen/Ausblenden</string>
     <string name="size">Größe</string>
