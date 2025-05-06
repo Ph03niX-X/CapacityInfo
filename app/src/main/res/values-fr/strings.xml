@@ -239,7 +239,7 @@
     <string name="error">Erreur!</string>
     <string name="history_count">Compte historique</string>
     <string name="get_premium">Obtenez une Premium</string>
-    <string name="premium_dialog">En achetant Premium, vous bénéficierez de fonctionnalités supplémentaires de l\'application:\n\• Dernière charge;\n\• Histoire;\n\• Afficher le niveau de batterie dans la barre d\'état;\n\• Afficher les informations sur la batterie;\n\• Afficher la notification développée;\n\• Aire d\'autoroute;\n\• Informations sur l\'état de la batterie;\n\• Police du texte;\n\• Réinitialiser le temps d\'écran à n\'importe quel niveau de charge;\n\• Sauvegarde;\n\• Onglet sur le lancement de l\'application;\n\• Superposition\n\• Capacité en Wh;\n\• Courant de charge/décharge en watts\n\nEn achetant Premium, vous soutenez également le développement ultérieur de l\'application</string>
+    <string name="premium_dialog">En achetant Premium, vous bénéficierez de fonctionnalités supplémentaires de l\'application:\n\• Supprimer les Publicités;\n\• Dernière charge;\n\• Histoire;\n\• Afficher le niveau de batterie dans la barre d\'état;\n\• Afficher les informations sur la batterie;\n\• Afficher la notification développée;\n\• Aire d\'autoroute;\n\• Informations sur l\'état de la batterie;\n\• Police du texte;\n\• Réinitialiser le temps d\'écran à n\'importe quel niveau de charge;\n\• Sauvegarde;\n\• Onglet sur le lancement de l\'application;\n\• Superposition\n\• Capacité en Wh;\n\• Courant de charge/décharge en watts\n\nEn achetant Premium, vous soutenez également le développement ultérieur de l\'application</string>
     <string name="premium_feature">Fonctionnalité premium</string>
     <string name="purchase_premium">Achat</string>
     <string name="premium_features_unlocked">Fonctionnalités Premium débloquées!</string>
@@ -343,4 +343,5 @@
     <string name="alt_calc_charging_time_remaining">Calcul Alternatif du Temps de Charge Restant</string>
     <string name="alt_calc_charging_time_remaining_summary">Corrige l\'Affichage du Temps de Charge Restant</string>
     <string name="dual_cell_battery">Batterie à Double Cellule</string>
+    <string name="privacy_policy">Politique de Confidentialité</string>
     </resources>
