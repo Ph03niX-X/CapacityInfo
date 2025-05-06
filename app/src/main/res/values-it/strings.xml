@@ -239,7 +239,7 @@
     <string name="error">Errore!</string>
     <string name="history_count">Conteggio della storia</string>
     <string name="get_premium">Ottieni Premium</string>
-    <string name="premium_dialog">Acquistando Premium, otterrai funzionalità aggiuntive dell\'app:\n\• Ultima carica;\n\• Storia;\n\• Mostra il livello della batteria nella barra di stato;\n\• Mostra informazioni sulla batteria;\n\• Mostra notifica estesa;\n\• Interruzione del servizio;\n\• Informazioni sullo stato della batteria;\n\• Carattere del testo;\n\• Ripristina il tempo di utilizzo a qualsiasi livello di carica;\n\• Backup;\n\• Scheda all\'avvio dell\'applicazione;\n\• Sovrapposizione\n\• Capacità in Wh;\n\• Corrente di carica/scarica in Watt\n\nAcquistando Premium sostieni anche l\'ulteriore sviluppo dell\'app</string>
+    <string name="premium_dialog">Acquistando Premium, otterrai funzionalità aggiuntive dell\'app:\n\• Rimuovi Pubblicità;\n\• Ultima carica;\n\• Storia;\n\• Mostra il livello della batteria nella barra di stato;\n\• Mostra informazioni sulla batteria;\n\• Mostra notifica estesa;\n\• Interruzione del servizio;\n\• Informazioni sullo stato della batteria;\n\• Carattere del testo;\n\• Ripristina il tempo di utilizzo a qualsiasi livello di carica;\n\• Backup;\n\• Scheda all\'avvio dell\'applicazione;\n\• Sovrapposizione\n\• Capacità in Wh;\n\• Corrente di carica/scarica in Watt\n\nAcquistando Premium sostieni anche l\'ulteriore sviluppo dell\'app</string>
     <string name="premium_feature">Funzionalità Premium</string>
     <string name="purchase_premium">Acquistare</string>
     <string name="premium_features_unlocked">Funzionalità premium sbloccate!</string>
@@ -343,4 +343,5 @@
     <string name="alt_calc_charging_time_remaining">Calcolo Alternativo del Tempo di Ricarica Residuo</string>
     <string name="alt_calc_charging_time_remaining_summary">Corregge la Visualizzazione del Tempo di Ricarica Residuo</string>
     <string name="dual_cell_battery">Batteria a Doppia Cella</string>
+    <string name="privacy_policy">Politica sulla Privacy</string>
     </resources>
