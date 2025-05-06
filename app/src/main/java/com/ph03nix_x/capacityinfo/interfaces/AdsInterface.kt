@@ -16,9 +16,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARG
 interface AdsInterface {
 
     private fun MainActivity.loadAds() {
-        val adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(
-            this, AD_UNIT_ID, adRequest,
+        InterstitialAd.load(this, AD_UNIT_ID, AdRequest.Builder().build(),
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {}
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
