@@ -86,7 +86,7 @@
     <string name="charging_current_limit_overlay_only_values">%1$s mA</string>
     <string name="charging_current_limit_watt">Ladestrombegrenzung: %1$sW</string>
     <string name="charging_current_ma">Ladestrom: %1$d mA</string>
-    <string name="charging_discharge_current_in_watt">Laden/Entladen - Aktuelle in Watt</string>
+    <string name="charging_discharge_current_in_watt">Lade/Entladestrom in Watt</string>
     <string name="charging_discharge_current_watt_overlay_only_values">%1$s W</string>
     <string name="charging_time">Aufladezeit: %1$s</string>
     <string name="charging_time_overlay">Aufladezeit</string>
@@ -263,12 +263,12 @@
     <string name="reset_screen_time_at_any_charge_level">Bildschirmzeit bei jedem Ladezustand zurücksetzen</string>
     <string name="reset_setting">Einstellung zurücksetzen</string>
     <string name="reset_settings">Alle Einstellungen zurücksetzen</string>
-    <string name="reset_the_number_of_full_charges_to_zero">Anzahl der Vollladungen auf Null zurücksetzen</string>
-    <string name="reset_the_number_of_full_charges_to_zero_dialog_message">Anzahl der Vollladungen auf Null zurücksetzen?</string>
-    <string name="reset_to_zero_the_number_of_charges">Anzahl der Ladungen auf Null zurücksetzen</string>
-    <string name="reset_to_zero_the_number_of_charges_dialog_message">Anzahl der Ladungen auf Null zurücksetzen?</string>
-    <string name="reset_to_zero_the_number_of_cycles">Anzahl der Zyklen auf Null zurücksetzen</string>
-    <string name="reset_to_zero_the_number_of_cycles_dialog_message">Anzahl der Zyklen auf Null zurücksetzen?</string>
+    <string name="reset_the_number_of_full_charges_to_zero">Anzahl der Vollladungen auf Null setzen</string>
+    <string name="reset_the_number_of_full_charges_to_zero_dialog_message">Anzahl der Vollladungen auf Null setzen?</string>
+    <string name="reset_to_zero_the_number_of_charges">Anzahl der Ladungen auf Null setzen</string>
+    <string name="reset_to_zero_the_number_of_charges_dialog_message">Anzahl der Ladungen auf Null setzen?</string>
+    <string name="reset_to_zero_the_number_of_cycles">Anzahl der Zyklen auf Null setzen</string>
+    <string name="reset_to_zero_the_number_of_cycles_dialog_message">Anzahl der Zyklen auf Null setzen?</string>
     <string name="residual_capacity">Restkapazität: %1$s mAh (%2$s)</string>
     <string name="residual_capacity_overlay">Restkapazität</string>
     <string name="residual_capacity_overlay_only_values">%1$s mAh (%2$s)</string>
