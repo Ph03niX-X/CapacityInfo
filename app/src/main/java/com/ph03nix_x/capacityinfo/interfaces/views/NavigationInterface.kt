@@ -44,7 +44,6 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                     when(it.itemId) {
                         R.id.charge_discharge_navigation -> {
                             if(fragment !is ChargeDischargeFragment) {
-                                showAds()
                                 fragment = ChargeDischargeFragment()
                                 toolbar.navigationIcon = null
                                 MainActivity.apply {
@@ -58,6 +57,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 clearMenu()
                                 inflateMenu()
                                 loadFragment(fragment ?: ChargeDischargeFragment())
+                                showAds()
                             }
                         }
                         R.id.last_charge_navigation -> {
@@ -85,7 +85,6 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                         }
                         R.id.wear_navigation -> {
                             if(fragment !is WearFragment) {
-                                showAds()
                                 fragment = WearFragment()
                                 toolbar.apply {
                                     title = getString(R.string.wear)
@@ -102,6 +101,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 clearMenu()
                                 inflateMenu()
                                 loadFragment(fragment ?: WearFragment())
+                                showAds()
                             }
                         }
                         R.id.history_navigation -> {
