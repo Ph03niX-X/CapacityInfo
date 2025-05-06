@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.interfaces
 
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.ph03nix_x.capacityinfo.AD_UNIT_ID
@@ -18,7 +17,6 @@ interface AdsInterface {
     private fun MainActivity.loadAds() {
         InterstitialAd.load(this, AD_UNIT_ID, AdRequest.Builder().build(),
             object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {}
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     interstitialAd.show(this@loadAds)
                 }
