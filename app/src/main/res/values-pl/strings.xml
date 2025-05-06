@@ -239,7 +239,7 @@
     <string name="error">Błąd!</string>
     <string name="history_count">Historia Liczenie</string>
     <string name="get_premium">Uzyskaj Premium</string>
-    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Ostatni ładunek;\n\• Historia;\n\• Pokaż poziom baterii na pasku stanu;\n\• Pokaż informacje o baterii;\n\• Pokaż rozwinięte powiadomienie;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay;\n\• Pojemność w Wh;\n\• Prąd ładowania/rozładowania w watach\n\nKupując Premium, wspierasz również dalszy rozwój aplikacji</string>
+    <string name="premium_dialog">Wykupując usługę Premium, otrzymasz dodatkowe funkcje aplikacji:\n\• Usuń Reklamy;\n\• Ostatni ładunek;\n\• Historia;\n\• Pokaż poziom baterii na pasku stanu;\n\• Pokaż informacje o baterii;\n\• Pokaż rozwinięte powiadomienie;\n\• Informacje o stanie baterii;\n\• Czcionka tekstu;\n\• Resetowanie czasu ekranu na dowolnym poziomie naładowania;\n\• Kopia zapasowa;\n\• Karta przy uruchamianiu aplikacji;\n\• Overlay;\n\• Pojemność w Wh;\n\• Prąd ładowania/rozładowania w watach\n\nKupując Premium, wspierasz również dalszy rozwój aplikacji</string>
     <string name="premium_feature">Funkcja Premium</string>
     <string name="purchase_premium">Zakup</string>
     <string name="premium_features_unlocked">Odblokowane funkcje premium!</string>
@@ -343,4 +343,5 @@
     <string name="alt_calc_charging_time_remaining">Alternatywne Obliczanie Pozostałego Czasu Ładowania</string>
     <string name="alt_calc_charging_time_remaining_summary">Poprawia Wyświetlanie Pozostałego Czasu Ładowania</string>
     <string name="dual_cell_battery">Bateria Dwukomorowa</string>
+    <string name="privacy_policy">Polityka Prywatności</string>
     </resources>
