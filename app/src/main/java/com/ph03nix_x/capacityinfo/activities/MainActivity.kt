@@ -220,7 +220,6 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         BatteryStatusInformationFragment || fragment is BackupSettingsFragment
                         || fragment is OverlayFragment || fragment is DebugFragment ||
                         fragment is AboutFragment || fragment is FeedbackFragment)
-            showAds()
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -375,6 +374,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             !isGooglePlay &&
             (!isPremium || pref.getString(TOKEN_PREF, null)?.length != TOKEN_COUNT)
             && MainApp.isRequestPurchasePremium) requestPurchasePremium()
+
+        if(fragment is ChargeDischargeFragment) showAds()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
