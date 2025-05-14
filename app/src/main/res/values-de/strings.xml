@@ -14,7 +14,7 @@
     <string name="appearance">Erscheinungsbild</string>
     <string name="application_language">App-Sprache</string>
     <string name="apply">Anwenden</string>
-    <string name="are_you_sure">Sind Sie sicher?</string>
+    <string name="are_you_sure">Bist du sicher?</string>
     <string name="auto_dark_mode_summary">Dunklen Modus einschalten je nach System</string>
     <string name="auto_start_boot">Automatischer Start (Boot)</string>
     <string name="auto_start_open_app">Automatischer Start (App öffnen)</string>
@@ -49,7 +49,7 @@
     <string name="battery_level_overlay">Akkuzustand</string>
     <string name="battery_overcooling">Akku unterkühlt! Temperatur: %1$s°C/%2$s°F</string>
     <string name="battery_overheating">Akku überhitzt! Temperatur: %1$s°C/%2$s°F</string>
-    <string name="battery_status_information">Infos zum Akkustatus</string>
+    <string name="battery_status_information">Benachrichtigungen über Akkustatus</string>
     <string name="battery_technology">Akku-Technologie: %1$s</string>
     <string name="battery_wear">Akkuverschleiß: %1$s (%2$s mAh)</string>
     <string name="battery_wear_overlay">Akkuverschleiß</string>
@@ -57,7 +57,7 @@
     <string name="battery_wear_wh">Akkuverschleiß: %1$s (%2$s Wh)</string>
     <string name="battery_wear_wh_overlay_only_values">%1$s (%2$s Wh)</string>
     <string name="become_a_beta_tester">Beta-Tester werden</string>
-    <string name="become_a_beta_tester_summary">Seien Sie der Erste, der Updates erhält</string>
+    <string name="become_a_beta_tester_summary">Sei der Erste, der Updates erhält</string>
     <string name="build">Build</string>
     <string name="build_date">Erstellungsdatum (GMT+3)</string>
     <string name="bypass_dnd_mode">DND-Modus umgehen</string>
