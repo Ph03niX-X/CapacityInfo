@@ -5,6 +5,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.ph03nix_x.capacityinfo.AD_UNIT_ID
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 
 /**
@@ -24,7 +25,8 @@ interface AdsInterface {
     }
 
     fun MainActivity.showAds() {
-        if(PremiumInterface.isPremium || pref.getLong(NUMBER_OF_FULL_CHARGES, 0L) < 1L) return
+        if(PremiumInterface.isPremium || pref.getLong(NUMBER_OF_CHARGES, 0L) < 1L ||
+            pref.getLong(NUMBER_OF_FULL_CHARGES, 0L) < 1L) return
         loadAds()
     }
 }
