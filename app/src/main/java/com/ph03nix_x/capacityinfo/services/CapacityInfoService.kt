@@ -297,8 +297,12 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         try {
             if(isGooglePlay) onUpdateServiceNotification(this) else {}
         }
-        catch(_: RuntimeException) {}
-        catch(_: DeadSystemException) {}
+        catch(_: RuntimeException) {
+            ServiceHelper.restartService(this, CapacityInfoService::class.java)
+        }
+        catch(_: DeadSystemException) {
+            ServiceHelper.restartService(this, CapacityInfoService::class.java)
+        }
         finally { if(isBatteryCharged) wakeLockRelease() }
 
     private suspend fun batteryCharging() {
