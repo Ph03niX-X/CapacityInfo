@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -131,6 +132,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         isGooglePlay = isGooglePlay(this)
         pref = PreferenceManager.getDefaultSharedPreferences(this)
+
+        enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
 
