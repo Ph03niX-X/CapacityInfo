@@ -38,7 +38,6 @@ import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.fragments.FeedbackFragment
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
-import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
@@ -177,8 +176,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                         && !isLoadSettings && !isLoadDebug) -> ChargeDischargeFragment()
                 isLoadLastCharge || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "1"
                         && prefArrays == null && !isLoadChargeDischarge && !isLoadWear &&
-                        !isLoadHistory && !isLoadSettings && !isLoadDebug) ->
-                            if(!isPremium) LastChargeNoPremiumFragment() else LastChargeFragment()
+                        !isLoadHistory && !isLoadSettings && !isLoadDebug) -> LastChargeFragment()
                 isLoadWear || (pref.getString(TAB_ON_APPLICATION_LAUNCH, "0") == "2" &&
                         prefArrays == null && !isLoadChargeDischarge && !isLoadLastCharge &&
                         !isLoadHistory && !isLoadSettings && !isLoadDebug) -> WearFragment()
@@ -301,7 +299,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) R.string.charge
                 else R.string.discharge)
             is WearFragment -> getString(R.string.wear)
-            is LastChargeNoPremiumFragment, is LastChargeFragment -> getString(R.string.last_charge)
+            is LastChargeFragment -> getString(R.string.last_charge)
             is HistoryFragment -> getString(if(isPremium && HistoryHelper.isHistoryNotEmpty(this))
                 R.string.history_title else R.string.history, HistoryHelper.getHistoryCount(this),
                 Constants.HISTORY_COUNT_MAX)
@@ -535,11 +533,10 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         if (isOnBackPressed) {
             if (toolbar.title != getString(R.string.settings) && !isRestoreImportSettings &&
                 ((fragment != null && fragment !is SettingsFragment && fragment !is
-                        ChargeDischargeFragment && fragment !is LastChargeNoPremiumFragment &&
-                        fragment !is LastChargeFragment && fragment !is WearFragment &&
-                        fragment !is HistoryFragment && fragment !is DebugFragment &&
-                        fragment !is BackupSettingsFragment) || ((fragment is BackupSettingsFragment
-                        || fragment is DebugFragment)
+                        ChargeDischargeFragment && fragment !is LastChargeFragment &&
+                        fragment !is WearFragment && fragment !is HistoryFragment &&
+                        fragment !is DebugFragment && fragment !is BackupSettingsFragment)
+                        || ((fragment is BackupSettingsFragment || fragment is DebugFragment)
                         && supportFragmentManager.backStackEntryCount > 0))) {
 
                 fragment = SettingsFragment()

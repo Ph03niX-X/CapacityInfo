@@ -1,7 +1,6 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import com.ph03nix_x.capacityinfo.databinding.LastChargeFragmentBinding
 import com.ph03nix_x.capacityinfo.helpers.TextAppearanceHelper
 import com.ph03nix_x.capacityinfo.helpers.TimeHelper
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
-import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_CHARGE_LAST_CHARGE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.AVERAGE_TEMP_CELSIUS_LAST_CHARGE
@@ -37,6 +35,7 @@ import java.text.DecimalFormat
  * Created by Ph03niX-X on 06.02.2024
  * Ph03niX-X@outlook.com
  */
+
 class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoInterface {
     private lateinit var binding: LastChargeFragmentBinding
     private lateinit var pref: SharedPreferences
@@ -49,8 +48,6 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        if(!isInstalledFromGooglePlay())
-            throw RuntimeException("Application not installed from Google Play")
         binding = LastChargeFragmentBinding.inflate(inflater, container, false)
         pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         instance = this
@@ -204,13 +201,5 @@ class LastChargeFragment : Fragment(R.layout.last_charge_fragment), BatteryInfoI
                 MIN_TEMP_CELSIUS_LAST_CHARGE, 0f)),
             DecimalFormat("#.#").format(pref.getFloat(
                 MIN_TEMP_FAHRENHEIT_LAST_CHARGE, 0f)))
-
-    @Suppress("DEPRECATION")
-    private fun isInstalledFromGooglePlay() =
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
-                .getInstallSourceInfo(requireContext().packageName).installingPackageName
-        else Constants.GOOGLE_PLAY_PACKAGE_NAME == requireContext().packageManager
-            .getInstallerPackageName(requireContext().packageName)
 
 }

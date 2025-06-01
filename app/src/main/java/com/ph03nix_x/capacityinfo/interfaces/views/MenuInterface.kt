@@ -10,7 +10,6 @@ import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.ChargeDischargeFragment
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
-import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
@@ -50,8 +49,7 @@ interface MenuInterface {
                 inflateMenu(R.menu.main_menu)
                 menu.findItem(R.id.instruction)?.isVisible = getCurrentCapacity(
                     this@inflateMenu) > 0.0 && (fragment is ChargeDischargeFragment ||
-                        fragment is LastChargeNoPremiumFragment || fragment is LastChargeFragment
-                        || fragment is WearFragment)
+                        fragment is LastChargeFragment || fragment is WearFragment)
                 menu.findItem(R.id.instruction).setOnMenuItemClickListener {
                     showInstruction()
                     true

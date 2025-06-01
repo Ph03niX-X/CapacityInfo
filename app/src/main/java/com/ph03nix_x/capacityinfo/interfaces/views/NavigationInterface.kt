@@ -13,7 +13,6 @@ import com.ph03nix_x.capacityinfo.fragments.DebugFragment
 import com.ph03nix_x.capacityinfo.fragments.FeedbackFragment
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
-import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.fragments.OverlayFragment
 import com.ph03nix_x.capacityinfo.fragments.SettingsFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
@@ -61,10 +60,8 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                             }
                         }
                         R.id.last_charge_navigation -> {
-                            if(fragment !is LastChargeNoPremiumFragment &&
-                                fragment !is LastChargeFragment) {
-                                fragment = if(PremiumInterface.isPremium) LastChargeFragment()
-                                else LastChargeNoPremiumFragment()
+                            if(fragment !is LastChargeFragment) {
+                                fragment = LastChargeFragment()
                                 toolbar.apply {
                                     title = getString(R.string.last_charge)
                                     navigationIcon = null
@@ -79,8 +76,8 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 }
                                 clearMenu()
                                 inflateMenu()
-                                loadFragment(fragment ?: if(PremiumInterface.isPremium)
-                                    LastChargeFragment() else LastChargeNoPremiumFragment())
+                                loadFragment(fragment ?: LastChargeFragment())
+                                showAds()
                             }
                         }
                         R.id.wear_navigation -> {
@@ -130,8 +127,8 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                         }
                         R.id.settings_navigation -> {
                             when(fragment) {
-                                null, is ChargeDischargeFragment, is LastChargeNoPremiumFragment,
-                                is LastChargeFragment, is WearFragment, is HistoryFragment -> {
+                                null, is ChargeDischargeFragment, is LastChargeFragment,
+                                is WearFragment, is HistoryFragment -> {
                                     fragment = SettingsFragment()
                                     toolbar.apply {
                                         title = getString(R.string.settings)
@@ -169,8 +166,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                     fragment !is BackupSettingsFragment -> {
                 navigation.selectedItemId = when(fragment) {
                     is ChargeDischargeFragment -> R.id.charge_discharge_navigation
-                    is LastChargeNoPremiumFragment, is LastChargeFragment ->
-                        R.id.last_charge_navigation
+                    is LastChargeFragment -> R.id.last_charge_navigation
                     is WearFragment -> R.id.wear_navigation
                     is HistoryFragment -> R.id.history_navigation
                     is SettingsFragment -> R.id.settings_navigation

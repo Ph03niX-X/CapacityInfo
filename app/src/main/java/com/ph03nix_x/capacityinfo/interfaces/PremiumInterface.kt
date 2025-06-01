@@ -31,8 +31,6 @@ import com.ph03nix_x.capacityinfo.TOKEN_COUNT
 import com.ph03nix_x.capacityinfo.TOKEN_PREF
 import com.ph03nix_x.capacityinfo.activities.MainActivity
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
-import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
-import com.ph03nix_x.capacityinfo.fragments.LastChargeNoPremiumFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.interfaces.views.NavigationInterface
@@ -212,10 +210,6 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             val historyFragment = HistoryFragment.instance
             val isHistoryNotEmpty = HistoryHelper.isHistoryNotEmpty(context)
             mainActivity?.apply {
-                if(fragment is LastChargeNoPremiumFragment) {
-                    loadFragment(LastChargeFragment())
-                    fragment = LastChargeFragment()
-                }
                 toolbar.menu?.apply {
                     findItem(R.id.premium)?.isVisible = false
                     findItem(R.id.history_premium)?.isVisible = false
