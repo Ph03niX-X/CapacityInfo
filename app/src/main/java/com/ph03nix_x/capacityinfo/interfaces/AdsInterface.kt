@@ -16,17 +16,18 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARG
 interface AdsInterface {
 
     private fun MainActivity.loadAds() {
+        if(loadAdsCount >= 3) return
         InterstitialAd.load(this, resources.getString(R.string.ad_unit_id),
             AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    interstitialAd.show(this@loadAds)
+                    if(loadAdsCount < 3) interstitialAd.show(this@loadAds)
                 }
             })
     }
 
     fun MainActivity.showAds() {
         if(PremiumInterface.isPremium || pref.getLong(NUMBER_OF_CHARGES, 0L) < 1L ||
-            pref.getLong(NUMBER_OF_FULL_CHARGES, 0L) < 1L) return
+            pref.getLong(NUMBER_OF_FULL_CHARGES, 0L) < 1L || loadAdsCount >= 3) return
         loadAds()
     }
 }

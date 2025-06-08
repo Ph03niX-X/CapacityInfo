@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
     BatteryOptimizationsInterface, AdsInterface {
 
     lateinit var pref: SharedPreferences
+    internal var loadAdsCount = 0
     private var isDoubleBackToExitPressedOnce = false
     private var isRestoreImportSettings = false
 
