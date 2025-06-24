@@ -369,7 +369,6 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
         if(!isInstalledFromGooglePlay())
             throw RuntimeException("Application not installed from Google Play")
         secondsFullCharge = -1
-        MainActivity.instance?.loadAdsCount = 0
         batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         statusLastCharge = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS,
             BatteryManager.BATTERY_STATUS_UNKNOWN) ?: BatteryManager.BATTERY_STATUS_UNKNOWN

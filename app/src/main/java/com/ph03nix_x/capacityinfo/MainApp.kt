@@ -12,7 +12,10 @@ import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
 import com.ph03nix_x.capacityinfo.helpers.ThemeHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.premiumContext
+import com.ph03nix_x.capacityinfo.services.AdsJobService
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.Constants.ADS_JOB_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.ADS_JOB_SERVICE_PERIODIC
 import java.io.Serializable
 import kotlin.system.exitProcess
 
@@ -78,6 +81,7 @@ class MainApp : Application(), PremiumInterface {
             checkPremium()
             ServiceHelper.checkPremiumJobSchedule(this)
         }
+        ServiceHelper.jobSchedule(this, AdsJobService::class.java, ADS_JOB_ID, ADS_JOB_SERVICE_PERIODIC)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
