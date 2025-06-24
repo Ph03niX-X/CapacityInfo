@@ -20,7 +20,10 @@ interface AdsInterface {
         InterstitialAd.load(this, resources.getString(R.string.ad_unit_id),
             AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    if(loadAdsCount < 3) interstitialAd.show(this@loadAds)
+                    if(loadAdsCount < 3) {
+                        loadAdsCount++
+                        interstitialAd.show(this@loadAds)
+                    }
                 }
             })
     }
