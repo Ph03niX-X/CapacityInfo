@@ -119,7 +119,7 @@
     <string name="do_you_like_the_app">Gefällt dir die App?</string>
     <string name="dual_cell_battery">Dual-Zellen-Akku</string>
     <string name="email_copied">E-Mail kopiert</string>
-    <string name="empty_history_text">Ladeverlauf ist leer!\nBitte laden Sie den Akku zu 100% auf\n(Status: Geladen)</string>
+    <string name="empty_history_text">Ladeverlauf ist leer!\nBitte den Akku zu 100% aufladen.\n(Status: Geladen)</string>
     <string name="enable_check_update">Auf Update überprüfen aktivieren</string>
     <string name="enable_overlay">Überlagerung aktivieren</string>
     <string name="enable_wakelock">Wakelock aktivieren</string>
