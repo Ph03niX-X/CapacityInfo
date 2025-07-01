@@ -81,7 +81,7 @@ class MainApp : Application(), PremiumInterface {
             checkPremium()
             ServiceHelper.checkPremiumJobSchedule(this)
         }
-        if(PremiumInterface.isPremium)
+        if(!PremiumInterface.isPremium)
             ServiceHelper.jobSchedule(this, AdsJobService::class.java,
                 ADS_JOB_ID, ADS_JOB_SERVICE_PERIODIC)
     }
