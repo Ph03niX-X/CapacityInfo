@@ -21,8 +21,6 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
-import com.android.billingclient.api.QueryPurchaseHistoryParams
-import com.android.billingclient.api.queryPurchaseHistory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.MainApp
 import com.ph03nix_x.capacityinfo.PREMIUM_ID
@@ -62,6 +60,8 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.seconds
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import com.android.billingclient.api.QueryPurchasesParams
+import com.android.billingclient.api.queryPurchasesAsync
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -198,7 +198,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
         billingClient?.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
                                                                              productDetailsList ->
             if (billingResult.responseCode == BillingResponseCode.OK)
-                mProductDetailsList = productDetailsList
+                mProductDetailsList = productDetailsList.productDetailsList
         }
     }
 
@@ -306,10 +306,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 if(billingClient?.isReady != true) initiateBilling(false)
                 delay(2.5.seconds)
                 if(billingClient?.isReady == true) {
-                    val params = QueryPurchaseHistoryParams.newBuilder()
+                    val params = QueryPurchasesParams.newBuilder()
                        .setProductType(ProductType.INAPP)
-                   val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
-                   val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+                   val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
+                   val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
                    if(!purchaseHistoryRecordList.isNullOrEmpty()) {
                        pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                        tokenPref = pref.getString(TOKEN_PREF, null)
@@ -350,10 +350,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             if(billingClient?.isReady != true) initiateBilling(false)
             delay(2.5.seconds)
             if(billingClient?.isReady == true) {
-                val params = QueryPurchaseHistoryParams.newBuilder()
+                val params = QueryPurchasesParams.newBuilder()
                     .setProductType(ProductType.INAPP)
-                val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
-                val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+                val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
+                val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
                 if(!purchaseHistoryRecordList.isNullOrEmpty()) {
                     pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                     val tokenPref = pref.getString(TOKEN_PREF, null)
@@ -395,10 +395,10 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
             if(billingClient?.isReady != true) initiateBilling(false)
             delay(2.5.seconds)
             if(billingClient?.isReady == true) {
-                val params = QueryPurchaseHistoryParams.newBuilder()
+                val params = QueryPurchasesParams.newBuilder()
                     .setProductType(ProductType.INAPP)
-                val purchaseHistoryResult = billingClient?.queryPurchaseHistory(params.build())
-                val purchaseHistoryRecordList = purchaseHistoryResult?.purchaseHistoryRecordList
+                val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
+                val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
                 if(!purchaseHistoryRecordList.isNullOrEmpty()) {
                     pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                     val tokenPref = pref.getString(TOKEN_PREF, null)
