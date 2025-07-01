@@ -81,7 +81,9 @@ class MainApp : Application(), PremiumInterface {
             checkPremium()
             ServiceHelper.checkPremiumJobSchedule(this)
         }
-        ServiceHelper.jobSchedule(this, AdsJobService::class.java, ADS_JOB_ID, ADS_JOB_SERVICE_PERIODIC)
+        if(PremiumInterface.isPremium)
+            ServiceHelper.jobSchedule(this, AdsJobService::class.java,
+                ADS_JOB_ID, ADS_JOB_SERVICE_PERIODIC)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
