@@ -15,7 +15,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 class AdsJobService : JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {
-        if(PremiumInterface.isPremium) {
+        if(!PremiumInterface.isPremium) {
             val mainActivity = MainActivity.instance
             mainActivity?.loadAdsCount?.let {
                 if(it > 0) mainActivity.loadAdsCount = 0
