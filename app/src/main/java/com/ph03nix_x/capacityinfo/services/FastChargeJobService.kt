@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.services
 
+import android.annotation.SuppressLint
 import android.app.job.JobParameters
 import android.app.job.JobService
 import androidx.preference.PreferenceManager
@@ -12,6 +13,7 @@ import androidx.core.content.edit
  * Ph03niX-X@outlook.com
  */
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 class FastChargeJobService : JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {

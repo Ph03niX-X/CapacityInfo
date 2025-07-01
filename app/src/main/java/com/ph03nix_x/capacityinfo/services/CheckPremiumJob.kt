@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.services
 
+import android.annotation.SuppressLint
 import android.app.job.JobParameters
 import android.app.job.JobService
 import com.ph03nix_x.capacityinfo.MainApp
@@ -10,6 +11,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
  * Ph03niX-X@outlook.com
  */
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 class CheckPremiumJob : JobService(), PremiumInterface {
 
     companion object {

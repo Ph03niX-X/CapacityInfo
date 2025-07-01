@@ -1,5 +1,6 @@
 package com.ph03nix_x.capacityinfo.services
 
+import android.annotation.SuppressLint
 import android.app.job.JobParameters
 import android.app.job.JobService
 import androidx.preference.PreferenceManager
@@ -15,6 +16,7 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_NOTIFY_FULL_CHARG
  * Ph03niX-X@outlook.com
  */
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 class FullChargeReminderJobService : JobService(), NotificationInterface {
 
     override fun onStartJob(params: JobParameters?): Boolean {
