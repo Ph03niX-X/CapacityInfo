@@ -58,7 +58,7 @@ dependencies {
     val kotlinVersion = rootProject.extra.get("kotlin_version") as String
     val coroutinesVersion = "1.10.2"
     val adMobVersion = "24.8.0"
-    val billingVersion = "8.0.0"
+    val billingVersion = "8.1.0"
     val miuiAutoStart = "v1.3"
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
