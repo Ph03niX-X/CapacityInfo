@@ -59,7 +59,7 @@
     <string name="become_a_beta_tester">Beta-Tester werden</string>
     <string name="become_a_beta_tester_summary">Sei der Erste, der Updates erhält</string>
     <string name="build">Build</string>
-    <string name="build_date">Erstellungsdatum (GMT+3)</string>
+    <string name="build_date">Erstellungsdatum (GMT+2)</string>
     <string name="bypass_dnd_mode">DND-Modus umgehen</string>
     <string name="bypass_dnd_mode_summary">Alarme verwenden</string>
     <string name="capacity_added">Hinzugefügte Kapazität: %1$s mAh (%2$s)</string>
