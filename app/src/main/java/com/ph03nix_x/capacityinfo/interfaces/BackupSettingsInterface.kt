@@ -161,7 +161,7 @@ interface BackupSettingsInterface {
                 }
                 delay(1.seconds)
                 pickerDir?.findFile(dbName)?.delete()
-                val outputStream = pickerDir?.createFile("application/vnd.sqlite3",
+                val outputStream = pickerDir?.createFile("*/*",
                     dbName)?.uri?.let {
                     requireContext().contentResolver?.openOutputStream(it)
                 }
