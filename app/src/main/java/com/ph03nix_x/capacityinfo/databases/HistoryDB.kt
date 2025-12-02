@@ -36,6 +36,9 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
         catch(_: SQLiteCantOpenDatabaseException) {
             Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
         }
+        catch(_: Exception) {
+            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+        }
     }
 
     fun readDB(): MutableList<History> {
@@ -63,6 +66,10 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
             Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
             historyList
         }
+        catch(_: Exception) {
+            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+            historyList
+        }
     }
 
     fun clear() {
@@ -74,6 +81,9 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
             }
         }
         catch(_: SQLiteCantOpenDatabaseException) {
+            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+        }
+        catch(_: Exception) {
             Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
         }
     }
@@ -94,6 +104,9 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
         catch(_: SQLiteCantOpenDatabaseException) {
             Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
         }
+        catch(_: Exception) {
+            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+        }
     }
 
     fun getCount(): Long {
@@ -104,6 +117,10 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
             count
         }
         catch(_: SQLiteCantOpenDatabaseException) {
+            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+            -1
+        }
+        catch(_: Exception) {
             Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
             -1
         }
@@ -120,6 +137,9 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
             db.close()
         }
         catch(_: SQLiteCantOpenDatabaseException) {
+            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+        }
+        catch(_: Exception) {
             Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
         }
     }
@@ -143,6 +163,10 @@ class HistoryDB(var context: Context) : SQLiteOpenHelper(context, DB_NAME, null,
             currentId
         }
        catch(_: SQLiteCantOpenDatabaseException) {
+           Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
+           -1
+       }
+       catch(_: Exception) {
            Toast.makeText(context, R.string.error_opening_db, Toast.LENGTH_LONG).show()
            -1
        }
