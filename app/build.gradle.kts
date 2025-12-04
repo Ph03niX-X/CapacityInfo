@@ -25,7 +25,7 @@ android {
     }
 
     androidResources {
-        localeFilters += listOf("en", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
+        localeFilters += listOf("en", "cs", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
             "bg", "kk", "ru", "uk")
     }
 
