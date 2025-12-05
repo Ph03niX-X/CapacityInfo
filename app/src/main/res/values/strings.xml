@@ -105,7 +105,7 @@
     <string name="min_discharge_current">Minimum Discharge Current: %1$d mA</string>
     <string name="tips_menu">Tips</string>
     <string name="tips_dialog_title">Tips for extending battery life</string>
-    <string name="tip1">Tip #1: Try not to discharge the battery below 10%.\n\n</string>
+    <string name="tip1">Tip #1: Try not to discharge the battery below 20%.\n\n</string>
     <string name="tip2">Tip #2: Do not overcool (0°C/32°F and below) and do not overheat the battery (40+°C/104+°F). Overcooling and overheating negatively affect battery life.\n\n</string>
     <string name="tip3">Tip #3: Avoid holding a fully charged battery for a long time. The longer you keep a fully charged battery on charge, the more often the battery recharges, and each recharge reduces the number of cycles.\n\n</string>
     <string name="tip4">Tip #4: Try not to use the device when fully charged while the charger is connected. If you use the device with a fully charged battery when the charger is connected, then 2 things happen - heating, which negatively affects the battery life and frequent recharging, which reduces the number of cycles.</string>

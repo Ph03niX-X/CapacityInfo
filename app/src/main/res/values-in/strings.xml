@@ -101,7 +101,7 @@
     <string name="min_discharge_current">Arus Debit Minimum: %1$d mA</string>
     <string name="tips_menu">Kiat</string>
     <string name="tips_dialog_title">Kiat untuk memperpanjang masa pakai baterai</string>
-    <string name="tip1">Kiat #1: Usahakan untuk tidak mengosongkan baterai di bawah 10%.\n\n</string>
+    <string name="tip1">Kiat #1: Usahakan untuk tidak mengosongkan baterai di bawah 20%.\n\n</string>
     <string name="tip2">Kiat #2: Jangan terlalu dingin (0°C/32°F ke bawah) dan jangan terlalu panaskan baterai (40+°C/104+°F). Pendinginan berlebihan dan panas berlebih berdampak negatif pada masa pakai baterai.\n\n</string>
     <string name="tip3">Kiat #3: Hindari memegang baterai yang dibebankan penuh dalam waktu lama. Semakin lama Anda menyimpan baterai yang dibebankan penuh, semakin sering baterai diisi ulang, dan setiap pengisian ulang mengurangi jumlah siklus.\n\n</string>
     <string name="tip4">Kiat #4: Usahakan untuk tidak menggunakan perangkat saat dibebankan penuh saat pengisi daya tersambung. Jika Anda menggunakan perangkat dengan baterai yang dibebankan penuh saat pengisi daya tersambung, maka 2 hal akan terjadi - pemanasan, yang berdampak negatif pada masa pakai baterai dan seringnya pengisian ulang, yang mengurangi jumlah siklus.</string>

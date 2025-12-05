@@ -101,7 +101,7 @@
     <string name="min_discharge_current">Corrente di scarica minima: %1$d mA</string>
     <string name="tips_menu">Suggerimenti</string>
     <string name="tips_dialog_title">Suggerimenti per prolungare la durata della batteria</string>
-    <string name="tip1">Suggerimento n.1: cercare di non scaricare la batteria al di sotto del 10%.\n\n</string>
+    <string name="tip1">Suggerimento n.1: cercare di non scaricare la batteria al di sotto del 20%.\n\n</string>
     <string name="tip2">Suggerimento n.2: non raffreddare eccessivamente (0°C/32°F e inferiore) e non surriscaldare la batteria (40+°C/104+°F). Il raffreddamento eccessivo e il surriscaldamento influiscono negativamente sulla durata della batteria.\n\n</string>
     <string name="tip3">Suggerimento n.3: evitare di tenere la batteria completamente carica per lungo tempo. Quanto più a lungo si mantiene in carica una batteria completamente carica, tanto più spesso la batteria si ricarica e ogni ricarica riduce il numero di cicli.\n\n</string>
     <string name="tip4">Suggerimento n.4: provare a non utilizzare il dispositivo quando è completamente carico mentre il caricabatterie è collegato. Se si utilizza il dispositivo con una batteria completamente carica quando il caricabatterie è collegato, si verificano 2 cose: il riscaldamento, che influisce negativamente sulla durata della batteria, e la ricarica frequente, che riduce il numero di cicli.</string>

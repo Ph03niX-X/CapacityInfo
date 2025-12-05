@@ -101,7 +101,7 @@
     <string name="min_discharge_current">Minimální vybíjecí proud: %1$d mA</string>
     <string name="tips_menu">Tipy</string>
     <string name="tips_dialog_title">Tipy pro prodloužení životnosti baterie</string>
-    <string name="tip1">Tip č. 1: Snažte se nevybíjet baterii pod 10 %.\n\n</string>
+    <string name="tip1">Tip č. 1: Snažte se nevybíjet baterii pod 20%.\n\n</string>
     <string name="tip2">Tip č. 2: Baterii nepodchlazujte (0°C/32°F a méně) a nepřehřívejte (40+°C/104+°F). Podchlazení i přehřátí negativně ovlivňují životnost baterie.\n\n</string>
     <string name="tip3">Tip č. 3: Nenechávejte plně nabitou baterii dlouho na nabíječce. Čím déle držíte plně nabitou baterii v síti, tím častěji se dobíjí, a každé dobíjení snižuje počet cyklů.\n\n</string>
     <string name="tip4">Tip č. 4: Snažte se nepoužívat zařízení, když je plně nabité a připojené k nabíječce. Pokud tak činíte, dějí se dvě věci: zahřívání, které škodí baterii, a časté dobíjení, které snižuje počet cyklů.</string>

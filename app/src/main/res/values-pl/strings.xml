@@ -101,7 +101,7 @@
     <string name="min_discharge_current">Minimalny prąd rozładowania: %1$d mA</string>
     <string name="tips_menu">Wskazówki</string>
     <string name="tips_dialog_title">Wskazówki dotyczące wydłużenia czasu pracy akumulatora</string>
-    <string name="tip1">Wskazówka #1: Staraj się nie rozładowywać akumulatora poniżej 10%.\n\n</string>
+    <string name="tip1">Wskazówka #1: Staraj się nie rozładowywać akumulatora poniżej 20%.\n\n</string>
     <string name="tip2">Wskazówka #2: Nie przechładzaj nadmiernie akumulatora (0°C/32°F i poniżej) i nie przegrzewaj go (40+°C/104+°F). Przechłodzenie i przegrzanie negatywnie wpływa na żywotność akumulatora.\n\n</string>
     <string name="tip3">Wskazówka #3: Należy unikać trzymania w pełni naładowanego akumulatora przez długi czas. Im dłużej trzymasz w pełni naładowany akumulator w stanie naładowania, tym częściej jest on doładowywany, a każde doładowanie zmniejsza liczba cykli.\n\n</string>
     <string name="tip4">Wskazówka #4: Staraj się nie używać urządzenia z w pełni naładowaną baterią, gdy ładowarka jest podłączona. Jeśli używasz urządzenia z całkowicie naładowaną baterią, gdy ładowarka jest podłączona, dzieją się dwie rzeczy - nagrzewanie, które negatywnie wpływa na żywotność baterii, oraz częste ładowanie, które zmniejsza liczba cykli.</string>

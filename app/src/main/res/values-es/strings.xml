@@ -101,7 +101,7 @@
     <string name="min_discharge_current">Descarga mínima actual: %1$d mA</string>
     <string name="tips_menu">Consejos</string>
     <string name="tips_dialog_title">Consejos para prolongar la duración de la batería</string>
-    <string name="tip1">Consejo #1: Intenta no descargar la batería por debajo del 10%.\n\n</string>
+    <string name="tip1">Consejo #1: Intenta no descargar la batería por debajo del 20%.\n\n</string>
     <string name="tip2">Consejo #2: No sobreenfríe (0°C/32°F o menos) y no sobrecalienta la batería (40+°C/104+°F). Enfriar y sobrecalentamiento perjudican la vida de la batería.\n\n</string>
     <string name="tip3">Consejo #3: Evite sostener una batería completamente cargada durante mucho tiempo. Cuanto más tiempo tengas una batería completamente cargada, más a menudo se recarga la batería, y cada recarga reduce el número de ciclos.\n\n</string>
     <string name="tip4">Consejo #4: Intente no usar el dispositivo cuando esté completamente cargado mientras el cargador está conectado. Si utiliza el dispositivo con una batería completamente cargada cuando el cargador está conectado, entonces 2 cosas suceden - calefacción, que afecta negativamente a la vida útil de la batería y a la recarga frecuente, lo que reduce el número de ciclos.</string>

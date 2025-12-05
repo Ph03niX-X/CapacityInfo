@@ -320,7 +320,7 @@
     <string name="text_size">Textgröße (Laden/Entladen/Letztes Laden/Verschleiß/Verlauf)</string>
     <string name="text_style">Textstil (Laden/Entladen/Letztes Aufladen/Verschleiß/Verlauf)</string>
     <string name="text_style_overlay">Text-Stil</string>
-    <string name="tip1">Tipp #1: Versuchen Sie, den Akku nicht unter 10% zu entladen.\n\n</string>
+    <string name="tip1">Tipp #1: Versuchen Sie, den Akku nicht unter 20% zu entladen.\n\n</string>
     <string name="tip2">Tipp #2: Kühlen Sie den Akku nicht zu stark ab (0°C/32°F und darunter) und überhitzen Sie ihn nicht (40+°C/104+°F). Unterkühlung und Überhitzung wirken sich negativ auf die Lebensdauer des Akkus aus.\n\n</string>
     <string name="tip3">Tipp #3: Vermeiden Sie es, einen voll aufgeladenen Akku über einen längeren Zeitraum Voll zu halten. Je länger Sie einen voll aufgeladenen Akku aufladen, desto häufiger muss er nachgeladen werden und jedes Nachladen verringert die Anzahl der Zyklen.\n\n</string>
     <string name="tip4">Tipp #4: Versuchen Sie, das Gerät nicht zu benutzen, wenn es voll geladen ist, während das Ladegerät angeschlossen ist. Wenn Sie das Gerät mit einem voll aufgeladenen Akku verwenden, während das Ladegerät angeschlossen ist, passieren zwei Dinge: Erhitzung, die sich negativ auf die Lebensdauer des Akkus auswirkt, und häufiges Aufladen, wodurch sich die Anzahl der Zyklen verringert.</string>

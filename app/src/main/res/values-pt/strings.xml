@@ -100,7 +100,7 @@
     <string name="min_discharge_current">Corrente Mínima de Descarga: %1$d mA</string>
     <string name="tips_menu">Dicas</string>
     <string name="tips_dialog_title">Dicas para prolongar a vida útil da bateria</string>
-    <string name="tip1">Dica #1: Tente não descarregar a bateria abaixo de 10%.\n\n</string>
+    <string name="tip1">Dica #1: Tente não descarregar a bateria abaixo de 20%.\n\n</string>
     <string name="tip2">Dica #2: Não esfrie demais (0°C/32°F e abaixo) e não superaqueça a bateria (40+°C/104+°F). O resfriamento excessivo e o superaquecimento afetam negativamente a vida útil da bateria.\n\n</string>
     <string name="tip3">Dica #3: Evite ficar com a bateria totalmente carregada por muito tempo. Quanto mais tempo você mantém a bateria totalmente carregada, mais frequentemente a bateria é recarregada e cada recarga reduz o número de ciclos.\n\n</string>
     <string name="tip4">Dica #4: Tente não usar o dispositivo carregando quando a bateria estiver totalmente carregada. Se você usar o dispositivo com a bateria totalmente carregada quando o carregador estiver conectado, duas coisas acontecem - aquecimento, que afeta negativamente a vida útil da bateria, e recargas frequentes, que reduzem o número de ciclos.</string>

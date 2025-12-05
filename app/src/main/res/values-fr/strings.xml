@@ -101,7 +101,7 @@
     <string name="min_discharge_current">Courant de décharge minimal: %1$d mA</string>
     <string name="tips_menu">Conseils</string>
     <string name="tips_dialog_title">Conseils pour prolonger la durée de vie de la batterie</string>
-    <string name="tip1">Conseil n°1: essayez de ne pas décharger la batterie en dessous de 10%.\n\n</string>
+    <string name="tip1">Conseil n°1: essayez de ne pas décharger la batterie en dessous de 20%.\n\n</string>
     <string name="tip2">Conseil n°2: Ne pas trop refroidir (0°C/32°F et moins) et ne pas surchauffer la batterie (40+°C/104+°F). Un refroidissement excessif et une surchauffe affectent négativement la durée de vie de la batterie.\n\n</string>
     <string name="tip3">Conseil n°3: évitez de conserver une batterie complètement chargée pendant une longue période. Plus vous gardez une batterie complètement chargée longtemps, plus la batterie se recharge souvent et chaque recharge réduit le nombre de cycles.\n\n</string>
     <string name="tip4">Conseil n°4: essayez de ne pas utiliser l\'appareil lorsqu\'il est complètement chargé lorsque le chargeur est connecté. Si vous utilisez l\'appareil avec une batterie complètement chargée lorsque le chargeur est connecté, 2 choses se produisent: un échauffement, qui affecte négativement la durée de vie de la batterie, et une recharge fréquente, qui réduit le nombre de cycles</string>
