@@ -18,7 +18,7 @@
     <string name="instruction_message" formatted="false">1. Aby aplikace zobrazila skutečnou kapacitu, vybijte baterii na 10%nebo méně a připojte zařízení k nabíječce, přičemž služba musí být zapnutá.\n2. Pro přesnější zobrazení zbývající kapacity nabijte zařízení plně, dokud se alespoň 5krát nezobrazí \"Stav: Nabito\".\n3. Pokud nabíjení pokračuje i po dosažení 100 %, je to normální. Moderní zařízení se po dosažení 100% ještě chvíli nabíjejí.\n4. Pokud je projektovaná kapacita nesprávná, změňte ji v nastavení aplikace.\n5. Pokud se aktuální kapacita a/nebo nabíjecí/vybíjecí proud a/nebo napětí nezobrazují správně, změňte jednotky v nastavení aplikace.\n\n</string>
     <string name="instruction_message_do_not_kill_the_service">POZOR! Nevypínejte službu. Pokud systém vašeho zařízení rád \"zabíjí\" aplikace nebo je zcela ukončuje při čištění nedávno spuštěných aplikací, případně používáte úsporný režim, přidejte tuto aplikaci do všech možných výjimek. Pokud váš firmware má nastavení spouštění aplikací, ujistěte se, že tato aplikace se může spustit po načtení OS, pokud chcete, aby běžela automaticky.&#160;</string>
     <string name="instruction_message_dont_kill_my_app">Pokud nevíte, co a kde nastavit, aby systém aplikaci \"nezabíjel\", použijte službu \"Don\'t kill my app!\" výběrem výrobce vašeho zařízení.\n\n</string>
-    <string name="huawei_honor_information">POZOR! Na zařízeních Huawei a Honor se aktuální kapacita nemusí zobrazovat správně. Bohužel s tím nelze nic dělat</string>
+    <string name="huawei_honor_information">POZOR! Na zařízeních Huawei &amp; Honor se aktuální kapacita nemusí zobrazovat správně. Bohužel s tím nelze nic dělat</string>
     <string name="status">Stav: %1$s</string>
     <string name="source_of_power">Zdroj napájení: %1$s</string>
     <string name="discharging">Vybíjení</string>
@@ -33,7 +33,7 @@
     <string name="service">Služba</string>
     <string name="charging_time">Doba nabíjení: %1$s</string>
     <string name="apply">Použít</string>
-    <string name="service_and_notification">Služba a oznámení</string>
+    <string name="service_and_notification">Služba &amp; oznámení</string>
     <string name="appearance">Vzhled</string>
     <string name="misc">Různé</string>
     <string name="service_time">Doba běhu služby</string>
@@ -66,7 +66,7 @@
     <string name="export_settings">Exportovat nastavení</string>
     <string name="successful_export_of_settings">Nastavení byla úspěšně exportována!\n\nNázev souboru: \"%1$s\"</string>
     <string name="error_exporting_settings">Chyba při exportu nastavení!\n%1$s</string>
-    <string name="about_and_feedback">O aplikaci a zpětná vazba</string>
+    <string name="about_and_feedback">O aplikaci &amp; zpětná vazba</string>
     <string name="import_settings">Importovat nastavení</string>
     <string name="settings_imported_successfully">Nastavení byla úspěšně importována!</string>
     <string name="error_importing_settings">Chyba při importu nastavení!\n%1$s</string>
@@ -315,7 +315,7 @@
     <string name="error_opening_db">Chyba při otevírání databáze!</string>
     <string name="failed_request_permission">Nepodařilo se vyžádat oprávnění! Postupujte podle pokynů na webu Don\'t kill my app</string>
     <string name="show_battery_level_in_status_bar">Zobrazit úroveň baterie ve stavovém řádku</string>
-    <string name="support_and_unlock_premium_features">Podpora a odemknutí funkcí Premium</string>
+    <string name="support_and_unlock_premium_features">Podpora &amp; odemknutí funkcí Premium</string>
     <string name="add_number_of_cycles">Přidat počet cyklů</string>
     <string name="last_charge">Poslední nabití</string>
     <string name="status_last_charge">Stav: %1$s</string>
