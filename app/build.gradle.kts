@@ -25,8 +25,8 @@ android {
     }
 
     androidResources {
-        localeFilters += listOf("en", "cs", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "be",
-            "bg", "kk", "ru", "uk")
+        localeFilters += listOf("en", "cs", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "el",
+            "be", "bg", "kk", "ru", "uk")
     }
 
     kotlin {

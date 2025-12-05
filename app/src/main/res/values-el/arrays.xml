@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Προεπιλογή)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Προεπιλογή)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Προεπιλογή)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Πολύ Μικρό</item>
+        <item>Μικρό</item>
+        <item>Μεσαίο (Προεπιλογή)</item>
+        <item>Μεγάλο</item>
+        <item>Πολύ Μεγάλο</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Κανονικό (Προεπιλογή)</item>
+        <item>Έντονο</item>
+        <item>Πλάγιο</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Σύστημα</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (Default)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+        <item>Mooli</item>
+        <item>Inclusive Sans</item>
+        <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
+        <item>Ysabeau Office</item>
+        <item>Ysabeau Infant</item>
+        <item>DM Sans</item>
+        <item>Poetsen One</item>
+        <item>Sedan SC</item>
+        <item>Lato</item>
+        <item>Mulish</item>
+        <item>Agdasima</item>
+        <item>Arima</item>
+        <item>Prociono</item>
+        <item>Rethink Sans</item>
+        <item>Big Shoulders</item>
+        <item>Big Shoulders Inline</item>
+        <item>Big Shoulders Stencil</item>
+        <item>Gentium Plus</item>
+        <item>Ponomar</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Φόρτιση/Εκφόρτιση (Προεπιλογή)</item>
+        <item>Τελευταία Φόρτιση</item>
+        <item>Φθορά</item>
+        <item>Ιστορικό</item>
+    </string-array>
+
+    <string-array name="overlay_location_list">
+        <item>Πάνω</item>
+        <item>Πάνω Αριστερά</item>
+        <item>Πάνω Δεξιά</item>
+        <item>Κέντρο</item>
+        <item>Κέντρο Αριστερά</item>
+        <item>Κέντρο Δεξιά</item>
+        <item>Κάτω</item>
+        <item>Κάτω Αριστερά</item>
+        <item>Κάτω Δεξιά</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 Λεπτά</item>
+        <item>30 Λεπτά</item>
+        <item>45 Λεπτά</item>
+        <item>1 Ώρα</item>
+    </string-array>
+
+</resources>
