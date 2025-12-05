@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Predvolené)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Predvolené)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Predvolené)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Veľmi malé</item>
+        <item>Malé</item>
+        <item>Stredné (Predvolené)</item>
+        <item>Veľké</item>
+        <item>Veľmi veľké</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Normálne (Predvolené)</item>
+        <item>Tučné</item>
+        <item>Kurzíva</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Systémové</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (Default)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+        <item>Mooli</item>
+        <item>Inclusive Sans</item>
+        <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
+        <item>Ysabeau Office</item>
+        <item>Ysabeau Infant</item>
+        <item>DM Sans</item>
+        <item>Poetsen One</item>
+        <item>Sedan SC</item>
+        <item>Lato</item>
+        <item>Mulish</item>
+        <item>Agdasima</item>
+        <item>Arima</item>
+        <item>Prociono</item>
+        <item>Rethink Sans</item>
+        <item>Big Shoulders</item>
+        <item>Big Shoulders Inline</item>
+        <item>Big Shoulders Stencil</item>
+        <item>Gentium Plus</item>
+        <item>Ponomar</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Nabíjanie/Vybíjanie (Predvolené)</item>
+        <item>Posledné nabitie</item>
+        <item>Opotrebenie</item>
+        <item>História</item>
+    </string-array>
+
+    <string-array name="overlay_location_list">
+        <item>Hore</item>
+        <item>Vľavo hore</item>
+        <item>Vpravo hore</item>
+        <item>Stred</item>
+        <item>Vľavo v strede</item>
+        <item>Vpravo v strede</item>
+        <item>Dole</item>
+        <item>Vľavo dole</item>
+        <item>Vpravo dole</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 minút</item>
+        <item>30 minút</item>
+        <item>45 minút</item>
+        <item>1 hodina</item>
+    </string-array>
+
+</resources>
