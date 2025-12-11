@@ -1,0 +1,114 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (डिफ़ॉल्ट)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (डिफ़ॉल्ट)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (डिफ़ॉल्ट)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>बहुत छोटा</item>
+        <item>छोटा</item>
+        <item>मध्यम (डिफ़ॉल्ट)</item>
+        <item>बड़ा</item>
+        <item>बहुत बड़ा</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>सामान्य (डिफ़ॉल्ट)</item>
+        <item>बोल्ड</item>
+        <item>इटैलिक</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>प्रणाली</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (Default)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+        <item>Mooli</item>
+        <item>Inclusive Sans</item>
+        <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
+        <item>Ysabeau Office</item>
+        <item>Ysabeau Infant</item>
+        <item>DM Sans</item>
+        <item>Poetsen One</item>
+        <item>Sedan SC</item>
+        <item>Lato</item>
+        <item>Mulish</item>
+        <item>Agdasima</item>
+        <item>Arima</item>
+        <item>Prociono</item>
+        <item>Rethink Sans</item>
+        <item>Big Shoulders</item>
+        <item>Big Shoulders Inline</item>
+        <item>Big Shoulders Stencil</item>
+        <item>Gentium Plus</item>
+        <item>Ponomar</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>चार्ज/डिस्चार्ज (डिफ़ॉल्ट)</item>
+        <item>पिछला चार्ज</item>
+        <item>वियर</item>
+        <item>इतिहास</item>
+    </string-array>
+
+    <string-array name="overlay_location_list">
+        <item>ऊपर</item>
+        <item>ऊपर बायां</item>
+        <item>ऊपर दायां</item>
+        <item>केंद्र</item>
+        <item>केंद्र बायां</item>
+        <item>केंद्र दायां</item>
+        <item>नीचे</item>
+        <item>नीचे बायां</item>
+        <item>नीचे दायां</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 मिनट</item>
+        <item>30 मिनट</item>
+        <item>45 मिनट</item>
+        <item>1 घंटा</item>
+    </string-array>
+
+</resources>
