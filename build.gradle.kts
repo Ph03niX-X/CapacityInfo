@@ -1,6 +1,6 @@
 buildscript {
     extra.apply {
-        set("kotlin_version", "2.2.21")
+        set("kotlin_version", "2.3.0")
     }
     val kotlinVersion = rootProject.extra.get("kotlin_version") as String
     repositories {
