@@ -112,7 +112,7 @@ Answer: If "Number of Cycles (Android)" is not displayed, then it is not possibl
 <b>Tips:</b>
 </p>
 
-Tip #1: Try not to discharge the battery below 10%
+Tip #1: Try not to discharge the battery below 20%
 
 Tip #2: Do not overcool (0°C/32°F and below) and do not overheat the battery (40+°C/104+°F). Overcooling and overheating negatively affect battery life.
 
