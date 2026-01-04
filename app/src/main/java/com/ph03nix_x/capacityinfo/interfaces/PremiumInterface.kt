@@ -62,6 +62,7 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryPurchasesAsync
+import com.ph03nix_x.capacityinfo.fragments.AboutFragment
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -75,6 +76,7 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
 
         private var mProductDetailsList: List<ProductDetails>? = null
 
+        var orderID: String? = null
         var premiumContext: Context? = null
         var premiumActivity: Activity? = null
         var billingClient: BillingClient? = null
@@ -308,8 +310,8 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 if(billingClient?.isReady == true) {
                     val params = QueryPurchasesParams.newBuilder()
                        .setProductType(ProductType.INAPP)
-                   val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
-                   val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
+                    val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
+                    val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
                    if(!purchaseHistoryRecordList.isNullOrEmpty()) {
                        pref.edit { putString(TOKEN_PREF, purchaseHistoryRecordList[0].purchaseToken) }
                        tokenPref = pref.getString(TOKEN_PREF, null)
@@ -467,6 +469,24 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
                 if(OverlayService.instance != null)
                     ServiceHelper.stopService(context, OverlayService::class.java)
             }
+        }
+    }
+
+     fun MainActivity.getOrderID() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (billingClient?.isReady != true) initiateBilling(false)
+            delay(2.5.seconds)
+            if (billingClient?.isReady == true) {
+                val params = QueryPurchasesParams.newBuilder()
+                    .setProductType(ProductType.INAPP)
+                val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
+                val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
+                if(!purchaseHistoryRecordList.isNullOrEmpty())
+                    orderID = purchaseHistoryRecordList[0].orderId
+            }
+            delay(5.seconds)
+            billingClient?.endConnection()
+            billingClient = null
         }
     }
 }

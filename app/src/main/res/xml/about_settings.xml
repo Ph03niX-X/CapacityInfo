@@ -50,6 +50,13 @@
             app:key="become_a_beta_tester"/>
 
     <Preference
+        app:title="@string/order_id"
+        app:summary="GPA.XXXX-XXXX-XXXX-XXXXX"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_order_id"
+        app:key="order_id"/>
+
+    <Preference
         app:title="@string/privacy_policy"
         app:singleLineTitle="false"
         app:icon="@drawable/ic_privacy_policy"

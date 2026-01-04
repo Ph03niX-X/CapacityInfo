@@ -266,6 +266,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         if (instance == null) instance = this
 
+        getOrderID()
+
         batteryIntent = registerReceiver(
             null, IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED

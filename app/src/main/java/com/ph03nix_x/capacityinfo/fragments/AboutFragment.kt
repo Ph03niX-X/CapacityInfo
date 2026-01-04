@@ -1,6 +1,9 @@
 package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -30,6 +33,7 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
     private var buildDate: Preference? = null
     private var github: Preference? = null
     private var betaTester: Preference? = null
+    private var orderID: Preference? = null
     private var privacyPolicy: Preference? = null
 
     private var isResume = false
@@ -55,6 +59,8 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
         github = findPreference("github")
 
         betaTester = findPreference("become_a_beta_tester")
+
+        orderID = findPreference("order_id")
 
         privacyPolicy = findPreference("privacy_policy")
 
@@ -134,6 +140,20 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
                 }
                 true
             }
+        }
+
+        orderID?.apply {
+            summary = PremiumInterface.orderID
+            isVisible = !summary.isNullOrEmpty()
+            setOnPreferenceClickListener {
+                    val clipboardManager = requireContext().getSystemService(
+                        Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipData = ClipData.newPlainText("Order ID", orderID?.summary)
+                    clipboardManager.setPrimaryClip(clipData)
+                    Toast.makeText(requireContext(), R.string.order_id_copied,
+                        Toast.LENGTH_LONG).show()
+                    true
+                }
         }
 
         privacyPolicy?.apply {
