@@ -343,4 +343,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Kalan Şarj Süresi Görüntüsünü Düzeltir</string>
     <string name="dual_cell_battery">Çift Hücreli Pil</string>
     <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="order_id">Sipariş Numarası</string>
+    <string name="order_id_copied">Sipariş Numarası kopyalandı</string>
 </resources>
