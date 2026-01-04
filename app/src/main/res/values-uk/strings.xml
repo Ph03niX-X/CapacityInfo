@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Виправлення відображення залишкового часу заряджання</string>
     <string name="dual_cell_battery">Двоелементний акумулятор</string>
     <string name="privacy_policy">Політика конфіденційності</string>
+    <string name="order_id">Номер Замовлення</string>
+    <string name="order_id_copied">Номер Замовлення Скопійовано</string>
 </resources>
