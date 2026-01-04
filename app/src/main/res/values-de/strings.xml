@@ -342,4 +342,6 @@
     <string name="voltage_overlay_only_values">%1$s mV</string>
     <string name="voltage_unit">Spannungseinheit</string>
     <string name="wear">Verschleiß</string>
+    <string name="order_id">Bestellnummer</string>
+    <string name="order_id_copied">Bestellnummer kopiert</string>
 </resources>
