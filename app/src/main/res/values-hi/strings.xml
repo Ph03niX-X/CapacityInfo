@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">शेष चार्जिंग समय के प्रदर्शन को सही करता है</string>
     <string name="dual_cell_battery">डुअल-सेल बैटरी</string>
     <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="order_id">ऑर्डर संख्या</string>
+    <string name="order_id_copied">ऑर्डर संख्या कॉपी की गई</string>
 </resources>
