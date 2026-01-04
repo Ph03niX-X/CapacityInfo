@@ -343,4 +343,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Corrige a Exibição do Tempo Restante de Carregamento</string>
     <string name="dual_cell_battery">Bateria de Célula Dupla</string>
     <string name="privacy_policy">Política de Privacidade</string>
+    <string name="order_id">Número do pedido</string>
+    <string name="order_id_copied">Número do pedido copiado</string>
     </resources>
