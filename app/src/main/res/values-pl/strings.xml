@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Poprawia Wyświetlanie Pozostałego Czasu Ładowania</string>
     <string name="dual_cell_battery">Bateria Dwukomorowa</string>
     <string name="privacy_policy">Polityka Prywatności</string>
+    <string name="order_id">Numer zamówienia</string>
+    <string name="order_id_copied">Numer zamówienia został skopiowany</string>
     </resources>
