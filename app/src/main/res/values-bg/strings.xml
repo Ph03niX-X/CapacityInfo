@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Коригиране на показването на оставащото време за зареждане</string>
     <string name="dual_cell_battery">Двуклетъчна батерия</string>
     <string name="privacy_policy">Политика за поверителност</string>
+    <string name="order_id">Номер на поръчка</string>
+    <string name="order_id_copied">Номерът на поръчката е копиран</string>
 </resources>
