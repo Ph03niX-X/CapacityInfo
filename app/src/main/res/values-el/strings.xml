@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Διορθώνει την Εμφάνιση του Υπολειπόμενου Χρόνου Φόρτισης</string>
     <string name="dual_cell_battery">Μπαταρία Διπλού Στοιχείου</string>
     <string name="privacy_policy">Πολιτική Απορρήτου</string>
+    <string name="order_id">Αριθμός παραγγελίας</string>
+    <string name="order_id_copied">Ο αριθμός παραγγελίας αντιγράφηκε</string>
 </resources>
