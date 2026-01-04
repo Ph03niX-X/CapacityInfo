@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Зарядтаудың қалған уақытының көрсетілуін түзету</string>
     <string name="dual_cell_battery">Қос элементті аккумулятор</string>
     <string name="privacy_policy">Құпиялылық саясаты</string>
+    <string name="order_id">Тапсырыс нөмірі</string>
+    <string name="order_id_copied">Тапсырыс нөмірі көшірілді</string>
 </resources>
