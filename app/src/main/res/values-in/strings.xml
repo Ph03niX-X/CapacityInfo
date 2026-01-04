@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Koreksi Tampilan Sisa Waktu Pengisian Daya</string>
     <string name="dual_cell_battery">Baterai Sel Ganda</string>
     <string name="privacy_policy">Kebijakan Privasi</string>
+    <string name="order_id">Nomor Pesanan</string>
+    <string name="order_id_copied">Nomor Pesanan disalin</string>
     </resources>
