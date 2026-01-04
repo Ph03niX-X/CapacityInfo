@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Исправление отображения оставшегося времени зарядки</string>
     <string name="dual_cell_battery">Двухэлементный аккумулятор</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="order_id">Номер Заказа</string>
+    <string name="order_id_copied">Номер Заказа Скопирован</string>
 </resources>
