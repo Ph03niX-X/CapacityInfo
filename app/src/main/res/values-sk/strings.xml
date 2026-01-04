@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Opravuje zobrazenie zostávajúceho času nabíjania</string>
     <string name="dual_cell_battery">Dvojčlánková batéria</string>
     <string name="privacy_policy">Zásady ochrany osobných údajov</string>
+    <string name="order_id">Číslo objednávky</string>
+    <string name="order_id_copied">Číslo objednávky bolo skopírované</string>
 </resources>
