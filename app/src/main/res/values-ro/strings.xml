@@ -344,4 +344,6 @@
     <string name="alt_calc_charging_time_remaining_summary">Corectează Afișarea Timpului de Încărcare Rămas</string>
     <string name="dual_cell_battery">Baterie cu Celule Duble</string>
     <string name="privacy_policy">Politica de Confidențialitate</string>
+    <string name="order_id">Numărul comenzii</string>
+    <string name="order_id_copied">Numărul comenzii a fost copiat</string>
     </resources>
