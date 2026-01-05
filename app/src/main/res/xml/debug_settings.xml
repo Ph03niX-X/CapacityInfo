@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
         <SwitchPreferenceCompat
             android:title="@string/enable_check_update"
@@ -125,6 +126,7 @@
 
         <Preference
             android:title="@string/history_count"
+            tools:summary="3500"
             app:singleLineTitle="false"
             android:key="history_count"/>
 

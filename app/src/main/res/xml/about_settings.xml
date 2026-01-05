@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Preference
             app:title="@string/developer"
@@ -13,18 +14,21 @@
 
     <Preference
             app:title="@string/version"
+            tools:summary="9.4.0.1"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_version"
             android:key="version"/>
 
     <Preference
             app:title="@string/build"
+            tools:summary="1900"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_build_24dp"
             android:key="build"/>
 
     <Preference
             app:title="@string/build_date"
+            tools:summary="05.01.2026 12:00"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_build_date_24dp"
             android:key="build_date"/>
@@ -51,7 +55,7 @@
 
     <Preference
         app:title="@string/order_id"
-        app:summary="GPA.XXXX-XXXX-XXXX-XXXXX"
+        tools:summary="GPA.9999-9999-9999-99999"
         app:singleLineTitle="false"
         app:icon="@drawable/ic_order_id"
         app:key="order_id"/>

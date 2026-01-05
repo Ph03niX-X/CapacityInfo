@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:key="battery_status_information_settings_pref_screen">
 
         <Preference
@@ -34,7 +34,7 @@
         android:title="@string/overheat"
         app:iconSpaceReserved="false"
         app:enabled="false"
-        android:summary="@string/overheat_overcool_degrees"
+        tools:summary="42°C/107,6°F"
         app:defaultValue="@integer/overheat_degrees_default"
         app:singleLineTitle="false"
         app:min="@integer/overheat_degrees_min"
@@ -46,7 +46,7 @@
         android:title="@string/overcool"
         app:iconSpaceReserved="false"
         app:enabled="false"
-        android:summary="@string/overheat_overcool_degrees"
+        tools:summary="0°C/32°F"
         app:defaultValue="@integer/overcool_degrees_default"
         app:singleLineTitle="false"
         app:min="@integer/overcool_degrees_min"
@@ -70,6 +70,7 @@
 
         <ListPreference
             android:title="@string/full_charge_reminder_frequency"
+            tools:summary="15 Minutes"
             app:singleLineTitle="false"
             android:entries="@array/full_charge_reminder_frequency_list"
             android:entryValues="@array/full_charge_reminder_frequency_values"
@@ -88,7 +89,7 @@
         android:title="@string/battery_level_charge_discharge"
         app:iconSpaceReserved="false"
         app:enabled="false"
-        android:summary="80%"
+        tools:summary="80%"
         app:defaultValue="@integer/battery_level_notify_charged"
         app:singleLineTitle="false"
         app:min="1"
@@ -105,7 +106,7 @@
         android:title="@string/battery_level_charge_discharge"
         app:iconSpaceReserved="false"
         app:enabled="false"
-        android:summary="20%"
+        tools:summary="20%"
         app:defaultValue="@integer/battery_level_notify_discharged"
         app:singleLineTitle="false"
         app:min="1"

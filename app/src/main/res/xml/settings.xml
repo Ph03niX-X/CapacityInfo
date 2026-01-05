@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <Preference
         android:title="@string/get_premium"
@@ -33,6 +34,7 @@
 
         <SwitchPreferenceCompat
             android:title="@string/show_battery_information"
+            tools:summary="@string/service_restart_required"
             android:defaultValue="@bool/is_show_battery_information"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_show_battery_information_24"
@@ -74,17 +76,19 @@
                 android:key="is_dark_mode"/>
 
         <ListPreference
-                android:title="@string/text_size"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_text_size"
-                app:dialogIcon="@drawable/ic_text_size"
-                android:entries="@array/text_size_list"
-                android:entryValues="@array/text_size_values"
-                app:defaultValue="2"
-                android:key="text_size"/>
+            android:title="@string/text_size"
+            tools:summary="Medium (Default)"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_text_size"
+            app:dialogIcon="@drawable/ic_text_size"
+            android:entries="@array/text_size_list"
+            android:entryValues="@array/text_size_values"
+            app:defaultValue="2"
+            android:key="text_size"/>
 
         <ListPreference
             android:title="@string/text_font"
+            tools:summary="Google Sans (Default)"
             app:singleLineTitle="false"
             app:icon="@drawable/ic_text_font"
             app:dialogIcon="@drawable/ic_text_font"
@@ -94,14 +98,15 @@
             android:key="text_font"/>
 
         <ListPreference
-                android:title="@string/text_style"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_text_style"
-                app:dialogIcon="@drawable/ic_text_style"
-                android:entries="@array/text_style_list"
-                android:entryValues="@array/text_style_values"
-                app:defaultValue="0"
-                android:key="text_style"/>
+            android:title="@string/text_style"
+            tools:summary="Normal (Default)"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_text_style"
+            app:dialogIcon="@drawable/ic_text_style"
+            android:entries="@array/text_style_list"
+            android:entryValues="@array/text_style_values"
+            app:defaultValue="0"
+            android:key="text_style"/>
 
     </PreferenceCategory>
 
@@ -153,6 +158,7 @@
 
         <ListPreference
             android:title="@string/tab_on_application_launch"
+            tools:summary="Charge/Discharge (Default)"
             app:isPreferenceVisible="false"
             app:icon="@drawable/ic_tab_on_application_launch"
             android:dialogIcon="@drawable/ic_tab_on_application_launch"
@@ -161,46 +167,50 @@
             android:entryValues="@array/tab_on_application_launch_values"
             app:singleLineTitle="false"
             android:key="tab_on_application_launch"/>
-        
-        <ListPreference
-                android:title="@string/unit_of_charge_discharge_current"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_unit_of_charge_discharge_current"
-                android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
-                app:defaultValue="μA"
-                android:entries="@array/unit_of_charge_discharge_current_list"
-                android:entryValues="@array/unit_of_charge_discharge_current_values"
-                app:singleLineTitle="false"
-                android:key="unit_of_charge_discharge_current"/>
 
         <ListPreference
-                android:title="@string/unit_of_measurement_of_current_capacity"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_unit_of_measurement_of_cc_24dp"
-                android:dialogIcon="@drawable/ic_unit_of_measurement_of_cc_24dp"
-                app:defaultValue="μAh"
-                android:entries="@array/unit_of_measurement_of_current_capacity_list"
-                android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
-                app:singleLineTitle="false"
-                android:key="unit_of_measurement_of_current_capacity"/>
+            android:title="@string/unit_of_charge_discharge_current"
+            tools:summary="μA (Default)"
+            app:isPreferenceVisible="false"
+            app:icon="@drawable/ic_unit_of_charge_discharge_current"
+            android:dialogIcon="@drawable/ic_unit_of_charge_discharge_current"
+            app:defaultValue="μA"
+            android:entries="@array/unit_of_charge_discharge_current_list"
+            android:entryValues="@array/unit_of_charge_discharge_current_values"
+            app:singleLineTitle="false"
+            android:key="unit_of_charge_discharge_current"/>
 
         <ListPreference
-                android:title="@string/voltage_unit"
-                app:isPreferenceVisible="false"
-                app:icon="@drawable/ic_voltage_unit"
-                android:dialogIcon="@drawable/ic_voltage_unit"
-                app:defaultValue="mV"
-                android:entries="@array/voltage_unit_list"
-                android:entryValues="@array/voltage_unit_values"
-                app:singleLineTitle="false"
-                android:key="voltage_unit"/>
+            android:title="@string/unit_of_measurement_of_current_capacity"
+            tools:summary="μAh (Default)"
+            app:isPreferenceVisible="false"
+            app:icon="@drawable/ic_unit_of_measurement_of_cc_24dp"
+            android:dialogIcon="@drawable/ic_unit_of_measurement_of_cc_24dp"
+            app:defaultValue="μAh"
+            android:entries="@array/unit_of_measurement_of_current_capacity_list"
+            android:entryValues="@array/unit_of_measurement_of_current_capacity_values"
+            app:singleLineTitle="false"
+            android:key="unit_of_measurement_of_current_capacity"/>
+
+        <ListPreference
+            android:title="@string/voltage_unit"
+            tools:summary="mV (Default)"
+            app:isPreferenceVisible="false"
+            app:icon="@drawable/ic_voltage_unit"
+            android:dialogIcon="@drawable/ic_voltage_unit"
+            app:defaultValue="mV"
+            android:entries="@array/voltage_unit_list"
+            android:entryValues="@array/voltage_unit_values"
+            app:singleLineTitle="false"
+            android:key="voltage_unit"/>
 
         <Preference
-                android:title="@string/change_design_capacity"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:icon="@drawable/ic_change_design_capacity_24dp"
-                android:key="change_design_capacity"/>
+            android:title="@string/change_design_capacity"
+            tools:summary="5000"
+            app:isPreferenceVisible="false"
+            app:singleLineTitle="false"
+            android:icon="@drawable/ic_change_design_capacity_24dp"
+            android:key="change_design_capacity"/>
 
         <Preference
                 android:title="@string/overlay"
