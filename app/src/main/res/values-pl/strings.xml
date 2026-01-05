@@ -346,4 +346,6 @@
     <string name="privacy_policy">Polityka Prywatności</string>
     <string name="order_id">Numer zamówienia</string>
     <string name="order_id_copied">Numer zamówienia został skopiowany</string>
+    <string name="show_number_of_history">Pokaż liczbę wpisów historii</string>
+    <string name="show_number_of_history_summary">Pokaż liczbę wpisów historii w zakładce Historia</string>
     </resources>
