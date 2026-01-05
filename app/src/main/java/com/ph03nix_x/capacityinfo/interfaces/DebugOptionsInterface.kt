@@ -93,6 +93,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.core.content.edit
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.ORDER_ID
 
 interface DebugOptionsInterface: BatteryInfoInterface {
 
@@ -284,7 +285,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         try {
             when(key) {
-                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
+                ORDER_ID, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, UNIT_OF_CHARGE_DISCHARGE_CURRENT,
                 VOLTAGE_UNIT, OVERLAY_LOCATION, OVERLAY_SIZE, OVERLAY_FONT, TEXT_SIZE, TEXT_FONT,
                 OVERLAY_TEXT_STYLE, TEXT_STYLE, TAB_ON_APPLICATION_LAUNCH,
                 FULL_CHARGE_REMINDER_FREQUENCY, STATUS_LAST_CHARGE, SOURCE_OF_POWER_LAST_CHARGE ->
@@ -333,7 +334,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                 changePrefValue.isEnabled = key in prefKeysArray
                 if(key in prefKeysArray) {
                     when(key) {
-                        UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
+                        ORDER_ID, UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY,
                         UNIT_OF_CHARGE_DISCHARGE_CURRENT, VOLTAGE_UNIT, OVERLAY_LOCATION,
                         OVERLAY_SIZE, OVERLAY_TEXT_STYLE, TEXT_SIZE, TEXT_STYLE,
                         TAB_ON_APPLICATION_LAUNCH, FULL_CHARGE_REMINDER_FREQUENCY,
