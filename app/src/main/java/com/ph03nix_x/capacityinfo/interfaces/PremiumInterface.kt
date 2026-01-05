@@ -62,7 +62,6 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryPurchasesAsync
-import com.ph03nix_x.capacityinfo.fragments.AboutFragment
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.ORDER_ID
 
 /**
