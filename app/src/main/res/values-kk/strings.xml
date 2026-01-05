@@ -346,4 +346,6 @@
     <string name="privacy_policy">Құпиялылық саясаты</string>
     <string name="order_id">Тапсырыс нөмірі</string>
     <string name="order_id_copied">Тапсырыс нөмірі көшірілді</string>
+    <string name="show_number_of_history">Тарих санын көрсету</string>
+    <string name="show_number_of_history_summary">Тарих қойындысында тарих жазбаларының санын көрсету</string>
 </resources>
