@@ -344,4 +344,6 @@
     <string name="wear">Verschleiß</string>
     <string name="order_id">Bestellnummer</string>
     <string name="order_id_copied">Bestellnummer kopiert</string>
+    <string name="show_number_of_history">Verlauf-Anzahl anzeigen</string>
+    <string name="show_number_of_history_summary">Anzahl der Einträge im Tab Verlauf anzeigen</string>
 </resources>
