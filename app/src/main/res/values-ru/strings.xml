@@ -346,4 +346,6 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="order_id">Номер Заказа</string>
     <string name="order_id_copied">Номер Заказа Скопирован</string>
+    <string name="show_number_of_history">Показывать количество Истории</string>
+    <string name="show_number_of_history_summary">Показывать количество Истории во вкладке История</string>
 </resources>
