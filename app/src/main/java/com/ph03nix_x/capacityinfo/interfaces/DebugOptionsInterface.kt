@@ -189,7 +189,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
                     when(position) {
                         0 -> {
                             text?.clear()
-                            filters = arrayOf(InputFilter.LengthFilter(3))
+                            filters = arrayOf(InputFilter.LengthFilter(50))
                             inputType = prefValueInputTypeDef
                             keyListener = prefValueKeyListenerDef
                         }
@@ -377,7 +377,7 @@ interface DebugOptionsInterface: BatteryInfoInterface {
         when(valueType) {
             "string" -> {
                 changePrefValue.apply {
-                    filters = arrayOf(InputFilter.LengthFilter(3))
+                    filters = arrayOf(InputFilter.LengthFilter(50))
                     setText(pref.all.getValue(key).toString())
                 }
                 when(key) {
