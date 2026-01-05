@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/change_pref_key_edit"
                 android:longClickable="false"
-                android:maxLength="60"
+                android:maxLength="50"
                 android:digits="AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_"
                 tools:text="design_capacity"/>
 

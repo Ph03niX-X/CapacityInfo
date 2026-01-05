@@ -17,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/reset_pref_key_edit"
-                android:maxLength="60"
+                android:maxLength="50"
                 android:digits="AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_"
                 tools:text="design_capacity"/>
 
