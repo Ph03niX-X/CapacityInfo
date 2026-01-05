@@ -52,6 +52,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 import androidx.core.net.toUri
 import androidx.core.content.edit
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NUMBER_OF_HISTORY
 
 class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOptionsInterface,
     BatteryInfoInterface, PremiumInterface, NavigationInterface {
@@ -75,6 +76,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
 
     // Appearance
     private var darkMode: SwitchPreferenceCompat? = null
+    private var showNumberOfHistory: SwitchPreferenceCompat? = null
     private var textSize: ListPreference? = null
     private var textFont: ListPreference? = null
     private var textStyle: ListPreference? = null
@@ -222,6 +224,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         // Appearance
         darkMode = findPreference(IS_DARK_MODE)
 
+        showNumberOfHistory = findPreference(IS_SHOW_NUMBER_OF_HISTORY)
+
         textSize = findPreference(TEXT_SIZE)
 
         textFont = findPreference(TEXT_FONT)
@@ -250,6 +254,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
         darkMode?.setOnPreferenceChangeListener { _, newValue ->
             setTheme(requireContext(), isDarkMode = newValue as? Boolean == true)
             true
+        }
+
+        showNumberOfHistory?.apply {
+            isEnabled = premium?.isVisible == false
+            summary = getString(if(!isEnabled) R.string.premium_feature
+            else R.string.show_number_of_history_summary)
         }
 
         textSize?.setOnPreferenceChangeListener { preference, newValue ->
@@ -698,6 +708,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             }
             batteryStatusInformation?.apply {
                 summary = if(!isEnabled) getString(R.string.premium_feature) else null
+            }
+            showNumberOfHistory?.apply {
+                isEnabled = premium?.isVisible == false
+                summary = getString(if(!isEnabled) R.string.premium_feature
+                else R.string.show_number_of_history_summary)
             }
             capacityInWh?.apply {
                 isEnabled = premium?.isVisible == false

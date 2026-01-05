@@ -13,6 +13,7 @@ import com.ph03nix_x.capacityinfo.databases.HistoryDB
 import com.ph03nix_x.capacityinfo.fragments.HistoryFragment
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NUMBER_OF_HISTORY
 
 object HistoryHelper {
 
@@ -83,7 +84,10 @@ object HistoryHelper {
                     }
                     finally {
                         MainActivity.instance?.toolbar?.title = context.getString(
-                            if(PremiumInterface.isPremium && isHistoryNotEmpty(context))
+                            if(PremiumInterface.isPremium && isHistoryNotEmpty(context) &&
+                                MainActivity.instance?.pref?.getBoolean(IS_SHOW_NUMBER_OF_HISTORY,
+                                    context.resources
+                                        .getBoolean(R.bool.is_show_number_of_history)) == true)
                                 R.string.history_title else R.string.history,
                             getHistoryCount(context), Constants.HISTORY_COUNT_MAX)
                     }

@@ -75,6 +75,14 @@
                 app:icon="@drawable/ic_dark_mode_24dp"
                 android:key="is_dark_mode"/>
 
+        <SwitchPreferenceCompat
+            android:title="@string/show_number_of_history"
+            tools:summary="@string/show_number_of_history_summary"
+            android:defaultValue="@bool/is_show_number_of_history"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_history_navigation_24"
+            android:key="is_show_number_of_history"/>
+
         <ListPreference
             android:title="@string/text_size"
             tools:summary="Medium (Default)"

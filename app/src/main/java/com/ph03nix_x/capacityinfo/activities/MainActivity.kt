@@ -83,6 +83,7 @@ import kotlin.time.Duration.Companion.seconds
 import androidx.core.net.toUri
 import androidx.core.content.edit
 import com.ph03nix_x.capacityinfo.interfaces.AdsInterface
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NUMBER_OF_HISTORY
 
 class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterface, PremiumInterface,
     MenuInterface, ManufacturerInterface, NavigationInterface, CheckUpdateInterface,
@@ -198,8 +199,12 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else R.string.discharge)
             is LastChargeFragment -> getString(R.string.last_charge)
             is WearFragment -> getString(R.string.wear)
-            is HistoryFragment -> getString(if(isPremium && HistoryHelper.isHistoryNotEmpty(this))
-                R.string.history_title else R.string.history, HistoryHelper.getHistoryCount(this),
+            is HistoryFragment -> getString(if(isPremium && HistoryHelper
+                .isHistoryNotEmpty(this) &&
+                pref.getBoolean(IS_SHOW_NUMBER_OF_HISTORY,
+                    resources.getBoolean(R.bool.is_show_number_of_history)))
+                R.string.history_title else R.string.history,
+                HistoryHelper.getHistoryCount(this),
                 Constants.HISTORY_COUNT_MAX)
             is SettingsFragment -> getString(R.string.settings)
             is DebugFragment -> getString(R.string.debug)
@@ -303,8 +308,11 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
                 else R.string.discharge)
             is WearFragment -> getString(R.string.wear)
             is LastChargeFragment -> getString(R.string.last_charge)
-            is HistoryFragment -> getString(if(isPremium && HistoryHelper.isHistoryNotEmpty(this))
-                R.string.history_title else R.string.history, HistoryHelper.getHistoryCount(this),
+            is HistoryFragment -> getString(if(isPremium &&
+                HistoryHelper.isHistoryNotEmpty(this) &&
+                pref.getBoolean(IS_SHOW_NUMBER_OF_HISTORY, resources
+                    .getBoolean(R.bool.is_show_number_of_history))) R.string.history_title
+            else R.string.history, HistoryHelper.getHistoryCount(this),
                 Constants.HISTORY_COUNT_MAX)
             is SettingsFragment -> getString(R.string.settings)
             is BatteryStatusInformationFragment -> getString(R.string.battery_status_information)

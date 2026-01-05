@@ -19,6 +19,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface.Companion.isPremium
 import com.ph03nix_x.capacityinfo.utilities.Constants
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NUMBER_OF_HISTORY
 import java.text.DecimalFormat
 
 class HistoryAdapter (private var historyList: MutableList<History>) :
@@ -143,8 +144,10 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             notifyItemRangeChanged(0, itemCount - 1)
         }
         MainActivity.instance?.toolbar?.title = context.getString(if(isPremium &&
-            historyList.isNotEmpty()) R.string.history_title else R.string.history,
-            historyList.count(), Constants.HISTORY_COUNT_MAX)
+            historyList.isNotEmpty() && pref.getBoolean(IS_SHOW_NUMBER_OF_HISTORY,
+                context.resources.getBoolean(R.bool.is_show_number_of_history)))
+            R.string.history_title else R.string.history, historyList.count(),
+            Constants.HISTORY_COUNT_MAX)
     }
 
     fun remove(context: Context, position: Int) {
@@ -152,8 +155,10 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             historyList.removeAt(itemCount - 1 - position)
             notifyItemRemoved(position)
             MainActivity.instance?.toolbar?.title = context.getString(if(isPremium &&
-                historyList.isNotEmpty()) R.string.history_title else R.string.history,
-                historyList.count(), Constants.HISTORY_COUNT_MAX)
+                historyList.isNotEmpty() && pref.getBoolean(IS_SHOW_NUMBER_OF_HISTORY,
+                    context.resources.getBoolean(R.bool.is_show_number_of_history)))
+                R.string.history_title else R.string.history, historyList.count(),
+                Constants.HISTORY_COUNT_MAX)
             if(HistoryHelper.isHistoryEmpty(context)) {
                 HistoryFragment.instance?.emptyHistory()
             }
@@ -165,8 +170,10 @@ class HistoryAdapter (private var historyList: MutableList<History>) :
             historyList = HistoryDB(context).readDB()
             notifyItemInserted(position)
             MainActivity.instance?.toolbar?.title = context.getString(if(isPremium &&
-                historyList.isNotEmpty()) R.string.history_title else R.string.history,
-                historyList.count(), Constants.HISTORY_COUNT_MAX)
+                historyList.isNotEmpty() && pref.getBoolean(IS_SHOW_NUMBER_OF_HISTORY,
+                    context.resources.getBoolean(R.bool.is_show_number_of_history)))
+                R.string.history_title else R.string.history, historyList.count(),
+                Constants.HISTORY_COUNT_MAX)
         }
     }
 }

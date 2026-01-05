@@ -21,6 +21,7 @@ import com.ph03nix_x.capacityinfo.interfaces.AdsInterface
 import com.ph03nix_x.capacityinfo.interfaces.BatteryInfoInterface
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_SHOW_NUMBER_OF_HISTORY
 
 /**
  * Created by Ph03niX-X on 21.06.2023
@@ -106,8 +107,12 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 fragment = HistoryFragment()
                                 toolbar.apply {
                                     title = getString(if(PremiumInterface.isPremium &&
-                                        HistoryHelper.isHistoryNotEmpty(this@bottomNavigation))
-                                        R.string.history_title else R.string.history, HistoryHelper
+                                        HistoryHelper.isHistoryNotEmpty(this@bottomNavigation)
+                                        && pref.getBoolean(IS_SHOW_NUMBER_OF_HISTORY,
+                                            context.resources
+                                                .getBoolean(R.bool.is_show_number_of_history)))
+                                        R.string.history_title else R.string.history,
+                                        HistoryHelper
                                             .getHistoryCount(this@bottomNavigation),
                                         Constants.HISTORY_COUNT_MAX)
                                     navigationIcon = null

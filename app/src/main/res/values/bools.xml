@@ -8,6 +8,7 @@
     <bool name="is_show_battery_information">true</bool>
     <bool name="is_show_expanded_notification">true</bool>
     <bool name="is_dark_mode">false</bool>
+    <bool name="is_show_number_of_history">true</bool>
     <bool name="is_dual_cell_battery">false</bool>
     <bool name="is_capacity_in_wh">false</bool>
     <bool name="is_charging_discharge_current_in_watt">false</bool>

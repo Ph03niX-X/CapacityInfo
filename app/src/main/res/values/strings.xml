@@ -368,4 +368,6 @@
     <string name="ad_unit_id" translatable="false">ca-app-pub-5312241355118232/9082426280</string>
     <string name="order_id">Order ID</string>
     <string name="order_id_copied">Order ID Copied</string>
+    <string name="show_number_of_history">Show Number of History</string>
+    <string name="show_number_of_history_summary">Show Number of History in the History Tab</string>
 </resources>
