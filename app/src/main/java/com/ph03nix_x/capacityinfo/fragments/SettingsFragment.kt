@@ -268,7 +268,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             true
         }
 
-        applicationLanguage?.setOnPreferenceClickListener { it ->
+        applicationLanguage?.setOnPreferenceClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 startActivity(Intent(Settings.ACTION_APP_LOCALE_SETTINGS,
                     "package:${requireContext().packageName}".toUri()))
