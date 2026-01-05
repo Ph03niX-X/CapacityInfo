@@ -37,7 +37,6 @@
                 android:id="@+id/change_pref_value_edit"
                 android:longClickable="false"
                 android:enabled="false"
-                android:digits="AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
                 tools:text="0"/>
 
     </com.google.android.material.textfield.TextInputLayout>
