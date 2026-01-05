@@ -346,4 +346,6 @@
     <string name="privacy_policy">Политика за поверителност</string>
     <string name="order_id">Номер на поръчка</string>
     <string name="order_id_copied">Номерът на поръчката е копиран</string>
+    <string name="show_number_of_history">Показване на броя на историята</string>
+    <string name="show_number_of_history_summary">Показване на броя записи в раздела Историята</string>
 </resources>
