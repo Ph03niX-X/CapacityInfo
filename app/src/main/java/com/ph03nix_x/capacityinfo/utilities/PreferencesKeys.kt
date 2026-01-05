@@ -5,6 +5,7 @@ object PreferencesKeys {
     //Other
     const val UPDATE_TEMP_SCREEN_TIME = "update_temp_screen_time"
     const val IS_FAST_CHARGE = "is_fast_charge"
+    const val ORDER_ID = "order_id"
 
     // Service & Notification
     const val IS_SERVICE_TIME = "is_service_time"

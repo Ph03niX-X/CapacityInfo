@@ -63,6 +63,7 @@ import androidx.core.net.toUri
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryPurchasesAsync
 import com.ph03nix_x.capacityinfo.fragments.AboutFragment
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.ORDER_ID
 
 /**
  * Created by Ph03niX-X on 04.12.2021
@@ -473,20 +474,25 @@ interface PremiumInterface: PurchasesUpdatedListener, NavigationInterface {
     }
 
      fun MainActivity.getOrderID() {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (billingClient?.isReady != true) initiateBilling(false)
-            delay(2.5.seconds)
-            if (billingClient?.isReady == true) {
-                val params = QueryPurchasesParams.newBuilder()
-                    .setProductType(ProductType.INAPP)
-                val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
-                val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
-                if(!purchaseHistoryRecordList.isNullOrEmpty())
-                    orderID = purchaseHistoryRecordList[0].orderId
-            }
-            delay(5.seconds)
-            billingClient?.endConnection()
-            billingClient = null
-        }
+         CoroutineScope(Dispatchers.IO).launch {
+             orderID = if(orderID.isNullOrEmpty()) pref.getString(ORDER_ID, null)
+             else orderID
+             if(orderID.isNullOrEmpty()) {
+                 if(billingClient?.isReady != true) initiateBilling(false)
+                 delay(2.5.seconds)
+                 if(billingClient?.isReady == true) {
+                     val params = QueryPurchasesParams.newBuilder().setProductType(ProductType.INAPP)
+                     val purchaseHistoryResult = billingClient?.queryPurchasesAsync(params.build())
+                     val purchaseHistoryRecordList = purchaseHistoryResult?.purchasesList
+                     if(!purchaseHistoryRecordList.isNullOrEmpty()) {
+                         orderID = purchaseHistoryRecordList[0].orderId
+                         pref.edit { putString(ORDER_ID, orderID) }
+                     }
+                 }
+                 delay(5.seconds)
+                 billingClient?.endConnection()
+                 billingClient = null
+             }
+         }
     }
 }

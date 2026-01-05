@@ -23,6 +23,7 @@ import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
 import com.ph03nix_x.capacityinfo.utilities.Constants.GITHUB_LINK
 import androidx.core.net.toUri
 import com.ph03nix_x.capacityinfo.utilities.Constants.PRIVACY_POLICY_LINK
+import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.ORDER_ID
 
 class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateInterface {
 
@@ -60,7 +61,7 @@ class AboutFragment : PreferenceFragmentCompat(), PremiumInterface, CheckUpdateI
 
         betaTester = findPreference("become_a_beta_tester")
 
-        orderID = findPreference("order_id")
+        orderID = findPreference(ORDER_ID)
 
         privacyPolicy = findPreference("privacy_policy")
 
