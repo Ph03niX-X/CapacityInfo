@@ -346,4 +346,6 @@
     <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="order_id">Nomor Pesanan</string>
     <string name="order_id_copied">Nomor Pesanan disalin</string>
+    <string name="show_number_of_history">Tampilkan jumlah riwayat</string>
+    <string name="show_number_of_history_summary">Tampilkan jumlah entri di tab Riwayat</string>
     </resources>
