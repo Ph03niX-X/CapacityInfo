@@ -346,4 +346,6 @@
     <string name="privacy_policy">Politica sulla Privacy</string>
     <string name="order_id">Numero d\'ordine</string>
     <string name="order_id_copied">Numero d\'ordine copiato</string>
+    <string name="show_number_of_history">Mostra numero di cronologia</string>
+    <string name="show_number_of_history_summary">Mostra il numero di voci nella scheda Cronologia</string>
     </resources>
