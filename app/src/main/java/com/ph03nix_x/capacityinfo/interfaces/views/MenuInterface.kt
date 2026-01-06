@@ -13,15 +13,14 @@ import com.ph03nix_x.capacityinfo.fragments.LastChargeFragment
 import com.ph03nix_x.capacityinfo.fragments.WearFragment
 import com.ph03nix_x.capacityinfo.helpers.HistoryHelper
 import com.ph03nix_x.capacityinfo.interfaces.PremiumInterface
-import com.ph03nix_x.capacityinfo.utilities.Constants
-import androidx.core.net.toUri
+import com.ph03nix_x.capacityinfo.interfaces.ManufacturerInterface
 
 /**
  * Created by Ph03niX-X on 21.06.2023
  * Ph03niX-X@outlook.com
  */
 
-interface MenuInterface {
+interface MenuInterface: ManufacturerInterface {
 
     fun MainActivity.inflateMenu() {
         if(fragment is HistoryFragment) {
@@ -72,7 +71,7 @@ interface MenuInterface {
                 menu.findItem(R.id.dont_kill_my_app).setOnMenuItemClickListener {
                     try {
                         startActivity(Intent(Intent.ACTION_VIEW,
-                            Constants.DONT_KILL_MY_APP_LINK.toUri()))
+                            getDontKillMyAppManufactures()))
                     }
                     catch(e: ActivityNotFoundException) {
                         Toast.makeText(this@inflateMenu, e.message ?: e.toString(),

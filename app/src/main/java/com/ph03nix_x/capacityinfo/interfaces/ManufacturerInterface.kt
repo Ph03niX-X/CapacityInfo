@@ -2,6 +2,7 @@ package com.ph03nix_x.capacityinfo.interfaces
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ph03nix_x.capacityinfo.R
@@ -16,6 +17,7 @@ import xyz.kumaraswamy.autostart.Utils
 import java.util.Locale
 import kotlin.time.Duration.Companion.seconds
 import androidx.core.net.toUri
+import com.ph03nix_x.capacityinfo.interfaces.views.MenuInterface
 
 /**
  * Created by Ph03niX-X on 21.06.2023
@@ -31,20 +33,22 @@ interface ManufacturerInterface {
                 if(showXiaomiAutostartDialog == null && !isXiaomi()
                     && !Autostart.isAutoStartEnabled(this@checkManufacturer))
                     showXiaomiAutoStartDialog()
-                else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE && isHuawei())
+                else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
+                    isHuawei())
                     showHuaweiInfo()
             }
             catch (_: Exception) { return@launch }
         }
     }
 
-    private fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
+    fun getManufacturer() = Build.MANUFACTURER.uppercase(Locale.getDefault())
 
     private fun isXiaomi() : Boolean {
 
         val xiaomiManufacturerList = arrayListOf("XIAOMI", "POCO", "REDMI", "BLACK SHARK")
 
-        return getManufacturer() in xiaomiManufacturerList && Utils.isOnMiui()
+        return getManufacturer() in xiaomiManufacturerList &&
+                Utils.isOnMiui()
     }
 
     private fun isHuawei(): Boolean {
@@ -52,6 +56,41 @@ interface ManufacturerInterface {
         val huaweiManufacturerList = arrayListOf("HUAWEI", "HONOR")
 
         return getManufacturer() in huaweiManufacturerList
+    }
+
+    private fun getXiaomiManufactures() = arrayListOf("XIAOMI", "POCO", "REDMI", "BLACK SHARK")
+
+    private fun getHuaweiManufactures() = arrayListOf("HUAWEI", "HONOR")
+
+    private fun getPixelManufactures() = arrayListOf("GOOGLE", "PIXEL")
+
+    private fun getMotorolaManufactures() = arrayListOf("MOTOROLA", "MOTO")
+
+    private fun getNokiaManufactures() = arrayListOf("NOKIA", "HMD", "HMD GLOBAL", "HMD GLOBAL OY")
+
+    fun MenuInterface.getDontKillMyAppManufactures(): Uri {
+        return when(getManufacturer()) {
+            in getXiaomiManufactures() -> "${Constants.DONT_KILL_MY_APP_LINK}/xiaomi".toUri()
+            in getHuaweiManufactures() -> "${Constants.DONT_KILL_MY_APP_LINK}/huawei".toUri()
+            in getPixelManufactures() -> "${Constants.DONT_KILL_MY_APP_LINK}/google".toUri()
+            "SAMSUNG" -> "${Constants.DONT_KILL_MY_APP_LINK}/samsung".toUri()
+            "ONEPLUS" -> "${Constants.DONT_KILL_MY_APP_LINK}/oneplus".toUri()
+            "OPPO" -> "${Constants.DONT_KILL_MY_APP_LINK}/oppo".toUri()
+            "VIVO" -> "${Constants.DONT_KILL_MY_APP_LINK}/vivo".toUri()
+            "REALME" -> "${Constants.DONT_KILL_MY_APP_LINK}/realme".toUri()
+            "MEIZU" -> "${Constants.DONT_KILL_MY_APP_LINK}/meizu".toUri()
+            "ASUS" -> "${Constants.DONT_KILL_MY_APP_LINK}/asus".toUri()
+            "SONY" -> "${Constants.DONT_KILL_MY_APP_LINK}/sony".toUri()
+            "LENOVO" -> "${Constants.DONT_KILL_MY_APP_LINK}/lenovo".toUri()
+            in getMotorolaManufactures() -> "${Constants.DONT_KILL_MY_APP_LINK}/motorola".toUri()
+            "HTC" -> "${Constants.DONT_KILL_MY_APP_LINK}/htc".toUri()
+            "TECNO" -> "${Constants.DONT_KILL_MY_APP_LINK}/tecno".toUri()
+            "BLACKVIEW" -> "${Constants.DONT_KILL_MY_APP_LINK}/blackview".toUri()
+            "UNIHERTZ" -> "${Constants.DONT_KILL_MY_APP_LINK}/unihertz".toUri()
+            "WIKO" -> "${Constants.DONT_KILL_MY_APP_LINK}/wiko".toUri()
+            in getNokiaManufactures() -> "${Constants.DONT_KILL_MY_APP_LINK}/nokia".toUri()
+            else -> "${Constants.DONT_KILL_MY_APP_LINK}/general".toUri()
+        }
     }
 
     private fun MainActivity.showXiaomiAutoStartDialog() {
