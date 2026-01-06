@@ -345,4 +345,6 @@
     <string name="privacy_policy">Gizlilik Politikası</string>
     <string name="order_id">Sipariş Numarası</string>
     <string name="order_id_copied">Sipariş Numarası kopyalandı</string>
+    <string name="show_number_of_history">Geçmiş sayısını göster</string>
+    <string name="show_number_of_history_summary">Geçmiş sekmesindeki kayıt sayısını göster</string>
 </resources>
