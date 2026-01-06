@@ -197,9 +197,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
             }
         }
         batteryStatusInformation?.apply {
-            isEnabled = premium?.isVisible == false
-            summary = if(!isEnabled) getString(R.string.premium_feature) else null
-            if(isEnabled) setOnPreferenceClickListener {
+            summary = if(premium?.isVisible == true) getString(R.string.premium_feature) else null
+            if(premium?.isVisible == false) setOnPreferenceClickListener {
                 mainActivity?.apply {
                     fragment = BatteryStatusInformationFragment()
                     toolbar.title = requireContext().getString(
@@ -706,9 +705,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 summary = getString(if(premium?.isVisible == true) R.string.premium_feature
                 else R.string.service_restart_required)
             }
-            batteryStatusInformation?.apply {
-                summary = if(!isEnabled) getString(R.string.premium_feature) else null
-            }
+            batteryStatusInformation?.summary = if(premium?.isVisible == true)
+                getString(R.string.premium_feature) else null
             showNumberOfHistory?.apply {
                 isEnabled = premium?.isVisible == false
                 summary = getString(if(!isEnabled) R.string.premium_feature
@@ -730,10 +728,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SettingsInterface, DebugOpt
                 isEnabled = premium?.isVisible == false
                 summary = if(!isEnabled) getString(R.string.premium_feature) else null
             }
-            overlay?.apply {
-                summary = if(premium?.isVisible == true)
-                    getString(R.string.premium_feature) else null
-            }
+            overlay?.summary = if(premium?.isVisible == true)
+                getString(R.string.premium_feature) else null
             textSize?.summary = getTextSizeSummary()
             textFont?.apply {
                 isEnabled = premium?.isVisible == false
