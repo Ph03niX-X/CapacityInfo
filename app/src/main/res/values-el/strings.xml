@@ -346,4 +346,6 @@
     <string name="privacy_policy">Πολιτική Απορρήτου</string>
     <string name="order_id">Αριθμός παραγγελίας</string>
     <string name="order_id_copied">Ο αριθμός παραγγελίας αντιγράφηκε</string>
+    <string name="show_number_of_history">Εμφάνιση αριθμού ιστορικού</string>
+    <string name="show_number_of_history_summary">Εμφάνιση του αριθμού καταχωρίσεων στην καρτέλα Ιστορικό</string>
 </resources>
