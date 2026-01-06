@@ -345,4 +345,6 @@
     <string name="privacy_policy">Zásady ochrany osobních údajů</string>
     <string name="order_id">Číslo objednávky</string>
     <string name="order_id_copied">Číslo objednávky bylo zkopíровано</string>
+    <string name="show_number_of_history">Zobrazit počet historie</string>
+    <string name="show_number_of_history_summary">Zobrazit počet záznamů na kartě Historie</string>
 </resources>
