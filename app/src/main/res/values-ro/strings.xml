@@ -346,4 +346,6 @@
     <string name="privacy_policy">Politica de Confidențialitate</string>
     <string name="order_id">Numărul comenzii</string>
     <string name="order_id_copied">Numărul comenzii a fost copiat</string>
+    <string name="show_number_of_history">Afișează numărul istoricului</string>
+    <string name="show_number_of_history_summary">Afișează numărul de înregistrări în fila Istoric</string>
     </resources>
