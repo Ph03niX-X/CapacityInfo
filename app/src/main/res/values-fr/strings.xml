@@ -346,6 +346,6 @@
     <string name="privacy_policy">Politique de Confidentialité</string>
     <string name="order_id">Numéro de commande</string>
     <string name="order_id_copied">Numéro de commande copié</string>
-    <string name="show_number_of_history">Afficher le nombre d'historique</string>
-    <string name="show_number_of_history_summary">Afficher le nombre d'entrées dans l'onglet Historique</string>
+    <string name="show_number_of_history">Afficher le nombre d\'historique</string>
+    <string name="show_number_of_history_summary">Afficher le nombre d\'entrées dans l\'onglet Historique</string>
     </resources>
