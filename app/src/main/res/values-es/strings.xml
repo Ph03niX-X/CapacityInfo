@@ -346,4 +346,6 @@
     <string name="privacy_policy">Política de Privacidad</string>
     <string name="order_id">Número de pedido</string>
     <string name="order_id_copied">Número de pedido copiado</string>
+    <string name="show_number_of_history">Mostrar número de historial</string>
+    <string name="show_number_of_history_summary">Mostrar el número de entradas en la pestaña Historial</string>
     </resources>
