@@ -346,4 +346,6 @@
     <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="order_id">ऑर्डर संख्या</string>
     <string name="order_id_copied">ऑर्डर संख्या कॉपी की गई</string>
+    <string name="show_number_of_history">इतिहास की संख्या दिखाएं</string>
+    <string name="show_number_of_history_summary">इतिहास टैब में प्रविष्टियों की संख्या दिखाएं</string>
 </resources>
