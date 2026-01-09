@@ -348,4 +348,6 @@
     <string name="order_id_copied">Нумар заказу скапіяваны</string>
     <string name="show_number_of_history">Паказваць колькасць гісторыі</string>
     <string name="show_number_of_history_summary">Паказваць колькасць гісторыі ва ўкладцы Гісторыя</string>
+    <string name="support_ads">Падтрымаць</string>
+    <string name="try_again_in_an_hour">Паспрабуйце зноў праз гадзіну</string>
 </resources>
