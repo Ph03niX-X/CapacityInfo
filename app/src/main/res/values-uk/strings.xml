@@ -348,4 +348,6 @@
     <string name="order_id_copied">Номер Замовлення Скопійовано</string>
     <string name="show_number_of_history">Показувати кількість історії</string>
     <string name="show_number_of_history_summary">Показувати кількість історії у вкладці Історія</string>
+    <string name="support_ads">Підтримати</string>
+    <string name="try_again_in_an_hour">Спробуйте ще раз через годину</string>
 </resources>
