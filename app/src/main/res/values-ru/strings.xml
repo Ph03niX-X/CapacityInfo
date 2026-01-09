@@ -348,4 +348,6 @@
     <string name="order_id_copied">Номер Заказа Скопирован</string>
     <string name="show_number_of_history">Показывать количество Истории</string>
     <string name="show_number_of_history_summary">Показывать количество Истории во вкладке История</string>
+    <string name="support_ads">Поддержать</string>
+    <string name="try_again_in_an_hour">Попробуйте снова через час</string>
 </resources>
