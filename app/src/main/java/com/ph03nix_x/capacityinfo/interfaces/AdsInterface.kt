@@ -19,7 +19,7 @@ interface AdsInterface {
     private fun MainActivity.loadAds(adUnit: String) {
         if(adUnit == resources.getString(R.string.ad_unit_id) && loadAdsCount >= 3) return
         else if(adUnit != resources.getString(R.string.ad_unit_id) && loadAdsCount >= 3) {
-            Toast.makeText(this, getString(R.string.maximum_number_of_ad),
+            Toast.makeText(this, getString(R.string.try_again_in_an_hour),
                 Toast.LENGTH_LONG).show()
             return
         }
@@ -36,7 +36,7 @@ interface AdsInterface {
 
     fun MainActivity.showAds(adUnit: String) {
         if(adUnit == resources.getString(R.string.support_ad_unit_id) && loadAdsCount >= 3) {
-            Toast.makeText(this, getString(R.string.maximum_number_of_ad),
+            Toast.makeText(this, getString(R.string.try_again_in_an_hour),
                 Toast.LENGTH_LONG).show()
             return
         } else if(adUnit == resources.getString(R.string.ad_unit_id) && PremiumInterface.isPremium
