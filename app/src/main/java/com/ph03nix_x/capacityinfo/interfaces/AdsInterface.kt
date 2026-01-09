@@ -6,6 +6,10 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.ph03nix_x.capacityinfo.R
 import com.ph03nix_x.capacityinfo.activities.MainActivity
+import com.ph03nix_x.capacityinfo.helpers.ServiceHelper
+import com.ph03nix_x.capacityinfo.services.AdsJobService
+import com.ph03nix_x.capacityinfo.utilities.Constants.ADS_JOB_ID
+import com.ph03nix_x.capacityinfo.utilities.Constants.ADS_JOB_SERVICE_PERIODIC
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_CHARGES
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.NUMBER_OF_FULL_CHARGES
 
@@ -28,6 +32,15 @@ interface AdsInterface {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     if(loadAdsCount < 3) {
                         loadAdsCount++
+                        if(loadAdsCount >= 3) {
+                            ServiceHelper.apply {
+                                stopService(this@loadAds,
+                                    AdsJobService::class.java)
+                                jobSchedule(this@loadAds,
+                                    AdsJobService::class.java,
+                                    ADS_JOB_ID, ADS_JOB_SERVICE_PERIODIC)
+                            }
+                        }
                         interstitialAd.show(this@loadAds)
                     }
                 }

@@ -46,6 +46,16 @@ interface MenuInterface: ManufacturerInterface {
         else {
             with(toolbar) {
                 inflateMenu(R.menu.main_menu)
+                if(!PremiumInterface.isPremium) {
+                    menu.findItem(R.id.premium).apply {
+                        isVisible = !PremiumInterface.isPremium
+                        if(isVisible)
+                            setOnMenuItemClickListener {
+                                showPremiumDialog()
+                                true
+                            }
+                    }
+                }
                 menu.findItem(R.id.instruction)?.isVisible = getCurrentCapacity(
                     this@inflateMenu) > 0.0 && (fragment is ChargeDischargeFragment ||
                         fragment is LastChargeFragment || fragment is WearFragment)
@@ -83,12 +93,6 @@ interface MenuInterface: ManufacturerInterface {
                     showAds(resources.getString(R.string.support_ad_unit_id))
                     true
                 }
-                menu.findItem(R.id.premium)?.isVisible = !PremiumInterface.isPremium
-                if(!PremiumInterface.isPremium)
-                    menu.findItem(R.id.premium).setOnMenuItemClickListener {
-                        showPremiumDialog()
-                        true
-                    }   
             }
         }
     }
