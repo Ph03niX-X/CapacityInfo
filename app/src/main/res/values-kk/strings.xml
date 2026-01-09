@@ -348,4 +348,6 @@
     <string name="order_id_copied">Тапсырыс нөмірі көшірілді</string>
     <string name="show_number_of_history">Тарих санын көрсету</string>
     <string name="show_number_of_history_summary">Тарих қойындысында тарих жазбаларының санын көрсету</string>
+    <string name="support_ads">Қолдау көрсету</string>
+    <string name="try_again_in_an_hour">Бір сағаттан кейін қайта байқап көріңіз</string>
 </resources>
