@@ -348,4 +348,6 @@
     <string name="order_id_copied">Номерът на поръчката е копиран</string>
     <string name="show_number_of_history">Показване на броя на историята</string>
     <string name="show_number_of_history_summary">Показване на броя записи в раздела Историята</string>
+    <string name="support_ads">Подкреπα</string>
+    <string name="try_again_in_an_hour">Опитайте отново след един час</string>
 </resources>
