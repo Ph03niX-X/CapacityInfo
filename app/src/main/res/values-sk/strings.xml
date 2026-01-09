@@ -348,4 +348,6 @@
     <string name="order_id_copied">Číslo objednávky bolo skopírované</string>
     <string name="show_number_of_history">Zobraziť počet histórie</string>
     <string name="show_number_of_history_summary">Zobraziť počet záznamov na karte História</string>
+    <string name="support_ads">Podporiť</string>
+    <string name="try_again_in_an_hour">Skúste to znova o hodinu</string>
 </resources>
