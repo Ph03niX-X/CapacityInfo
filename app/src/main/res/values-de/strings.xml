@@ -346,4 +346,6 @@
     <string name="order_id_copied">Bestellnummer kopiert</string>
     <string name="show_number_of_history">Verlauf-Anzahl anzeigen</string>
     <string name="show_number_of_history_summary">Anzahl der Einträge im Tab Verlauf anzeigen</string>
+    <string name="support_ads">Unterstützen</string>
+    <string name="try_again_in_an_hour">Versuchen Sie es in einer Stunde erneut</string>
 </resources>
