@@ -79,6 +79,10 @@ interface MenuInterface: ManufacturerInterface {
                     }
                     true
                 }
+                menu.findItem(R.id.support_ads).setOnMenuItemClickListener {
+                    showAds(resources.getString(R.string.support_ad_unit_id))
+                    true
+                }
                 menu.findItem(R.id.premium)?.isVisible = !PremiumInterface.isPremium
                 if(!PremiumInterface.isPremium)
                     menu.findItem(R.id.premium).setOnMenuItemClickListener {

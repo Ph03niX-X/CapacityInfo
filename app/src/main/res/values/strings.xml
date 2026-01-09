@@ -366,8 +366,11 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="ads_app_id" translatable="false">ca-app-pub-5312241355118232~3382100987</string>
     <string name="ad_unit_id" translatable="false">ca-app-pub-5312241355118232/9082426280</string>
+    <string name="support_ad_unit_id" translatable="false">ca-app-pub-5312241355118232/3944162512</string>
     <string name="order_id">Order ID</string>
     <string name="order_id_copied">Order ID Copied</string>
     <string name="show_number_of_history">Show Number of History</string>
     <string name="show_number_of_history_summary">Show Number of History in the History Tab</string>
+    <string name="support_ads">Support</string>
+    <string name="try_again_in_an_hour">Try again in an hour</string>
 </resources>

@@ -57,7 +57,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 clearMenu()
                                 inflateMenu()
                                 loadFragment(fragment ?: ChargeDischargeFragment())
-                                showAds()
+                                showAds(resources.getString(R.string.ad_unit_id))
                             }
                         }
                         R.id.last_charge_navigation -> {
@@ -78,7 +78,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 clearMenu()
                                 inflateMenu()
                                 loadFragment(fragment ?: LastChargeFragment())
-                                showAds()
+                                showAds(resources.getString(R.string.ad_unit_id))
                             }
                         }
                         R.id.wear_navigation -> {
@@ -99,7 +99,7 @@ interface NavigationInterface : BatteryInfoInterface, AdsInterface {
                                 clearMenu()
                                 inflateMenu()
                                 loadFragment(fragment ?: WearFragment())
-                                showAds()
+                                showAds(resources.getString(R.string.ad_unit_id))
                             }
                         }
                         R.id.history_navigation -> {

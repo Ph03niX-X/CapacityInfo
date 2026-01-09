@@ -387,7 +387,8 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
             (!isPremium || pref.getString(TOKEN_PREF, null)?.length != TOKEN_COUNT)
             && MainApp.isRequestPurchasePremium) requestPurchasePremium()
 
-        if(fragment is ChargeDischargeFragment || fragment is WearFragment) showAds()
+        if(fragment is ChargeDischargeFragment || fragment is WearFragment)
+            showAds(resources.getString(R.string.ad_unit_id))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
