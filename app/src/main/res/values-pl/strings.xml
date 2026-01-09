@@ -348,4 +348,6 @@
     <string name="order_id_copied">Numer zamówienia został skopiowany</string>
     <string name="show_number_of_history">Pokaż liczbę wpisów historii</string>
     <string name="show_number_of_history_summary">Pokaż liczbę wpisów historii w zakładce Historia</string>
+    <string name="support_ads">Wesprzyj</string>
+    <string name="try_again_in_an_hour">Spróbuj ponownie za godzinę</string>
     </resources>
