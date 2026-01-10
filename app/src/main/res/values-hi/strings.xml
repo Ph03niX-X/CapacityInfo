@@ -348,4 +348,6 @@
     <string name="order_id_copied">ऑर्डर संख्या कॉपी की गई</string>
     <string name="show_number_of_history">इतिहास की संख्या दिखाएं</string>
     <string name="show_number_of_history_summary">इतिहास टैब में प्रविष्टियों की संख्या दिखाएं</string>
+    <string name="support_ads">सपोर्ट करें</string>
+    <string name="try_again_in_an_hour">एक घंटे में फिर से प्रयास करें</string>
 </resources>
