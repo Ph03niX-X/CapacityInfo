@@ -348,4 +348,6 @@
     <string name="order_id_copied">Numero d\'ordine copiato</string>
     <string name="show_number_of_history">Mostra numero di cronologia</string>
     <string name="show_number_of_history_summary">Mostra il numero di voci nella scheda Cronologia</string>
+    <string name="support_ads">Sostieni</string>
+    <string name="try_again_in_an_hour">Riprova tra un\'ora</string>
     </resources>
