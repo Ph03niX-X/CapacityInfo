@@ -347,4 +347,6 @@
     <string name="order_id_copied">Número do pedido copiado</string>
     <string name="show_number_of_history">Mostrar número do histórico</string>
     <string name="show_number_of_history_summary">Mostrar o número de entradas na guia Histórico</string>
+    <string name="support_ads">Apoiar</string>
+    <string name="try_again_in_an_hour">Tente novamente em uma hora</string>
     </resources>
