@@ -348,4 +348,6 @@
     <string name="order_id_copied">Ο αριθμός παραγγελίας αντιγράφηκε</string>
     <string name="show_number_of_history">Εμφάνιση αριθμού ιστορικού</string>
     <string name="show_number_of_history_summary">Εμφάνιση του αριθμού καταχωρίσεων στην καρτέλα Ιστορικό</string>
+    <string name="support_ads">Υποστήριξη</string>
+    <string name="try_again_in_an_hour">Δοκιμάστε ξανά σε μια ώρα</string>
 </resources>
