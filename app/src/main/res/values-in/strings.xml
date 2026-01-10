@@ -348,4 +348,6 @@
     <string name="order_id_copied">Nomor Pesanan disalin</string>
     <string name="show_number_of_history">Tampilkan jumlah riwayat</string>
     <string name="show_number_of_history_summary">Tampilkan jumlah entri di tab Riwayat</string>
+    <string name="support_ads">Dukung</string>
+    <string name="try_again_in_an_hour">Coba lagi dalam satu jam</string>
     </resources>
