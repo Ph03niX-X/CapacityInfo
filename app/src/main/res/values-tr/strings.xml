@@ -347,4 +347,6 @@
     <string name="order_id_copied">Sipariş Numarası kopyalandı</string>
     <string name="show_number_of_history">Geçmiş sayısını göster</string>
     <string name="show_number_of_history_summary">Geçmiş sekmesindeki kayıt sayısını göster</string>
+    <string name="support_ads">Destekle</string>
+    <string name="try_again_in_an_hour">Bir saat sonra tekrar deneyin</string>
 </resources>
