@@ -348,4 +348,6 @@
     <string name="order_id_copied">Numărul comenzii a fost copiat</string>
     <string name="show_number_of_history">Afișează numărul istoricului</string>
     <string name="show_number_of_history_summary">Afișează numărul de înregistrări în fila Istoric</string>
+    <string name="support_ads">Susține</string>
+    <string name="try_again_in_an_hour">Încercați din nou peste o oră</string>
     </resources>
