@@ -348,4 +348,6 @@
     <string name="order_id_copied">Numéro de commande copié</string>
     <string name="show_number_of_history">Afficher le nombre d\'historique</string>
     <string name="show_number_of_history_summary">Afficher le nombre d\'entrées dans l\'onglet Historique</string>
+    <string name="support_ads">Soutenir</string>
+    <string name="try_again_in_an_hour">Réessayez dans une heure</string>
     </resources>
