@@ -19,7 +19,7 @@ android {
         targetSdk = 36
         versionCode = 1882
         versionName = "9.3.0.1"
-        setProperty("archivesBaseName", "$appName $versionName (Build $versionCode)")
+        base.archivesName = "$appName $versionName (Build $versionCode)"
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,10 +30,7 @@ android {
     }
 
     kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
-            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_3)
-        }
+        jvmToolchain(11)
     }
     buildTypes {
         getByName("release") {
