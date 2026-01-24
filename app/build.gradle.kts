@@ -16,8 +16,8 @@ android {
         namespace = applicationId
         minSdk = 26
         targetSdk = 36
-        versionCode = 1882
-        versionName = "9.3.0.1"
+        versionCode = 1904
+        versionName = "9.4.0.1"
         base.archivesName = "$appName $versionName (Build $versionCode)"
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
