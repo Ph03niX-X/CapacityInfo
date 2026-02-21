@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="unit_of_charge_discharge_current_list">
-        <item>μA (Predvolené)</item>
+        <item>μA (Privzeto)</item>
         <item>mA</item>
     </string-array>
 
     <string-array name="unit_of_measurement_of_current_capacity_list">
-        <item>μAh (Predvolené)</item>
+        <item>μAh (Privzeto)</item>
         <item>mAh</item>
     </string-array>
 
     <string-array name="voltage_unit_list">
         <item>μV</item>
-        <item>mV (Predvolené)</item>
+        <item>mV (Privzeto)</item>
     </string-array>
 
     <string-array name="text_size_list">
-        <item>Veľmi malé</item>
-        <item>Malé</item>
-        <item>Stredné (Predvolené)</item>
-        <item>Veľké</item>
-        <item>Veľmi veľké</item>
+        <item>Zelo majhno</item>
+        <item>Majhno</item>
+        <item>Srednje (Privzeto)</item>
+        <item>Veliko</item>
+        <item>Zelo veliko</item>
     </string-array>
 
     <string-array name="text_style_list">
-        <item>Normálne (Predvolené)</item>
-        <item>Tučné</item>
-        <item>Kurzíva</item>
+        <item>Navadno (Privzeto)</item>
+        <item>Krepko</item>
+        <item>Ležeče</item>
     </string-array>
 
     <string-array name="fonts_list">
-        <item>Systémové</item>
+        <item>Sistemska</item>
         <item>Roboto</item>
         <item>Serif</item>
         <item>Sans Serif</item>
         <item>Monospace</item>
         <item>Inter</item>
-        <item>Google Sans (Predvolené)</item>
+        <item>Google Sans (Privzeto)</item>
         <item>Times New Roman</item>
         <item>Ubuntu</item>
         <item>Lora</item>
@@ -87,29 +87,29 @@
     </string-array>
 
     <string-array name="tab_on_application_launch_list">
-        <item>Nabíjanie/Vybíjanie (Predvolené)</item>
-        <item>Posledné nabíjanie</item>
-        <item>Opotrebenie</item>
-        <item>História</item>
+        <item>Polnjenje/Praznjenje (Privzeto)</item>
+        <item>Zadnje polnjenje</item>
+        <item>Obraba</item>
+        <item>Zgodovina</item>
     </string-array>
 
     <string-array name="overlay_location_list">
-        <item>Hore</item>
-        <item>Hore vľavo</item>
-        <item>Hore vpravo</item>
-        <item>V strede</item>
-        <item>V strede vľavo</item>
-        <item>V strede vpravo</item>
-        <item>Dole</item>
-        <item>Dole vľavo</item>
-        <item>Dole vpravo</item>
+        <item>Zgoraj</item>
+        <item>Zgoraj levo</item>
+        <item>Zgoraj desno</item>
+        <item>Na sredini</item>
+        <item>Sredina levo</item>
+        <item>Sredina desno</item>
+        <item>Spodaj</item>
+        <item>Spodaj levo</item>
+        <item>Spodaj desno</item>
     </string-array>
 
     <string-array name="full_charge_reminder_frequency_list">
-        <item>15 minút</item>
-        <item>30 minút</item>
-        <item>45 minút</item>
-        <item>1 hodina</item>
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>45 minut</item>
+        <item>1 ura</item>
     </string-array>
 
 </resources>
