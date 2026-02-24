@@ -1,13 +1,14 @@
+import com.android.build.api.dsl.ApplicationExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
 }
 
-android {
+configure<ApplicationExtension> {
     compileSdk = 36
     buildToolsVersion = "36.1.0"
     val appName = "Capacity Info"
@@ -24,13 +25,11 @@ android {
     }
 
     androidResources {
+        @Suppress("UnstableApiUsage")
         localeFilters += listOf("en", "cs", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "sk",
             "sl", "sv", "tr", "el", "be", "bg", "kk", "ru", "uk", "hi")
     }
 
-    kotlin {
-        jvmToolchain(11)
-    }
     buildTypes {
         getByName("release") {
             buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
@@ -45,6 +44,14 @@ android {
         viewBinding = true
     }
 }
+
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
 fun getBuildDate(): String {
     val date = Date.from(Calendar.getInstance().toInstant())
     val formatter = SimpleDateFormat("dd.MM.yyy HH:mm")
