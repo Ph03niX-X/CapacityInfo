@@ -12,11 +12,11 @@
         android:key="get_premium"/>
 
     <PreferenceCategory
-            android:title="@string/service_and_notification"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_service_notification_24dp"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+        android:title="@string/service_and_notification"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_service_notification_24dp"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
             android:title="@string/service_time"
@@ -62,18 +62,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            app:title="@string/appearance"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_appearance_24dp"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
-
-        <SwitchPreferenceCompat
-                android:title="@string/dark_mode"
-                app:singleLineTitle="false"
-                app:defaultValue="@bool/is_dark_mode"
-                app:icon="@drawable/ic_dark_mode_24dp"
-                android:key="is_dark_mode"/>
+        app:title="@string/appearance"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_appearance_24dp"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
             android:title="@string/show_number_of_history"
@@ -119,11 +112,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/misc"
-            app:singleLineTitle="false"
-            app:icon="@drawable/ic_misc_24dp"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+        android:title="@string/misc"
+        app:singleLineTitle="false"
+        app:icon="@drawable/ic_misc_24dp"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
 
         <SwitchPreferenceCompat
             android:title="@string/capacity_in_wh"
@@ -159,10 +152,10 @@
             android:key="backup_settings"/>
 
         <Preference
-                android:title="@string/more"
-                app:icon="@drawable/ic_more_24dp"
-                app:singleLineTitle="false"
-                android:key="more_other"/>
+            android:title="@string/more"
+            app:icon="@drawable/ic_more_24dp"
+            app:singleLineTitle="false"
+            android:key="more_other"/>
 
         <ListPreference
             android:title="@string/tab_on_application_launch"
@@ -221,11 +214,11 @@
             android:key="change_design_capacity"/>
 
         <Preference
-                android:title="@string/overlay"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:icon="@drawable/ic_overlay"
-                android:key="overlay"/>
+            android:title="@string/overlay"
+            app:isPreferenceVisible="false"
+            app:singleLineTitle="false"
+            android:icon="@drawable/ic_overlay"
+            android:key="overlay"/>
 
         <Preference
             android:title="@string/replace_of_device_battery"
@@ -235,16 +228,16 @@
             android:key="replace_of_device_battery"/>
 
         <Preference
-                android:title="@string/reset_to_zero_the_number_of_charges"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:key="reset_to_zero_the_number_of_charges"/>
+            android:title="@string/reset_to_zero_the_number_of_charges"
+            app:isPreferenceVisible="false"
+            app:singleLineTitle="false"
+            android:key="reset_to_zero_the_number_of_charges"/>
 
         <Preference
-                android:title="@string/reset_to_zero_the_number_of_cycles"
-                app:isPreferenceVisible="false"
-                app:singleLineTitle="false"
-                android:key="reset_to_zero_the_number_of_cycles"/>
+            android:title="@string/reset_to_zero_the_number_of_cycles"
+            app:isPreferenceVisible="false"
+            app:singleLineTitle="false"
+            android:key="reset_to_zero_the_number_of_cycles"/>
 
         <Preference
             android:title="@string/reset_the_number_of_full_charges_to_zero"
@@ -262,22 +255,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/about_and_feedback"
-            app:icon="@drawable/ic_about_feedback_24dp"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
+        android:title="@string/about_and_feedback"
+        app:icon="@drawable/ic_about_feedback_24dp"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false">
 
         <Preference
-                android:title="@string/about"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_about_24dp"
-                android:key="about"/>
+            android:title="@string/about"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_about_24dp"
+            android:key="about"/>
 
         <Preference
-                android:title="@string/feedback"
-                app:singleLineTitle="false"
-                app:icon="@drawable/ic_feedback_24dp"
-                android:key="feedback"/>
+            android:title="@string/feedback"
+            app:singleLineTitle="false"
+            app:icon="@drawable/ic_feedback_24dp"
+            android:key="feedback"/>
 
     </PreferenceCategory>
 

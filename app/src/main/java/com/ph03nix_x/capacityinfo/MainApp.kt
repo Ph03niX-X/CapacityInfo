@@ -70,7 +70,7 @@ class MainApp : Application(), PremiumInterface {
 
     override fun onCreate() {
         super.onCreate()
-        ThemeHelper.setTheme(this)
+        ThemeHelper.setTheme()
         currentTheme = ThemeHelper.currentTheme(resources.configuration)
         isInstalledGooglePlay = isInstalledGooglePlay()
         premiumContext = this

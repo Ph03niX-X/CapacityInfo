@@ -4,7 +4,6 @@
     <string name="residual_capacity">Қалдық сыйымдылық: %1$s mAh (%2$s)</string>
     <string name="current_capacity">Ағымдағы сыйымдылық: %1$s mAh</string>
     <string name="battery_wear">Батареяның тозуы: %1$s (%2$s mAh)</string>
-    <string name="dark_mode">Қараңғы тақырып</string>
     <string name="charge_current">Зарядтау тогы: %1$s mA</string>
     <string name="discharge_current">Разрядтау тогы: %1$s mA</string>
     <string name="voltage">Вольтаж: %1$s mV</string>

@@ -102,7 +102,6 @@
     <string name="current_capacity_overlay_only_values">%1$s mAh</string>
     <string name="current_capacity_wh">Aktuelle Kapazität: %1$s Wh</string>
     <string name="current_capacity_wh_overlay_only_values">%1$s Wh</string>
-    <string name="dark_mode">Dunkler Modus</string>
     <string name="debug">Debuggen</string>
     <string name="debug_successfully_disabled">Debug erfolgreich deaktiviert!</string>
     <string name="debug_successfully_enabled">Debug erfolgreich aktiviert!</string>

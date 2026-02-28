@@ -542,10 +542,11 @@ interface BatteryInfoInterface {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P &&
-            !pref.getBoolean(IS_ALT_CALC_CHARGING_TIME_REMAINING,
-                context.resources.getBoolean(R.bool.is_alt_calc_charging_time_remaining))) {
-            val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+        if(!pref.getBoolean(IS_ALT_CALC_CHARGING_TIME_REMAINING,
+                context.resources.getBoolean(
+                    R.bool.is_alt_calc_charging_time_remaining))) {
+            val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as
+                    BatteryManager
             val chargingTimeRemaining = batteryManager.computeChargeTimeRemaining() / 1000
             return TimeHelper.getTime(chargingTimeRemaining)
         }

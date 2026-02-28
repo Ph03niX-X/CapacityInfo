@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
 
         super.onCreate(savedInstanceState)
 
-        ThemeHelper.setTheme(this)
+        ThemeHelper.setTheme()
 
         setContentView(R.layout.activity_main)
 

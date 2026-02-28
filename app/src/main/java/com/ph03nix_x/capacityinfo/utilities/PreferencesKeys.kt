@@ -27,7 +27,6 @@ object PreferencesKeys {
     const val BATTERY_LEVEL_NOTIFY_DISCHARGED = "battery_level_notify_discharged"
 
     // Appearance
-    const val IS_DARK_MODE = "is_dark_mode"
     const val IS_SHOW_NUMBER_OF_HISTORY = "is_show_number_of_history"
     const val TEXT_SIZE = "text_size"
     const val TEXT_FONT = "text_font"

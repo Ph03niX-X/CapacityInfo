@@ -4,7 +4,6 @@
     <string name="residual_capacity">Residual Capacity: %1$s mAh (%2$s)</string>
     <string name="current_capacity">Current Capacity: %1$s mAh</string>
     <string name="battery_wear">Battery Wear: %1$s (%2$s mAh)</string>
-    <string name="dark_mode">Dark Mode</string>
     <string name="github" translatable="false">GitHub</string>
     <string name="charge_current">Charging current: %1$s mA</string>
     <string name="discharge_current">Discharge current: %1$s mA</string>

@@ -4,7 +4,6 @@
     <string name="residual_capacity">अवशिष्ट क्षमता: %1$s mAh (%2$s)</string>
     <string name="current_capacity">वर्तमान क्षमता: %1$s mAh</string>
     <string name="battery_wear">बैटरी वियर: %1$s (%2$s mAh)</string>
-    <string name="dark_mode">डार्क मोड</string>
     <string name="charge_current">चार्जिंग करंट: %1$s mA</string>
     <string name="discharge_current">डिस्चार्ज करंट: %1$s mA</string>
     <string name="voltage">वोल्टेज: %1$s mV</string>

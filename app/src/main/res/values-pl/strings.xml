@@ -4,7 +4,6 @@
     <string name="residual_capacity">Pozostała pojemność: %1$s mAh (%2$s)</string>
     <string name="current_capacity">Aktualna pojemność: %1$s mAh</string>
     <string name="battery_wear">Zużycie baterii: %1$s (%2$s mAh)</string>
-    <string name="dark_mode">Tryb ciemny</string>
     <string name="charge_current">Prąd ładowania: %1$s mA</string>
     <string name="discharge_current">Prąd rozładowania: %1$s mA</string>
     <string name="voltage">Napięcie: %1$s mV</string>

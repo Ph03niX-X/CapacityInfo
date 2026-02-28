@@ -4,7 +4,6 @@
     <string name="residual_capacity">Рэшткавая ёмістасць: %1$s мАг (%2$s)</string>
     <string name="current_capacity">Бягучая ёмістасць: %1$s мАг</string>
     <string name="battery_wear">Знос акумулятара: %1$s (%2$s мАг)</string>
-    <string name="dark_mode">Цёмная тэма</string>
     <string name="charge_current">Ток зарадкі: %1$s мА</string>
     <string name="discharge_current">Ток разрадкі: %1$s мА</string>
     <string name="voltage">Напружанне: %1$s мВ</string>

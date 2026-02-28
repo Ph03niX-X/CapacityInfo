@@ -15,7 +15,7 @@ configure<ApplicationExtension> {
     defaultConfig {
         applicationId = "com.ph03nix_x.capacityinfo"
         namespace = applicationId
-        minSdk = 26
+        minSdk = 29
         targetSdk = 36
         versionCode = 1906
         versionName = "9.4.1.1"

@@ -87,14 +87,10 @@ object ServiceHelper {
         val serviceComponent = ComponentName(context, jobName)
 
         val jobInfo = JobInfo.Builder(jobId, serviceComponent).apply {
-            if(isRequiredNetwork) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                    setRequiredNetwork(NetworkRequest.Builder().apply {
-                        addCapability(NET_CAPABILITY_INTERNET)
-                        addCapability(NET_CAPABILITY_VALIDATED)
-                    }.build())
-                else setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-            }
+            if(isRequiredNetwork)
+                setRequiredNetwork(NetworkRequest.Builder().apply {
+                    addCapability(NET_CAPABILITY_INTERNET)
+                    addCapability(NET_CAPABILITY_VALIDATED) }.build())
             setPeriodic(periodic)
         }.build()
 

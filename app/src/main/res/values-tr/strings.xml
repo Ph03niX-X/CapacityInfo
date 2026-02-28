@@ -4,7 +4,6 @@
     <string name="residual_capacity">Kalan Kapasite: %1$s mAh (%2$s)</string>
     <string name="current_capacity">Mevcut Kapasite: %1$s mAh</string>
     <string name="battery_wear">Pil Aşınması: %1$s (%2$s mAh)</string>
-    <string name="dark_mode">Karanlık Mod</string>
     <string name="charge_current">Şarj akımı: %1$s mA</string>
     <string name="discharge_current">Deşarj akımı: %1$s mA</string>
     <string name="voltage">Voltaj: %1$s mV</string>
