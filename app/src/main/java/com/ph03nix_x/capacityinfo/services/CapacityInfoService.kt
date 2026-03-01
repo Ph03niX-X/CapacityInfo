@@ -250,25 +250,29 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                             onNotifyOverheatOvercool(this@CapacityInfoService, temperature)
                         }
 
-                    if(status == BatteryManager.BATTERY_STATUS_CHARGING && secondsFullCharge < 3600
-                        && secondsFullCharge >= 0) batteryCharging()
-                    else if(status == BatteryManager.BATTERY_STATUS_CHARGING &&
-                        secondsFullCharge >= 3600) batteryCharged()
+                    when (status) {
+                        BatteryManager.BATTERY_STATUS_CHARGING
+                            if secondsFullCharge in 0..< 3600 -> batteryCharging()
 
-                    else if(status == BatteryManager.BATTERY_STATUS_FULL && isPowerConnected &&
-                        !isFull) batteryCharged()
+                        BatteryManager.BATTERY_STATUS_CHARGING if secondsFullCharge >= 3600 ->
+                            batteryCharged()
+                        BatteryManager.BATTERY_STATUS_FULL if isPowerConnected && !isFull ->
+                            batteryCharged()
 
-                    else {
-                        if(pref.getBoolean(IS_NOTIFY_BATTERY_IS_DISCHARGED, resources.getBoolean(
-                                R.bool.is_notify_battery_is_discharged)) && !isBatteryDischarged &&
-                            (getBatteryLevel(this@CapacityInfoService) ?: 0) <= pref.getInt(
-                                BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))
+                        else -> {
+                            if (pref.getBoolean(
+                                    IS_NOTIFY_BATTERY_IS_DISCHARGED, resources
+                                        .getBoolean(R.bool.is_notify_battery_is_discharged))
+                                && !isBatteryDischarged && (getBatteryLevel(
+                                    this@CapacityInfoService) ?: 0) <=
+                                pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20))
+                                withContext(Dispatchers.Main) {
+                                    onNotifyBatteryDischarged(this@CapacityInfoService)
+                                }
                             withContext(Dispatchers.Main) {
-                                onNotifyBatteryDischarged(this@CapacityInfoService)
+                                updateServiceNotification()
+                                delay(1.495.seconds)
                             }
-                        withContext(Dispatchers.Main) {
-                            updateServiceNotification()
-                            delay(1.495.seconds)
                         }
                     }
                 }
