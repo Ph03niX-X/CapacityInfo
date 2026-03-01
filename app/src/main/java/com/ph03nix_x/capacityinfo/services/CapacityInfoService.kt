@@ -51,7 +51,6 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_NOTIFY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_TO
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.BATTERY_LEVEL_WITH
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.CAPACITY_ADDED
-import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.DESIGN_CAPACITY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.FULL_CHARGE_REMINDER_FREQUENCY
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_ENABLE_WAKELOCK
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.IS_FAST_CHARGE
@@ -399,15 +398,7 @@ class CapacityInfoService : Service(), NotificationInterface, BatteryInfoInterfa
                     if(pref.getString(UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh")
                         == "μAh") 1000.0 else 100.0).toInt()
         currentCapacityLastCharge = currentCapacity
-        val designCapacity = pref.getInt(DESIGN_CAPACITY, resources.getInteger(
-            R.integer.min_design_capacity)).toDouble() * if(pref.getString(
-                UNIT_OF_MEASUREMENT_OF_CURRENT_CAPACITY, "μAh") == "μAh") 1000.0
-        else 100.0
-        val residualCapacity =
-            if(pref.getBoolean(IS_FAST_CHARGE, resources.getBoolean(R.bool.is_fast_charge)))
-                    (currentCapacity.toDouble() +
-                            ((NOMINAL_BATTERY_VOLTAGE / 100.0) * designCapacity)).toInt()
-            else currentCapacity
+        val residualCapacity = currentCapacity
         val residualCapacityAverage = if(isInstalledFromGooglePlay())
             getResidualCapacityAverage(this, residualCapacity) else
                 residualCapacity * (2..10).random()
