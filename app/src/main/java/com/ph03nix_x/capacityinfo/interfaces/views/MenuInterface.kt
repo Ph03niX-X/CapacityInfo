@@ -87,10 +87,6 @@ interface MenuInterface: ManufacturerInterface {
                     }
                     true
                 }
-                menu.findItem(R.id.support_ads).setOnMenuItemClickListener {
-                    showAds(resources.getString(R.string.support_ad_unit_id))
-                    true
-                }
             }
         }
     }

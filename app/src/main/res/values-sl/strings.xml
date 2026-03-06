@@ -346,6 +346,5 @@
     <string name="order_id_copied">ID naročila kopiran</string>
     <string name="show_number_of_history">Prikaži število zapisov</string>
     <string name="show_number_of_history_summary">Prikaži število zapisov v zavihku zgodovine</string>
-    <string name="support_ads">Podpora</string>
     <string name="try_again_in_an_hour">Poskusite znova čez eno uro</string>
 </resources>

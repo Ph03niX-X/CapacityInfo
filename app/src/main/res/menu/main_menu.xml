@@ -42,12 +42,6 @@
                     android:title="@string/dont_kill_my_app"
                     android:icon="@drawable/ic_dont_kill_my_app"
                     app:showAsAction="never"/>
-
-            <item
-                android:id="@+id/support_ads"
-                android:title="@string/support_ads"
-                android:icon="@drawable/ic_premium_24"
-                app:showAsAction="never"/>
         </menu>
 
     </item>

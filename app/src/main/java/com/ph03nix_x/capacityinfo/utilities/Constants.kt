@@ -32,7 +32,6 @@ object Constants {
     const val IS_NOTIFY_FULL_CHARGE_REMINDER_JOB_ID = 0
     const val CHECK_PREMIUM_JOB_ID = 1
     const val FAST_CHARGE_JOB_ID = 2
-    const val ADS_JOB_ID = 3
     const val HISTORY_COUNT_MAX = 4800
     const val EXPORT_HISTORY_REQUEST_CODE = 2
     const val IMPORT_HISTORY_REQUEST_CODE = 3
@@ -42,5 +41,4 @@ object Constants {
     val CHECK_PREMIUM_JOB_SERVICE_PERIODIC = 7.days.inWholeMilliseconds
     val SERVICE_WAKELOCK_TIMEOUT = 30.minutes.inWholeMilliseconds
     val FAST_CHARGE_JOB_SERVICE_PERIODIC = 15.minutes.inWholeMilliseconds
-    val ADS_JOB_SERVICE_PERIODIC = 1.hours.inWholeMilliseconds
 }
