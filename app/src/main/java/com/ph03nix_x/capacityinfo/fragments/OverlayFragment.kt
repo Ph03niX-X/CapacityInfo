@@ -2,7 +2,6 @@ package com.ph03nix_x.capacityinfo.fragments
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -62,6 +61,8 @@ import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_SIZE
 import com.ph03nix_x.capacityinfo.utilities.PreferencesKeys.OVERLAY_TEXT_STYLE
 import java.io.File
 import java.text.DecimalFormat
+import androidx.core.content.edit
+import androidx.core.net.toUri
 
 class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, OverlayInterface {
 
@@ -525,8 +526,10 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
         if(pref.getString(OVERLAY_LOCATION, "${resources.getInteger(
                 R.integer.overlay_location_default)}") !in
             resources.getStringArray(R.array.overlay_location_values))
-                pref.edit().putString(OVERLAY_LOCATION, "${resources.getInteger(
-                    R.integer.overlay_location_default)}").apply()
+                pref.edit {
+                    putString(OVERLAY_LOCATION,
+                        "${resources.getInteger(R.integer.overlay_location_default)}")
+                }
 
         return resources.getStringArray(R.array.overlay_location_list)[pref.getString(
             OVERLAY_LOCATION,
@@ -536,7 +539,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
     private fun getOverlayTextSizeSummary(): CharSequence? {
         if(pref.getString(OVERLAY_SIZE, "2") !in
             resources.getStringArray(R.array.text_size_values))
-            pref.edit().putString(OVERLAY_SIZE, "2").apply()
+            pref.edit { putString(OVERLAY_SIZE, "2") }
 
         return resources.getStringArray(R.array.text_size_list)[pref.getString(OVERLAY_SIZE,
             "2")?.toInt() ?: 2]
@@ -546,7 +549,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
         if(pref.getString(OVERLAY_FONT, "6") !in
             resources.getStringArray(R.array.fonts_values))
-            pref.edit().putString(OVERLAY_FONT, "6").apply()
+            pref.edit { putString(OVERLAY_FONT, "6") }
 
         return resources.getStringArray(R.array.fonts_list)[
                 pref.getString(OVERLAY_FONT, "6")?.toInt() ?: 6]
@@ -556,7 +559,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
 
         if(pref.getString(OVERLAY_TEXT_STYLE, "0") !in
                 resources.getStringArray(R.array.text_style_values))
-            pref.edit().putString(OVERLAY_TEXT_STYLE, "0").apply()
+            pref.edit { putString(OVERLAY_TEXT_STYLE, "0") }
 
         return resources.getStringArray(R.array.text_style_list)[
                 pref.getString(OVERLAY_TEXT_STYLE, "0")?.toInt() ?: 0]
@@ -568,8 +571,10 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
                 R.integer.overlay_opacity_default)) > resources.getInteger(
                 R.integer.overlay_opacity_max) || pref.getInt(OVERLAY_OPACITY,
                 resources.getInteger(R.integer.overlay_opacity_default)) < 0)
-            pref.edit().putInt(OVERLAY_OPACITY, resources.getInteger(
-                R.integer.overlay_opacity_default)).apply()
+            pref.edit {
+                putInt(OVERLAY_OPACITY,
+                    resources.getInteger(R.integer.overlay_opacity_default))
+            }
 
         return "${DecimalFormat("#").format((pref.getInt(OVERLAY_OPACITY,
             resources.getInteger(R.integer.overlay_opacity_default)).toFloat() / resources
@@ -584,7 +589,7 @@ class OverlayFragment : PreferenceFragmentCompat(), BatteryInfoInterface, Overla
             setPositiveButton(getString(android.R.string.ok)) { _, _ ->
 
                 val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:${requireContext().packageName}"))
+                    "package:${requireContext().packageName}".toUri())
 
                 getResult.launch(intent)
 

@@ -37,19 +37,20 @@ class ApplicationBackup : BackupAgent() {
         super.onRestoreFinished()
         val prefsTempList = arrayListOf(BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH,
             DESIGN_CAPACITY, CAPACITY_ADDED, PERCENT_ADDED, RESIDUAL_CAPACITY)
-        prefsTempList.forEach {
+        prefsTempList.forEach { it ->
             with(prefArrays) {
                 when {
                     this?.containsKey(it) == false -> pref?.edit { remove(it) }
                     else -> {
                         this?.forEach {
                             when(it.key) {
-                                NUMBER_OF_CHARGES -> pref?.edit { putLong(it.key, it.value as Long) }
+                                NUMBER_OF_CHARGES -> pref?.edit {
+                                    putLong(it.key, it.value as Long) }
                                 BATTERY_LEVEL_TO, BATTERY_LEVEL_WITH, DESIGN_CAPACITY,
-                                RESIDUAL_CAPACITY, PERCENT_ADDED -> pref?.edit { putInt(it.key,
-                                    it.value as Int) }
-                                CAPACITY_ADDED, NUMBER_OF_CYCLES -> pref?.edit { putFloat(it.key,
-                                    it.value as Float) }
+                                RESIDUAL_CAPACITY, PERCENT_ADDED -> pref?.edit {
+                                    putInt(it.key, it.value as Int) }
+                                CAPACITY_ADDED, NUMBER_OF_CYCLES -> pref?.edit {
+                                    putFloat(it.key, it.value as Float) }
                             }
                         }
                     }

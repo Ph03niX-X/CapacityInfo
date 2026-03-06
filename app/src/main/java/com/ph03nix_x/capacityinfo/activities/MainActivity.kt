@@ -500,7 +500,7 @@ class MainActivity : AppCompatActivity(), BatteryInfoInterface, SettingsInterfac
         )
 
         if (prefArrays != null)
-            prefsTempList.forEach {
+            prefsTempList.forEach { it ->
 
                 with(prefArrays) {
 

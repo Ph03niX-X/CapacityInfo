@@ -445,8 +445,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private fun getBatteryLevelNotifyChargingSummary(): String {
 
-        if(pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) > 100 ||
-                pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) < 1)
+        if(pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) !in 1..100)
             pref.edit { putInt(BATTERY_LEVEL_NOTIFY_CHARGED, 80) }
 
         return "${pref.getInt(BATTERY_LEVEL_NOTIFY_CHARGED, 1)}%"
@@ -454,8 +453,7 @@ class BatteryStatusInformationFragment : PreferenceFragmentCompat() {
 
     private fun getBatteryLevelNotifyDischargeSummary(): String {
 
-        if(pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) > 99 ||
-            pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) < 1)
+        if(pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) !in 1..99)
             pref.edit { putInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20) }
 
         return "${pref.getInt(BATTERY_LEVEL_NOTIFY_DISCHARGED, 20)}%"
