@@ -26,8 +26,8 @@ configure<ApplicationExtension> {
 
     androidResources {
         @Suppress("UnstableApiUsage")
-        localeFilters += listOf("en", "cs", "de", "es", "fr", "in", "it", "pl", "pt", "ro", "sk",
-            "sl", "sv", "tr", "el", "be", "bg", "kk", "ru", "uk", "hi")
+        localeFilters += listOf("en", "cs", "de", "es", "fr", "in", "is", "it", "pl", "pt", "ro",
+            "sk", "sl", "sv", "tr", "el", "be", "bg", "kk", "ru", "uk", "hi")
     }
 
     buildTypes {
