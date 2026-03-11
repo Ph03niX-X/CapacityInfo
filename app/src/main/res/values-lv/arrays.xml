@@ -1,0 +1,113 @@
+<resources>
+    <string-array name="unit_of_charge_discharge_current_list">
+        <item>μA (Noklusējuma)</item>
+        <item>mA</item>
+    </string-array>
+
+    <string-array name="unit_of_measurement_of_current_capacity_list">
+        <item>μAh (Noklusējuma)</item>
+        <item>mAh</item>
+    </string-array>
+
+    <string-array name="voltage_unit_list">
+        <item>μV</item>
+        <item>mV (Noklusējuma)</item>
+    </string-array>
+
+    <string-array name="text_size_list">
+        <item>Ļoti mazs</item>
+        <item>Mazs</item>
+        <item>Vidējs (Noklusējuma)</item>
+        <item>Liels</item>
+        <item>Ļoti liels</item>
+    </string-array>
+
+    <string-array name="text_style_list">
+        <item>Parasts (Noklusējuma)</item>
+        <item>Treknraksts</item>
+        <item>Slīpraksts</item>
+    </string-array>
+
+    <string-array name="fonts_list">
+        <item>Sistēmas</item>
+        <item>Roboto</item>
+        <item>Serif</item>
+        <item>Sans Serif</item>
+        <item>Monospace</item>
+        <item>Inter</item>
+        <item>Google Sans (Noklusējuma)</item>
+        <item>Times New Roman</item>
+        <item>Ubuntu</item>
+        <item>Lora</item>
+        <item>Oswald</item>
+        <item>PT Sans</item>
+        <item>PT Serif</item>
+        <item>Open Sans</item>
+        <item>Noto Sans</item>
+        <item>Nunito Sans</item>
+        <item>Work Sans</item>
+        <item>Merriweather Sans</item>
+        <item>SF Pro</item>
+        <item>Lobster</item>
+        <item>Moon Dance</item>
+        <item>Rubik</item>
+        <item>Playfair Display</item>
+        <item>Rowdies</item>
+        <item>Raleway</item>
+        <item>Montserrat</item>
+        <item>Sono</item>
+        <item>Rubik Iso</item>
+        <item>Roboto Condensed</item>
+        <item>Poppins</item>
+        <item>Kanit</item>
+        <item>Playfair</item>
+        <item>Mukta</item>
+        <item>Mooli</item>
+        <item>Inclusive Sans</item>
+        <item>Borel</item>
+        <item>Handjet</item>
+        <item>Ysabeau SC</item>
+        <item>Ysabeau Office</item>
+        <item>Ysabeau Infant</item>
+        <item>DM Sans</item>
+        <item>Poetsen One</item>
+        <item>Sedan SC</item>
+        <item>Lato</item>
+        <item>Mulish</item>
+        <item>Agdasima</item>
+        <item>Arima</item>
+        <item>Prociono</item>
+        <item>Rethink Sans</item>
+        <item>Big Shoulders</item>
+        <item>Big Shoulders Inline</item>
+        <item>Big Shoulders Stencil</item>
+        <item>Gentium Plus</item>
+        <item>Ponomar</item>
+    </string-array>
+
+    <string-array name="tab_on_application_launch_list">
+        <item>Uzlāde/Izlāde (Noklusējuma)</item>
+        <item>Pēdējā uzlāde</item>
+        <item>Nolietojums</item>
+        <item>Vēsture</item>
+    </string-array>
+
+    <string-array name="overlay_location_list">
+        <item>Augšā</item>
+        <item>Augšā pa kreisi</item>
+        <item>Augšā pa labi</item>
+        <item>Centrā</item>
+        <item>Centrā pa kreisi</item>
+        <item>Centrā pa labi</item>
+        <item>Apakšā</item>
+        <item>Apakšā pa kreisi</item>
+        <item>Apakšā pa labi</item>
+    </string-array>
+
+    <string-array name="full_charge_reminder_frequency_list">
+        <item>15 minūtes</item>
+        <item>30 minūtes</item>
+        <item>45 minūtes</item>
+        <item>1 stunda</item>
+    </string-array>
+</resources>
