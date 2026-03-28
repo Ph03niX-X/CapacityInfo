@@ -9,14 +9,14 @@ plugins {
 }
 
 configure<ApplicationExtension> {
-    compileSdk = 36
-    buildToolsVersion = "36.1.0"
+    compileSdk = 37
+    buildToolsVersion = "37.0.0"
     val appName = "Capacity Info"
     defaultConfig {
         applicationId = "com.ph03nix_x.capacityinfo"
         namespace = applicationId
         minSdk = 29
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1906
         versionName = "9.4.1.1"
         base.archivesName = "$appName $versionName (Build $versionCode)"
