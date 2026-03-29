@@ -42,7 +42,7 @@
     <string name="developer">डेवलपर</string>
     <string name="version">वर्जन</string>
     <string name="build">बिल्ड</string>
-    <string name="build_date">बिल्ड तिथि (GMT+2)</string>
+    <string name="build_date">बिल्ड तिथि (GMT+3)</string>
     <string name="rate_the_app">ऐप को रेट करें</string>
     <string name="license">लाइसेंस: Apache 2.0</string>
     <string name="feedback">प्रतिक्रिया</string>

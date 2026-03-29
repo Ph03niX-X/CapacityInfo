@@ -42,7 +42,7 @@
     <string name="developer">Προγραμματιστής</string>
     <string name="version">Έκδοση</string>
     <string name="build">Build</string>
-    <string name="build_date">Ημερομηνία Κατασκευής (GMT+2)</string>
+    <string name="build_date">Ημερομηνία Κατασκευής (GMT+3)</string>
     <string name="rate_the_app">Αξιολογήστε την εφαρμογή</string>
     <string name="license">Άδεια: Apache 2.0</string>
     <string name="feedback">Σχόλια</string>

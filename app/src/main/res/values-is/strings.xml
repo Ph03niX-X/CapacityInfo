@@ -42,7 +42,7 @@
     <string name="developer">Hönnuður</string>
     <string name="version">Útgáfa</string>
     <string name="build">Smíði</string>
-    <string name="build_date">Smíðadagur (GMT+2)</string>
+    <string name="build_date">Smíðadagur (GMT+3)</string>
     <string name="rate_the_app">Gefa forritinu einkunn</string>
     <string name="license">Leyfi: Apache 2.0</string>
     <string name="feedback">Endurgjöf</string>

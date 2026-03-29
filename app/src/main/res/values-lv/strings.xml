@@ -42,7 +42,7 @@
     <string name="developer">Izstrādātājs</string>
     <string name="version">Versija</string>
     <string name="build">Būvējums (Build)</string>
-    <string name="build_date">Būvējuma datums (GMT+2)</string>
+    <string name="build_date">Būvējuma datums (GMT+3)</string>
     <string name="rate_the_app">Novērtēt lietotni</string>
     <string name="license">Licence: Apache 2.0</string>
     <string name="feedback">Atsauksmes</string>

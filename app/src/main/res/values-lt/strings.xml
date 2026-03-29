@@ -42,7 +42,7 @@
     <string name="developer">Kūrėjas</string>
     <string name="version">Versija</string>
     <string name="build">Sukurta (Build)</string>
-    <string name="build_date">Sukūrimo data (GMT+2)</string>
+    <string name="build_date">Sukūrimo data (GMT+3)</string>
     <string name="rate_the_app">Įvertinkite programėlę</string>
     <string name="license">Licencija: Apache 2.0</string>
     <string name="feedback">Atsiliepimai</string>

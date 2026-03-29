@@ -42,7 +42,7 @@
     <string name="developer">Razvijalec</string>
     <string name="version">Različica</string>
     <string name="build">Gradnja</string>
-    <string name="build_date">Datum gradnje (GMT+2)</string>
+    <string name="build_date">Datum gradnje (GMT+3)</string>
     <string name="rate_the_app">Oceni aplikacijo</string>
     <string name="license">Licenca: Apache 2.0</string>
     <string name="feedback">Povratne informacije</string>

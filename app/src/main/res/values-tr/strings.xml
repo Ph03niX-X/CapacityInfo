@@ -42,7 +42,7 @@
     <string name="developer">Geliştirici</string>
     <string name="version">Sürüm</string>
     <string name="build">Derleme</string>
-    <string name="build_date">Derleme Tarihi (GMT+2)</string>
+    <string name="build_date">Derleme Tarihi (GMT+3)</string>
     <string name="rate_the_app">Uygulamayı oyla</string>
     <string name="license">Lisans: Apache 2.0</string>
     <string name="feedback">Geri bildirim</string>

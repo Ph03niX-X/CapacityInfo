@@ -42,7 +42,7 @@
     <string name="developer">Vývojář</string>
     <string name="version">Verze</string>
     <string name="build">Sestavení</string>
-    <string name="build_date">Datum sestavení (GMT+2)</string>
+    <string name="build_date">Datum sestavení (GMT+3)</string>
     <string name="rate_the_app">Ohodnotit aplikaci</string>
     <string name="license">Licence: Apache 2.0</string>
     <string name="feedback">Zpětná vazba</string>
