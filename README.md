@@ -4,6 +4,9 @@
 alt="Get it on Google Play" width="323" height="125" border="10"/></p></a>
 
 ---
+**DUE TO THE FACT THAT THIS PROJECT DOES NOT BRING IN MONEY, ITS SUPPORT HAS ENDED!**
+
+---
 <p align="center">
 <b>Screenshots:</b>
 </p>
